@@ -11,6 +11,87 @@
     <atom:link href="/posts/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Moving my content creation to a home-made Hugo site</title>
+      <link>https://mbesancon.github.io/posts/2017-09-05-moving-content-hugo/</link>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 -0400</pubDate>
+      
+      <guid>https://mbesancon.github.io/posts/2017-09-05-moving-content-hugo/</guid>
+      <description>
+
+&lt;p&gt;Last weeks have been pretty intense. I officially left Equisense and  started
+a joined PhD project between INRIA Lille and Ecole Polytechnique Montreal.
+I had been preparing for this fresh start for several months and also wanted
+to evolve in my content creation process.&lt;/p&gt;
+
+&lt;h2 id=&#34;a-journey-from-plain-markdown-to-hugo&#34;&gt;A journey from plain markdown to Hugo&lt;/h2&gt;
+
+&lt;p&gt;I started writing articles to keep track of my learning paths on various topics,
+including numerical techniques, data analysis and programming. My first articles
+were either plain or Rmarkdown-generated Markdowns on a Github repository.&lt;/p&gt;
+
+&lt;p&gt;As I was slowly moving from R to Python, Jupyter notebook became pretty handy
+to mix paragraphs, code snippets, results and charts. It also forced me to
+quit declaring and modifying variables, an annoying habit got from always
+having a REPL and text editor bundled in most scientific computing IDEs
+(Matlab, Scilab, RStudio, Jupyter).&lt;/p&gt;
+
+&lt;p&gt;Great, the articles were not centralized though but split into their Github
+repositories, you have to admit this is not the most user-friendly browsing
+experience. I found several blogs running on &lt;a href=&#34;https://jekyllrb.com&#34; target=&#34;_blank&#34;&gt;Jekyll&lt;/a&gt;
+and I decided to give it a try. For someone who is not fond of struggles with
+front-end side layout issues, this was a true gift, I could easily reuse
+templates from front-end developers and designers (special thanks for the
+awesome &lt;a href=&#34;http://hemangsk.github.io/Gravity&#34; target=&#34;_blank&#34;&gt;Gravity project&lt;/a&gt;)
+without much struggle and focus on what I liked: building projects and
+writing content.&lt;/p&gt;
+
+&lt;h2 id=&#34;switching-to-the-writing-platform&#34;&gt;Switching to THE writing platform&lt;/h2&gt;
+
+&lt;p&gt;I kept maintaining the Jekyll blog until almost exactly one year ago. During
+that time, I was mostly writing in the context of a side-project or thinking on
+our journey at &lt;a href=&#34;https://www.equisense.com&#34; target=&#34;_blank&#34;&gt;Equisense&lt;/a&gt;. This raised new
+requirements for the writing process such as collaborative writing, review from
+friends, seeing the overall picture we were sending as a team from the sum of
+our articles.&lt;/p&gt;
+
+&lt;p&gt;For these reasons, my articles gradually switched to Medium,
+first published as an individual, then on the
+&lt;a href=&#34;https://medium.com/equisense&#34; target=&#34;_blank&#34;&gt;Equisense page&lt;/a&gt;. This was a very productive time
+for writing as we encouraged one another and had a direct impact on the way we
+presented the team, how we work and our learning path: an invaluable tool to
+help candidates decide whether the company was a fit for them and to ease the
+onboading.&lt;/p&gt;
+
+&lt;h2 id=&#34;if-medium-works-why-would-anyone-go-back-to-writing-everything-from-scratch&#34;&gt;If Medium works, why would anyone go back to writing everything from scratch?&lt;/h2&gt;
+
+&lt;p&gt;I really enjoy the writing experience on Medium, with some drawbacks.
+Medium&amp;rsquo;s design is very opinionated, that&amp;rsquo;s a part of what makes it a experience.
+However, leaving some choices on key topics is essential (at least to me) on the
+content-creation side.
+I believe this should be the case on any two-sided plateform:
+&lt;strong&gt;be opinionated on the user-side, leave flexibility on the creator side.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The perfect example is the bright screen. It ensures the Medium experience is
+consistent with the unique font, background etc&amp;hellip; But writing on a dark screen
+is a lot more comfortable, especially when you&amp;rsquo;re used to it or when your eyes
+are more light-sensitive: writing late in the evening or early in the morning
+was not conceivable to me on the Medium interface. The hack I used was to write
+everything on &lt;a href=&#34;https://atom.io&#34; target=&#34;_blank&#34;&gt;Atom&lt;/a&gt;, then paste everything to Medium once the
+first draft was ready, still a bit of a pain.&lt;/p&gt;
+
+&lt;p&gt;This might seem minor as a reason to switch, but the root behind it is more
+essential: &lt;strong&gt;Medium is a platform, you&amp;rsquo;re therefore a user, not an owner&lt;/strong&gt;.
+Despite its global success, the company is still young and looking for the
+right model. Nothing tells me the model they choose tomorrow will be one I
+want to contribute to (how paid content will be managed for instance).
+Switching platforms for written content is a lot more tedious than choosing well
+at the beginning. This new step in my professional and personal life is the
+perfect occasion to rethink that commitment, I will still be re-publishing
+content to Medium, but not as the primary source.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Company values: stop trying to dictate who you are</title>
       <link>https://mbesancon.github.io/posts/2016-10-7-company-values/</link>
       <pubDate>Fri, 07 Oct 2016 00:00:00 -0400</pubDate>
@@ -136,6 +217,155 @@ you are doing and help cut the fluff on things you are not meant to do.
 This is the focus everyone needs to move faster and sharper than the
 competition, the market and the context.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Back to startup life: thoughts after the first days</title>
+      <link>https://mbesancon.github.io/posts/2016-08-11-back-to-startup/</link>
+      <pubDate>Thu, 11 Aug 2016 00:00:00 -0400</pubDate>
+      
+      <guid>https://mbesancon.github.io/posts/2016-08-11-back-to-startup/</guid>
+      <description>
+
+&lt;p&gt;In politics, a government&amp;rsquo;s first decisions and actions are often reviewed and
+assessed after the famous first 100 days. According to &lt;a href=&#34;https://en.wikipedia.org/wiki/First_hundred_days&#34; target=&#34;_blank&#34;&gt;Wikipedia&lt;/a&gt;,
+the term was coined by F. Roosevelt himself. I wanted to throw the first
+thoughts on my comeback at Equisense, on culture and operations and the difference
+between the two stages.&lt;/p&gt;
+
+&lt;h2 id=&#34;startups-are-in-a-continuous-headlong-rush&#34;&gt;Startups are in a continuous headlong rush&lt;/h2&gt;
+
+&lt;p&gt;I&amp;rsquo;ll not wait the 100 days to write this post, because in a startup things move
+faster, so why wait another month? At the same time you have to remain focused
+for a lot longer than three months or the consequences to expect are worse than
+skeptical articles or plunging opinion polls. Nobody could judge actions or
+decisions drawn after a year in business based on one or even three months.&lt;/p&gt;
+
+&lt;p&gt;And this adrenalined marathon does not (or should not) stop with a first product
+release, or worse with a nice fund-raising round. This stops with the company
+running out of business or the market saying &amp;ldquo;I love you, let&amp;rsquo;s stay forever
+until death do us apart&amp;rdquo;.&lt;/p&gt;
+
+&lt;h2 id=&#34;an-early-insight-before-the-long-break&#34;&gt;An early insight before the long break&lt;/h2&gt;
+
+&lt;p&gt;I had already worked with the team in June, July and August 2015 during their
+three-founders-and-laptops stage. The focus was on first studies of acceleration
+signals and feasibility of some features given technological and product choices.
+Those first graphs and explanations thrown on a small Tex reports
+were later improved and re-written by the team as it designed
+&lt;a href=&#34;http://www.equisense.com/en/product.html&#34; target=&#34;_blank&#34;&gt;Motion&lt;/a&gt;. After these few months,
+I left the startup for Montréal, where I spent my last semester as a student,
+after which I carried out my Master project in Germany. When came the time to
+think about what came next, we were still in contact with Camille, Idriss and
+Benoit and the conversation shifted to how the project had evolved and the
+thousand cool things coming in the next months and could become a &amp;ldquo;real job&amp;rdquo;
+this time. After a couple more one-to-one, a few visits in Lille and a hackathon,
+I was officially back on the adventure.&lt;/p&gt;
+
+&lt;h2 id=&#34;getting-back-and-the-baby-is-all-grown-up&#34;&gt;Getting back and the baby is all grown up!&lt;/h2&gt;
+
+&lt;p&gt;In the meantime, Equisense launched a successful Kickstarter, reinforcing the
+feeling that horse-riders value what the product can bring to their experience.
+The company moved from its first office in Compiègne Innovation Center to
+the impressive Euratechnologies center in Lille.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/euratechnologies.jpg&#34; alt=&#34;Euratechnologies&#34; /&gt;
+[1]&lt;/p&gt;
+
+&lt;p&gt;More than this, the team also got bigger to face the challenges of this new
+stage. The goal is no longer to hack horses acceleration signals until something
+comes out of it, but to build a reliable and intuitive product from the
+scientific findings and technological pieces brought together.&lt;/p&gt;
+
+&lt;p&gt;Really getting on the market requires a deeper bond with horse-riders
+and as much feedback as possible. The new team embodies these changes: a
+diversity of mindsets, experiences and backgrounds to handle all upcoming
+challenges with the same care for clients. The hacker spirit isn&amp;rsquo;t gone in
+this new version of the company, but it isn&amp;rsquo;t the major pillar of the culture
+anymore. A culture is hard to put into words, but I&amp;rsquo;d say this
+second face of our Janus startup is a combination of a &lt;strong&gt;genuine care for
+horses wellness and of a passion for horse-riding.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/newteam.png&#34; alt=&#34;The new team&#34; /&gt;
+[2]&lt;/p&gt;
+
+&lt;p&gt;The fact is that while I was admiring their external successes from my Canadian
+home, (the Kickstarter campaign, new partnerships, features of the product
+getting out of the ground one by one&amp;hellip;), the most impressive achievement was
+being joined by so many diverse profiles while building a working environment
+at the image of their horse-riders&amp;rsquo; mindset.&lt;/p&gt;
+
+&lt;p&gt;The founders already had this care and passion in their DNA, they just
+succeeded in transforming it into a full culture and transmitting it into an
+obsession within the team.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/camille.png&#34; alt=&#34;Camille&#34; /&gt;
+&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/benoit.png&#34; alt=&#34;Benoit&#34; /&gt;
+&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/idriss.png&#34; alt=&#34;Idriss&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;[2]&lt;/p&gt;
+
+&lt;h2 id=&#34;where-are-we-in-the-lifetime-from-a-clumsy-foal-to-the-great-stallion&#34;&gt;Where are we in the lifetime? From a clumsy foal to the great stallion&lt;/h2&gt;
+
+&lt;p&gt;Other than the culture, the operations changed from the clumsy foal learning to
+stay up on its hoofs to the stallion swiftly jumping and anticipating all
+obstacles.
+&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/foal.jpg&#34; alt=&#34;foal&#34; /&gt;
+[3]&lt;/p&gt;
+
+&lt;p&gt;The seed stage is about using all assets that are or can easily
+be at your disposal to run tests and confirm hypotheses. Unlike lots of web
+startups, uncertainty does not come only from the market, but also from
+the technological bricks: &lt;strong&gt;hardware is today where the web was about ten years
+ago&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Moving forwards meant iterating while building knowledge on both fields of
+uncertainty. This meant at the same time assessing if some measured signals
+could detect a jump during a training session, and if the customers actually
+had an interest in the feature. Working for nothing can be frustrating, but
+ignoring something horse-riders want would have been much worse!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/cso_fontainebleau.jpg&#34; alt=&#34;grown-up champ&#34; /&gt;
+[5]&lt;/p&gt;
+
+&lt;p&gt;In the new phase, uncertainty radically changed. In the first stage,
+we saw how it was caused by a lack of knowledge on both the
+technology and the market. Of course the knowledge the team has on
+these topics is still not complete, but
+&lt;strong&gt;is enough to make intelligent decisions and move on&lt;/strong&gt;. However, a
+new source of uncertainty has replaced the two previous:&lt;/p&gt;
+
+&lt;p&gt;Organization and processes are obvious when 4 people are working
+together on several issues. They become fuzzy and chaotic when several
+teams are working at high speed without being able to check on each
+other all day long.&lt;/p&gt;
+
+&lt;p&gt;The key issue is the company&amp;rsquo;s speed to deliver
+without letting any randomness in the result. Equisense&amp;rsquo;s customers
+are horse-riders willing to improve their experience, care and
+efficiency, not hackers accepting a buggy beta with promising
+features as long as the product has an API in their favorite language!&lt;/p&gt;
+
+&lt;p&gt;Equisense changed a lot during my absence to evolve into one of the new
+major phenomena in its industry. If I had to describe how it operates
+now, I guess I&amp;rsquo;d highlight &lt;strong&gt;the focus, the acceleration and the
+deterministic, well-defined outcome of a still random and flexible organization&lt;/strong&gt;.
+(hope my data science buddies will tolerate the paradox of the last one).&lt;/p&gt;
+
+&lt;p&gt;The coming months promise to be thrilling with the shipping of the first Motion
+sensors, the R&amp;amp;D on improved features, new products and whatever else comes
+out of the blue. Even though I&amp;rsquo;m still getting used to working with horses (photos
+to come), I&amp;rsquo;m without a doubt excited to have rejoined these crazy riders, so
+stay tuned!&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Image sources:
+[1] &lt;a href=&#34;http://www.lesechos.fr/politique-societe/regions/0203756306258-nord-pas-de-calais-a-lille-nait-la-silicon-valley-du-numerique-1043082.php&#34; target=&#34;_blank&#34;&gt;Les Echos: Nord - Pas-de-Calais : A Lille naît la « Silicon Valley » du numérique&lt;/a&gt;
+[2] &lt;a href=&#34;www.equisense.com&#34; target=&#34;_blank&#34;&gt;Equisense website&lt;/a&gt;
+[3] &lt;a href=&#34;http://www.eco121.fr/equisense-ouvre-la-voie-du-cheval-connecte/&#34; target=&#34;_blank&#34;&gt;http://www.eco121.fr/equisense-ouvre-la-voie-du-cheval-connecte/&lt;/a&gt;
+[4] [5] Wikimedia&lt;/p&gt;
 </description>
     </item>
     

@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>https://mbesancon.github.io/posts/2017-09-05-moving-content-hugo/</loc>
+      <lastmod>2017-09-05T00:00:00-04:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://mbesancon.github.io/talk/golang_talk_lille/</loc>
       <lastmod>2017-07-06T00:00:00+00:00</lastmod>
     </url>
@@ -43,6 +52,15 @@
     
       <loc>https://mbesancon.github.io/posts/2016-10-7-company-values/</loc>
       <lastmod>2016-10-07T00:00:00-04:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/posts/2016-08-11-back-to-startup/</loc>
+      <lastmod>2016-08-11T00:00:00-04:00</lastmod>
     </url>
     
   
@@ -106,6 +124,16 @@
     
       <loc>https://mbesancon.github.io/posts/2016-01-11-fraud-detection/</loc>
       <lastmod>2016-01-11T00:00:00-05:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/tags/blog/</loc>
+      <lastmod>2017-09-05T00:00:00-04:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -182,6 +210,36 @@
     
     <url>
     
+      <loc>https://mbesancon.github.io/tags/hugo/</loc>
+      <lastmod>2017-09-05T00:00:00-04:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/tags/jekyll/</loc>
+      <lastmod>2017-09-05T00:00:00-04:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/tags/medium/</loc>
+      <lastmod>2017-09-05T00:00:00-04:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://mbesancon.github.io/project/</loc>
       <lastmod>2016-04-27T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -223,6 +281,16 @@
     
       <loc>https://mbesancon.github.io/tags/</loc>
       <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/tags/writing/</loc>
+      <lastmod>2017-09-05T00:00:00-04:00</lastmod>
       <priority>0</priority>
     </url>
     
