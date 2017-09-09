@@ -41,6 +41,15 @@
     
     <url>
     
+      <loc>https://mbesancon.github.io/posts/2016-05-21-bringing-data-science-engineers/</loc>
+      <lastmod>2016-05-21T00:00:00-04:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://mbesancon.github.io/project/deep-learning/</loc>
       <lastmod>2016-04-27T00:00:00+00:00</lastmod>
     </url>
@@ -105,8 +114,18 @@
     
     <url>
     
+      <loc>https://mbesancon.github.io/tags/data/</loc>
+      <lastmod>2016-05-21T00:00:00-04:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://mbesancon.github.io/tags/data-science/</loc>
-      <lastmod>2016-01-13T00:00:00-05:00</lastmod>
+      <lastmod>2016-05-21T00:00:00-04:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -127,6 +146,16 @@
     
       <loc>https://mbesancon.github.io/tags/demo/</loc>
       <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/tags/engineering/</loc>
+      <lastmod>2016-05-21T00:00:00-04:00</lastmod>
       <priority>0</priority>
     </url>
     
