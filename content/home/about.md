@@ -30,7 +30,7 @@ weight = 1
 # Biography
 
 Mathieu Besançon is a PhD candidate in a double program between
-[Ecole Polytechnique of Montréal](polymtl.ca) and the
+[Ecole Polytechnique of Montréal](https://www.polymtl.ca) and the
 [INOCS team](https://team.inria.fr/inocs) at INRIA Lille, in applied
 mathematics for energy systems (smart grids). Other fields of
 interest include data science, machine learning, signal processing.
