@@ -169,14 +169,19 @@ defaultContentLanguageInSubdir = false
 #   weight = 2
 
 [[menu.main]]
+  name = "Talks"
+  url = "#talks"
+  weight = 3
+
+[[menu.main]]
   name = "Posts"
   url = "#posts"
-  weight = 3
+  weight = 4
 
 [[menu.main]]
   name = "Projects"
   url = "#projects"
-  weight = 4
+  weight = 5
 
 # [[menu.main]]
 #   name = "Teaching"
@@ -185,12 +190,12 @@ defaultContentLanguageInSubdir = false
 [[menu.main]]
   name = "Experiences"
   url = "#experiences"
-  weight = 5
+  weight = 6
 
 [[menu.main]]
   name = "Contact"
   url = "#contact"
-  weight = 6
+  weight = 7
 
 # Taxonomies.
 [taxonomies]
