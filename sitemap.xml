@@ -41,6 +41,15 @@
     
     <url>
     
+      <loc>https://mbesancon.github.io/posts/2016-07-11-hackathon/</loc>
+      <lastmod>2016-07-11T00:00:00-04:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://mbesancon.github.io/posts/2016-05-21-bringing-data-science-engineers/</loc>
       <lastmod>2016-05-21T00:00:00-04:00</lastmod>
     </url>
@@ -185,6 +194,16 @@
     
       <loc>https://mbesancon.github.io/tags/python/</loc>
       <lastmod>2016-01-13T00:00:00-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/tags/startup/</loc>
+      <lastmod>2016-07-11T00:00:00-04:00</lastmod>
       <priority>0</priority>
     </url>
     
