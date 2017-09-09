@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.27-DEV" />
+  <meta name="author" content="Mathieu Besançon">
+  <meta name="description" content="PhD student in applied mathematics for energy systems">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  
+
+  <link rel="alternate" href="https://mbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+  <link rel="feed" href="https://mbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="https://mbesancon.github.io/posts/2016-01-11-fraud-detection/">
+
+  
+
+  <title>A Pythonic data science project: Part I | μβ</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">μβ</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#talks">
+            
+            <span>Talks</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#experiences">
+            
+            <span>Experiences</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+<div class="article-header">
+  <img src="/img/posts/BankNotes/images/italy-10000.png" class="article-banner" itemprop="image">
+  
+</div>
+
+
+
+  <div class="article-container">
+    <h1 itemprop="name">A Pythonic data science project: Part I</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2016-01-11 00:00:00 -0500 EST" itemprop="datePublished">
+      Mon, Jan 11, 2016
+    </time>
+  </span>
+
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="/tags/data-science">data-science</a
+    >, 
+    
+    <a href="/tags/python">python</a
+    >, 
+    
+    <a href="/tags/classification">classification</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fmbesancon.github.io%2fposts%2f2016-01-11-fraud-detection%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=A%20Pythonic%20data%20science%20project%3a%20Part%20I&amp;url=https%3a%2f%2fmbesancon.github.io%2fposts%2f2016-01-11-fraud-detection%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fmbesancon.github.io%2fposts%2f2016-01-11-fraud-detection%2f&amp;title=A%20Pythonic%20data%20science%20project%3a%20Part%20I"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fmbesancon.github.io%2fposts%2f2016-01-11-fraud-detection%2f&amp;title=A%20Pythonic%20data%20science%20project%3a%20Part%20I"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=A%20Pythonic%20data%20science%20project%3a%20Part%20I&amp;body=https%3a%2f%2fmbesancon.github.io%2fposts%2f2016-01-11-fraud-detection%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<h2 id="a-complete-predictive-modeling-project-in-python">A complete predictive modeling project in Python</h2>
+
+<p>Part I: Preprocessing and exploratory analysis</p>
+
+<p>One of the amazing things with data science is the ability to tackle
+complex problems involving hidden parallel phenomena interacting with each
+other, just from the data they produce.</p>
+
+<p>As an example, we will use data extracted from images of forged and genuine
+banknotes. The distinction between the two categories would be thought to
+require a deep domain expertise, which limits the ability to check
+more than a few banknotes at a time. An automated and trustable test would
+be of interest for many businesses, governments and organizations.</p>
+
+<p>Starting from the data provided by H. Dörsken and
+Volker Lohweg, from the University of Applied Science of Ostwestfalen-Lippe,
+Germany on the
+<a href="https://archive.ics.uci.edu/ml/datasets/banknote+authentication" target="_blank">UCI Machine Learning Repository</a>,
+we will follow key steps of a data science project to build a performant, yet
+scalable classifier.</p>
+
+<p>The dataset was built by applying a wavelet
+transform on images of banknotes to extract 4 features:</p>
+
+<ul>
+<li><p>Variance, skewness, kurtosis of the wavelet transform (respectively second,
+third and fourth moment of the distribution).</p></li>
+
+<li><p>Entropy of the image, which can be interpreted as the amount of information
+or randomness (which is represented by how different adjacent pixels are).</p></li>
+</ul>
+
+<p>You can find further information on Wavelet on <a href="https://en.wikipedia.org/wiki/Wavelet_transform" target="_blank">Wikipedia</a>
+or ask <a href="https://www.quora.com/In-an-intuitive-explanation-what-is-a-wavelet-transform-and-how-does-it-work-in-an-image" target="_blank">Quora</a>.
+An explanation of entropy as meant in the image processing context can
+be found <a href="http://www.astro.cornell.edu/research/projects/compression/entropy.html" target="_blank">here</a>.</p>
+
+<p>To get a better understanding of the way the algorithms works,
+the full model will be built from scratch or almost (not using a machine
+learning library like scikit-learn on Python or caret on R).</p>
+
+<p>Basic statistic notions (variance, linear regression) and some basic python
+knowledge is recommended to follow through the three articles.</p>
+
+<h2 id="programming-choices-and-libraries">Programming choices and libraries</h2>
+
+<h3 id="language-and-environment">Language and environment</h3>
+
+<p>Python, which is a great
+compromise between practicality (with handy data format and manipulation)
+and scalability (much easier to implement for large scale, automated
+computation than R, Octave or Matlab). More precisely, Python 3.5.1 with
+the Anaconda distribution 2.4.0, I personally use the Spyder environment
+but feel free to keep your favorite tools.</p>
+
+<h3 id="libraries">Libraries</h3>
+
+<ul>
+<li>Collections (built-in) for occurrence counting</li>
+<li>numpy 1.10.1, providing key data format, mathematical manipulation techniques.</li>
+<li>scipy 0.16.0, imported here for the distance matrix computation and the stat submodule for Quantile-Quantile plots.</li>
+<li>pandas 0.17.1 for advanced data format, high-level manipulation and visualization</li>
+<li>pyplot from matplotlib 1.5.0 for basic visualization</li>
+<li>ggplot 0.6.8, which I think is a much improved way to visualize data</li>
+<li>urllib3 to parse the data directly from the repository (no manual download)</li>
+</ul>
+
+<p>So our first lines of code (once you placed your data in the proper repository)
+should look like this:</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">numpy</span> <span style="color: #006699; font-weight: bold">as</span> <span style="color: #00CCFF; font-weight: bold">np</span>
+<span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">pandas</span> <span style="color: #006699; font-weight: bold">as</span> <span style="color: #00CCFF; font-weight: bold">pd</span>
+<span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">ggplot</span>
+<span style="color: #006699; font-weight: bold">from</span> <span style="color: #00CCFF; font-weight: bold">matplotlib</span> <span style="color: #006699; font-weight: bold">import</span> pyplot <span style="color: #006699; font-weight: bold">as</span> plt
+<span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">scipy.stats</span> <span style="color: #006699; font-weight: bold">as</span> <span style="color: #00CCFF; font-weight: bold">stats</span>
+<span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">scipy.spatial.distance</span>
+<span style="color: #006699; font-weight: bold">from</span> <span style="color: #00CCFF; font-weight: bold">collections</span> <span style="color: #006699; font-weight: bold">import</span> Counter
+<span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">urllib3</span>
+</pre></div>
+
+
+<h3 id="source-files">Source files</h3>
+
+<p>The source files will be available on the corresponding Github repository.
+These include:
+* preprocess.py to load the data and libraries
+* exploratory.py for preliminary visualization
+* feature_eng.py where the data will be transformed to boost the model performance
+* model_GLM.py where we define key functions and build our model
+* model.py where we will visualize characteristics of the model</p>
+
+<h1 id="dataset-overview-and-exploratory-analysis">Dataset overview and exploratory analysis</h1>
+
+<p>Understanding intuitive phenomena in the data and test its underlying structure
+are the objectives for this first (usually long) phase of a data science
+project, especially if you were not involved in the data collection process.</p>
+
+<h2 id="data-parsing">Data parsing</h2>
+
+<p>Instead of manually downloading the data and placing it in our project
+repository, we will download using the <em>urllib3</em> library.</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">url <span style="color: #555555">=</span> <span style="color: #CC3300">&quot;https://archive.ics.uci.edu/ml/machine-learning-databases/00267/data_banknote_authentication.txt&quot;</span>
+http <span style="color: #555555">=</span> urllib3<span style="color: #555555">.</span>PoolManager()
+r <span style="color: #555555">=</span> http<span style="color: #555555">.</span>request(<span style="color: #CC3300">&#39;GET&#39;</span>,url)
+<span style="color: #006699; font-weight: bold">with</span> <span style="color: #336666">open</span>(<span style="color: #CC3300">&quot;data_banknote_authentication.txt&quot;</span>,<span style="color: #CC3300">&#39;wb&#39;</span>) <span style="color: #006699; font-weight: bold">as</span> f:
+  f<span style="color: #555555">.</span>write(r<span style="color: #555555">.</span>data)
+r<span style="color: #555555">.</span>release_conn()
+data0 <span style="color: #555555">=</span> pd<span style="color: #555555">.</span>read_csv(<span style="color: #CC3300">&quot;data_banknote_authentication.txt&quot;</span>,
+  names<span style="color: #555555">=</span>[<span style="color: #CC3300">&quot;vari&quot;</span>,<span style="color: #CC3300">&quot;skew&quot;</span>,<span style="color: #CC3300">&quot;kurtosis&quot;</span>,<span style="color: #CC3300">&quot;entropy&quot;</span>,<span style="color: #CC3300">&quot;class&quot;</span>])
+</pre></div>
+
+
+<h2 id="key-statistics-and-overview">Key statistics and overview</h2>
+
+<p>Since the data were loaded using pandas, key methods of the DataFrame
+object can be used to find some key information in the data.</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">data0<span style="color: #555555">.</span>describe()
+</pre></div>
+
+
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">vari</th>
+<th align="center">skew</th>
+<th align="center">kurtosis</th>
+<th align="center">entropy</th>
+<th align="center">class</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">count</td>
+<td align="center">1372.000000</td>
+<td align="center">1372.000000</td>
+<td align="center">1372.000000</td>
+<td align="center">1372.000000</td>
+<td align="center">1372.000000</td>
+</tr>
+
+<tr>
+<td align="center">mean</td>
+<td align="center">0.433735</td>
+<td align="center">1.922353</td>
+<td align="center">1.397627</td>
+<td align="center">-1.191657</td>
+<td align="center">0.444606</td>
+</tr>
+
+<tr>
+<td align="center">std</td>
+<td align="center">2.842763</td>
+<td align="center">5.869047</td>
+<td align="center">4.310030</td>
+<td align="center">2.101013</td>
+<td align="center">0.497103</td>
+</tr>
+
+<tr>
+<td align="center">min</td>
+<td align="center">-7.042100</td>
+<td align="center">-13.773100</td>
+<td align="center">-5.286100</td>
+<td align="center">-8.548200</td>
+<td align="center">0.000000</td>
+</tr>
+
+<tr>
+<td align="center">25%</td>
+<td align="center">-1.773000</td>
+<td align="center">-1.708200</td>
+<td align="center">-1.574975</td>
+<td align="center">-2.413450</td>
+<td align="center">0.000000</td>
+</tr>
+
+<tr>
+<td align="center">50%</td>
+<td align="center">0.496180</td>
+<td align="center">2.319650</td>
+<td align="center">0.616630</td>
+<td align="center">-0.586650</td>
+<td align="center">0.000000</td>
+</tr>
+
+<tr>
+<td align="center">75%</td>
+<td align="center">2.821475</td>
+<td align="center">6.814625</td>
+<td align="center">3.179250</td>
+<td align="center">0.394810</td>
+<td align="center">1.000000</td>
+</tr>
+
+<tr>
+<td align="center">max</td>
+<td align="center">6.824800</td>
+<td align="center">12.951600</td>
+<td align="center">17.927400</td>
+<td align="center">2.449500</td>
+<td align="center">1.000000</td>
+</tr>
+</tbody>
+</table>
+
+<p>Negative values can be noticed in the variance and entropy, whereas it is
+theoretically impossible, so it can be deduced that some preprocessing
+operations were already performed.</p>
+
+<p>We are trying to detect forged banknotes thanks to the extracted features.
+The dataset contains 1372 observations, including 610 forged banknotes, so
+roughly 45%. The two classes are balanced in the data, which might be relevant
+for some algorithms. Indeed, a higher proportion of a category in the
+characteristic of interest (here whether the banknote is genuine or not) yields
+a higher <strong>prior probability</strong> for that outcome in Bayesian reasoning.</p>
+
+<h2 id="kernel-density-estimation-for-each-variable-by-class">Kernel Density Estimation for each variable by class</h2>
+
+<p>KDE are powerful tools to understand how 1-dimensional data are distributed.
+The estimate can also be split by class to find differences in the
+distributions. Using ggplot and the pandas <code>groupby</code> method, the
+plots can be generated and saved as such:</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span style="color: #006699; font-weight: bold">for</span> v <span style="color: #000000; font-weight: bold">in</span> data0<span style="color: #555555">.</span>columns[:<span style="color: #FF6600">4</span>]:
+ggplot<span style="color: #555555">.</span>ggsave(
+  ggplot<span style="color: #555555">.</span>ggplot(ggplot<span style="color: #555555">.</span>aes(x<span style="color: #555555">=</span>v, color<span style="color: #555555">=</span><span style="color: #CC3300">&#39;class&#39;</span>),data<span style="color: #555555">=</span>data0)<span style="color: #555555">+</span>
+  ggplot<span style="color: #555555">.</span>geom_density()<span style="color: #555555">+</span>
+  ggplot<span style="color: #555555">.</span>geom_point(ggplot<span style="color: #555555">.</span>aes(y<span style="color: #555555">=</span><span style="color: #FF6600">0</span>),alpha<span style="color: #555555">=</span><span style="color: #FF6600">0.2</span>)<span style="color: #555555">+</span>
+  ggplot<span style="color: #555555">.</span>labs(title<span style="color: #555555">=</span><span style="color: #CC3300">&#39;KDE &#39;</span><span style="color: #555555">+</span>v,x<span style="color: #555555">=</span>v,y<span style="color: #555555">=</span><span style="color: #CC3300">&quot;KDE&quot;</span>),
+  <span style="color: #CC3300">&#39;KDE_&#39;</span><span style="color: #555555">+</span>v<span style="color: #555555">+</span><span style="color: #CC3300">&#39;.png&#39;</span>,width<span style="color: #555555">=</span><span style="color: #FF6600">18</span>,height<span style="color: #555555">=</span><span style="color: #FF6600">12</span>)
+</pre></div>
+
+
+<p><img src="/img/posts/BankNotes/figures/KDE_entropy.png" alt="" />
+<img src="/img/posts/BankNotes/figures/KDE_Vari.png" alt="" />
+<img src="/img/posts/BankNotes/figures/KDE_skew.png" alt="" />
+<img src="/img/posts/BankNotes/figures/KDE_kurtosis.png" alt="" /></p>
+
+<p>Using this first simple visualization technique, we can deduce that the
+variance may be much more efficient to separate the two banknotes
+categories than the Kurtosis.</p>
+
+<h2 id="visualizing-variable-combinations-with-scatter-plots">Visualizing variable combinations with scatter plots</h2>
+
+<p>We generate a color list using for-comprehension:</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">col <span style="color: #555555">=</span> <span style="color: #336666">list</span>(<span style="color: #CC3300">&#39;r&#39;</span> <span style="color: #006699; font-weight: bold">if</span> i<span style="color: #555555">==</span><span style="color: #FF6600">1</span> <span style="color: #006699; font-weight: bold">else</span> <span style="color: #CC3300">&#39;b&#39;</span> <span style="color: #006699; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> data0[<span style="color: #CC3300">&quot;class&quot;</span>])
+pd<span style="color: #555555">.</span>tools<span style="color: #555555">.</span>plotting<span style="color: #555555">.</span>scatter_matrix(data0<span style="color: #555555">.</span>ix[:,:<span style="color: #FF6600">4</span>],figsize<span style="color: #555555">=</span>(<span style="color: #FF6600">6</span>,<span style="color: #FF6600">3</span>),
+color<span style="color: #555555">=</span>col,diagonal<span style="color: #555555">=</span><span style="color: #CC3300">&#39;kde&#39;</span>)
+</pre></div>
+
+
+<p><img src="/img/posts/BankNotes/figures/scatter_matrix.png" alt="Scatter matrix: red dots represent the class &quot;1&quot;" /></p>
+
+<p>A scatter plot is the most straight-forward way to understand intuitive and
+obvious patterns in the data. It is especially efficient when the number of
+variables and classes is limited, such as our data set. It allows us to
+understand class-dependent, non-linear relationships between variables.</p>
+
+<p>This is much more efficient than a simple statistic, such as the correlation
+coefficient which would not have found the skewness and entropy to be related.
+From these rather strong relationships between variables, we now know that
+some techniques based on independent features might not be efficient here.</p>
+
+<h2 id="testing-a-distribution-with-quantile-quantile-plots">Testing a distribution with Quantile-Quantile plots</h2>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span style="color: #0099FF; font-style: italic"># Subsetting the data by class</span>
+d0 <span style="color: #555555">=</span> data0[data0[<span style="color: #CC3300">&quot;class&quot;</span>]<span style="color: #555555">==</span><span style="color: #FF6600">0</span>]
+d1 <span style="color: #555555">=</span> data0[data0[<span style="color: #CC3300">&quot;class&quot;</span>]<span style="color: #555555">==</span><span style="color: #FF6600">1</span>]
+
+<span style="color: #0099FF; font-style: italic"># For each variable</span>
+<span style="color: #006699; font-weight: bold">for</span> v <span style="color: #000000; font-weight: bold">in</span> data0<span style="color: #555555">.</span>columns[:<span style="color: #FF6600">4</span>]:
+<span style="color: #0099FF; font-style: italic">#set the figure size</span>
+plt<span style="color: #555555">.</span>figure(figsize<span style="color: #555555">=</span>(<span style="color: #FF6600">9</span>,<span style="color: #FF6600">4</span>))
+<span style="color: #0099FF; font-style: italic"># define two subplots</span>
+ax1 <span style="color: #555555">=</span>  plt<span style="color: #555555">.</span>subplot(<span style="color: #FF6600">121</span>)
+<span style="color: #0099FF; font-style: italic"># compute the quantile-quantile plot with normal distribution</span>
+stats<span style="color: #555555">.</span>probplot(d0[v],dist<span style="color: #555555">=</span><span style="color: #CC3300">&#39;norm&#39;</span>,plot<span style="color: #555555">=</span>plt)
+<span style="color: #0099FF; font-style: italic"># add title</span>
+plt<span style="color: #555555">.</span>title(<span style="color: #CC3300">&quot;Normal QQ-plot &quot;</span><span style="color: #555555">+</span>v <span style="color: #555555">+</span> <span style="color: #CC3300">&quot; - Class 0&quot;</span>)
+ax2 <span style="color: #555555">=</span> plt<span style="color: #555555">.</span>subplot(<span style="color: #FF6600">122</span>)
+stats<span style="color: #555555">.</span>probplot(d1[v],dist<span style="color: #555555">=</span><span style="color: #CC3300">&#39;norm&#39;</span>,plot<span style="color: #555555">=</span>plt)
+plt<span style="color: #555555">.</span>title(<span style="color: #CC3300">&quot;Normal QQ-plot &quot;</span><span style="color: #555555">+</span>v <span style="color: #555555">+</span> <span style="color: #CC3300">&quot; - Class 1&quot;</span>)
+plt<span style="color: #555555">.</span>savefig(<span style="color: #CC3300">&quot;qqplot_&quot;</span><span style="color: #555555">+</span>v<span style="color: #555555">+</span><span style="color: #CC3300">&quot;.png&quot;</span>,width<span style="color: #555555">=</span><span style="color: #FF6600">700</span>,height<span style="color: #555555">=</span><span style="color: #FF6600">250</span>)
+plt<span style="color: #555555">.</span>show()
+</pre></div>
+
+
+<p><img src="/img/posts/BankNotes/figures/qqplot_entropy.png" alt="QQplot entropy" />
+<img src="/img/posts/BankNotes/figures/qqplot_skew.png" alt="QQplot skewness" />
+<img src="/img/posts/BankNotes/figures/qqplot_vari.png" alt="QQplot variance" />
+<img src="/img/posts/BankNotes/figures/qqplot_kurtosis.png" alt="QQplot kurtosis" /></p>
+
+<p>Even though some variables are quite far from normally distributed, the
+hypothesis would be acceptable for some model-based learning algorithms using
+properties of Gaussian variables.</p>
+
+<h2 id="non-parametric-distribution-with-boxplots">Non-parametric distribution with boxplots</h2>
+
+<p>Boxplots represent the data using 25th, 50th and 75th percentiles which can be
+more robust than mean and variance. The pandas library offers a quick method
+and plotting tool to represent boxplots for each class and variable. It
+highlights the differences in the spread of the data.</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">data0<span style="color: #555555">.</span>groupby(<span style="color: #CC3300">&quot;class&quot;</span>)<span style="color: #555555">.</span>boxplot(figsize<span style="color: #555555">=</span>(<span style="color: #FF6600">9</span>,<span style="color: #FF6600">5</span>))
+</pre></div>
+
+
+<p><img src="/static/img/posts/BankNotes/figures/Boxplot.png" alt="Boxplot representation" /></p>
+
+<p>This will be useful in the next part, when the data will be transformed to
+enhance the performance and robustness of predictive models.</p>
+
+<p>So see you in the next part for feature engineering!</p>
+
+<hr />
+
+<p><font size="0.7">
+[1] Image source: ik1pmr.com
+</font></p>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+
+    
+    <li class="next"><a href="https://mbesancon.github.io/posts/2016-01-12-fraud-detection2/">A Pythonic data science project: Part II <span
+      aria-hidden="true">&rarr;</span></a></li>
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mathieu Besançon &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js" integrity="sha512-iHzEu7GbSc705hE2skyH6/AlTpOfBmkx7nUqTLGzPYR+C1tRaItbRlJ7hT/D3YQ9SV0fqLKzp4XY9wKulTBGTw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js" integrity="sha512-Z5heTz36xTemt1TbtbfXtTq5lMfYnOkXM2/eWcTTiLU01+Sw4ku1i7vScDc8fWhrP2abz9GQzgKH5NGBLoYlAw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/ScrollToPlugin.min.js" integrity="sha512-CDeU7pRtkPX6XJtF/gcFWlEwyaX7mcAp5sO3VIu/ylsdR74wEw4wmBpD5yYTrmMAiAboi9thyBUr1vXRPA7t0Q==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

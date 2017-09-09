@@ -59,7 +59,54 @@
     
     <url>
     
+      <loc>https://mbesancon.github.io/posts/2016-01-13-fraud-detection3/</loc>
+      <lastmod>2016-01-13T00:00:00-05:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/posts/2016-01-12-fraud-detection2/</loc>
+      <lastmod>2016-01-12T00:00:00-05:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/posts/2016-01-11-fraud-detection/</loc>
+      <lastmod>2016-01-11T00:00:00-05:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://mbesancon.github.io/categories/</loc>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/tags/classification/</loc>
+      <lastmod>2016-01-13T00:00:00-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/tags/data-science/</loc>
+      <lastmod>2016-01-13T00:00:00-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -99,6 +146,16 @@
     <url>
     
       <loc>https://mbesancon.github.io/publication_types/</loc>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/tags/python/</loc>
+      <lastmod>2016-01-13T00:00:00-05:00</lastmod>
       <priority>0</priority>
     </url>
     
