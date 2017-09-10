@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Algorithm</title>
+      <link>https://mbesancon.github.io/tags/algorithm/</link>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 -0400</pubDate>
+      
+      <guid>https://mbesancon.github.io/tags/algorithm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Blog</title>
       <link>https://mbesancon.github.io/tags/blog/</link>
       <pubDate>Tue, 05 Sep 2017 00:00:00 -0400</pubDate>
@@ -39,6 +48,15 @@
     </item>
     
     <item>
+      <title>Code</title>
+      <link>https://mbesancon.github.io/tags/code/</link>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 -0400</pubDate>
+      
+      <guid>https://mbesancon.github.io/tags/code/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Data</title>
       <link>https://mbesancon.github.io/tags/data/</link>
       <pubDate>Sat, 21 May 2016 00:00:00 -0400</pubDate>
@@ -50,7 +68,7 @@
     <item>
       <title>Data Science</title>
       <link>https://mbesancon.github.io/tags/data-science/</link>
-      <pubDate>Sat, 21 May 2016 00:00:00 -0400</pubDate>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 -0400</pubDate>
       
       <guid>https://mbesancon.github.io/tags/data-science/</guid>
       <description></description>
@@ -62,6 +80,15 @@
       <pubDate>Sat, 21 May 2016 00:00:00 -0400</pubDate>
       
       <guid>https://mbesancon.github.io/tags/engineering/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Functional</title>
+      <link>https://mbesancon.github.io/tags/functional/</link>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 -0400</pubDate>
+      
+      <guid>https://mbesancon.github.io/tags/functional/</guid>
       <description></description>
     </item>
     

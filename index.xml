@@ -233,6 +233,223 @@ competition, the market and the context.&lt;/p&gt;&lt;/li&gt;
     </item>
     
     <item>
+      <title>Functional and parallel PageRank implementation in Scala</title>
+      <link>https://mbesancon.github.io/posts/2016-09-13-page-rank/</link>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 -0400</pubDate>
+      
+      <guid>https://mbesancon.github.io/posts/2016-09-13-page-rank/</guid>
+      <description>
+
+&lt;p&gt;When I &lt;a href=&#34;https://mbesancon.github.io/posts/2016-08-11-back-to-startup/&#34;&gt;came back to Equisense&lt;/a&gt;,
+I was surprised and intrigued by many things. But there was one element of the
+job in particular I had not planned: coming back to low level and embedded
+programming from higher abstractions I was used to. No OS, no
+libraries, no smooth write-and-test work-flow, just brutal and bare metal.
+I clearly needed to blow some steam off with something closer to what I
+usually do (or did), a data-driven and functional project using nice techs.&lt;/p&gt;
+
+&lt;h2 id=&#34;why-yet-another-pagerank&#34;&gt;Why yet another PageRank?&lt;/h2&gt;
+
+&lt;p&gt;The time came to find a new side project and I was just finishing the lectures
+of &lt;a href=&#34;https://www.coursera.org/learn/parprog1&#34; target=&#34;_blank&#34;&gt;Parallel Programming&lt;/a&gt;, which I
+recommend if you&amp;rsquo;re already at ease with Scala and its environment (IDEs, SBT).
+I wanted to apply the concepts on a project built from scratch. One day,
+while neglectfully scrolling through another blog post showing the basic
+concepts of the PageRank computation, I thought this would make a &amp;ldquo;okay&amp;rdquo; project.
+But wait, interesting elements here:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The model behind the PageRank computation is a &lt;a href=&#34;https://en.wikipedia.org/wiki/Markov_chain&#34; target=&#34;_blank&#34;&gt;Markov Chain&lt;/a&gt;,
+with which I have been working a lot with at Siemens.&lt;/li&gt;
+&lt;li&gt;Iterating until stability of the ranks is basically a linear flow, easily
+performed by &lt;a href=&#34;https://en.wikipedia.org/wiki/Tail_call&#34; target=&#34;_blank&#34;&gt;tail call recursion&lt;/a&gt;
+which is optimized to avoid stack-overflowing the JVM by behaving like a &lt;code&gt;while&lt;/code&gt; loop.&lt;/li&gt;
+&lt;li&gt;Computing the rank of each site is independent of the other computations,
+parallelizing the tasks is a piece of cake&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So we&amp;rsquo;re all set up for a purely functional and parallel PageRank.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-pagerank-model&#34;&gt;The PageRank model&lt;/h2&gt;
+
+&lt;p&gt;We&amp;rsquo;re gonna go through the basic implementation of the algorithm. What
+fascinates me is the two-sided view of the algorithm: the intuitive version can
+be explained to a 5-year-old (or to your boss) while the maths behind it
+relies on the interpretation of matrix eigenvalues and on a computation of the
+stationary distribution of the Markov model.&lt;/p&gt;
+
+&lt;h3 id=&#34;the-intuitive-version&#34;&gt;The intuitive version&lt;/h3&gt;
+
+&lt;p&gt;Imagine you&amp;rsquo;re surfing on the web like any productive Sunday evening. On a
+given page, there is an equal probability to click on any link present on the
+page. There is also a probability that you get tired of the current series of
+pages and randomly go back to any page of the network.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s try to visualize the two extremes of this &amp;ldquo;random switch&amp;rdquo; usually called
+&lt;em&gt;damping factor&lt;/em&gt; &lt;code&gt;d&lt;/code&gt;. If we set &lt;code&gt;d=0&lt;/code&gt;, the transition to any page is equally
+probable, since the surfer will always switch to choosing a page at random.
+This means that the links going out of the page they&amp;rsquo;re currently on don&amp;rsquo;t
+influence the probability distribution of the next page.&lt;/p&gt;
+
+&lt;p&gt;On the other end of the spectrum if the damping factor &lt;code&gt;d=1&lt;/code&gt;, the surfer will
+always look for its next page in the outgoing links of her current page
+(this raises an issue for pages without any links). An usual value for the
+factor is &lt;code&gt;d=0.85&lt;/code&gt;which keeps the probability of long sequences of related pages
+likely to happen, but allows for random switch.&lt;/p&gt;
+
+&lt;h3 id=&#34;key-elements-of-the-algorithm&#34;&gt;Key elements of the algorithm&lt;/h3&gt;
+
+&lt;p&gt;The algorithm uses the matrix of links: an entry &lt;code&gt;(i,j)&lt;/code&gt; is 1 if there is a
+link on the page &lt;code&gt;j&lt;/code&gt; to the page &lt;code&gt;i&lt;/code&gt; and 0 otherwise (note that this notation
+is opposite to the common convention for Markov transition matrices, where the
+line is the origin state and the column the destination). The other element is
+a rank vector which is updated until a convergence criterion is met.&lt;/p&gt;
+
+&lt;h3 id=&#34;types-of-the-different-structures&#34;&gt;Types of the different structures&lt;/h3&gt;
+
+&lt;p&gt;Since we want to be able to perform some computations in parallel, most
+functions will manipulate Scala&amp;rsquo;s &lt;em&gt;Generic&lt;/em&gt; data structures. Let&amp;rsquo;s start with
+the link matrix. It is a sparse structure: instead of representing all
+entries of the matrix in a vector of vectors, just non-empty elements and
+there corresponding column and line indexes are stored.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;// defining a dense matrix of Ints as a sequence of sequence&lt;/span&gt;
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;DenseMatrix&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #00AA88; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;]]&lt;/span&gt;
+&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;// SparseMatrix: tuple (line, column, value)&lt;/span&gt;
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;SparseMatrix&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #00AA88; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[(&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;,&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;,&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;However, the values of our link matrix only contains zeros and ones, so the
+entries present in the structure all have one as value, so we just need to keep
+rows and columns:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;LinkMat&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #00AA88; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[(&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;,&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The ranks are stored in a simple generic float sequence:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;R&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We also need a few utility functions. &lt;code&gt;sumElements&lt;/code&gt; takes the matrix, the rank
+vector and an integer to find all links for which the outgoing page is &lt;code&gt;j&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; sumElements&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;R&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;],&lt;/span&gt; A&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;LinkMat&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt; j&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;{&lt;/span&gt;
+  &lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;// sums all PageRanks / number of links for a column j&lt;/span&gt;
+  &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;val&lt;/span&gt; totalLinks &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;=&lt;/span&gt; A&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;filter&lt;span style=&#34;color: #555555&#34;&gt;{&lt;/span&gt;tup &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;=&amp;gt;&lt;/span&gt; tup&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;_2 &lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt; j&lt;span style=&#34;color: #555555&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;totalLinks&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;isEmpty&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;
+    sys&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;error&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;No link in the page &amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; j &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot; at sumElements&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;
+  &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;else&lt;/span&gt;
+    R&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;j&lt;span style=&#34;color: #555555&#34;&gt;)/&lt;/span&gt;totalLinks&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;size
+&lt;span style=&#34;color: #555555&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt; This implementation of the function is not purely functional since
+an imperative system error is raised if no index i is found. A better solution
+here would have been to wrap the value in an &lt;code&gt;Option[Float]&lt;/code&gt;, return &lt;code&gt;None&lt;/code&gt; if no
+index has been found and &lt;code&gt;Some(x)&lt;/code&gt; in case of success.&lt;/p&gt;
+
+&lt;p&gt;We also need to find all pages pointing to a given page i. This might be a
+bit compact, but keep in mind that the matrix is simply a pair of page indexes.
+So we find all pages where the first element is i (the page the link is going
+to), that&amp;rsquo;s the filter part. We then take the second element of the tuple, so
+all indexes pointing to i, thanks to a map.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; findConnected&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;i&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt; A&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;LinkMat&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;=&lt;/span&gt;
+  A&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;filter&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;_&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;_1&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;i&lt;span style=&#34;color: #555555&#34;&gt;).&lt;/span&gt;map&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;_&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;_2&lt;span style=&#34;color: #555555&#34;&gt;).&lt;/span&gt;toSeq
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Note that the result is returned as a normal sequence (not the generic version
+allowing for parallel computation). It&amp;rsquo;s not a big deal since the resulting
+sequence is always manageable compared to the whole graph we are manipulating.&lt;/p&gt;
+
+&lt;p&gt;Now, we stated that the algorithm recurses on the rank of all pages until
+stability, which is something we define through a &lt;code&gt;converged&lt;/code&gt; function. We
+simply use a squared difference between two different versions of the rank to
+determine if they are acceptably close and yield a boolean.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; converged&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;r1&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;],&lt;/span&gt; r2&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;],&lt;/span&gt; eps&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Boolean&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;{&lt;/span&gt;
+  &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;val&lt;/span&gt; totSquare&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; r1&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;zip&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;r2&lt;span style=&#34;color: #555555&#34;&gt;).&lt;/span&gt;map&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;p&lt;span style=&#34;color: #555555&#34;&gt;=&amp;gt;(&lt;/span&gt;p&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;_1&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;p&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;_2&lt;span style=&#34;color: #555555&#34;&gt;)*(&lt;/span&gt;p&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;_1&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;p&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;_2&lt;span style=&#34;color: #555555&#34;&gt;)).&lt;/span&gt;sum
+  sqrt&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;totSquare&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;r1&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;size&lt;span style=&#34;color: #555555&#34;&gt;)&amp;lt;=&lt;/span&gt;eps
+&lt;span style=&#34;color: #555555&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now that everything is set, the master piece becomes a piece of cake.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #9999FF&#34;&gt;@tailrec&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; compRank&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;R&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;],&lt;/span&gt; A&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;LinkMat&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;
+                      damp&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt; eps&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;
+                      niter&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;
+                      niterMax&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;10000&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;{&lt;/span&gt;
+  &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;val&lt;/span&gt; rankIndex&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt; until R&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;size
+  &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;val&lt;/span&gt; rightRank&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;=&lt;/span&gt; rankIndex map&lt;span style=&#34;color: #555555&#34;&gt;{&lt;/span&gt;i&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;val&lt;/span&gt; connected &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;=&lt;/span&gt; findConnected&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;i&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;A&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;
+    connected&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;map&lt;span style=&#34;color: #555555&#34;&gt;{&lt;/span&gt;j&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&amp;gt;&lt;/span&gt; sumElements&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;R&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt; A&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt; j&lt;span style=&#34;color: #555555&#34;&gt;)}.&lt;/span&gt;sum
+  &lt;span style=&#34;color: #555555&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;val&lt;/span&gt; newRank &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;=&lt;/span&gt; rightRank map &lt;span style=&#34;color: #555555&#34;&gt;{&lt;/span&gt;damp&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;damp&lt;span style=&#34;color: #555555&#34;&gt;)/&lt;/span&gt;R&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;size&lt;span style=&#34;color: #555555&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;converged&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;newRank&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;R&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;eps&lt;span style=&#34;color: #555555&#34;&gt;))&lt;/span&gt; newRank
+  &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;niter&lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;=&lt;/span&gt;niterMax&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;{&lt;/span&gt;
+    println&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;Max iteration reached&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;
+    newRank
+  &lt;span style=&#34;color: #555555&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;else&lt;/span&gt; compRank&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;newRank&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;A&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;damp&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;eps&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;niter&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;niterMax&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color: #555555&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We first compute the right term of the new rank formula &lt;code&gt;rightRank&lt;/code&gt; and plug it
+in &lt;code&gt;newRank&lt;/code&gt;. The two vectors can be passed to &lt;code&gt;compare&lt;/code&gt; to determine if
+&lt;code&gt;newRank&lt;/code&gt; can be returned as a final result or if further recursion is needed.
+A recursion counter also avoids waiting too long for a result and warns in case
+of maximum recursion reached by printing to the standard output.
+Once again, a more functional way would have been to wrap the result in a
+&lt;code&gt;Try&lt;/code&gt; monad (no panic, we&amp;rsquo;re NOT going to go through monads, we&amp;rsquo;ve lost enough
+people with this).&lt;/p&gt;
+
+&lt;p&gt;You&amp;rsquo;ve surely noticed the &lt;code&gt;@tailrec&lt;/code&gt; tag highlighting that this function is not
+going to blow the stack up.&lt;/p&gt;
+
+&lt;h2 id=&#34;result-on-a-study-case&#34;&gt;Result on a study case&lt;/h2&gt;
+
+&lt;h3 id=&#34;the-enron-email-dataset&#34;&gt;The Enron email dataset&lt;/h3&gt;
+
+&lt;p&gt;While surfing in a semi-random way to find a cool dataset for the application,
+I found the &lt;a href=&#34;https://snap.stanford.edu&#34; target=&#34;_blank&#34;&gt;SNAP&lt;/a&gt; project
+from Stanford on which the
+&lt;a href=&#34;https://snap.stanford.edu/data/email-Enron.html&#34; target=&#34;_blank&#34;&gt;Enron emails data&lt;/a&gt;
+are presented and to be downloaded. If you look at the
+&lt;a href=&#34;https://github.com/mbesancon/PageRank&#34; target=&#34;_blank&#34;&gt;Github repo&lt;/a&gt; for this project, I simply
+removed the header from the txt file to make the parsing tasks easier.&lt;/p&gt;
+
+&lt;h3 id=&#34;results&#34;&gt;Results&lt;/h3&gt;
+
+&lt;p&gt;As many phenomena dealing with &lt;a href=&#34;https://en.wikipedia.org/wiki/Pareto_principle&#34; target=&#34;_blank&#34;&gt;concentration of resources&lt;/a&gt;,
+the distribution of ranks follows a Pareto distribution, which can be
+visualized on a log-log scale. I used Python with numpy and matplotlib, finding
+the current Scala libraries still to cumbersome for this simple task. Here is
+the result:
+&lt;img src=&#34;https://mbesancon.github.io/img/posts/pageRank/rankDist.png&#34; alt=&#34;Resulting log-rank&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;a-conclusion-on-the-functional-imperative-debate&#34;&gt;A conclusion on the functional/imperative debate&lt;/h2&gt;
+
+&lt;p&gt;If some of you clone and try to run the project (you&amp;rsquo;ll just need sbt for that).
+Some people could argue that the runtime is too long for what it does (whatever
+too long means), and that an imperative solution with a mutable rank on which
+we loop until convergence. And I suppose they are right, but parallel
+imperative is objectively a pain to work with. &lt;strong&gt;Tell the architecture what you
+want, not what to do and it will compute it for you, whatever its
+configuration is&lt;/strong&gt;, from your laptop to several clusters. That&amp;rsquo;s a key reason
+why &lt;a href=&#34;http://spark.apache.org&#34; target=&#34;_blank&#34;&gt;Spark&lt;/a&gt; is functional for instance.&lt;/p&gt;
+
+&lt;hr /&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Back to startup life: thoughts after the first days</title>
       <link>https://mbesancon.github.io/posts/2016-08-11-back-to-startup/</link>
       <pubDate>Thu, 11 Aug 2016 00:00:00 -0400</pubDate>
