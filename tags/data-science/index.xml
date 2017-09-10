@@ -12,10 +12,10 @@
     
     <item>
       <title>Functional and parallel PageRank implementation in Scala</title>
-      <link>https://mbesancon.github.io/posts/2016-09-13-page-rank/</link>
+      <link>https://mbesancon.github.io/post/2016-09-13-page-rank/</link>
       <pubDate>Tue, 13 Sep 2016 00:00:00 -0400</pubDate>
       
-      <guid>https://mbesancon.github.io/posts/2016-09-13-page-rank/</guid>
+      <guid>https://mbesancon.github.io/post/2016-09-13-page-rank/</guid>
       <description>
 
 &lt;p&gt;When I &lt;a href=&#34;https://mbesancon.github.io/posts/2016-08-11-back-to-startup/&#34;&gt;came back to Equisense&lt;/a&gt;,
@@ -229,10 +229,10 @@ why &lt;a href=&#34;http://spark.apache.org&#34; target=&#34;_blank&#34;&gt;Spar
     
     <item>
       <title>Bringing data science to engineers</title>
-      <link>https://mbesancon.github.io/posts/2016-05-21-bringing-data-science-engineers/</link>
+      <link>https://mbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</link>
       <pubDate>Sat, 21 May 2016 00:00:00 -0400</pubDate>
       
-      <guid>https://mbesancon.github.io/posts/2016-05-21-bringing-data-science-engineers/</guid>
+      <guid>https://mbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</guid>
       <description>
 
 &lt;p&gt;The goal of this article is to present couple challenges waiting the industrial
@@ -444,10 +444,10 @@ scratch in an industrial context.&lt;/p&gt;
     
     <item>
       <title>A Pythonic data science project: Part III</title>
-      <link>https://mbesancon.github.io/posts/2016-01-13-fraud-detection3/</link>
+      <link>https://mbesancon.github.io/post/2016-01-13-fraud-detection3/</link>
       <pubDate>Wed, 13 Jan 2016 00:00:00 -0500</pubDate>
       
-      <guid>https://mbesancon.github.io/posts/2016-01-13-fraud-detection3/</guid>
+      <guid>https://mbesancon.github.io/post/2016-01-13-fraud-detection3/</guid>
       <description>
 
 &lt;p&gt;[1]&lt;/p&gt;
@@ -802,10 +802,10 @@ and giving me some valuable feedback.&lt;/p&gt;
     
     <item>
       <title>A Pythonic data science project: Part II</title>
-      <link>https://mbesancon.github.io/posts/2016-01-12-fraud-detection2/</link>
+      <link>https://mbesancon.github.io/post/2016-01-12-fraud-detection2/</link>
       <pubDate>Tue, 12 Jan 2016 00:00:00 -0500</pubDate>
       
-      <guid>https://mbesancon.github.io/posts/2016-01-12-fraud-detection2/</guid>
+      <guid>https://mbesancon.github.io/post/2016-01-12-fraud-detection2/</guid>
       <description>
 
 &lt;p&gt;[1]&lt;/p&gt;
@@ -1117,10 +1117,10 @@ part in an analysis-oriented data science project, and I hope to see you there.&
     
     <item>
       <title>A Pythonic data science project: Part I</title>
-      <link>https://mbesancon.github.io/posts/2016-01-11-fraud-detection/</link>
+      <link>https://mbesancon.github.io/post/2016-01-11-fraud-detection/</link>
       <pubDate>Mon, 11 Jan 2016 00:00:00 -0500</pubDate>
       
-      <guid>https://mbesancon.github.io/posts/2016-01-11-fraud-detection/</guid>
+      <guid>https://mbesancon.github.io/post/2016-01-11-fraud-detection/</guid>
       <description>
 
 &lt;h2 id=&#34;a-complete-predictive-modeling-project-in-python&#34;&gt;A complete predictive modeling project in Python&lt;/h2&gt;

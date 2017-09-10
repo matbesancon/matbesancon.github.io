@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.27-DEV" />
+  <meta name="author" content="Mathieu Besançon">
+  <meta name="description" content="PhD student in applied mathematics for energy systems">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  
+
+  <link rel="alternate" href="https://mbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+  <link rel="feed" href="https://mbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="https://mbesancon.github.io/post/2016-01-13-fraud-detection3/">
+
+  
+
+  <title>A Pythonic data science project: Part III | μβ</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">μβ</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#talks">
+            
+            <span>Talks</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#experiences">
+            
+            <span>Experiences</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+<div class="article-header">
+  <img src="/img/posts/BankNotes/images/plot_classifier_comparison_001.png" class="article-banner" itemprop="image">
+  
+</div>
+
+
+
+  <div class="article-container">
+    <h1 itemprop="name">A Pythonic data science project: Part III</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2016-01-13 00:00:00 -0500 EST" itemprop="datePublished">
+      Wed, Jan 13, 2016
+    </time>
+  </span>
+
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="/tags/data-science">data-science</a
+    >, 
+    
+    <a href="/tags/python">python</a
+    >, 
+    
+    <a href="/tags/classification">classification</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fmbesancon.github.io%2fpost%2f2016-01-13-fraud-detection3%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=A%20Pythonic%20data%20science%20project%3a%20Part%20III&amp;url=https%3a%2f%2fmbesancon.github.io%2fpost%2f2016-01-13-fraud-detection3%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fmbesancon.github.io%2fpost%2f2016-01-13-fraud-detection3%2f&amp;title=A%20Pythonic%20data%20science%20project%3a%20Part%20III"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fmbesancon.github.io%2fpost%2f2016-01-13-fraud-detection3%2f&amp;title=A%20Pythonic%20data%20science%20project%3a%20Part%20III"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=A%20Pythonic%20data%20science%20project%3a%20Part%20III&amp;body=https%3a%2f%2fmbesancon.github.io%2fpost%2f2016-01-13-fraud-detection3%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<p>[1]</p>
+
+<p>Part III: Model development</p>
+
+<hr />
+
+<p>To follow the following article without any trouble, I would recommend to
+start with the beginning.</p>
+
+<h1 id="how-does-predictive-modeling-work">How does predictive modeling work</h1>
+
+<h2 id="keep-the-terminology-in-mind">Keep the terminology in mind</h2>
+
+<p>This is important to understand the principles and
+sub-disciplines of machine learning. We are trying to predict a specific
+<strong>output</strong>, our information of interest, which is the category of bank note
+we observe (genuine or forged).
+This task is therefore labeled as <strong>supervised learning</strong>, as opposed to
+<strong>unsupervised learning</strong> which consists of finding patterns or groups from
+data without a priori identification of those groups.</p>
+
+<p>Supervised learning can further be labeled as <strong>classification</strong> or
+<strong>regression</strong>, depending on the nature of the outcome, respectively
+categorical or numerical. It is essential to know because the two disciplines
+don&rsquo;t involve the same models. Some models work in both cases but their expected
+behavior and performance would be different. In our case, the outcome is
+categorical with two levels.</p>
+
+<h2 id="how-does-classification-work">How does classification work?</h2>
+
+<p>Based on a subset of the data, we train a
+model, so we tune it to minimize its error on these data. To make a parallel
+with Object-Oriented Programming, the model is an <strong>instance</strong> of the
+class which defines how it works. The attributes would be its parameters and
+it would always have two methods (functions usable only from the object):
+* <strong>train</strong> the model from a set of observations (composed of predictive
+    variables and of the outcome)
+* <strong>predict</strong> the outcome given some new observations
+Another optional method would be <strong>adapt</strong> which takes new training data and
+adjusts/corrects the parameters. A brute-force way to perform this is to call
+the train method on both the old and new data, but for some models a more
+efficient technique exists.</p>
+
+<h2 id="independent-evaluation">Independent evaluation</h2>
+
+<p>A last significant element: we mentioned using only a subset of the data to
+train the model. The reason is that the performance of the model has to be
+evaluated, but if we compute the error on the training data, the result will
+be biased because the model was precisely trained to minimize the error on this
+training set. So the evaluation has to be done on a separated subset of the
+data, this is called <strong>cross validation</strong>.</p>
+
+<h1 id="our-model-logistic-regression">Our model: logistic regression</h1>
+
+<p>This model was chosen mostly because
+it is visually and intuitively easy to understand and simple to
+implement from scratch.
+Plus, it covers a central topic in data science, optimization.
+The underlying reasoning is the following:
+The logit function of the probability of a level of the classes is
+linearly dependent on the predictors. This can be written as:</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">np<span style="color: #555555">.</span>log(p<span style="color: #555555">/</span>(<span style="color: #FF6600">1</span><span style="color: #555555">-</span>p)) <span style="color: #555555">=</span> beta0 <span style="color: #555555">+</span> beta[<span style="color: #FF6600">0</span>] <span style="color: #555555">*</span> x[<span style="color: #FF6600">0</span>] <span style="color: #555555">+</span> beta[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> x[<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> <span style="color: #555555">...</span>
+</pre></div>
+
+
+<p>Why do we need the logit function here?
+Well technically, a linear regression could be fitted with the class as output
+(encoded as 0/1) and the features as predictive variables. However, for some
+values of the predictors, the model would yield outputs below 0 or above 1.
+The logistic function <strong>equation</strong> yields an output between 0 and 1 and
+is therefore well suited to model a probability.</p>
+
+<p><img src="/img/posts/BankNotes/figures/linear_binary.png" alt="Linear regression on binary output" />
+<img src="/img/posts/BankNotes/figures/logistic_binary.png" alt="Logistic regression on binary output" /></p>
+
+<p>You can noticed a decision boundary, which is the limit between the
+region where the model yields a prediction &ldquo;0&rdquo; and a prediction &ldquo;1&rdquo;.
+The output of the model is a probability of the class &ldquo;1&rdquo;, the forged
+bank notes, so the decision boundary can be put at p=0.5, which would be
+our &ldquo;best guess&rdquo; for the transition between the two regions.</p>
+
+<h2 id="required-parameters">Required parameters</h2>
+
+<p>As you noticed in the previous explanation, the model takes a vector of
+parameters which correspond to the weights of the different variables.
+The intercept \beta_0 places the location of the point at which p=0.5,
+it shifts the curve to the right or the left.
+The coefficients of the variables correspond to the sharpness of the transition.</p>
+
+<p><img src="/img/posts/BankNotes/figures/logistic_coeff.png" alt="Evolution of the model with different coefficient values" /></p>
+
+<h2 id="learning-process">Learning process</h2>
+
+<h3 id="parameters-identification-issue">Parameters identification issue</h3>
+
+<p>Unlike linear regression, the learning process for logistic regression is not
+a straight-forward computation of the parameters through simple linear algebra
+operations. The criterion to optimize is the likelihood, or equivalently, the
+log-likelihood of the parameters:</p>
+
+<!-- \mathscr{L}(\beta|(X,Z)) = f_{\beta}\left(X=x,Z=z\right) -->
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">L(beta<span style="color: #555555">|</span>(X,z)) <span style="color: #555555">=</span> f(X,z)
+</pre></div>
+
+
+<h3 id="parameters-update">Parameters update</h3>
+
+<p>The best parameters in the sense of the log-likelihood are therefore found
+where this function reaches its maximum.
+For the logistic regression problem,
+there is only one critical point, which is also the only maximum of the
+log-likelihood. So the overall process is to start from a random set of
+parameters and to update it in the direction that increases the
+log-likelihood the most. This precise direction is given by the
+<strong>gradient</strong> of the log-likelihood. The updated weights at each iteration
+can be written as:</p>
+
+<!-- \beta^{(n+1)} = \beta^{(n)} + \gamma^{(n)}\nabla(log(\mathscr{L}(\beta^{(n)}))) -->
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">beta <span style="color: #555555">=</span> beta <span style="color: #555555">+</span> gamma<span style="color: #555555">*</span> gradient_log_likelihood(beta)
+</pre></div>
+
+
+<p>Several criteria can be used to determine if a given set of parameters is an
+acceptable solution. A solution will be considered acceptable when the
+difference between two iterations is low enough.</p>
+
+<h3 id="optimal-learning-rate">Optimal learning rate</h3>
+
+<p>The coefficient gamma is called the <strong>learning rate</strong>. Higher values lead to
+quicker variations of the parameters, but also to stability and convergence
+issues. Too small values on the other increase the number of steps required to
+reach an acceptable maximum. The best solution is often a varying learning
+rate, adapting the rate of variations. The rate at step n is chosen as follows:</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">gamma_n <span style="color: #555555">=</span> alpha<span style="color: #555555">*</span><span style="color: #336666">min</span>(c0,<span style="color: #FF6600">3</span><span style="color: #555555">/</span>(np<span style="color: #555555">.</span>sqrt(n)<span style="color: #555555">+</span><span style="color: #FF6600">1</span>))
+</pre></div>
+
+
+<p>Which means that the learning rate is constant for all first steps until the
+following condition is reached:</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">n <span style="color: #555555">&gt;</span> (<span style="color: #FF6600">3</span><span style="color: #555555">-</span>c0)<span style="color: #555555">/</span>c0
+</pre></div>
+
+
+<p>After this iteration, the learning rate slowly decreases because we assume the
+parameters are getting closer to the right value, which we don&rsquo;t want to
+overshoot.</p>
+
+<h2 id="decision-boundaries-and-2d-representation">Decision boundaries and 2D-representation</h2>
+
+<p>A <strong>decision region</strong> is the subset of the features space within which the
+decision taken by the model is identical. A <strong>decision boundary</strong> is the
+subset of the space where the decision &ldquo;switches&rdquo;. For most algorithms,
+the decision taken on the boundary is arbitrary. The possible boundary
+shapes are a key characteristic of machine learning algorithms.</p>
+
+<p>In our case, logistic regression models the logit of the probability,
+which is strictly monotonous with the probability as linearly
+proportional to the predictors. It can be deduced that the decision
+boundary will be a straight line separating the two classes.
+This can be visualized using two features of the data, &ldquo;vari&rdquo; and
+&ldquo;k_resid&rdquo;:</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">w <span style="color: #555555">=</span> learn_weights(data1<span style="color: #555555">.</span>iloc[:,(<span style="color: #FF6600">0</span>,<span style="color: #FF6600">1</span>,<span style="color: #FF6600">3</span>)])
+
+<span style="color: #0099FF; font-style: italic"># building the mesh</span>
+xmesh, ymesh <span style="color: #555555">=</span> np<span style="color: #555555">.</span>meshgrid(np<span style="color: #555555">.</span>arange(data1[<span style="color: #CC3300">&quot;vari&quot;</span>]<span style="color: #555555">.</span>min()<span style="color: #555555">-.</span><span style="color: #FF6600">5</span>,data1[<span style="color: #CC3300">&quot;vari&quot;</span>]<span style="color: #555555">.</span>max()<span style="color: #555555">+.</span><span style="color: #FF6600">5</span>,<span style="color: #555555">.</span><span style="color: #FF6600">01</span>),\
+    np<span style="color: #555555">.</span>arange(data1[<span style="color: #CC3300">&quot;k_resid&quot;</span>]<span style="color: #555555">.</span>min()<span style="color: #555555">-.</span><span style="color: #FF6600">5</span>,data1[<span style="color: #CC3300">&quot;k_resid&quot;</span>]<span style="color: #555555">.</span>max()<span style="color: #555555">+.</span><span style="color: #FF6600">5</span>,<span style="color: #555555">.</span><span style="color: #FF6600">01</span>))
+
+pmap <span style="color: #555555">=</span> pd<span style="color: #555555">.</span>DataFrame(np<span style="color: #555555">.</span>c_[np<span style="color: #555555">.</span>ones((<span style="color: #336666">len</span>(xmesh<span style="color: #555555">.</span>ravel()),)),xmesh<span style="color: #555555">.</span>ravel(),ymesh<span style="color: #555555">.</span>ravel()])
+p <span style="color: #555555">=</span> np<span style="color: #555555">.</span>array([])
+<span style="color: #006699; font-weight: bold">for</span> line <span style="color: #000000; font-weight: bold">in</span> pmap<span style="color: #555555">.</span>values:
+    p <span style="color: #555555">=</span> np<span style="color: #555555">.</span>append(p,(prob_log(line,w)))
+
+p <span style="color: #555555">=</span> p<span style="color: #555555">.</span>reshape(xmesh<span style="color: #555555">.</span>shape)
+
+plt<span style="color: #555555">.</span>contourf(xmesh, ymesh, np<span style="color: #555555">.</span>power(p,<span style="color: #FF6600">8</span>), cmap<span style="color: #555555">=</span> <span style="color: #CC3300">&#39;RdBu&#39;</span>,alpha<span style="color: #555555">=.</span><span style="color: #FF6600">5</span>)
+plt<span style="color: #555555">.</span>plot(data1[data1[<span style="color: #CC3300">&quot;class&quot;</span>]<span style="color: #555555">==</span><span style="color: #FF6600">1</span>][<span style="color: #CC3300">&quot;vari&quot;</span>],data1[data1[<span style="color: #CC3300">&quot;class&quot;</span>]<span style="color: #555555">==</span><span style="color: #FF6600">1</span>][<span style="color: #CC3300">&quot;k_resid&quot;</span>],<span style="color: #CC3300">&#39;+&#39;</span>,label<span style="color: #555555">=</span><span style="color: #CC3300">&#39;Class 0&#39;</span>)
+plt<span style="color: #555555">.</span>plot(data1[data1[<span style="color: #CC3300">&quot;class&quot;</span>]<span style="color: #555555">==</span><span style="color: #FF6600">0</span>][<span style="color: #CC3300">&quot;vari&quot;</span>],data1[data1[<span style="color: #CC3300">&quot;class&quot;</span>]<span style="color: #555555">==</span><span style="color: #FF6600">0</span>][<span style="color: #CC3300">&quot;k_resid&quot;</span>],<span style="color: #CC3300">&#39;r+&#39;</span>,label<span style="color: #555555">=</span><span style="color: #CC3300">&#39;Class 1&#39;</span>)
+plt<span style="color: #555555">.</span>legend(loc<span style="color: #555555">=</span><span style="color: #CC3300">&quot;upper right&quot;</span>)
+plt<span style="color: #555555">.</span>title(<span style="color: #CC3300">&#39;2-dimension logistic regression result&#39;</span>)
+plt<span style="color: #555555">.</span>xlabel(<span style="color: #CC3300">&#39;vari&#39;</span>)
+plt<span style="color: #555555">.</span>ylabel(<span style="color: #CC3300">&#39;k_resid&#39;</span>)
+plt<span style="color: #555555">.</span>grid()
+plt<span style="color: #555555">.</span>show()
+</pre></div>
+
+
+<p><img src="/img/posts/BankNotes/figures/2dimension.png" alt="Decision boundary for two dimensions" /></p>
+
+<h1 id="implementation">Implementation</h1>
+
+<h2 id="elementary-functions">Elementary functions</h2>
+
+<p>Modularizing the code increases the readability, we define the
+implementations of two mathematical functions:
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span style="color: #006699; font-weight: bold">def</span> <span style="color: #CC00FF">prob_log</span>(x,w):
+    <span style="color: #CC3300; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #CC3300; font-style: italic">    probability of an observation belonging</span>
+<span style="color: #CC3300; font-style: italic">    to the class &quot;one&quot;</span>
+<span style="color: #CC3300; font-style: italic">    given the predictors x and weights w</span>
+<span style="color: #CC3300; font-style: italic">    &quot;&quot;&quot;</span>
+    <span style="color: #006699; font-weight: bold">return</span> np<span style="color: #555555">.</span>exp(np<span style="color: #555555">.</span>dot(x,w))<span style="color: #555555">/</span>(np<span style="color: #555555">.</span>exp(np<span style="color: #555555">.</span>dot(x,w))<span style="color: #555555">+</span><span style="color: #FF6600">1</span>)
+<span style="color: #006699; font-weight: bold">def</span> <span style="color: #CC00FF">grad_log_like</span>(X, y, w):
+    <span style="color: #CC3300; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #CC3300; font-style: italic">    computes the gradient of the log-likelihood from predictors X,</span>
+<span style="color: #CC3300; font-style: italic">    output y and weights w</span>
+<span style="color: #CC3300; font-style: italic">    &quot;&quot;&quot;</span>
+    <span style="color: #006699; font-weight: bold">return</span> np<span style="color: #555555">.</span>dot(X<span style="color: #555555">.</span>T,y<span style="color: #555555">-</span> np<span style="color: #555555">.</span>apply_along_axis(<span style="color: #006699; font-weight: bold">lambda</span> x: prob_log(x,w),<span style="color: #FF6600">1</span>,X))<span style="color: #555555">.</span>reshape((<span style="color: #336666">len</span>(w),))
+</pre></div>
+</p>
+
+<h2 id="learning-algorithm">Learning algorithm</h2>
+
+<p>A function computes the optimal weights from iterations to find the maximal
+log-likelihood of the parameters, using the two previous functions.</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span style="color: #006699; font-weight: bold">def</span> <span style="color: #CC00FF">learn_weights</span>(df):
+    <span style="color: #CC3300; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #CC3300; font-style: italic">    computes and updates the weights until convergence</span>
+<span style="color: #CC3300; font-style: italic">    given the features and outcome in a data frame</span>
+<span style="color: #CC3300; font-style: italic">    &quot;&quot;&quot;</span>
+    X <span style="color: #555555">=</span> np<span style="color: #555555">.</span>c_[np<span style="color: #555555">.</span>ones(<span style="color: #336666">len</span>(df)),np<span style="color: #555555">.</span>array(df<span style="color: #555555">.</span>iloc[:,:df<span style="color: #555555">.</span>shape[<span style="color: #FF6600">1</span>]<span style="color: #555555">-</span><span style="color: #FF6600">1</span>])]
+    y <span style="color: #555555">=</span> np<span style="color: #555555">.</span>array(df[<span style="color: #CC3300">&quot;class&quot;</span>])
+    niter <span style="color: #555555">=</span> <span style="color: #FF6600">0</span>
+    error <span style="color: #555555">=</span> <span style="color: #555555">.</span><span style="color: #FF6600">0001</span>
+    w <span style="color: #555555">=</span> np<span style="color: #555555">.</span>zeros((df<span style="color: #555555">.</span>shape[<span style="color: #FF6600">1</span>],))
+    w0 <span style="color: #555555">=</span> w<span style="color: #555555">+</span><span style="color: #FF6600">5</span>
+    alpha <span style="color: #555555">=</span> <span style="color: #555555">.</span><span style="color: #FF6600">3</span>
+    <span style="color: #006699; font-weight: bold">while</span> <span style="color: #336666">sum</span>(<span style="color: #336666">abs</span>(w0<span style="color: #555555">-</span>w))<span style="color: #555555">&gt;</span>error <span style="color: #000000; font-weight: bold">and</span> niter <span style="color: #555555">&lt;</span> <span style="color: #FF6600">10000</span>:
+        niter<span style="color: #555555">+=</span><span style="color: #FF6600">1</span>
+        w0 <span style="color: #555555">=</span> w
+        w <span style="color: #555555">=</span> w <span style="color: #555555">+</span> alpha<span style="color: #555555">*</span><span style="color: #336666">min</span>(<span style="color: #555555">.</span><span style="color: #FF6600">1</span>,(<span style="color: #FF6600">3</span><span style="color: #555555">/</span>(niter<span style="color: #555555">**.</span><span style="color: #FF6600">5</span><span style="color: #555555">+</span><span style="color: #FF6600">1</span>))) <span style="color: #555555">*</span> (grad_log_like(X,y,w))
+    <span style="color: #006699; font-weight: bold">if</span> niter<span style="color: #555555">==</span><span style="color: #FF6600">10000</span>:
+        <span style="color: #006699; font-weight: bold">print</span>(<span style="color: #CC3300">&quot;Maximum iterations reached&quot;</span>)
+    <span style="color: #006699; font-weight: bold">return</span> w
+</pre></div>
+
+
+<h2 id="prediction">Prediction</h2>
+
+<p>Once the weights have been learnt, new probabilities can be predicted from
+explanatory variables.</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span style="color: #006699; font-weight: bold">def</span> <span style="color: #CC00FF">predict_outcome</span>(df,w):
+    <span style="color: #CC3300; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #CC3300; font-style: italic">    takes in a test data set and computed weights</span>
+<span style="color: #CC3300; font-style: italic">    returns a vector of predicted output, the confusion matrix</span>
+<span style="color: #CC3300; font-style: italic">    and the number of misclassifications</span>
+<span style="color: #CC3300; font-style: italic">    &quot;&quot;&quot;</span>
+    confusion_matrix <span style="color: #555555">=</span> np<span style="color: #555555">.</span>zeros((<span style="color: #FF6600">2</span>,<span style="color: #FF6600">2</span>))
+    p <span style="color: #555555">=</span> []
+    <span style="color: #006699; font-weight: bold">for</span> line <span style="color: #000000; font-weight: bold">in</span> df<span style="color: #555555">.</span>values:
+        x <span style="color: #555555">=</span> np<span style="color: #555555">.</span>append(<span style="color: #FF6600">1</span>,line[<span style="color: #FF6600">0</span>:<span style="color: #FF6600">3</span>])
+        p<span style="color: #555555">.</span>append(prob_log(x,w))
+        <span style="color: #006699; font-weight: bold">if</span> (prob_log(x,w)<span style="color: #555555">&gt;.</span><span style="color: #FF6600">5</span>) <span style="color: #000000; font-weight: bold">and</span> line[<span style="color: #FF6600">3</span>]:
+            confusion_matrix[<span style="color: #FF6600">1</span>,<span style="color: #FF6600">1</span>]<span style="color: #555555">+=</span><span style="color: #FF6600">1</span>
+        <span style="color: #006699; font-weight: bold">elif</span> (prob_log(x,w)<span style="color: #555555">&lt;.</span><span style="color: #FF6600">5</span>) <span style="color: #000000; font-weight: bold">and</span> line[<span style="color: #FF6600">3</span>]:
+            confusion_matrix[<span style="color: #FF6600">1</span>,<span style="color: #FF6600">0</span>]<span style="color: #555555">+=</span><span style="color: #FF6600">1</span>
+        <span style="color: #006699; font-weight: bold">elif</span> (prob_log(x,w)<span style="color: #555555">&lt;.</span><span style="color: #FF6600">5</span>) <span style="color: #000000; font-weight: bold">and</span> <span style="color: #000000; font-weight: bold">not</span> line[<span style="color: #FF6600">3</span>]:
+            confusion_matrix[<span style="color: #FF6600">0</span>,<span style="color: #FF6600">0</span>]<span style="color: #555555">+=</span><span style="color: #FF6600">1</span>
+        <span style="color: #006699; font-weight: bold">else</span>:
+            confusion_matrix[<span style="color: #FF6600">0</span>,<span style="color: #FF6600">1</span>]<span style="color: #555555">+=</span><span style="color: #FF6600">1</span>
+    <span style="color: #006699; font-weight: bold">return</span> p, confusion_matrix, <span style="color: #336666">len</span>(df)<span style="color: #555555">-</span><span style="color: #336666">sum</span>(np<span style="color: #555555">.</span>diag(confusion_matrix))
+</pre></div>
+
+
+<h2 id="cross-validated-evaluation">Cross-validated evaluation</h2>
+
+<p>Learning weights on a training subset and getting the error on an other subset
+will allow us to estimate the real error rate of our prediction. 100 cross
+validations are performed and for each of them, we add the error to a list.</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">error <span style="color: #555555">=</span> []
+weights <span style="color: #555555">=</span> []
+<span style="color: #006699; font-weight: bold">for</span> test <span style="color: #000000; font-weight: bold">in</span> <span style="color: #336666">range</span>(<span style="color: #FF6600">100</span>):
+    trainIndex <span style="color: #555555">=</span> np<span style="color: #555555">.</span>random<span style="color: #555555">.</span>rand(<span style="color: #336666">len</span>(data0)) <span style="color: #555555">&lt;</span> <span style="color: #FF6600">0.85</span>
+    data_train <span style="color: #555555">=</span> data1[trainIndex]
+    data_test <span style="color: #555555">=</span> data1[<span style="color: #555555">~</span>trainIndex]
+    weights<span style="color: #555555">.</span>append(learn_weights(data_train))
+    error<span style="color: #555555">.</span>append(predict_outcome(data_test,weights[<span style="color: #555555">-</span><span style="color: #FF6600">1</span>])[<span style="color: #FF6600">2</span>])
+</pre></div>
+
+
+<p>The following results were obtained:
+<img src="/img/posts/BankNotes/figures/GLM_errors.png" alt="Evolution of the model with different coefficient values" /></p>
+
+<p>The model produces on average 2.66 mis-classifications for 100 evaluated
+banknotes. Note that on each test, 85% of the observations
+went into the training set, which is arbitrary. However, too few
+training points would yield inaccurate models and higher error rates.</p>
+
+<h1 id="improvement-perspectives-and-conclusion">Improvement perspectives and conclusion</h1>
+
+<p>On this data set, we managed to build independent and reliable features and
+model the probability of belonging to the forged banknotes class thanks to a
+logistic regression model. This appeared to be quite successful from the error
+estimation on the test set. However, few further progresses could be made.</p>
+
+<h2 id="testing-other-models">Testing other models</h2>
+
+<p>We only implemented the logistic regression from scratch, given that several
+models would have increased the length of this article. But some other
+algorithms would have been interesting, such as:
+* K nearest neighbors
+* Support Vector Machine
+* Model-based predictions such as naive Bayes or Quadratic Discriminant Analysis
+* Classification Tree</p>
+
+<p>Fact of interest: the two first algorithms also build linear decision
+boundaries, but based on other criteria.</p>
+
+<h2 id="adjusting-the-costs">Adjusting the costs</h2>
+
+<p>We assumed that misclassifying a true banknote was just as bad as doing so for
+a forged one. This is why using a limit at p=0.5 was the optimal choice. But
+suppose that taking a forged banknote for a genuine one costs twice more than
+the opposite error. Then the limit probability will be set at p = 0.25 to
+minimize the overall cost. More generally, a <strong>cost matrix</strong> can be built
+to minimize the sum of the element-wise product of the cost matrix with the
+confusion matrix. Here is an interesting
+<a href="http://stackoverflow.com/questions/17464229/weka-cost-matrix-interpretation" target="_blank">Stack Overflow topic</a>
+topic on the matter.</p>
+
+<h2 id="online-classification">Online classification</h2>
+
+<p>The analysis carried on in this article is still far from the objective of some
+data projects, which would be to build a reusable on-line classifier.
+In our case, this could be used by bank to instantaneously verify bank notes
+received. This raises some new issues like the update of different parameters
+and the detection of new patterns.</p>
+
+<p>Special thanks to Rémi for reading the first awful drafts
+and giving me some valuable feedback.</p>
+
+<hr />
+
+<p><font size="0.7">
+ [1] Image source: scikit-learn.org
+ [2] Additional resource from the University of Washington
+ <a href="http://courses.washington.edu/css490/2012.Winter/lecture_slides/05b_logistic_regression.pdf" target="_blank">here</a>
+ [3] Resource from the Carnegie Mellon University <a href="http://www.cs.cmu.edu/~awm/15781/slides/LogRegress-9-29-05.pdf" target="_blank">here</a>
+</font></p>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="https://mbesancon.github.io/post/2016-01-12-fraud-detection2/"><span
+      aria-hidden="true">&larr;</span> A Pythonic data science project: Part II</a></li>
+    
+
+    
+    <li class="next"><a href="https://mbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/">Bringing data science to engineers <span
+      aria-hidden="true">&rarr;</span></a></li>
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mathieu Besançon &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js" integrity="sha512-iHzEu7GbSc705hE2skyH6/AlTpOfBmkx7nUqTLGzPYR+C1tRaItbRlJ7hT/D3YQ9SV0fqLKzp4XY9wKulTBGTw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js" integrity="sha512-Z5heTz36xTemt1TbtbfXtTq5lMfYnOkXM2/eWcTTiLU01+Sw4ku1i7vScDc8fWhrP2abz9GQzgKH5NGBLoYlAw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/ScrollToPlugin.min.js" integrity="sha512-CDeU7pRtkPX6XJtF/gcFWlEwyaX7mcAp5sO3VIu/ylsdR74wEw4wmBpD5yYTrmMAiAboi9thyBUr1vXRPA7t0Q==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+
