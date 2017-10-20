@@ -305,7 +305,7 @@ The underlying reasoning is the following:
 The logit function of the probability of a level of the classes is
 linearly dependent on the predictors. This can be written as:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">np<span style="color: #555555">.</span>log(p<span style="color: #555555">/</span>(<span style="color: #FF6600">1</span><span style="color: #555555">-</span>p)) <span style="color: #555555">=</span> beta0 <span style="color: #555555">+</span> beta[<span style="color: #FF6600">0</span>] <span style="color: #555555">*</span> x[<span style="color: #FF6600">0</span>] <span style="color: #555555">+</span> beta[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> x[<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> <span style="color: #555555">...</span>
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>np<span style="color: #555555">.</span>log(p<span style="color: #555555">/</span>(<span style="color: #FF6600">1</span><span style="color: #555555">-</span>p)) <span style="color: #555555">=</span> beta0 <span style="color: #555555">+</span> beta[<span style="color: #FF6600">0</span>] <span style="color: #555555">*</span> x[<span style="color: #FF6600">0</span>] <span style="color: #555555">+</span> beta[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> x[<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> <span style="color: #555555">...</span>
 </pre></div>
 
 
@@ -346,7 +346,7 @@ log-likelihood of the parameters:</p>
 
 <!-- \mathscr{L}(\beta|(X,Z)) = f_{\beta}\left(X=x,Z=z\right) -->
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">L(beta<span style="color: #555555">|</span>(X,z)) <span style="color: #555555">=</span> f(X,z)
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>L(beta<span style="color: #555555">|</span>(X,z)) <span style="color: #555555">=</span> f(X,z)
 </pre></div>
 
 
@@ -364,7 +364,7 @@ can be written as:</p>
 
 <!-- \beta^{(n+1)} = \beta^{(n)} + \gamma^{(n)}\nabla(log(\mathscr{L}(\beta^{(n)}))) -->
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">beta <span style="color: #555555">=</span> beta <span style="color: #555555">+</span> gamma<span style="color: #555555">*</span> gradient_log_likelihood(beta)
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>beta <span style="color: #555555">=</span> beta <span style="color: #555555">+</span> gamma<span style="color: #555555">*</span> gradient_log_likelihood(beta)
 </pre></div>
 
 
@@ -380,14 +380,14 @@ issues. Too small values on the other increase the number of steps required to
 reach an acceptable maximum. The best solution is often a varying learning
 rate, adapting the rate of variations. The rate at step n is chosen as follows:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">gamma_n <span style="color: #555555">=</span> alpha<span style="color: #555555">*</span><span style="color: #336666">min</span>(c0,<span style="color: #FF6600">3</span><span style="color: #555555">/</span>(np<span style="color: #555555">.</span>sqrt(n)<span style="color: #555555">+</span><span style="color: #FF6600">1</span>))
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>gamma_n <span style="color: #555555">=</span> alpha<span style="color: #555555">*</span><span style="color: #336666">min</span>(c0,<span style="color: #FF6600">3</span><span style="color: #555555">/</span>(np<span style="color: #555555">.</span>sqrt(n)<span style="color: #555555">+</span><span style="color: #FF6600">1</span>))
 </pre></div>
 
 
 <p>Which means that the learning rate is constant for all first steps until the
 following condition is reached:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">n <span style="color: #555555">&gt;</span> (<span style="color: #FF6600">3</span><span style="color: #555555">-</span>c0)<span style="color: #555555">/</span>c0
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>n <span style="color: #555555">&gt;</span> (<span style="color: #FF6600">3</span><span style="color: #555555">-</span>c0)<span style="color: #555555">/</span>c0
 </pre></div>
 
 
@@ -410,7 +410,7 @@ boundary will be a straight line separating the two classes.
 This can be visualized using two features of the data, &ldquo;vari&rdquo; and
 &ldquo;k_resid&rdquo;:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">w <span style="color: #555555">=</span> learn_weights(data1<span style="color: #555555">.</span>iloc[:,(<span style="color: #FF6600">0</span>,<span style="color: #FF6600">1</span>,<span style="color: #FF6600">3</span>)])
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>w <span style="color: #555555">=</span> learn_weights(data1<span style="color: #555555">.</span>iloc[:,(<span style="color: #FF6600">0</span>,<span style="color: #FF6600">1</span>,<span style="color: #FF6600">3</span>)])
 
 <span style="color: #0099FF; font-style: italic"># building the mesh</span>
 xmesh, ymesh <span style="color: #555555">=</span> np<span style="color: #555555">.</span>meshgrid(np<span style="color: #555555">.</span>arange(data1[<span style="color: #CC3300">&quot;vari&quot;</span>]<span style="color: #555555">.</span>min()<span style="color: #555555">-.</span><span style="color: #FF6600">5</span>,data1[<span style="color: #CC3300">&quot;vari&quot;</span>]<span style="color: #555555">.</span>max()<span style="color: #555555">+.</span><span style="color: #FF6600">5</span>,<span style="color: #555555">.</span><span style="color: #FF6600">01</span>),\
@@ -443,7 +443,7 @@ plt<span style="color: #555555">.</span>show()
 
 <p>Modularizing the code increases the readability, we define the
 implementations of two mathematical functions:
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span style="color: #006699; font-weight: bold">def</span> <span style="color: #CC00FF">prob_log</span>(x,w):
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">def</span> <span style="color: #CC00FF">prob_log</span>(x,w):
     <span style="color: #CC3300; font-style: italic">&quot;&quot;&quot;</span>
 <span style="color: #CC3300; font-style: italic">    probability of an observation belonging</span>
 <span style="color: #CC3300; font-style: italic">    to the class &quot;one&quot;</span>
@@ -464,7 +464,7 @@ implementations of two mathematical functions:
 <p>A function computes the optimal weights from iterations to find the maximal
 log-likelihood of the parameters, using the two previous functions.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span style="color: #006699; font-weight: bold">def</span> <span style="color: #CC00FF">learn_weights</span>(df):
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">def</span> <span style="color: #CC00FF">learn_weights</span>(df):
     <span style="color: #CC3300; font-style: italic">&quot;&quot;&quot;</span>
 <span style="color: #CC3300; font-style: italic">    computes and updates the weights until convergence</span>
 <span style="color: #CC3300; font-style: italic">    given the features and outcome in a data frame</span>
@@ -491,7 +491,7 @@ log-likelihood of the parameters, using the two previous functions.</p>
 <p>Once the weights have been learnt, new probabilities can be predicted from
 explanatory variables.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span style="color: #006699; font-weight: bold">def</span> <span style="color: #CC00FF">predict_outcome</span>(df,w):
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">def</span> <span style="color: #CC00FF">predict_outcome</span>(df,w):
     <span style="color: #CC3300; font-style: italic">&quot;&quot;&quot;</span>
 <span style="color: #CC3300; font-style: italic">    takes in a test data set and computed weights</span>
 <span style="color: #CC3300; font-style: italic">    returns a vector of predicted output, the confusion matrix</span>
@@ -520,7 +520,7 @@ explanatory variables.</p>
 will allow us to estimate the real error rate of our prediction. 100 cross
 validations are performed and for each of them, we add the error to a list.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">error <span style="color: #555555">=</span> []
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>error <span style="color: #555555">=</span> []
 weights <span style="color: #555555">=</span> []
 <span style="color: #006699; font-weight: bold">for</span> test <span style="color: #000000; font-weight: bold">in</span> <span style="color: #336666">range</span>(<span style="color: #FF6600">100</span>):
     trainIndex <span style="color: #555555">=</span> np<span style="color: #555555">.</span>random<span style="color: #555555">.</span>rand(<span style="color: #336666">len</span>(data0)) <span style="color: #555555">&lt;</span> <span style="color: #FF6600">0.85</span>

@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>https://mbesancon.github.io/post/2017-10-19-tomate-cli/</loc>
+      <lastmod>2017-10-19T00:00:00-04:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://mbesancon.github.io/project/</loc>
       <lastmod>2017-09-09T00:00:00-04:00</lastmod>
     </url>
@@ -210,6 +219,16 @@
     
     <url>
     
+      <loc>https://mbesancon.github.io/tags/golang/</loc>
+      <lastmod>2017-10-19T00:00:00-04:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://mbesancon.github.io/tags/hugo/</loc>
       <lastmod>2017-09-05T00:00:00-04:00</lastmod>
       <priority>0</priority>
@@ -232,6 +251,26 @@
     
       <loc>https://mbesancon.github.io/tags/medium/</loc>
       <lastmod>2017-09-05T00:00:00-04:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/tags/phd/</loc>
+      <lastmod>2017-10-19T00:00:00-04:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/tags/productivity/</loc>
+      <lastmod>2017-10-19T00:00:00-04:00</lastmod>
       <priority>0</priority>
     </url>
     

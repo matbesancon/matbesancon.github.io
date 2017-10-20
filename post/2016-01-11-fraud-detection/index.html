@@ -313,7 +313,7 @@ but feel free to keep your favorite tools.</p>
 <p>So our first lines of code (once you placed your data in the proper repository)
 should look like this:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">numpy</span> <span style="color: #006699; font-weight: bold">as</span> <span style="color: #00CCFF; font-weight: bold">np</span>
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">numpy</span> <span style="color: #006699; font-weight: bold">as</span> <span style="color: #00CCFF; font-weight: bold">np</span>
 <span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">pandas</span> <span style="color: #006699; font-weight: bold">as</span> <span style="color: #00CCFF; font-weight: bold">pd</span>
 <span style="color: #006699; font-weight: bold">import</span> <span style="color: #00CCFF; font-weight: bold">ggplot</span>
 <span style="color: #006699; font-weight: bold">from</span> <span style="color: #00CCFF; font-weight: bold">matplotlib</span> <span style="color: #006699; font-weight: bold">import</span> pyplot <span style="color: #006699; font-weight: bold">as</span> plt
@@ -345,7 +345,7 @@ project, especially if you were not involved in the data collection process.</p>
 <p>Instead of manually downloading the data and placing it in our project
 repository, we will download using the <em>urllib3</em> library.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">url <span style="color: #555555">=</span> <span style="color: #CC3300">&quot;https://archive.ics.uci.edu/ml/machine-learning-databases/00267/data_banknote_authentication.txt&quot;</span>
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>url <span style="color: #555555">=</span> <span style="color: #CC3300">&quot;https://archive.ics.uci.edu/ml/machine-learning-databases/00267/data_banknote_authentication.txt&quot;</span>
 http <span style="color: #555555">=</span> urllib3<span style="color: #555555">.</span>PoolManager()
 r <span style="color: #555555">=</span> http<span style="color: #555555">.</span>request(<span style="color: #CC3300">&#39;GET&#39;</span>,url)
 <span style="color: #006699; font-weight: bold">with</span> <span style="color: #336666">open</span>(<span style="color: #CC3300">&quot;data_banknote_authentication.txt&quot;</span>,<span style="color: #CC3300">&#39;wb&#39;</span>) <span style="color: #006699; font-weight: bold">as</span> f:
@@ -361,7 +361,7 @@ data0 <span style="color: #555555">=</span> pd<span style="color: #555555">.</sp
 <p>Since the data were loaded using pandas, key methods of the DataFrame
 object can be used to find some key information in the data.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">data0<span style="color: #555555">.</span>describe()
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>data0<span style="color: #555555">.</span>describe()
 </pre></div>
 
 
@@ -470,7 +470,7 @@ The estimate can also be split by class to find differences in the
 distributions. Using ggplot and the pandas <code>groupby</code> method, the
 plots can be generated and saved as such:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span style="color: #006699; font-weight: bold">for</span> v <span style="color: #000000; font-weight: bold">in</span> data0<span style="color: #555555">.</span>columns[:<span style="color: #FF6600">4</span>]:
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">for</span> v <span style="color: #000000; font-weight: bold">in</span> data0<span style="color: #555555">.</span>columns[:<span style="color: #FF6600">4</span>]:
 ggplot<span style="color: #555555">.</span>ggsave(
   ggplot<span style="color: #555555">.</span>ggplot(ggplot<span style="color: #555555">.</span>aes(x<span style="color: #555555">=</span>v, color<span style="color: #555555">=</span><span style="color: #CC3300">&#39;class&#39;</span>),data<span style="color: #555555">=</span>data0)<span style="color: #555555">+</span>
   ggplot<span style="color: #555555">.</span>geom_density()<span style="color: #555555">+</span>
@@ -493,7 +493,7 @@ categories than the Kurtosis.</p>
 
 <p>We generate a color list using for-comprehension:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">col <span style="color: #555555">=</span> <span style="color: #336666">list</span>(<span style="color: #CC3300">&#39;r&#39;</span> <span style="color: #006699; font-weight: bold">if</span> i<span style="color: #555555">==</span><span style="color: #FF6600">1</span> <span style="color: #006699; font-weight: bold">else</span> <span style="color: #CC3300">&#39;b&#39;</span> <span style="color: #006699; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> data0[<span style="color: #CC3300">&quot;class&quot;</span>])
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>col <span style="color: #555555">=</span> <span style="color: #336666">list</span>(<span style="color: #CC3300">&#39;r&#39;</span> <span style="color: #006699; font-weight: bold">if</span> i<span style="color: #555555">==</span><span style="color: #FF6600">1</span> <span style="color: #006699; font-weight: bold">else</span> <span style="color: #CC3300">&#39;b&#39;</span> <span style="color: #006699; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> data0[<span style="color: #CC3300">&quot;class&quot;</span>])
 pd<span style="color: #555555">.</span>tools<span style="color: #555555">.</span>plotting<span style="color: #555555">.</span>scatter_matrix(data0<span style="color: #555555">.</span>ix[:,:<span style="color: #FF6600">4</span>],figsize<span style="color: #555555">=</span>(<span style="color: #FF6600">6</span>,<span style="color: #FF6600">3</span>),
 color<span style="color: #555555">=</span>col,diagonal<span style="color: #555555">=</span><span style="color: #CC3300">&#39;kde&#39;</span>)
 </pre></div>
@@ -513,7 +513,7 @@ some techniques based on independent features might not be efficient here.</p>
 
 <h2 id="testing-a-distribution-with-quantile-quantile-plots">Testing a distribution with Quantile-Quantile plots</h2>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span style="color: #0099FF; font-style: italic"># Subsetting the data by class</span>
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #0099FF; font-style: italic"># Subsetting the data by class</span>
 d0 <span style="color: #555555">=</span> data0[data0[<span style="color: #CC3300">&quot;class&quot;</span>]<span style="color: #555555">==</span><span style="color: #FF6600">0</span>]
 d1 <span style="color: #555555">=</span> data0[data0[<span style="color: #CC3300">&quot;class&quot;</span>]<span style="color: #555555">==</span><span style="color: #FF6600">1</span>]
 
@@ -551,7 +551,7 @@ more robust than mean and variance. The pandas library offers a quick method
 and plotting tool to represent boxplots for each class and variable. It
 highlights the differences in the spread of the data.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%">data0<span style="color: #555555">.</span>groupby(<span style="color: #CC3300">&quot;class&quot;</span>)<span style="color: #555555">.</span>boxplot(figsize<span style="color: #555555">=</span>(<span style="color: #FF6600">9</span>,<span style="color: #FF6600">5</span>))
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>data0<span style="color: #555555">.</span>groupby(<span style="color: #CC3300">&quot;class&quot;</span>)<span style="color: #555555">.</span>boxplot(figsize<span style="color: #555555">=</span>(<span style="color: #FF6600">9</span>,<span style="color: #FF6600">5</span>))
 </pre></div>
 
 

@@ -11,6 +11,148 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Switching my work flow to Pomodoro for grad studies - part I: motivation  </title>
+      <link>https://mbesancon.github.io/post/2017-10-19-tomate-cli/</link>
+      <pubDate>Thu, 19 Oct 2017 00:00:00 -0400</pubDate>
+      
+      <guid>https://mbesancon.github.io/post/2017-10-19-tomate-cli/</guid>
+      <description>
+
+&lt;p&gt;The start of my journey as a PhD student last September was a big step, but
+also an opportunity to review and improve my working habits. My day time
+had to be used properly, both for results&amp;rsquo; sake and to be able to keep
+a balanced life.&lt;/p&gt;
+
+&lt;p&gt;I had been introduced to the &lt;a href=&#34;https://en.wikipedia.org/wiki/Pomodoro_Technique&#34; target=&#34;_blank&#34;&gt;Pomodoro technique&lt;/a&gt;
+at Equisense (thanks &lt;a href=&#34;https://twitter.com/CamilleSaute&#34; target=&#34;_blank&#34;&gt;Camille&lt;/a&gt;!) but
+remained skeptical as for its potential value within my work
+flow at the time.&lt;/p&gt;
+
+&lt;p&gt;To make it short, the technique consists in the following steps:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Decide what task should be worked on.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Allocate a given time to work (around 25 minutes)&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Set a timer and get to work&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;When the time is up, make a short pause (~5 minutes), then repeat&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;After 4 work sprints, take a longer break (~15-30 minutes)&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;what-was-wrong-with-that&#34;&gt;What was wrong with that?&lt;/h2&gt;
+
+&lt;p&gt;The development, test and operation phases were generally self-determining
+and lead to sprints from 20 to 120 minutes (that length isn&amp;rsquo;t surprising
+for some tasks and when highly focused). These were also often
+interrupted by team interactions (required concertation with members
+of the tech and product team, backend-specific collaborative
+problem-solving, &amp;hellip;). The main point was that
+&lt;strong&gt;there are enough spontaneous interruptions of the work flow, no need to introduce an additional artificial one&lt;/strong&gt;.
+As I look back, I still think this was a valid reason
+not to use this technique.&lt;/p&gt;
+
+&lt;h2 id=&#34;what-has-changed&#34;&gt;What has changed?&lt;/h2&gt;
+
+&lt;p&gt;Time management as a grad student has to be un- and re-learned:
+rules are different, criteria for success change and so on.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/tomate/phd_time.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Time management seen by PhD comics [2]&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;problem-structure-programming-at-a-startup-vs-applied-math&#34;&gt;Problem structure: programming at a startup vs. applied math&lt;/h3&gt;
+
+&lt;p&gt;In my case, the major part of the workload switched from an
+implementation-heavy to a modeling-heavy context. As such,
+the work phases tend to be longer and with an heavier
+cognitive load. I am not saying that programming is
+easier, but I&amp;rsquo;m pretty sure mathematics almost always
+requires to keep more information in mind while working
+on a problem. Another opinion is that the part of
+instinct to find a path towards a solution is higher
+in mathematics.&lt;/p&gt;
+
+&lt;p&gt;While programming, there are some key techniques that
+reduce the number of possible sources to a problem:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Getting information on the state of the program at a given point (logging, debugging, printing to &lt;code&gt;stdout&lt;/code&gt;)&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Testing the behavior of an isolated piece of the program with given input&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;These techniques also work for scientific computing of course, but are
+harder to apply to both modeling and symbolic calculus, the different
+pieces of the problem have to be combined to find special structures
+which allow for a resolution. More solutions also tend to come
+while NOT looking at mathematical problem than for programming
+problems, where solutions come either in front of the code or when
+voluntarily thinking of the problem.&lt;/p&gt;
+
+&lt;h3 id=&#34;team-dependent-work-vs-figure-it-out-for-yourself&#34;&gt;Team-dependent work vs. figure it out for yourself&lt;/h3&gt;
+
+&lt;p&gt;Most startups obviously value team work, it is one of the
+group skills that differentiate companies building great
+things from the ones stuck in an eternal early stage.
+This was even more true at Equisense where collaboration
+and product development were both very synchronous by
+modern standards. It had cons but ease two things:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Speed of product development&lt;/strong&gt;. Lots of team under-estimate post-development coordination, the last meters of the sprint to have a feature ready&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Programming by constraints&lt;/strong&gt;. Because of fast interactions between the people responsible for the different components, constraints from each one is quickly communicated and the modeling process is defined accounting for them right away.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now in research, especially in applied mathematics, the work is
+mostly independent, synchronization happens when working
+on a joined project for instance. This means that all the
+interruptions that were happening throughout the day are
+now gone!
+&lt;strong&gt;Nothing would stop you from working day and night without a break&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Two key results of this change of work style are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Work sprints are not naturally bound anymore, obviously with decreasing efficiency&lt;/li&gt;
+&lt;li&gt;Few to no interactions interrupt the sprints either&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;My conclusion was the necessity of a time management technique
+and associated tools, with a low cognitive overhead and bringing
+as little distraction as possible.&lt;/p&gt;
+
+&lt;p&gt;From these criteria, I rejected a mobile app,
+smartphones are great to bring different sources
+of information and communication channels together,
+not for remaining focused for hours,
+&lt;strong&gt;mobile apps are designed to catch and retain attention&lt;/strong&gt;,
+that&amp;rsquo;s simply part of their business model. I also rejected
+web-based solutions for the constraint of firing up
+a browser, amongst the heaviest pieces of software on our
+modern desktops, just to start a working session.&lt;/p&gt;
+
+&lt;p&gt;So desktop GUI or CLI it is. Even though there is the
+&lt;a href=&#34;http://gnomepomodoro.org/&#34; target=&#34;_blank&#34;&gt;gnomepomodoro project&lt;/a&gt;, it did not seem compatible with all
+Linux desktops. At that point, I realized the amount of
+work to build a Pomodoro was low, the requirements and
+constraints well known, I throw ideas
+together and start coding.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ll explain the initial development and iterations of
+the app in Go in a second article, if you liked this one,
+let me know!&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Sources and images:&lt;br /&gt;
+&lt;a href=&#34;https://pixabay.com/en/tomatoes-vegetables-red-delicious-73913&#34; target=&#34;_blank&#34;&gt;1&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://substance-en.etsmtl.ca/wp-content/uploads/2014/09/2.gif&#34; target=&#34;_blank&#34;&gt;2&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Moving my content creation to a home-made Hugo site</title>
       <link>https://mbesancon.github.io/post/2017-09-05-moving-content-hugo/</link>
       <pubDate>Tue, 05 Sep 2017 00:00:00 -0400</pubDate>
@@ -313,7 +455,7 @@ the link matrix. It is a sparse structure: instead of representing all
 entries of the matrix in a vector of vectors, just non-empty elements and
 there corresponding column and line indexes are stored.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;// defining a dense matrix of Ints as a sequence of sequence&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;// defining a dense matrix of Ints as a sequence of sequence&lt;/span&gt;
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;DenseMatrix&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #00AA88; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;]]&lt;/span&gt;
 &lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;// SparseMatrix: tuple (line, column, value)&lt;/span&gt;
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;SparseMatrix&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #00AA88; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[(&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;,&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;,&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)]&lt;/span&gt;
@@ -324,20 +466,20 @@ there corresponding column and line indexes are stored.&lt;/p&gt;
 entries present in the structure all have one as value, so we just need to keep
 rows and columns:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;LinkMat&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #00AA88; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[(&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;,&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)]&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;LinkMat&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #00AA88; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[(&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;,&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)]&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;The ranks are stored in a simple generic float sequence:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;R&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;]&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;R&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;]&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;We also need a few utility functions. &lt;code&gt;sumElements&lt;/code&gt; takes the matrix, the rank
 vector and an integer to find all links for which the outgoing page is &lt;code&gt;j&lt;/code&gt;.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; sumElements&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;R&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;],&lt;/span&gt; A&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;LinkMat&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt; j&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;{&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; sumElements&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;R&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;],&lt;/span&gt; A&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;LinkMat&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt; j&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;{&lt;/span&gt;
   &lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;// sums all PageRanks / number of links for a column j&lt;/span&gt;
   &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;val&lt;/span&gt; totalLinks &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;=&lt;/span&gt; A&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;filter&lt;span style=&#34;color: #555555&#34;&gt;{&lt;/span&gt;tup &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;=&amp;gt;&lt;/span&gt; tup&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;_2 &lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt; j&lt;span style=&#34;color: #555555&#34;&gt;}&lt;/span&gt;
   &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;totalLinks&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;isEmpty&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;
@@ -359,7 +501,7 @@ So we find all pages where the first element is i (the page the link is going
 to), that&amp;rsquo;s the filter part. We then take the second element of the tuple, so
 all indexes pointing to i, thanks to a map.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; findConnected&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;i&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt; A&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;LinkMat&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;=&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; findConnected&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;i&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt; A&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;LinkMat&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;=&lt;/span&gt;
   A&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;filter&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;_&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;_1&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;i&lt;span style=&#34;color: #555555&#34;&gt;).&lt;/span&gt;map&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;_&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;_2&lt;span style=&#34;color: #555555&#34;&gt;).&lt;/span&gt;toSeq
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -373,7 +515,7 @@ stability, which is something we define through a &lt;code&gt;converged&lt;/code
 simply use a squared difference between two different versions of the rank to
 determine if they are acceptably close and yield a boolean.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; converged&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;r1&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;],&lt;/span&gt; r2&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;],&lt;/span&gt; eps&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Boolean&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;{&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; converged&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;r1&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;],&lt;/span&gt; r2&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;],&lt;/span&gt; eps&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Boolean&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;{&lt;/span&gt;
   &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;val&lt;/span&gt; totSquare&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; r1&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;zip&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;r2&lt;span style=&#34;color: #555555&#34;&gt;).&lt;/span&gt;map&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;p&lt;span style=&#34;color: #555555&#34;&gt;=&amp;gt;(&lt;/span&gt;p&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;_1&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;p&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;_2&lt;span style=&#34;color: #555555&#34;&gt;)*(&lt;/span&gt;p&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;_1&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;p&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;_2&lt;span style=&#34;color: #555555&#34;&gt;)).&lt;/span&gt;sum
   sqrt&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;totSquare&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;r1&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;size&lt;span style=&#34;color: #555555&#34;&gt;)&amp;lt;=&lt;/span&gt;eps
 &lt;span style=&#34;color: #555555&#34;&gt;}&lt;/span&gt;
@@ -382,7 +524,7 @@ determine if they are acceptably close and yield a boolean.&lt;/p&gt;
 
 &lt;p&gt;Now that everything is set, the master piece becomes a piece of cake.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #9999FF&#34;&gt;@tailrec&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; compRank&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;R&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;],&lt;/span&gt; A&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;LinkMat&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #9999FF&#34;&gt;@tailrec&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; compRank&lt;span style=&#34;color: #555555&#34;&gt;(&lt;/span&gt;R&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;],&lt;/span&gt; A&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;LinkMat&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;
                       damp&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt; eps&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;
                       niter&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;,&lt;/span&gt;
                       niterMax&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;10000&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;{&lt;/span&gt;
@@ -998,7 +1140,7 @@ The underlying reasoning is the following:
 The logit function of the probability of a level of the classes is
 linearly dependent on the predictors. This can be written as:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;log(p&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;(&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;p)) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; beta0 &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; beta[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; x[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; beta[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; x[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;...&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;log(p&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;(&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;p)) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; beta0 &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; beta[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; x[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; beta[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; x[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;...&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1039,7 +1181,7 @@ log-likelihood of the parameters:&lt;/p&gt;
 
 &lt;!-- \mathscr{L}(\beta|(X,Z)) = f_{\beta}\left(X=x,Z=z\right) --&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;L(beta&lt;span style=&#34;color: #555555&#34;&gt;|&lt;/span&gt;(X,z)) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; f(X,z)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;L(beta&lt;span style=&#34;color: #555555&#34;&gt;|&lt;/span&gt;(X,z)) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; f(X,z)
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1057,7 +1199,7 @@ can be written as:&lt;/p&gt;
 
 &lt;!-- \beta^{(n+1)} = \beta^{(n)} + \gamma^{(n)}\nabla(log(\mathscr{L}(\beta^{(n)}))) --&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;beta &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; beta &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; gamma&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; gradient_log_likelihood(beta)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;beta &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; beta &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; gamma&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; gradient_log_likelihood(beta)
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1073,14 +1215,14 @@ issues. Too small values on the other increase the number of steps required to
 reach an acceptable maximum. The best solution is often a varying learning
 rate, adapting the rate of variations. The rate at step n is chosen as follows:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;gamma_n &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; alpha&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color: #336666&#34;&gt;min&lt;/span&gt;(c0,&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;(np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;sqrt(n)&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;))
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;gamma_n &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; alpha&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color: #336666&#34;&gt;min&lt;/span&gt;(c0,&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;(np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;sqrt(n)&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;))
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Which means that the learning rate is constant for all first steps until the
 following condition is reached:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;n &lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;&lt;/span&gt; (&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;c0)&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;c0
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;n &lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;&lt;/span&gt; (&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;c0)&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;c0
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1103,7 +1245,7 @@ boundary will be a straight line separating the two classes.
 This can be visualized using two features of the data, &amp;ldquo;vari&amp;rdquo; and
 &amp;ldquo;k_resid&amp;rdquo;:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;w &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; learn_weights(data1&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;iloc[:,(&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;)])
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;w &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; learn_weights(data1&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;iloc[:,(&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;)])
 
 &lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# building the mesh&lt;/span&gt;
 xmesh, ymesh &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;meshgrid(np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;arange(data1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;vari&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;min()&lt;span style=&#34;color: #555555&#34;&gt;-.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;,data1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;vari&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;max()&lt;span style=&#34;color: #555555&#34;&gt;+.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;01&lt;/span&gt;),\
@@ -1136,7 +1278,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 
 &lt;p&gt;Modularizing the code increases the readability, we define the
 implementations of two mathematical functions:
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #CC00FF&#34;&gt;prob_log&lt;/span&gt;(x,w):
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #CC00FF&#34;&gt;prob_log&lt;/span&gt;(x,w):
     &lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
 &lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    probability of an observation belonging&lt;/span&gt;
 &lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    to the class &amp;quot;one&amp;quot;&lt;/span&gt;
@@ -1157,7 +1299,7 @@ implementations of two mathematical functions:
 &lt;p&gt;A function computes the optimal weights from iterations to find the maximal
 log-likelihood of the parameters, using the two previous functions.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #CC00FF&#34;&gt;learn_weights&lt;/span&gt;(df):
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #CC00FF&#34;&gt;learn_weights&lt;/span&gt;(df):
     &lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
 &lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    computes and updates the weights until convergence&lt;/span&gt;
 &lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    given the features and outcome in a data frame&lt;/span&gt;
@@ -1184,7 +1326,7 @@ log-likelihood of the parameters, using the two previous functions.&lt;/p&gt;
 &lt;p&gt;Once the weights have been learnt, new probabilities can be predicted from
 explanatory variables.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #CC00FF&#34;&gt;predict_outcome&lt;/span&gt;(df,w):
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #CC00FF&#34;&gt;predict_outcome&lt;/span&gt;(df,w):
     &lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
 &lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    takes in a test data set and computed weights&lt;/span&gt;
 &lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    returns a vector of predicted output, the confusion matrix&lt;/span&gt;
@@ -1213,7 +1355,7 @@ explanatory variables.&lt;/p&gt;
 will allow us to estimate the real error rate of our prediction. 100 cross
 validations are performed and for each of them, we add the error to a list.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;error &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; []
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;error &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; []
 weights &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; []
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; test &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #336666&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color: #FF6600&#34;&gt;100&lt;/span&gt;):
     trainIndex &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;random&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;rand(&lt;span style=&#34;color: #336666&#34;&gt;len&lt;/span&gt;(data0)) &lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0.85&lt;/span&gt;
@@ -1326,7 +1468,7 @@ several machine learning models. Skewness and kurtosis seem to be
 somehow related. A regression line can be fitted with the skewness as
 explanatory variable:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;a, b &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; stats&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;linregress(data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;])[:&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;a, b &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; stats&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;linregress(data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;])[:&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
 plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;],&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;g+&amp;#39;&lt;/span&gt;)
 plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2.5&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2.5&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;0.05&lt;/span&gt;) ,b&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;a&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2.5&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2.5&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;0.05&lt;/span&gt;),&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;)
 plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;Simple linear regression&amp;#39;&lt;/span&gt;)
@@ -1346,14 +1488,14 @@ technique could correct this bias, but a polynomial regression is the most
 straight-forward method to capture a higher part of the variance here.
 The second-degree polynomial model can be written as:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;y_hat &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; a&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;square(x) &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; b&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;x &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; c
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;y_hat &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; a&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;square(x) &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; b&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;x &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; c
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;and its coefficients can be determined through the minimization of least-square
 error in numpy:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;a, b, c &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;polyfit(data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;],deg&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;a, b, c &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;polyfit(data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;],deg&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
 plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;],&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;)
 plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;),a&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;) &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;)&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;b&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;)&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;c,&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;)
 plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;2nd degree polynomial regression&amp;#39;&lt;/span&gt;)
@@ -1383,7 +1525,7 @@ to be assured that:
 * The variance of the residuals is approximately constant with the skewness
 * There are still patterns in the Kurtosis: the residuals are not just noise&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;p0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;scatter(d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;skew&amp;#39;&lt;/span&gt;],c&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;b&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;a&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;],c&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;,marker&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;0&amp;quot;&lt;/span&gt;)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;p0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;scatter(d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;skew&amp;#39;&lt;/span&gt;],c&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;b&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;a&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;],c&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;,marker&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;0&amp;quot;&lt;/span&gt;)
 p0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;scatter(d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;skew&amp;#39;&lt;/span&gt;],c&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;b&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;a&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;],c&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;,marker&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;1&amp;quot;&lt;/span&gt;)
 plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;Explanatory variable vs Regression residuals&amp;#39;&lt;/span&gt;)
 plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;xlabel(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;Skewness&amp;#39;&lt;/span&gt;)
@@ -1404,7 +1546,7 @@ residual of the regression which will replace the kurtosis in the data.&lt;/p&gt
 
 &lt;p&gt;We can try and repeat the same process for the entropy and skewness, which
 also seem to be related to each other.
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;p0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;scatter(d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;skew&amp;#39;&lt;/span&gt;],c&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;b&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;a&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;],c&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;,marker&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;0&amp;quot;&lt;/span&gt;)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;p0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;scatter(d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;skew&amp;#39;&lt;/span&gt;],c&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;b&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;a&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;],c&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;,marker&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;0&amp;quot;&lt;/span&gt;)
 p0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;scatter(d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;skew&amp;#39;&lt;/span&gt;],c&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;b&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;a&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;],c&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;,marker&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;1&amp;quot;&lt;/span&gt;)
 plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;Explanatory variable vs Regression residuals&amp;#39;&lt;/span&gt;)
 plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;xlabel(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;Skewness&amp;#39;&lt;/span&gt;)
@@ -1425,7 +1567,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 
 &lt;p&gt;We can try can fit a 2nd-degree polynomial function:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;ft &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;polyfit(data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;entropy&amp;quot;&lt;/span&gt;],deg&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;ft &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;polyfit(data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;entropy&amp;quot;&lt;/span&gt;],deg&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
 plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;entropy&amp;quot;&lt;/span&gt;],&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;Class 0&amp;quot;&lt;/span&gt;)
 plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;entropy&amp;quot;&lt;/span&gt;],&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;r+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;Class 1&amp;quot;&lt;/span&gt;)
 plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;14.5&lt;/span&gt;,&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;),
@@ -1447,7 +1589,7 @@ are not equally distributed on both side of the curve. There is another
 pattern, which is class-dependent, so two polynomial curves should be fitted,
 one for each class:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;f0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;polyfit(d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;entropy&amp;quot;&lt;/span&gt;],deg&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;f0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;polyfit(d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;entropy&amp;quot;&lt;/span&gt;],deg&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
 x &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;14&lt;/span&gt;,&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;)
 f1 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;polyfit(d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;entropy&amp;quot;&lt;/span&gt;],deg&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
 
@@ -1472,7 +1614,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;p&gt;The model seems to capture more of the variance in our data, which we can
 confirm by plotting the residuals of the class-dependent regression.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],f0[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;f0[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],f0[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;f0[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;
         f0[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;entropy&amp;quot;&lt;/span&gt;],&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;b+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;Class 0&amp;quot;&lt;/span&gt;)
 plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],f1[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;f1[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;
         f1[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;d1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;entropy&amp;quot;&lt;/span&gt;],&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;r+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;Class 1&amp;quot;&lt;/span&gt;)
@@ -1494,7 +1636,7 @@ that each class follows a different curve, a difference between
 the distance to the first model and the distance to the second
 model, which will be noted &amp;ldquo;d&amp;rdquo;, can be computed as:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;d &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;abs(y &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; x&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;apply(f0)) &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;abs(y&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;x&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;apply(f1))
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;d &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;abs(y &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; x&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;apply(f0)) &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;abs(y&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;x&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;apply(f1))
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1505,7 +1647,7 @@ variable seems correlated to the skewness. The latter could have become
 unnecessary for our prediction, so we choose to eliminate it from
 the features and take the risk of an information loss.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;d &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #336666&#34;&gt;abs&lt;/span&gt;(data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;entropy&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;f0[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;f0[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;f0[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;])&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;\
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;d &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #336666&#34;&gt;abs&lt;/span&gt;(data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;entropy&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;f0[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;f0[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;f0[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;])&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;\
     &lt;span style=&#34;color: #336666&#34;&gt;abs&lt;/span&gt;(data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;entropy&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;f1[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;f1[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;f1[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;])
 
 d0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;d&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; d[data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]
@@ -1540,7 +1682,7 @@ the difference between the maximum and minimum values. The outcome values
 are all contained in the interval [0,1].&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;x_stand &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; x&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;(x&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;max()&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;x&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;min())
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;x_stand &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; x&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;(x&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;max()&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;x&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;min())
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1568,7 +1710,7 @@ variables.&lt;/p&gt;
 
 &lt;h1 id=&#34;feature-engineering-pipeline&#34;&gt;Feature engineering pipeline&lt;/h1&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;a, b, c &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;polyfit(data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;],deg&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;a, b, c &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;polyfit(data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;],data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;],deg&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
 
 data1 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; data0&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;copy() &lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# copying the data&lt;/span&gt;
 
@@ -1679,7 +1821,7 @@ but feel free to keep your favorite tools.&lt;/p&gt;
 &lt;p&gt;So our first lines of code (once you placed your data in the proper repository)
 should look like this:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;np&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;np&lt;/span&gt;
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;pandas&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;pd&lt;/span&gt;
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;ggplot&lt;/span&gt;
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;matplotlib&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; pyplot &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;as&lt;/span&gt; plt
@@ -1711,7 +1853,7 @@ project, especially if you were not involved in the data collection process.&lt;
 &lt;p&gt;Instead of manually downloading the data and placing it in our project
 repository, we will download using the &lt;em&gt;urllib3&lt;/em&gt; library.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;url &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;https://archive.ics.uci.edu/ml/machine-learning-databases/00267/data_banknote_authentication.txt&amp;quot;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;url &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;https://archive.ics.uci.edu/ml/machine-learning-databases/00267/data_banknote_authentication.txt&amp;quot;&lt;/span&gt;
 http &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; urllib3&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;PoolManager()
 r &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; http&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;request(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;GET&amp;#39;&lt;/span&gt;,url)
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color: #336666&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;data_banknote_authentication.txt&amp;quot;&lt;/span&gt;,&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;wb&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;as&lt;/span&gt; f:
@@ -1727,7 +1869,7 @@ data0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; pd&lt;span style
 &lt;p&gt;Since the data were loaded using pandas, key methods of the DataFrame
 object can be used to find some key information in the data.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;data0&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;describe()
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;data0&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;describe()
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1836,7 +1978,7 @@ The estimate can also be split by class to find differences in the
 distributions. Using ggplot and the pandas &lt;code&gt;groupby&lt;/code&gt; method, the
 plots can be generated and saved as such:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; v &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; data0&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;columns[:&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;]:
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; v &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; data0&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;columns[:&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;]:
 ggplot&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ggsave(
   ggplot&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ggplot(ggplot&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;aes(x&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;v, color&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;class&amp;#39;&lt;/span&gt;),data&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;data0)&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;
   ggplot&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;geom_density()&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;
@@ -1859,7 +2001,7 @@ categories than the Kurtosis.&lt;/p&gt;
 
 &lt;p&gt;We generate a color list using for-comprehension:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;col &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #336666&#34;&gt;list&lt;/span&gt;(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; i&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;])
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;col &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #336666&#34;&gt;list&lt;/span&gt;(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; i&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;])
 pd&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;tools&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plotting&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;scatter_matrix(data0&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ix[:,:&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;],figsize&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color: #FF6600&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;),
 color&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;col,diagonal&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;kde&amp;#39;&lt;/span&gt;)
 &lt;/pre&gt;&lt;/div&gt;
@@ -1879,7 +2021,7 @@ some techniques based on independent features might not be efficient here.&lt;/p
 
 &lt;h2 id=&#34;testing-a-distribution-with-quantile-quantile-plots&#34;&gt;Testing a distribution with Quantile-Quantile plots&lt;/h2&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# Subsetting the data by class&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# Subsetting the data by class&lt;/span&gt;
 d0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; data0[data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]
 d1 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; data0[data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;]
 
@@ -1917,7 +2059,7 @@ more robust than mean and variance. The pandas library offers a quick method
 and plotting tool to represent boxplots for each class and variable. It
 highlights the differences in the spread of the data.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;data0&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;groupby(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;)&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;boxplot(figsize&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color: #FF6600&#34;&gt;9&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;))
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;data0&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;groupby(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;)&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;boxplot(figsize&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color: #FF6600&#34;&gt;9&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;))
 &lt;/pre&gt;&lt;/div&gt;
 
 
