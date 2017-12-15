@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Numerical Techniques on μβ</title>
+    <link>https://mbesancon.github.io/tags/numerical-techniques/</link>
+    <description>Recent content in Numerical Techniques on μβ</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
+    <lastBuildDate>Thu, 14 Dec 2017 00:00:00 -0500</lastBuildDate>
+    <atom:link href="/tags/numerical-techniques/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Getting started with DifferentialEquations.jl</title>
+      <link>https://mbesancon.github.io/post/2017-12-14-diffeq-julia/</link>
+      <pubDate>Thu, 14 Dec 2017 00:00:00 -0500</pubDate>
+      
+      <guid>https://mbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/JuliaDiffEq/DifferentialEquations.jl&#34; target=&#34;_blank&#34;&gt;DifferentialEquations.jl&lt;/a&gt;
+came to be a key component of Julia&amp;rsquo;s scientific ecosystem. After checking the
+JuliaCon talk of its creator, I couldn&amp;rsquo;t wait to start building stuff with it,
+so I created and developed a simple example detailed in this blog post.
+Starting from a basic ordinary differential equation (ODE), we add noise,
+making it stochastic, and finally turn it into a discrete version.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Before running the code below, two imports will be used:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; DifferentialEquations;
+DiffEq &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DifferentialEquations;
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; Plots
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I tend to prefer explicit imports in my Julia code, it helps see which function
+comes from which part. As &lt;code&gt;DifferentialEquations&lt;/code&gt; is longuish to write, we use
+an alias in the rest of the code.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-model&#34;&gt;The model&lt;/h2&gt;
+
+&lt;p&gt;We use a simple 3-element state in a differential equation. Depending on your
+background, pick the interpretation you prefer:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;An SIR model, standing for susceptible, infected, and recovered, directly
+inspired by the talk and by the &lt;a href=&#34;https://github.com/sdwfrost/Gillespie.jl&#34; target=&#34;_blank&#34;&gt;Gillespie.jl&lt;/a&gt;
+package. We have a total population with healthy people, infected people
+(after they catch the disease) and recovered (after they heal from the disease).&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;A chemical system with three components, A, B and R.
+$$A + B → 2B$$  $$B → R$$&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;After searching my memory for chemical engineering courses and the
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Autocatalysis&#34; target=&#34;_blank&#34;&gt;universal source of knowledge&lt;/a&gt;,
+I could confirm the first reaction is an autocatalysis, while the second is
+a simple reaction. An autocatalysis means that B molecules turn A molecules
+into B, without being consumed.&lt;/p&gt;
+
+&lt;p&gt;The first example is easier to represent as a discrete problem: finite
+populations make more sense when talking about people. However, it can be seen
+as getting closer to a continuous differential equation as the number of people
+get higher. The second model makes more sense in a continuous version as we are
+dealing with concentrations of chemical components.&lt;/p&gt;
+
+&lt;h2 id=&#34;a-first-continuous-model&#34;&gt;A first continuous model&lt;/h2&gt;
+
+&lt;p&gt;Following the tutorials from the
+&lt;a href=&#34;http://docs.juliadiffeq.org/latest/tutorials/ode_example.html#Example-2:-Solving-Systems-of-Equations-1&#34; target=&#34;_blank&#34;&gt;official package website&lt;/a&gt;,
+we can build our system from:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;A system of differential equations: how does the system behave (dynamically)&lt;/li&gt;
+&lt;li&gt;Initial conditions: where does the system start&lt;/li&gt;
+&lt;li&gt;A time span: how long do we want to observe the system&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The system state can be written as:
+$$u(t) =
+\begin{bmatrix}
+u₁(t) \&lt;br /&gt;
+u₂(t) \&lt;br /&gt;
+u₃(t)&lt;br /&gt;
+\end{bmatrix}^T
+$$&lt;/p&gt;
+
+&lt;p&gt;With the behavior described as:
+$$
+\dot{u}(t) = f(u,t)
+$$
+And the initial conditions $u(0) = u₀$.&lt;/p&gt;
+
+&lt;p&gt;In Julia, this becomes:
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;α &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0.8&lt;/span&gt;
+β &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;3.0&lt;/span&gt;
+diffeq &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(t, u, du)
+    du[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; α &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
+    du[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; α &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; β &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
+    du[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; β &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+u₀ &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color: #FF6600&#34;&gt;49.0&lt;/span&gt;;&lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;;&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;]
+tspan &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;diffeq&lt;/code&gt; models the dynamic behavior, &lt;code&gt;u₀&lt;/code&gt; the starting conditions
+and &lt;code&gt;tspan&lt;/code&gt; the time range over which we observe the system
+evolution.&lt;/p&gt;
+
+&lt;p&gt;We know that our equation is smooth, so we&amp;rsquo;ll let
+&lt;code&gt;DifferentialEquations.jl&lt;/code&gt; figure out the solver. The general API
+of the package is built around two steps:&lt;br /&gt;
+1. Building a problem/model from behavior and initial conditions
+2. Solving the problem using a solver of our choice and providing additional
+information on how to solve it, yielding a solution.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;prob &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ODEProblem(diffeq, u₀, tspan)
+sol &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;solve(prob);
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;One very nice property of solutions produced by the package is that they
+contain a direct way to produce plots.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;Plots&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(sol)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/smooth.png&#34; alt=&#34;Solution to the ODE&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If we use the disease propagation example, $u₁(t)$ is the number of
+healthy people who haven&amp;rsquo;t been infected. It starts high, which makes the rate
+of infection by the diseased population moderate. As the number of sick people
+increases, the rate of infection increases: there are more and more possible
+contacts between healthy and sick people.&lt;/p&gt;
+
+&lt;p&gt;As the number of sick people increases, the recovery rate also increases,
+absorbing more sick people. So the &amp;ldquo;physics&amp;rdquo; behind the problem makes sense
+with what we observe on the curve.&lt;/p&gt;
+
+&lt;p&gt;A key property to notice is the mass conservation: the sum of the three elements
+of the vector is constant (the total population in the health case). This makes
+sense from the point of view of the equations:
+$$\frac{du₁}{dt} + \frac{du₂}{dt} + \frac{du_3}{dt} = 0$$&lt;/p&gt;
+
+&lt;h2 id=&#34;adding-randomness-first-attempt-with-a-simple-sde&#34;&gt;Adding randomness: first attempt with a simple SDE&lt;/h2&gt;
+
+&lt;p&gt;The previous model works successfully, but remains naive. On small populations,
+the rate of contamination and recovery cannot be so smooth. What if some sick
+people isolate themselves from others for an hour or so, what there is a
+meeting organized, with higher chances of contacts? All these plausible events
+create different scenarios that are more or less likely to happen.&lt;/p&gt;
+
+&lt;p&gt;To represent this, the rate of change of the three variables of the system
+can be considered as composed of a deterministic part and of a random variation.
+One standard representation for this, as laid out in the
+&lt;a href=&#34;http://docs.juliadiffeq.org/latest/tutorials/sde_example.html&#34; target=&#34;_blank&#34;&gt;package documentation&lt;/a&gt;
+is the following:
+$$
+du = f(u,t) dt + ∑ gᵢ(u,t) dWᵢ
+$$&lt;/p&gt;
+
+&lt;p&gt;In our case, we could consider two points of randomness at the two interactions
+(one for the transition from healthy to sick, and one from sick to recovered).&lt;/p&gt;
+
+&lt;h1 id=&#34;stochastic-version&#34;&gt;Stochastic version&lt;/h1&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;σ1 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0.07&lt;/span&gt;
+σ2 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0.4&lt;/span&gt;
+noise_func &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(t, u, du)
+    du[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; σ1 &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
+    du[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; σ2 &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
+    du[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; du[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;]  &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; du[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;]
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+
+stoch_prob &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;SDEProblem(diffeq, noise_func, u₀, tspan)
+sol_stoch &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;solve(stoch_prob, DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;SRIW1())
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Note that we also change the solver provided to the &lt;code&gt;solve&lt;/code&gt; function to adapt
+to stochastic equations. The last variation is set to the opposite of the sum
+of the two others to compensate the two other variations (we said we had only
+one randomness phenomenon per state transition).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/sde.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Woops, something went wrong. This time the mass conservation doesn&amp;rsquo;t hold,
+we finish with a population below the initial condition. What is wrong is that
+we don&amp;rsquo;t define the &lt;strong&gt;variation&lt;/strong&gt; but the &lt;em&gt;gᵢ(u,t)&lt;/em&gt; function, which is then
+multiplied by &lt;em&gt;dWᵢ&lt;/em&gt;. Since we used the function signature corresponding to
+the diagonal noise, there is a random component per $uᵢ$ variable.&lt;/p&gt;
+
+&lt;h2 id=&#34;adding-randomness-second-attempt-with-non-diagonal-noise&#34;&gt;Adding randomness: second attempt with non-diagonal noise&lt;/h2&gt;
+
+&lt;p&gt;As explained above, we need one source of randomness for each transition.
+This results in a $G(u,t)$ matrix of $3 × 2$. We can then make sure that the
+the sum of variations for the three variables cancel out to keep a constant
+total population.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;noise_func_cons &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(t, u, du)
+    du[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; σ1 &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
+    du[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;
+    du[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; σ1 &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
+    du[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; σ2 &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
+    du[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;
+    du[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; σ2 &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+sde_cons &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;SDEProblem(
+    diffeq, noise_func_cons, u₀, tspan,
+    noise_rate_prototype&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;zeros(&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+)
+cons_solution &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;solve(sde_cons, alg_hints&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;additive], dt&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;500&lt;/span&gt;);
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We also provide a &lt;code&gt;noise_rate_prototype&lt;/code&gt; parameter to the problem builder to
+indicate we don&amp;rsquo;t want to use a diagonal noise.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/sde_nondiag.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This time the population conservation holds, at any point in time the sum of
+the $uᵢ(t)$ remains 50.&lt;/p&gt;
+
+&lt;h2 id=&#34;discretizing-gillespie-model&#34;&gt;Discretizing: Gillespie model&lt;/h2&gt;
+
+&lt;p&gt;The models we produced so far represent well the chemical reaction problem,
+but a bit less the disease propagation. We are using continuous quantities
+to represent discrete populations, how do we interpret 0.6 people sick at a time?&lt;/p&gt;
+
+&lt;p&gt;One major strength of the package is its effortless integration of discrete
+phenomena in a model, alone or combined with continuous dynamics. Our model
+follows exactly the package tutorial on
+&lt;a href=&#34;http://docs.juliadiffeq.org/latest/tutorials/discrete_stochastic_example.html&#34; target=&#34;_blank&#34;&gt;discrete stochastic problems&lt;/a&gt;,
+so building it should be straightforward.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;infect_rate &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;Reaction(α, [&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;],[(&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;),(&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;)])
+recover_rate &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;Reaction(β, [&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;],[(&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;),(&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;)])
+disc_prob &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;GillespieProblem(
+    DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;DiscreteProblem(round&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;(&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;,u₀), tspan),
+    DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;Direct(),
+    infect_rate, recover_rate,
+)
+disc_sol &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;solve(disc_prob, DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;Discrete());
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We define the infection and recovery rate and the variables $uᵢ$ that are
+affected, and call the Discrete solver. The Plots.jl integration once again
+yields a direct representation of the solution over the time span.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/discrete.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Again, the conservation of the total population is guaranteed by the effect of
+the jumps deleting one unit from a population to add it to the other.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;The DifferentialEquations.jl package went from a good surprise to a key tool in
+my scientific computing toolbox. It does not require learning another embedded
+language but makes use of real idiomatic Julia. The interface is clean and
+working on edge cases does not feel hacky. I&amp;rsquo;ll be looking forward to using
+it in my PhD or side-hacks, especially combined to the
+&lt;a href=&#34;https://github.com/JuliaOpt/JuMP.jl&#34; target=&#34;_blank&#34;&gt;JuMP.jl&lt;/a&gt; package: DifferentialEquations
+used to build simulations and JuMP to optimize a cost function on top of the
+created model.&lt;/p&gt;
+
+&lt;p&gt;Thanks for reading, hit me on &lt;a href=&#34;https://twitter.com/MathieuBesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;
+for feedback or questions ;)&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;font size=&#34;0.7&#34;&gt;
+ &lt;!-- [1] --&gt;
+&lt;/font&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

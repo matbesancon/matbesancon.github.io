@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>https://mbesancon.github.io/post/2017-12-14-diffeq-julia/</loc>
+      <lastmod>2017-12-14T00:00:00-05:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://mbesancon.github.io/post/2017-10-19-tomate-cli/</loc>
       <lastmod>2017-10-19T00:00:00-04:00</lastmod>
     </url>
@@ -150,6 +159,16 @@
     
     <url>
     
+      <loc>https://mbesancon.github.io/tags/applied-math/</loc>
+      <lastmod>2017-12-14T00:00:00-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://mbesancon.github.io/tags/blog/</loc>
       <lastmod>2017-09-05T00:00:00-04:00</lastmod>
       <priority>0</priority>
@@ -249,8 +268,38 @@
     
     <url>
     
+      <loc>https://mbesancon.github.io/tags/julia/</loc>
+      <lastmod>2017-12-14T00:00:00-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://mbesancon.github.io/tags/medium/</loc>
       <lastmod>2017-09-05T00:00:00-04:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/tags/modeling/</loc>
+      <lastmod>2017-12-14T00:00:00-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/tags/numerical-techniques/</loc>
+      <lastmod>2017-12-14T00:00:00-05:00</lastmod>
       <priority>0</priority>
     </url>
     

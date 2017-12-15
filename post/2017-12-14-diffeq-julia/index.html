@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.27-DEV" />
+  <meta name="author" content="Mathieu Besançon">
+  <meta name="description" content="PhD student in applied mathematics for energy systems">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  
+
+  <link rel="alternate" href="https://mbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+  <link rel="feed" href="https://mbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="https://mbesancon.github.io/post/2017-12-14-diffeq-julia/">
+
+  
+
+  <title>Getting started with DifferentialEquations.jl | μβ</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">μβ</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#talks">
+            
+            <span>Talks</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#experiences">
+            
+            <span>Experiences</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+<div class="article-header">
+  <img src="/img/posts/" class="article-banner" itemprop="image">
+  
+</div>
+
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Getting started with DifferentialEquations.jl</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-12-14 00:00:00 -0500 EST" itemprop="datePublished">
+      Thu, Dec 14, 2017
+    </time>
+  </span>
+
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="/tags/julia">julia</a
+    >, 
+    
+    <a href="/tags/modeling">modeling</a
+    >, 
+    
+    <a href="/tags/numerical-techniques">numerical-techniques</a
+    >, 
+    
+    <a href="/tags/applied-math">applied-math</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fmbesancon.github.io%2fpost%2f2017-12-14-diffeq-julia%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Getting%20started%20with%20DifferentialEquations.jl&amp;url=https%3a%2f%2fmbesancon.github.io%2fpost%2f2017-12-14-diffeq-julia%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fmbesancon.github.io%2fpost%2f2017-12-14-diffeq-julia%2f&amp;title=Getting%20started%20with%20DifferentialEquations.jl"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fmbesancon.github.io%2fpost%2f2017-12-14-diffeq-julia%2f&amp;title=Getting%20started%20with%20DifferentialEquations.jl"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Getting%20started%20with%20DifferentialEquations.jl&amp;body=https%3a%2f%2fmbesancon.github.io%2fpost%2f2017-12-14-diffeq-julia%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<p><a href="https://github.com/JuliaDiffEq/DifferentialEquations.jl" target="_blank">DifferentialEquations.jl</a>
+came to be a key component of Julia&rsquo;s scientific ecosystem. After checking the
+JuliaCon talk of its creator, I couldn&rsquo;t wait to start building stuff with it,
+so I created and developed a simple example detailed in this blog post.
+Starting from a basic ordinary differential equation (ODE), we add noise,
+making it stochastic, and finally turn it into a discrete version.</p>
+
+<blockquote>
+<p>Before running the code below, two imports will be used:</p>
+</blockquote>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">import</span> DifferentialEquations;
+DiffEq <span style="color: #555555">=</span> DifferentialEquations;
+<span style="color: #006699; font-weight: bold">import</span> Plots
+</pre></div>
+
+
+<p>I tend to prefer explicit imports in my Julia code, it helps see which function
+comes from which part. As <code>DifferentialEquations</code> is longuish to write, we use
+an alias in the rest of the code.</p>
+
+<h2 id="the-model">The model</h2>
+
+<p>We use a simple 3-element state in a differential equation. Depending on your
+background, pick the interpretation you prefer:</p>
+
+<ol>
+<li><p>An SIR model, standing for susceptible, infected, and recovered, directly
+inspired by the talk and by the <a href="https://github.com/sdwfrost/Gillespie.jl" target="_blank">Gillespie.jl</a>
+package. We have a total population with healthy people, infected people
+(after they catch the disease) and recovered (after they heal from the disease).</p></li>
+
+<li><p>A chemical system with three components, A, B and R.
+$$A + B → 2B$$  $$B → R$$</p></li>
+</ol>
+
+<p>After searching my memory for chemical engineering courses and the
+<a href="https://en.wikipedia.org/wiki/Autocatalysis" target="_blank">universal source of knowledge</a>,
+I could confirm the first reaction is an autocatalysis, while the second is
+a simple reaction. An autocatalysis means that B molecules turn A molecules
+into B, without being consumed.</p>
+
+<p>The first example is easier to represent as a discrete problem: finite
+populations make more sense when talking about people. However, it can be seen
+as getting closer to a continuous differential equation as the number of people
+get higher. The second model makes more sense in a continuous version as we are
+dealing with concentrations of chemical components.</p>
+
+<h2 id="a-first-continuous-model">A first continuous model</h2>
+
+<p>Following the tutorials from the
+<a href="http://docs.juliadiffeq.org/latest/tutorials/ode_example.html#Example-2:-Solving-Systems-of-Equations-1" target="_blank">official package website</a>,
+we can build our system from:</p>
+
+<ul>
+<li>A system of differential equations: how does the system behave (dynamically)</li>
+<li>Initial conditions: where does the system start</li>
+<li>A time span: how long do we want to observe the system</li>
+</ul>
+
+<p>The system state can be written as:
+$$u(t) =
+\begin{bmatrix}
+u₁(t) \<br />
+u₂(t) \<br />
+u₃(t)<br />
+\end{bmatrix}^T
+$$</p>
+
+<p>With the behavior described as:
+$$
+\dot{u}(t) = f(u,t)
+$$
+And the initial conditions $u(0) = u₀$.</p>
+
+<p>In Julia, this becomes:
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>α <span style="color: #555555">=</span> <span style="color: #FF6600">0.8</span>
+β <span style="color: #555555">=</span> <span style="color: #FF6600">3.0</span>
+diffeq <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(t, u, du)
+    du[<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
+    du[<span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
+    du[<span style="color: #FF6600">3</span>] <span style="color: #555555">=</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
+<span style="color: #006699; font-weight: bold">end</span>
+u₀ <span style="color: #555555">=</span> [<span style="color: #FF6600">49.0</span>;<span style="color: #FF6600">1.0</span>;<span style="color: #FF6600">0.0</span>]
+tspan <span style="color: #555555">=</span> (<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">1.0</span>)
+</pre></div>
+</p>
+
+<p><code>diffeq</code> models the dynamic behavior, <code>u₀</code> the starting conditions
+and <code>tspan</code> the time range over which we observe the system
+evolution.</p>
+
+<p>We know that our equation is smooth, so we&rsquo;ll let
+<code>DifferentialEquations.jl</code> figure out the solver. The general API
+of the package is built around two steps:<br />
+1. Building a problem/model from behavior and initial conditions
+2. Solving the problem using a solver of our choice and providing additional
+information on how to solve it, yielding a solution.</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>ODEProblem(diffeq, u₀, tspan)
+sol <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>solve(prob);
+</pre></div>
+
+
+<p>One very nice property of solutions produced by the package is that they
+contain a direct way to produce plots.</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>Plots<span style="color: #555555">.</span>plot(sol)
+</pre></div>
+
+
+<p><img src="/img/posts/DiffEq/smooth.png" alt="Solution to the ODE" /></p>
+
+<p>If we use the disease propagation example, $u₁(t)$ is the number of
+healthy people who haven&rsquo;t been infected. It starts high, which makes the rate
+of infection by the diseased population moderate. As the number of sick people
+increases, the rate of infection increases: there are more and more possible
+contacts between healthy and sick people.</p>
+
+<p>As the number of sick people increases, the recovery rate also increases,
+absorbing more sick people. So the &ldquo;physics&rdquo; behind the problem makes sense
+with what we observe on the curve.</p>
+
+<p>A key property to notice is the mass conservation: the sum of the three elements
+of the vector is constant (the total population in the health case). This makes
+sense from the point of view of the equations:
+$$\frac{du₁}{dt} + \frac{du₂}{dt} + \frac{du_3}{dt} = 0$$</p>
+
+<h2 id="adding-randomness-first-attempt-with-a-simple-sde">Adding randomness: first attempt with a simple SDE</h2>
+
+<p>The previous model works successfully, but remains naive. On small populations,
+the rate of contamination and recovery cannot be so smooth. What if some sick
+people isolate themselves from others for an hour or so, what there is a
+meeting organized, with higher chances of contacts? All these plausible events
+create different scenarios that are more or less likely to happen.</p>
+
+<p>To represent this, the rate of change of the three variables of the system
+can be considered as composed of a deterministic part and of a random variation.
+One standard representation for this, as laid out in the
+<a href="http://docs.juliadiffeq.org/latest/tutorials/sde_example.html" target="_blank">package documentation</a>
+is the following:
+$$
+du = f(u,t) dt + ∑ gᵢ(u,t) dWᵢ
+$$</p>
+
+<p>In our case, we could consider two points of randomness at the two interactions
+(one for the transition from healthy to sick, and one from sick to recovered).</p>
+
+<h1 id="stochastic-version">Stochastic version</h1>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>σ1 <span style="color: #555555">=</span> <span style="color: #FF6600">0.07</span>
+σ2 <span style="color: #555555">=</span> <span style="color: #FF6600">0.4</span>
+noise_func <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(t, u, du)
+    du[<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> σ1 <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
+    du[<span style="color: #FF6600">3</span>] <span style="color: #555555">=</span> σ2 <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
+    du[<span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> du[<span style="color: #FF6600">1</span>]  <span style="color: #555555">-</span> du[<span style="color: #FF6600">3</span>]
+<span style="color: #006699; font-weight: bold">end</span>
+
+stoch_prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>SDEProblem(diffeq, noise_func, u₀, tspan)
+sol_stoch <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>solve(stoch_prob, DiffEq<span style="color: #555555">.</span>SRIW1())
+</pre></div>
+
+
+<p>Note that we also change the solver provided to the <code>solve</code> function to adapt
+to stochastic equations. The last variation is set to the opposite of the sum
+of the two others to compensate the two other variations (we said we had only
+one randomness phenomenon per state transition).</p>
+
+<p><img src="/img/posts/DiffEq/sde.png" alt="SDE" /></p>
+
+<p>Woops, something went wrong. This time the mass conservation doesn&rsquo;t hold,
+we finish with a population below the initial condition. What is wrong is that
+we don&rsquo;t define the <strong>variation</strong> but the <em>gᵢ(u,t)</em> function, which is then
+multiplied by <em>dWᵢ</em>. Since we used the function signature corresponding to
+the diagonal noise, there is a random component per $uᵢ$ variable.</p>
+
+<h2 id="adding-randomness-second-attempt-with-non-diagonal-noise">Adding randomness: second attempt with non-diagonal noise</h2>
+
+<p>As explained above, we need one source of randomness for each transition.
+This results in a $G(u,t)$ matrix of $3 × 2$. We can then make sure that the
+the sum of variations for the three variables cancel out to keep a constant
+total population.</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>noise_func_cons <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(t, u, du)
+    du[<span style="color: #FF6600">1</span>, <span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> σ1 <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
+    du[<span style="color: #FF6600">1</span>, <span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> <span style="color: #FF6600">0.0</span>
+    du[<span style="color: #FF6600">2</span>, <span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> σ1 <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
+    du[<span style="color: #FF6600">2</span>, <span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> σ2 <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
+    du[<span style="color: #FF6600">3</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> <span style="color: #FF6600">0.0</span>
+    du[<span style="color: #FF6600">3</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> σ2 <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
+<span style="color: #006699; font-weight: bold">end</span>
+sde_cons <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>SDEProblem(
+    diffeq, noise_func_cons, u₀, tspan,
+    noise_rate_prototype<span style="color: #555555">=</span>zeros(<span style="color: #FF6600">3</span>,<span style="color: #FF6600">2</span>)
+)
+cons_solution <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>solve(sde_cons, alg_hints<span style="color: #555555">=</span>[<span style="color: #555555">:</span>additive], dt<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">/</span><span style="color: #FF6600">500</span>);
+</pre></div>
+
+
+<p>We also provide a <code>noise_rate_prototype</code> parameter to the problem builder to
+indicate we don&rsquo;t want to use a diagonal noise.</p>
+
+<p><img src="/img/posts/DiffEq/sde_nondiag.png" alt="SDE" /></p>
+
+<p>This time the population conservation holds, at any point in time the sum of
+the $uᵢ(t)$ remains 50.</p>
+
+<h2 id="discretizing-gillespie-model">Discretizing: Gillespie model</h2>
+
+<p>The models we produced so far represent well the chemical reaction problem,
+but a bit less the disease propagation. We are using continuous quantities
+to represent discrete populations, how do we interpret 0.6 people sick at a time?</p>
+
+<p>One major strength of the package is its effortless integration of discrete
+phenomena in a model, alone or combined with continuous dynamics. Our model
+follows exactly the package tutorial on
+<a href="http://docs.juliadiffeq.org/latest/tutorials/discrete_stochastic_example.html" target="_blank">discrete stochastic problems</a>,
+so building it should be straightforward.</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>infect_rate <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>Reaction(α, [<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>],[(<span style="color: #FF6600">1</span>,<span style="color: #555555">-</span><span style="color: #FF6600">1</span>),(<span style="color: #FF6600">2</span>,<span style="color: #FF6600">1</span>)])
+recover_rate <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>Reaction(β, [<span style="color: #FF6600">2</span>],[(<span style="color: #FF6600">2</span>,<span style="color: #555555">-</span><span style="color: #FF6600">1</span>),(<span style="color: #FF6600">3</span>,<span style="color: #FF6600">1</span>)])
+disc_prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>GillespieProblem(
+    DiffEq<span style="color: #555555">.</span>DiscreteProblem(round<span style="color: #555555">.</span>(<span style="color: #007788; font-weight: bold">Int</span>,u₀), tspan),
+    DiffEq<span style="color: #555555">.</span>Direct(),
+    infect_rate, recover_rate,
+)
+disc_sol <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>solve(disc_prob, DiffEq<span style="color: #555555">.</span>Discrete());
+</pre></div>
+
+
+<p>We define the infection and recovery rate and the variables $uᵢ$ that are
+affected, and call the Discrete solver. The Plots.jl integration once again
+yields a direct representation of the solution over the time span.</p>
+
+<p><img src="/img/posts/DiffEq/discrete.png" alt="SDE" /></p>
+
+<p>Again, the conservation of the total population is guaranteed by the effect of
+the jumps deleting one unit from a population to add it to the other.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The DifferentialEquations.jl package went from a good surprise to a key tool in
+my scientific computing toolbox. It does not require learning another embedded
+language but makes use of real idiomatic Julia. The interface is clean and
+working on edge cases does not feel hacky. I&rsquo;ll be looking forward to using
+it in my PhD or side-hacks, especially combined to the
+<a href="https://github.com/JuliaOpt/JuMP.jl" target="_blank">JuMP.jl</a> package: DifferentialEquations
+used to build simulations and JuMP to optimize a cost function on top of the
+created model.</p>
+
+<p>Thanks for reading, hit me on <a href="https://twitter.com/MathieuBesancon" target="_blank">Twitter</a>
+for feedback or questions ;)</p>
+
+<hr />
+
+<p><font size="0.7">
+ <!-- [1] -->
+</font></p>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="https://mbesancon.github.io/post/2017-10-19-tomate-cli/"><span
+      aria-hidden="true">&larr;</span> Switching my work flow to Pomodoro for grad studies - part I: motivation  </a></li>
+    
+
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mathieu Besançon &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js" integrity="sha512-iHzEu7GbSc705hE2skyH6/AlTpOfBmkx7nUqTLGzPYR+C1tRaItbRlJ7hT/D3YQ9SV0fqLKzp4XY9wKulTBGTw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js" integrity="sha512-Z5heTz36xTemt1TbtbfXtTq5lMfYnOkXM2/eWcTTiLU01+Sw4ku1i7vScDc8fWhrP2abz9GQzgKH5NGBLoYlAw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/ScrollToPlugin.min.js" integrity="sha512-CDeU7pRtkPX6XJtF/gcFWlEwyaX7mcAp5sO3VIu/ylsdR74wEw4wmBpD5yYTrmMAiAboi9thyBUr1vXRPA7t0Q==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+
