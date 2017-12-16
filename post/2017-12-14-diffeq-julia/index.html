@@ -257,8 +257,8 @@ making it stochastic, and finally turn it into a discrete version.</p>
 <p>Before running the code below, two imports will be used:</p>
 </blockquote>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">import</span> DifferentialEquations;
-DiffEq <span style="color: #555555">=</span> DifferentialEquations;
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">import</span> DifferentialEquations
+<span style="color: #006699; font-weight: bold">const</span> DiffEq <span style="color: #555555">=</span> DifferentialEquations
 <span style="color: #006699; font-weight: bold">import</span> Plots
 </pre></div>
 
@@ -441,7 +441,7 @@ sde_cons <span style="color: #555555">=</span> DiffEq<span style="color: #555555
     diffeq, noise_func_cons, u₀, tspan,
     noise_rate_prototype<span style="color: #555555">=</span>zeros(<span style="color: #FF6600">3</span>,<span style="color: #FF6600">2</span>)
 )
-cons_solution <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>solve(sde_cons, alg_hints<span style="color: #555555">=</span>[<span style="color: #555555">:</span>additive], dt<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">/</span><span style="color: #FF6600">500</span>);
+cons_solution <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>solve(sde_cons, DiffEq<span style="color: #555555">.</span>EM(), dt<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">/</span><span style="color: #FF6600">500</span>)
 </pre></div>
 
 
@@ -498,6 +498,29 @@ created model.</p>
 
 <p>Thanks for reading, hit me on <a href="https://twitter.com/MathieuBesancon" target="_blank">Twitter</a>
 for feedback or questions ;)</p>
+
+<hr />
+
+<p>Edits:</p>
+
+<p><a href="https://twitter.com/ChrisRackauckas" target="_blank">Chris</a>, the creator and main developer
+of DifferentialEquations.jl, gave me valuable tips on two
+points which have been edited in the article. You can find the thread
+<a href="https://twitter.com/MathieuBesancon/status/941825252744507392" target="_blank">here</a>.</p>
+
+<ul>
+<li>Import aliases should use <code>const PackageAlias = PackageName</code> for type
+stability. This allows the compiler to generate efficient code.
+Some further mentions of type-stability can be found in the
+<a href="https://docs.julialang.org/en/latest/manual/performance-tips" target="_blank">official doc</a></li>
+<li>The second attempts uses non-diagonal noise, the &ldquo;:additive&rdquo; hint I passed
+to the solve function does not hold. Furthermore, the appropriate algorithm in
+that case is <a href="https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm" target="_blank">EM</a>
+.</li>
+</ul>
+
+<p>Many thanks to him for these tips, having such devoted and friendly developers
+is also what makes an open-source project successful.</p>
 
 <hr />
 

@@ -29,8 +29,8 @@ making it stochastic, and finally turn it into a discrete version.&lt;/p&gt;
 &lt;p&gt;Before running the code below, two imports will be used:&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; DifferentialEquations;
-DiffEq &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DifferentialEquations;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; DifferentialEquations
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;const&lt;/span&gt; DiffEq &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DifferentialEquations
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; Plots
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -213,7 +213,7 @@ sde_cons &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;spa
     diffeq, noise_func_cons, u₀, tspan,
     noise_rate_prototype&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;zeros(&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
 )
-cons_solution &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;solve(sde_cons, alg_hints&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;additive], dt&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;500&lt;/span&gt;);
+cons_solution &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;solve(sde_cons, DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;EM(), dt&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;500&lt;/span&gt;)
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -270,6 +270,29 @@ created model.&lt;/p&gt;
 
 &lt;p&gt;Thanks for reading, hit me on &lt;a href=&#34;https://twitter.com/MathieuBesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;
 for feedback or questions ;)&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Edits:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://twitter.com/ChrisRackauckas&#34; target=&#34;_blank&#34;&gt;Chris&lt;/a&gt;, the creator and main developer
+of DifferentialEquations.jl, gave me valuable tips on two
+points which have been edited in the article. You can find the thread
+&lt;a href=&#34;https://twitter.com/MathieuBesancon/status/941825252744507392&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Import aliases should use &lt;code&gt;const PackageAlias = PackageName&lt;/code&gt; for type
+stability. This allows the compiler to generate efficient code.
+Some further mentions of type-stability can be found in the
+&lt;a href=&#34;https://docs.julialang.org/en/latest/manual/performance-tips&#34; target=&#34;_blank&#34;&gt;official doc&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;The second attempts uses non-diagonal noise, the &amp;ldquo;:additive&amp;rdquo; hint I passed
+to the solve function does not hold. Furthermore, the appropriate algorithm in
+that case is &lt;a href=&#34;https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm&#34; target=&#34;_blank&#34;&gt;EM&lt;/a&gt;
+.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Many thanks to him for these tips, having such devoted and friendly developers
+is also what makes an open-source project successful.&lt;/p&gt;
 
 &lt;hr /&gt;
 
