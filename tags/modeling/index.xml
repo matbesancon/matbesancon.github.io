@@ -18,7 +18,7 @@
       <guid>https://mbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
       <description>
 
-&lt;p&gt;In the last article, we explored different modeling options for a
+&lt;p&gt;In the &lt;a href=&#34;https://mbesancon.github.io/post/2017-12-14-diffeq-julia&#34;&gt;last article&lt;/a&gt;, we explored different modeling options for a
 three-component systems which could represent the dynamics of a chemical
 reaction or a disease propagation in a population. Building on top of this
 model, we will formulate a desirable outcome and find a decision which
