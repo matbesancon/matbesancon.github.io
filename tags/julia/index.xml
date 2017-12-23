@@ -323,7 +323,7 @@ Optim&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;optimize(compute_f
 &lt;p&gt;This yields the following information:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;Results of Optimization Algorithm
- * Algorithm: Brent\&#39;s Method
+ * Algorithm: Brent&#39;s Method
  * Search Interval: [0.100000, 0.900000]
  * Minimizer: 8.355891e-01
  * Minimum: -2.403824e+01
