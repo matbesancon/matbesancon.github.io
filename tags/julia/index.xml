@@ -63,9 +63,9 @@ diffeq &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=
     du[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; α &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; β &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
     du[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; β &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
-u₀ &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color: #FF6600&#34;&gt;49.0&lt;/span&gt;;&lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;;&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;]
+u0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color: #FF6600&#34;&gt;49.0&lt;/span&gt;;&lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;;&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;]
 tspan &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
-prob &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ODEProblem(diffeq, u₀, tspan)
+prob &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ODEProblem(diffeq, u0, tspan)
 
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;const&lt;/span&gt; A_inj &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;30&lt;/span&gt;
 inject_new &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(t0)
@@ -91,7 +91,7 @@ information:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;When to trigger the event, implemented as the &lt;code&gt;condition&lt;/code&gt; function. It triggers
-when this function reaches 0, which is here the case when $t = t₀$.&lt;/li&gt;
+when this function reaches 0, which is here the case when $t = t_0$.&lt;/li&gt;
 &lt;li&gt;What to do with the state at that moment. The state is encapsulated within
 the &lt;em&gt;integrator&lt;/em&gt; variable. In our case, we add 30 units to the concentration in &lt;em&gt;A&lt;/em&gt;.&lt;/li&gt;
 &lt;/ul&gt;
@@ -223,9 +223,9 @@ diffeq_extended &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;sp
     du[&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
 
-u₀ &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color: #FF6600&#34;&gt;49.0&lt;/span&gt;;&lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;;&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;;&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;]
+u0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color: #FF6600&#34;&gt;49.0&lt;/span&gt;;&lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;;&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;;&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;]
 tspan &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
-prob &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ODEProblem(diffeq_extended, u₀, tspan)
+prob &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ODEProblem(diffeq_extended, u0, tspan)
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -255,7 +255,7 @@ Plots&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(inject_progre
 
 &lt;p&gt;We can notice &lt;code&gt;callback_start&lt;/code&gt; being identical to the model we previously built,
 while &lt;code&gt;condition_end&lt;/code&gt; corresponds to the time when the total injected
-quantity reaches &lt;code&gt;inj_quantity&lt;/code&gt;. The first events activates $u₄$ and sets it
+quantity reaches &lt;code&gt;inj_quantity&lt;/code&gt;. The first events activates $u_4$ and sets it
 to the nominal flow, while the second callback resets it to 0.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/const_rate.png&#34; alt=&#34;Constant rate&#34; /&gt;&lt;/p&gt;
@@ -271,7 +271,7 @@ BlackBoxOptim&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;bboptimize
 
 
 &lt;p&gt;The optimal solution corresponds to a complete direct injection
-($\delta \approx 1$) with $t_{inject}\^{opt}$ identical to the previous model.
+($\delta \approx 1$) with $t_{inject}^{opt}$ identical to the previous model.
 This means pouring the A component in a continuous fashion does not allow to
 produce more $B$ at the end of the minute.&lt;/p&gt;
 
@@ -299,6 +299,41 @@ make it transparent to optimization solvers.&lt;/p&gt;
 &lt;p&gt;If somebody has info on that last point or feedback, additional info you&amp;rsquo;d like
 to share regarding this post, hit me on &lt;a href=&#34;https://twitter.com/MathieuBesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;.
 Thanks for reading!&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;edits-and-improvements&#34;&gt;Edits and improvements&lt;/h2&gt;
+
+&lt;p&gt;Of course, BlackBoxOptim.jl was not the most appropriate algorithm as
+predicted. &lt;a href=&#34;https://twitter.com/pkofod&#34; target=&#34;_blank&#34;&gt;Patrick&lt;/a&gt; and &lt;a href=&#34;https://twitter.com/ChrisRackauckas&#34; target=&#34;_blank&#34;&gt;Chris&lt;/a&gt;
+gave me some hints in &lt;a href=&#34;https://twitter.com/MathieuBesancon/status/943662063074906112&#34; target=&#34;_blank&#34;&gt;this thread&lt;/a&gt;
+and I gave &lt;a href=&#34;https://github.com/JuliaNLSolvers/Optim.jl&#34; target=&#34;_blank&#34;&gt;Optim.jl&lt;/a&gt; a try.&lt;/p&gt;
+
+&lt;p&gt;This package has a range of algorithms to choose from depending on the
+structure of the function and the knowledge of its gradient and Hessian.
+The goal is continuous optimization, (as opposed to BlackBoxOptim.jl which supports
+more exotic search spaces).&lt;/p&gt;
+
+&lt;p&gt;Finding the optimum $t_{inject}$ of the first problem is pretty simple:
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; Optim
+Optim&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;optimize(compute_finalb, &lt;span style=&#34;color: #FF6600&#34;&gt;0.1&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.9&lt;/span&gt;)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;This yields the following information:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Results of Optimization Algorithm
+ * Algorithm: Brent\&#39;s Method
+ * Search Interval: [0.100000, 0.900000]
+ * Minimizer: 8.355891e-01
+ * Minimum: -2.403824e+01
+ * Iterations: 13
+ * Convergence: max(|x - x_upper|, |x - x_lower|) &amp;lt;= 2*(1.5e-08*|x|+2.2e-16): true
+ * Objective Function Calls: 14
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;14 calls to the objective function, pretty neat compared to the hundreds of
+BlackBoxOptim. We also confirm the optimum of &lt;code&gt;0.8355891&lt;/code&gt;.&lt;/p&gt;
 
 &lt;hr /&gt;
 

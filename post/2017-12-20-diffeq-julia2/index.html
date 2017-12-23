@@ -294,9 +294,9 @@ diffeq <span style="color: #555555">=</span> <span style="color: #006699; font-w
     du[<span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
     du[<span style="color: #FF6600">3</span>] <span style="color: #555555">=</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
 <span style="color: #006699; font-weight: bold">end</span>
-u₀ <span style="color: #555555">=</span> [<span style="color: #FF6600">49.0</span>;<span style="color: #FF6600">1.0</span>;<span style="color: #FF6600">0.0</span>]
+u0 <span style="color: #555555">=</span> [<span style="color: #FF6600">49.0</span>;<span style="color: #FF6600">1.0</span>;<span style="color: #FF6600">0.0</span>]
 tspan <span style="color: #555555">=</span> (<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">1.0</span>)
-prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>ODEProblem(diffeq, u₀, tspan)
+prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>ODEProblem(diffeq, u0, tspan)
 
 <span style="color: #006699; font-weight: bold">const</span> A_inj <span style="color: #555555">=</span> <span style="color: #FF6600">30</span>
 inject_new <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(t0)
@@ -322,7 +322,7 @@ information:</p>
 
 <ul>
 <li>When to trigger the event, implemented as the <code>condition</code> function. It triggers
-when this function reaches 0, which is here the case when $t = t₀$.</li>
+when this function reaches 0, which is here the case when $t = t_0$.</li>
 <li>What to do with the state at that moment. The state is encapsulated within
 the <em>integrator</em> variable. In our case, we add 30 units to the concentration in <em>A</em>.</li>
 </ul>
@@ -454,9 +454,9 @@ diffeq_extended <span style="color: #555555">=</span> <span style="color: #00669
     du[<span style="color: #FF6600">4</span>] <span style="color: #555555">=</span> <span style="color: #FF6600">0.0</span>
 <span style="color: #006699; font-weight: bold">end</span>
 
-u₀ <span style="color: #555555">=</span> [<span style="color: #FF6600">49.0</span>;<span style="color: #FF6600">1.0</span>;<span style="color: #FF6600">0.0</span>;<span style="color: #FF6600">0.0</span>]
+u0 <span style="color: #555555">=</span> [<span style="color: #FF6600">49.0</span>;<span style="color: #FF6600">1.0</span>;<span style="color: #FF6600">0.0</span>;<span style="color: #FF6600">0.0</span>]
 tspan <span style="color: #555555">=</span> (<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">1.0</span>)
-prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>ODEProblem(diffeq_extended, u₀, tspan)
+prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>ODEProblem(diffeq_extended, u0, tspan)
 </pre></div>
 
 
@@ -486,7 +486,7 @@ Plots<span style="color: #555555">.</span>plot(inject_progressive(<span style="c
 
 <p>We can notice <code>callback_start</code> being identical to the model we previously built,
 while <code>condition_end</code> corresponds to the time when the total injected
-quantity reaches <code>inj_quantity</code>. The first events activates $u₄$ and sets it
+quantity reaches <code>inj_quantity</code>. The first events activates $u_4$ and sets it
 to the nominal flow, while the second callback resets it to 0.</p>
 
 <p><img src="/img/posts/DiffEq/const_rate.png" alt="Constant rate" /></p>
@@ -502,7 +502,7 @@ BlackBoxOptim<span style="color: #555555">.</span>bboptimize(objective, SearchRa
 
 
 <p>The optimal solution corresponds to a complete direct injection
-($\delta \approx 1$) with $t_{inject}\^{opt}$ identical to the previous model.
+($\delta \approx 1$) with $t_{inject}^{opt}$ identical to the previous model.
 This means pouring the A component in a continuous fashion does not allow to
 produce more $B$ at the end of the minute.</p>
 
@@ -530,6 +530,41 @@ make it transparent to optimization solvers.</p>
 <p>If somebody has info on that last point or feedback, additional info you&rsquo;d like
 to share regarding this post, hit me on <a href="https://twitter.com/MathieuBesancon" target="_blank">Twitter</a>.
 Thanks for reading!</p>
+
+<hr />
+
+<h2 id="edits-and-improvements">Edits and improvements</h2>
+
+<p>Of course, BlackBoxOptim.jl was not the most appropriate algorithm as
+predicted. <a href="https://twitter.com/pkofod" target="_blank">Patrick</a> and <a href="https://twitter.com/ChrisRackauckas" target="_blank">Chris</a>
+gave me some hints in <a href="https://twitter.com/MathieuBesancon/status/943662063074906112" target="_blank">this thread</a>
+and I gave <a href="https://github.com/JuliaNLSolvers/Optim.jl" target="_blank">Optim.jl</a> a try.</p>
+
+<p>This package has a range of algorithms to choose from depending on the
+structure of the function and the knowledge of its gradient and Hessian.
+The goal is continuous optimization, (as opposed to BlackBoxOptim.jl which supports
+more exotic search spaces).</p>
+
+<p>Finding the optimum $t_{inject}$ of the first problem is pretty simple:
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">import</span> Optim
+Optim<span style="color: #555555">.</span>optimize(compute_finalb, <span style="color: #FF6600">0.1</span>, <span style="color: #FF6600">0.9</span>)
+</pre></div>
+</p>
+
+<p>This yields the following information:</p>
+
+<pre><code>Results of Optimization Algorithm
+ * Algorithm: Brent\'s Method
+ * Search Interval: [0.100000, 0.900000]
+ * Minimizer: 8.355891e-01
+ * Minimum: -2.403824e+01
+ * Iterations: 13
+ * Convergence: max(|x - x_upper|, |x - x_lower|) &lt;= 2*(1.5e-08*|x|+2.2e-16): true
+ * Objective Function Calls: 14
+</code></pre>
+
+<p>14 calls to the objective function, pretty neat compared to the hundreds of
+BlackBoxOptim. We also confirm the optimum of <code>0.8355891</code>.</p>
 
 <hr />
 
