@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Projects on μβ</title>
-    <link>https://mbesancon.github.io/project/</link>
-    <description>Recent content in Projects on μβ</description>
+    <title>Graphs on μβ</title>
+    <link>https://mbesancon.github.io/tags/graphs/</link>
+    <description>Recent content in Graphs on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Sat, 09 Sep 2017 00:00:00 -0400</lastBuildDate>
-    <atom:link href="/project/" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 10 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/graphs/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>JuliaGraphs contributions</title>
@@ -33,25 +33,6 @@ formulated as a linear optimization problem formulated using MathProgBase.jl,
 using any user-provided solver.&lt;/p&gt;
 
 &lt;p&gt;Many thanks to the whole JuliaGraphs team for their trust, support and advice.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>WebFuncs</title>
-      <link>https://mbesancon.github.io/project/2018-01-10-webfuncs/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://mbesancon.github.io/project/2018-01-10-webfuncs/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/mbesancon/WebFuncs.jl&#34; target=&#34;_blank&#34;&gt;WebFuncs.jl&lt;/a&gt; is a Julia project testing the language out of its natural
-scope. Having built quite a bit with Go and Python, I wanted to see if
-the Julia ecosystem had tools for HTTP handling.&lt;/p&gt;
-
-&lt;p&gt;The inspiration of a simple-to-use function server came from the
-&lt;a href=&#34;https://github.com/metrue/fx&#34; target=&#34;_blank&#34;&gt;fx project&lt;/a&gt;. Define your function, the
-package throws it as a server for you.&lt;/p&gt;
-
-&lt;p&gt;The package has been accepted on Julia package repository and can be fetched
-using &lt;code&gt;Pkg.add(&amp;quot;WebFuncs&amp;quot;)&lt;/code&gt;.&lt;/p&gt;
 </description>
     </item>
     
