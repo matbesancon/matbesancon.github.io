@@ -11,6 +11,331 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Solving the group expenses headache with graphs</title>
+      <link>https://mbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 -0500</pubDate>
+      
+      <guid>https://mbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
+      <description>
+
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#the-expenses-model&#34;&gt;The expenses model&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#reducing-expenses&#34;&gt;Reducing expenses&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#breaking-strongly-connected-components&#34;&gt;Breaking strongly connected components&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#expenses-as-a-flow-problem&#34;&gt;Expenses as a flow problem&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#computing-net-owed-amount-per-user&#34;&gt;Computing net owed amount per user&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#building-the-graph-and-the-corresponding-flow-problem&#34;&gt;Building the graph and the corresponding flow problem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#solving-the-flow-problem&#34;&gt;Solving the flow problem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#trying-out-our-solution&#34;&gt;Trying out our solution&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion-perspective-and-note-on-gphc&#34;&gt;Conclusion, perspective and note on GPHC&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nav&gt;
+
+
+&lt;p&gt;With the end-of-year celebrations, we all had some expenses to manage,
+some of them shared with friends, and we all have this eternal problem
+of splitting them fairly.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Les bons comptes font les bons amis.&lt;/em&gt;
+French wisdom&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The &lt;a href=&#34;https://tricount.com/&#34; target=&#34;_blank&#34;&gt;Tricount&lt;/a&gt; application became famous precisely by
+solving this problem for you: just enter the expenses one by one, with who
+owes whom and you&amp;rsquo;ll get the simplest transactions to balance the amounts at
+the end.&lt;/p&gt;
+
+&lt;p&gt;In this post, we&amp;rsquo;ll model the expense balancing problem from a graph
+perspective and see how to come up with a solution using Julia and the
+JuliaGraph ecosystem.&lt;/p&gt;
+
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;p&gt;We will use the awesome GraphCoin as a currency in this post, noted GPHC to
+be sure no one feels hurt.&lt;/p&gt;
+
+&lt;/div&gt;
+
+
+&lt;h2 id=&#34;the-expenses-model&#34;&gt;The expenses model&lt;/h2&gt;
+
+&lt;p&gt;Say that we have $n$ users involved in the expenses. An expense
+$\delta$ is defined by an amount spent $\sigma$, the user who paid the
+expense $p$ and a non-empty set of users who are accountable for
+this expense $a$.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;$\delta = (\sigma, p, a)$&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The total of all expenses $\Sigma$ can be though of as: for any two users $u_i$ and $u_j$,
+the total amount that $u_i$ spent for $u_j$. So the expenses are a vector of
+triplets &lt;em&gt;(paid by, paid for, amount)&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;As an example, if I went out for
+pizza with Joe and paid 8GPHC for the two of us, the expense is modeled as:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;$\delta = (\sigma: 8GPHC, p: Mathieu, a: [Mathieu, Joe])$.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Now considering I don&amp;rsquo;t keep track of money I owe myself, the sum of all expenses
+is the vector composed of one triplet:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;$\Sigma = [(Mathieu, Joe, \frac{8}{2} = 4)]$&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In Julia, the expense information can be translated to a structure:
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;User &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;
+GraphCoin &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float16&lt;/span&gt;
+struct Expense
+    payer&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;User
+    amount&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;GraphCoin
+    users&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Set&lt;/span&gt;{User}
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;reducing-expenses&#34;&gt;Reducing expenses&lt;/h2&gt;
+
+&lt;p&gt;Now that we have a full representation of the expenses,
+the purpose of balancing is to find a vector of transactions which cancels out
+the expenses. A naive approach would be to use the transposed expense matrix
+as a transaction matrix. If $u_i$ paid $\Sigma_{i,j}$ for $u_j$,
+then $u_j$ paying back that exact amount to $u_i$ will solve the problem.
+So we need in the worst case as many transactions after the trip as
+$|u| \cdot (|u| - 1)$. For 5 users, that&amp;rsquo;s already 20 transactions,
+how can we improve it?&lt;/p&gt;
+
+&lt;h2 id=&#34;breaking-strongly-connected-components&#34;&gt;Breaking strongly connected components&lt;/h2&gt;
+
+&lt;p&gt;Suppose that I paid the pizza slice to Joe for 4GPHC, but he bought me an ice
+cream for 2GPHC the day after. In the naive models, we would have two
+transactions after the trip: he give me 4GPHC and I would give him 2GPHC. That
+does not make any sense, he should simply pay the difference between what he
+owes me and what I owe him. For any pair of users, there should only be
+at most one transaction from the most in debt to the other, this result in the
+worst case of $\frac{|u| \cdot (|u| - 1)}{2}$ transactions, so 10 transactions
+for 5 people.&lt;/p&gt;
+
+&lt;p&gt;Now imagine I still paid 4GPHC for Joe, who paid 2GPHC for Marie, who paid 4GPHC
+for me. In graph terminology, this is called a
+&lt;em&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Strongly_connected_component&#34; target=&#34;_blank&#34;&gt;strongly connected component&lt;/a&gt;&lt;/em&gt;.
+The point here is that transactions will flow from one user to the next one,
+and back to the first.&lt;/p&gt;
+
+&lt;p&gt;If there is a cycle, we can find the minimal due sum within it. In our 3-people
+case, it is 2GPHC. That&amp;rsquo;s the amount which is just moving from hand to hand and
+back at the origin: it can be forgotten. This yields a new net debt:
+I paid 2GPHC for Joe, Marie paid 2GPHC for me. We reduced the number of
+transactions and the amount due thanks to this cycle reduction.&lt;/p&gt;
+
+&lt;h2 id=&#34;expenses-as-a-flow-problem&#34;&gt;Expenses as a flow problem&lt;/h2&gt;
+
+&lt;p&gt;To simplify the problem, we can notice we don&amp;rsquo;t actually care about who paid
+whom for what, a fair reimbursement plan only requires two conditions:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;All people who are owed some money are given at least that amount&lt;/li&gt;
+&lt;li&gt;People who owe money don&amp;rsquo;t pay more than the net amount they ought to pay&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;We can define a directed flow network with users split in two sets of vertices,
+depending on whether they owe or are owed money. We call these two sets $V_1$
+and $V_2$ respectively.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;There is a directed edge from any node from $V_1$ to $V_2$.&lt;/li&gt;
+&lt;li&gt;We define a &lt;em&gt;source&lt;/em&gt; noted $s$ connected to all vertices in $V_1$, the edge
+from $s$ to any node of $V_1$ has a capacity equal to what they owe.&lt;/li&gt;
+&lt;li&gt;There is an edge from any node of $V_1$ to any node of $V_2$.&lt;/li&gt;
+&lt;li&gt;We define a &lt;em&gt;sink&lt;/em&gt; noted $t$ to which all vertices in $V_2$ connect, with
+infinite capacity and a demand (the minimal flow that has to pass through) equal
+to what they are owed.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;With this model, GraphCoins will flow from user owing money to users who are
+owed money, see &lt;a href=&#34;https://en.wikipedia.org/wiki/Maximum_flow_problem&#34; target=&#34;_blank&#34;&gt;Wikipedia description of the flow problem&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;computing-net-owed-amount-per-user&#34;&gt;Computing net owed amount per user&lt;/h3&gt;
+
+&lt;p&gt;Given a vector of expenses, we should be able to build the matrix holding what
+is owed in net from a user to another:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #CC3300&#34;&gt;    Builds the matrix of net owed GraphCoins&lt;/span&gt;
+&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt; compute_net_owing(expenses&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Vector&lt;/span&gt;{Expense}, nusers&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;)
+    owing_matrix &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; zeros(GraphCoin, nusers, nusers)
+    &lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# row owes to column&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; expense &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; expenses
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; user &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; expense&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;users
+            &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; user &lt;span style=&#34;color: #555555&#34;&gt;!=&lt;/span&gt; expense&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;payer
+                owing_matrix[user,expense&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;payer] &lt;span style=&#34;color: #555555&#34;&gt;+=&lt;/span&gt; expense&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;amount &lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt; length(expense&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;users)
+            &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# compute net owed amount&lt;/span&gt;
+    net_owing &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; zeros(GraphCoin, nusers, nusers)    
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;nusers&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; i&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;nusers
+            &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; owing_matrix[i,j] &lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;&lt;/span&gt; owing_matrix[j,i]
+                net_owing[i,j] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; owing_matrix[i,j] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; owing_matrix[j,i]
+            &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;elseif&lt;/span&gt; owing_matrix[i,j] &lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;&lt;/span&gt; owing_matrix[j,i]
+                net_owing[j,i] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; owing_matrix[j,i] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; owing_matrix[i,j]
+            &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; net_owing&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Matrix&lt;/span&gt;{GraphCoin}
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;From that matrix, we should determine the net amount any user owes or is owed:
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #CC3300&#34;&gt;    What is owed to a given user (negative if user owes money)&lt;/span&gt;
+&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt; net_owed_user(net_owing&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Matrix&lt;/span&gt;{GraphCoin})
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; (sum(net_owing,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;)&lt;span style=&#34;color: #555555&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; sum(net_owing,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;))[&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;]
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;sum&lt;/code&gt; function used with &lt;code&gt;1&lt;/code&gt; or &lt;code&gt;2&lt;/code&gt; sums a matrix over its rows, columns
+respectively. This computes a difference between what a user is owed and what
+they owe.&lt;/p&gt;
+
+&lt;h3 id=&#34;building-the-graph-and-the-corresponding-flow-problem&#34;&gt;Building the graph and the corresponding flow problem&lt;/h3&gt;
+
+&lt;p&gt;A flow problem is determined by the directed graph (nodes and directed edges),
+the minimal flow for any edge, a maximal flow or capacity for any edge and a
+cost of having a certain flow going through each edge.&lt;/p&gt;
+
+&lt;p&gt;First, we need to import LightGraphs, the core package of the JuliaGraph
+ecosystem containing essential types.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;import LightGraphs; const lg = LightGraphs
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note that I use explicit package import (not &lt;code&gt;using&lt;/code&gt;), an habit I
+kept from using Python and that I consider more readable than importing
+the whole package into the namespace. &lt;code&gt;lg&lt;/code&gt; has become my usual name for the
+LightGraphs package.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt; build_graph(net_owing&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Matrix&lt;/span&gt;{GraphCoin})
+    nusers &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; size(net_owing,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;)
+    g &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; lg&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;DiGraph(nusers &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+    source &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; nusers &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;
+    sink &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; nusers &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;
+    net_user &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; net_owed_user(net_owing)
+    v1 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; [idx &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; idx &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;nusers &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; net_user[idx] &lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]
+    v2 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; [idx &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; idx &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;nusers &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; net_user[idx] &lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]
+    capacity &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; zeros(GraphCoin, nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+    demand &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; zeros(GraphCoin, nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+    maxcap &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; sum(net_owing)
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; u1 &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; v1
+        lg&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;add_edge!(g,source,u1)
+        capacity[source,u1] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;net_user[u1]
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; u2 &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; v2
+            lg&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;add_edge!(g,u1,u2)
+            capacity[u1,u2] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; maxcap
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; u2 &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; v2
+        lg&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;add_edge!(g,u2,sink)
+        capacity[u2,sink] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; maxcap
+        demand[u2,sink] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; net_user[u2]
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    (g, capacity, demand)
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This function builds our graph structure and all informations we need attached.&lt;/p&gt;
+
+&lt;h3 id=&#34;solving-the-flow-problem&#34;&gt;Solving the flow problem&lt;/h3&gt;
+
+&lt;p&gt;Now that the components are set, we can solve the problem using another
+component of the JuliaGraphs ecosystem specialized for flow problems:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;using LightGraphsFlows: mincost_flow
+using Clp: ClpSolver
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We also need a Linear Programming solver to pass to the flow solver, all we
+have to do is bundle the pieces together:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt; solve_expense(expenses&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Vector&lt;/span&gt;{Expense}, nusers&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;)
+    (g, capacity, demand) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; build_graph(compute_net_owing(expenses, nusers))
+    flow &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; mincost_flow(g, capacity, demand, ones(nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;), ClpSolver(), nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;, nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; flow[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We truncate the &lt;code&gt;flow&lt;/code&gt; matrix because we are only interested in what users
+are paying each other, not in the flows from and to the source and sink.&lt;/p&gt;
+
+&lt;h3 id=&#34;trying-out-our-solution&#34;&gt;Trying out our solution&lt;/h3&gt;
+
+&lt;p&gt;Now that all functions are set, we can use it on any expense problem:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;expenses &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; [
+    Expense(&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Set&lt;/span&gt;([&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;])),
+    Expense(&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;24&lt;/span&gt;, &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Set&lt;/span&gt;([&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;])),
+    Expense(&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Set&lt;/span&gt;([&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;]))
+]
+solve_expense(expenses, &lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;pre&gt;&lt;code&gt;3×3 Array{Float64,2}:
+  0.0  0.0  0.0
+ 18.0  0.0  0.0
+  3.0  0.0  0.0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the result, each row pays to each column and voilà! Our three users don&amp;rsquo;t
+have to feel the tension of unpaid debts anymore.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion-perspective-and-note-on-gphc&#34;&gt;Conclusion, perspective and note on GPHC&lt;/h2&gt;
+
+&lt;p&gt;We managed to model our specific problem using &lt;em&gt;LightGraphs.jl&lt;/em&gt; and the
+associated flow package pretty easily. I have to admit being biased since
+I contributed to the JuliaGraphs ecosystem, if your impression is different
+or if you have some feedback, don&amp;rsquo;t hesitate to file an issue on the
+&lt;a href=&#34;https://github.com/JuliaGraphs&#34; target=&#34;_blank&#34;&gt;corresponding package&lt;/a&gt;, some awesome people
+will help you figure things out as they helped me.&lt;/p&gt;
+
+&lt;p&gt;There is one thing we ignored in our model, it&amp;rsquo;s the number of transactions
+realized. Using this as an objective turns the problem into a
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Integer_programming#Variants&#34; target=&#34;_blank&#34;&gt;Mixed-Integer Linear Programming&lt;/a&gt; one,
+which are much harder to solve and cannot use simple flow techniques. However,
+I still haven&amp;rsquo;t found a case where our simple approach does not yield the
+smallest number of transactions.&lt;/p&gt;
+
+&lt;p&gt;Final word: I started the idea of this article long before the crypto-madness
+(September actually), when currencies where still considered as boring,
+nerdy or both, sorry about following the (late) hype. I even changed
+GraphCoin symbol to GPHC because I found another one with which my initial
+name conflicted.&lt;/p&gt;
+
+&lt;p&gt;If you have questions or remarks on LightGraphs, LightGraphsFlows, the article
+or anything related, don&amp;rsquo;t hesitate to &lt;a href=&#34;http://twitter.com/MathieuBesancon/&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt;!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>JuliaGraphs contributions</title>
       <link>https://mbesancon.github.io/project/juliagraphs/</link>
       <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
@@ -2410,341 +2735,6 @@ part in an analysis-oriented data science project, and I hope to see you there.&
 &lt;p&gt;&lt;font size=&#34;0.7&#34;&gt;
 [1] Image source: Philipp Wagner: Machine Learning with OpenCV2
  &lt;/font&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>A Pythonic data science project: Part I</title>
-      <link>https://mbesancon.github.io/post/2016-01-11-fraud-detection/</link>
-      <pubDate>Mon, 11 Jan 2016 00:00:00 -0500</pubDate>
-      
-      <guid>https://mbesancon.github.io/post/2016-01-11-fraud-detection/</guid>
-      <description>
-
-&lt;h2 id=&#34;a-complete-predictive-modeling-project-in-python&#34;&gt;A complete predictive modeling project in Python&lt;/h2&gt;
-
-&lt;p&gt;Part I: Preprocessing and exploratory analysis&lt;/p&gt;
-
-&lt;p&gt;One of the amazing things with data science is the ability to tackle
-complex problems involving hidden parallel phenomena interacting with each
-other, just from the data they produce.&lt;/p&gt;
-
-&lt;p&gt;As an example, we will use data extracted from images of forged and genuine
-banknotes. The distinction between the two categories would be thought to
-require a deep domain expertise, which limits the ability to check
-more than a few banknotes at a time. An automated and trustable test would
-be of interest for many businesses, governments and organizations.&lt;/p&gt;
-
-&lt;p&gt;Starting from the data provided by H. Dörsken and
-Volker Lohweg, from the University of Applied Science of Ostwestfalen-Lippe,
-Germany on the
-&lt;a href=&#34;https://archive.ics.uci.edu/ml/datasets/banknote+authentication&#34; target=&#34;_blank&#34;&gt;UCI Machine Learning Repository&lt;/a&gt;,
-we will follow key steps of a data science project to build a performant, yet
-scalable classifier.&lt;/p&gt;
-
-&lt;p&gt;The dataset was built by applying a wavelet
-transform on images of banknotes to extract 4 features:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Variance, skewness, kurtosis of the wavelet transform (respectively second,
-third and fourth moment of the distribution).&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Entropy of the image, which can be interpreted as the amount of information
-or randomness (which is represented by how different adjacent pixels are).&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;You can find further information on Wavelet on &lt;a href=&#34;https://en.wikipedia.org/wiki/Wavelet_transform&#34; target=&#34;_blank&#34;&gt;Wikipedia&lt;/a&gt;
-or ask &lt;a href=&#34;https://www.quora.com/In-an-intuitive-explanation-what-is-a-wavelet-transform-and-how-does-it-work-in-an-image&#34; target=&#34;_blank&#34;&gt;Quora&lt;/a&gt;.
-An explanation of entropy as meant in the image processing context can
-be found &lt;a href=&#34;http://www.astro.cornell.edu/research/projects/compression/entropy.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;To get a better understanding of the way the algorithms works,
-the full model will be built from scratch or almost (not using a machine
-learning library like scikit-learn on Python or caret on R).&lt;/p&gt;
-
-&lt;p&gt;Basic statistic notions (variance, linear regression) and some basic python
-knowledge is recommended to follow through the three articles.&lt;/p&gt;
-
-&lt;h2 id=&#34;programming-choices-and-libraries&#34;&gt;Programming choices and libraries&lt;/h2&gt;
-
-&lt;h3 id=&#34;language-and-environment&#34;&gt;Language and environment&lt;/h3&gt;
-
-&lt;p&gt;Python, which is a great
-compromise between practicality (with handy data format and manipulation)
-and scalability (much easier to implement for large scale, automated
-computation than R, Octave or Matlab). More precisely, Python 3.5.1 with
-the Anaconda distribution 2.4.0, I personally use the Spyder environment
-but feel free to keep your favorite tools.&lt;/p&gt;
-
-&lt;h3 id=&#34;libraries&#34;&gt;Libraries&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Collections (built-in) for occurrence counting&lt;/li&gt;
-&lt;li&gt;numpy 1.10.1, providing key data format, mathematical manipulation techniques.&lt;/li&gt;
-&lt;li&gt;scipy 0.16.0, imported here for the distance matrix computation and the stat submodule for Quantile-Quantile plots.&lt;/li&gt;
-&lt;li&gt;pandas 0.17.1 for advanced data format, high-level manipulation and visualization&lt;/li&gt;
-&lt;li&gt;pyplot from matplotlib 1.5.0 for basic visualization&lt;/li&gt;
-&lt;li&gt;ggplot 0.6.8, which I think is a much improved way to visualize data&lt;/li&gt;
-&lt;li&gt;urllib3 to parse the data directly from the repository (no manual download)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;So our first lines of code (once you placed your data in the proper repository)
-should look like this:&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;np&lt;/span&gt;
-&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;pandas&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;pd&lt;/span&gt;
-&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;ggplot&lt;/span&gt;
-&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;matplotlib&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; pyplot &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;as&lt;/span&gt; plt
-&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;scipy.stats&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;stats&lt;/span&gt;
-&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;scipy.spatial.distance&lt;/span&gt;
-&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;collections&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; Counter
-&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #00CCFF; font-weight: bold&#34;&gt;urllib3&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h3 id=&#34;source-files&#34;&gt;Source files&lt;/h3&gt;
-
-&lt;p&gt;The source files will be available on the corresponding Github repository.
-These include:
-* preprocess.py to load the data and libraries
-* exploratory.py for preliminary visualization
-* feature_eng.py where the data will be transformed to boost the model performance
-* model_GLM.py where we define key functions and build our model
-* model.py where we will visualize characteristics of the model&lt;/p&gt;
-
-&lt;h1 id=&#34;dataset-overview-and-exploratory-analysis&#34;&gt;Dataset overview and exploratory analysis&lt;/h1&gt;
-
-&lt;p&gt;Understanding intuitive phenomena in the data and test its underlying structure
-are the objectives for this first (usually long) phase of a data science
-project, especially if you were not involved in the data collection process.&lt;/p&gt;
-
-&lt;h2 id=&#34;data-parsing&#34;&gt;Data parsing&lt;/h2&gt;
-
-&lt;p&gt;Instead of manually downloading the data and placing it in our project
-repository, we will download using the &lt;em&gt;urllib3&lt;/em&gt; library.&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;url &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;https://archive.ics.uci.edu/ml/machine-learning-databases/00267/data_banknote_authentication.txt&amp;quot;&lt;/span&gt;
-http &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; urllib3&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;PoolManager()
-r &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; http&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;request(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;GET&amp;#39;&lt;/span&gt;,url)
-&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color: #336666&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;data_banknote_authentication.txt&amp;quot;&lt;/span&gt;,&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;wb&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;as&lt;/span&gt; f:
-  f&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;write(r&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;data)
-r&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;release_conn()
-data0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; pd&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;read_csv(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;data_banknote_authentication.txt&amp;quot;&lt;/span&gt;,
-  names&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;vari&amp;quot;&lt;/span&gt;,&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;skew&amp;quot;&lt;/span&gt;,&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;kurtosis&amp;quot;&lt;/span&gt;,&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;entropy&amp;quot;&lt;/span&gt;,&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;])
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h2 id=&#34;key-statistics-and-overview&#34;&gt;Key statistics and overview&lt;/h2&gt;
-
-&lt;p&gt;Since the data were loaded using pandas, key methods of the DataFrame
-object can be used to find some key information in the data.&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;data0&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;describe()
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th align=&#34;center&#34;&gt;&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;vari&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;skew&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;kurtosis&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;entropy&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;class&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;count&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;mean&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.433735&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1.922353&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1.397627&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-1.191657&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.444606&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;std&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;2.842763&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;5.869047&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;4.310030&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;2.101013&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.497103&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;min&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-7.042100&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-13.773100&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-5.286100&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-8.548200&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.000000&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;25%&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-1.773000&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-1.708200&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-1.574975&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-2.413450&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.000000&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;50%&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.496180&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;2.319650&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.616630&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-0.586650&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.000000&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;75%&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;2.821475&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;6.814625&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;3.179250&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.394810&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1.000000&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;max&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;6.824800&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;12.951600&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;17.927400&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;2.449500&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1.000000&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Negative values can be noticed in the variance and entropy, whereas it is
-theoretically impossible, so it can be deduced that some preprocessing
-operations were already performed.&lt;/p&gt;
-
-&lt;p&gt;We are trying to detect forged banknotes thanks to the extracted features.
-The dataset contains 1372 observations, including 610 forged banknotes, so
-roughly 45%. The two classes are balanced in the data, which might be relevant
-for some algorithms. Indeed, a higher proportion of a category in the
-characteristic of interest (here whether the banknote is genuine or not) yields
-a higher &lt;strong&gt;prior probability&lt;/strong&gt; for that outcome in Bayesian reasoning.&lt;/p&gt;
-
-&lt;h2 id=&#34;kernel-density-estimation-for-each-variable-by-class&#34;&gt;Kernel Density Estimation for each variable by class&lt;/h2&gt;
-
-&lt;p&gt;KDE are powerful tools to understand how 1-dimensional data are distributed.
-The estimate can also be split by class to find differences in the
-distributions. Using ggplot and the pandas &lt;code&gt;groupby&lt;/code&gt; method, the
-plots can be generated and saved as such:&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; v &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; data0&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;columns[:&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;]:
-ggplot&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ggsave(
-  ggplot&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ggplot(ggplot&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;aes(x&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;v, color&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;class&amp;#39;&lt;/span&gt;),data&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;data0)&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;
-  ggplot&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;geom_density()&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;
-  ggplot&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;geom_point(ggplot&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;aes(y&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;),alpha&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;0.2&lt;/span&gt;)&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;
-  ggplot&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;labs(title&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;KDE &amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;v,x&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;v,y&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;KDE&amp;quot;&lt;/span&gt;),
-  &lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;KDE_&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;v&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;.png&amp;#39;&lt;/span&gt;,width&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;18&lt;/span&gt;,height&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;12&lt;/span&gt;)
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/KDE_entropy.png&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/KDE_Vari.png&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/KDE_skew.png&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/KDE_kurtosis.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Using this first simple visualization technique, we can deduce that the
-variance may be much more efficient to separate the two banknotes
-categories than the Kurtosis.&lt;/p&gt;
-
-&lt;h2 id=&#34;visualizing-variable-combinations-with-scatter-plots&#34;&gt;Visualizing variable combinations with scatter plots&lt;/h2&gt;
-
-&lt;p&gt;We generate a color list using for-comprehension:&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;col &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #336666&#34;&gt;list&lt;/span&gt;(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; i&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;])
-pd&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;tools&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plotting&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;scatter_matrix(data0&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ix[:,:&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;],figsize&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color: #FF6600&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;),
-color&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;col,diagonal&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;kde&amp;#39;&lt;/span&gt;)
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/scatter_matrix.png&#34; alt=&#34;Scatter matrix: red dots represent the class &amp;quot;1&amp;quot;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;A scatter plot is the most straight-forward way to understand intuitive and
-obvious patterns in the data. It is especially efficient when the number of
-variables and classes is limited, such as our data set. It allows us to
-understand class-dependent, non-linear relationships between variables.&lt;/p&gt;
-
-&lt;p&gt;This is much more efficient than a simple statistic, such as the correlation
-coefficient which would not have found the skewness and entropy to be related.
-From these rather strong relationships between variables, we now know that
-some techniques based on independent features might not be efficient here.&lt;/p&gt;
-
-&lt;h2 id=&#34;testing-a-distribution-with-quantile-quantile-plots&#34;&gt;Testing a distribution with Quantile-Quantile plots&lt;/h2&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# Subsetting the data by class&lt;/span&gt;
-d0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; data0[data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]
-d1 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; data0[data0[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;]
-
-&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# For each variable&lt;/span&gt;
-&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; v &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; data0&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;columns[:&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;]:
-&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;#set the figure size&lt;/span&gt;
-plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;figure(figsize&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color: #FF6600&#34;&gt;9&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;))
-&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# define two subplots&lt;/span&gt;
-ax1 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;  plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;subplot(&lt;span style=&#34;color: #FF6600&#34;&gt;121&lt;/span&gt;)
-&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# compute the quantile-quantile plot with normal distribution&lt;/span&gt;
-stats&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;probplot(d0[v],dist&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;norm&amp;#39;&lt;/span&gt;,plot&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;plt)
-&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# add title&lt;/span&gt;
-plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;Normal QQ-plot &amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;v &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot; - Class 0&amp;quot;&lt;/span&gt;)
-ax2 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;subplot(&lt;span style=&#34;color: #FF6600&#34;&gt;122&lt;/span&gt;)
-stats&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;probplot(d1[v],dist&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;norm&amp;#39;&lt;/span&gt;,plot&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;plt)
-plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;Normal QQ-plot &amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;v &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot; - Class 1&amp;quot;&lt;/span&gt;)
-plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;savefig(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;qqplot_&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;v&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;.png&amp;quot;&lt;/span&gt;,width&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;700&lt;/span&gt;,height&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;250&lt;/span&gt;)
-plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/qqplot_entropy.png&#34; alt=&#34;QQplot entropy&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/qqplot_skew.png&#34; alt=&#34;QQplot skewness&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/qqplot_vari.png&#34; alt=&#34;QQplot variance&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/qqplot_kurtosis.png&#34; alt=&#34;QQplot kurtosis&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Even though some variables are quite far from normally distributed, the
-hypothesis would be acceptable for some model-based learning algorithms using
-properties of Gaussian variables.&lt;/p&gt;
-
-&lt;h2 id=&#34;non-parametric-distribution-with-boxplots&#34;&gt;Non-parametric distribution with boxplots&lt;/h2&gt;
-
-&lt;p&gt;Boxplots represent the data using 25th, 50th and 75th percentiles which can be
-more robust than mean and variance. The pandas library offers a quick method
-and plotting tool to represent boxplots for each class and variable. It
-highlights the differences in the spread of the data.&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;data0&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;groupby(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;)&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;boxplot(figsize&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color: #FF6600&#34;&gt;9&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;))
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/static/img/posts/BankNotes/figures/Boxplot.png&#34; alt=&#34;Boxplot representation&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This will be useful in the next part, when the data will be transformed to
-enhance the performance and robustness of predictive models.&lt;/p&gt;
-
-&lt;p&gt;So see you in the next part for feature engineering!&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;font size=&#34;0.7&#34;&gt;
-[1] Image source: ik1pmr.com
-&lt;/font&gt;&lt;/p&gt;
 </description>
     </item>
     

@@ -11,6 +11,331 @@
     <atom:link href="/post/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Solving the group expenses headache with graphs</title>
+      <link>https://mbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 -0500</pubDate>
+      
+      <guid>https://mbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
+      <description>
+
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#the-expenses-model&#34;&gt;The expenses model&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#reducing-expenses&#34;&gt;Reducing expenses&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#breaking-strongly-connected-components&#34;&gt;Breaking strongly connected components&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#expenses-as-a-flow-problem&#34;&gt;Expenses as a flow problem&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#computing-net-owed-amount-per-user&#34;&gt;Computing net owed amount per user&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#building-the-graph-and-the-corresponding-flow-problem&#34;&gt;Building the graph and the corresponding flow problem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#solving-the-flow-problem&#34;&gt;Solving the flow problem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#trying-out-our-solution&#34;&gt;Trying out our solution&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion-perspective-and-note-on-gphc&#34;&gt;Conclusion, perspective and note on GPHC&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nav&gt;
+
+
+&lt;p&gt;With the end-of-year celebrations, we all had some expenses to manage,
+some of them shared with friends, and we all have this eternal problem
+of splitting them fairly.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Les bons comptes font les bons amis.&lt;/em&gt;
+French wisdom&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The &lt;a href=&#34;https://tricount.com/&#34; target=&#34;_blank&#34;&gt;Tricount&lt;/a&gt; application became famous precisely by
+solving this problem for you: just enter the expenses one by one, with who
+owes whom and you&amp;rsquo;ll get the simplest transactions to balance the amounts at
+the end.&lt;/p&gt;
+
+&lt;p&gt;In this post, we&amp;rsquo;ll model the expense balancing problem from a graph
+perspective and see how to come up with a solution using Julia and the
+JuliaGraph ecosystem.&lt;/p&gt;
+
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;p&gt;We will use the awesome GraphCoin as a currency in this post, noted GPHC to
+be sure no one feels hurt.&lt;/p&gt;
+
+&lt;/div&gt;
+
+
+&lt;h2 id=&#34;the-expenses-model&#34;&gt;The expenses model&lt;/h2&gt;
+
+&lt;p&gt;Say that we have $n$ users involved in the expenses. An expense
+$\delta$ is defined by an amount spent $\sigma$, the user who paid the
+expense $p$ and a non-empty set of users who are accountable for
+this expense $a$.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;$\delta = (\sigma, p, a)$&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The total of all expenses $\Sigma$ can be though of as: for any two users $u_i$ and $u_j$,
+the total amount that $u_i$ spent for $u_j$. So the expenses are a vector of
+triplets &lt;em&gt;(paid by, paid for, amount)&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;As an example, if I went out for
+pizza with Joe and paid 8GPHC for the two of us, the expense is modeled as:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;$\delta = (\sigma: 8GPHC, p: Mathieu, a: [Mathieu, Joe])$.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Now considering I don&amp;rsquo;t keep track of money I owe myself, the sum of all expenses
+is the vector composed of one triplet:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;$\Sigma = [(Mathieu, Joe, \frac{8}{2} = 4)]$&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In Julia, the expense information can be translated to a structure:
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;User &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;
+GraphCoin &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float16&lt;/span&gt;
+struct Expense
+    payer&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;User
+    amount&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;GraphCoin
+    users&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Set&lt;/span&gt;{User}
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;reducing-expenses&#34;&gt;Reducing expenses&lt;/h2&gt;
+
+&lt;p&gt;Now that we have a full representation of the expenses,
+the purpose of balancing is to find a vector of transactions which cancels out
+the expenses. A naive approach would be to use the transposed expense matrix
+as a transaction matrix. If $u_i$ paid $\Sigma_{i,j}$ for $u_j$,
+then $u_j$ paying back that exact amount to $u_i$ will solve the problem.
+So we need in the worst case as many transactions after the trip as
+$|u| \cdot (|u| - 1)$. For 5 users, that&amp;rsquo;s already 20 transactions,
+how can we improve it?&lt;/p&gt;
+
+&lt;h2 id=&#34;breaking-strongly-connected-components&#34;&gt;Breaking strongly connected components&lt;/h2&gt;
+
+&lt;p&gt;Suppose that I paid the pizza slice to Joe for 4GPHC, but he bought me an ice
+cream for 2GPHC the day after. In the naive models, we would have two
+transactions after the trip: he give me 4GPHC and I would give him 2GPHC. That
+does not make any sense, he should simply pay the difference between what he
+owes me and what I owe him. For any pair of users, there should only be
+at most one transaction from the most in debt to the other, this result in the
+worst case of $\frac{|u| \cdot (|u| - 1)}{2}$ transactions, so 10 transactions
+for 5 people.&lt;/p&gt;
+
+&lt;p&gt;Now imagine I still paid 4GPHC for Joe, who paid 2GPHC for Marie, who paid 4GPHC
+for me. In graph terminology, this is called a
+&lt;em&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Strongly_connected_component&#34; target=&#34;_blank&#34;&gt;strongly connected component&lt;/a&gt;&lt;/em&gt;.
+The point here is that transactions will flow from one user to the next one,
+and back to the first.&lt;/p&gt;
+
+&lt;p&gt;If there is a cycle, we can find the minimal due sum within it. In our 3-people
+case, it is 2GPHC. That&amp;rsquo;s the amount which is just moving from hand to hand and
+back at the origin: it can be forgotten. This yields a new net debt:
+I paid 2GPHC for Joe, Marie paid 2GPHC for me. We reduced the number of
+transactions and the amount due thanks to this cycle reduction.&lt;/p&gt;
+
+&lt;h2 id=&#34;expenses-as-a-flow-problem&#34;&gt;Expenses as a flow problem&lt;/h2&gt;
+
+&lt;p&gt;To simplify the problem, we can notice we don&amp;rsquo;t actually care about who paid
+whom for what, a fair reimbursement plan only requires two conditions:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;All people who are owed some money are given at least that amount&lt;/li&gt;
+&lt;li&gt;People who owe money don&amp;rsquo;t pay more than the net amount they ought to pay&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;We can define a directed flow network with users split in two sets of vertices,
+depending on whether they owe or are owed money. We call these two sets $V_1$
+and $V_2$ respectively.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;There is a directed edge from any node from $V_1$ to $V_2$.&lt;/li&gt;
+&lt;li&gt;We define a &lt;em&gt;source&lt;/em&gt; noted $s$ connected to all vertices in $V_1$, the edge
+from $s$ to any node of $V_1$ has a capacity equal to what they owe.&lt;/li&gt;
+&lt;li&gt;There is an edge from any node of $V_1$ to any node of $V_2$.&lt;/li&gt;
+&lt;li&gt;We define a &lt;em&gt;sink&lt;/em&gt; noted $t$ to which all vertices in $V_2$ connect, with
+infinite capacity and a demand (the minimal flow that has to pass through) equal
+to what they are owed.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;With this model, GraphCoins will flow from user owing money to users who are
+owed money, see &lt;a href=&#34;https://en.wikipedia.org/wiki/Maximum_flow_problem&#34; target=&#34;_blank&#34;&gt;Wikipedia description of the flow problem&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;computing-net-owed-amount-per-user&#34;&gt;Computing net owed amount per user&lt;/h3&gt;
+
+&lt;p&gt;Given a vector of expenses, we should be able to build the matrix holding what
+is owed in net from a user to another:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #CC3300&#34;&gt;    Builds the matrix of net owed GraphCoins&lt;/span&gt;
+&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt; compute_net_owing(expenses&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Vector&lt;/span&gt;{Expense}, nusers&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;)
+    owing_matrix &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; zeros(GraphCoin, nusers, nusers)
+    &lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# row owes to column&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; expense &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; expenses
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; user &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; expense&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;users
+            &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; user &lt;span style=&#34;color: #555555&#34;&gt;!=&lt;/span&gt; expense&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;payer
+                owing_matrix[user,expense&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;payer] &lt;span style=&#34;color: #555555&#34;&gt;+=&lt;/span&gt; expense&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;amount &lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt; length(expense&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;users)
+            &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# compute net owed amount&lt;/span&gt;
+    net_owing &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; zeros(GraphCoin, nusers, nusers)    
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;nusers&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; i&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;nusers
+            &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; owing_matrix[i,j] &lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;&lt;/span&gt; owing_matrix[j,i]
+                net_owing[i,j] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; owing_matrix[i,j] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; owing_matrix[j,i]
+            &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;elseif&lt;/span&gt; owing_matrix[i,j] &lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;&lt;/span&gt; owing_matrix[j,i]
+                net_owing[j,i] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; owing_matrix[j,i] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; owing_matrix[i,j]
+            &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; net_owing&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Matrix&lt;/span&gt;{GraphCoin}
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;From that matrix, we should determine the net amount any user owes or is owed:
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #CC3300&#34;&gt;    What is owed to a given user (negative if user owes money)&lt;/span&gt;
+&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt; net_owed_user(net_owing&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Matrix&lt;/span&gt;{GraphCoin})
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; (sum(net_owing,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;)&lt;span style=&#34;color: #555555&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; sum(net_owing,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;))[&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;]
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;sum&lt;/code&gt; function used with &lt;code&gt;1&lt;/code&gt; or &lt;code&gt;2&lt;/code&gt; sums a matrix over its rows, columns
+respectively. This computes a difference between what a user is owed and what
+they owe.&lt;/p&gt;
+
+&lt;h3 id=&#34;building-the-graph-and-the-corresponding-flow-problem&#34;&gt;Building the graph and the corresponding flow problem&lt;/h3&gt;
+
+&lt;p&gt;A flow problem is determined by the directed graph (nodes and directed edges),
+the minimal flow for any edge, a maximal flow or capacity for any edge and a
+cost of having a certain flow going through each edge.&lt;/p&gt;
+
+&lt;p&gt;First, we need to import LightGraphs, the core package of the JuliaGraph
+ecosystem containing essential types.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;import LightGraphs; const lg = LightGraphs
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note that I use explicit package import (not &lt;code&gt;using&lt;/code&gt;), an habit I
+kept from using Python and that I consider more readable than importing
+the whole package into the namespace. &lt;code&gt;lg&lt;/code&gt; has become my usual name for the
+LightGraphs package.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt; build_graph(net_owing&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Matrix&lt;/span&gt;{GraphCoin})
+    nusers &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; size(net_owing,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;)
+    g &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; lg&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;DiGraph(nusers &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+    source &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; nusers &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;
+    sink &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; nusers &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;
+    net_user &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; net_owed_user(net_owing)
+    v1 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; [idx &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; idx &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;nusers &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; net_user[idx] &lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]
+    v2 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; [idx &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; idx &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;nusers &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; net_user[idx] &lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]
+    capacity &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; zeros(GraphCoin, nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+    demand &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; zeros(GraphCoin, nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+    maxcap &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; sum(net_owing)
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; u1 &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; v1
+        lg&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;add_edge!(g,source,u1)
+        capacity[source,u1] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;net_user[u1]
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; u2 &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; v2
+            lg&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;add_edge!(g,u1,u2)
+            capacity[u1,u2] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; maxcap
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; u2 &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; v2
+        lg&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;add_edge!(g,u2,sink)
+        capacity[u2,sink] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; maxcap
+        demand[u2,sink] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; net_user[u2]
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    (g, capacity, demand)
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This function builds our graph structure and all informations we need attached.&lt;/p&gt;
+
+&lt;h3 id=&#34;solving-the-flow-problem&#34;&gt;Solving the flow problem&lt;/h3&gt;
+
+&lt;p&gt;Now that the components are set, we can solve the problem using another
+component of the JuliaGraphs ecosystem specialized for flow problems:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;using LightGraphsFlows: mincost_flow
+using Clp: ClpSolver
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We also need a Linear Programming solver to pass to the flow solver, all we
+have to do is bundle the pieces together:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt; solve_expense(expenses&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Vector&lt;/span&gt;{Expense}, nusers&lt;span style=&#34;color: #555555&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;)
+    (g, capacity, demand) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; build_graph(compute_net_owing(expenses, nusers))
+    flow &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; mincost_flow(g, capacity, demand, ones(nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;), ClpSolver(), nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;, nusers&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; flow[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We truncate the &lt;code&gt;flow&lt;/code&gt; matrix because we are only interested in what users
+are paying each other, not in the flows from and to the source and sink.&lt;/p&gt;
+
+&lt;h3 id=&#34;trying-out-our-solution&#34;&gt;Trying out our solution&lt;/h3&gt;
+
+&lt;p&gt;Now that all functions are set, we can use it on any expense problem:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;expenses &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; [
+    Expense(&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Set&lt;/span&gt;([&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;])),
+    Expense(&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;24&lt;/span&gt;, &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Set&lt;/span&gt;([&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;])),
+    Expense(&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Set&lt;/span&gt;([&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;]))
+]
+solve_expense(expenses, &lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;pre&gt;&lt;code&gt;3×3 Array{Float64,2}:
+  0.0  0.0  0.0
+ 18.0  0.0  0.0
+  3.0  0.0  0.0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the result, each row pays to each column and voilà! Our three users don&amp;rsquo;t
+have to feel the tension of unpaid debts anymore.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion-perspective-and-note-on-gphc&#34;&gt;Conclusion, perspective and note on GPHC&lt;/h2&gt;
+
+&lt;p&gt;We managed to model our specific problem using &lt;em&gt;LightGraphs.jl&lt;/em&gt; and the
+associated flow package pretty easily. I have to admit being biased since
+I contributed to the JuliaGraphs ecosystem, if your impression is different
+or if you have some feedback, don&amp;rsquo;t hesitate to file an issue on the
+&lt;a href=&#34;https://github.com/JuliaGraphs&#34; target=&#34;_blank&#34;&gt;corresponding package&lt;/a&gt;, some awesome people
+will help you figure things out as they helped me.&lt;/p&gt;
+
+&lt;p&gt;There is one thing we ignored in our model, it&amp;rsquo;s the number of transactions
+realized. Using this as an objective turns the problem into a
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Integer_programming#Variants&#34; target=&#34;_blank&#34;&gt;Mixed-Integer Linear Programming&lt;/a&gt; one,
+which are much harder to solve and cannot use simple flow techniques. However,
+I still haven&amp;rsquo;t found a case where our simple approach does not yield the
+smallest number of transactions.&lt;/p&gt;
+
+&lt;p&gt;Final word: I started the idea of this article long before the crypto-madness
+(September actually), when currencies where still considered as boring,
+nerdy or both, sorry about following the (late) hype. I even changed
+GraphCoin symbol to GPHC because I found another one with which my initial
+name conflicted.&lt;/p&gt;
+
+&lt;p&gt;If you have questions or remarks on LightGraphs, LightGraphsFlows, the article
+or anything related, don&amp;rsquo;t hesitate to &lt;a href=&#34;http://twitter.com/MathieuBesancon/&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt;!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>DifferentialEquations.jl - part 2: decision from the model</title>
       <link>https://mbesancon.github.io/post/2017-12-20-diffeq-julia2/</link>
       <pubDate>Wed, 20 Dec 2017 00:00:00 -0500</pubDate>
