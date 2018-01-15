@@ -331,6 +331,9 @@ nerdy or both, sorry about following the (late) hype. I even changed
 GraphCoin symbol to GPHC because I found another one with which my initial
 name conflicted.&lt;/p&gt;
 
+&lt;p&gt;The cover image was created using
+&lt;a href=&#34;https://github.com/JuliaGraphs/GraphPlot.jl&#34; target=&#34;_blank&#34;&gt;GraphPlot.jl&lt;/a&gt;.&lt;/p&gt;
+
 &lt;p&gt;If you have questions or remarks on LightGraphs, LightGraphsFlows, the article
 or anything related, don&amp;rsquo;t hesitate to &lt;a href=&#34;http://twitter.com/MathieuBesancon/&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt;!&lt;/p&gt;
 </description>
