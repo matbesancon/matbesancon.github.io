@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Julia Package on μβ</title>
+    <link>https://mbesancon.github.io/tags/julia-package/</link>
+    <description>Recent content in Julia Package on μβ</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
+    <lastBuildDate>Wed, 10 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/julia-package/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>JuliaGraphs contributions</title>
+      <link>https://mbesancon.github.io/project/juliagraphs/</link>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://mbesancon.github.io/project/juliagraphs/</guid>
+      <description>&lt;p&gt;Starting from a weird Kaggle &lt;a href=&#34;https://www.kaggle.com/c/santa-gift-matching&#34; target=&#34;_blank&#34;&gt;side-project&lt;/a&gt;
+during the Chrismas holidays, I gradually got involved in the &lt;a href=&#34;https://juliagraphs.github.io/&#34; target=&#34;_blank&#34;&gt;JuliaGraphs&lt;/a&gt;
+ecosystem. After some discussion on the Julia Slack &lt;em&gt;#graphs&lt;/em&gt; channel,
+I went from reporting a simple feature I needed to helping with the
+re-organization by splitting out two packages:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsMatching.jl&#34; target=&#34;_blank&#34;&gt;LightGraphsMatching.jl&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsFlows.jl&#34; target=&#34;_blank&#34;&gt;LightGraphsFlows.jl&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I also implemented the
+&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsFlows.jl/blob/master/src/mincost.jl&#34; target=&#34;_blank&#34;&gt;min-cost flow problem&lt;/a&gt;
+formulated as a linear optimization problem formulated using MathProgBase.jl,
+using any user-provided solver.&lt;/p&gt;
+
+&lt;p&gt;Many thanks to the whole JuliaGraphs team for their trust, support and advice.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>WebFuncs</title>
+      <link>https://mbesancon.github.io/project/webfuncs/</link>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://mbesancon.github.io/project/webfuncs/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/mbesancon/WebFuncs.jl&#34; target=&#34;_blank&#34;&gt;WebFuncs.jl&lt;/a&gt; is a Julia project testing the language out of its natural
+scope. Having built quite a bit with Go and Python, I wanted to see if
+the Julia ecosystem had tools for HTTP handling.&lt;/p&gt;
+
+&lt;p&gt;The inspiration of a simple-to-use function server came from the
+&lt;a href=&#34;https://github.com/metrue/fx&#34; target=&#34;_blank&#34;&gt;fx project&lt;/a&gt;. Define your function, the
+package throws it as a server for you.&lt;/p&gt;
+
+&lt;p&gt;The package has been accepted on Julia package repository and can be fetched
+using &lt;code&gt;Pkg.add(&amp;quot;WebFuncs&amp;quot;)&lt;/code&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
