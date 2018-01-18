@@ -154,10 +154,9 @@ depending on whether they owe or are owed money. We call these two sets $V_1$
 and $V_2$ respectively.&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;There is a directed edge from any node from $V_1$ to $V_2$.&lt;/li&gt;
+&lt;li&gt;There is an edge from any node of $V_1$ to any node of $V_2$.&lt;/li&gt;
 &lt;li&gt;We define a &lt;em&gt;source&lt;/em&gt; noted $s$ connected to all vertices in $V_1$, the edge
 from $s$ to any node of $V_1$ has a capacity equal to what they owe.&lt;/li&gt;
-&lt;li&gt;There is an edge from any node of $V_1$ to any node of $V_2$.&lt;/li&gt;
 &lt;li&gt;We define a &lt;em&gt;sink&lt;/em&gt; noted $t$ to which all vertices in $V_2$ connect, with
 infinite capacity and a demand (the minimal flow that has to pass through) equal
 to what they are owed.&lt;/li&gt;
