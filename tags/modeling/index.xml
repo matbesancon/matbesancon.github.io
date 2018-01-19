@@ -620,7 +620,7 @@ Some further mentions of type-stability can be found in the
 &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/performance-tips&#34; target=&#34;_blank&#34;&gt;official doc&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;The second attempts uses non-diagonal noise, the &amp;ldquo;:additive&amp;rdquo; hint I passed
 to the solve function does not hold. Furthermore, the appropriate algorithm in
-that case is &lt;a href=&#34;https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm&#34; target=&#34;_blank&#34;&gt;EM&lt;/a&gt;
+that case is the &lt;a href=&#34;https://en.wikipedia.org/wiki/Euler%E2%80%93Maruyama_method&#34; target=&#34;_blank&#34;&gt;Euler-Maruyama method&lt;/a&gt;
 .&lt;/li&gt;
 &lt;/ul&gt;
 
