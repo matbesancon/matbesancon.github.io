@@ -263,7 +263,7 @@ we will also use <a href="https://github.com/robertfeldt/BlackBoxOptim.jl" targe
 <div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">import</span> DifferentialEquations
 <span style="color: #006699; font-weight: bold">const</span> DiffEq <span style="color: #555555">=</span> DifferentialEquations
 <span style="color: #006699; font-weight: bold">import</span> Plots
-<span style="color: #006699; font-weight: bold">import</span> BlackBoxOptim
+<span style="color: #006699; font-weight: bold">import</span> Optim
 </pre></div>
 
 
@@ -289,7 +289,7 @@ depending on conditions on the time, state, etc&hellip;</p>
 <div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #0099FF; font-style: italic"># defining the problem</span>
 <span style="color: #006699; font-weight: bold">const</span> α <span style="color: #555555">=</span> <span style="color: #FF6600">0.8</span>
 <span style="color: #006699; font-weight: bold">const</span> β <span style="color: #555555">=</span> <span style="color: #FF6600">3.0</span>
-diffeq <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(t, u, du)
+diffeq <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(du, u, p, t)
     du[<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
     du[<span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
     du[<span style="color: #FF6600">3</span>] <span style="color: #555555">=</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
@@ -300,7 +300,7 @@ prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.<
 
 <span style="color: #006699; font-weight: bold">const</span> A_inj <span style="color: #555555">=</span> <span style="color: #FF6600">30</span>
 inject_new <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(t0)
-    condition(t, u, integrator) <span style="color: #555555">=</span> t0 <span style="color: #555555">-</span> t
+    condition(u, t, integrator) <span style="color: #555555">=</span> t0 <span style="color: #555555">-</span> t
     affect! <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(integrator)
         integrator<span style="color: #555555">.</span>u[<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> integrator<span style="color: #555555">.</span>u[<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> A_inj
     <span style="color: #006699; font-weight: bold">end</span>
@@ -350,7 +350,7 @@ the callback built with each $t_{inject}$.</p>
 but injecting it too late does not let enough time for $B$ to be produced from
 the injected $A$. The optimum seems to be around ≈ 0.82,</p>
 
-<h2 id="finding-the-optimum-using-blackboxoptim-jl">Finding the optimum using BlackBoxOptim.jl</h2>
+<h2 id="finding-the-optimum-using-optim-jl">Finding the optimum using Optim.jl</h2>
 
 <p>The package requires an objective function which takes a vector as input.
 In our case, the decision is modeled as a single variable (the injection time),
@@ -358,53 +358,32 @@ In our case, the decision is modeled as a single variable (the injection time),
 calling the solver will just explode with cryptic errors.</p>
 
 <div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>compute_finalb <span style="color: #555555">=</span> tinj <span style="color: #555555">-&gt;</span> <span style="color: #555555">-</span><span style="color: #FF6600">1</span> <span style="color: #555555">*</span> inject_new(tinj[<span style="color: #FF6600">1</span>])<span style="color: #555555">.</span>u[<span style="color: #006699; font-weight: bold">end</span>][<span style="color: #FF6600">2</span>]
-<span style="color: #0099FF; font-style: italic"># trust the default algorithm</span>
-BlackBoxOptim<span style="color: #555555">.</span>bboptimize(compute_finalb, SearchRange<span style="color: #555555">=</span>(<span style="color: #FF6600">0.1</span>,<span style="color: #FF6600">0.9</span>), NumDimensions<span style="color: #555555">=</span><span style="color: #FF6600">1</span>)
-<span style="color: #0099FF; font-style: italic"># use probabilistic descent</span>
-BlackBoxOptim<span style="color: #555555">.</span>bboptimize(compute_finalb, SearchRange<span style="color: #555555">=</span>(<span style="color: #FF6600">0.1</span>,<span style="color: #FF6600">0.9</span>), NumDimensions<span style="color: #555555">=</span><span style="color: #FF6600">1</span>, <span style="color: #007788; font-weight: bold">Method</span><span style="color: #555555">=:</span>probabilistic_descent)
+Optim<span style="color: #555555">.</span>optimize(compute_finalb, <span style="color: #FF6600">0.1</span>, <span style="color: #FF6600">0.9</span>)
 </pre></div>
 
+
+<p>We get a detailed result of the optimization including the method and iterations:</p>
+
+<pre><code>* Algorithm: Brent's Method
+* Search Interval: [0.100000, 0.900000]
+* Minimizer: 8.355578e-01
+* Minimum: -2.403937e+01
+* Iterations: 13
+* Convergence: max(|x - x_upper|, |x - x_lower|) &lt;= 2*(1.5e-08*|x|+2.2e-16): true
+* Objective Function Calls: 14
+</code></pre>
 
 <p>The function <code>inject_new</code> we defined above returns the complete solution
 of the simulation, we get the state matrix <code>u</code>, from which we extract the
 final state <code>u[end]</code>, and then the second component, the concentration in
-B: <code>u[end][2]</code>. The black box optimizer minimizes the objective, while we want
+B: <code>u[end][2]</code>. The optimization algorithm minimizes the objective, while we want
 to maximize the final concentration of B, hence the -1 multiplier used for<br />
 <code>compute_finalb</code>.</p>
 
-<p>The <code>bboptimize</code> function can also be passed a <code>Method</code> argument specifying
-the optimization algorithm. In this case, the function is smooth, so we can
-suppose gradient estimation methods would work pretty well. We also let the
-default algorithm (differential evolution) be used. After some lines logging
-the progress on the search, we obtain the following for both methods:</p>
-
-<pre><code>Best candidate found: [0.835558]
-Fitness: -24.039369448
-</code></pre>
-
-<p>More importantly, we can refer to the number of evaluations of the objective
-function as a measure of the algorithm performance, combined with the time taken.</p>
-
-<p>For the probabilistic descent:</p>
-
-<pre><code>Optimization stopped after 10001 steps and 10.565439939498901 seconds
-Steps per second = 946.5767689058794
-Function evals per second = 1784.6866867802482
-Improvements/step = 0.0
-Total function evaluations = 18856
-</code></pre>
-
-<p>For the differential evolution:</p>
-
-<pre><code>Optimization stopped after 10001 steps and 5.897292137145996 seconds
-Steps per second = 1695.863078751937
-Function evals per second = 1712.8200138459472
-Improvements/step = 0.1078
-Total function evaluations = 10101
-</code></pre>
-
-<p>We found the best injection time (0.835558), and the corresponding final
-concentration (24.04).</p>
+<blockquote>
+<p>We can use the Optim.jl package because our function is twice differentiable,
+the best improvement direction is easy to compute.</p>
+</blockquote>
 
 <h2 id="extending-the-model">Extending the model</h2>
 
@@ -447,7 +426,7 @@ two events:</p>
 <div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">const</span> inj_quantity <span style="color: #555555">=</span> <span style="color: #FF6600">30.0</span>;
 <span style="color: #006699; font-weight: bold">const</span> inj_rate <span style="color: #555555">=</span> <span style="color: #FF6600">40.0</span>;
 
-diffeq_extended <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(t, u, du)
+diffeq_extended <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(du, u, p, t)
     du[<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>] <span style="color: #555555">+</span> u[<span style="color: #FF6600">4</span>]
     du[<span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
     du[<span style="color: #FF6600">3</span>] <span style="color: #555555">=</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
@@ -464,7 +443,7 @@ prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.<
 and the fraction being directly injected as parameters:</p>
 
 <div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>inject_progressive <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(t0, direct_frac)
-    condition_start(t, u, integrator) <span style="color: #555555">=</span> t0 <span style="color: #555555">-</span> t
+    condition_start(u, t, integrator) <span style="color: #555555">=</span> t0 <span style="color: #555555">-</span> t
     affect_start! <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(integrator)
         integrator<span style="color: #555555">.</span>u[<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> integrator<span style="color: #555555">.</span>u[<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> inj_quantity <span style="color: #555555">*</span> direct_frac
         integrator<span style="color: #555555">.</span>u[<span style="color: #FF6600">4</span>] <span style="color: #555555">=</span> inj_rate
@@ -472,7 +451,7 @@ and the fraction being directly injected as parameters:</p>
     callback_start <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>ContinuousCallback(
         condition_start, affect_start!, save_positions<span style="color: #555555">=</span>(<span style="color: #006699; font-weight: bold">true</span>, <span style="color: #006699; font-weight: bold">true</span>)
     )
-    condition_end(t, u, integrator) <span style="color: #555555">=</span> (t <span style="color: #555555">-</span> t0) <span style="color: #555555">*</span> inj_rate <span style="color: #555555">-</span> inj_quantity <span style="color: #555555">*</span> (<span style="color: #FF6600">1</span> <span style="color: #555555">-</span> direct_frac)
+    condition_end(u, t, integrator) <span style="color: #555555">=</span> (t <span style="color: #555555">-</span> t0) <span style="color: #555555">*</span> inj_rate <span style="color: #555555">-</span> inj_quantity <span style="color: #555555">*</span> (<span style="color: #FF6600">1</span> <span style="color: #555555">-</span> direct_frac)
     affect_end! <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(integrator)
         integrator<span style="color: #555555">.</span>u[<span style="color: #FF6600">4</span>] <span style="color: #555555">=</span> <span style="color: #FF6600">0.0</span>
     <span style="color: #006699; font-weight: bold">end</span>
@@ -491,9 +470,10 @@ to the nominal flow, while the second callback resets it to 0.</p>
 
 <p><img src="/img/posts/DiffEq/const_rate.png" alt="Constant rate" /></p>
 
-<p>BlackBoxOptim.jl can be re-used to determine the optimal decision:</p>
+<p>Optim.jl can be re-used to determine the optimal decision:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>objective <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(x)
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">import</span> BlackBoxOptim
+objective <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(x)
     sol <span style="color: #555555">=</span> inject_progressive(x[<span style="color: #FF6600">1</span>], x[<span style="color: #FF6600">2</span>])
     <span style="color: #555555">-</span>sol<span style="color: #555555">.</span>u[<span style="color: #006699; font-weight: bold">end</span>][<span style="color: #FF6600">2</span>]
 <span style="color: #006699; font-weight: bold">end</span>
@@ -535,7 +515,14 @@ Thanks for reading!</p>
 
 <h2 id="edits-and-improvements">Edits and improvements</h2>
 
-<p>Of course, BlackBoxOptim.jl was not the most appropriate algorithm as
+<p>2018-01-31:<br />
+I updated this post to adapt to the new DifferentialEquations.jl
+interface. I also used Optim.jl for the first case without calling BlackBoxOptim.</p>
+
+<hr />
+
+<p>2017-12-20:<br />
+Of course, BlackBoxOptim.jl was not the most appropriate algorithm as
 predicted. <a href="https://twitter.com/pkofod" target="_blank">Patrick</a> and <a href="https://twitter.com/ChrisRackauckas" target="_blank">Chris</a>
 gave me some hints in <a href="https://twitter.com/MathieuBesancon/status/943662063074906112" target="_blank">this thread</a>
 and I gave <a href="https://github.com/JuliaNLSolvers/Optim.jl" target="_blank">Optim.jl</a> a try.</p>
@@ -564,7 +551,8 @@ Optim<span style="color: #555555">.</span>optimize(compute_finalb, <span style="
 </code></pre>
 
 <p>14 calls to the objective function, pretty neat compared to the hundreds of
-BlackBoxOptim. We also confirm the optimum of <code>0.8355891</code>.</p>
+BlackBoxOptim. We also confirm the optimum of <code>0.8355891</code>. Not yet sure we could
+use Optim.jl for the second case (boxed multivariate optimization without explicit gradient).</p>
 
 <hr />
 

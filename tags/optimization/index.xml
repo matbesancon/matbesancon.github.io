@@ -32,7 +32,7 @@ we will also use &lt;a href=&#34;https://github.com/robertfeldt/BlackBoxOptim.jl
 &lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; DifferentialEquations
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;const&lt;/span&gt; DiffEq &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DifferentialEquations
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; Plots
-&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; BlackBoxOptim
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; Optim
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -58,7 +58,7 @@ depending on conditions on the time, state, etc&amp;hellip;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# defining the problem&lt;/span&gt;
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;const&lt;/span&gt; α &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0.8&lt;/span&gt;
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;const&lt;/span&gt; β &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;3.0&lt;/span&gt;
-diffeq &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(t, u, du)
+diffeq &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(du, u, p, t)
     du[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; α &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
     du[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; α &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; β &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
     du[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; β &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
@@ -69,7 +69,7 @@ prob &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span st
 
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;const&lt;/span&gt; A_inj &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;30&lt;/span&gt;
 inject_new &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(t0)
-    condition(t, u, integrator) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; t0 &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; t
+    condition(u, t, integrator) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; t0 &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; t
     affect! &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(integrator)
         integrator&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;u[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; integrator&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;u[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; A_inj
     &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
@@ -119,7 +119,7 @@ the callback built with each $t_{inject}$.&lt;/p&gt;
 but injecting it too late does not let enough time for $B$ to be produced from
 the injected $A$. The optimum seems to be around ≈ 0.82,&lt;/p&gt;
 
-&lt;h2 id=&#34;finding-the-optimum-using-blackboxoptim-jl&#34;&gt;Finding the optimum using BlackBoxOptim.jl&lt;/h2&gt;
+&lt;h2 id=&#34;finding-the-optimum-using-optim-jl&#34;&gt;Finding the optimum using Optim.jl&lt;/h2&gt;
 
 &lt;p&gt;The package requires an objective function which takes a vector as input.
 In our case, the decision is modeled as a single variable (the injection time),
@@ -127,53 +127,32 @@ In our case, the decision is modeled as a single variable (the injection time),
 calling the solver will just explode with cryptic errors.&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;compute_finalb &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; tinj &lt;span style=&#34;color: #555555&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; inject_new(tinj[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;])&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;u[&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;][&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
-&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# trust the default algorithm&lt;/span&gt;
-BlackBoxOptim&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;bboptimize(compute_finalb, SearchRange&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color: #FF6600&#34;&gt;0.1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;0.9&lt;/span&gt;), NumDimensions&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;)
-&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# use probabilistic descent&lt;/span&gt;
-BlackBoxOptim&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;bboptimize(compute_finalb, SearchRange&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color: #FF6600&#34;&gt;0.1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;0.9&lt;/span&gt;), NumDimensions&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Method&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;=:&lt;/span&gt;probabilistic_descent)
+Optim&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;optimize(compute_finalb, &lt;span style=&#34;color: #FF6600&#34;&gt;0.1&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.9&lt;/span&gt;)
 &lt;/pre&gt;&lt;/div&gt;
 
+
+&lt;p&gt;We get a detailed result of the optimization including the method and iterations:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;* Algorithm: Brent&#39;s Method
+* Search Interval: [0.100000, 0.900000]
+* Minimizer: 8.355578e-01
+* Minimum: -2.403937e+01
+* Iterations: 13
+* Convergence: max(|x - x_upper|, |x - x_lower|) &amp;lt;= 2*(1.5e-08*|x|+2.2e-16): true
+* Objective Function Calls: 14
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The function &lt;code&gt;inject_new&lt;/code&gt; we defined above returns the complete solution
 of the simulation, we get the state matrix &lt;code&gt;u&lt;/code&gt;, from which we extract the
 final state &lt;code&gt;u[end]&lt;/code&gt;, and then the second component, the concentration in
-B: &lt;code&gt;u[end][2]&lt;/code&gt;. The black box optimizer minimizes the objective, while we want
+B: &lt;code&gt;u[end][2]&lt;/code&gt;. The optimization algorithm minimizes the objective, while we want
 to maximize the final concentration of B, hence the -1 multiplier used for&lt;br /&gt;
 &lt;code&gt;compute_finalb&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;The &lt;code&gt;bboptimize&lt;/code&gt; function can also be passed a &lt;code&gt;Method&lt;/code&gt; argument specifying
-the optimization algorithm. In this case, the function is smooth, so we can
-suppose gradient estimation methods would work pretty well. We also let the
-default algorithm (differential evolution) be used. After some lines logging
-the progress on the search, we obtain the following for both methods:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Best candidate found: [0.835558]
-Fitness: -24.039369448
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;More importantly, we can refer to the number of evaluations of the objective
-function as a measure of the algorithm performance, combined with the time taken.&lt;/p&gt;
-
-&lt;p&gt;For the probabilistic descent:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Optimization stopped after 10001 steps and 10.565439939498901 seconds
-Steps per second = 946.5767689058794
-Function evals per second = 1784.6866867802482
-Improvements/step = 0.0
-Total function evaluations = 18856
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;For the differential evolution:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Optimization stopped after 10001 steps and 5.897292137145996 seconds
-Steps per second = 1695.863078751937
-Function evals per second = 1712.8200138459472
-Improvements/step = 0.1078
-Total function evaluations = 10101
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We found the best injection time (0.835558), and the corresponding final
-concentration (24.04).&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;We can use the Optim.jl package because our function is twice differentiable,
+the best improvement direction is easy to compute.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h2 id=&#34;extending-the-model&#34;&gt;Extending the model&lt;/h2&gt;
 
@@ -216,7 +195,7 @@ two events:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;const&lt;/span&gt; inj_quantity &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;30.0&lt;/span&gt;;
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;const&lt;/span&gt; inj_rate &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;40.0&lt;/span&gt;;
 
-diffeq_extended &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(t, u, du)
+diffeq_extended &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(du, u, p, t)
     du[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; α &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;]
     du[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; α &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; β &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
     du[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; β &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
@@ -233,7 +212,7 @@ prob &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span st
 and the fraction being directly injected as parameters:&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;inject_progressive &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(t0, direct_frac)
-    condition_start(t, u, integrator) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; t0 &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; t
+    condition_start(u, t, integrator) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; t0 &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; t
     affect_start! &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(integrator)
         integrator&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;u[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; integrator&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;u[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; inj_quantity &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; direct_frac
         integrator&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;u[&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; inj_rate
@@ -241,7 +220,7 @@ and the fraction being directly injected as parameters:&lt;/p&gt;
     callback_start &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ContinuousCallback(
         condition_start, affect_start!, save_positions&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;true&lt;/span&gt;, &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;true&lt;/span&gt;)
     )
-    condition_end(t, u, integrator) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; (t &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; t0) &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; inj_rate &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; inj_quantity &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; (&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; direct_frac)
+    condition_end(u, t, integrator) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; (t &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; t0) &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; inj_rate &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; inj_quantity &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; (&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; direct_frac)
     affect_end! &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(integrator)
         integrator&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;u[&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;
     &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
@@ -260,9 +239,10 @@ to the nominal flow, while the second callback resets it to 0.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/const_rate.png&#34; alt=&#34;Constant rate&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;BlackBoxOptim.jl can be re-used to determine the optimal decision:&lt;/p&gt;
+&lt;p&gt;Optim.jl can be re-used to determine the optimal decision:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;objective &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(x)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; BlackBoxOptim
+objective &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(x)
     sol &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; inject_progressive(x[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;], x[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;])
     &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;sol&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;u[&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;][&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
@@ -304,7 +284,14 @@ Thanks for reading!&lt;/p&gt;
 
 &lt;h2 id=&#34;edits-and-improvements&#34;&gt;Edits and improvements&lt;/h2&gt;
 
-&lt;p&gt;Of course, BlackBoxOptim.jl was not the most appropriate algorithm as
+&lt;p&gt;2018-01-31:&lt;br /&gt;
+I updated this post to adapt to the new DifferentialEquations.jl
+interface. I also used Optim.jl for the first case without calling BlackBoxOptim.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;2017-12-20:&lt;br /&gt;
+Of course, BlackBoxOptim.jl was not the most appropriate algorithm as
 predicted. &lt;a href=&#34;https://twitter.com/pkofod&#34; target=&#34;_blank&#34;&gt;Patrick&lt;/a&gt; and &lt;a href=&#34;https://twitter.com/ChrisRackauckas&#34; target=&#34;_blank&#34;&gt;Chris&lt;/a&gt;
 gave me some hints in &lt;a href=&#34;https://twitter.com/MathieuBesancon/status/943662063074906112&#34; target=&#34;_blank&#34;&gt;this thread&lt;/a&gt;
 and I gave &lt;a href=&#34;https://github.com/JuliaNLSolvers/Optim.jl&#34; target=&#34;_blank&#34;&gt;Optim.jl&lt;/a&gt; a try.&lt;/p&gt;
@@ -333,7 +320,8 @@ Optim&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;optimize(compute_f
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;14 calls to the objective function, pretty neat compared to the hundreds of
-BlackBoxOptim. We also confirm the optimum of &lt;code&gt;0.8355891&lt;/code&gt;.&lt;/p&gt;
+BlackBoxOptim. We also confirm the optimum of &lt;code&gt;0.8355891&lt;/code&gt;. Not yet sure we could
+use Optim.jl for the second case (boxed multivariate optimization without explicit gradient).&lt;/p&gt;
 
 &lt;hr /&gt;
 

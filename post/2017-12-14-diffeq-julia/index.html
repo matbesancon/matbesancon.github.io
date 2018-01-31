@@ -263,9 +263,9 @@ making it stochastic, and finally turn it into a discrete version.</p>
 </pre></div>
 
 
-<p>I tend to prefer explicit imports in my Julia code, it helps see which function
-comes from which part. As <code>DifferentialEquations</code> is longuish to write, we use
-an alias in the rest of the code.</p>
+<p>I tend to prefer explicit imports in Julia code, it helps to see from which
+part each function and type comes. As <code>DifferentialEquations</code> is longuish to
+write, we use an alias in the rest of the code.</p>
 
 <h2 id="the-model">The model</h2>
 
@@ -321,10 +321,10 @@ $$
 $$
 And the initial conditions $u(0) = u₀$.</p>
 
-<p>In Julia, this becomes:
+<p>In Julia with DifferentialEquations, this becomes:
 <div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>α <span style="color: #555555">=</span> <span style="color: #FF6600">0.8</span>
 β <span style="color: #555555">=</span> <span style="color: #FF6600">3.0</span>
-diffeq <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(t, u, du)
+diffeq <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(du, u, p, t)
     du[<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
     du[<span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
     du[<span style="color: #FF6600">3</span>] <span style="color: #555555">=</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
@@ -336,7 +336,8 @@ tspan <span style="color: #555555">=</span> (<span style="color: #FF6600">0.0</s
 
 <p><code>diffeq</code> models the dynamic behavior, <code>u₀</code> the starting conditions
 and <code>tspan</code> the time range over which we observe the system
-evolution.</p>
+evolution. Note that the <code>diffeq</code> function also take a <code>p</code> argument for parameters,
+in which we could have stored $\alpha$ and $\beta$.</p>
 
 <p>We know that our equation is smooth, so we&rsquo;ll let
 <code>DifferentialEquations.jl</code> figure out the solver. The general API
@@ -346,12 +347,14 @@ of the package is built around two steps:<br />
 information on how to solve it, yielding a solution.</p>
 
 <div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>ODEProblem(diffeq, u₀, tspan)
-sol <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>solve(prob);
+sol <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>solve(prob)
 </pre></div>
 
 
 <p>One very nice property of solutions produced by the package is that they
-contain a direct way to produce plots.</p>
+contain a direct way to produce plots. This is fairly common in Julia to
+implement methods from other packages, here the <code>ODESolution</code> type implements
+Plots.plot:</p>
 
 <div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>Plots<span style="color: #555555">.</span>plot(sol)
 </pre></div>
@@ -398,7 +401,7 @@ $$</p>
 
 <div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>σ1 <span style="color: #555555">=</span> <span style="color: #FF6600">0.07</span>
 σ2 <span style="color: #555555">=</span> <span style="color: #FF6600">0.4</span>
-noise_func <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(t, u, du)
+noise_func <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(du, u, p, t)
     du[<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> σ1 <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
     du[<span style="color: #FF6600">3</span>] <span style="color: #555555">=</span> σ2 <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
     du[<span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> du[<span style="color: #FF6600">1</span>]  <span style="color: #555555">-</span> du[<span style="color: #FF6600">3</span>]
@@ -429,7 +432,7 @@ This results in a $G(u,t)$ matrix of $3 × 2$. We can then make sure that the
 the sum of variations for the three variables cancel out to keep a constant
 total population.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>noise_func_cons <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(t, u, du)
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>noise_func_cons <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(du, u, p, t)
     du[<span style="color: #FF6600">1</span>, <span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> σ1 <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
     du[<span style="color: #FF6600">1</span>, <span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> <span style="color: #FF6600">0.0</span>
     du[<span style="color: #FF6600">2</span>, <span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> σ1 <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
@@ -502,6 +505,10 @@ for feedback or questions ;)</p>
 <hr />
 
 <p>Edits:</p>
+
+<p>I updated this post to fit the new DifferentialEquations.jl 4.0 syntax. Some
+changes are breaking the previous API, it can be worth it to check it out
+<a href="http://juliadiffeq.org/2018/01/24/Parameters.html" target="_blank">in detail</a>.</p>
 
 <p><a href="https://twitter.com/ChrisRackauckas" target="_blank">Chris</a>, the creator and main developer
 of DifferentialEquations.jl, gave me valuable tips on two
