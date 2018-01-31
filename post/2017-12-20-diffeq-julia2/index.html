@@ -472,14 +472,40 @@ to the nominal flow, while the second callback resets it to 0.</p>
 
 <p>Optim.jl can be re-used to determine the optimal decision:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">import</span> BlackBoxOptim
-objective <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(x)
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>objective <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(x)
     sol <span style="color: #555555">=</span> inject_progressive(x[<span style="color: #FF6600">1</span>], x[<span style="color: #FF6600">2</span>])
     <span style="color: #555555">-</span>sol<span style="color: #555555">.</span>u[<span style="color: #006699; font-weight: bold">end</span>][<span style="color: #FF6600">2</span>]
 <span style="color: #006699; font-weight: bold">end</span>
-BlackBoxOptim<span style="color: #555555">.</span>bboptimize(objective, SearchRange<span style="color: #555555">=</span>[(<span style="color: #FF6600">0.1</span>,<span style="color: #FF6600">0.9</span>),(<span style="color: #FF6600">0.0</span>,<span style="color: #FF6600">1.0</span>)], NumDimensions<span style="color: #555555">=</span><span style="color: #FF6600">2</span>)
+<span style="color: #0099FF; font-style: italic"># wrapped objective function and starting point</span>
+x0 <span style="color: #555555">=</span> <span style="color: #FF6600">0.5</span><span style="color: #555555">*</span>ones(<span style="color: #FF6600">2</span>)
+wrapped_obj <span style="color: #555555">=</span> Optim<span style="color: #555555">.</span>OnceDifferentiable(objective, x0)
+<span style="color: #0099FF; font-style: italic"># call optimize with box algorithm</span>
+Optim<span style="color: #555555">.</span>optimize(wrapped_obj, x0, [<span style="color: #FF6600">0.1</span>,<span style="color: #FF6600">0.0</span>], [<span style="color: #FF6600">1.0</span>,<span style="color: #FF6600">1.0</span>], Optim<span style="color: #555555">.</span>Fminbox())
 </pre></div>
 
+
+<p>The result details are:</p>
+
+<pre><code>* Algorithm: Fminbox with Conjugate Gradient
+* Starting Point: [0.5,0.5]
+* Minimizer: [0.8355419400368459,0.9999654432422779]
+* Minimum: -2.404040e+01
+* Iterations: 4
+* Convergence: true
+  * |x - x'| ≤ 1.0e-32: false
+    |x - x'| = 3.43e-04
+  * |f(x) - f(x')| ≤ 1.0e-32 |f(x)|: true
+    |f(x) - f(x')| = -6.85e-11 |f(x)|
+  * |g(x)| ≤ 1.0e-08: false
+    |g(x)| = 9.05e-08
+  * Stopped by an increasing objective: true
+  * Reached Maximum Number of Iterations: false
+* Objective Calls: 125
+* Gradient Calls: 79
+</code></pre>
+
+<p>We wrap our function in a <code>Optim.OnceDifferentiable</code> to provide Optim with the
+information is differentiable, even though we don&rsquo;t provide a gradient.</p>
 
 <p>The optimal solution corresponds to a complete direct injection
 ($\delta \approx 1$) with $t_{inject}^{opt}$ identical to the previous model.
@@ -517,7 +543,11 @@ Thanks for reading!</p>
 
 <p>2018-01-31:<br />
 I updated this post to adapt to the new DifferentialEquations.jl
-interface. I also used Optim.jl for the first case without calling BlackBoxOptim.</p>
+interface. I also used Optim.jl for the two cases without BlackBoxOptim.jl,
+which is very nice but not neccesary for differentiable functions.</p>
+
+<p>Special thanks to <a href="https://github.com/pkofod" target="_blank">Patrick</a> for his quick response
+and help with <code>Optim.jl</code>.</p>
 
 <hr />
 

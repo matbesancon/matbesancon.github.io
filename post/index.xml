@@ -577,14 +577,40 @@ to the nominal flow, while the second callback resets it to 0.&lt;/p&gt;
 
 &lt;p&gt;Optim.jl can be re-used to determine the optimal decision:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;import&lt;/span&gt; BlackBoxOptim
-objective &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(x)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;objective &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt;(x)
     sol &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; inject_progressive(x[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;], x[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;])
     &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;sol&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;u[&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;][&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;]
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
-BlackBoxOptim&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;bboptimize(objective, SearchRange&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;[(&lt;span style=&#34;color: #FF6600&#34;&gt;0.1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;0.9&lt;/span&gt;),(&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)], NumDimensions&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# wrapped objective function and starting point&lt;/span&gt;
+x0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0.5&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;ones(&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;)
+wrapped_obj &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; Optim&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;OnceDifferentiable(objective, x0)
+&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# call optimize with box algorithm&lt;/span&gt;
+Optim&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;optimize(wrapped_obj, x0, [&lt;span style=&#34;color: #FF6600&#34;&gt;0.1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;], [&lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;], Optim&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;Fminbox())
 &lt;/pre&gt;&lt;/div&gt;
 
+
+&lt;p&gt;The result details are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;* Algorithm: Fminbox with Conjugate Gradient
+* Starting Point: [0.5,0.5]
+* Minimizer: [0.8355419400368459,0.9999654432422779]
+* Minimum: -2.404040e+01
+* Iterations: 4
+* Convergence: true
+  * |x - x&#39;| ≤ 1.0e-32: false
+    |x - x&#39;| = 3.43e-04
+  * |f(x) - f(x&#39;)| ≤ 1.0e-32 |f(x)|: true
+    |f(x) - f(x&#39;)| = -6.85e-11 |f(x)|
+  * |g(x)| ≤ 1.0e-08: false
+    |g(x)| = 9.05e-08
+  * Stopped by an increasing objective: true
+  * Reached Maximum Number of Iterations: false
+* Objective Calls: 125
+* Gradient Calls: 79
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We wrap our function in a &lt;code&gt;Optim.OnceDifferentiable&lt;/code&gt; to provide Optim with the
+information is differentiable, even though we don&amp;rsquo;t provide a gradient.&lt;/p&gt;
 
 &lt;p&gt;The optimal solution corresponds to a complete direct injection
 ($\delta \approx 1$) with $t_{inject}^{opt}$ identical to the previous model.
@@ -622,7 +648,11 @@ Thanks for reading!&lt;/p&gt;
 
 &lt;p&gt;2018-01-31:&lt;br /&gt;
 I updated this post to adapt to the new DifferentialEquations.jl
-interface. I also used Optim.jl for the first case without calling BlackBoxOptim.&lt;/p&gt;
+interface. I also used Optim.jl for the two cases without BlackBoxOptim.jl,
+which is very nice but not neccesary for differentiable functions.&lt;/p&gt;
+
+&lt;p&gt;Special thanks to &lt;a href=&#34;https://github.com/pkofod&#34; target=&#34;_blank&#34;&gt;Patrick&lt;/a&gt; for his quick response
+and help with &lt;code&gt;Optim.jl&lt;/code&gt;.&lt;/p&gt;
 
 &lt;hr /&gt;
 
