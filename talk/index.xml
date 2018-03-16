@@ -11,6 +11,18 @@
     <atom:link href="/talk/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Intro to package development in Julia</title>
+      <link>https://mbesancon.github.io/talk/julia_montreal/</link>
+      <pubDate>Thu, 08 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://mbesancon.github.io/talk/julia_montreal/</guid>
+      <description>&lt;p&gt;A quick introduction to the why and how of package development in Julia for
+scientific computing, with two applications of custom arrays. One of them,
+MatFuncs.jl was live-coded and available &lt;a href=&#34;https://github.com/mbesancon/MatFuncs.jl&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Golang in a multi-project, multi-platform team</title>
       <link>https://mbesancon.github.io/talk/golang_talk_lille/</link>
       <pubDate>Thu, 06 Jul 2017 00:00:00 +0000</pubDate>
