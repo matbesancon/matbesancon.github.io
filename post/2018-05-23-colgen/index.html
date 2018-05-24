@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.27-DEV" />
+  <meta name="author" content="Mathieu Besançon">
+  <meta name="description" content="PhD student in applied mathematics for energy systems">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  
+
+  <link rel="alternate" href="https://mbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+  <link rel="feed" href="https://mbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="https://mbesancon.github.io/post/2018-05-23-colgen/">
+
+  
+
+  <title>Tackling the cutting stock problem: part 1, problem exploration | μβ</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">μβ</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#talks">
+            
+            <span>Talks</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#experiences">
+            
+            <span>Experiences</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+<div class="article-header">
+  <img src="/img/posts/cutting_stock/sushi_cuts.jpg" class="article-banner" itemprop="image">
+  
+</div>
+
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Tackling the cutting stock problem: part 1, problem exploration</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-05-23 00:00:00 -0400 EDT" itemprop="datePublished">
+      Wed, May 23, 2018
+    </time>
+  </span>
+
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="/tags/julia">julia</a
+    >, 
+    
+    <a href="/tags/modeling">modeling</a
+    >, 
+    
+    <a href="/tags/optimization">optimization</a
+    >, 
+    
+    <a href="/tags/integer-optimization">integer-optimization</a
+    >, 
+    
+    <a href="/tags/jump">jump</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fmbesancon.github.io%2fpost%2f2018-05-23-colgen%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Tackling%20the%20cutting%20stock%20problem%3a%20part%201%2c%20problem%20exploration&amp;url=https%3a%2f%2fmbesancon.github.io%2fpost%2f2018-05-23-colgen%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fmbesancon.github.io%2fpost%2f2018-05-23-colgen%2f&amp;title=Tackling%20the%20cutting%20stock%20problem%3a%20part%201%2c%20problem%20exploration"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fmbesancon.github.io%2fpost%2f2018-05-23-colgen%2f&amp;title=Tackling%20the%20cutting%20stock%20problem%3a%20part%201%2c%20problem%20exploration"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Tackling%20the%20cutting%20stock%20problem%3a%20part%201%2c%20problem%20exploration&amp;body=https%3a%2f%2fmbesancon.github.io%2fpost%2f2018-05-23-colgen%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<p>Integer optimization often feels weird (at least to me). Simple reformulations
+of a (mixed) integer optimization problem (MIP) can make it way easier to solve.
+We&rsquo;re going to explore one well-known example of such integer problem in two
+blog posts. This first part introduces the problem and develops a naive solution.
+We&rsquo;re going to see why it&rsquo;s complex to solve and why this formulation does not
+scale.</p>
+
+<p>Among major reformulations, decomposition techniques leverage special
+structures to build an easy-to-solve sub-problem and a &ldquo;master problem&rdquo; converging
+to the exact solution to the initial problem. That&rsquo;s what we&rsquo;re going to see in
+a second post.</p>
+
+<h2 id="integer-optimization-reminder">Integer optimization reminder</h2>
+
+<p>An optimization problem takes three components: decisions variables $x$, a set of
+constraints telling you if a decision is feasible or not and a cost function
+$c(x)$ giving a total cost of a decision. Optimization is a domain of applied
+mathematics consisting in finding the best feasible decision for a problem.
+Lots of decision problems come with <em>integrality constraints</em>: if $x$ is the
+decision, then it can only take integer values 0,1,2&hellip; or even only binary
+values ${0,1}$. Think of problems involving number of units produced
+for a good, yes/no decisions, etc&hellip; If a problem has lots of variables, naive
+enumerations of feasible solutions becomes impossible: even problems with 50
+variables can make your average laptop crash.</p>
+
+<h2 id="the-cutting-stock-problem">The cutting stock problem</h2>
+
+<p>The problem is not new and has been given quite some thoughts because of its
+different industrial applications, it has been one of the first applications of
+the column generation method we are going to use. The key elements of the problems
+are: given some large rolls (metal, paper or other), we need to cut smaller
+portions of given lengths to satisfy a demand for the different small lengths.
+Find <a href="https://en.wikipedia.org/wiki/Cutting_stock_problem" target="_blank">more details here</a>.
+A small instance might be: given rolls of size $100cm$, we want to cut at least
+7 rolls of size $12cm$ and 9 rolls of size $29cm$. The objective is to minimize
+the number of big rolls to satisfy this demand.</p>
+
+<p>How do we formulate this mathematically?</p>
+
+<h3 id="decisions">Decisions</h3>
+
+<p>$Y_i$ is a binary decision indicating if we use the big roll number $i$. $X_{ij}$ is an integer
+giving the number of times we cut a small roll $j$ in the big roll $i$.</p>
+
+<h3 id="constraints">Constraints</h3>
+
+<p>$Y$ are binary variables, $X$ are integer. Now the less trivial constraints:</p>
+
+<ul>
+<li><strong>Demand satisfaction constraint</strong>: the sum over all $i$ big rolls of the cut $j$
+has to satisfy the demand for that cut:
+$$\sum_{i} X_{ij} \geq D_j $$</li>
+<li><strong>Roll size constraint</strong>: if a roll is used, we cannot fit more width onto it
+than its total width:
+$$\sum_{j} X_{ij} \cdot W_j \leq L \cdot Y_i $$</li>
+</ul>
+
+<h2 id="a-first-naive-implementation">A first naive implementation</h2>
+
+<p>Let&rsquo;s first import the necessary packages: we&rsquo;re using JuMP as a modeling
+tool, which is an optimization-specific language embedded in Julia
+(compare it to AMPL, GAMS, Pyomo, PuLP).
+As I consider it a language, I&rsquo;ll do a full import into my namespace with <code>using</code>.
+We also use <code>Cbc</code>, an open-source solver for integer problems from the Coin-OR
+suite.</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">using</span> JuMP
+<span style="color: #006699; font-weight: bold">using</span> Cbc<span style="color: #555555">:</span> CbcSolver
+</pre></div>
+
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">function</span> cutting_stock_model(maxwidth, widths, demand, N <span style="color: #555555">=</span> sum(demand))
+    m <span style="color: #555555">=</span> Model(solver <span style="color: #555555">=</span> CbcSolver())
+    Y <span style="color: #555555">=</span> <span style="color: #9999FF">@variable</span>(m, Y[<span style="color: #FF6600">1</span><span style="color: #555555">:</span>N],Bin)
+    X <span style="color: #555555">=</span> <span style="color: #9999FF">@variable</span>(m, X[i<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>N,j<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>length(widths)],<span style="color: #007788; font-weight: bold">Int</span>)
+    demand_satisfac <span style="color: #555555">=</span> <span style="color: #9999FF">@constraint</span>(m, [j<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>length(widths)],
+        sum(X[i,j] <span style="color: #006699; font-weight: bold">for</span> i <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>N) <span style="color: #555555">&gt;=</span> demand[j]
+    )
+    roll_size_const <span style="color: #555555">=</span> <span style="color: #9999FF">@constraint</span>(m, [i<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>N],
+        sum(X[i,j] <span style="color: #555555">*</span> widths[j] <span style="color: #006699; font-weight: bold">for</span> j <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>length(widths)) <span style="color: #555555">&lt;=</span> Y[i] <span style="color: #555555">*</span> maxwidth
+    )
+    <span style="color: #9999FF">@objective</span>(m, Min, sum(Y[i] <span style="color: #006699; font-weight: bold">for</span> i <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>N))
+    <span style="color: #006699; font-weight: bold">return</span> (m, X, Y)
+<span style="color: #006699; font-weight: bold">end</span>
+</pre></div>
+
+
+<p>Here $N$ has to be an upper bound on the number of big rolls to use, otherwise
+the problem will be infeasible (not enough big rolls to find a solution
+satisfying the demand). An initial naive value for this could be the total
+demand, after all one small cut per roll can be considered a worst-case solution.</p>
+
+<p>Let&rsquo;s see what the model looks like for different instances:
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>julia<span style="color: #555555">&gt;</span> cutting_stock_model(<span style="color: #FF6600">100</span>, [<span style="color: #FF6600">12</span>,<span style="color: #FF6600">10</span>], [<span style="color: #FF6600">85</span>,<span style="color: #FF6600">97</span>], <span style="color: #FF6600">200</span>)
+(Minimization problem with<span style="color: #555555">:</span>
+ <span style="color: #555555">*</span> <span style="color: #FF6600">602</span> linear constraints
+ <span style="color: #555555">*</span> <span style="color: #FF6600">600</span> variables<span style="color: #555555">:</span> <span style="color: #FF6600">200</span> binary, <span style="color: #FF6600">400</span> integer
+Solver is CbcMathProg,
+X[i,j], integer, ∀ i <span style="color: #555555">∈</span> {<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>,…,<span style="color: #FF6600">199</span>,<span style="color: #FF6600">200</span>}, j <span style="color: #555555">∈</span> {<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>},
+Y[i] <span style="color: #555555">∈</span> {<span style="color: #FF6600">0</span>,<span style="color: #FF6600">1</span>} ∀ i <span style="color: #555555">∈</span> {<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>,…,<span style="color: #FF6600">199</span>,<span style="color: #FF6600">200</span>})
+
+julia<span style="color: #555555">&gt;</span> cutting_stock_model(<span style="color: #FF6600">100</span>, [<span style="color: #FF6600">12</span>,<span style="color: #FF6600">10</span>,<span style="color: #FF6600">25</span>], [<span style="color: #FF6600">85</span>,<span style="color: #FF6600">97</span>,<span style="color: #FF6600">52</span>], <span style="color: #FF6600">300</span>)
+(Minimization problem with<span style="color: #555555">:</span>
+ <span style="color: #555555">*</span> <span style="color: #FF6600">1203</span> linear constraints
+ <span style="color: #555555">*</span> <span style="color: #FF6600">1200</span> variables<span style="color: #555555">:</span> <span style="color: #FF6600">300</span> binary, <span style="color: #FF6600">900</span> integer
+Solver is CbcMathProg,
+X[i,j], integer,∀ i <span style="color: #555555">∈</span> {<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>,…,<span style="color: #FF6600">299</span>,<span style="color: #FF6600">300</span>}, j <span style="color: #555555">∈</span> {<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>,<span style="color: #FF6600">3</span>},
+Y[i] <span style="color: #555555">∈</span> {<span style="color: #FF6600">0</span>,<span style="color: #FF6600">1</span>} ∀ i <span style="color: #555555">∈</span> {<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>,…,<span style="color: #FF6600">299</span>,<span style="color: #FF6600">300</span>})
+
+julia<span style="color: #555555">&gt;</span> cutting_stock_model(<span style="color: #FF6600">100</span>, [<span style="color: #FF6600">12</span>,<span style="color: #FF6600">10</span>,<span style="color: #FF6600">25</span>,<span style="color: #FF6600">40</span>,<span style="color: #FF6600">30</span>,<span style="color: #FF6600">41</span>], [<span style="color: #FF6600">85</span>,<span style="color: #FF6600">97</span>,<span style="color: #FF6600">52</span>,<span style="color: #FF6600">63</span>,<span style="color: #FF6600">77</span>,<span style="color: #FF6600">31</span>], <span style="color: #FF6600">500</span>)
+(Minimization problem with<span style="color: #555555">:</span>
+ <span style="color: #555555">*</span> <span style="color: #FF6600">3506</span> linear constraints
+ <span style="color: #555555">*</span> <span style="color: #FF6600">3500</span> variables<span style="color: #555555">:</span> <span style="color: #FF6600">500</span> binary, <span style="color: #FF6600">3000</span> integer
+Solver is CbcMathProg,
+X[i,j], integer, ∀ i <span style="color: #555555">∈</span> {<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>,…,<span style="color: #FF6600">499</span>,<span style="color: #FF6600">500</span>}, j <span style="color: #555555">∈</span> {<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>,…,<span style="color: #FF6600">5</span>,<span style="color: #FF6600">6</span>},
+Y[i] <span style="color: #555555">∈</span> {<span style="color: #FF6600">0</span>,<span style="color: #FF6600">1</span>} ∀ i <span style="color: #555555">∈</span> {<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>,…,<span style="color: #FF6600">499</span>,<span style="color: #FF6600">500</span>})
+</pre></div>
+</p>
+
+<p>We see the number of variables and constraints explode as we add more possible
+cut sizes, the model also becomes more and more difficult to solve. Without
+going into details on the solving process, two things make the problem difficult
+to solve:</p>
+
+<ol>
+<li>Symmetry: if we place cuts on a roll $Y_1$ and leave another $Y_2$ unused,
+the resulting solution is concretely the same as using $Y_2$ and leaving $Y_1$
+unused.</li>
+<li>Bad relaxation: integer solvers mostly work by solving a &ldquo;relaxed&rdquo; version
+of the problem without the integrality constraint, and then iteratively
+restricting the problem to find the best integer solution. If the relaxed
+version of the problem yields solutions far away from an integer one, the solver
+will have more work to get there.</li>
+</ol>
+
+<p>Difficulty (1) is pretty intuitive, but we could get some insight on (2).
+Let&rsquo;s define our relaxed problem. We&rsquo;re going to use the <code>Clp</code> solver, which
+will solve the same problem, but without the <code>Int</code> restriction for $X$
+nor the <code>Bin</code> restriction for $Y$:
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">function</span> relaxed_cutting_stock(maxwidth, widths, demand, N <span style="color: #555555">=</span> sum(demand))
+   m <span style="color: #555555">=</span> Model(solver <span style="color: #555555">=</span> ClpSolver())
+   Y <span style="color: #555555">=</span> <span style="color: #9999FF">@variable</span>(m, <span style="color: #FF6600">0</span> <span style="color: #555555">&lt;=</span> Y[<span style="color: #FF6600">1</span><span style="color: #555555">:</span>N] <span style="color: #555555">&lt;=</span> <span style="color: #FF6600">1</span>)
+   X <span style="color: #555555">=</span> <span style="color: #9999FF">@variable</span>(m, X[<span style="color: #FF6600">1</span><span style="color: #555555">:</span>N,<span style="color: #FF6600">1</span><span style="color: #555555">:</span>length(widths)] <span style="color: #555555">&gt;=</span> <span style="color: #FF6600">0</span>)
+   demand_satisfac <span style="color: #555555">=</span> <span style="color: #9999FF">@constraint</span>(m, [j<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>length(widths)], sum(X[i,j] <span style="color: #006699; font-weight: bold">for</span> i <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>N) <span style="color: #555555">&gt;=</span> demand[j])
+   roll_size_const <span style="color: #555555">=</span> <span style="color: #9999FF">@constraint</span>(m, [i<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>N], sum(X[i,j] <span style="color: #555555">*</span> widths[j] <span style="color: #006699; font-weight: bold">for</span> j <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>length(widths)) <span style="color: #555555">&lt;=</span> Y[i] <span style="color: #555555">*</span> maxwidth)
+   <span style="color: #9999FF">@objective</span>(m, Min, sum(Y[i] <span style="color: #006699; font-weight: bold">for</span> i <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>N))
+   <span style="color: #006699; font-weight: bold">return</span> (m,Y,X)
+<span style="color: #006699; font-weight: bold">end</span>
+</pre></div>
+</p>
+
+<p>Let&rsquo;s see the results:</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>julia<span style="color: #555555">&gt;</span> res <span style="color: #555555">=</span> [(i,getvalue(Y[i])) <span style="color: #006699; font-weight: bold">for</span> i <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>N <span style="color: #006699; font-weight: bold">if</span> getvalue(Y[i]) ≉ <span style="color: #FF6600">0</span>]
+<span style="color: #FF6600">33</span><span style="color: #555555">-</span>element <span style="color: #007788; font-weight: bold">Array</span>{<span style="color: #007788; font-weight: bold">Tuple</span>{<span style="color: #007788; font-weight: bold">Int64</span>,<span style="color: #007788; font-weight: bold">Float64</span>},<span style="color: #FF6600">1</span>}<span style="color: #555555">:</span>
+ (<span style="color: #FF6600">1</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">2</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">3</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">4</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">5</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">6</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">7</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">8</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">9</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">10</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">11</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">12</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">13</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">14</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">15</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">16</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">17</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">18</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">19</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">20</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">21</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">22</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">23</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">24</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">25</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">26</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">27</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">28</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">29</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">30</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">31</span>, <span style="color: #FF6600">1.0</span>)
+ (<span style="color: #FF6600">32</span>, <span style="color: #FF6600">0.9</span>)
+ (<span style="color: #FF6600">84</span>, <span style="color: #FF6600">1.0</span>)
+
+idxs <span style="color: #555555">=</span> [i <span style="color: #006699; font-weight: bold">for</span> (i,_ ) <span style="color: #006699">in</span> res]
+julia<span style="color: #555555">&gt;</span> [getvalue(X)[i,<span style="color: #555555">:</span>] <span style="color: #006699; font-weight: bold">for</span> i <span style="color: #006699">in</span> idxs]
+<span style="color: #FF6600">33</span><span style="color: #555555">-</span>element <span style="color: #007788; font-weight: bold">Array</span>{<span style="color: #007788; font-weight: bold">Array</span>{<span style="color: #007788; font-weight: bold">Float64</span>,<span style="color: #FF6600">1</span>},<span style="color: #FF6600">1</span>}<span style="color: #555555">:</span>
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">7.0</span>, <span style="color: #FF6600">1.2</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">4.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">4.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">4.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">4.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">4.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">4.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">4.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">4.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">10.0</span>, <span style="color: #FF6600">0.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">10.0</span>, <span style="color: #FF6600">0.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">4.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">10.0</span>, <span style="color: #FF6600">0.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">10.0</span>, <span style="color: #FF6600">0.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">10.0</span>, <span style="color: #FF6600">0.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">10.0</span>, <span style="color: #FF6600">0.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">10.0</span>, <span style="color: #FF6600">0.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">10.0</span>, <span style="color: #FF6600">0.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">10.0</span>, <span style="color: #FF6600">0.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">4.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">4.0</span>]
+ [<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">4.0</span>]
+ [<span style="color: #FF6600">8.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.16</span>]
+ [<span style="color: #FF6600">8.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.16</span>]
+ [<span style="color: #FF6600">8.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.16</span>]
+ [<span style="color: #FF6600">8.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.16</span>]
+ [<span style="color: #FF6600">8.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.16</span>]
+ [<span style="color: #FF6600">8.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.16</span>]
+ [<span style="color: #FF6600">8.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.16</span>]
+ [<span style="color: #FF6600">8.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.16</span>]
+ [<span style="color: #FF6600">5.8</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">1.216</span>]
+ [<span style="color: #FF6600">7.2</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.144</span>]
+ [<span style="color: #FF6600">8.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.16</span>]
+</pre></div>
+
+
+<p>We notice the $Y$ variables are overall pretty saturated and almost integer,
+but the $X$ variables are highly fractional: the linear cuts are divided such
+that they fit perfectly the big rolls. This will make the variable hard to
+get to an integer solution.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This was a quick intro to the cutting stock problem to get a grasp of its
+structure and difficulty, the goal was not to get too technical and keep a
+broad target audience.</p>
+
+<p>Hope you enjoyed it, if that&rsquo;s the case, I&rsquo;ll see you on the next article,
+we&rsquo;ll implement a <em>column generation</em> algorithm from scratch to solve it.
+If you have any question/remarks, feel free to <a href="http://twitter.com/MathieuBesancon/" target="_blank">get in touch</a>.</p>
+
+<hr />
+
+<p>Image source: <a href="https://www.flickr.com/photos/30478819@N08/38272827564" target="_blank">https://www.flickr.com/photos/30478819@N08/38272827564</a></p>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="https://mbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/"><span
+      aria-hidden="true">&larr;</span> Solving the group expenses headache with graphs</a></li>
+    
+
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mathieu Besançon &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js" integrity="sha512-iHzEu7GbSc705hE2skyH6/AlTpOfBmkx7nUqTLGzPYR+C1tRaItbRlJ7hT/D3YQ9SV0fqLKzp4XY9wKulTBGTw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js" integrity="sha512-Z5heTz36xTemt1TbtbfXtTq5lMfYnOkXM2/eWcTTiLU01+Sw4ku1i7vScDc8fWhrP2abz9GQzgKH5NGBLoYlAw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/ScrollToPlugin.min.js" integrity="sha512-CDeU7pRtkPX6XJtF/gcFWlEwyaX7mcAp5sO3VIu/ylsdR74wEw4wmBpD5yYTrmMAiAboi9thyBUr1vXRPA7t0Q==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

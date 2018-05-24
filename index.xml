@@ -11,6 +11,263 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Tackling the cutting stock problem: part 1, problem exploration</title>
+      <link>https://mbesancon.github.io/post/2018-05-23-colgen/</link>
+      <pubDate>Wed, 23 May 2018 00:00:00 -0400</pubDate>
+      
+      <guid>https://mbesancon.github.io/post/2018-05-23-colgen/</guid>
+      <description>
+
+&lt;p&gt;Integer optimization often feels weird (at least to me). Simple reformulations
+of a (mixed) integer optimization problem (MIP) can make it way easier to solve.
+We&amp;rsquo;re going to explore one well-known example of such integer problem in two
+blog posts. This first part introduces the problem and develops a naive solution.
+We&amp;rsquo;re going to see why it&amp;rsquo;s complex to solve and why this formulation does not
+scale.&lt;/p&gt;
+
+&lt;p&gt;Among major reformulations, decomposition techniques leverage special
+structures to build an easy-to-solve sub-problem and a &amp;ldquo;master problem&amp;rdquo; converging
+to the exact solution to the initial problem. That&amp;rsquo;s what we&amp;rsquo;re going to see in
+a second post.&lt;/p&gt;
+
+&lt;h2 id=&#34;integer-optimization-reminder&#34;&gt;Integer optimization reminder&lt;/h2&gt;
+
+&lt;p&gt;An optimization problem takes three components: decisions variables $x$, a set of
+constraints telling you if a decision is feasible or not and a cost function
+$c(x)$ giving a total cost of a decision. Optimization is a domain of applied
+mathematics consisting in finding the best feasible decision for a problem.
+Lots of decision problems come with &lt;em&gt;integrality constraints&lt;/em&gt;: if $x$ is the
+decision, then it can only take integer values 0,1,2&amp;hellip; or even only binary
+values ${0,1}$. Think of problems involving number of units produced
+for a good, yes/no decisions, etc&amp;hellip; If a problem has lots of variables, naive
+enumerations of feasible solutions becomes impossible: even problems with 50
+variables can make your average laptop crash.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-cutting-stock-problem&#34;&gt;The cutting stock problem&lt;/h2&gt;
+
+&lt;p&gt;The problem is not new and has been given quite some thoughts because of its
+different industrial applications, it has been one of the first applications of
+the column generation method we are going to use. The key elements of the problems
+are: given some large rolls (metal, paper or other), we need to cut smaller
+portions of given lengths to satisfy a demand for the different small lengths.
+Find &lt;a href=&#34;https://en.wikipedia.org/wiki/Cutting_stock_problem&#34; target=&#34;_blank&#34;&gt;more details here&lt;/a&gt;.
+A small instance might be: given rolls of size $100cm$, we want to cut at least
+7 rolls of size $12cm$ and 9 rolls of size $29cm$. The objective is to minimize
+the number of big rolls to satisfy this demand.&lt;/p&gt;
+
+&lt;p&gt;How do we formulate this mathematically?&lt;/p&gt;
+
+&lt;h3 id=&#34;decisions&#34;&gt;Decisions&lt;/h3&gt;
+
+&lt;p&gt;$Y_i$ is a binary decision indicating if we use the big roll number $i$. $X_{ij}$ is an integer
+giving the number of times we cut a small roll $j$ in the big roll $i$.&lt;/p&gt;
+
+&lt;h3 id=&#34;constraints&#34;&gt;Constraints&lt;/h3&gt;
+
+&lt;p&gt;$Y$ are binary variables, $X$ are integer. Now the less trivial constraints:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Demand satisfaction constraint&lt;/strong&gt;: the sum over all $i$ big rolls of the cut $j$
+has to satisfy the demand for that cut:
+$$\sum_{i} X_{ij} \geq D_j $$&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Roll size constraint&lt;/strong&gt;: if a roll is used, we cannot fit more width onto it
+than its total width:
+$$\sum_{j} X_{ij} \cdot W_j \leq L \cdot Y_i $$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;a-first-naive-implementation&#34;&gt;A first naive implementation&lt;/h2&gt;
+
+&lt;p&gt;Let&amp;rsquo;s first import the necessary packages: we&amp;rsquo;re using JuMP as a modeling
+tool, which is an optimization-specific language embedded in Julia
+(compare it to AMPL, GAMS, Pyomo, PuLP).
+As I consider it a language, I&amp;rsquo;ll do a full import into my namespace with &lt;code&gt;using&lt;/code&gt;.
+We also use &lt;code&gt;Cbc&lt;/code&gt;, an open-source solver for integer problems from the Coin-OR
+suite.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;using&lt;/span&gt; JuMP
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;using&lt;/span&gt; Cbc&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt; CbcSolver
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt; cutting_stock_model(maxwidth, widths, demand, N &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; sum(demand))
+    m &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; Model(solver &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; CbcSolver())
+    Y &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #9999FF&#34;&gt;@variable&lt;/span&gt;(m, Y[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N],Bin)
+    X &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #9999FF&#34;&gt;@variable&lt;/span&gt;(m, X[i&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N,j&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;length(widths)],&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;)
+    demand_satisfac &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #9999FF&#34;&gt;@constraint&lt;/span&gt;(m, [j&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;length(widths)],
+        sum(X[i,j] &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N) &lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;=&lt;/span&gt; demand[j]
+    )
+    roll_size_const &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #9999FF&#34;&gt;@constraint&lt;/span&gt;(m, [i&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N],
+        sum(X[i,j] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; widths[j] &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;length(widths)) &lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;=&lt;/span&gt; Y[i] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; maxwidth
+    )
+    &lt;span style=&#34;color: #9999FF&#34;&gt;@objective&lt;/span&gt;(m, Min, sum(Y[i] &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N))
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; (m, X, Y)
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here $N$ has to be an upper bound on the number of big rolls to use, otherwise
+the problem will be infeasible (not enough big rolls to find a solution
+satisfying the demand). An initial naive value for this could be the total
+demand, after all one small cut per roll can be considered a worst-case solution.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s see what the model looks like for different instances:
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;julia&lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;&lt;/span&gt; cutting_stock_model(&lt;span style=&#34;color: #FF6600&#34;&gt;100&lt;/span&gt;, [&lt;span style=&#34;color: #FF6600&#34;&gt;12&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt;], [&lt;span style=&#34;color: #FF6600&#34;&gt;85&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;97&lt;/span&gt;], &lt;span style=&#34;color: #FF6600&#34;&gt;200&lt;/span&gt;)
+(Minimization problem with&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;
+ &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;602&lt;/span&gt; linear constraints
+ &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;600&lt;/span&gt; variables&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;200&lt;/span&gt; binary, &lt;span style=&#34;color: #FF6600&#34;&gt;400&lt;/span&gt; integer
+Solver is CbcMathProg,
+X[i,j], integer, ∀ i &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color: #FF6600&#34;&gt;199&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;200&lt;/span&gt;}, j &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;},
+Y[i] &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;} ∀ i &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color: #FF6600&#34;&gt;199&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;200&lt;/span&gt;})
+
+julia&lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;&lt;/span&gt; cutting_stock_model(&lt;span style=&#34;color: #FF6600&#34;&gt;100&lt;/span&gt;, [&lt;span style=&#34;color: #FF6600&#34;&gt;12&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;25&lt;/span&gt;], [&lt;span style=&#34;color: #FF6600&#34;&gt;85&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;97&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;52&lt;/span&gt;], &lt;span style=&#34;color: #FF6600&#34;&gt;300&lt;/span&gt;)
+(Minimization problem with&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;
+ &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1203&lt;/span&gt; linear constraints
+ &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1200&lt;/span&gt; variables&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;300&lt;/span&gt; binary, &lt;span style=&#34;color: #FF6600&#34;&gt;900&lt;/span&gt; integer
+Solver is CbcMathProg,
+X[i,j], integer,∀ i &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color: #FF6600&#34;&gt;299&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;300&lt;/span&gt;}, j &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;},
+Y[i] &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;} ∀ i &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color: #FF6600&#34;&gt;299&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;300&lt;/span&gt;})
+
+julia&lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;&lt;/span&gt; cutting_stock_model(&lt;span style=&#34;color: #FF6600&#34;&gt;100&lt;/span&gt;, [&lt;span style=&#34;color: #FF6600&#34;&gt;12&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;25&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;40&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;30&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;41&lt;/span&gt;], [&lt;span style=&#34;color: #FF6600&#34;&gt;85&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;97&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;52&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;63&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;77&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;31&lt;/span&gt;], &lt;span style=&#34;color: #FF6600&#34;&gt;500&lt;/span&gt;)
+(Minimization problem with&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;
+ &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;3506&lt;/span&gt; linear constraints
+ &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;3500&lt;/span&gt; variables&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;500&lt;/span&gt; binary, &lt;span style=&#34;color: #FF6600&#34;&gt;3000&lt;/span&gt; integer
+Solver is CbcMathProg,
+X[i,j], integer, ∀ i &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color: #FF6600&#34;&gt;499&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;500&lt;/span&gt;}, j &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;6&lt;/span&gt;},
+Y[i] &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;} ∀ i &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color: #FF6600&#34;&gt;499&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;500&lt;/span&gt;})
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;We see the number of variables and constraints explode as we add more possible
+cut sizes, the model also becomes more and more difficult to solve. Without
+going into details on the solving process, two things make the problem difficult
+to solve:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Symmetry: if we place cuts on a roll $Y_1$ and leave another $Y_2$ unused,
+the resulting solution is concretely the same as using $Y_2$ and leaving $Y_1$
+unused.&lt;/li&gt;
+&lt;li&gt;Bad relaxation: integer solvers mostly work by solving a &amp;ldquo;relaxed&amp;rdquo; version
+of the problem without the integrality constraint, and then iteratively
+restricting the problem to find the best integer solution. If the relaxed
+version of the problem yields solutions far away from an integer one, the solver
+will have more work to get there.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Difficulty (1) is pretty intuitive, but we could get some insight on (2).
+Let&amp;rsquo;s define our relaxed problem. We&amp;rsquo;re going to use the &lt;code&gt;Clp&lt;/code&gt; solver, which
+will solve the same problem, but without the &lt;code&gt;Int&lt;/code&gt; restriction for $X$
+nor the &lt;code&gt;Bin&lt;/code&gt; restriction for $Y$:
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt; relaxed_cutting_stock(maxwidth, widths, demand, N &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; sum(demand))
+   m &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; Model(solver &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; ClpSolver())
+   Y &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #9999FF&#34;&gt;@variable&lt;/span&gt;(m, &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;=&lt;/span&gt; Y[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N] &lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;)
+   X &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #9999FF&#34;&gt;@variable&lt;/span&gt;(m, X[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;length(widths)] &lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;)
+   demand_satisfac &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #9999FF&#34;&gt;@constraint&lt;/span&gt;(m, [j&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;length(widths)], sum(X[i,j] &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N) &lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;=&lt;/span&gt; demand[j])
+   roll_size_const &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #9999FF&#34;&gt;@constraint&lt;/span&gt;(m, [i&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N], sum(X[i,j] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; widths[j] &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;length(widths)) &lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;=&lt;/span&gt; Y[i] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; maxwidth)
+   &lt;span style=&#34;color: #9999FF&#34;&gt;@objective&lt;/span&gt;(m, Min, sum(Y[i] &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N))
+   &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; (m,Y,X)
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s see the results:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;julia&lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;&lt;/span&gt; res &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; [(i,getvalue(Y[i])) &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; getvalue(Y[i]) ≉ &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]
+&lt;span style=&#34;color: #FF6600&#34;&gt;33&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;element &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Array&lt;/span&gt;{&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Tuple&lt;/span&gt;{&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int64&lt;/span&gt;,&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float64&lt;/span&gt;},&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;}&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;6&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;7&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;8&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;9&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;11&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;12&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;13&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;14&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;15&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;16&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;17&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;18&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;19&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;20&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;21&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;22&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;23&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;24&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;25&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;26&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;27&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;28&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;29&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;30&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;31&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;32&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.9&lt;/span&gt;)
+ (&lt;span style=&#34;color: #FF6600&#34;&gt;84&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.0&lt;/span&gt;)
+
+idxs &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; [i &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; (i,_ ) &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; res]
+julia&lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;&lt;/span&gt; [getvalue(X)[i,&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;] &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; idxs]
+&lt;span style=&#34;color: #FF6600&#34;&gt;33&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;element &lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Array&lt;/span&gt;{&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Array&lt;/span&gt;{&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Float64&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;},&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;}&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;7.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.2&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;4.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;4.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;4.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;4.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;4.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;4.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;4.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;4.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;4.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;4.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;4.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;4.0&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.16&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.16&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.16&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.16&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.16&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.16&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.16&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.16&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;5.8&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;1.216&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;7.2&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.144&lt;/span&gt;]
+ [&lt;span style=&#34;color: #FF6600&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color: #FF6600&#34;&gt;0.16&lt;/span&gt;]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We notice the $Y$ variables are overall pretty saturated and almost integer,
+but the $X$ variables are highly fractional: the linear cuts are divided such
+that they fit perfectly the big rolls. This will make the variable hard to
+get to an integer solution.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;This was a quick intro to the cutting stock problem to get a grasp of its
+structure and difficulty, the goal was not to get too technical and keep a
+broad target audience.&lt;/p&gt;
+
+&lt;p&gt;Hope you enjoyed it, if that&amp;rsquo;s the case, I&amp;rsquo;ll see you on the next article,
+we&amp;rsquo;ll implement a &lt;em&gt;column generation&lt;/em&gt; algorithm from scratch to solve it.
+If you have any question/remarks, feel free to &lt;a href=&#34;http://twitter.com/MathieuBesancon/&#34; target=&#34;_blank&#34;&gt;get in touch&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Image source: &lt;a href=&#34;https://www.flickr.com/photos/30478819@N08/38272827564&#34; target=&#34;_blank&#34;&gt;https://www.flickr.com/photos/30478819@N08/38272827564&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Intro to package development in Julia</title>
       <link>https://mbesancon.github.io/talk/julia_montreal/</link>
       <pubDate>Thu, 08 Mar 2018 00:00:00 +0000</pubDate>
@@ -2110,364 +2367,6 @@ second article may come to explain how to build a predictive model from
 scratch in an industrial context.&lt;/p&gt;
 
 &lt;p&gt;Special thanks to Robert, Benoit and Florian for their feedback on the article.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>A Pythonic data science project: Part III</title>
-      <link>https://mbesancon.github.io/post/2016-01-13-fraud-detection3/</link>
-      <pubDate>Wed, 13 Jan 2016 00:00:00 -0500</pubDate>
-      
-      <guid>https://mbesancon.github.io/post/2016-01-13-fraud-detection3/</guid>
-      <description>
-
-&lt;p&gt;[1]&lt;/p&gt;
-
-&lt;p&gt;Part III: Model development&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;To follow the following article without any trouble, I would recommend to
-start with the beginning.&lt;/p&gt;
-
-&lt;h1 id=&#34;how-does-predictive-modeling-work&#34;&gt;How does predictive modeling work&lt;/h1&gt;
-
-&lt;h2 id=&#34;keep-the-terminology-in-mind&#34;&gt;Keep the terminology in mind&lt;/h2&gt;
-
-&lt;p&gt;This is important to understand the principles and
-sub-disciplines of machine learning. We are trying to predict a specific
-&lt;strong&gt;output&lt;/strong&gt;, our information of interest, which is the category of bank note
-we observe (genuine or forged).
-This task is therefore labeled as &lt;strong&gt;supervised learning&lt;/strong&gt;, as opposed to
-&lt;strong&gt;unsupervised learning&lt;/strong&gt; which consists of finding patterns or groups from
-data without a priori identification of those groups.&lt;/p&gt;
-
-&lt;p&gt;Supervised learning can further be labeled as &lt;strong&gt;classification&lt;/strong&gt; or
-&lt;strong&gt;regression&lt;/strong&gt;, depending on the nature of the outcome, respectively
-categorical or numerical. It is essential to know because the two disciplines
-don&amp;rsquo;t involve the same models. Some models work in both cases but their expected
-behavior and performance would be different. In our case, the outcome is
-categorical with two levels.&lt;/p&gt;
-
-&lt;h2 id=&#34;how-does-classification-work&#34;&gt;How does classification work?&lt;/h2&gt;
-
-&lt;p&gt;Based on a subset of the data, we train a
-model, so we tune it to minimize its error on these data. To make a parallel
-with Object-Oriented Programming, the model is an &lt;strong&gt;instance&lt;/strong&gt; of the
-class which defines how it works. The attributes would be its parameters and
-it would always have two methods (functions usable only from the object):
-* &lt;strong&gt;train&lt;/strong&gt; the model from a set of observations (composed of predictive
-    variables and of the outcome)
-* &lt;strong&gt;predict&lt;/strong&gt; the outcome given some new observations
-Another optional method would be &lt;strong&gt;adapt&lt;/strong&gt; which takes new training data and
-adjusts/corrects the parameters. A brute-force way to perform this is to call
-the train method on both the old and new data, but for some models a more
-efficient technique exists.&lt;/p&gt;
-
-&lt;h2 id=&#34;independent-evaluation&#34;&gt;Independent evaluation&lt;/h2&gt;
-
-&lt;p&gt;A last significant element: we mentioned using only a subset of the data to
-train the model. The reason is that the performance of the model has to be
-evaluated, but if we compute the error on the training data, the result will
-be biased because the model was precisely trained to minimize the error on this
-training set. So the evaluation has to be done on a separated subset of the
-data, this is called &lt;strong&gt;cross validation&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;h1 id=&#34;our-model-logistic-regression&#34;&gt;Our model: logistic regression&lt;/h1&gt;
-
-&lt;p&gt;This model was chosen mostly because
-it is visually and intuitively easy to understand and simple to
-implement from scratch.
-Plus, it covers a central topic in data science, optimization.
-The underlying reasoning is the following:
-The logit function of the probability of a level of the classes is
-linearly dependent on the predictors. This can be written as:&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;log(p&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;(&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;p)) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; beta0 &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; beta[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; x[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; beta[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; x[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;...&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Why do we need the logit function here?
-Well technically, a linear regression could be fitted with the class as output
-(encoded as 0/1) and the features as predictive variables. However, for some
-values of the predictors, the model would yield outputs below 0 or above 1.
-The logistic function &lt;strong&gt;equation&lt;/strong&gt; yields an output between 0 and 1 and
-is therefore well suited to model a probability.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/linear_binary.png&#34; alt=&#34;Linear regression on binary output&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/logistic_binary.png&#34; alt=&#34;Logistic regression on binary output&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;You can noticed a decision boundary, which is the limit between the
-region where the model yields a prediction &amp;ldquo;0&amp;rdquo; and a prediction &amp;ldquo;1&amp;rdquo;.
-The output of the model is a probability of the class &amp;ldquo;1&amp;rdquo;, the forged
-bank notes, so the decision boundary can be put at p=0.5, which would be
-our &amp;ldquo;best guess&amp;rdquo; for the transition between the two regions.&lt;/p&gt;
-
-&lt;h2 id=&#34;required-parameters&#34;&gt;Required parameters&lt;/h2&gt;
-
-&lt;p&gt;As you noticed in the previous explanation, the model takes a vector of
-parameters which correspond to the weights of the different variables.
-The intercept \beta_0 places the location of the point at which p=0.5,
-it shifts the curve to the right or the left.
-The coefficients of the variables correspond to the sharpness of the transition.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/logistic_coeff.png&#34; alt=&#34;Evolution of the model with different coefficient values&#34; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;learning-process&#34;&gt;Learning process&lt;/h2&gt;
-
-&lt;h3 id=&#34;parameters-identification-issue&#34;&gt;Parameters identification issue&lt;/h3&gt;
-
-&lt;p&gt;Unlike linear regression, the learning process for logistic regression is not
-a straight-forward computation of the parameters through simple linear algebra
-operations. The criterion to optimize is the likelihood, or equivalently, the
-log-likelihood of the parameters:&lt;/p&gt;
-
-&lt;!-- \mathscr{L}(\beta|(X,Z)) = f_{\beta}\left(X=x,Z=z\right) --&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;L(beta&lt;span style=&#34;color: #555555&#34;&gt;|&lt;/span&gt;(X,z)) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; f(X,z)
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h3 id=&#34;parameters-update&#34;&gt;Parameters update&lt;/h3&gt;
-
-&lt;p&gt;The best parameters in the sense of the log-likelihood are therefore found
-where this function reaches its maximum.
-For the logistic regression problem,
-there is only one critical point, which is also the only maximum of the
-log-likelihood. So the overall process is to start from a random set of
-parameters and to update it in the direction that increases the
-log-likelihood the most. This precise direction is given by the
-&lt;strong&gt;gradient&lt;/strong&gt; of the log-likelihood. The updated weights at each iteration
-can be written as:&lt;/p&gt;
-
-&lt;!-- \beta^{(n+1)} = \beta^{(n)} + \gamma^{(n)}\nabla(log(\mathscr{L}(\beta^{(n)}))) --&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;beta &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; beta &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; gamma&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; gradient_log_likelihood(beta)
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Several criteria can be used to determine if a given set of parameters is an
-acceptable solution. A solution will be considered acceptable when the
-difference between two iterations is low enough.&lt;/p&gt;
-
-&lt;h3 id=&#34;optimal-learning-rate&#34;&gt;Optimal learning rate&lt;/h3&gt;
-
-&lt;p&gt;The coefficient gamma is called the &lt;strong&gt;learning rate&lt;/strong&gt;. Higher values lead to
-quicker variations of the parameters, but also to stability and convergence
-issues. Too small values on the other increase the number of steps required to
-reach an acceptable maximum. The best solution is often a varying learning
-rate, adapting the rate of variations. The rate at step n is chosen as follows:&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;gamma_n &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; alpha&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color: #336666&#34;&gt;min&lt;/span&gt;(c0,&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;(np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;sqrt(n)&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;))
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Which means that the learning rate is constant for all first steps until the
-following condition is reached:&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;n &lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;&lt;/span&gt; (&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;c0)&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;c0
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;After this iteration, the learning rate slowly decreases because we assume the
-parameters are getting closer to the right value, which we don&amp;rsquo;t want to
-overshoot.&lt;/p&gt;
-
-&lt;h2 id=&#34;decision-boundaries-and-2d-representation&#34;&gt;Decision boundaries and 2D-representation&lt;/h2&gt;
-
-&lt;p&gt;A &lt;strong&gt;decision region&lt;/strong&gt; is the subset of the features space within which the
-decision taken by the model is identical. A &lt;strong&gt;decision boundary&lt;/strong&gt; is the
-subset of the space where the decision &amp;ldquo;switches&amp;rdquo;. For most algorithms,
-the decision taken on the boundary is arbitrary. The possible boundary
-shapes are a key characteristic of machine learning algorithms.&lt;/p&gt;
-
-&lt;p&gt;In our case, logistic regression models the logit of the probability,
-which is strictly monotonous with the probability as linearly
-proportional to the predictors. It can be deduced that the decision
-boundary will be a straight line separating the two classes.
-This can be visualized using two features of the data, &amp;ldquo;vari&amp;rdquo; and
-&amp;ldquo;k_resid&amp;rdquo;:&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;w &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; learn_weights(data1&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;iloc[:,(&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;)])
-
-&lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# building the mesh&lt;/span&gt;
-xmesh, ymesh &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;meshgrid(np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;arange(data1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;vari&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;min()&lt;span style=&#34;color: #555555&#34;&gt;-.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;,data1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;vari&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;max()&lt;span style=&#34;color: #555555&#34;&gt;+.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;01&lt;/span&gt;),\
-    np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;arange(data1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;k_resid&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;min()&lt;span style=&#34;color: #555555&#34;&gt;-.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;,data1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;k_resid&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;max()&lt;span style=&#34;color: #555555&#34;&gt;+.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;01&lt;/span&gt;))
-
-pmap &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; pd&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;DataFrame(np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;c_[np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ones((&lt;span style=&#34;color: #336666&#34;&gt;len&lt;/span&gt;(xmesh&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ravel()),)),xmesh&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ravel(),ymesh&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ravel()])
-p &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;array([])
-&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; line &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; pmap&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;values:
-    p &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;append(p,(prob_log(line,w)))
-
-p &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; p&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;reshape(xmesh&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;shape)
-
-plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;contourf(xmesh, ymesh, np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;power(p,&lt;span style=&#34;color: #FF6600&#34;&gt;8&lt;/span&gt;), cmap&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;RdBu&amp;#39;&lt;/span&gt;,alpha&lt;span style=&#34;color: #555555&#34;&gt;=.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;)
-plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(data1[data1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;][&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;vari&amp;quot;&lt;/span&gt;],data1[data1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;][&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;k_resid&amp;quot;&lt;/span&gt;],&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;Class 0&amp;#39;&lt;/span&gt;)
-plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(data1[data1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;vari&amp;quot;&lt;/span&gt;],data1[data1[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;k_resid&amp;quot;&lt;/span&gt;],&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;r+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;Class 1&amp;#39;&lt;/span&gt;)
-plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;legend(loc&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;upper right&amp;quot;&lt;/span&gt;)
-plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;2-dimension logistic regression result&amp;#39;&lt;/span&gt;)
-plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;xlabel(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;vari&amp;#39;&lt;/span&gt;)
-plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ylabel(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;#39;k_resid&amp;#39;&lt;/span&gt;)
-plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;grid()
-plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/2dimension.png&#34; alt=&#34;Decision boundary for two dimensions&#34; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&#34;implementation&#34;&gt;Implementation&lt;/h1&gt;
-
-&lt;h2 id=&#34;elementary-functions&#34;&gt;Elementary functions&lt;/h2&gt;
-
-&lt;p&gt;Modularizing the code increases the readability, we define the
-implementations of two mathematical functions:
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #CC00FF&#34;&gt;prob_log&lt;/span&gt;(x,w):
-    &lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    probability of an observation belonging&lt;/span&gt;
-&lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    to the class &amp;quot;one&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    given the predictors x and weights w&lt;/span&gt;
-&lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;exp(np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;dot(x,w))&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;(np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;exp(np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;dot(x,w))&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;)
-&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #CC00FF&#34;&gt;grad_log_like&lt;/span&gt;(X, y, w):
-    &lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    computes the gradient of the log-likelihood from predictors X,&lt;/span&gt;
-&lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    output y and weights w&lt;/span&gt;
-&lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;dot(X&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;T,y&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;apply_along_axis(&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;lambda&lt;/span&gt; x: prob_log(x,w),&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,X))&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;reshape((&lt;span style=&#34;color: #336666&#34;&gt;len&lt;/span&gt;(w),))
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;h2 id=&#34;learning-algorithm&#34;&gt;Learning algorithm&lt;/h2&gt;
-
-&lt;p&gt;A function computes the optimal weights from iterations to find the maximal
-log-likelihood of the parameters, using the two previous functions.&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #CC00FF&#34;&gt;learn_weights&lt;/span&gt;(df):
-    &lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    computes and updates the weights until convergence&lt;/span&gt;
-&lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    given the features and outcome in a data frame&lt;/span&gt;
-&lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    X &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;c_[np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ones(&lt;span style=&#34;color: #336666&#34;&gt;len&lt;/span&gt;(df)),np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;array(df&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;iloc[:,:df&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;shape[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;])]
-    y &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;array(df[&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;class&amp;quot;&lt;/span&gt;])
-    niter &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;
-    error &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;0001&lt;/span&gt;
-    w &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;zeros((df&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;shape[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;],))
-    w0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; w&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;
-    alpha &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;
-    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color: #336666&#34;&gt;sum&lt;/span&gt;(&lt;span style=&#34;color: #336666&#34;&gt;abs&lt;/span&gt;(w0&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;w))&lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;&lt;/span&gt;error &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;and&lt;/span&gt; niter &lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;10000&lt;/span&gt;:
-        niter&lt;span style=&#34;color: #555555&#34;&gt;+=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;
-        w0 &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; w
-        w &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; w &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; alpha&lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color: #336666&#34;&gt;min&lt;/span&gt;(&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,(&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;/&lt;/span&gt;(niter&lt;span style=&#34;color: #555555&#34;&gt;**.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;))) &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; (grad_log_like(X,y,w))
-    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; niter&lt;span style=&#34;color: #555555&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;10000&lt;/span&gt;:
-        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;Maximum iterations reached&amp;quot;&lt;/span&gt;)
-    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; w
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h2 id=&#34;prediction&#34;&gt;Prediction&lt;/h2&gt;
-
-&lt;p&gt;Once the weights have been learnt, new probabilities can be predicted from
-explanatory variables.&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #CC00FF&#34;&gt;predict_outcome&lt;/span&gt;(df,w):
-    &lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    takes in a test data set and computed weights&lt;/span&gt;
-&lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    returns a vector of predicted output, the confusion matrix&lt;/span&gt;
-&lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    and the number of misclassifications&lt;/span&gt;
-&lt;span style=&#34;color: #CC3300; font-style: italic&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    confusion_matrix &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;zeros((&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;))
-    p &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; []
-    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; line &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; df&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;values:
-        x &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;append(&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,line[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;:&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;])
-        p&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;append(prob_log(x,w))
-        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; (prob_log(x,w)&lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;) &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;and&lt;/span&gt; line[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;]:
-            confusion_matrix[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;+=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;
-        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;elif&lt;/span&gt; (prob_log(x,w)&lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;) &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;and&lt;/span&gt; line[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;]:
-            confusion_matrix[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;+=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;
-        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;elif&lt;/span&gt; (prob_log(x,w)&lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;.&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;) &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;and&lt;/span&gt; &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;not&lt;/span&gt; line[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;]:
-            confusion_matrix[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;+=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;
-        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;else&lt;/span&gt;:
-            confusion_matrix[&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color: #555555&#34;&gt;+=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;
-    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; p, confusion_matrix, &lt;span style=&#34;color: #336666&#34;&gt;len&lt;/span&gt;(df)&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #336666&#34;&gt;sum&lt;/span&gt;(np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;diag(confusion_matrix))
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h2 id=&#34;cross-validated-evaluation&#34;&gt;Cross-validated evaluation&lt;/h2&gt;
-
-&lt;p&gt;Learning weights on a training subset and getting the error on an other subset
-will allow us to estimate the real error rate of our prediction. 100 cross
-validations are performed and for each of them, we add the error to a list.&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;error &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; []
-weights &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; []
-&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; test &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #336666&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color: #FF6600&#34;&gt;100&lt;/span&gt;):
-    trainIndex &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;random&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;rand(&lt;span style=&#34;color: #336666&#34;&gt;len&lt;/span&gt;(data0)) &lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0.85&lt;/span&gt;
-    data_train &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; data1[trainIndex]
-    data_test &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; data1[&lt;span style=&#34;color: #555555&#34;&gt;~&lt;/span&gt;trainIndex]
-    weights&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;append(learn_weights(data_train))
-    error&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;append(predict_outcome(data_test,weights[&lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;])[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;])
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;The following results were obtained:
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/GLM_errors.png&#34; alt=&#34;Evolution of the model with different coefficient values&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The model produces on average 2.66 mis-classifications for 100 evaluated
-banknotes. Note that on each test, 85% of the observations
-went into the training set, which is arbitrary. However, too few
-training points would yield inaccurate models and higher error rates.&lt;/p&gt;
-
-&lt;h1 id=&#34;improvement-perspectives-and-conclusion&#34;&gt;Improvement perspectives and conclusion&lt;/h1&gt;
-
-&lt;p&gt;On this data set, we managed to build independent and reliable features and
-model the probability of belonging to the forged banknotes class thanks to a
-logistic regression model. This appeared to be quite successful from the error
-estimation on the test set. However, few further progresses could be made.&lt;/p&gt;
-
-&lt;h2 id=&#34;testing-other-models&#34;&gt;Testing other models&lt;/h2&gt;
-
-&lt;p&gt;We only implemented the logistic regression from scratch, given that several
-models would have increased the length of this article. But some other
-algorithms would have been interesting, such as:
-* K nearest neighbors
-* Support Vector Machine
-* Model-based predictions such as naive Bayes or Quadratic Discriminant Analysis
-* Classification Tree&lt;/p&gt;
-
-&lt;p&gt;Fact of interest: the two first algorithms also build linear decision
-boundaries, but based on other criteria.&lt;/p&gt;
-
-&lt;h2 id=&#34;adjusting-the-costs&#34;&gt;Adjusting the costs&lt;/h2&gt;
-
-&lt;p&gt;We assumed that misclassifying a true banknote was just as bad as doing so for
-a forged one. This is why using a limit at p=0.5 was the optimal choice. But
-suppose that taking a forged banknote for a genuine one costs twice more than
-the opposite error. Then the limit probability will be set at p = 0.25 to
-minimize the overall cost. More generally, a &lt;strong&gt;cost matrix&lt;/strong&gt; can be built
-to minimize the sum of the element-wise product of the cost matrix with the
-confusion matrix. Here is an interesting
-&lt;a href=&#34;http://stackoverflow.com/questions/17464229/weka-cost-matrix-interpretation&#34; target=&#34;_blank&#34;&gt;Stack Overflow topic&lt;/a&gt;
-topic on the matter.&lt;/p&gt;
-
-&lt;h2 id=&#34;online-classification&#34;&gt;Online classification&lt;/h2&gt;
-
-&lt;p&gt;The analysis carried on in this article is still far from the objective of some
-data projects, which would be to build a reusable on-line classifier.
-In our case, this could be used by bank to instantaneously verify bank notes
-received. This raises some new issues like the update of different parameters
-and the detection of new patterns.&lt;/p&gt;
-
-&lt;p&gt;Special thanks to Rémi for reading the first awful drafts
-and giving me some valuable feedback.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;font size=&#34;0.7&#34;&gt;
- [1] Image source: scikit-learn.org
- [2] Additional resource from the University of Washington
- &lt;a href=&#34;http://courses.washington.edu/css490/2012.Winter/lecture_slides/05b_logistic_regression.pdf&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;
- [3] Resource from the Carnegie Mellon University &lt;a href=&#34;http://www.cs.cmu.edu/~awm/15781/slides/LogRegress-9-29-05.pdf&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;
-&lt;/font&gt;&lt;/p&gt;
 </description>
     </item>
     

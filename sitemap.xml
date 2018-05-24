@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>https://mbesancon.github.io/post/2018-05-23-colgen/</loc>
+      <lastmod>2018-05-23T00:00:00-04:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://mbesancon.github.io/talk/julia_montreal/</loc>
       <lastmod>2018-03-08T00:00:00+00:00</lastmod>
     </url>
@@ -323,6 +332,16 @@
     
     <url>
     
+      <loc>https://mbesancon.github.io/tags/integer-optimization/</loc>
+      <lastmod>2018-05-23T00:00:00-04:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://mbesancon.github.io/tags/jekyll/</loc>
       <lastmod>2017-09-05T00:00:00-04:00</lastmod>
       <priority>0</priority>
@@ -334,7 +353,7 @@
     <url>
     
       <loc>https://mbesancon.github.io/tags/julia/</loc>
-      <lastmod>2018-01-15T00:00:00-05:00</lastmod>
+      <lastmod>2018-05-23T00:00:00-04:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -345,6 +364,16 @@
     
       <loc>https://mbesancon.github.io/tags/julia-package/</loc>
       <lastmod>2018-01-10T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://mbesancon.github.io/tags/jump/</loc>
+      <lastmod>2018-05-23T00:00:00-04:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -364,7 +393,7 @@
     <url>
     
       <loc>https://mbesancon.github.io/tags/modeling/</loc>
-      <lastmod>2017-12-20T00:00:00-05:00</lastmod>
+      <lastmod>2018-05-23T00:00:00-04:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -394,7 +423,7 @@
     <url>
     
       <loc>https://mbesancon.github.io/tags/optimization/</loc>
-      <lastmod>2017-12-20T00:00:00-05:00</lastmod>
+      <lastmod>2018-05-23T00:00:00-04:00</lastmod>
       <priority>0</priority>
     </url>
     
