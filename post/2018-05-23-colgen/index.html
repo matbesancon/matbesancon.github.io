@@ -256,10 +256,8 @@ blog posts. This first part introduces the problem and develops a naive solution
 We&rsquo;re going to see why it&rsquo;s complex to solve and why this formulation does not
 scale.</p>
 
-<p>Among major reformulations, decomposition techniques leverage special
-structures to build an easy-to-solve sub-problem and a &ldquo;master problem&rdquo; converging
-to the exact solution to the initial problem. That&rsquo;s what we&rsquo;re going to see in
-a second post.</p>
+<p>In a second post, we will see a reformulation of the problem which makes it
+easier to solve and scales to bigger instances.</p>
 
 <h2 id="integer-optimization-reminder">Integer optimization reminder</h2>
 
@@ -301,29 +299,66 @@ giving the number of times we cut a small roll $j$ in the big roll $i$.</p>
 <li><strong>Demand satisfaction constraint</strong>: the sum over all $i$ big rolls of the cut $j$
 has to satisfy the demand for that cut:
 $$\sum_{i} X_{ij} \geq D_j $$</li>
-<li><strong>Roll size constraint</strong>: if a roll is used, we cannot fit more width onto it
-than its total width:
+</ul>
+
+<p>For the two-cut example with the demand of $7 \times 12cm$ and $9 \times 29cm$,
+let&rsquo;s suppose we have 10 big rolls $i \in {1&hellip;10}$, the demand for the first
+12cm cut is 7 cuts, the number of cuts of this size produced is:
+$$ \sum_i X_{i1} =  X_{1,1} + X_{2,1} + &hellip; + X_{10,1}$$</p>
+
+<p>This total must at least match the demand, so:
+$$ X_{1,1} + X_{2,1} + &hellip; + X_{10,1} \geq 7 $$</p>
+
+<ul>
+<li><strong>Roll size constraint</strong>: if a roll $i$ is used, we cannot fit more width
+onto it than its total width:
 $$\sum_{j} X_{ij} \cdot W_j \leq L \cdot Y_i $$</li>
 </ul>
+
+<p>For the two-cut example with the demand of $7 \times 12cm$ and $9 \times 29cm$,
+let&rsquo;s suppose we have one roll $i$:</p>
+
+<ul>
+<li>If $Y_i = 0$, the roll size constraint becomes:</li>
+</ul>
+
+<p>$$ \sum_{j} X_{ij} \cdot W_j = 12 \cdot X_{i1} + 29 \cdot X_{i2} \leq 0 $$</p>
+
+<p>The only feasible solution for this roll $i$ is ($X_{i1} = 0,X_{i2} = 0$).</p>
+
+<ul>
+<li>If $Y_i = 1$, the roll size constraint becomes:
+$$ 12 \cdot X_{i1} + 29 \cdot X_{i2} \leq 100 $$</li>
+</ul>
+
+<p>Which means we can fit as many cuts as the roll size allows for.</p>
 
 <h2 id="a-first-naive-implementation">A first naive implementation</h2>
 
 <p>Let&rsquo;s first import the necessary packages: we&rsquo;re using JuMP as a modeling
 tool, which is an optimization-specific language embedded in Julia
 (compare it to AMPL, GAMS, Pyomo, PuLP).
-As I consider it a language, I&rsquo;ll do a full import into my namespace with <code>using</code>.
-We also use <code>Cbc</code>, an open-source solver for integer problems from the Coin-OR
-suite.</p>
+As I consider it an embedded language, I&rsquo;ll do a full import into my namespace
+with <code>using</code> (unlike what I usually do with packages). We also use <code>Cbc</code>,
+an open-source solver for integer problems from the Coin-OR suite.</p>
 
 <div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">using</span> JuMP
 <span style="color: #006699; font-weight: bold">using</span> Cbc<span style="color: #555555">:</span> CbcSolver
 </pre></div>
 
 
+<p>We can define our optimization problem within a function taking the parameters
+of the cutting stock problem, namely a <code>maxwidth</code> of the big rolls, scalar
+assuming all of them have the same width, a <code>widths</code> vector, one element for
+each cut size $j$ and a <code>demand</code> vector, again, one for each cut size.</p>
+
 <div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">function</span> cutting_stock_model(maxwidth, widths, demand, N <span style="color: #555555">=</span> sum(demand))
+    <span style="color: #0099FF; font-style: italic"># Define the JuMP model</span>
     m <span style="color: #555555">=</span> Model(solver <span style="color: #555555">=</span> CbcSolver())
+    <span style="color: #0099FF; font-style: italic"># define the two groups of variables over their respective indices</span>
     Y <span style="color: #555555">=</span> <span style="color: #9999FF">@variable</span>(m, Y[<span style="color: #FF6600">1</span><span style="color: #555555">:</span>N],Bin)
     X <span style="color: #555555">=</span> <span style="color: #9999FF">@variable</span>(m, X[i<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>N,j<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>length(widths)],<span style="color: #007788; font-weight: bold">Int</span>)
+    <span style="color: #0099FF; font-style: italic"># define both constraints and objective</span>
     demand_satisfac <span style="color: #555555">=</span> <span style="color: #9999FF">@constraint</span>(m, [j<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>length(widths)],
         sum(X[i,j] <span style="color: #006699; font-weight: bold">for</span> i <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>N) <span style="color: #555555">&gt;=</span> demand[j]
     )
@@ -331,7 +366,8 @@ suite.</p>
         sum(X[i,j] <span style="color: #555555">*</span> widths[j] <span style="color: #006699; font-weight: bold">for</span> j <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>length(widths)) <span style="color: #555555">&lt;=</span> Y[i] <span style="color: #555555">*</span> maxwidth
     )
     <span style="color: #9999FF">@objective</span>(m, Min, sum(Y[i] <span style="color: #006699; font-weight: bold">for</span> i <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>N))
-    <span style="color: #006699; font-weight: bold">return</span> (m, X, Y)
+    <span style="color: #0099FF; font-style: italic"># return the model formulation to solve later</span>
+    <span style="color: #006699; font-weight: bold">return</span> m
 <span style="color: #006699; font-weight: bold">end</span>
 </pre></div>
 
@@ -340,6 +376,30 @@ suite.</p>
 the problem will be infeasible (not enough big rolls to find a solution
 satisfying the demand). An initial naive value for this could be the total
 demand, after all one small cut per roll can be considered a worst-case solution.</p>
+
+<p>Note that we don&rsquo;t call <code>solve</code> on the model yet, the function simply builds the
+model, this will help us see how it evolves with various entry parameters.
+In Julia REPL, or by using the <code>@show</code> macro, we can have more details on the
+model. Using <code>println(m)</code> instead of <code>@show</code> will build a mathematical
+formulation of the model in a LateX-like style, which can be valuable to
+ensure your implementation matches the initial formulation.</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>julia<span style="color: #555555">&gt;</span> println(cutting_stock_model(<span style="color: #FF6600">100</span>, [<span style="color: #FF6600">12</span>,<span style="color: #FF6600">10</span>], [<span style="color: #FF6600">3</span>,<span style="color: #FF6600">4</span>]))
+Min Y[<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> Y[<span style="color: #FF6600">2</span>] <span style="color: #555555">+</span> Y[<span style="color: #FF6600">3</span>] <span style="color: #555555">+</span> Y[<span style="color: #FF6600">4</span>] <span style="color: #555555">+</span> Y[<span style="color: #FF6600">5</span>] <span style="color: #555555">+</span> Y[<span style="color: #FF6600">6</span>] <span style="color: #555555">+</span> Y[<span style="color: #FF6600">7</span>]
+Subject to
+ X[<span style="color: #FF6600">1</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> X[<span style="color: #FF6600">2</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> X[<span style="color: #FF6600">3</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> X[<span style="color: #FF6600">4</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> X[<span style="color: #FF6600">5</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> X[<span style="color: #FF6600">6</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> X[<span style="color: #FF6600">7</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">≥</span> <span style="color: #FF6600">3</span>
+ X[<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">+</span> X[<span style="color: #FF6600">2</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">+</span> X[<span style="color: #FF6600">3</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">+</span> X[<span style="color: #FF6600">4</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">+</span> X[<span style="color: #FF6600">5</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">+</span> X[<span style="color: #FF6600">6</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">+</span> X[<span style="color: #FF6600">7</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">≥</span> <span style="color: #FF6600">4</span>
+ <span style="color: #FF6600">12</span> X[<span style="color: #FF6600">1</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> <span style="color: #FF6600">10</span> X[<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> <span style="color: #FF6600">100</span> Y[<span style="color: #FF6600">1</span>] <span style="color: #555555">≤</span> <span style="color: #FF6600">0</span>
+ <span style="color: #FF6600">12</span> X[<span style="color: #FF6600">2</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> <span style="color: #FF6600">10</span> X[<span style="color: #FF6600">2</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> <span style="color: #FF6600">100</span> Y[<span style="color: #FF6600">2</span>] <span style="color: #555555">≤</span> <span style="color: #FF6600">0</span>
+ <span style="color: #FF6600">12</span> X[<span style="color: #FF6600">3</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> <span style="color: #FF6600">10</span> X[<span style="color: #FF6600">3</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> <span style="color: #FF6600">100</span> Y[<span style="color: #FF6600">3</span>] <span style="color: #555555">≤</span> <span style="color: #FF6600">0</span>
+ <span style="color: #FF6600">12</span> X[<span style="color: #FF6600">4</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> <span style="color: #FF6600">10</span> X[<span style="color: #FF6600">4</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> <span style="color: #FF6600">100</span> Y[<span style="color: #FF6600">4</span>] <span style="color: #555555">≤</span> <span style="color: #FF6600">0</span>
+ <span style="color: #FF6600">12</span> X[<span style="color: #FF6600">5</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> <span style="color: #FF6600">10</span> X[<span style="color: #FF6600">5</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> <span style="color: #FF6600">100</span> Y[<span style="color: #FF6600">5</span>] <span style="color: #555555">≤</span> <span style="color: #FF6600">0</span>
+ <span style="color: #FF6600">12</span> X[<span style="color: #FF6600">6</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> <span style="color: #FF6600">10</span> X[<span style="color: #FF6600">6</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> <span style="color: #FF6600">100</span> Y[<span style="color: #FF6600">6</span>] <span style="color: #555555">≤</span> <span style="color: #FF6600">0</span>
+ <span style="color: #FF6600">12</span> X[<span style="color: #FF6600">7</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> <span style="color: #FF6600">10</span> X[<span style="color: #FF6600">7</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> <span style="color: #FF6600">100</span> Y[<span style="color: #FF6600">7</span>] <span style="color: #555555">≤</span> <span style="color: #FF6600">0</span>
+ Y[i] <span style="color: #555555">∈</span> {<span style="color: #FF6600">0</span>,<span style="color: #FF6600">1</span>} ∀ i <span style="color: #555555">∈</span> {<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>,…,<span style="color: #FF6600">6</span>,<span style="color: #FF6600">7</span>}
+ X[i,j], integer, ∀ i <span style="color: #555555">∈</span> {<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>,…,<span style="color: #FF6600">6</span>,<span style="color: #FF6600">7</span>}, j <span style="color: #555555">∈</span> {<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>}
+</pre></div>
+
 
 <p>Let&rsquo;s see what the model looks like for different instances:
 <div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>julia<span style="color: #555555">&gt;</span> cutting_stock_model(<span style="color: #FF6600">100</span>, [<span style="color: #FF6600">12</span>,<span style="color: #FF6600">10</span>], [<span style="color: #FF6600">85</span>,<span style="color: #FF6600">97</span>], <span style="color: #FF6600">200</span>)
@@ -369,9 +429,15 @@ Y[i] <span style="color: #555555">∈</span> {<span style="color: #FF6600">0</sp
 </p>
 
 <p>We see the number of variables and constraints explode as we add more possible
-cut sizes, the model also becomes more and more difficult to solve. Without
-going into details on the solving process, two things make the problem difficult
-to solve:</p>
+cut sizes. More precisely:</p>
+
+<ul>
+<li>Number of variables: $ size(X) + size(Y) = Nrolls \cdot Ncuts + Nrolls $</li>
+<li>Number of constraints: $ size(DemandConstr) + size(WidthConstr) = Ncuts + Nrolls$</li>
+</ul>
+
+<p>Without going into details on the solving process, two things make the problem
+difficult to solve:</p>
 
 <ol>
 <li>Symmetry: if we place cuts on a roll $Y_1$ and leave another $Y_2$ unused,
@@ -491,6 +557,12 @@ broad target audience.</p>
 <p>Hope you enjoyed it, if that&rsquo;s the case, I&rsquo;ll see you on the next article,
 we&rsquo;ll implement a <em>column generation</em> algorithm from scratch to solve it.
 If you have any question/remarks, feel free to <a href="http://twitter.com/MathieuBesancon/" target="_blank">get in touch</a>.</p>
+
+<h2 id="thanks">Thanks</h2>
+
+<p>Special thanks to <a href="https://github.com/SohamTamba" target="_blank">Soham</a> and Aristide
+for their feedback, these helped me a great deal simplify the structure and add
+details and explanations where needed.</p>
 
 <hr />
 

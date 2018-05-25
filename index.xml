@@ -25,10 +25,8 @@ blog posts. This first part introduces the problem and develops a naive solution
 We&amp;rsquo;re going to see why it&amp;rsquo;s complex to solve and why this formulation does not
 scale.&lt;/p&gt;
 
-&lt;p&gt;Among major reformulations, decomposition techniques leverage special
-structures to build an easy-to-solve sub-problem and a &amp;ldquo;master problem&amp;rdquo; converging
-to the exact solution to the initial problem. That&amp;rsquo;s what we&amp;rsquo;re going to see in
-a second post.&lt;/p&gt;
+&lt;p&gt;In a second post, we will see a reformulation of the problem which makes it
+easier to solve and scales to bigger instances.&lt;/p&gt;
 
 &lt;h2 id=&#34;integer-optimization-reminder&#34;&gt;Integer optimization reminder&lt;/h2&gt;
 
@@ -70,29 +68,66 @@ giving the number of times we cut a small roll $j$ in the big roll $i$.&lt;/p&gt
 &lt;li&gt;&lt;strong&gt;Demand satisfaction constraint&lt;/strong&gt;: the sum over all $i$ big rolls of the cut $j$
 has to satisfy the demand for that cut:
 $$\sum_{i} X_{ij} \geq D_j $$&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Roll size constraint&lt;/strong&gt;: if a roll is used, we cannot fit more width onto it
-than its total width:
+&lt;/ul&gt;
+
+&lt;p&gt;For the two-cut example with the demand of $7 \times 12cm$ and $9 \times 29cm$,
+let&amp;rsquo;s suppose we have 10 big rolls $i \in {1&amp;hellip;10}$, the demand for the first
+12cm cut is 7 cuts, the number of cuts of this size produced is:
+$$ \sum_i X_{i1} =  X_{1,1} + X_{2,1} + &amp;hellip; + X_{10,1}$$&lt;/p&gt;
+
+&lt;p&gt;This total must at least match the demand, so:
+$$ X_{1,1} + X_{2,1} + &amp;hellip; + X_{10,1} \geq 7 $$&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Roll size constraint&lt;/strong&gt;: if a roll $i$ is used, we cannot fit more width
+onto it than its total width:
 $$\sum_{j} X_{ij} \cdot W_j \leq L \cdot Y_i $$&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;p&gt;For the two-cut example with the demand of $7 \times 12cm$ and $9 \times 29cm$,
+let&amp;rsquo;s suppose we have one roll $i$:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If $Y_i = 0$, the roll size constraint becomes:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;$$ \sum_{j} X_{ij} \cdot W_j = 12 \cdot X_{i1} + 29 \cdot X_{i2} \leq 0 $$&lt;/p&gt;
+
+&lt;p&gt;The only feasible solution for this roll $i$ is ($X_{i1} = 0,X_{i2} = 0$).&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If $Y_i = 1$, the roll size constraint becomes:
+$$ 12 \cdot X_{i1} + 29 \cdot X_{i2} \leq 100 $$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Which means we can fit as many cuts as the roll size allows for.&lt;/p&gt;
 
 &lt;h2 id=&#34;a-first-naive-implementation&#34;&gt;A first naive implementation&lt;/h2&gt;
 
 &lt;p&gt;Let&amp;rsquo;s first import the necessary packages: we&amp;rsquo;re using JuMP as a modeling
 tool, which is an optimization-specific language embedded in Julia
 (compare it to AMPL, GAMS, Pyomo, PuLP).
-As I consider it a language, I&amp;rsquo;ll do a full import into my namespace with &lt;code&gt;using&lt;/code&gt;.
-We also use &lt;code&gt;Cbc&lt;/code&gt;, an open-source solver for integer problems from the Coin-OR
-suite.&lt;/p&gt;
+As I consider it an embedded language, I&amp;rsquo;ll do a full import into my namespace
+with &lt;code&gt;using&lt;/code&gt; (unlike what I usually do with packages). We also use &lt;code&gt;Cbc&lt;/code&gt;,
+an open-source solver for integer problems from the Coin-OR suite.&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;using&lt;/span&gt; JuMP
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;using&lt;/span&gt; Cbc&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt; CbcSolver
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;We can define our optimization problem within a function taking the parameters
+of the cutting stock problem, namely a &lt;code&gt;maxwidth&lt;/code&gt; of the big rolls, scalar
+assuming all of them have the same width, a &lt;code&gt;widths&lt;/code&gt; vector, one element for
+each cut size $j$ and a &lt;code&gt;demand&lt;/code&gt; vector, again, one for each cut size.&lt;/p&gt;
+
 &lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt; cutting_stock_model(maxwidth, widths, demand, N &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; sum(demand))
+    &lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# Define the JuMP model&lt;/span&gt;
     m &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; Model(solver &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; CbcSolver())
+    &lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# define the two groups of variables over their respective indices&lt;/span&gt;
     Y &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #9999FF&#34;&gt;@variable&lt;/span&gt;(m, Y[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N],Bin)
     X &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #9999FF&#34;&gt;@variable&lt;/span&gt;(m, X[i&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N,j&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;length(widths)],&lt;span style=&#34;color: #007788; font-weight: bold&#34;&gt;Int&lt;/span&gt;)
+    &lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# define both constraints and objective&lt;/span&gt;
     demand_satisfac &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #9999FF&#34;&gt;@constraint&lt;/span&gt;(m, [j&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;length(widths)],
         sum(X[i,j] &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N) &lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;=&lt;/span&gt; demand[j]
     )
@@ -100,7 +135,8 @@ suite.&lt;/p&gt;
         sum(X[i,j] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; widths[j] &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;length(widths)) &lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;=&lt;/span&gt; Y[i] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; maxwidth
     )
     &lt;span style=&#34;color: #9999FF&#34;&gt;@objective&lt;/span&gt;(m, Min, sum(Y[i] &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;N))
-    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; (m, X, Y)
+    &lt;span style=&#34;color: #0099FF; font-style: italic&#34;&gt;# return the model formulation to solve later&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; m
 &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -109,6 +145,30 @@ suite.&lt;/p&gt;
 the problem will be infeasible (not enough big rolls to find a solution
 satisfying the demand). An initial naive value for this could be the total
 demand, after all one small cut per roll can be considered a worst-case solution.&lt;/p&gt;
+
+&lt;p&gt;Note that we don&amp;rsquo;t call &lt;code&gt;solve&lt;/code&gt; on the model yet, the function simply builds the
+model, this will help us see how it evolves with various entry parameters.
+In Julia REPL, or by using the &lt;code&gt;@show&lt;/code&gt; macro, we can have more details on the
+model. Using &lt;code&gt;println(m)&lt;/code&gt; instead of &lt;code&gt;@show&lt;/code&gt; will build a mathematical
+formulation of the model in a LateX-like style, which can be valuable to
+ensure your implementation matches the initial formulation.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;julia&lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;&lt;/span&gt; println(cutting_stock_model(&lt;span style=&#34;color: #FF6600&#34;&gt;100&lt;/span&gt;, [&lt;span style=&#34;color: #FF6600&#34;&gt;12&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt;], [&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;]))
+Min Y[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; Y[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; Y[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; Y[&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; Y[&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; Y[&lt;span style=&#34;color: #FF6600&#34;&gt;6&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; Y[&lt;span style=&#34;color: #FF6600&#34;&gt;7&lt;/span&gt;]
+Subject to
+ X[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;7&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;≥&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;
+ X[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;7&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;≥&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;
+ &lt;span style=&#34;color: #FF6600&#34;&gt;12&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;100&lt;/span&gt; Y[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;≤&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;
+ &lt;span style=&#34;color: #FF6600&#34;&gt;12&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;100&lt;/span&gt; Y[&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;≤&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;
+ &lt;span style=&#34;color: #FF6600&#34;&gt;12&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;100&lt;/span&gt; Y[&lt;span style=&#34;color: #FF6600&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;≤&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;
+ &lt;span style=&#34;color: #FF6600&#34;&gt;12&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;100&lt;/span&gt; Y[&lt;span style=&#34;color: #FF6600&#34;&gt;4&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;≤&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;
+ &lt;span style=&#34;color: #FF6600&#34;&gt;12&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;100&lt;/span&gt; Y[&lt;span style=&#34;color: #FF6600&#34;&gt;5&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;≤&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;
+ &lt;span style=&#34;color: #FF6600&#34;&gt;12&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;100&lt;/span&gt; Y[&lt;span style=&#34;color: #FF6600&#34;&gt;6&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;≤&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;
+ &lt;span style=&#34;color: #FF6600&#34;&gt;12&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;7&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt; X[&lt;span style=&#34;color: #FF6600&#34;&gt;7&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;100&lt;/span&gt; Y[&lt;span style=&#34;color: #FF6600&#34;&gt;7&lt;/span&gt;] &lt;span style=&#34;color: #555555&#34;&gt;≤&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;
+ Y[i] &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;} ∀ i &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color: #FF6600&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;7&lt;/span&gt;}
+ X[i,j], integer, ∀ i &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color: #FF6600&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;7&lt;/span&gt;}, j &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;2&lt;/span&gt;}
+&lt;/pre&gt;&lt;/div&gt;
+
 
 &lt;p&gt;Let&amp;rsquo;s see what the model looks like for different instances:
 &lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;julia&lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;&lt;/span&gt; cutting_stock_model(&lt;span style=&#34;color: #FF6600&#34;&gt;100&lt;/span&gt;, [&lt;span style=&#34;color: #FF6600&#34;&gt;12&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;10&lt;/span&gt;], [&lt;span style=&#34;color: #FF6600&#34;&gt;85&lt;/span&gt;,&lt;span style=&#34;color: #FF6600&#34;&gt;97&lt;/span&gt;], &lt;span style=&#34;color: #FF6600&#34;&gt;200&lt;/span&gt;)
@@ -138,9 +198,15 @@ Y[i] &lt;span style=&#34;color: #555555&#34;&gt;∈&lt;/span&gt; {&lt;span style
 &lt;/p&gt;
 
 &lt;p&gt;We see the number of variables and constraints explode as we add more possible
-cut sizes, the model also becomes more and more difficult to solve. Without
-going into details on the solving process, two things make the problem difficult
-to solve:&lt;/p&gt;
+cut sizes. More precisely:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Number of variables: $ size(X) + size(Y) = Nrolls \cdot Ncuts + Nrolls $&lt;/li&gt;
+&lt;li&gt;Number of constraints: $ size(DemandConstr) + size(WidthConstr) = Ncuts + Nrolls$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Without going into details on the solving process, two things make the problem
+difficult to solve:&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;Symmetry: if we place cuts on a roll $Y_1$ and leave another $Y_2$ unused,
@@ -260,6 +326,12 @@ broad target audience.&lt;/p&gt;
 &lt;p&gt;Hope you enjoyed it, if that&amp;rsquo;s the case, I&amp;rsquo;ll see you on the next article,
 we&amp;rsquo;ll implement a &lt;em&gt;column generation&lt;/em&gt; algorithm from scratch to solve it.
 If you have any question/remarks, feel free to &lt;a href=&#34;http://twitter.com/MathieuBesancon/&#34; target=&#34;_blank&#34;&gt;get in touch&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;thanks&#34;&gt;Thanks&lt;/h2&gt;
+
+&lt;p&gt;Special thanks to &lt;a href=&#34;https://github.com/SohamTamba&#34; target=&#34;_blank&#34;&gt;Soham&lt;/a&gt; and Aristide
+for their feedback, these helped me a great deal simplify the structure and add
+details and explanations where needed.&lt;/p&gt;
 
 &lt;hr /&gt;
 
