@@ -434,33 +434,33 @@ newcol, newobj <span style="color: #555555">=</span> subproblem(reduced_costs, w
 <p>We can now build a column generation function putting all elements together and
 performing the main iteration:</p>
 
-
-function column_generation(maxwidth, widths, rollcost, demand, prices; maxcols = 5000)
-    (m, θ, demand_satisfaction, patterns) = init_master(maxwidth, widths, rollcost, demand, prices)
-    ncols = nwidths
-    while ncols <= maxcols
-        reduced_costs = getdual(demand_satisfaction) + prices
-        newcol, newobj = subproblem(reduced_costs, widths, maxwidth)
-        netcost = cost - sum(newcol[j] * (getdual(demand_satisfaction)[j]+prices[j]) for j in 1:nwidths)
-        println("New reduced cost: $netcost")
-        if netcost >= 0
-            return (:Optimal, patterns, getvalue(θ))
-        end
-        patterns = hcat(patterns, newcol)
-        ncols += 1
-        m = Model(solver = ClpSolver())
-        θ = @variable(m, θ[1:ncols] >= 0)
-        @objective(m, Min,
-            sum(θ[p] * (rollcost - sum(patterns[j,p] * prices[j] for j=1:nwidths)) for p in 1:ncols)
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">function</span> column_generation(maxwidth, widths, rollcost, demand, prices; maxcols <span style="color: #555555">=</span> <span style="color: #FF6600">5000</span>)
+    (m, θ, demand_satisfaction, patterns) <span style="color: #555555">=</span> init_master(maxwidth, widths, rollcost, demand, prices)
+    ncols <span style="color: #555555">=</span> nwidths
+    <span style="color: #006699; font-weight: bold">while</span> ncols <span style="color: #555555">&lt;=</span> maxcols
+        reduced_costs <span style="color: #555555">=</span> getdual(demand_satisfaction) <span style="color: #555555">+</span> prices
+        newcol, newobj <span style="color: #555555">=</span> subproblem(reduced_costs, widths, maxwidth)
+        netcost <span style="color: #555555">=</span> cost <span style="color: #555555">-</span> sum(newcol[j] <span style="color: #555555">*</span> (getdual(demand_satisfaction)[j]<span style="color: #555555">+</span>prices[j]) <span style="color: #006699; font-weight: bold">for</span> j <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>nwidths)
+        println(<span style="color: #CC3300">&quot;New reduced cost: </span><span style="color: #AA0000">$netcost</span><span style="color: #CC3300">&quot;</span>)
+        <span style="color: #006699; font-weight: bold">if</span> netcost <span style="color: #555555">&gt;=</span> <span style="color: #FF6600">0</span>
+            <span style="color: #006699; font-weight: bold">return</span> (<span style="color: #555555">:</span>Optimal, patterns, getvalue(θ))
+        <span style="color: #006699; font-weight: bold">end</span>
+        patterns <span style="color: #555555">=</span> hcat(patterns, newcol)
+        ncols <span style="color: #555555">+=</span> <span style="color: #FF6600">1</span>
+        m <span style="color: #555555">=</span> Model(solver <span style="color: #555555">=</span> ClpSolver())
+        θ <span style="color: #555555">=</span> <span style="color: #9999FF">@variable</span>(m, θ[<span style="color: #FF6600">1</span><span style="color: #555555">:</span>ncols] <span style="color: #555555">&gt;=</span> <span style="color: #FF6600">0</span>)
+        <span style="color: #9999FF">@objective</span>(m, Min,
+            sum(θ[p] <span style="color: #555555">*</span> (rollcost <span style="color: #555555">-</span> sum(patterns[j,p] <span style="color: #555555">*</span> prices[j] <span style="color: #006699; font-weight: bold">for</span> j<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>nwidths)) <span style="color: #006699; font-weight: bold">for</span> p <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>ncols)
         )
-        @constraint(m, demand_satisfaction[j=1:nwidths], sum(patterns[j,p] * θ[p] for p in 1:ncols)>=demand[j])
-        if solve(m) != :Optimal
-            warn("No optimal")
-            return (status(m), patterns, getvalue(θ))
-        end
-    end
-    return (:NotFound, patterns, :NoVariable)
-end
+        <span style="color: #9999FF">@constraint</span>(m, demand_satisfaction[j<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>nwidths], sum(patterns[j,p] <span style="color: #555555">*</span> θ[p] <span style="color: #006699; font-weight: bold">for</span> p <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>ncols)<span style="color: #555555">&gt;=</span>demand[j])
+        <span style="color: #006699; font-weight: bold">if</span> solve(m) <span style="color: #555555">!=</span> <span style="color: #555555">:</span>Optimal
+            warn(<span style="color: #CC3300">&quot;No optimal&quot;</span>)
+            <span style="color: #006699; font-weight: bold">return</span> (status(m), patterns, getvalue(θ))
+        <span style="color: #006699; font-weight: bold">end</span>
+    <span style="color: #006699; font-weight: bold">end</span>
+    <span style="color: #006699; font-weight: bold">return</span> (<span style="color: #555555">:</span>NotFound, patterns, <span style="color: #555555">:</span>NoVariable)
+<span style="color: #006699; font-weight: bold">end</span>
+</pre></div>
 
 
 <p>We&rsquo;ve printed information along the computation to see what&rsquo;s going on more

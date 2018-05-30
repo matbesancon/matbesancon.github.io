@@ -203,33 +203,33 @@ newcol, newobj &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; subprob
 &lt;p&gt;We can now build a column generation function putting all elements together and
 performing the main iteration:&lt;/p&gt;
 
-
-function column_generation(maxwidth, widths, rollcost, demand, prices; maxcols = 5000)
-    (m, θ, demand_satisfaction, patterns) = init_master(maxwidth, widths, rollcost, demand, prices)
-    ncols = nwidths
-    while ncols &lt;= maxcols
-        reduced_costs = getdual(demand_satisfaction) + prices
-        newcol, newobj = subproblem(reduced_costs, widths, maxwidth)
-        netcost = cost - sum(newcol[j] * (getdual(demand_satisfaction)[j]+prices[j]) for j in 1:nwidths)
-        println(&#34;New reduced cost: $netcost&#34;)
-        if netcost &gt;= 0
-            return (:Optimal, patterns, getvalue(θ))
-        end
-        patterns = hcat(patterns, newcol)
-        ncols += 1
-        m = Model(solver = ClpSolver())
-        θ = @variable(m, θ[1:ncols] &gt;= 0)
-        @objective(m, Min,
-            sum(θ[p] * (rollcost - sum(patterns[j,p] * prices[j] for j=1:nwidths)) for p in 1:ncols)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #f0f3f3&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;function&lt;/span&gt; column_generation(maxwidth, widths, rollcost, demand, prices; maxcols &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;5000&lt;/span&gt;)
+    (m, θ, demand_satisfaction, patterns) &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; init_master(maxwidth, widths, rollcost, demand, prices)
+    ncols &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; nwidths
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;while&lt;/span&gt; ncols &lt;span style=&#34;color: #555555&#34;&gt;&amp;lt;=&lt;/span&gt; maxcols
+        reduced_costs &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; getdual(demand_satisfaction) &lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt; prices
+        newcol, newobj &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; subproblem(reduced_costs, widths, maxwidth)
+        netcost &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; cost &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; sum(newcol[j] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; (getdual(demand_satisfaction)[j]&lt;span style=&#34;color: #555555&#34;&gt;+&lt;/span&gt;prices[j]) &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;nwidths)
+        println(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;New reduced cost: &lt;/span&gt;&lt;span style=&#34;color: #AA0000&#34;&gt;$netcost&lt;/span&gt;&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;&lt;/span&gt;)
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; netcost &lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;
+            &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; (&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;Optimal, patterns, getvalue(θ))
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+        patterns &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; hcat(patterns, newcol)
+        ncols &lt;span style=&#34;color: #555555&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;
+        m &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; Model(solver &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; ClpSolver())
+        θ &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #9999FF&#34;&gt;@variable&lt;/span&gt;(m, θ[&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;ncols] &lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;0&lt;/span&gt;)
+        &lt;span style=&#34;color: #9999FF&#34;&gt;@objective&lt;/span&gt;(m, Min,
+            sum(θ[p] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; (rollcost &lt;span style=&#34;color: #555555&#34;&gt;-&lt;/span&gt; sum(patterns[j,p] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; prices[j] &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; j&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;nwidths)) &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; p &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;ncols)
         )
-        @constraint(m, demand_satisfaction[j=1:nwidths], sum(patterns[j,p] * θ[p] for p in 1:ncols)&gt;=demand[j])
-        if solve(m) != :Optimal
-            warn(&#34;No optimal&#34;)
-            return (status(m), patterns, getvalue(θ))
-        end
-    end
-    return (:NotFound, patterns, :NoVariable)
-end
+        &lt;span style=&#34;color: #9999FF&#34;&gt;@constraint&lt;/span&gt;(m, demand_satisfaction[j&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;nwidths], sum(patterns[j,p] &lt;span style=&#34;color: #555555&#34;&gt;*&lt;/span&gt; θ[p] &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;for&lt;/span&gt; p &lt;span style=&#34;color: #006699&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #FF6600&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;ncols)&lt;span style=&#34;color: #555555&#34;&gt;&amp;gt;=&lt;/span&gt;demand[j])
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;if&lt;/span&gt; solve(m) &lt;span style=&#34;color: #555555&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;Optimal
+            warn(&lt;span style=&#34;color: #CC3300&#34;&gt;&amp;quot;No optimal&amp;quot;&lt;/span&gt;)
+            &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; (status(m), patterns, getvalue(θ))
+        &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;return&lt;/span&gt; (&lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;NotFound, patterns, &lt;span style=&#34;color: #555555&#34;&gt;:&lt;/span&gt;NoVariable)
+&lt;span style=&#34;color: #006699; font-weight: bold&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;We&amp;rsquo;ve printed information along the computation to see what&amp;rsquo;s going on more
