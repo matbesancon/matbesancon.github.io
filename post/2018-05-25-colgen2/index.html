@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.27-DEV" />
+  <meta name="author" content="Mathieu Besançon">
+  <meta name="description" content="PhD student in applied mathematics for energy systems">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  
+
+  <link rel="alternate" href="https://mbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+  <link rel="feed" href="https://mbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="https://mbesancon.github.io/post/2018-05-25-colgen2/">
+
+  
+
+  <title>The cutting stock problem: part 2, solving with column generation | μβ</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">μβ</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#talks">
+            
+            <span>Talks</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#experiences">
+            
+            <span>Experiences</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+<div class="article-header">
+  <img src="/img/posts/cutting_stock/sushi_cuts.jpg" class="article-banner" itemprop="image">
+  
+</div>
+
+
+
+  <div class="article-container">
+    <h1 itemprop="name">The cutting stock problem: part 2, solving with column generation</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-05-30 00:00:00 -0400 EDT" itemprop="datePublished">
+      Wed, May 30, 2018
+    </time>
+  </span>
+
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="/tags/julia">julia</a
+    >, 
+    
+    <a href="/tags/modeling">modeling</a
+    >, 
+    
+    <a href="/tags/optimization">optimization</a
+    >, 
+    
+    <a href="/tags/integer-optimization">integer-optimization</a
+    >, 
+    
+    <a href="/tags/jump">jump</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fmbesancon.github.io%2fpost%2f2018-05-25-colgen2%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=The%20cutting%20stock%20problem%3a%20part%202%2c%20solving%20with%20column%20generation&amp;url=https%3a%2f%2fmbesancon.github.io%2fpost%2f2018-05-25-colgen2%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fmbesancon.github.io%2fpost%2f2018-05-25-colgen2%2f&amp;title=The%20cutting%20stock%20problem%3a%20part%202%2c%20solving%20with%20column%20generation"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fmbesancon.github.io%2fpost%2f2018-05-25-colgen2%2f&amp;title=The%20cutting%20stock%20problem%3a%20part%202%2c%20solving%20with%20column%20generation"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=The%20cutting%20stock%20problem%3a%20part%202%2c%20solving%20with%20column%20generation&amp;body=https%3a%2f%2fmbesancon.github.io%2fpost%2f2018-05-25-colgen2%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<hr />
+
+<p>In the previous post, we explored a well-known integer optimization situation
+in manufacturing, the cutting stock problem. After some details on the
+decisions, constraints and objectives, we implemented a naive model in JuMP.</p>
+
+<p>One key thing to notice is the explosion of number of variables and constraints
+and the fact that relaxed solutions (without constraining variables to be
+integers) are very far from actual feasible solutions.</p>
+
+<p>We will now use an other way of formulating the problem, using a problem
+decomposition and an associated solution method (column generation).</p>
+
+<h2 id="re-stating-the-cutting-stock-problem">Re-stating the cutting stock problem</h2>
+
+<p>In the last post, we used two decisions: $Y_i$ stating if the big roll $i$ is
+used and $X_{ij}$ expressing the number of cuts $j$ made in the roll $i$.
+To minimize the number of rolls, it makes sense to put as many small cuts
+as possible on a big roll. We could therefore identify <em>saturating patterns</em>,
+that is, a combination of small cuts fitting on a big roll, such that no
+additional cut can be placed, and then find the smallest combination of the
+pattern satisfying the demand.</p>
+
+<p>One problem remains: it is impossible to compute, or even to store in memory all
+patterns, their number is exponentially big with the number of cuts, so we will
+try to find the best patterns and re-solve the problem, using the fact that not
+all possible patterns will be necessary.</p>
+
+<p>This is exactly what the Dantzig-Wolfe decomposition does, it splits the problem
+into a <strong>Master Problem MP</strong> and a <strong>sub-problem SP</strong>.</p>
+
+<ul>
+<li>The Master Problem, provided a set of patterns, will find the best combination
+satisfying the demand.</li>
+<li>The sub-problem, given an &ldquo;importance&rdquo; of each cut provided by the master
+problem, will find the best cuts to put on a new pattern.</li>
+</ul>
+
+<p>This is an iterative process, we can start with some naive patterns we can think
+of, compute an initial solution for the master problem, which will be feasible
+but not optimal, move on to the sub-problem to try to find a new pattern
+(or column in the optimization jargon, hence the term of column generation).</p>
+
+<p>How do we define the &ldquo;importance&rdquo; of a cut $j$? The value of the <em>dual variable</em>
+associated with this constraint will tell us that. This is not a lecture in
+duality theory, math-eager readers can check out further documentation on the
+cutting stock problem and duality in linear optimization.</p>
+
+<p>Moreover, we are going to add one element to our model: excess cuts can be sold
+at a price $P_j$, so that we can optimize by minimizing the net cost (production
+cost of the big rolls minus the revenue from excess cuts).</p>
+
+<h2 id="new-formulation">New formulation</h2>
+
+<p>As in the previous post, we&rsquo;re going to formulate the decisions and constraints
+for the new version of the problem.</p>
+
+<h3 id="decisions">Decisions</h3>
+
+<p>At the master problem level, given a pattern $p$, the decision will be
+$\theta_p$ (theta, yes Greek letters are awesome), the number of big rolls which
+will be used with this pattern. $\theta_p$ is a positive integer.</p>
+
+<p>The decision at the sub-problem level will be to find how many of each cut $j$
+to fit onto one big roll, $a_j$.</p>
+
+<p>For a pattern $p$, the number of times a cut $j$ appears is given by $a_{jp}$.</p>
+
+<h3 id="constraints">Constraints</h3>
+
+<p>The big roll size constraint is kept in the sub-problem, a pattern built
+has to respect this constraint:
+$$ \sum_j a_{j} \cdot W_j \leq L $$</p>
+
+<p>The demand $D_j$ is met with all rolls of each pattern so it is kept at the master
+level. The number of cuts of type $j$ produced is the sum of the number of this
+cut on each patterns times the number of the pattern in a solution:</p>
+
+<p>$$ NumCuts_j = \sum_p a_{jp} \cdot \theta_p \geq D_j$$</p>
+
+<h3 id="objective-formulation">Objective formulation</h3>
+
+<p>At the master problem, we minimize the number of rolls, which is simply:
+$$ \sum_{p} \theta_p $$</p>
+
+<p>At the sub-problem, we are trying to maximize the gain associated with the need
+for the demand + the residual price of the cuts. If we can find a worth using
+producing compared to its production cost, it is added.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>As before, we will formulate the master and sub-problem using Julia with JuMP.
+Just like the previous post, we use the Clp and Cbc open-source solvers.
+We read the problem data (prices, sizes, demand) from a JSON file.</p>
+
+<pre><code>using JuMP
+using Cbc: CbcSolver
+using Clp: ClpSolver
+import JSON
+
+const res = open(&quot;data0.json&quot;, &quot;r&quot;) do f
+    data = readstring(f)
+    JSON.Parser.parse(data)
+end
+
+const maxwidth = res[&quot;maxwidth&quot;]
+const cost = res[&quot;cost&quot;]
+const prices = Float64.(res[&quot;prices&quot;])
+const widths = Float64.(res[&quot;widths&quot;])
+const demand = Float64.(res[&quot;demand&quot;])
+const nwidths = length(prices)
+</code></pre>
+
+<p><code>cost</code> is the production cost of a big roll.</p>
+
+<h3 id="sub-problem">Sub-problem</h3>
+
+<p>The subproblem is a function taking reduced costs of each cut and maximizing
+the utility of the pattern it creates:</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #CC3300">&quot;&quot;&quot;</span>
+<span style="color: #CC3300">    subproblem tries to find the best feasible pattern</span>
+<span style="color: #CC3300">    maximizing reduced cost and respecting max roll width</span>
+<span style="color: #CC3300">    corresponding to a multiple-item knapsack</span>
+<span style="color: #CC3300">&quot;&quot;&quot;</span>
+<span style="color: #006699; font-weight: bold">function</span> subproblem(reduced_costs, sizes, maxcapacity)
+    submodel <span style="color: #555555">=</span> Model(solver <span style="color: #555555">=</span> CbcSolver())
+    n <span style="color: #555555">=</span> length(reduced_costs)
+    xs <span style="color: #555555">=</span> <span style="color: #9999FF">@variable</span>(submodel, xs[<span style="color: #FF6600">1</span><span style="color: #555555">:</span>n] <span style="color: #555555">&gt;=</span> <span style="color: #FF6600">0</span>, <span style="color: #007788; font-weight: bold">Int</span>)
+    <span style="color: #9999FF">@constraint</span>(submodel, sum(xs<span style="color: #555555">.</span> <span style="color: #555555">*</span> sizes) <span style="color: #555555">&lt;=</span> maxcapacity)
+    <span style="color: #9999FF">@objective</span>(submodel, Max, sum(xs<span style="color: #555555">.</span> <span style="color: #555555">*</span> reduced_costs))
+    solve(submodel)
+    <span style="color: #006699; font-weight: bold">return</span> round<span style="color: #555555">.</span>(<span style="color: #007788; font-weight: bold">Int</span>,getvalue(xs)), round(<span style="color: #007788; font-weight: bold">Int</span>,getobjectivevalue(submodel))
+<span style="color: #006699; font-weight: bold">end</span>
+</pre></div>
+
+
+<h3 id="initial-master-problem">Initial master problem</h3>
+
+<p>We saw that the master problem finds a solution and then requires a new pattern
+from the sub-problem. This is therefore preferable to start from an initial
+feasible, otherwise we fall into a special case we&rsquo;re not discussing here.
+One initial solution would be to build one pattern per cut, with as many cuts as
+we can, which is $floor(L/w_j)$.</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">function</span> init_master(maxwidth, widths, rollcost, demand, prices)
+    n <span style="color: #555555">=</span> length(widths)
+    ncols <span style="color: #555555">=</span> length(widths)
+    patterns <span style="color: #555555">=</span> spzeros(<span style="color: #007788; font-weight: bold">UInt16</span>,n,ncols)
+    <span style="color: #006699; font-weight: bold">for</span> i <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>n
+        patterns[i,i] <span style="color: #555555">=</span> min(floor(<span style="color: #007788; font-weight: bold">Int</span>,maxwidth<span style="color: #555555">/</span>widths[i]),round(<span style="color: #007788; font-weight: bold">Int</span>,demand[i]))
+    <span style="color: #006699; font-weight: bold">end</span>
+    m <span style="color: #555555">=</span> Model(solver <span style="color: #555555">=</span> ClpSolver())
+    θ <span style="color: #555555">=</span> <span style="color: #9999FF">@variable</span>(m, θ[<span style="color: #FF6600">1</span><span style="color: #555555">:</span>ncols] <span style="color: #555555">&gt;=</span> <span style="color: #FF6600">0</span>)
+    <span style="color: #9999FF">@objective</span>(m, Min,
+        sum(θ[p] <span style="color: #555555">*</span> (rollcost <span style="color: #555555">-</span> sum(patterns[j,p] <span style="color: #555555">*</span> prices[j] <span style="color: #006699; font-weight: bold">for</span> j<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>n)) <span style="color: #006699; font-weight: bold">for</span> p <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>ncols)
+    )
+    <span style="color: #9999FF">@constraint</span>(m, demand_satisfaction[j<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>n], sum(patterns[j,p] <span style="color: #555555">*</span> θ[p] <span style="color: #006699; font-weight: bold">for</span> p <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>ncols)<span style="color: #555555">&gt;=</span>demand[j])
+    <span style="color: #006699; font-weight: bold">if</span> solve(m) <span style="color: #555555">!=</span> <span style="color: #555555">:</span>Optimal
+        warn(<span style="color: #CC3300">&quot;No optimal&quot;</span>)
+    <span style="color: #006699; font-weight: bold">end</span>
+    <span style="color: #006699; font-weight: bold">return</span> (m, getvalue(θ), demand_satisfaction, patterns)
+<span style="color: #006699; font-weight: bold">end</span>
+</pre></div>
+
+
+<p>We can compute the reduced costs from the dual values associated with the
+demand and the prices of cuts</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #0099FF; font-style: italic"># getting the model and values</span>
+(m, θ, demand_satisfaction, patterns) <span style="color: #555555">=</span> init_master(maxwidth, widths, cost, demand, prices);
+
+<span style="color: #0099FF; font-style: italic"># compute reduced costs</span>
+reduced_costs <span style="color: #555555">=</span> getdual(demand_satisfaction)<span style="color: #555555">+</span>prices;
+
+<span style="color: #0099FF; font-style: italic"># ask sub-problem for new pattern</span>
+newcol, newobj <span style="color: #555555">=</span> subproblem(reduced_costs, widths, maxwidth)
+</pre></div>
+
+
+<h3 id="putting-it-all-together">Putting it all together</h3>
+
+<p>We can now build a column generation function putting all elements together and
+performing the main iteration:</p>
+
+
+function column_generation(maxwidth, widths, rollcost, demand, prices; maxcols = 5000)
+    (m, θ, demand_satisfaction, patterns) = init_master(maxwidth, widths, rollcost, demand, prices)
+    ncols = nwidths
+    while ncols <= maxcols
+        reduced_costs = getdual(demand_satisfaction) + prices
+        newcol, newobj = subproblem(reduced_costs, widths, maxwidth)
+        netcost = cost - sum(newcol[j] * (getdual(demand_satisfaction)[j]+prices[j]) for j in 1:nwidths)
+        println("New reduced cost: $netcost")
+        if netcost >= 0
+            return (:Optimal, patterns, getvalue(θ))
+        end
+        patterns = hcat(patterns, newcol)
+        ncols += 1
+        m = Model(solver = ClpSolver())
+        θ = @variable(m, θ[1:ncols] >= 0)
+        @objective(m, Min,
+            sum(θ[p] * (rollcost - sum(patterns[j,p] * prices[j] for j=1:nwidths)) for p in 1:ncols)
+        )
+        @constraint(m, demand_satisfaction[j=1:nwidths], sum(patterns[j,p] * θ[p] for p in 1:ncols)>=demand[j])
+        if solve(m) != :Optimal
+            warn("No optimal")
+            return (status(m), patterns, getvalue(θ))
+        end
+    end
+    return (:NotFound, patterns, :NoVariable)
+end
+
+
+<p>We&rsquo;ve printed information along the computation to see what&rsquo;s going on more
+clearly, now launching it:</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>status, patterns, θ <span style="color: #555555">=</span> column_generation(maxwidth, widths, cost, demand, prices, maxcols <span style="color: #555555">=</span> <span style="color: #FF6600">500</span>);
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">443.18181818181824</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">375.0</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">264.0</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">250.0</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">187.5</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">150.0</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">150.0</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">107.14285714285711</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">97.5</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">107.14285714285734</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">72.0</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">53.571428571428555</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">53.125</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">50.0</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">43.40625</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">36.0</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">34.625</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">41.5</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">21.8515625</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">22.159090909090878</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">20.625</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">16.304347826086314</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">16.304347826086996</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">20.310344827586277</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">18.0</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">8.837209302325732</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #555555">-</span><span style="color: #FF6600">6.060606060606119</span>
+New reduced cost<span style="color: #555555">:</span> <span style="color: #FF6600">0.0</span>
+</pre></div>
+
+
+<p>While the cost of a new pattern is negative, we can add it to the master and
+keep running. This seems to make sense. Now, one thing to note, we have not
+yet specified the <strong>integrality</strong> constraints, meaning that we don&rsquo;t have integer
+number of patterns. We can see that on the $\theta$ variable:
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>println(θ)
+[<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #555555">...</span> <span style="color: #FF6600">70.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">12.56</span>, <span style="color: #FF6600">46.86</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>,
+<span style="color: #FF6600">3.98</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">21.5</span>, <span style="color: #FF6600">5.0</span>, <span style="color: #FF6600">31.12</span>, <span style="color: #FF6600">61.12</span>, <span style="color: #FF6600">33.58</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">32.2</span>, <span style="color: #FF6600">44.0</span>,
+<span style="color: #FF6600">46.88</span>, <span style="color: #FF6600">19.0</span>, <span style="color: #FF6600">1.88</span>, <span style="color: #FF6600">16.42</span>]
+println(sum(θ))
+<span style="color: #FF6600">446.1000000000001</span>
+</pre></div>
+</p>
+
+<p>We saw in the last post that the problem without integrality constraints is
+a relaxation and therefore, can only yield a better result. This means that we
+cannot have an integer solution using 446 big rolls or less, the minimum will
+be 447 rolls. Let&rsquo;s solve the problem with the same patterns, but adding the
+integrality:</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #0099FF; font-style: italic"># compute initial integer solution:</span>
+<span style="color: #0099FF; font-style: italic"># take worse case from linear solution, round up</span>
+intial_integer <span style="color: #555555">=</span> ceil<span style="color: #555555">.</span>(<span style="color: #007788; font-weight: bold">Int</span>,θ);
+
+
+<span style="color: #CC3300">&quot;&quot;&quot;</span>
+<span style="color: #CC3300">    From patterns built in the column generation phase, find an integer solution</span>
+<span style="color: #CC3300">&quot;&quot;&quot;</span><span style="color: #006699; font-weight: bold">function</span> branched_model(patterns, demand, rollcost, prices; npatts <span style="color: #555555">=</span> size(patterns)[<span style="color: #FF6600">2</span>], initial_point <span style="color: #555555">=</span> zeros(<span style="color: #007788; font-weight: bold">Int</span>,npatts))
+    npatts <span style="color: #555555">=</span> size(patterns)[<span style="color: #FF6600">2</span>]
+    m <span style="color: #555555">=</span> Model(solver <span style="color: #555555">=</span> CbcSolver())
+    θ <span style="color: #555555">=</span> <span style="color: #9999FF">@variable</span>(m, θ[p <span style="color: #555555">=</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>npatts] <span style="color: #555555">&gt;=</span> <span style="color: #FF6600">0</span>, <span style="color: #007788; font-weight: bold">Int</span>, start <span style="color: #555555">=</span> initial_point[p])
+    <span style="color: #9999FF">@objective</span>(m, Min,
+        sum(θ[p] <span style="color: #555555">*</span> (rollcost <span style="color: #555555">-</span> sum(patterns[j,p] <span style="color: #555555">*</span> prices[j] <span style="color: #006699; font-weight: bold">for</span> j<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>nwidths)) <span style="color: #006699; font-weight: bold">for</span> p <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>npatts)
+    )
+    <span style="color: #9999FF">@constraint</span>(m, demand_satisfaction[j<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>nwidths], sum(θ[p] <span style="color: #555555">*</span> patterns[j,p] <span style="color: #006699; font-weight: bold">for</span> p <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>npatts) <span style="color: #555555">&gt;=</span> demand[j])
+    status <span style="color: #555555">=</span> solve(m)
+    <span style="color: #006699; font-weight: bold">return</span> (status, round<span style="color: #555555">.</span>(<span style="color: #007788; font-weight: bold">Int</span>,(getvalue(θ))))
+<span style="color: #006699; font-weight: bold">end</span>
+</pre></div>
+
+
+<p>Let&rsquo;s see what the results look like:</p>
+
+<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>status, θ_final <span style="color: #555555">=</span> branched_model(patterns, demand, cost, prices; initial_point <span style="color: #555555">=</span> intial_integer)
+println(status)
+<span style="color: #555555">:</span>Optimal
+println(sum(θ_final))
+<span style="color: #FF6600">447</span>
+</pre></div>
+
+
+<p>Given that we cannot do better than 447, we know we have the optimal
+number of rolls.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>After seeing what a mess integer problems can be in the first part, we used a
+powerful technique called Dantzig-Wolfe decomposition, spliting the problem into
+master and sub-problem, each handling a subset of the constraints.</p>
+
+<p>Column generation is a technique making this decomposition usable in practice,
+by adding only one or few columns (patterns) at each iteration, we avoid
+an exponentially growing number of variables. The fact that JuMP is built as
+an embedded Domain Specific Language in Julia makes it a lot easier to specify
+problems and play around them. Most optimization specific modeling languages
+are built around declarative features and get messy very quickly when
+introducing some logic (like column generation iterations). Developers
+could relate this technique to lazy value computation: we know all values are
+there, but we just compute them whenever needed.</p>
+
+<p>Hope you enjoyed reading this second post on the cutting stock problem. A
+Jupyter notebook summing up all code snippets can be found at
+<a href="https://github.com/mbesancon/column_generation_jump" target="_blank">this repository</a>.
+Feel free to <a href="http://twitter.com/MathieuBesancon/" target="_blank">ping me</a> for feedback!</p>
+
+<h3 id="note-on-performance">Note on performance</h3>
+
+<p>The column generation approach we just saw scales well to huge problems, but
+this particular implementation can feel a bit slow at first. One recommended
+thing is to do in such case is &ldquo;warm-starting&rdquo; the solver: give it a good
+initial solution to start from. Since we built both the master and subproblem
+as stateless functions, the model is being re-built from scratch each time.
+The advantage is that any solver can be used, since some of them don&rsquo;t support
+warm starts.</p>
+
+<hr />
+
+<p>Image source: <a href="https://www.flickr.com/photos/30478819@N08/38272827564" target="_blank">https://www.flickr.com/photos/30478819@N08/38272827564</a></p>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="https://mbesancon.github.io/post/2018-05-23-colgen/"><span
+      aria-hidden="true">&larr;</span> Tackling the cutting stock problem: part 1, problem exploration</a></li>
+    
+
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mathieu Besançon &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js" integrity="sha512-iHzEu7GbSc705hE2skyH6/AlTpOfBmkx7nUqTLGzPYR+C1tRaItbRlJ7hT/D3YQ9SV0fqLKzp4XY9wKulTBGTw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js" integrity="sha512-Z5heTz36xTemt1TbtbfXtTq5lMfYnOkXM2/eWcTTiLU01+Sw4ku1i7vScDc8fWhrP2abz9GQzgKH5NGBLoYlAw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/ScrollToPlugin.min.js" integrity="sha512-CDeU7pRtkPX6XJtF/gcFWlEwyaX7mcAp5sO3VIu/ylsdR74wEw4wmBpD5yYTrmMAiAboi9thyBUr1vXRPA7t0Q==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+
