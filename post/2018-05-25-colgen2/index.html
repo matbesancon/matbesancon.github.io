@@ -251,7 +251,8 @@
 
 <hr />
 
-<p>In the previous post, we explored a well-known integer optimization situation
+<p>In the <a href="/post/2018-05-23-colgen/" target="_blank">previous post</a>,
+we explored a well-known integer optimization situation
 in manufacturing, the cutting stock problem. After some details on the
 decisions, constraints and objectives, we implemented a naive model in JuMP.</p>
 
@@ -264,7 +265,7 @@ decomposition and an associated solution method (column generation).</p>
 
 <h2 id="re-stating-the-cutting-stock-problem">Re-stating the cutting stock problem</h2>
 
-<p>In the last post, we used two decisions: $Y_i$ stating if the big roll $i$ is
+<p>Remember we used two decisions: $Y_i$ stating if the big roll $i$ is
 used and $X_{ij}$ expressing the number of cuts $j$ made in the roll $i$.
 To minimize the number of rolls, it makes sense to put as many small cuts
 as possible on a big roll. We could therefore identify <em>saturating patterns</em>,
@@ -303,8 +304,8 @@ cost of the big rolls minus the revenue from excess cuts).</p>
 
 <h2 id="new-formulation">New formulation</h2>
 
-<p>As in the previous post, we&rsquo;re going to formulate the decisions and constraints
-for the new version of the problem.</p>
+<p>Again, we are going to formulate first possible decisions and
+then constraints on these decisions for the new version of the problem.</p>
 
 <h3 id="decisions">Decisions</h3>
 
@@ -341,7 +342,7 @@ producing compared to its production cost, it is added.</p>
 <h2 id="implementation">Implementation</h2>
 
 <p>As before, we will formulate the master and sub-problem using Julia with JuMP.
-Just like the previous post, we use the Clp and Cbc open-source solvers.
+Again, we use the Clp and Cbc open-source solvers.
 We read the problem data (prices, sizes, demand) from a JSON file.</p>
 
 <pre><code>using JuMP
