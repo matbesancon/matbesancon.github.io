@@ -20,7 +20,8 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;In the previous post, we explored a well-known integer optimization situation
+&lt;p&gt;In the &lt;a href=&#34;https://mbesancon.github.io/post/2018-05-23-colgen/&#34; target=&#34;_blank&#34;&gt;previous post&lt;/a&gt;,
+we explored a well-known integer optimization situation
 in manufacturing, the cutting stock problem. After some details on the
 decisions, constraints and objectives, we implemented a naive model in JuMP.&lt;/p&gt;
 
@@ -33,7 +34,7 @@ decomposition and an associated solution method (column generation).&lt;/p&gt;
 
 &lt;h2 id=&#34;re-stating-the-cutting-stock-problem&#34;&gt;Re-stating the cutting stock problem&lt;/h2&gt;
 
-&lt;p&gt;In the last post, we used two decisions: $Y_i$ stating if the big roll $i$ is
+&lt;p&gt;Remember we used two decisions: $Y_i$ stating if the big roll $i$ is
 used and $X_{ij}$ expressing the number of cuts $j$ made in the roll $i$.
 To minimize the number of rolls, it makes sense to put as many small cuts
 as possible on a big roll. We could therefore identify &lt;em&gt;saturating patterns&lt;/em&gt;,
@@ -72,8 +73,8 @@ cost of the big rolls minus the revenue from excess cuts).&lt;/p&gt;
 
 &lt;h2 id=&#34;new-formulation&#34;&gt;New formulation&lt;/h2&gt;
 
-&lt;p&gt;As in the previous post, we&amp;rsquo;re going to formulate the decisions and constraints
-for the new version of the problem.&lt;/p&gt;
+&lt;p&gt;Again, we are going to formulate first possible decisions and
+then constraints on these decisions for the new version of the problem.&lt;/p&gt;
 
 &lt;h3 id=&#34;decisions&#34;&gt;Decisions&lt;/h3&gt;
 
@@ -110,7 +111,7 @@ producing compared to its production cost, it is added.&lt;/p&gt;
 &lt;h2 id=&#34;implementation&#34;&gt;Implementation&lt;/h2&gt;
 
 &lt;p&gt;As before, we will formulate the master and sub-problem using Julia with JuMP.
-Just like the previous post, we use the Clp and Cbc open-source solvers.
+Again, we use the Clp and Cbc open-source solvers.
 We read the problem data (prices, sizes, demand) from a JSON file.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;using JuMP
@@ -350,6 +351,9 @@ initial solution to start from. Since we built both the master and subproblem
 as stateless functions, the model is being re-built from scratch each time.
 The advantage is that any solver can be used, since some of them don&amp;rsquo;t support
 warm starts.&lt;/p&gt;
+
+&lt;p&gt;Thanks to Aristide for his very sharp ideas and views on this article which
+contributed to its improvement!&lt;/p&gt;
 
 &lt;hr /&gt;
 
