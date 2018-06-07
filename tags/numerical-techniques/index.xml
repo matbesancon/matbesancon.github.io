@@ -274,7 +274,8 @@ Optim&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;optimize(wrapped_o
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We wrap our function in a &lt;code&gt;Optim.OnceDifferentiable&lt;/code&gt; to provide Optim with the
-information is differentiable, even though we don&amp;rsquo;t provide a gradient.&lt;/p&gt;
+information that the function is differentiable, even though we don&amp;rsquo;t provide a
+gradient, it can be computed by automatic differentiation or finite differences.&lt;/p&gt;
 
 &lt;p&gt;The optimal solution corresponds to a complete direct injection
 ($\delta \approx 1$) with $t_{inject}^{opt}$ identical to the previous model.
