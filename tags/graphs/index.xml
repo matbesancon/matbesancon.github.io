@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Graphs on μβ</title>
-    <link>https://mbesancon.github.io/tags/graphs/</link>
+    <link>https://matbesancon.github.io/tags/graphs/</link>
     <description>Recent content in Graphs on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,10 +12,10 @@
     
     <item>
       <title>JuliaGraphs contributions</title>
-      <link>https://mbesancon.github.io/project/juliagraphs/</link>
+      <link>https://matbesancon.github.io/project/juliagraphs/</link>
       <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://mbesancon.github.io/project/juliagraphs/</guid>
+      <guid>https://matbesancon.github.io/project/juliagraphs/</guid>
       <description>&lt;p&gt;Starting from a weird Kaggle &lt;a href=&#34;https://www.kaggle.com/c/santa-gift-matching&#34; target=&#34;_blank&#34;&gt;side-project&lt;/a&gt;
 during the Chrismas holidays, I gradually got involved in the &lt;a href=&#34;https://juliagraphs.github.io/&#34; target=&#34;_blank&#34;&gt;JuliaGraphs&lt;/a&gt;
 ecosystem. After some discussion on the Julia Slack &lt;em&gt;#graphs&lt;/em&gt; channel,

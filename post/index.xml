@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on μβ</title>
-    <link>https://mbesancon.github.io/post/</link>
+    <link>https://matbesancon.github.io/post/</link>
     <description>Recent content in Posts on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 -0500</lastBuildDate>
+    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0100</lastBuildDate>
     <atom:link href="/post/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>The cutting stock problem: part 2, solving with column generation</title>
-      <link>https://mbesancon.github.io/post/2018-05-25-colgen2/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2018-05-25-colgen2/</link>
+      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2018-05-25-colgen2/</guid>
+      <guid>https://matbesancon.github.io/post/2018-05-25-colgen2/</guid>
       <description>
 
 &lt;hr /&gt;
 
-&lt;p&gt;In the &lt;a href=&#34;https://mbesancon.github.io/post/2018-05-23-colgen/&#34; target=&#34;_blank&#34;&gt;previous post&lt;/a&gt;,
+&lt;p&gt;In the &lt;a href=&#34;https://matbesancon.github.io/post/2018-05-23-colgen/&#34; target=&#34;_blank&#34;&gt;previous post&lt;/a&gt;,
 we explored a well-known integer optimization situation
 in manufacturing, the cutting stock problem. After some details on the
 decisions, constraints and objectives, we implemented a naive model in JuMP.&lt;/p&gt;
@@ -339,8 +339,8 @@ there, but we just compute them whenever needed.&lt;/p&gt;
 
 &lt;p&gt;Hope you enjoyed reading this second post on the cutting stock problem. A
 Jupyter notebook summing up all code snippets can be found at
-&lt;a href=&#34;https://github.com/mbesancon/column_generation_jump&#34; target=&#34;_blank&#34;&gt;this repository&lt;/a&gt;.
-Feel free to &lt;a href=&#34;http://twitter.com/MathieuBesancon/&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt; for feedback!&lt;/p&gt;
+&lt;a href=&#34;https://github.com/matbesancon/column_generation_jump&#34; target=&#34;_blank&#34;&gt;this repository&lt;/a&gt;.
+Feel free to &lt;a href=&#34;http://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt; for feedback!&lt;/p&gt;
 
 &lt;h3 id=&#34;note-on-performance&#34;&gt;Note on performance&lt;/h3&gt;
 
@@ -363,10 +363,10 @@ contributed to its improvement!&lt;/p&gt;
     
     <item>
       <title>Tackling the cutting stock problem: part 1, problem exploration</title>
-      <link>https://mbesancon.github.io/post/2018-05-23-colgen/</link>
-      <pubDate>Wed, 23 May 2018 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2018-05-23-colgen/</link>
+      <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2018-05-23-colgen/</guid>
+      <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
       <description>
 
 &lt;p&gt;Integer optimization often feels weird (at least to me). Simple reformulations
@@ -676,7 +676,7 @@ broad target audience.&lt;/p&gt;
 
 &lt;p&gt;Hope you enjoyed it, if that&amp;rsquo;s the case, I&amp;rsquo;ll see you on the next article,
 we&amp;rsquo;ll implement a &lt;em&gt;column generation&lt;/em&gt; algorithm from scratch to solve it.
-If you have any question/remarks, feel free to &lt;a href=&#34;http://twitter.com/MathieuBesancon/&#34; target=&#34;_blank&#34;&gt;get in touch&lt;/a&gt;.&lt;/p&gt;
+If you have any question/remarks, feel free to &lt;a href=&#34;http://twitter.com/matbesancon/&#34; target=&#34;_blank&#34;&gt;get in touch&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;thanks&#34;&gt;Thanks&lt;/h2&gt;
 
@@ -692,10 +692,10 @@ details and explanations where needed.&lt;/p&gt;
     
     <item>
       <title>Solving the group expenses headache with graphs</title>
-      <link>https://mbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</link>
-      <pubDate>Mon, 15 Jan 2018 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
+      <guid>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
       <description>
 
 &lt;p&gt;With the end-of-year celebrations, we all had some expenses to manage,
@@ -1011,7 +1011,7 @@ GraphCoin symbol to GPHC because I found another one with which my initial
 name conflicted.&lt;/p&gt;
 
 &lt;p&gt;If you have questions or remarks on LightGraphs, LightGraphsFlows, the article
-or anything related, don&amp;rsquo;t hesitate to &lt;a href=&#34;http://twitter.com/MathieuBesancon/&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt;!&lt;/p&gt;
+or anything related, don&amp;rsquo;t hesitate to &lt;a href=&#34;http://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt;!&lt;/p&gt;
 
 &lt;p&gt;Edits:&lt;br /&gt;
 Special thanks to &lt;a href=&#34;http://www.bromberger.com/&#34; target=&#34;_blank&#34;&gt;Seth Bromberger&lt;/a&gt; for the review.&lt;/p&gt;
@@ -1028,13 +1028,13 @@ Lightgraphs, 2017, &lt;a href=&#34;https://doi.org/10.5281/zenodo.889971&#34; ta
     
     <item>
       <title>DifferentialEquations.jl - part 2: decision from the model</title>
-      <link>https://mbesancon.github.io/post/2017-12-20-diffeq-julia2/</link>
-      <pubDate>Wed, 20 Dec 2017 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</link>
+      <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
+      <guid>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
       <description>
 
-&lt;p&gt;In the &lt;a href=&#34;https://mbesancon.github.io/post/2017-12-14-diffeq-julia&#34;&gt;last article&lt;/a&gt;, we explored different modeling options for a
+&lt;p&gt;In the &lt;a href=&#34;https://matbesancon.github.io/post/2017-12-14-diffeq-julia&#34;&gt;last article&lt;/a&gt;, we explored different modeling options for a
 three-component systems which could represent the dynamics of a chemical
 reaction or a disease propagation in a population. Building on top of this
 model, we will formulate a desirable outcome and find a decision which
@@ -1100,7 +1100,7 @@ Plots&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(sol)
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/inject.png&#34; alt=&#34;Injection simulation&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/inject.png&#34; alt=&#34;Injection simulation&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The &lt;code&gt;ContinuousCallback&lt;/code&gt; construct is the central element here, it takes as
 information:&lt;/p&gt;
@@ -1129,7 +1129,7 @@ Plots&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(tinj_span, fi
 &lt;p&gt;Using a plain for comprehension, we fetch the solution of the simulation for
 the callback built with each $t_{inject}$.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/optimal_inject.png&#34; alt=&#34;Quantity of B&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/optimal_inject.png&#34; alt=&#34;Quantity of B&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Injecting $A$ too soon lets too much time for the created $B$ to turn into $R$,
 but injecting it too late does not let enough time for $B$ to be produced from
@@ -1253,7 +1253,7 @@ while &lt;code&gt;condition_end&lt;/code&gt; corresponds to the time when the to
 quantity reaches &lt;code&gt;inj_quantity&lt;/code&gt;. The first events activates $u_4$ and sets it
 to the nominal flow, while the second callback resets it to 0.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/const_rate.png&#34; alt=&#34;Constant rate&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/const_rate.png&#34; alt=&#34;Constant rate&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Optim.jl can be re-used to determine the optimal decision:&lt;/p&gt;
 
@@ -1320,7 +1320,7 @@ objective function, using parametrized functions for instance, which could
 make it transparent to optimization solvers.&lt;/p&gt;
 
 &lt;p&gt;If somebody has info on that last point or feedback, additional info you&amp;rsquo;d like
-to share regarding this post, hit me on &lt;a href=&#34;https://twitter.com/MathieuBesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;.
+to share regarding this post, hit me on &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;.
 Thanks for reading!&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -1340,7 +1340,7 @@ and help with &lt;code&gt;Optim.jl&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;2017-12-20:&lt;br /&gt;
 Of course, BlackBoxOptim.jl was not the most appropriate algorithm as
 predicted. &lt;a href=&#34;https://twitter.com/pkofod&#34; target=&#34;_blank&#34;&gt;Patrick&lt;/a&gt; and &lt;a href=&#34;https://twitter.com/ChrisRackauckas&#34; target=&#34;_blank&#34;&gt;Chris&lt;/a&gt;
-gave me some hints in &lt;a href=&#34;https://twitter.com/MathieuBesancon/status/943662063074906112&#34; target=&#34;_blank&#34;&gt;this thread&lt;/a&gt;
+gave me some hints in &lt;a href=&#34;https://twitter.com/matbesancon/status/943662063074906112&#34; target=&#34;_blank&#34;&gt;this thread&lt;/a&gt;
 and I gave &lt;a href=&#34;https://github.com/JuliaNLSolvers/Optim.jl&#34; target=&#34;_blank&#34;&gt;Optim.jl&lt;/a&gt; a try.&lt;/p&gt;
 
 &lt;p&gt;This package has a range of algorithms to choose from depending on the
@@ -1380,10 +1380,10 @@ use Optim.jl for the second case (boxed multivariate optimization without explic
     
     <item>
       <title>Getting started with DifferentialEquations.jl</title>
-      <link>https://mbesancon.github.io/post/2017-12-14-diffeq-julia/</link>
-      <pubDate>Thu, 14 Dec 2017 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</link>
+      <pubDate>Thu, 14 Dec 2017 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
+      <guid>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/JuliaDiffEq/DifferentialEquations.jl&#34; target=&#34;_blank&#34;&gt;DifferentialEquations.jl&lt;/a&gt;
@@ -1500,7 +1500,7 @@ Plots.plot:&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/smooth.png&#34; alt=&#34;Solution to the ODE&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/smooth.png&#34; alt=&#34;Solution to the ODE&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;If we use the disease propagation example, $u₁(t)$ is the number of
 healthy people who haven&amp;rsquo;t been infected. It starts high, which makes the rate
@@ -1557,7 +1557,7 @@ to stochastic equations. The last variation is set to the opposite of the sum
 of the two others to compensate the two other variations (we said we had only
 one randomness phenomenon per state transition).&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/sde.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/sde.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Woops, something went wrong. This time the mass conservation doesn&amp;rsquo;t hold,
 we finish with a population below the initial condition. What is wrong is that
@@ -1591,7 +1591,7 @@ cons_solution &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&l
 &lt;p&gt;We also provide a &lt;code&gt;noise_rate_prototype&lt;/code&gt; parameter to the problem builder to
 indicate we don&amp;rsquo;t want to use a diagonal noise.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/sde_nondiag.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/sde_nondiag.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This time the population conservation holds, at any point in time the sum of
 the $uᵢ(t)$ remains 50.&lt;/p&gt;
@@ -1623,7 +1623,7 @@ disc_sol &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;spa
 affected, and call the Discrete solver. The Plots.jl integration once again
 yields a direct representation of the solution over the time span.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/discrete.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/discrete.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Again, the conservation of the total population is guaranteed by the effect of
 the jumps deleting one unit from a population to add it to the other.&lt;/p&gt;
@@ -1639,7 +1639,7 @@ it in my PhD or side-hacks, especially combined to the
 used to build simulations and JuMP to optimize a cost function on top of the
 created model.&lt;/p&gt;
 
-&lt;p&gt;Thanks for reading, hit me on &lt;a href=&#34;https://twitter.com/MathieuBesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;
+&lt;p&gt;Thanks for reading, get on touch on &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;
 for feedback or questions ;)&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -1653,7 +1653,7 @@ changes are breaking the previous API, it can be worth it to check it out
 &lt;p&gt;&lt;a href=&#34;https://twitter.com/ChrisRackauckas&#34; target=&#34;_blank&#34;&gt;Chris&lt;/a&gt;, the creator and main developer
 of DifferentialEquations.jl, gave me valuable tips on two
 points which have been edited in the article. You can find the thread
-&lt;a href=&#34;https://twitter.com/MathieuBesancon/status/941825252744507392&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;https://twitter.com/matbesancon/status/941825252744507392&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Import aliases should use &lt;code&gt;const PackageAlias = PackageName&lt;/code&gt; for type
@@ -1662,8 +1662,7 @@ Some further mentions of type-stability can be found in the
 &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/performance-tips&#34; target=&#34;_blank&#34;&gt;official doc&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;The second attempts uses non-diagonal noise, the &amp;ldquo;:additive&amp;rdquo; hint I passed
 to the solve function does not hold. Furthermore, the appropriate algorithm in
-that case is the &lt;a href=&#34;https://en.wikipedia.org/wiki/Euler%E2%80%93Maruyama_method&#34; target=&#34;_blank&#34;&gt;Euler-Maruyama method&lt;/a&gt;
-.&lt;/li&gt;
+that case is the &lt;a href=&#34;https://en.wikipedia.org/wiki/Euler%E2%80%93Maruyama_method&#34; target=&#34;_blank&#34;&gt;Euler-Maruyama method&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Many thanks to him for these tips, having such devoted and friendly developers
@@ -1679,10 +1678,10 @@ is also what makes an open-source project successful.&lt;/p&gt;
     
     <item>
       <title>Switching my work flow to Pomodoro for grad studies - part I: motivation  </title>
-      <link>https://mbesancon.github.io/post/2017-10-19-tomate-cli/</link>
-      <pubDate>Thu, 19 Oct 2017 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</link>
+      <pubDate>Thu, 19 Oct 2017 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-10-19-tomate-cli/</guid>
+      <guid>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</guid>
       <description>
 
 &lt;p&gt;The start of my journey as a PhD student last September was a big step, but
@@ -1722,7 +1721,7 @@ not to use this technique.&lt;/p&gt;
 &lt;p&gt;Time management as a grad student has to be un- and re-learned:
 rules are different, criteria for success change and so on.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/tomate/phd_time.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/tomate/phd_time.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;Time management seen by PhD comics [2]&lt;/p&gt;
@@ -1821,10 +1820,10 @@ let me know!&lt;/p&gt;
     
     <item>
       <title>Moving my content creation to a home-made Hugo site</title>
-      <link>https://mbesancon.github.io/post/2017-09-05-moving-content-hugo/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2017-09-05-moving-content-hugo/</link>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-09-05-moving-content-hugo/</guid>
+      <guid>https://matbesancon.github.io/post/2017-09-05-moving-content-hugo/</guid>
       <description>
 
 &lt;p&gt;Last weeks have been pretty intense. I officially left Equisense and  started
@@ -1902,10 +1901,10 @@ content to Medium, but not as the primary source.&lt;/p&gt;
     
     <item>
       <title>Company values: stop trying to dictate who you are</title>
-      <link>https://mbesancon.github.io/post/2016-10-7-company-values/</link>
-      <pubDate>Fri, 07 Oct 2016 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2016-10-7-company-values/</link>
+      <pubDate>Fri, 07 Oct 2016 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-10-7-company-values/</guid>
+      <guid>https://matbesancon.github.io/post/2016-10-7-company-values/</guid>
       <description>
 
 &lt;p&gt;Two weeks ago, the Equisense &lt;a href=&#34;http://equisense.com/en/about.html&#34; target=&#34;_blank&#34;&gt;team&lt;/a&gt; spent a
@@ -2031,13 +2030,13 @@ competition, the market and the context.&lt;/p&gt;&lt;/li&gt;
     
     <item>
       <title>Functional and parallel PageRank implementation in Scala</title>
-      <link>https://mbesancon.github.io/post/2016-09-13-page-rank/</link>
-      <pubDate>Tue, 13 Sep 2016 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2016-09-13-page-rank/</link>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-09-13-page-rank/</guid>
+      <guid>https://matbesancon.github.io/post/2016-09-13-page-rank/</guid>
       <description>
 
-&lt;p&gt;When I &lt;a href=&#34;https://mbesancon.github.io/posts/2016-08-11-back-to-startup/&#34;&gt;came back to Equisense&lt;/a&gt;,
+&lt;p&gt;When I &lt;a href=&#34;https://matbesancon.github.io/posts/2016-08-11-back-to-startup/&#34;&gt;came back to Equisense&lt;/a&gt;,
 I was surprised and intrigued by many things. But there was one element of the
 job in particular I had not planned: coming back to low level and embedded
 programming from higher abstractions I was used to. No OS, no
@@ -2219,7 +2218,7 @@ I found the &lt;a href=&#34;https://snap.stanford.edu&#34; target=&#34;_blank&#3
 from Stanford on which the
 &lt;a href=&#34;https://snap.stanford.edu/data/email-Enron.html&#34; target=&#34;_blank&#34;&gt;Enron emails data&lt;/a&gt;
 are presented and to be downloaded. If you look at the
-&lt;a href=&#34;https://github.com/mbesancon/PageRank&#34; target=&#34;_blank&#34;&gt;Github repo&lt;/a&gt; for this project, I simply
+&lt;a href=&#34;https://github.com/matbesancon/PageRank&#34; target=&#34;_blank&#34;&gt;Github repo&lt;/a&gt; for this project, I simply
 removed the header from the txt file to make the parsing tasks easier.&lt;/p&gt;
 
 &lt;h3 id=&#34;results&#34;&gt;Results&lt;/h3&gt;
@@ -2229,7 +2228,7 @@ the distribution of ranks follows a Pareto distribution, which can be
 visualized on a log-log scale. I used Python with numpy and matplotlib, finding
 the current Scala libraries still to cumbersome for this simple task. Here is
 the result:
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/pageRank/rankDist.png&#34; alt=&#34;Resulting log-rank&#34; /&gt;&lt;/p&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/pageRank/rankDist.png&#34; alt=&#34;Resulting log-rank&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;a-conclusion-on-the-functional-imperative-debate&#34;&gt;A conclusion on the functional/imperative debate&lt;/h2&gt;
 
@@ -2248,10 +2247,10 @@ why &lt;a href=&#34;http://spark.apache.org&#34; target=&#34;_blank&#34;&gt;Spar
     
     <item>
       <title>Back to startup life: thoughts after the first days</title>
-      <link>https://mbesancon.github.io/post/2016-08-11-back-to-startup/</link>
-      <pubDate>Thu, 11 Aug 2016 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2016-08-11-back-to-startup/</link>
+      <pubDate>Thu, 11 Aug 2016 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-08-11-back-to-startup/</guid>
+      <guid>https://matbesancon.github.io/post/2016-08-11-back-to-startup/</guid>
       <description>
 
 &lt;p&gt;In politics, a government&amp;rsquo;s first decisions and actions are often reviewed and
@@ -2296,7 +2295,7 @@ feeling that horse-riders value what the product can bring to their experience.
 The company moved from its first office in Compiègne Innovation Center to
 the impressive Euratechnologies center in Lille.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/euratechnologies.jpg&#34; alt=&#34;Euratechnologies&#34; /&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/100Days/euratechnologies.jpg&#34; alt=&#34;Euratechnologies&#34; /&gt;
 [1]&lt;/p&gt;
 
 &lt;p&gt;More than this, the team also got bigger to face the challenges of this new
@@ -2313,7 +2312,7 @@ anymore. A culture is hard to put into words, but I&amp;rsquo;d say this
 second face of our Janus startup is a combination of a &lt;strong&gt;genuine care for
 horses wellness and of a passion for horse-riding.&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/newteam.png&#34; alt=&#34;The new team&#34; /&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/100Days/newteam.png&#34; alt=&#34;The new team&#34; /&gt;
 [2]&lt;/p&gt;
 
 &lt;p&gt;The fact is that while I was admiring their external successes from my Canadian
@@ -2326,9 +2325,9 @@ at the image of their horse-riders&amp;rsquo; mindset.&lt;/p&gt;
 succeeded in transforming it into a full culture and transmitting it into an
 obsession within the team.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/camille.png&#34; alt=&#34;Camille&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/benoit.png&#34; alt=&#34;Benoit&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/idriss.png&#34; alt=&#34;Idriss&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/100Days/camille.png&#34; alt=&#34;Camille&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/100Days/benoit.png&#34; alt=&#34;Benoit&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/100Days/idriss.png&#34; alt=&#34;Idriss&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;[2]&lt;/p&gt;
 
@@ -2337,7 +2336,7 @@ obsession within the team.&lt;/p&gt;
 &lt;p&gt;Other than the culture, the operations changed from the clumsy foal learning to
 stay up on its hoofs to the stallion swiftly jumping and anticipating all
 obstacles.
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/foal.jpg&#34; alt=&#34;foal&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/100Days/foal.jpg&#34; alt=&#34;foal&#34; /&gt;
 [3]&lt;/p&gt;
 
 &lt;p&gt;The seed stage is about using all assets that are or can easily
@@ -2352,7 +2351,7 @@ could detect a jump during a training session, and if the customers actually
 had an interest in the feature. Working for nothing can be frustrating, but
 ignoring something horse-riders want would have been much worse!&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/cso_fontainebleau.jpg&#34; alt=&#34;grown-up champ&#34; /&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/100Days/cso_fontainebleau.jpg&#34; alt=&#34;grown-up champ&#34; /&gt;
 [5]&lt;/p&gt;
 
 &lt;p&gt;In the new phase, uncertainty radically changed. In the first stage,
@@ -2397,10 +2396,10 @@ stay tuned!&lt;/p&gt;
     
     <item>
       <title>On startup weekends and getting things done</title>
-      <link>https://mbesancon.github.io/post/2016-07-11-hackathon/</link>
-      <pubDate>Mon, 11 Jul 2016 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2016-07-11-hackathon/</link>
+      <pubDate>Mon, 11 Jul 2016 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-07-11-hackathon/</guid>
+      <guid>https://matbesancon.github.io/post/2016-07-11-hackathon/</guid>
       <description>
 
 &lt;p&gt;It&amp;rsquo;s monday morning and I&amp;rsquo;m waking up with a hangover sensation, not from
@@ -2512,10 +2511,10 @@ learning experience.&lt;/p&gt;
     
     <item>
       <title>Bringing data science to engineers</title>
-      <link>https://mbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</link>
-      <pubDate>Sat, 21 May 2016 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</link>
+      <pubDate>Sat, 21 May 2016 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</guid>
+      <guid>https://matbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</guid>
       <description>
 
 &lt;p&gt;The goal of this article is to present couple challenges waiting the industrial
@@ -2727,10 +2726,10 @@ scratch in an industrial context.&lt;/p&gt;
     
     <item>
       <title>A Pythonic data science project: Part III</title>
-      <link>https://mbesancon.github.io/post/2016-01-13-fraud-detection3/</link>
-      <pubDate>Wed, 13 Jan 2016 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2016-01-13-fraud-detection3/</link>
+      <pubDate>Wed, 13 Jan 2016 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-01-13-fraud-detection3/</guid>
+      <guid>https://matbesancon.github.io/post/2016-01-13-fraud-detection3/</guid>
       <description>
 
 &lt;p&gt;[1]&lt;/p&gt;
@@ -2806,8 +2805,8 @@ values of the predictors, the model would yield outputs below 0 or above 1.
 The logistic function &lt;strong&gt;equation&lt;/strong&gt; yields an output between 0 and 1 and
 is therefore well suited to model a probability.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/linear_binary.png&#34; alt=&#34;Linear regression on binary output&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/logistic_binary.png&#34; alt=&#34;Logistic regression on binary output&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/linear_binary.png&#34; alt=&#34;Linear regression on binary output&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/logistic_binary.png&#34; alt=&#34;Logistic regression on binary output&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;You can noticed a decision boundary, which is the limit between the
 region where the model yields a prediction &amp;ldquo;0&amp;rdquo; and a prediction &amp;ldquo;1&amp;rdquo;.
@@ -2823,7 +2822,7 @@ The intercept \beta_0 places the location of the point at which p=0.5,
 it shifts the curve to the right or the left.
 The coefficients of the variables correspond to the sharpness of the transition.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/logistic_coeff.png&#34; alt=&#34;Evolution of the model with different coefficient values&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/logistic_coeff.png&#34; alt=&#34;Evolution of the model with different coefficient values&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;learning-process&#34;&gt;Learning process&lt;/h2&gt;
 
@@ -2925,7 +2924,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/2dimension.png&#34; alt=&#34;Decision boundary for two dimensions&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/2dimension.png&#34; alt=&#34;Decision boundary for two dimensions&#34; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;implementation&#34;&gt;Implementation&lt;/h1&gt;
 
@@ -3022,7 +3021,7 @@ weights &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; []
 
 
 &lt;p&gt;The following results were obtained:
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/GLM_errors.png&#34; alt=&#34;Evolution of the model with different coefficient values&#34; /&gt;&lt;/p&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/GLM_errors.png&#34; alt=&#34;Evolution of the model with different coefficient values&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The model produces on average 2.66 mis-classifications for 100 evaluated
 banknotes. Note that on each test, 85% of the observations
@@ -3085,10 +3084,10 @@ and giving me some valuable feedback.&lt;/p&gt;
     
     <item>
       <title>A Pythonic data science project: Part II</title>
-      <link>https://mbesancon.github.io/post/2016-01-12-fraud-detection2/</link>
-      <pubDate>Tue, 12 Jan 2016 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2016-01-12-fraud-detection2/</link>
+      <pubDate>Tue, 12 Jan 2016 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-01-12-fraud-detection2/</guid>
+      <guid>https://matbesancon.github.io/post/2016-01-12-fraud-detection2/</guid>
       <description>
 
 &lt;p&gt;[1]&lt;/p&gt;
@@ -3133,7 +3132,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/linear_reg.png&#34; alt=&#34;Linear regression&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/linear_reg.png&#34; alt=&#34;Linear regression&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The following result highlights a lack in the model. The slope and intercept
 seem to be biased by a dense cluster of points with the skewness
@@ -3218,7 +3217,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/skew_entropy.png&#34; alt=&#34;Skewness-Entropy&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/skew_entropy.png&#34; alt=&#34;Skewness-Entropy&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We can try can fit a 2nd-degree polynomial function:&lt;/p&gt;
 
@@ -3237,7 +3236,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/fit1_entropy.png&#34; alt=&#34;Polynomial regression on entropy&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/fit1_entropy.png&#34; alt=&#34;Polynomial regression on entropy&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;However, it seems that the model does not fit well our data and that the points
 are not equally distributed on both side of the curve. There is another
@@ -3264,7 +3263,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/class_depend.png&#34; alt=&#34;Class-dependent polynomial regression&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/class_depend.png&#34; alt=&#34;Class-dependent polynomial regression&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The model seems to capture more of the variance in our data, which we can
 confirm by plotting the residuals of the class-dependent regression.&lt;/p&gt;
@@ -3282,7 +3281,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/res_class_dep.png&#34; alt=&#34;Residuals of the class-dependent polynomial regression&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/res_class_dep.png&#34; alt=&#34;Residuals of the class-dependent polynomial regression&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We have a proper working model, with just one problem: &lt;strong&gt;we used
 the class to predict the entropy&lt;/strong&gt; whereas our classification
@@ -3319,7 +3318,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/d_skew.png&#34; alt=&#34;distance vs skewness for each class&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/d_skew.png&#34; alt=&#34;distance vs skewness for each class&#34; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;variable-scaling&#34;&gt;Variable scaling&lt;/h1&gt;
 
@@ -3400,10 +3399,10 @@ part in an analysis-oriented data science project, and I hope to see you there.&
     
     <item>
       <title>A Pythonic data science project: Part I</title>
-      <link>https://mbesancon.github.io/post/2016-01-11-fraud-detection/</link>
-      <pubDate>Mon, 11 Jan 2016 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2016-01-11-fraud-detection/</link>
+      <pubDate>Mon, 11 Jan 2016 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-01-11-fraud-detection/</guid>
+      <guid>https://matbesancon.github.io/post/2016-01-11-fraud-detection/</guid>
       <description>
 
 &lt;h2 id=&#34;a-complete-predictive-modeling-project-in-python&#34;&gt;A complete predictive modeling project in Python&lt;/h2&gt;
@@ -3643,10 +3642,10 @@ ggplot&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ggsave(
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/KDE_entropy.png&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/KDE_Vari.png&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/KDE_skew.png&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/KDE_kurtosis.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/KDE_entropy.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/KDE_Vari.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/KDE_skew.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/KDE_kurtosis.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Using this first simple visualization technique, we can deduce that the
 variance may be much more efficient to separate the two banknotes
@@ -3662,7 +3661,7 @@ color&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;col,diagonal&lt;sp
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/scatter_matrix.png&#34; alt=&#34;Scatter matrix: red dots represent the class &amp;quot;1&amp;quot;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/scatter_matrix.png&#34; alt=&#34;Scatter matrix: red dots represent the class &amp;quot;1&amp;quot;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;A scatter plot is the most straight-forward way to understand intuitive and
 obvious patterns in the data. It is especially efficient when the number of
@@ -3698,10 +3697,10 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/qqplot_entropy.png&#34; alt=&#34;QQplot entropy&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/qqplot_skew.png&#34; alt=&#34;QQplot skewness&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/qqplot_vari.png&#34; alt=&#34;QQplot variance&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/qqplot_kurtosis.png&#34; alt=&#34;QQplot kurtosis&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/qqplot_entropy.png&#34; alt=&#34;QQplot entropy&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/qqplot_skew.png&#34; alt=&#34;QQplot skewness&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/qqplot_vari.png&#34; alt=&#34;QQplot variance&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/qqplot_kurtosis.png&#34; alt=&#34;QQplot kurtosis&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Even though some variables are quite far from normally distributed, the
 hypothesis would be acceptable for some model-based learning algorithms using
@@ -3718,7 +3717,7 @@ highlights the differences in the spread of the data.&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/static/img/posts/BankNotes/figures/Boxplot.png&#34; alt=&#34;Boxplot representation&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/static/img/posts/BankNotes/figures/Boxplot.png&#34; alt=&#34;Boxplot representation&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This will be useful in the next part, when the data will be transformed to
 enhance the performance and robustness of predictive models.&lt;/p&gt;

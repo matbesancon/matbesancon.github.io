@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Python on μβ</title>
-    <link>https://mbesancon.github.io/tags/python/</link>
+    <link>https://matbesancon.github.io/tags/python/</link>
     <description>Recent content in Python on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 13 Jan 2016 00:00:00 -0500</lastBuildDate>
+    <lastBuildDate>Wed, 13 Jan 2016 00:00:00 +0100</lastBuildDate>
     <atom:link href="/tags/python/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>A Pythonic data science project: Part III</title>
-      <link>https://mbesancon.github.io/post/2016-01-13-fraud-detection3/</link>
-      <pubDate>Wed, 13 Jan 2016 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2016-01-13-fraud-detection3/</link>
+      <pubDate>Wed, 13 Jan 2016 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-01-13-fraud-detection3/</guid>
+      <guid>https://matbesancon.github.io/post/2016-01-13-fraud-detection3/</guid>
       <description>
 
 &lt;p&gt;[1]&lt;/p&gt;
@@ -91,8 +91,8 @@ values of the predictors, the model would yield outputs below 0 or above 1.
 The logistic function &lt;strong&gt;equation&lt;/strong&gt; yields an output between 0 and 1 and
 is therefore well suited to model a probability.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/linear_binary.png&#34; alt=&#34;Linear regression on binary output&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/logistic_binary.png&#34; alt=&#34;Logistic regression on binary output&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/linear_binary.png&#34; alt=&#34;Linear regression on binary output&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/logistic_binary.png&#34; alt=&#34;Logistic regression on binary output&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;You can noticed a decision boundary, which is the limit between the
 region where the model yields a prediction &amp;ldquo;0&amp;rdquo; and a prediction &amp;ldquo;1&amp;rdquo;.
@@ -108,7 +108,7 @@ The intercept \beta_0 places the location of the point at which p=0.5,
 it shifts the curve to the right or the left.
 The coefficients of the variables correspond to the sharpness of the transition.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/logistic_coeff.png&#34; alt=&#34;Evolution of the model with different coefficient values&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/logistic_coeff.png&#34; alt=&#34;Evolution of the model with different coefficient values&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;learning-process&#34;&gt;Learning process&lt;/h2&gt;
 
@@ -210,7 +210,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/2dimension.png&#34; alt=&#34;Decision boundary for two dimensions&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/2dimension.png&#34; alt=&#34;Decision boundary for two dimensions&#34; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;implementation&#34;&gt;Implementation&lt;/h1&gt;
 
@@ -307,7 +307,7 @@ weights &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; []
 
 
 &lt;p&gt;The following results were obtained:
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/GLM_errors.png&#34; alt=&#34;Evolution of the model with different coefficient values&#34; /&gt;&lt;/p&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/GLM_errors.png&#34; alt=&#34;Evolution of the model with different coefficient values&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The model produces on average 2.66 mis-classifications for 100 evaluated
 banknotes. Note that on each test, 85% of the observations
@@ -370,10 +370,10 @@ and giving me some valuable feedback.&lt;/p&gt;
     
     <item>
       <title>A Pythonic data science project: Part II</title>
-      <link>https://mbesancon.github.io/post/2016-01-12-fraud-detection2/</link>
-      <pubDate>Tue, 12 Jan 2016 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2016-01-12-fraud-detection2/</link>
+      <pubDate>Tue, 12 Jan 2016 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-01-12-fraud-detection2/</guid>
+      <guid>https://matbesancon.github.io/post/2016-01-12-fraud-detection2/</guid>
       <description>
 
 &lt;p&gt;[1]&lt;/p&gt;
@@ -418,7 +418,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/linear_reg.png&#34; alt=&#34;Linear regression&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/linear_reg.png&#34; alt=&#34;Linear regression&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The following result highlights a lack in the model. The slope and intercept
 seem to be biased by a dense cluster of points with the skewness
@@ -503,7 +503,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/skew_entropy.png&#34; alt=&#34;Skewness-Entropy&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/skew_entropy.png&#34; alt=&#34;Skewness-Entropy&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We can try can fit a 2nd-degree polynomial function:&lt;/p&gt;
 
@@ -522,7 +522,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/fit1_entropy.png&#34; alt=&#34;Polynomial regression on entropy&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/fit1_entropy.png&#34; alt=&#34;Polynomial regression on entropy&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;However, it seems that the model does not fit well our data and that the points
 are not equally distributed on both side of the curve. There is another
@@ -549,7 +549,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/class_depend.png&#34; alt=&#34;Class-dependent polynomial regression&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/class_depend.png&#34; alt=&#34;Class-dependent polynomial regression&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The model seems to capture more of the variance in our data, which we can
 confirm by plotting the residuals of the class-dependent regression.&lt;/p&gt;
@@ -567,7 +567,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/res_class_dep.png&#34; alt=&#34;Residuals of the class-dependent polynomial regression&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/res_class_dep.png&#34; alt=&#34;Residuals of the class-dependent polynomial regression&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We have a proper working model, with just one problem: &lt;strong&gt;we used
 the class to predict the entropy&lt;/strong&gt; whereas our classification
@@ -604,7 +604,7 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/d_skew.png&#34; alt=&#34;distance vs skewness for each class&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/d_skew.png&#34; alt=&#34;distance vs skewness for each class&#34; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;variable-scaling&#34;&gt;Variable scaling&lt;/h1&gt;
 
@@ -685,10 +685,10 @@ part in an analysis-oriented data science project, and I hope to see you there.&
     
     <item>
       <title>A Pythonic data science project: Part I</title>
-      <link>https://mbesancon.github.io/post/2016-01-11-fraud-detection/</link>
-      <pubDate>Mon, 11 Jan 2016 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2016-01-11-fraud-detection/</link>
+      <pubDate>Mon, 11 Jan 2016 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-01-11-fraud-detection/</guid>
+      <guid>https://matbesancon.github.io/post/2016-01-11-fraud-detection/</guid>
       <description>
 
 &lt;h2 id=&#34;a-complete-predictive-modeling-project-in-python&#34;&gt;A complete predictive modeling project in Python&lt;/h2&gt;
@@ -928,10 +928,10 @@ ggplot&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;ggsave(
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/KDE_entropy.png&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/KDE_Vari.png&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/KDE_skew.png&#34; alt=&#34;&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/KDE_kurtosis.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/KDE_entropy.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/KDE_Vari.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/KDE_skew.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/KDE_kurtosis.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Using this first simple visualization technique, we can deduce that the
 variance may be much more efficient to separate the two banknotes
@@ -947,7 +947,7 @@ color&lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt;col,diagonal&lt;sp
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/scatter_matrix.png&#34; alt=&#34;Scatter matrix: red dots represent the class &amp;quot;1&amp;quot;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/scatter_matrix.png&#34; alt=&#34;Scatter matrix: red dots represent the class &amp;quot;1&amp;quot;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;A scatter plot is the most straight-forward way to understand intuitive and
 obvious patterns in the data. It is especially efficient when the number of
@@ -983,10 +983,10 @@ plt&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;show()
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/qqplot_entropy.png&#34; alt=&#34;QQplot entropy&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/qqplot_skew.png&#34; alt=&#34;QQplot skewness&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/qqplot_vari.png&#34; alt=&#34;QQplot variance&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/BankNotes/figures/qqplot_kurtosis.png&#34; alt=&#34;QQplot kurtosis&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/qqplot_entropy.png&#34; alt=&#34;QQplot entropy&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/qqplot_skew.png&#34; alt=&#34;QQplot skewness&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/qqplot_vari.png&#34; alt=&#34;QQplot variance&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/qqplot_kurtosis.png&#34; alt=&#34;QQplot kurtosis&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Even though some variables are quite far from normally distributed, the
 hypothesis would be acceptable for some model-based learning algorithms using
@@ -1003,7 +1003,7 @@ highlights the differences in the spread of the data.&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/static/img/posts/BankNotes/figures/Boxplot.png&#34; alt=&#34;Boxplot representation&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/static/img/posts/BankNotes/figures/Boxplot.png&#34; alt=&#34;Boxplot representation&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This will be useful in the next part, when the data will be transformed to
 enhance the performance and robustness of predictive models.&lt;/p&gt;

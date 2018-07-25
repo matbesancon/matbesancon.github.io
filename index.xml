@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>μβ on μβ</title>
-    <link>https://mbesancon.github.io/</link>
+    <link>https://matbesancon.github.io/</link>
     <description>Recent content in μβ on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,15 +12,15 @@
     
     <item>
       <title>The cutting stock problem: part 2, solving with column generation</title>
-      <link>https://mbesancon.github.io/post/2018-05-25-colgen2/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2018-05-25-colgen2/</link>
+      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2018-05-25-colgen2/</guid>
+      <guid>https://matbesancon.github.io/post/2018-05-25-colgen2/</guid>
       <description>
 
 &lt;hr /&gt;
 
-&lt;p&gt;In the &lt;a href=&#34;https://mbesancon.github.io/post/2018-05-23-colgen/&#34; target=&#34;_blank&#34;&gt;previous post&lt;/a&gt;,
+&lt;p&gt;In the &lt;a href=&#34;https://matbesancon.github.io/post/2018-05-23-colgen/&#34; target=&#34;_blank&#34;&gt;previous post&lt;/a&gt;,
 we explored a well-known integer optimization situation
 in manufacturing, the cutting stock problem. After some details on the
 decisions, constraints and objectives, we implemented a naive model in JuMP.&lt;/p&gt;
@@ -339,8 +339,8 @@ there, but we just compute them whenever needed.&lt;/p&gt;
 
 &lt;p&gt;Hope you enjoyed reading this second post on the cutting stock problem. A
 Jupyter notebook summing up all code snippets can be found at
-&lt;a href=&#34;https://github.com/mbesancon/column_generation_jump&#34; target=&#34;_blank&#34;&gt;this repository&lt;/a&gt;.
-Feel free to &lt;a href=&#34;http://twitter.com/MathieuBesancon/&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt; for feedback!&lt;/p&gt;
+&lt;a href=&#34;https://github.com/matbesancon/column_generation_jump&#34; target=&#34;_blank&#34;&gt;this repository&lt;/a&gt;.
+Feel free to &lt;a href=&#34;http://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt; for feedback!&lt;/p&gt;
 
 &lt;h3 id=&#34;note-on-performance&#34;&gt;Note on performance&lt;/h3&gt;
 
@@ -363,10 +363,10 @@ contributed to its improvement!&lt;/p&gt;
     
     <item>
       <title>Tackling the cutting stock problem: part 1, problem exploration</title>
-      <link>https://mbesancon.github.io/post/2018-05-23-colgen/</link>
-      <pubDate>Wed, 23 May 2018 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2018-05-23-colgen/</link>
+      <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2018-05-23-colgen/</guid>
+      <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
       <description>
 
 &lt;p&gt;Integer optimization often feels weird (at least to me). Simple reformulations
@@ -676,7 +676,7 @@ broad target audience.&lt;/p&gt;
 
 &lt;p&gt;Hope you enjoyed it, if that&amp;rsquo;s the case, I&amp;rsquo;ll see you on the next article,
 we&amp;rsquo;ll implement a &lt;em&gt;column generation&lt;/em&gt; algorithm from scratch to solve it.
-If you have any question/remarks, feel free to &lt;a href=&#34;http://twitter.com/MathieuBesancon/&#34; target=&#34;_blank&#34;&gt;get in touch&lt;/a&gt;.&lt;/p&gt;
+If you have any question/remarks, feel free to &lt;a href=&#34;http://twitter.com/matbesancon/&#34; target=&#34;_blank&#34;&gt;get in touch&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;thanks&#34;&gt;Thanks&lt;/h2&gt;
 
@@ -692,22 +692,22 @@ details and explanations where needed.&lt;/p&gt;
     
     <item>
       <title>Intro to package development in Julia</title>
-      <link>https://mbesancon.github.io/talk/julia_montreal/</link>
+      <link>https://matbesancon.github.io/talk/julia_montreal/</link>
       <pubDate>Thu, 08 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://mbesancon.github.io/talk/julia_montreal/</guid>
+      <guid>https://matbesancon.github.io/talk/julia_montreal/</guid>
       <description>&lt;p&gt;A quick introduction to the why and how of package development in Julia for
 scientific computing, with two applications of custom arrays. One of them,
-MatFuncs.jl was live-coded and available &lt;a href=&#34;https://github.com/mbesancon/MatFuncs.jl&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+MatFuncs.jl was live-coded and available &lt;a href=&#34;https://github.com/matbesancon/MatFuncs.jl&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Solving the group expenses headache with graphs</title>
-      <link>https://mbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</link>
-      <pubDate>Mon, 15 Jan 2018 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
+      <guid>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
       <description>
 
 &lt;p&gt;With the end-of-year celebrations, we all had some expenses to manage,
@@ -1023,7 +1023,7 @@ GraphCoin symbol to GPHC because I found another one with which my initial
 name conflicted.&lt;/p&gt;
 
 &lt;p&gt;If you have questions or remarks on LightGraphs, LightGraphsFlows, the article
-or anything related, don&amp;rsquo;t hesitate to &lt;a href=&#34;http://twitter.com/MathieuBesancon/&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt;!&lt;/p&gt;
+or anything related, don&amp;rsquo;t hesitate to &lt;a href=&#34;http://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt;!&lt;/p&gt;
 
 &lt;p&gt;Edits:&lt;br /&gt;
 Special thanks to &lt;a href=&#34;http://www.bromberger.com/&#34; target=&#34;_blank&#34;&gt;Seth Bromberger&lt;/a&gt; for the review.&lt;/p&gt;
@@ -1040,10 +1040,10 @@ Lightgraphs, 2017, &lt;a href=&#34;https://doi.org/10.5281/zenodo.889971&#34; ta
     
     <item>
       <title>JuliaGraphs contributions</title>
-      <link>https://mbesancon.github.io/project/juliagraphs/</link>
+      <link>https://matbesancon.github.io/project/juliagraphs/</link>
       <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://mbesancon.github.io/project/juliagraphs/</guid>
+      <guid>https://matbesancon.github.io/project/juliagraphs/</guid>
       <description>&lt;p&gt;Starting from a weird Kaggle &lt;a href=&#34;https://www.kaggle.com/c/santa-gift-matching&#34; target=&#34;_blank&#34;&gt;side-project&lt;/a&gt;
 during the Chrismas holidays, I gradually got involved in the &lt;a href=&#34;https://juliagraphs.github.io/&#34; target=&#34;_blank&#34;&gt;JuliaGraphs&lt;/a&gt;
 ecosystem. After some discussion on the Julia Slack &lt;em&gt;#graphs&lt;/em&gt; channel,
@@ -1066,11 +1066,11 @@ using any user-provided solver.&lt;/p&gt;
     
     <item>
       <title>WebFuncs</title>
-      <link>https://mbesancon.github.io/project/webfuncs/</link>
+      <link>https://matbesancon.github.io/project/webfuncs/</link>
       <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://mbesancon.github.io/project/webfuncs/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/mbesancon/WebFuncs.jl&#34; target=&#34;_blank&#34;&gt;WebFuncs.jl&lt;/a&gt; is a Julia project testing the language out of its natural
+      <guid>https://matbesancon.github.io/project/webfuncs/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/matbesancon/WebFuncs.jl&#34; target=&#34;_blank&#34;&gt;WebFuncs.jl&lt;/a&gt; is a Julia project testing the language out of its natural
 scope. Having built quite a bit with Go and Python, I wanted to see if
 the Julia ecosystem had tools for HTTP handling.&lt;/p&gt;
 
@@ -1085,13 +1085,13 @@ using &lt;code&gt;Pkg.add(&amp;quot;WebFuncs&amp;quot;)&lt;/code&gt;.&lt;/p&gt;
     
     <item>
       <title>DifferentialEquations.jl - part 2: decision from the model</title>
-      <link>https://mbesancon.github.io/post/2017-12-20-diffeq-julia2/</link>
-      <pubDate>Wed, 20 Dec 2017 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</link>
+      <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
+      <guid>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
       <description>
 
-&lt;p&gt;In the &lt;a href=&#34;https://mbesancon.github.io/post/2017-12-14-diffeq-julia&#34;&gt;last article&lt;/a&gt;, we explored different modeling options for a
+&lt;p&gt;In the &lt;a href=&#34;https://matbesancon.github.io/post/2017-12-14-diffeq-julia&#34;&gt;last article&lt;/a&gt;, we explored different modeling options for a
 three-component systems which could represent the dynamics of a chemical
 reaction or a disease propagation in a population. Building on top of this
 model, we will formulate a desirable outcome and find a decision which
@@ -1157,7 +1157,7 @@ Plots&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(sol)
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/inject.png&#34; alt=&#34;Injection simulation&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/inject.png&#34; alt=&#34;Injection simulation&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The &lt;code&gt;ContinuousCallback&lt;/code&gt; construct is the central element here, it takes as
 information:&lt;/p&gt;
@@ -1186,7 +1186,7 @@ Plots&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(tinj_span, fi
 &lt;p&gt;Using a plain for comprehension, we fetch the solution of the simulation for
 the callback built with each $t_{inject}$.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/optimal_inject.png&#34; alt=&#34;Quantity of B&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/optimal_inject.png&#34; alt=&#34;Quantity of B&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Injecting $A$ too soon lets too much time for the created $B$ to turn into $R$,
 but injecting it too late does not let enough time for $B$ to be produced from
@@ -1310,7 +1310,7 @@ while &lt;code&gt;condition_end&lt;/code&gt; corresponds to the time when the to
 quantity reaches &lt;code&gt;inj_quantity&lt;/code&gt;. The first events activates $u_4$ and sets it
 to the nominal flow, while the second callback resets it to 0.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/const_rate.png&#34; alt=&#34;Constant rate&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/const_rate.png&#34; alt=&#34;Constant rate&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Optim.jl can be re-used to determine the optimal decision:&lt;/p&gt;
 
@@ -1377,7 +1377,7 @@ objective function, using parametrized functions for instance, which could
 make it transparent to optimization solvers.&lt;/p&gt;
 
 &lt;p&gt;If somebody has info on that last point or feedback, additional info you&amp;rsquo;d like
-to share regarding this post, hit me on &lt;a href=&#34;https://twitter.com/MathieuBesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;.
+to share regarding this post, hit me on &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;.
 Thanks for reading!&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -1397,7 +1397,7 @@ and help with &lt;code&gt;Optim.jl&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;2017-12-20:&lt;br /&gt;
 Of course, BlackBoxOptim.jl was not the most appropriate algorithm as
 predicted. &lt;a href=&#34;https://twitter.com/pkofod&#34; target=&#34;_blank&#34;&gt;Patrick&lt;/a&gt; and &lt;a href=&#34;https://twitter.com/ChrisRackauckas&#34; target=&#34;_blank&#34;&gt;Chris&lt;/a&gt;
-gave me some hints in &lt;a href=&#34;https://twitter.com/MathieuBesancon/status/943662063074906112&#34; target=&#34;_blank&#34;&gt;this thread&lt;/a&gt;
+gave me some hints in &lt;a href=&#34;https://twitter.com/matbesancon/status/943662063074906112&#34; target=&#34;_blank&#34;&gt;this thread&lt;/a&gt;
 and I gave &lt;a href=&#34;https://github.com/JuliaNLSolvers/Optim.jl&#34; target=&#34;_blank&#34;&gt;Optim.jl&lt;/a&gt; a try.&lt;/p&gt;
 
 &lt;p&gt;This package has a range of algorithms to choose from depending on the
@@ -1437,10 +1437,10 @@ use Optim.jl for the second case (boxed multivariate optimization without explic
     
     <item>
       <title>Getting started with DifferentialEquations.jl</title>
-      <link>https://mbesancon.github.io/post/2017-12-14-diffeq-julia/</link>
-      <pubDate>Thu, 14 Dec 2017 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</link>
+      <pubDate>Thu, 14 Dec 2017 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
+      <guid>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/JuliaDiffEq/DifferentialEquations.jl&#34; target=&#34;_blank&#34;&gt;DifferentialEquations.jl&lt;/a&gt;
@@ -1557,7 +1557,7 @@ Plots.plot:&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/smooth.png&#34; alt=&#34;Solution to the ODE&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/smooth.png&#34; alt=&#34;Solution to the ODE&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;If we use the disease propagation example, $u₁(t)$ is the number of
 healthy people who haven&amp;rsquo;t been infected. It starts high, which makes the rate
@@ -1614,7 +1614,7 @@ to stochastic equations. The last variation is set to the opposite of the sum
 of the two others to compensate the two other variations (we said we had only
 one randomness phenomenon per state transition).&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/sde.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/sde.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Woops, something went wrong. This time the mass conservation doesn&amp;rsquo;t hold,
 we finish with a population below the initial condition. What is wrong is that
@@ -1648,7 +1648,7 @@ cons_solution &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&l
 &lt;p&gt;We also provide a &lt;code&gt;noise_rate_prototype&lt;/code&gt; parameter to the problem builder to
 indicate we don&amp;rsquo;t want to use a diagonal noise.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/sde_nondiag.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/sde_nondiag.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This time the population conservation holds, at any point in time the sum of
 the $uᵢ(t)$ remains 50.&lt;/p&gt;
@@ -1680,7 +1680,7 @@ disc_sol &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;spa
 affected, and call the Discrete solver. The Plots.jl integration once again
 yields a direct representation of the solution over the time span.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/discrete.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/discrete.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Again, the conservation of the total population is guaranteed by the effect of
 the jumps deleting one unit from a population to add it to the other.&lt;/p&gt;
@@ -1696,7 +1696,7 @@ it in my PhD or side-hacks, especially combined to the
 used to build simulations and JuMP to optimize a cost function on top of the
 created model.&lt;/p&gt;
 
-&lt;p&gt;Thanks for reading, hit me on &lt;a href=&#34;https://twitter.com/MathieuBesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;
+&lt;p&gt;Thanks for reading, get on touch on &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;
 for feedback or questions ;)&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -1710,7 +1710,7 @@ changes are breaking the previous API, it can be worth it to check it out
 &lt;p&gt;&lt;a href=&#34;https://twitter.com/ChrisRackauckas&#34; target=&#34;_blank&#34;&gt;Chris&lt;/a&gt;, the creator and main developer
 of DifferentialEquations.jl, gave me valuable tips on two
 points which have been edited in the article. You can find the thread
-&lt;a href=&#34;https://twitter.com/MathieuBesancon/status/941825252744507392&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;https://twitter.com/matbesancon/status/941825252744507392&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Import aliases should use &lt;code&gt;const PackageAlias = PackageName&lt;/code&gt; for type
@@ -1719,8 +1719,7 @@ Some further mentions of type-stability can be found in the
 &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/performance-tips&#34; target=&#34;_blank&#34;&gt;official doc&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;The second attempts uses non-diagonal noise, the &amp;ldquo;:additive&amp;rdquo; hint I passed
 to the solve function does not hold. Furthermore, the appropriate algorithm in
-that case is the &lt;a href=&#34;https://en.wikipedia.org/wiki/Euler%E2%80%93Maruyama_method&#34; target=&#34;_blank&#34;&gt;Euler-Maruyama method&lt;/a&gt;
-.&lt;/li&gt;
+that case is the &lt;a href=&#34;https://en.wikipedia.org/wiki/Euler%E2%80%93Maruyama_method&#34; target=&#34;_blank&#34;&gt;Euler-Maruyama method&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Many thanks to him for these tips, having such devoted and friendly developers
@@ -1736,10 +1735,10 @@ is also what makes an open-source project successful.&lt;/p&gt;
     
     <item>
       <title>Switching my work flow to Pomodoro for grad studies - part I: motivation  </title>
-      <link>https://mbesancon.github.io/post/2017-10-19-tomate-cli/</link>
-      <pubDate>Thu, 19 Oct 2017 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</link>
+      <pubDate>Thu, 19 Oct 2017 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-10-19-tomate-cli/</guid>
+      <guid>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</guid>
       <description>
 
 &lt;p&gt;The start of my journey as a PhD student last September was a big step, but
@@ -1779,7 +1778,7 @@ not to use this technique.&lt;/p&gt;
 &lt;p&gt;Time management as a grad student has to be un- and re-learned:
 rules are different, criteria for success change and so on.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/tomate/phd_time.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/tomate/phd_time.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;Time management seen by PhD comics [2]&lt;/p&gt;
@@ -1878,10 +1877,10 @@ let me know!&lt;/p&gt;
     
     <item>
       <title>Moving my content creation to a home-made Hugo site</title>
-      <link>https://mbesancon.github.io/post/2017-09-05-moving-content-hugo/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2017-09-05-moving-content-hugo/</link>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-09-05-moving-content-hugo/</guid>
+      <guid>https://matbesancon.github.io/post/2017-09-05-moving-content-hugo/</guid>
       <description>
 
 &lt;p&gt;Last weeks have been pretty intense. I officially left Equisense and  started
@@ -1959,22 +1958,22 @@ content to Medium, but not as the primary source.&lt;/p&gt;
     
     <item>
       <title>Golang in a multi-project, multi-platform team</title>
-      <link>https://mbesancon.github.io/talk/golang_talk_lille/</link>
+      <link>https://matbesancon.github.io/talk/golang_talk_lille/</link>
       <pubDate>Thu, 06 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://mbesancon.github.io/talk/golang_talk_lille/</guid>
+      <guid>https://matbesancon.github.io/talk/golang_talk_lille/</guid>
       <description>&lt;p&gt;This talk was part of a second meetup introducing Golang use cases
 to Lille tech community. The slides (in French) can be found
-&lt;a href=&#34;https://go-talks.appspot.com/github.com/mbesancon/golang-talk/talk.slide#1&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;https://go-talks.appspot.com/github.com/matbesancon/golang-talk/talk.slide#1&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Company values: stop trying to dictate who you are</title>
-      <link>https://mbesancon.github.io/post/2016-10-7-company-values/</link>
-      <pubDate>Fri, 07 Oct 2016 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2016-10-7-company-values/</link>
+      <pubDate>Fri, 07 Oct 2016 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-10-7-company-values/</guid>
+      <guid>https://matbesancon.github.io/post/2016-10-7-company-values/</guid>
       <description>
 
 &lt;p&gt;Two weeks ago, the Equisense &lt;a href=&#34;http://equisense.com/en/about.html&#34; target=&#34;_blank&#34;&gt;team&lt;/a&gt; spent a
@@ -2100,13 +2099,13 @@ competition, the market and the context.&lt;/p&gt;&lt;/li&gt;
     
     <item>
       <title>Functional and parallel PageRank implementation in Scala</title>
-      <link>https://mbesancon.github.io/post/2016-09-13-page-rank/</link>
-      <pubDate>Tue, 13 Sep 2016 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2016-09-13-page-rank/</link>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-09-13-page-rank/</guid>
+      <guid>https://matbesancon.github.io/post/2016-09-13-page-rank/</guid>
       <description>
 
-&lt;p&gt;When I &lt;a href=&#34;https://mbesancon.github.io/posts/2016-08-11-back-to-startup/&#34;&gt;came back to Equisense&lt;/a&gt;,
+&lt;p&gt;When I &lt;a href=&#34;https://matbesancon.github.io/posts/2016-08-11-back-to-startup/&#34;&gt;came back to Equisense&lt;/a&gt;,
 I was surprised and intrigued by many things. But there was one element of the
 job in particular I had not planned: coming back to low level and embedded
 programming from higher abstractions I was used to. No OS, no
@@ -2288,7 +2287,7 @@ I found the &lt;a href=&#34;https://snap.stanford.edu&#34; target=&#34;_blank&#3
 from Stanford on which the
 &lt;a href=&#34;https://snap.stanford.edu/data/email-Enron.html&#34; target=&#34;_blank&#34;&gt;Enron emails data&lt;/a&gt;
 are presented and to be downloaded. If you look at the
-&lt;a href=&#34;https://github.com/mbesancon/PageRank&#34; target=&#34;_blank&#34;&gt;Github repo&lt;/a&gt; for this project, I simply
+&lt;a href=&#34;https://github.com/matbesancon/PageRank&#34; target=&#34;_blank&#34;&gt;Github repo&lt;/a&gt; for this project, I simply
 removed the header from the txt file to make the parsing tasks easier.&lt;/p&gt;
 
 &lt;h3 id=&#34;results&#34;&gt;Results&lt;/h3&gt;
@@ -2298,7 +2297,7 @@ the distribution of ranks follows a Pareto distribution, which can be
 visualized on a log-log scale. I used Python with numpy and matplotlib, finding
 the current Scala libraries still to cumbersome for this simple task. Here is
 the result:
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/pageRank/rankDist.png&#34; alt=&#34;Resulting log-rank&#34; /&gt;&lt;/p&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/pageRank/rankDist.png&#34; alt=&#34;Resulting log-rank&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;a-conclusion-on-the-functional-imperative-debate&#34;&gt;A conclusion on the functional/imperative debate&lt;/h2&gt;
 
@@ -2317,10 +2316,10 @@ why &lt;a href=&#34;http://spark.apache.org&#34; target=&#34;_blank&#34;&gt;Spar
     
     <item>
       <title>Back to startup life: thoughts after the first days</title>
-      <link>https://mbesancon.github.io/post/2016-08-11-back-to-startup/</link>
-      <pubDate>Thu, 11 Aug 2016 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2016-08-11-back-to-startup/</link>
+      <pubDate>Thu, 11 Aug 2016 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-08-11-back-to-startup/</guid>
+      <guid>https://matbesancon.github.io/post/2016-08-11-back-to-startup/</guid>
       <description>
 
 &lt;p&gt;In politics, a government&amp;rsquo;s first decisions and actions are often reviewed and
@@ -2365,7 +2364,7 @@ feeling that horse-riders value what the product can bring to their experience.
 The company moved from its first office in Compiègne Innovation Center to
 the impressive Euratechnologies center in Lille.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/euratechnologies.jpg&#34; alt=&#34;Euratechnologies&#34; /&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/100Days/euratechnologies.jpg&#34; alt=&#34;Euratechnologies&#34; /&gt;
 [1]&lt;/p&gt;
 
 &lt;p&gt;More than this, the team also got bigger to face the challenges of this new
@@ -2382,7 +2381,7 @@ anymore. A culture is hard to put into words, but I&amp;rsquo;d say this
 second face of our Janus startup is a combination of a &lt;strong&gt;genuine care for
 horses wellness and of a passion for horse-riding.&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/newteam.png&#34; alt=&#34;The new team&#34; /&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/100Days/newteam.png&#34; alt=&#34;The new team&#34; /&gt;
 [2]&lt;/p&gt;
 
 &lt;p&gt;The fact is that while I was admiring their external successes from my Canadian
@@ -2395,9 +2394,9 @@ at the image of their horse-riders&amp;rsquo; mindset.&lt;/p&gt;
 succeeded in transforming it into a full culture and transmitting it into an
 obsession within the team.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/camille.png&#34; alt=&#34;Camille&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/benoit.png&#34; alt=&#34;Benoit&#34; /&gt;
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/idriss.png&#34; alt=&#34;Idriss&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/100Days/camille.png&#34; alt=&#34;Camille&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/100Days/benoit.png&#34; alt=&#34;Benoit&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/100Days/idriss.png&#34; alt=&#34;Idriss&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;[2]&lt;/p&gt;
 
@@ -2406,7 +2405,7 @@ obsession within the team.&lt;/p&gt;
 &lt;p&gt;Other than the culture, the operations changed from the clumsy foal learning to
 stay up on its hoofs to the stallion swiftly jumping and anticipating all
 obstacles.
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/foal.jpg&#34; alt=&#34;foal&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/100Days/foal.jpg&#34; alt=&#34;foal&#34; /&gt;
 [3]&lt;/p&gt;
 
 &lt;p&gt;The seed stage is about using all assets that are or can easily
@@ -2421,7 +2420,7 @@ could detect a jump during a training session, and if the customers actually
 had an interest in the feature. Working for nothing can be frustrating, but
 ignoring something horse-riders want would have been much worse!&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/100Days/cso_fontainebleau.jpg&#34; alt=&#34;grown-up champ&#34; /&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/100Days/cso_fontainebleau.jpg&#34; alt=&#34;grown-up champ&#34; /&gt;
 [5]&lt;/p&gt;
 
 &lt;p&gt;In the new phase, uncertainty radically changed. In the first stage,
@@ -2466,10 +2465,10 @@ stay tuned!&lt;/p&gt;
     
     <item>
       <title>On startup weekends and getting things done</title>
-      <link>https://mbesancon.github.io/post/2016-07-11-hackathon/</link>
-      <pubDate>Mon, 11 Jul 2016 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2016-07-11-hackathon/</link>
+      <pubDate>Mon, 11 Jul 2016 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-07-11-hackathon/</guid>
+      <guid>https://matbesancon.github.io/post/2016-07-11-hackathon/</guid>
       <description>
 
 &lt;p&gt;It&amp;rsquo;s monday morning and I&amp;rsquo;m waking up with a hangover sensation, not from

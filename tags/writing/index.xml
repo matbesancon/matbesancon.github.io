@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Writing on μβ</title>
-    <link>https://mbesancon.github.io/tags/writing/</link>
+    <link>https://matbesancon.github.io/tags/writing/</link>
     <description>Recent content in Writing on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Tue, 05 Sep 2017 00:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Tue, 05 Sep 2017 00:00:00 +0200</lastBuildDate>
     <atom:link href="/tags/writing/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Moving my content creation to a home-made Hugo site</title>
-      <link>https://mbesancon.github.io/post/2017-09-05-moving-content-hugo/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2017-09-05-moving-content-hugo/</link>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-09-05-moving-content-hugo/</guid>
+      <guid>https://matbesancon.github.io/post/2017-09-05-moving-content-hugo/</guid>
       <description>
 
 &lt;p&gt;Last weeks have been pretty intense. I officially left Equisense and  started

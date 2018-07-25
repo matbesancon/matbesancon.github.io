@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Phd on μβ</title>
-    <link>https://mbesancon.github.io/tags/phd/</link>
+    <link>https://matbesancon.github.io/tags/phd/</link>
     <description>Recent content in Phd on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Thu, 19 Oct 2017 00:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Thu, 19 Oct 2017 00:00:00 +0200</lastBuildDate>
     <atom:link href="/tags/phd/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Switching my work flow to Pomodoro for grad studies - part I: motivation  </title>
-      <link>https://mbesancon.github.io/post/2017-10-19-tomate-cli/</link>
-      <pubDate>Thu, 19 Oct 2017 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</link>
+      <pubDate>Thu, 19 Oct 2017 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-10-19-tomate-cli/</guid>
+      <guid>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</guid>
       <description>
 
 &lt;p&gt;The start of my journey as a PhD student last September was a big step, but
@@ -55,7 +55,7 @@ not to use this technique.&lt;/p&gt;
 &lt;p&gt;Time management as a grad student has to be un- and re-learned:
 rules are different, criteria for success change and so on.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/tomate/phd_time.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/tomate/phd_time.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;Time management seen by PhD comics [2]&lt;/p&gt;

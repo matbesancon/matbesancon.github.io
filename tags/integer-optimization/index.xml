@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Integer Optimization on μβ</title>
-    <link>https://mbesancon.github.io/tags/integer-optimization/</link>
+    <link>https://matbesancon.github.io/tags/integer-optimization/</link>
     <description>Recent content in Integer Optimization on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 30 May 2018 00:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Wed, 30 May 2018 00:00:00 +0200</lastBuildDate>
     <atom:link href="/tags/integer-optimization/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>The cutting stock problem: part 2, solving with column generation</title>
-      <link>https://mbesancon.github.io/post/2018-05-25-colgen2/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2018-05-25-colgen2/</link>
+      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2018-05-25-colgen2/</guid>
+      <guid>https://matbesancon.github.io/post/2018-05-25-colgen2/</guid>
       <description>
 
 &lt;hr /&gt;
 
-&lt;p&gt;In the &lt;a href=&#34;https://mbesancon.github.io/post/2018-05-23-colgen/&#34; target=&#34;_blank&#34;&gt;previous post&lt;/a&gt;,
+&lt;p&gt;In the &lt;a href=&#34;https://matbesancon.github.io/post/2018-05-23-colgen/&#34; target=&#34;_blank&#34;&gt;previous post&lt;/a&gt;,
 we explored a well-known integer optimization situation
 in manufacturing, the cutting stock problem. After some details on the
 decisions, constraints and objectives, we implemented a naive model in JuMP.&lt;/p&gt;
@@ -339,8 +339,8 @@ there, but we just compute them whenever needed.&lt;/p&gt;
 
 &lt;p&gt;Hope you enjoyed reading this second post on the cutting stock problem. A
 Jupyter notebook summing up all code snippets can be found at
-&lt;a href=&#34;https://github.com/mbesancon/column_generation_jump&#34; target=&#34;_blank&#34;&gt;this repository&lt;/a&gt;.
-Feel free to &lt;a href=&#34;http://twitter.com/MathieuBesancon/&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt; for feedback!&lt;/p&gt;
+&lt;a href=&#34;https://github.com/matbesancon/column_generation_jump&#34; target=&#34;_blank&#34;&gt;this repository&lt;/a&gt;.
+Feel free to &lt;a href=&#34;http://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt; for feedback!&lt;/p&gt;
 
 &lt;h3 id=&#34;note-on-performance&#34;&gt;Note on performance&lt;/h3&gt;
 
@@ -363,10 +363,10 @@ contributed to its improvement!&lt;/p&gt;
     
     <item>
       <title>Tackling the cutting stock problem: part 1, problem exploration</title>
-      <link>https://mbesancon.github.io/post/2018-05-23-colgen/</link>
-      <pubDate>Wed, 23 May 2018 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2018-05-23-colgen/</link>
+      <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2018-05-23-colgen/</guid>
+      <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
       <description>
 
 &lt;p&gt;Integer optimization often feels weird (at least to me). Simple reformulations
@@ -676,7 +676,7 @@ broad target audience.&lt;/p&gt;
 
 &lt;p&gt;Hope you enjoyed it, if that&amp;rsquo;s the case, I&amp;rsquo;ll see you on the next article,
 we&amp;rsquo;ll implement a &lt;em&gt;column generation&lt;/em&gt; algorithm from scratch to solve it.
-If you have any question/remarks, feel free to &lt;a href=&#34;http://twitter.com/MathieuBesancon/&#34; target=&#34;_blank&#34;&gt;get in touch&lt;/a&gt;.&lt;/p&gt;
+If you have any question/remarks, feel free to &lt;a href=&#34;http://twitter.com/matbesancon/&#34; target=&#34;_blank&#34;&gt;get in touch&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;thanks&#34;&gt;Thanks&lt;/h2&gt;
 

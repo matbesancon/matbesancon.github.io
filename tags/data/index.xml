@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Data on μβ</title>
-    <link>https://mbesancon.github.io/tags/data/</link>
+    <link>https://matbesancon.github.io/tags/data/</link>
     <description>Recent content in Data on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Sat, 21 May 2016 00:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Sat, 21 May 2016 00:00:00 +0200</lastBuildDate>
     <atom:link href="/tags/data/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Bringing data science to engineers</title>
-      <link>https://mbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</link>
-      <pubDate>Sat, 21 May 2016 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</link>
+      <pubDate>Sat, 21 May 2016 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</guid>
+      <guid>https://matbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</guid>
       <description>
 
 &lt;p&gt;The goal of this article is to present couple challenges waiting the industrial

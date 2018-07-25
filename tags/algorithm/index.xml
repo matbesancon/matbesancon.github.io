@@ -2,23 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Algorithm on μβ</title>
-    <link>https://mbesancon.github.io/tags/algorithm/</link>
+    <link>https://matbesancon.github.io/tags/algorithm/</link>
     <description>Recent content in Algorithm on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Tue, 13 Sep 2016 00:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Tue, 13 Sep 2016 00:00:00 +0200</lastBuildDate>
     <atom:link href="/tags/algorithm/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Functional and parallel PageRank implementation in Scala</title>
-      <link>https://mbesancon.github.io/post/2016-09-13-page-rank/</link>
-      <pubDate>Tue, 13 Sep 2016 00:00:00 -0400</pubDate>
+      <link>https://matbesancon.github.io/post/2016-09-13-page-rank/</link>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2016-09-13-page-rank/</guid>
+      <guid>https://matbesancon.github.io/post/2016-09-13-page-rank/</guid>
       <description>
 
-&lt;p&gt;When I &lt;a href=&#34;https://mbesancon.github.io/posts/2016-08-11-back-to-startup/&#34;&gt;came back to Equisense&lt;/a&gt;,
+&lt;p&gt;When I &lt;a href=&#34;https://matbesancon.github.io/posts/2016-08-11-back-to-startup/&#34;&gt;came back to Equisense&lt;/a&gt;,
 I was surprised and intrigued by many things. But there was one element of the
 job in particular I had not planned: coming back to low level and embedded
 programming from higher abstractions I was used to. No OS, no
@@ -200,7 +200,7 @@ I found the &lt;a href=&#34;https://snap.stanford.edu&#34; target=&#34;_blank&#3
 from Stanford on which the
 &lt;a href=&#34;https://snap.stanford.edu/data/email-Enron.html&#34; target=&#34;_blank&#34;&gt;Enron emails data&lt;/a&gt;
 are presented and to be downloaded. If you look at the
-&lt;a href=&#34;https://github.com/mbesancon/PageRank&#34; target=&#34;_blank&#34;&gt;Github repo&lt;/a&gt; for this project, I simply
+&lt;a href=&#34;https://github.com/matbesancon/PageRank&#34; target=&#34;_blank&#34;&gt;Github repo&lt;/a&gt; for this project, I simply
 removed the header from the txt file to make the parsing tasks easier.&lt;/p&gt;
 
 &lt;h3 id=&#34;results&#34;&gt;Results&lt;/h3&gt;
@@ -210,7 +210,7 @@ the distribution of ranks follows a Pareto distribution, which can be
 visualized on a log-log scale. I used Python with numpy and matplotlib, finding
 the current Scala libraries still to cumbersome for this simple task. Here is
 the result:
-&lt;img src=&#34;https://mbesancon.github.io/img/posts/pageRank/rankDist.png&#34; alt=&#34;Resulting log-rank&#34; /&gt;&lt;/p&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/pageRank/rankDist.png&#34; alt=&#34;Resulting log-rank&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;a-conclusion-on-the-functional-imperative-debate&#34;&gt;A conclusion on the functional/imperative debate&lt;/h2&gt;
 

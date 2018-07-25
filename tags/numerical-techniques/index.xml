@@ -2,23 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Numerical Techniques on μβ</title>
-    <link>https://mbesancon.github.io/tags/numerical-techniques/</link>
+    <link>https://matbesancon.github.io/tags/numerical-techniques/</link>
     <description>Recent content in Numerical Techniques on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 20 Dec 2017 00:00:00 -0500</lastBuildDate>
+    <lastBuildDate>Wed, 20 Dec 2017 00:00:00 +0100</lastBuildDate>
     <atom:link href="/tags/numerical-techniques/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>DifferentialEquations.jl - part 2: decision from the model</title>
-      <link>https://mbesancon.github.io/post/2017-12-20-diffeq-julia2/</link>
-      <pubDate>Wed, 20 Dec 2017 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</link>
+      <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
+      <guid>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
       <description>
 
-&lt;p&gt;In the &lt;a href=&#34;https://mbesancon.github.io/post/2017-12-14-diffeq-julia&#34;&gt;last article&lt;/a&gt;, we explored different modeling options for a
+&lt;p&gt;In the &lt;a href=&#34;https://matbesancon.github.io/post/2017-12-14-diffeq-julia&#34;&gt;last article&lt;/a&gt;, we explored different modeling options for a
 three-component systems which could represent the dynamics of a chemical
 reaction or a disease propagation in a population. Building on top of this
 model, we will formulate a desirable outcome and find a decision which
@@ -84,7 +84,7 @@ Plots&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(sol)
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/inject.png&#34; alt=&#34;Injection simulation&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/inject.png&#34; alt=&#34;Injection simulation&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The &lt;code&gt;ContinuousCallback&lt;/code&gt; construct is the central element here, it takes as
 information:&lt;/p&gt;
@@ -113,7 +113,7 @@ Plots&lt;span style=&#34;color: #555555&#34;&gt;.&lt;/span&gt;plot(tinj_span, fi
 &lt;p&gt;Using a plain for comprehension, we fetch the solution of the simulation for
 the callback built with each $t_{inject}$.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/optimal_inject.png&#34; alt=&#34;Quantity of B&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/optimal_inject.png&#34; alt=&#34;Quantity of B&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Injecting $A$ too soon lets too much time for the created $B$ to turn into $R$,
 but injecting it too late does not let enough time for $B$ to be produced from
@@ -237,7 +237,7 @@ while &lt;code&gt;condition_end&lt;/code&gt; corresponds to the time when the to
 quantity reaches &lt;code&gt;inj_quantity&lt;/code&gt;. The first events activates $u_4$ and sets it
 to the nominal flow, while the second callback resets it to 0.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/const_rate.png&#34; alt=&#34;Constant rate&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/const_rate.png&#34; alt=&#34;Constant rate&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Optim.jl can be re-used to determine the optimal decision:&lt;/p&gt;
 
@@ -304,7 +304,7 @@ objective function, using parametrized functions for instance, which could
 make it transparent to optimization solvers.&lt;/p&gt;
 
 &lt;p&gt;If somebody has info on that last point or feedback, additional info you&amp;rsquo;d like
-to share regarding this post, hit me on &lt;a href=&#34;https://twitter.com/MathieuBesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;.
+to share regarding this post, hit me on &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;.
 Thanks for reading!&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -324,7 +324,7 @@ and help with &lt;code&gt;Optim.jl&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;2017-12-20:&lt;br /&gt;
 Of course, BlackBoxOptim.jl was not the most appropriate algorithm as
 predicted. &lt;a href=&#34;https://twitter.com/pkofod&#34; target=&#34;_blank&#34;&gt;Patrick&lt;/a&gt; and &lt;a href=&#34;https://twitter.com/ChrisRackauckas&#34; target=&#34;_blank&#34;&gt;Chris&lt;/a&gt;
-gave me some hints in &lt;a href=&#34;https://twitter.com/MathieuBesancon/status/943662063074906112&#34; target=&#34;_blank&#34;&gt;this thread&lt;/a&gt;
+gave me some hints in &lt;a href=&#34;https://twitter.com/matbesancon/status/943662063074906112&#34; target=&#34;_blank&#34;&gt;this thread&lt;/a&gt;
 and I gave &lt;a href=&#34;https://github.com/JuliaNLSolvers/Optim.jl&#34; target=&#34;_blank&#34;&gt;Optim.jl&lt;/a&gt; a try.&lt;/p&gt;
 
 &lt;p&gt;This package has a range of algorithms to choose from depending on the
@@ -364,10 +364,10 @@ use Optim.jl for the second case (boxed multivariate optimization without explic
     
     <item>
       <title>Getting started with DifferentialEquations.jl</title>
-      <link>https://mbesancon.github.io/post/2017-12-14-diffeq-julia/</link>
-      <pubDate>Thu, 14 Dec 2017 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</link>
+      <pubDate>Thu, 14 Dec 2017 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
+      <guid>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/JuliaDiffEq/DifferentialEquations.jl&#34; target=&#34;_blank&#34;&gt;DifferentialEquations.jl&lt;/a&gt;
@@ -484,7 +484,7 @@ Plots.plot:&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/smooth.png&#34; alt=&#34;Solution to the ODE&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/smooth.png&#34; alt=&#34;Solution to the ODE&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;If we use the disease propagation example, $u₁(t)$ is the number of
 healthy people who haven&amp;rsquo;t been infected. It starts high, which makes the rate
@@ -541,7 +541,7 @@ to stochastic equations. The last variation is set to the opposite of the sum
 of the two others to compensate the two other variations (we said we had only
 one randomness phenomenon per state transition).&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/sde.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/sde.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Woops, something went wrong. This time the mass conservation doesn&amp;rsquo;t hold,
 we finish with a population below the initial condition. What is wrong is that
@@ -575,7 +575,7 @@ cons_solution &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&l
 &lt;p&gt;We also provide a &lt;code&gt;noise_rate_prototype&lt;/code&gt; parameter to the problem builder to
 indicate we don&amp;rsquo;t want to use a diagonal noise.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/sde_nondiag.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/sde_nondiag.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This time the population conservation holds, at any point in time the sum of
 the $uᵢ(t)$ remains 50.&lt;/p&gt;
@@ -607,7 +607,7 @@ disc_sol &lt;span style=&#34;color: #555555&#34;&gt;=&lt;/span&gt; DiffEq&lt;spa
 affected, and call the Discrete solver. The Plots.jl integration once again
 yields a direct representation of the solution over the time span.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://mbesancon.github.io/img/posts/DiffEq/discrete.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/DiffEq/discrete.png&#34; alt=&#34;SDE&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Again, the conservation of the total population is guaranteed by the effect of
 the jumps deleting one unit from a population to add it to the other.&lt;/p&gt;
@@ -623,7 +623,7 @@ it in my PhD or side-hacks, especially combined to the
 used to build simulations and JuMP to optimize a cost function on top of the
 created model.&lt;/p&gt;
 
-&lt;p&gt;Thanks for reading, hit me on &lt;a href=&#34;https://twitter.com/MathieuBesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;
+&lt;p&gt;Thanks for reading, get on touch on &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;
 for feedback or questions ;)&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -637,7 +637,7 @@ changes are breaking the previous API, it can be worth it to check it out
 &lt;p&gt;&lt;a href=&#34;https://twitter.com/ChrisRackauckas&#34; target=&#34;_blank&#34;&gt;Chris&lt;/a&gt;, the creator and main developer
 of DifferentialEquations.jl, gave me valuable tips on two
 points which have been edited in the article. You can find the thread
-&lt;a href=&#34;https://twitter.com/MathieuBesancon/status/941825252744507392&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;https://twitter.com/matbesancon/status/941825252744507392&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Import aliases should use &lt;code&gt;const PackageAlias = PackageName&lt;/code&gt; for type
@@ -646,8 +646,7 @@ Some further mentions of type-stability can be found in the
 &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/performance-tips&#34; target=&#34;_blank&#34;&gt;official doc&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;The second attempts uses non-diagonal noise, the &amp;ldquo;:additive&amp;rdquo; hint I passed
 to the solve function does not hold. Furthermore, the appropriate algorithm in
-that case is the &lt;a href=&#34;https://en.wikipedia.org/wiki/Euler%E2%80%93Maruyama_method&#34; target=&#34;_blank&#34;&gt;Euler-Maruyama method&lt;/a&gt;
-.&lt;/li&gt;
+that case is the &lt;a href=&#34;https://en.wikipedia.org/wiki/Euler%E2%80%93Maruyama_method&#34; target=&#34;_blank&#34;&gt;Euler-Maruyama method&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Many thanks to him for these tips, having such devoted and friendly developers

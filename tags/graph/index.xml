@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Graph on μβ</title>
-    <link>https://mbesancon.github.io/tags/graph/</link>
+    <link>https://matbesancon.github.io/tags/graph/</link>
     <description>Recent content in Graph on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Mon, 15 Jan 2018 00:00:00 -0500</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jan 2018 00:00:00 +0100</lastBuildDate>
     <atom:link href="/tags/graph/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Solving the group expenses headache with graphs</title>
-      <link>https://mbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</link>
-      <pubDate>Mon, 15 Jan 2018 00:00:00 -0500</pubDate>
+      <link>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0100</pubDate>
       
-      <guid>https://mbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
+      <guid>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
       <description>
 
 &lt;p&gt;With the end-of-year celebrations, we all had some expenses to manage,
@@ -331,7 +331,7 @@ GraphCoin symbol to GPHC because I found another one with which my initial
 name conflicted.&lt;/p&gt;
 
 &lt;p&gt;If you have questions or remarks on LightGraphs, LightGraphsFlows, the article
-or anything related, don&amp;rsquo;t hesitate to &lt;a href=&#34;http://twitter.com/MathieuBesancon/&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt;!&lt;/p&gt;
+or anything related, don&amp;rsquo;t hesitate to &lt;a href=&#34;http://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt;!&lt;/p&gt;
 
 &lt;p&gt;Edits:&lt;br /&gt;
 Special thanks to &lt;a href=&#34;http://www.bromberger.com/&#34; target=&#34;_blank&#34;&gt;Seth Bromberger&lt;/a&gt; for the review.&lt;/p&gt;

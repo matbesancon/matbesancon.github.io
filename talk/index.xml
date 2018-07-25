@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Recent &amp; Upcoming Talks on μβ</title>
-    <link>https://mbesancon.github.io/talk/</link>
+    <link>https://matbesancon.github.io/talk/</link>
     <description>Recent content in Recent &amp; Upcoming Talks on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,25 +12,25 @@
     
     <item>
       <title>Intro to package development in Julia</title>
-      <link>https://mbesancon.github.io/talk/julia_montreal/</link>
+      <link>https://matbesancon.github.io/talk/julia_montreal/</link>
       <pubDate>Thu, 08 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://mbesancon.github.io/talk/julia_montreal/</guid>
+      <guid>https://matbesancon.github.io/talk/julia_montreal/</guid>
       <description>&lt;p&gt;A quick introduction to the why and how of package development in Julia for
 scientific computing, with two applications of custom arrays. One of them,
-MatFuncs.jl was live-coded and available &lt;a href=&#34;https://github.com/mbesancon/MatFuncs.jl&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+MatFuncs.jl was live-coded and available &lt;a href=&#34;https://github.com/matbesancon/MatFuncs.jl&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Golang in a multi-project, multi-platform team</title>
-      <link>https://mbesancon.github.io/talk/golang_talk_lille/</link>
+      <link>https://matbesancon.github.io/talk/golang_talk_lille/</link>
       <pubDate>Thu, 06 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://mbesancon.github.io/talk/golang_talk_lille/</guid>
+      <guid>https://matbesancon.github.io/talk/golang_talk_lille/</guid>
       <description>&lt;p&gt;This talk was part of a second meetup introducing Golang use cases
 to Lille tech community. The slides (in French) can be found
-&lt;a href=&#34;https://go-talks.appspot.com/github.com/mbesancon/golang-talk/talk.slide#1&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;https://go-talks.appspot.com/github.com/matbesancon/golang-talk/talk.slide#1&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     
