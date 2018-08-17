@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.28" />
+  <meta name="author" content="Mathieu Besançon">
+  <meta name="description" content="PhD student in applied mathematics for energy systems">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  
+
+  <link rel="alternate" href="https://matbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+  <link rel="feed" href="https://matbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="https://matbesancon.github.io/post/2018-08-17-abstract_graph/">
+
+  
+
+  <title>Building our own graph type in Julia | μβ</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">μβ</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#talks">
+            
+            <span>Talks</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#experiences">
+            
+            <span>Experiences</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+<div class="article-header">
+  <img src="/img/posts/graph_interface/example.svg" class="article-banner" itemprop="image">
+  
+</div>
+
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Building our own graph type in Julia</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-08-17 00:00:00 &#43;0200 CEST" itemprop="datePublished">
+      Fri, Aug 17, 2018
+    </time>
+  </span>
+
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="/tags/julia">julia</a
+    >, 
+    
+    <a href="/tags/graph">graph</a
+    >, 
+    
+    <a href="/tags/package">package</a
+    >, 
+    
+    <a href="/tags/interface">interface</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2018-08-17-abstract_graph%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Building%20our%20own%20graph%20type%20in%20Julia&amp;url=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2018-08-17-abstract_graph%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2018-08-17-abstract_graph%2f&amp;title=Building%20our%20own%20graph%20type%20in%20Julia"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2018-08-17-abstract_graph%2f&amp;title=Building%20our%20own%20graph%20type%20in%20Julia"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Building%20our%20own%20graph%20type%20in%20Julia&amp;body=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2018-08-17-abstract_graph%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<hr />
+
+<p>This is an adapted post on the talk we gave with <a href="https://twitter.com/fairbanksjp" target="_blank">James</a>
+at JuliaCon 2018 in London. You can see the
+<a href="https://matbesancon.github.io/graph_interfaces_juliacon18" target="_blank">original slides</a>,
+the video still requires a bit of post-processing.</p>
+
+<p>Last week <a href="http://juliacon.org" target="_blank">JuliaCon</a> in London was a great and very condensed experience.
+The two talks on <a href="https://github.com/JuliaGraphs/LightGraphs.jl" target="_blank">LightGraphs.jl</a>
+received a lot of positive feedback and more than that, we saw
+how people are using the library for a variety of use cases which is a great
+signal for the work on the JuliaGraphs ecosystem
+(see the <a href="https://matbesancon.github.io/graph_interfaces_juliacon18/ecosystem.html#/" target="_blank">lightning talk</a>).</p>
+
+<p>I wanted to re-build the same graph for people who prefer a post version to
+my clumsy live explanations on a laptop not handling dual-screen well
+(those who prefer the latter are invited to see the live-stream of the talk).</p>
+
+<h2 id="why-abstractions">Why abstractions?</h2>
+
+<p>The LightGraphs library is built to contain as few elements as possible to get
+anyone going with graphs. This includes:
+* The interface a graph type has to comply with to be used
+* Essential algorithms implemented by any graph respecting that interface
+* A simple, battery-included implementation based on adjacency lists</p>
+
+<p>The thing is, if you design an abstraction which in fact has just one
+implementation, you&rsquo;re doing abstraction wrong. This talks was also a
+reality-check for LightGraphs, are we as composable, extensible as we promised?</p>
+
+<p>The reason for abstraction is also that <strong>minimalism has its price</strong>.
+The package was designed as the least amount of complexity required to get
+graphs working. When people started to use it, obviously they needed more
+features, some of which they could code themselves, some other required
+extensions built within LightGraphs. By getting the core abstractions right,
+you guarantee people will be able to use it and to build on top with minimal
+friction, while keeping it simple to read and contribute to.</p>
+
+<h2 id="our-matrix-graph-type">Our matrix graph type</h2>
+
+<p>Let&rsquo;s recall that a graph is a collection of <em>nodes</em> and a collection of
+<em>edges</em> between these nodes. To keep it simple, for a graph of $n$ edges,
+we will consider they are numbered from 1 to n. An edge connects a node $i$
+to a node $j$, therefore all the information of a graph can be kept as an
+<em>adjacency matrix</em> $M_{ij}$ of size $n \times n$:</p>
+
+<p>$$M_{ij} = \begin{cases} 1, &amp; \mbox{if edge (i $\rightarrow$ j) exists} \\ 0 &amp; \mbox{otherwise}\end{cases}$$</p>
+
+<p>We don&rsquo;t know what the use cases for our type will be, and therefore,
+we will parametrize the graph type over the matrix type:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span><span style=""> </span><span style="">LightGraphs</span><span style="">;</span><span style=""> </span><span style="color:#66d9ef">const</span><span style=""> </span><span style="">lg</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">LightGraphs</span><span style="">
+</span><span style=""></span><span style="">mutable</span><span style=""> </span><span style="">struct</span><span style=""> </span><span style="">MatrixDiGraph</span><span style="">{</span><span style="">MT</span><span style=""> </span><span style="color:#f92672">&lt;:</span><span style=""> </span><span style="color:#66d9ef">AbstractMatrix</span><span style="">{</span><span style="color:#66d9ef">Bool</span><span style="">}}</span><span style=""> </span><span style="color:#f92672">&lt;:</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">AbstractGraph</span><span style="">{</span><span style="color:#66d9ef">Int</span><span style="">}</span><span style="">
+</span><span style="">  </span><span style="">matrix</span><span style="color:#f92672">::</span><span style="">MT</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span></code></pre>
+</div>
+
+<p>The edges are simply mapping an entry (i,j) to a boolean (whether there is an
+edge from i to j). Even though creating a graph type that can be directed
+or undirected depending on the situation is possible, we are creating a type
+that will be directed by default.</p>
+
+<h2 id="implementing-the-core-interface">Implementing the core interface</h2>
+
+<p>We can now implement the core LightGraphs interface for this type, starting
+with methods defined over the type itself, of the form <code>function(g::MyType)</code></p>
+
+<p>I&rsquo;m not going to re-define each function here, their meaning can be found
+by checking the help in a Julia REPL: <code>?LightGraphs.vertices</code> or on the
+<a href="http://juliagraphs.github.io/LightGraphs.jl/stable/types.html#AbstractGraph-Type-1" target="_blank">documentation page</a>.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">lg</span><span style="color:#f92672">.</span><span style="">is_directed</span><span style="">(</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">true</span><span style="">
+</span><span style=""></span><span style="">lg</span><span style="color:#f92672">.</span><span style="">edgetype</span><span style="">(</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">SimpleGraphs</span><span style="color:#f92672">.</span><span style="">SimpleEdge</span><span style="">{</span><span style="color:#66d9ef">Int</span><span style="">}</span><span style="">
+</span><span style=""></span><span style="">lg</span><span style="color:#f92672">.</span><span style="">ne</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">sum</span><span style="">(</span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">lg</span><span style="color:#f92672">.</span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">size</span><span style="">(</span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">)[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="">lg</span><span style="color:#f92672">.</span><span style="">vertices</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">function</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">edges</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">n</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="">(</span><span style="">lg</span><span style="color:#f92672">.</span><span style="">SimpleGraphs</span><span style="color:#f92672">.</span><span style="">SimpleEdge</span><span style="">(</span><span style="">i</span><span style="">,</span><span style="">j</span><span style="">)</span><span style=""> </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">i</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">n</span><span style=""> </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">j</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">n</span><span style=""> </span><span style="color:#66d9ef">if</span><span style=""> </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">[</span><span style="">i</span><span style="">,</span><span style="">j</span><span style="">])</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span></code></pre>
+</div>
+
+<p>Note the last function <code>edges</code>, for which the documentation specifies that we
+need to return an <strong>iterator</strong> over edges. We don&rsquo;t need to collect the comprehension
+in a Vector, returning a lazy generator.</p>
+
+<p>Some operations have to be defined on both the graph and a node, of the form
+<code>function(g::MyType, node)</code>.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">lg</span><span style="color:#f92672">.</span><span style="">outneighbors</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">,</span><span style=""> </span><span style="">node</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">[</span><span style="">v</span><span style=""> </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">v</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">lg</span><span style="color:#f92672">.</span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style=""> </span><span style="color:#66d9ef">if</span><span style=""> </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">[</span><span style="">node</span><span style="">,</span><span style=""> </span><span style="">v</span><span style="">]]</span><span style="">
+</span><span style=""></span><span style="">lg</span><span style="color:#f92672">.</span><span style="">inneighbors</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">,</span><span style=""> </span><span style="">node</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">[</span><span style="">v</span><span style=""> </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">v</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">lg</span><span style="color:#f92672">.</span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style=""> </span><span style="color:#66d9ef">if</span><span style=""> </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">[</span><span style="">v</span><span style="">,</span><span style=""> </span><span style="">node</span><span style="">]]</span><span style="">
+</span><span style=""></span><span style="">lg</span><span style="color:#f92672">.</span><span style="">has_vertex</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">,</span><span style=""> </span><span style="">v</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Integer</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">v</span><span style=""> </span><span style="color:#f92672">&lt;=</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&amp;&amp;</span><span style=""> </span><span style="">v</span><span style=""> </span><span style="color:#f92672">&gt;</span><span style=""> </span><span style="color:#ae81ff">0</span></code></pre>
+</div></p>
+
+<p>Out <code>MatrixDiGraph</code> type is pretty straight-forward to work with and all
+required methods are easy to relate to the way information is stored in the
+adjacency matrix.</p>
+
+<p>The last step is implementing methods on both the graph and an edge of the
+form <code>function(g::MatrixDiGraph,e)</code>. The only one we need here is:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">lg</span><span style="color:#f92672">.</span><span style="">has_edge</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">,</span><span style="">i</span><span style="">,</span><span style="">j</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">[</span><span style="">i</span><span style="">,</span><span style="">j</span><span style="">]</span></code></pre>
+</div></p>
+
+<h2 id="optional-mutability">Optional mutability</h2>
+
+<p>Mutating methods were removed from the core interace some time ago,
+as they are not required to describe a graph-like behavior.
+The general behavior for operations mutating a graph is to return whether
+the operation succeded. They consist in adding or removing elements from
+either the edges or nodes.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span><span style=""> </span><span style="">LightGraphs</span><span style="color:#f92672">:</span><span style=""> </span><span style="">rem_edge!</span><span style="">,</span><span style=""> </span><span style="">rem_vertex!</span><span style="">,</span><span style=""> </span><span style="">add_edge!</span><span style="">,</span><span style=""> </span><span style="">add_vertex!</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">function</span><span style=""> </span><span style="">add_edge!</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">,</span><span style=""> </span><span style="">e</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">has_edge</span><span style="">(</span><span style="">g</span><span style="">,</span><span style="">e</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&amp;&amp;</span><span style=""> </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="color:#66d9ef">false</span><span style="">
+</span><span style="">    </span><span style="">n</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">(</span><span style="">src</span><span style="">(</span><span style="">e</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&gt;</span><span style=""> </span><span style="">n</span><span style=""> </span><span style="color:#f92672">||</span><span style=""> </span><span style="">dst</span><span style="">(</span><span style="">e</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&gt;</span><span style=""> </span><span style="">n</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&amp;&amp;</span><span style=""> </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="color:#66d9ef">false</span><span style="">
+</span><span style="">    </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">[</span><span style="">src</span><span style="">(</span><span style="">e</span><span style="">),</span><span style="">dst</span><span style="">(</span><span style="">e</span><span style="">)]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">true</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">function</span><span style=""> </span><span style="">rem_edge!</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">,</span><span style="">e</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">has_edge</span><span style="">(</span><span style="">g</span><span style="">,</span><span style="">e</span><span style="">)</span><span style=""> </span><span style="color:#f92672">||</span><span style=""> </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="color:#66d9ef">false</span><span style="">
+</span><span style="">    </span><span style="">n</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">(</span><span style="">src</span><span style="">(</span><span style="">e</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&gt;</span><span style=""> </span><span style="">n</span><span style=""> </span><span style="color:#f92672">||</span><span style=""> </span><span style="">dst</span><span style="">(</span><span style="">e</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&gt;</span><span style=""> </span><span style="">n</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&amp;&amp;</span><span style=""> </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="color:#66d9ef">false</span><span style="">
+</span><span style="">    </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">[</span><span style="">src</span><span style="">(</span><span style="">e</span><span style="">),</span><span style="">dst</span><span style="">(</span><span style="">e</span><span style="">)]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">false</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="color:#66d9ef">true</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">function</span><span style=""> </span><span style="">add_vertex!</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">n</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">m</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">zeros</span><span style="">(</span><span style="color:#66d9ef">Bool</span><span style="">,</span><span style="">n</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="">,</span><span style="">n</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">m</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">n</span><span style="">,</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">n</span><span style="">]</span><span style=""> </span><span style="color:#f92672">.=</span><span style=""> </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">
+</span><span style="">    </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">m</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="color:#66d9ef">true</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span></code></pre>
+</div>
+
+<h2 id="testing-our-graph-type-on-real-data">Testing our graph type on real data</h2>
+
+<p>We will use the graph type to compute the PageRank of</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span><span style=""> </span><span style="">SNAPDatasets</span><span style="">
+</span><span style=""></span><span style="">data</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">SNAPDatasets</span><span style="color:#f92672">.</span><span style="">loadsnap</span><span style="">(</span><span style="color:#f92672">:</span><span style="">ego_twitter_d</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">twitter_graph</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">MatrixDiGraph</span><span style="">(</span><span style="">lg</span><span style="color:#f92672">.</span><span style="">adjacency_matrix</span><span style="">(</span><span style="">data</span><span style="">)[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span><span style="">,</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span><span style="">]</span><span style="color:#f92672">.==</span><span style="color:#ae81ff">1</span><span style="">);</span><span style="">
+</span><span style=""></span><span style="">ranks</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">pagerank</span><span style="">(</span><span style="">twitter_graph</span><span style="">)</span></code></pre>
+</div>
+
+<p>Note the broadcast check <code>.==1</code>, <code>adjacency_matrix</code> is specified to yield a
+matrix of <code>Int</code>, so we use this to cast the entries to boolean values.</p>
+
+<p>I took only the first 10 nodes of the graph, but feel free to do the same with
+500, 1000 or more nodes, depending on what your machine can stand  🙈</p>
+
+<h2 id="overloading-non-mandatory-functions">Overloading non-mandatory functions</h2>
+
+<p>Some methods are already implemented for free by implementing the core interface.
+That does not mean it should be kept as-is in every case. Depending on your
+graph type, some functions might have smarter implementations, let&rsquo;s see one
+example. What <code>MatrixDiGraph</code> is already an <code>adjacency_matrix</code>, so we know
+there should be no computation required to return it (it&rsquo;s almost a no-op).</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span><span style=""> </span><span style="">BenchmarkTools</span><span style="color:#f92672">:</span><span style=""> </span><span style="color:#a6e22e">@btime</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="color:#a6e22e">@btime</span><span style=""> </span><span style="">adjacency_matrix</span><span style="">(</span><span style="">bigger_twitter</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">println</span><span style="">(</span><span style="color:#e6db74">&#34;why did that take so long?&#34;</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">lg</span><span style="color:#f92672">.</span><span style="">adjacency_matrix</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">Int</span><span style="color:#f92672">.</span><span style="">(</span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="color:#a6e22e">@btime</span><span style=""> </span><span style="">A</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">adjacency_matrix</span><span style="">(</span><span style="">bigger_twitter</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">println</span><span style="">(</span><span style="color:#e6db74">&#34;that&#39;s better.&#34;</span><span style="">)</span></code></pre>
+</div>
+
+<p>This should yield roughly:</p>
+
+<pre><code>13.077 ms (5222 allocations: 682.03 KiB)
+why did that take so long?
+82.077 μs (6 allocations: 201.77 KiB)
+that's better.
+</code></pre>
+
+<p>You can fall down to a no-op by storing the matrix entries as <code>Int</code> directly,
+but the type ends up being a bit heavier in memory, your type, your trade-off.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>We&rsquo;ve implemented a graph type suited to our need in a couple lines of Julia,
+guided by the <code>LightGraphs</code> interface specifying <strong>how</strong> to think about our
+graph instead of getting in the way of <strong>what</strong> to store. A lighter version
+of this post can be read as <a href="https://matbesancon.github.io/graph_interfaces_juliacon18/" target="_blank">slides</a>.</p>
+
+<p>As usual, ping me on <a href="https://twitter.com/matbesancon" target="_blank">Twitter</a> for any
+question or comment.</p>
+
+<h2 id="bonus">Bonus</h2>
+
+<p>If you read this and want to try building your own graph type, here are two
+implementations you can try out, put them out in a public repo and show them off
+afterwards:
+1. We created a type just for directed graphs, why bothering so much? You can create your own type which can be directed or not,
+either by storing the information in the <code>struct</code> or by parametrizing the type
+and getting the compiler to do the work for you.
+2. We store the entries as an <code>AbstractMatrix{Bool}</code>, if your graph is dense
+enough (how dense? No idea), it might be interesting to store entries as as
+<code>BitArray</code>.</p>
+
+<hr />
+
+<p>Image source: GraphPlot.jl</p>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="https://matbesancon.github.io/post/2018-05-25-colgen2/"><span
+      aria-hidden="true">&larr;</span> The cutting stock problem: part 2, solving with column generation</a></li>
+    
+
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mathieu Besançon &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js" integrity="sha512-iHzEu7GbSc705hE2skyH6/AlTpOfBmkx7nUqTLGzPYR+C1tRaItbRlJ7hT/D3YQ9SV0fqLKzp4XY9wKulTBGTw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js" integrity="sha512-Z5heTz36xTemt1TbtbfXtTq5lMfYnOkXM2/eWcTTiLU01+Sw4ku1i7vScDc8fWhrP2abz9GQzgKH5NGBLoYlAw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/ScrollToPlugin.min.js" integrity="sha512-CDeU7pRtkPX6XJtF/gcFWlEwyaX7mcAp5sO3VIu/ylsdR74wEw4wmBpD5yYTrmMAiAboi9thyBUr1vXRPA7t0Q==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

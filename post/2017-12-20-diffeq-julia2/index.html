@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.27-DEV" />
+  <meta name="generator" content="Hugo 0.28" />
   <meta name="author" content="Mathieu Besançon">
   <meta name="description" content="PhD student in applied mathematics for energy systems">
 
@@ -260,12 +260,11 @@ maximizes this outcome.</p>
 we will also use <a href="https://github.com/robertfeldt/BlackBoxOptim.jl" target="_blank">BlackBoxOptim.jl</a>:</p>
 </blockquote>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">import</span> DifferentialEquations
-<span style="color: #006699; font-weight: bold">const</span> DiffEq <span style="color: #555555">=</span> DifferentialEquations
-<span style="color: #006699; font-weight: bold">import</span> Plots
-<span style="color: #006699; font-weight: bold">import</span> Optim
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span><span style=""> </span><span style="">DifferentialEquations</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">const</span><span style=""> </span><span style="">DiffEq</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DifferentialEquations</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">import</span><span style=""> </span><span style="">Plots</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">import</span><span style=""> </span><span style="">Optim</span></code></pre>
+</div>
 
 <h2 id="the-model">The model</h2>
 
@@ -286,34 +285,33 @@ the <a href="http://docs.juliadiffeq.org/latest/features/callback_functions.html
 This allows for the system state to change at a particular point in time,
 depending on conditions on the time, state, etc&hellip;</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #0099FF; font-style: italic"># defining the problem</span>
-<span style="color: #006699; font-weight: bold">const</span> α <span style="color: #555555">=</span> <span style="color: #FF6600">0.8</span>
-<span style="color: #006699; font-weight: bold">const</span> β <span style="color: #555555">=</span> <span style="color: #FF6600">3.0</span>
-diffeq <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(du, u, p, t)
-    du[<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
-    du[<span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
-    du[<span style="color: #FF6600">3</span>] <span style="color: #555555">=</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
-<span style="color: #006699; font-weight: bold">end</span>
-u0 <span style="color: #555555">=</span> [<span style="color: #FF6600">49.0</span>;<span style="color: #FF6600">1.0</span>;<span style="color: #FF6600">0.0</span>]
-tspan <span style="color: #555555">=</span> (<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">1.0</span>)
-prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>ODEProblem(diffeq, u0, tspan)
-
-<span style="color: #006699; font-weight: bold">const</span> A_inj <span style="color: #555555">=</span> <span style="color: #FF6600">30</span>
-inject_new <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(t0)
-    condition(u, t, integrator) <span style="color: #555555">=</span> t0 <span style="color: #555555">-</span> t
-    affect! <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(integrator)
-        integrator<span style="color: #555555">.</span>u[<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> integrator<span style="color: #555555">.</span>u[<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> A_inj
-    <span style="color: #006699; font-weight: bold">end</span>
-    callback <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>ContinuousCallback(condition, affect!)
-    sol <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>solve(prob, callback<span style="color: #555555">=</span>callback)
-    sol
-<span style="color: #006699; font-weight: bold">end</span>
-
-<span style="color: #0099FF; font-style: italic"># trying it out with an injection at t=0.4</span>
-sol <span style="color: #555555">=</span> inject_new(<span style="color: #FF6600">0.4</span>)
-Plots<span style="color: #555555">.</span>plot(sol)
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#75715e"># defining the problem</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">const</span><span style=""> </span><span style="">α</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">0.8</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">const</span><span style=""> </span><span style="">β</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">3.0</span><span style="">
+</span><span style=""></span><span style="">diffeq</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">function</span><span style="">(</span><span style="">du</span><span style="">,</span><span style=""> </span><span style="">u</span><span style="">,</span><span style=""> </span><span style="">p</span><span style="">,</span><span style=""> </span><span style="">t</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">α</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">α</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">β</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">3</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">β</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span><span style="">
+</span><span style=""></span><span style="">u0</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">[</span><span style="color:#ae81ff">49.0</span><span style="">;</span><span style="color:#ae81ff">1.0</span><span style="">;</span><span style="color:#ae81ff">0.0</span><span style="">]</span><span style="">
+</span><span style=""></span><span style="">tspan</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">(</span><span style="color:#ae81ff">0.0</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">1.0</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">prob</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">ODEProblem</span><span style="">(</span><span style="">diffeq</span><span style="">,</span><span style=""> </span><span style="">u0</span><span style="">,</span><span style=""> </span><span style="">tspan</span><span style="">)</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">const</span><span style=""> </span><span style="">A_inj</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">30</span><span style="">
+</span><span style=""></span><span style="">inject_new</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">function</span><span style="">(</span><span style="">t0</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">condition</span><span style="">(</span><span style="">u</span><span style="">,</span><span style=""> </span><span style="">t</span><span style="">,</span><span style=""> </span><span style="">integrator</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">t0</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">t</span><span style="">
+</span><span style="">    </span><span style="">affect!</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">function</span><span style="">(</span><span style="">integrator</span><span style="">)</span><span style="">
+</span><span style="">        </span><span style="">integrator</span><span style="color:#f92672">.</span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">integrator</span><span style="color:#f92672">.</span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">+</span><span style=""> </span><span style="">A_inj</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">    </span><span style="">callback</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">ContinuousCallback</span><span style="">(</span><span style="">condition</span><span style="">,</span><span style=""> </span><span style="">affect!</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">sol</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">solve</span><span style="">(</span><span style="">prob</span><span style="">,</span><span style=""> </span><span style="">callback</span><span style="color:#f92672">=</span><span style="">callback</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">sol</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="color:#75715e"># trying it out with an injection at t=0.4</span><span style="">
+</span><span style=""></span><span style="">sol</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">inject_new</span><span style="">(</span><span style="color:#ae81ff">0.4</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">Plots</span><span style="color:#f92672">.</span><span style="">plot</span><span style="">(</span><span style="">sol</span><span style="">)</span></code></pre>
+</div>
 
 <p><img src="/img/posts/DiffEq/inject.png" alt="Injection simulation" /></p>
 
@@ -335,11 +333,10 @@ at the injection time, the concentration in B restarts increasing.</p>
 <p>From the previously built function, we can get the whole solution with a given
 injection time, and from that the final state of the system.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>tinj_span <span style="color: #555555">=</span> <span style="color: #FF6600">0.05</span><span style="color: #555555">:</span><span style="color: #FF6600">0.005</span><span style="color: #555555">:</span><span style="color: #FF6600">0.95</span>
-final_b <span style="color: #555555">=</span> [inject_new(tinj)<span style="color: #555555">.</span>u[<span style="color: #006699; font-weight: bold">end</span>][<span style="color: #FF6600">2</span>] <span style="color: #006699; font-weight: bold">for</span> tinj <span style="color: #006699">in</span> tinj_span]
-Plots<span style="color: #555555">.</span>plot(tinj_span, final_b)
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">tinj_span</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">0.05</span><span style="color:#f92672">:</span><span style="color:#ae81ff">0.005</span><span style="color:#f92672">:</span><span style="color:#ae81ff">0.95</span><span style="">
+</span><span style=""></span><span style="">final_b</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">[</span><span style="">inject_new</span><span style="">(</span><span style="">tinj</span><span style="">)</span><span style="color:#f92672">.</span><span style="">u</span><span style="">[</span><span style="color:#66d9ef">end</span><span style="">][</span><span style="color:#ae81ff">2</span><span style="">]</span><span style=""> </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">tinj</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="">tinj_span</span><span style="">]</span><span style="">
+</span><span style=""></span><span style="">Plots</span><span style="color:#f92672">.</span><span style="">plot</span><span style="">(</span><span style="">tinj_span</span><span style="">,</span><span style=""> </span><span style="">final_b</span><span style="">)</span></code></pre>
+</div>
 
 <p>Using a plain for comprehension, we fetch the solution of the simulation for
 the callback built with each $t_{inject}$.</p>
@@ -357,10 +354,9 @@ In our case, the decision is modeled as a single variable (the injection time),
 <strong>it&rsquo;s crucial to make the objective use a vector nonetheless</strong>, otherwise
 calling the solver will just explode with cryptic errors.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>compute_finalb <span style="color: #555555">=</span> tinj <span style="color: #555555">-&gt;</span> <span style="color: #555555">-</span><span style="color: #FF6600">1</span> <span style="color: #555555">*</span> inject_new(tinj[<span style="color: #FF6600">1</span>])<span style="color: #555555">.</span>u[<span style="color: #006699; font-weight: bold">end</span>][<span style="color: #FF6600">2</span>]
-Optim<span style="color: #555555">.</span>optimize(compute_finalb, <span style="color: #FF6600">0.1</span>, <span style="color: #FF6600">0.9</span>)
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">compute_finalb</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">tinj</span><span style=""> </span><span style="color:#f92672">-&gt;</span><span style=""> </span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">inject_new</span><span style="">(</span><span style="">tinj</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">])</span><span style="color:#f92672">.</span><span style="">u</span><span style="">[</span><span style="color:#66d9ef">end</span><span style="">][</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style=""></span><span style="">Optim</span><span style="color:#f92672">.</span><span style="">optimize</span><span style="">(</span><span style="">compute_finalb</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">0.1</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">0.9</span><span style="">)</span></code></pre>
+</div>
 
 <p>We get a detailed result of the optimization including the method and iterations:</p>
 
@@ -423,45 +419,43 @@ two events:</p>
 <li>A stops being poured when the total quantity has been used</li>
 </ul>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">const</span> inj_quantity <span style="color: #555555">=</span> <span style="color: #FF6600">30.0</span>;
-<span style="color: #006699; font-weight: bold">const</span> inj_rate <span style="color: #555555">=</span> <span style="color: #FF6600">40.0</span>;
-
-diffeq_extended <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(du, u, p, t)
-    du[<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>] <span style="color: #555555">+</span> u[<span style="color: #FF6600">4</span>]
-    du[<span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
-    du[<span style="color: #FF6600">3</span>] <span style="color: #555555">=</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
-    du[<span style="color: #FF6600">4</span>] <span style="color: #555555">=</span> <span style="color: #FF6600">0.0</span>
-<span style="color: #006699; font-weight: bold">end</span>
-
-u0 <span style="color: #555555">=</span> [<span style="color: #FF6600">49.0</span>;<span style="color: #FF6600">1.0</span>;<span style="color: #FF6600">0.0</span>;<span style="color: #FF6600">0.0</span>]
-tspan <span style="color: #555555">=</span> (<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">1.0</span>)
-prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>ODEProblem(diffeq_extended, u0, tspan)
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">const</span><span style=""> </span><span style="">inj_quantity</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">30.0</span><span style="">;</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">const</span><span style=""> </span><span style="">inj_rate</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">40.0</span><span style="">;</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="">diffeq_extended</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">function</span><span style="">(</span><span style="">du</span><span style="">,</span><span style=""> </span><span style="">u</span><span style="">,</span><span style=""> </span><span style="">p</span><span style="">,</span><span style=""> </span><span style="">t</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">α</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style=""> </span><span style="color:#f92672">+</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">4</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">α</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">β</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">3</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">β</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">4</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">0.0</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="">u0</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">[</span><span style="color:#ae81ff">49.0</span><span style="">;</span><span style="color:#ae81ff">1.0</span><span style="">;</span><span style="color:#ae81ff">0.0</span><span style="">;</span><span style="color:#ae81ff">0.0</span><span style="">]</span><span style="">
+</span><span style=""></span><span style="">tspan</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">(</span><span style="color:#ae81ff">0.0</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">1.0</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">prob</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">ODEProblem</span><span style="">(</span><span style="">diffeq_extended</span><span style="">,</span><span style=""> </span><span style="">u0</span><span style="">,</span><span style=""> </span><span style="">tspan</span><span style="">)</span></code></pre>
+</div>
 
 <p>We wrap the solution building process into a function taking the starting time
 and the fraction being directly injected as parameters:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>inject_progressive <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(t0, direct_frac)
-    condition_start(u, t, integrator) <span style="color: #555555">=</span> t0 <span style="color: #555555">-</span> t
-    affect_start! <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(integrator)
-        integrator<span style="color: #555555">.</span>u[<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> integrator<span style="color: #555555">.</span>u[<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> inj_quantity <span style="color: #555555">*</span> direct_frac
-        integrator<span style="color: #555555">.</span>u[<span style="color: #FF6600">4</span>] <span style="color: #555555">=</span> inj_rate
-    <span style="color: #006699; font-weight: bold">end</span>
-    callback_start <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>ContinuousCallback(
-        condition_start, affect_start!, save_positions<span style="color: #555555">=</span>(<span style="color: #006699; font-weight: bold">true</span>, <span style="color: #006699; font-weight: bold">true</span>)
-    )
-    condition_end(u, t, integrator) <span style="color: #555555">=</span> (t <span style="color: #555555">-</span> t0) <span style="color: #555555">*</span> inj_rate <span style="color: #555555">-</span> inj_quantity <span style="color: #555555">*</span> (<span style="color: #FF6600">1</span> <span style="color: #555555">-</span> direct_frac)
-    affect_end! <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(integrator)
-        integrator<span style="color: #555555">.</span>u[<span style="color: #FF6600">4</span>] <span style="color: #555555">=</span> <span style="color: #FF6600">0.0</span>
-    <span style="color: #006699; font-weight: bold">end</span>
-    callback_end <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>ContinuousCallback(condition_end, affect_end!, save_positions<span style="color: #555555">=</span>(<span style="color: #006699; font-weight: bold">true</span>, <span style="color: #006699; font-weight: bold">true</span>))
-    sol <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>solve(prob, callback<span style="color: #555555">=</span>DiffEq<span style="color: #555555">.</span>CallbackSet(callback_start, callback_end), dtmax<span style="color: #555555">=</span><span style="color: #FF6600">0.005</span>)
-<span style="color: #006699; font-weight: bold">end</span>
-
-Plots<span style="color: #555555">.</span>plot(inject_progressive(<span style="color: #FF6600">0.6</span>,<span style="color: #FF6600">0.6</span>))
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">inject_progressive</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">function</span><span style="">(</span><span style="">t0</span><span style="">,</span><span style=""> </span><span style="">direct_frac</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">condition_start</span><span style="">(</span><span style="">u</span><span style="">,</span><span style=""> </span><span style="">t</span><span style="">,</span><span style=""> </span><span style="">integrator</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">t0</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">t</span><span style="">
+</span><span style="">    </span><span style="">affect_start!</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">function</span><span style="">(</span><span style="">integrator</span><span style="">)</span><span style="">
+</span><span style="">        </span><span style="">integrator</span><span style="color:#f92672">.</span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">integrator</span><span style="color:#f92672">.</span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">+</span><span style=""> </span><span style="">inj_quantity</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">direct_frac</span><span style="">
+</span><span style="">        </span><span style="">integrator</span><span style="color:#f92672">.</span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">4</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">inj_rate</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">    </span><span style="">callback_start</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">ContinuousCallback</span><span style="">(</span><span style="">
+</span><span style="">        </span><span style="">condition_start</span><span style="">,</span><span style=""> </span><span style="">affect_start!</span><span style="">,</span><span style=""> </span><span style="">save_positions</span><span style="color:#f92672">=</span><span style="">(</span><span style="color:#66d9ef">true</span><span style="">,</span><span style=""> </span><span style="color:#66d9ef">true</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">condition_end</span><span style="">(</span><span style="">u</span><span style="">,</span><span style=""> </span><span style="">t</span><span style="">,</span><span style=""> </span><span style="">integrator</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">(</span><span style="">t</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">t0</span><span style="">)</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">inj_rate</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">inj_quantity</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">(</span><span style="color:#ae81ff">1</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">direct_frac</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">affect_end!</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">function</span><span style="">(</span><span style="">integrator</span><span style="">)</span><span style="">
+</span><span style="">        </span><span style="">integrator</span><span style="color:#f92672">.</span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">4</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">0.0</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">    </span><span style="">callback_end</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">ContinuousCallback</span><span style="">(</span><span style="">condition_end</span><span style="">,</span><span style=""> </span><span style="">affect_end!</span><span style="">,</span><span style=""> </span><span style="">save_positions</span><span style="color:#f92672">=</span><span style="">(</span><span style="color:#66d9ef">true</span><span style="">,</span><span style=""> </span><span style="color:#66d9ef">true</span><span style="">))</span><span style="">
+</span><span style="">    </span><span style="">sol</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">solve</span><span style="">(</span><span style="">prob</span><span style="">,</span><span style=""> </span><span style="">callback</span><span style="color:#f92672">=</span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">CallbackSet</span><span style="">(</span><span style="">callback_start</span><span style="">,</span><span style=""> </span><span style="">callback_end</span><span style="">),</span><span style=""> </span><span style="">dtmax</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0.005</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="">Plots</span><span style="color:#f92672">.</span><span style="">plot</span><span style="">(</span><span style="">inject_progressive</span><span style="">(</span><span style="color:#ae81ff">0.6</span><span style="">,</span><span style="color:#ae81ff">0.6</span><span style="">))</span></code></pre>
+</div>
 
 <p>We can notice <code>callback_start</code> being identical to the model we previously built,
 while <code>condition_end</code> corresponds to the time when the total injected
@@ -472,17 +466,16 @@ to the nominal flow, while the second callback resets it to 0.</p>
 
 <p>Optim.jl can be re-used to determine the optimal decision:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>objective <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(x)
-    sol <span style="color: #555555">=</span> inject_progressive(x[<span style="color: #FF6600">1</span>], x[<span style="color: #FF6600">2</span>])
-    <span style="color: #555555">-</span>sol<span style="color: #555555">.</span>u[<span style="color: #006699; font-weight: bold">end</span>][<span style="color: #FF6600">2</span>]
-<span style="color: #006699; font-weight: bold">end</span>
-<span style="color: #0099FF; font-style: italic"># wrapped objective function and starting point</span>
-x0 <span style="color: #555555">=</span> <span style="color: #FF6600">0.5</span><span style="color: #555555">*</span>ones(<span style="color: #FF6600">2</span>)
-wrapped_obj <span style="color: #555555">=</span> Optim<span style="color: #555555">.</span>OnceDifferentiable(objective, x0)
-<span style="color: #0099FF; font-style: italic"># call optimize with box algorithm</span>
-Optim<span style="color: #555555">.</span>optimize(wrapped_obj, x0, [<span style="color: #FF6600">0.1</span>,<span style="color: #FF6600">0.0</span>], [<span style="color: #FF6600">1.0</span>,<span style="color: #FF6600">1.0</span>], Optim<span style="color: #555555">.</span>Fminbox())
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">objective</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">function</span><span style="">(</span><span style="">x</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">sol</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">inject_progressive</span><span style="">(</span><span style="">x</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">],</span><span style=""> </span><span style="">x</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">])</span><span style="">
+</span><span style="">    </span><span style="color:#f92672">-</span><span style="">sol</span><span style="color:#f92672">.</span><span style="">u</span><span style="">[</span><span style="color:#66d9ef">end</span><span style="">][</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span><span style="">
+</span><span style=""></span><span style="color:#75715e"># wrapped objective function and starting point</span><span style="">
+</span><span style=""></span><span style="">x0</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">0.5</span><span style="color:#f92672">*</span><span style="">ones</span><span style="">(</span><span style="color:#ae81ff">2</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">wrapped_obj</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">Optim</span><span style="color:#f92672">.</span><span style="">OnceDifferentiable</span><span style="">(</span><span style="">objective</span><span style="">,</span><span style=""> </span><span style="">x0</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="color:#75715e"># call optimize with box algorithm</span><span style="">
+</span><span style=""></span><span style="">Optim</span><span style="color:#f92672">.</span><span style="">optimize</span><span style="">(</span><span style="">wrapped_obj</span><span style="">,</span><span style=""> </span><span style="">x0</span><span style="">,</span><span style=""> </span><span style="">[</span><span style="color:#ae81ff">0.1</span><span style="">,</span><span style="color:#ae81ff">0.0</span><span style="">],</span><span style=""> </span><span style="">[</span><span style="color:#ae81ff">1.0</span><span style="">,</span><span style="color:#ae81ff">1.0</span><span style="">],</span><span style=""> </span><span style="">Optim</span><span style="color:#f92672">.</span><span style="">Fminbox</span><span style="">())</span></code></pre>
+</div>
 
 <p>The result details are:</p>
 
@@ -564,10 +557,9 @@ The goal is continuous optimization, (as opposed to BlackBoxOptim.jl which suppo
 more exotic search spaces).</p>
 
 <p>Finding the optimum $t_{inject}$ of the first problem is pretty simple:
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">import</span> Optim
-Optim<span style="color: #555555">.</span>optimize(compute_finalb, <span style="color: #FF6600">0.1</span>, <span style="color: #FF6600">0.9</span>)
-</pre></div>
-</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span><span style=""> </span><span style="">Optim</span><span style="">
+</span><span style=""></span><span style="">Optim</span><span style="color:#f92672">.</span><span style="">optimize</span><span style="">(</span><span style="">compute_finalb</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">0.1</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">0.9</span><span style="">)</span></code></pre>
+</div></p>
 
 <p>This yields the following information:</p>
 

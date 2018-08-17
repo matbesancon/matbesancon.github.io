@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.27-DEV" />
+  <meta name="generator" content="Hugo 0.28" />
   <meta name="author" content="Mathieu Besançon">
   <meta name="description" content="PhD student in applied mathematics for energy systems">
 
@@ -305,9 +305,8 @@ The underlying reasoning is the following:
 The logit function of the probability of a level of the classes is
 linearly dependent on the predictors. This can be written as:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>np<span style="color: #555555">.</span>log(p<span style="color: #555555">/</span>(<span style="color: #FF6600">1</span><span style="color: #555555">-</span>p)) <span style="color: #555555">=</span> beta0 <span style="color: #555555">+</span> beta[<span style="color: #FF6600">0</span>] <span style="color: #555555">*</span> x[<span style="color: #FF6600">0</span>] <span style="color: #555555">+</span> beta[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> x[<span style="color: #FF6600">1</span>] <span style="color: #555555">+</span> <span style="color: #555555">...</span>
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="">np</span><span style="color:#f92672">.</span><span style="">log</span><span style="">(</span><span style="">p</span><span style="color:#f92672">/</span><span style="">(</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="">p</span><span style="">))</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">beta0</span><span style=""> </span><span style="color:#f92672">+</span><span style=""> </span><span style="">beta</span><span style="">[</span><span style="color:#ae81ff">0</span><span style="">]</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">x</span><span style="">[</span><span style="color:#ae81ff">0</span><span style="">]</span><span style=""> </span><span style="color:#f92672">+</span><span style=""> </span><span style="">beta</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">x</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">+</span><span style=""> </span><span style="color:#f92672">...</span></code></pre>
+</div>
 
 <p>Why do we need the logit function here?
 Well technically, a linear regression could be fitted with the class as output
@@ -346,9 +345,8 @@ log-likelihood of the parameters:</p>
 
 <!-- \mathscr{L}(\beta|(X,Z)) = f_{\beta}\left(X=x,Z=z\right) -->
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>L(beta<span style="color: #555555">|</span>(X,z)) <span style="color: #555555">=</span> f(X,z)
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="">L</span><span style="">(</span><span style="">beta</span><span style="color:#f92672">|</span><span style="">(</span><span style="">X</span><span style="">,</span><span style="">z</span><span style="">))</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">f</span><span style="">(</span><span style="">X</span><span style="">,</span><span style="">z</span><span style="">)</span></code></pre>
+</div>
 
 <h3 id="parameters-update">Parameters update</h3>
 
@@ -364,9 +362,8 @@ can be written as:</p>
 
 <!-- \beta^{(n+1)} = \beta^{(n)} + \gamma^{(n)}\nabla(log(\mathscr{L}(\beta^{(n)}))) -->
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>beta <span style="color: #555555">=</span> beta <span style="color: #555555">+</span> gamma<span style="color: #555555">*</span> gradient_log_likelihood(beta)
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="">beta</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">beta</span><span style=""> </span><span style="color:#f92672">+</span><span style=""> </span><span style="">gamma</span><span style="color:#f92672">*</span><span style=""> </span><span style="">gradient_log_likelihood</span><span style="">(</span><span style="">beta</span><span style="">)</span></code></pre>
+</div>
 
 <p>Several criteria can be used to determine if a given set of parameters is an
 acceptable solution. A solution will be considered acceptable when the
@@ -380,16 +377,14 @@ issues. Too small values on the other increase the number of steps required to
 reach an acceptable maximum. The best solution is often a varying learning
 rate, adapting the rate of variations. The rate at step n is chosen as follows:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>gamma_n <span style="color: #555555">=</span> alpha<span style="color: #555555">*</span><span style="color: #336666">min</span>(c0,<span style="color: #FF6600">3</span><span style="color: #555555">/</span>(np<span style="color: #555555">.</span>sqrt(n)<span style="color: #555555">+</span><span style="color: #FF6600">1</span>))
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="">gamma_n</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">alpha</span><span style="color:#f92672">*</span><span style="">min</span><span style="">(</span><span style="">c0</span><span style="">,</span><span style="color:#ae81ff">3</span><span style="color:#f92672">/</span><span style="">(</span><span style="">np</span><span style="color:#f92672">.</span><span style="">sqrt</span><span style="">(</span><span style="">n</span><span style="">)</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="">))</span></code></pre>
+</div>
 
 <p>Which means that the learning rate is constant for all first steps until the
 following condition is reached:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>n <span style="color: #555555">&gt;</span> (<span style="color: #FF6600">3</span><span style="color: #555555">-</span>c0)<span style="color: #555555">/</span>c0
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="">n</span><span style=""> </span><span style="color:#f92672">&gt;</span><span style=""> </span><span style="">(</span><span style="color:#ae81ff">3</span><span style="color:#f92672">-</span><span style="">c0</span><span style="">)</span><span style="color:#f92672">/</span><span style="">c0</span></code></pre>
+</div>
 
 <p>After this iteration, the learning rate slowly decreases because we assume the
 parameters are getting closer to the right value, which we don&rsquo;t want to
@@ -410,30 +405,29 @@ boundary will be a straight line separating the two classes.
 This can be visualized using two features of the data, &ldquo;vari&rdquo; and
 &ldquo;k_resid&rdquo;:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>w <span style="color: #555555">=</span> learn_weights(data1<span style="color: #555555">.</span>iloc[:,(<span style="color: #FF6600">0</span>,<span style="color: #FF6600">1</span>,<span style="color: #FF6600">3</span>)])
-
-<span style="color: #0099FF; font-style: italic"># building the mesh</span>
-xmesh, ymesh <span style="color: #555555">=</span> np<span style="color: #555555">.</span>meshgrid(np<span style="color: #555555">.</span>arange(data1[<span style="color: #CC3300">&quot;vari&quot;</span>]<span style="color: #555555">.</span>min()<span style="color: #555555">-.</span><span style="color: #FF6600">5</span>,data1[<span style="color: #CC3300">&quot;vari&quot;</span>]<span style="color: #555555">.</span>max()<span style="color: #555555">+.</span><span style="color: #FF6600">5</span>,<span style="color: #555555">.</span><span style="color: #FF6600">01</span>),\
-    np<span style="color: #555555">.</span>arange(data1[<span style="color: #CC3300">&quot;k_resid&quot;</span>]<span style="color: #555555">.</span>min()<span style="color: #555555">-.</span><span style="color: #FF6600">5</span>,data1[<span style="color: #CC3300">&quot;k_resid&quot;</span>]<span style="color: #555555">.</span>max()<span style="color: #555555">+.</span><span style="color: #FF6600">5</span>,<span style="color: #555555">.</span><span style="color: #FF6600">01</span>))
-
-pmap <span style="color: #555555">=</span> pd<span style="color: #555555">.</span>DataFrame(np<span style="color: #555555">.</span>c_[np<span style="color: #555555">.</span>ones((<span style="color: #336666">len</span>(xmesh<span style="color: #555555">.</span>ravel()),)),xmesh<span style="color: #555555">.</span>ravel(),ymesh<span style="color: #555555">.</span>ravel()])
-p <span style="color: #555555">=</span> np<span style="color: #555555">.</span>array([])
-<span style="color: #006699; font-weight: bold">for</span> line <span style="color: #000000; font-weight: bold">in</span> pmap<span style="color: #555555">.</span>values:
-    p <span style="color: #555555">=</span> np<span style="color: #555555">.</span>append(p,(prob_log(line,w)))
-
-p <span style="color: #555555">=</span> p<span style="color: #555555">.</span>reshape(xmesh<span style="color: #555555">.</span>shape)
-
-plt<span style="color: #555555">.</span>contourf(xmesh, ymesh, np<span style="color: #555555">.</span>power(p,<span style="color: #FF6600">8</span>), cmap<span style="color: #555555">=</span> <span style="color: #CC3300">&#39;RdBu&#39;</span>,alpha<span style="color: #555555">=.</span><span style="color: #FF6600">5</span>)
-plt<span style="color: #555555">.</span>plot(data1[data1[<span style="color: #CC3300">&quot;class&quot;</span>]<span style="color: #555555">==</span><span style="color: #FF6600">1</span>][<span style="color: #CC3300">&quot;vari&quot;</span>],data1[data1[<span style="color: #CC3300">&quot;class&quot;</span>]<span style="color: #555555">==</span><span style="color: #FF6600">1</span>][<span style="color: #CC3300">&quot;k_resid&quot;</span>],<span style="color: #CC3300">&#39;+&#39;</span>,label<span style="color: #555555">=</span><span style="color: #CC3300">&#39;Class 0&#39;</span>)
-plt<span style="color: #555555">.</span>plot(data1[data1[<span style="color: #CC3300">&quot;class&quot;</span>]<span style="color: #555555">==</span><span style="color: #FF6600">0</span>][<span style="color: #CC3300">&quot;vari&quot;</span>],data1[data1[<span style="color: #CC3300">&quot;class&quot;</span>]<span style="color: #555555">==</span><span style="color: #FF6600">0</span>][<span style="color: #CC3300">&quot;k_resid&quot;</span>],<span style="color: #CC3300">&#39;r+&#39;</span>,label<span style="color: #555555">=</span><span style="color: #CC3300">&#39;Class 1&#39;</span>)
-plt<span style="color: #555555">.</span>legend(loc<span style="color: #555555">=</span><span style="color: #CC3300">&quot;upper right&quot;</span>)
-plt<span style="color: #555555">.</span>title(<span style="color: #CC3300">&#39;2-dimension logistic regression result&#39;</span>)
-plt<span style="color: #555555">.</span>xlabel(<span style="color: #CC3300">&#39;vari&#39;</span>)
-plt<span style="color: #555555">.</span>ylabel(<span style="color: #CC3300">&#39;k_resid&#39;</span>)
-plt<span style="color: #555555">.</span>grid()
-plt<span style="color: #555555">.</span>show()
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="">w</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">learn_weights</span><span style="">(</span><span style="">data1</span><span style="color:#f92672">.</span><span style="">iloc</span><span style="">[:,(</span><span style="color:#ae81ff">0</span><span style="">,</span><span style="color:#ae81ff">1</span><span style="">,</span><span style="color:#ae81ff">3</span><span style="">)])</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="color:#75715e"># building the mesh</span><span style="">
+</span><span style=""></span><span style="">xmesh</span><span style="">,</span><span style=""> </span><span style="">ymesh</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">np</span><span style="color:#f92672">.</span><span style="">meshgrid</span><span style="">(</span><span style="">np</span><span style="color:#f92672">.</span><span style="">arange</span><span style="">(</span><span style="">data1</span><span style="">[</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;vari&#34;</span><span style="">]</span><span style="color:#f92672">.</span><span style="">min</span><span style="">()</span><span style="color:#f92672">-.</span><span style="color:#ae81ff">5</span><span style="">,</span><span style="">data1</span><span style="">[</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;vari&#34;</span><span style="">]</span><span style="color:#f92672">.</span><span style="">max</span><span style="">()</span><span style="color:#f92672">+.</span><span style="color:#ae81ff">5</span><span style="">,</span><span style="color:#f92672">.</span><span style="color:#ae81ff">01</span><span style="">),</span><span style="">\
+</span><span style="">    </span><span style="">np</span><span style="color:#f92672">.</span><span style="">arange</span><span style="">(</span><span style="">data1</span><span style="">[</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;k_resid&#34;</span><span style="">]</span><span style="color:#f92672">.</span><span style="">min</span><span style="">()</span><span style="color:#f92672">-.</span><span style="color:#ae81ff">5</span><span style="">,</span><span style="">data1</span><span style="">[</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;k_resid&#34;</span><span style="">]</span><span style="color:#f92672">.</span><span style="">max</span><span style="">()</span><span style="color:#f92672">+.</span><span style="color:#ae81ff">5</span><span style="">,</span><span style="color:#f92672">.</span><span style="color:#ae81ff">01</span><span style="">))</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="">pmap</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">pd</span><span style="color:#f92672">.</span><span style="">DataFrame</span><span style="">(</span><span style="">np</span><span style="color:#f92672">.</span><span style="">c_</span><span style="">[</span><span style="">np</span><span style="color:#f92672">.</span><span style="">ones</span><span style="">((</span><span style="">len</span><span style="">(</span><span style="">xmesh</span><span style="color:#f92672">.</span><span style="">ravel</span><span style="">()),)),</span><span style="">xmesh</span><span style="color:#f92672">.</span><span style="">ravel</span><span style="">(),</span><span style="">ymesh</span><span style="color:#f92672">.</span><span style="">ravel</span><span style="">()])</span><span style="">
+</span><span style=""></span><span style="">p</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">np</span><span style="color:#f92672">.</span><span style="">array</span><span style="">([])</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">line</span><span style=""> </span><span style="color:#f92672">in</span><span style=""> </span><span style="">pmap</span><span style="color:#f92672">.</span><span style="">values</span><span style="">:</span><span style="">
+</span><span style="">    </span><span style="">p</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">np</span><span style="color:#f92672">.</span><span style="">append</span><span style="">(</span><span style="">p</span><span style="">,(</span><span style="">prob_log</span><span style="">(</span><span style="">line</span><span style="">,</span><span style="">w</span><span style="">)))</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="">p</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">p</span><span style="color:#f92672">.</span><span style="">reshape</span><span style="">(</span><span style="">xmesh</span><span style="color:#f92672">.</span><span style="">shape</span><span style="">)</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="">plt</span><span style="color:#f92672">.</span><span style="">contourf</span><span style="">(</span><span style="">xmesh</span><span style="">,</span><span style=""> </span><span style="">ymesh</span><span style="">,</span><span style=""> </span><span style="">np</span><span style="color:#f92672">.</span><span style="">power</span><span style="">(</span><span style="">p</span><span style="">,</span><span style="color:#ae81ff">8</span><span style="">),</span><span style=""> </span><span style="">cmap</span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;RdBu&#39;</span><span style="">,</span><span style="">alpha</span><span style="color:#f92672">=.</span><span style="color:#ae81ff">5</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">plt</span><span style="color:#f92672">.</span><span style="">plot</span><span style="">(</span><span style="">data1</span><span style="">[</span><span style="">data1</span><span style="">[</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;class&#34;</span><span style="">]</span><span style="color:#f92672">==</span><span style="color:#ae81ff">1</span><span style="">][</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;vari&#34;</span><span style="">],</span><span style="">data1</span><span style="">[</span><span style="">data1</span><span style="">[</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;class&#34;</span><span style="">]</span><span style="color:#f92672">==</span><span style="color:#ae81ff">1</span><span style="">][</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;k_resid&#34;</span><span style="">],</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;+&#39;</span><span style="">,</span><span style="">label</span><span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;Class 0&#39;</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">plt</span><span style="color:#f92672">.</span><span style="">plot</span><span style="">(</span><span style="">data1</span><span style="">[</span><span style="">data1</span><span style="">[</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;class&#34;</span><span style="">]</span><span style="color:#f92672">==</span><span style="color:#ae81ff">0</span><span style="">][</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;vari&#34;</span><span style="">],</span><span style="">data1</span><span style="">[</span><span style="">data1</span><span style="">[</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;class&#34;</span><span style="">]</span><span style="color:#f92672">==</span><span style="color:#ae81ff">0</span><span style="">][</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;k_resid&#34;</span><span style="">],</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;r+&#39;</span><span style="">,</span><span style="">label</span><span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;Class 1&#39;</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">plt</span><span style="color:#f92672">.</span><span style="">legend</span><span style="">(</span><span style="">loc</span><span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;upper right&#34;</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">plt</span><span style="color:#f92672">.</span><span style="">title</span><span style="">(</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;2-dimension logistic regression result&#39;</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">plt</span><span style="color:#f92672">.</span><span style="">xlabel</span><span style="">(</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;vari&#39;</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">plt</span><span style="color:#f92672">.</span><span style="">ylabel</span><span style="">(</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;k_resid&#39;</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">plt</span><span style="color:#f92672">.</span><span style="">grid</span><span style="">()</span><span style="">
+</span><span style=""></span><span style="">plt</span><span style="color:#f92672">.</span><span style="">show</span><span style="">()</span></code></pre>
+</div>
 
 <p><img src="/img/posts/BankNotes/figures/2dimension.png" alt="Decision boundary for two dimensions" /></p>
 
@@ -443,76 +437,73 @@ plt<span style="color: #555555">.</span>show()
 
 <p>Modularizing the code increases the readability, we define the
 implementations of two mathematical functions:
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">def</span> <span style="color: #CC00FF">prob_log</span>(x,w):
-    <span style="color: #CC3300; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #CC3300; font-style: italic">    probability of an observation belonging</span>
-<span style="color: #CC3300; font-style: italic">    to the class &quot;one&quot;</span>
-<span style="color: #CC3300; font-style: italic">    given the predictors x and weights w</span>
-<span style="color: #CC3300; font-style: italic">    &quot;&quot;&quot;</span>
-    <span style="color: #006699; font-weight: bold">return</span> np<span style="color: #555555">.</span>exp(np<span style="color: #555555">.</span>dot(x,w))<span style="color: #555555">/</span>(np<span style="color: #555555">.</span>exp(np<span style="color: #555555">.</span>dot(x,w))<span style="color: #555555">+</span><span style="color: #FF6600">1</span>)
-<span style="color: #006699; font-weight: bold">def</span> <span style="color: #CC00FF">grad_log_like</span>(X, y, w):
-    <span style="color: #CC3300; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #CC3300; font-style: italic">    computes the gradient of the log-likelihood from predictors X,</span>
-<span style="color: #CC3300; font-style: italic">    output y and weights w</span>
-<span style="color: #CC3300; font-style: italic">    &quot;&quot;&quot;</span>
-    <span style="color: #006699; font-weight: bold">return</span> np<span style="color: #555555">.</span>dot(X<span style="color: #555555">.</span>T,y<span style="color: #555555">-</span> np<span style="color: #555555">.</span>apply_along_axis(<span style="color: #006699; font-weight: bold">lambda</span> x: prob_log(x,w),<span style="color: #FF6600">1</span>,X))<span style="color: #555555">.</span>reshape((<span style="color: #336666">len</span>(w),))
-</pre></div>
-</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span><span style=""> </span><span style="color:#a6e22e">prob_log</span><span style="">(</span><span style="">x</span><span style="">,</span><span style="">w</span><span style="">):</span><span style="">
+</span><span style="">    </span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    probability of an observation belonging
+</span><span style="color:#e6db74">    to the class &#34;one&#34;
+</span><span style="color:#e6db74">    given the predictors x and weights w
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="">np</span><span style="color:#f92672">.</span><span style="">exp</span><span style="">(</span><span style="">np</span><span style="color:#f92672">.</span><span style="">dot</span><span style="">(</span><span style="">x</span><span style="">,</span><span style="">w</span><span style="">))</span><span style="color:#f92672">/</span><span style="">(</span><span style="">np</span><span style="color:#f92672">.</span><span style="">exp</span><span style="">(</span><span style="">np</span><span style="color:#f92672">.</span><span style="">dot</span><span style="">(</span><span style="">x</span><span style="">,</span><span style="">w</span><span style="">))</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">def</span><span style=""> </span><span style="color:#a6e22e">grad_log_like</span><span style="">(</span><span style="">X</span><span style="">,</span><span style=""> </span><span style="">y</span><span style="">,</span><span style=""> </span><span style="">w</span><span style="">):</span><span style="">
+</span><span style="">    </span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    computes the gradient of the log-likelihood from predictors X,
+</span><span style="color:#e6db74">    output y and weights w
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="">np</span><span style="color:#f92672">.</span><span style="">dot</span><span style="">(</span><span style="">X</span><span style="color:#f92672">.</span><span style="">T</span><span style="">,</span><span style="">y</span><span style="color:#f92672">-</span><span style=""> </span><span style="">np</span><span style="color:#f92672">.</span><span style="">apply_along_axis</span><span style="">(</span><span style="color:#66d9ef">lambda</span><span style=""> </span><span style="">x</span><span style="">:</span><span style=""> </span><span style="">prob_log</span><span style="">(</span><span style="">x</span><span style="">,</span><span style="">w</span><span style="">),</span><span style="color:#ae81ff">1</span><span style="">,</span><span style="">X</span><span style="">))</span><span style="color:#f92672">.</span><span style="">reshape</span><span style="">((</span><span style="">len</span><span style="">(</span><span style="">w</span><span style="">),))</span></code></pre>
+</div></p>
 
 <h2 id="learning-algorithm">Learning algorithm</h2>
 
 <p>A function computes the optimal weights from iterations to find the maximal
 log-likelihood of the parameters, using the two previous functions.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">def</span> <span style="color: #CC00FF">learn_weights</span>(df):
-    <span style="color: #CC3300; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #CC3300; font-style: italic">    computes and updates the weights until convergence</span>
-<span style="color: #CC3300; font-style: italic">    given the features and outcome in a data frame</span>
-<span style="color: #CC3300; font-style: italic">    &quot;&quot;&quot;</span>
-    X <span style="color: #555555">=</span> np<span style="color: #555555">.</span>c_[np<span style="color: #555555">.</span>ones(<span style="color: #336666">len</span>(df)),np<span style="color: #555555">.</span>array(df<span style="color: #555555">.</span>iloc[:,:df<span style="color: #555555">.</span>shape[<span style="color: #FF6600">1</span>]<span style="color: #555555">-</span><span style="color: #FF6600">1</span>])]
-    y <span style="color: #555555">=</span> np<span style="color: #555555">.</span>array(df[<span style="color: #CC3300">&quot;class&quot;</span>])
-    niter <span style="color: #555555">=</span> <span style="color: #FF6600">0</span>
-    error <span style="color: #555555">=</span> <span style="color: #555555">.</span><span style="color: #FF6600">0001</span>
-    w <span style="color: #555555">=</span> np<span style="color: #555555">.</span>zeros((df<span style="color: #555555">.</span>shape[<span style="color: #FF6600">1</span>],))
-    w0 <span style="color: #555555">=</span> w<span style="color: #555555">+</span><span style="color: #FF6600">5</span>
-    alpha <span style="color: #555555">=</span> <span style="color: #555555">.</span><span style="color: #FF6600">3</span>
-    <span style="color: #006699; font-weight: bold">while</span> <span style="color: #336666">sum</span>(<span style="color: #336666">abs</span>(w0<span style="color: #555555">-</span>w))<span style="color: #555555">&gt;</span>error <span style="color: #000000; font-weight: bold">and</span> niter <span style="color: #555555">&lt;</span> <span style="color: #FF6600">10000</span>:
-        niter<span style="color: #555555">+=</span><span style="color: #FF6600">1</span>
-        w0 <span style="color: #555555">=</span> w
-        w <span style="color: #555555">=</span> w <span style="color: #555555">+</span> alpha<span style="color: #555555">*</span><span style="color: #336666">min</span>(<span style="color: #555555">.</span><span style="color: #FF6600">1</span>,(<span style="color: #FF6600">3</span><span style="color: #555555">/</span>(niter<span style="color: #555555">**.</span><span style="color: #FF6600">5</span><span style="color: #555555">+</span><span style="color: #FF6600">1</span>))) <span style="color: #555555">*</span> (grad_log_like(X,y,w))
-    <span style="color: #006699; font-weight: bold">if</span> niter<span style="color: #555555">==</span><span style="color: #FF6600">10000</span>:
-        <span style="color: #006699; font-weight: bold">print</span>(<span style="color: #CC3300">&quot;Maximum iterations reached&quot;</span>)
-    <span style="color: #006699; font-weight: bold">return</span> w
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span><span style=""> </span><span style="color:#a6e22e">learn_weights</span><span style="">(</span><span style="">df</span><span style="">):</span><span style="">
+</span><span style="">    </span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    computes and updates the weights until convergence
+</span><span style="color:#e6db74">    given the features and outcome in a data frame
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span><span style="">
+</span><span style="">    </span><span style="">X</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">np</span><span style="color:#f92672">.</span><span style="">c_</span><span style="">[</span><span style="">np</span><span style="color:#f92672">.</span><span style="">ones</span><span style="">(</span><span style="">len</span><span style="">(</span><span style="">df</span><span style="">)),</span><span style="">np</span><span style="color:#f92672">.</span><span style="">array</span><span style="">(</span><span style="">df</span><span style="color:#f92672">.</span><span style="">iloc</span><span style="">[:,:</span><span style="">df</span><span style="color:#f92672">.</span><span style="">shape</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="">])]</span><span style="">
+</span><span style="">    </span><span style="">y</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">np</span><span style="color:#f92672">.</span><span style="">array</span><span style="">(</span><span style="">df</span><span style="">[</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;class&#34;</span><span style="">])</span><span style="">
+</span><span style="">    </span><span style="">niter</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">0</span><span style="">
+</span><span style="">    </span><span style="">error</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#f92672">.</span><span style="color:#ae81ff">0001</span><span style="">
+</span><span style="">    </span><span style="">w</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">np</span><span style="color:#f92672">.</span><span style="">zeros</span><span style="">((</span><span style="">df</span><span style="color:#f92672">.</span><span style="">shape</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">],))</span><span style="">
+</span><span style="">    </span><span style="">w0</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">w</span><span style="color:#f92672">+</span><span style="color:#ae81ff">5</span><span style="">
+</span><span style="">    </span><span style="">alpha</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#f92672">.</span><span style="color:#ae81ff">3</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">while</span><span style=""> </span><span style="">sum</span><span style="">(</span><span style="">abs</span><span style="">(</span><span style="">w0</span><span style="color:#f92672">-</span><span style="">w</span><span style="">))</span><span style="color:#f92672">&gt;</span><span style="">error</span><span style=""> </span><span style="color:#f92672">and</span><span style=""> </span><span style="">niter</span><span style=""> </span><span style="color:#f92672">&lt;</span><span style=""> </span><span style="color:#ae81ff">10000</span><span style="">:</span><span style="">
+</span><span style="">        </span><span style="">niter</span><span style="color:#f92672">+=</span><span style="color:#ae81ff">1</span><span style="">
+</span><span style="">        </span><span style="">w0</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">w</span><span style="">
+</span><span style="">        </span><span style="">w</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">w</span><span style=""> </span><span style="color:#f92672">+</span><span style=""> </span><span style="">alpha</span><span style="color:#f92672">*</span><span style="">min</span><span style="">(</span><span style="color:#f92672">.</span><span style="color:#ae81ff">1</span><span style="">,(</span><span style="color:#ae81ff">3</span><span style="color:#f92672">/</span><span style="">(</span><span style="">niter</span><span style="color:#f92672">**.</span><span style="color:#ae81ff">5</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="">)))</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">(</span><span style="">grad_log_like</span><span style="">(</span><span style="">X</span><span style="">,</span><span style="">y</span><span style="">,</span><span style="">w</span><span style="">))</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">if</span><span style=""> </span><span style="">niter</span><span style="color:#f92672">==</span><span style="color:#ae81ff">10000</span><span style="">:</span><span style="">
+</span><span style="">        </span><span style="color:#66d9ef">print</span><span style="">(</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;Maximum iterations reached&#34;</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="">w</span></code></pre>
+</div>
 
 <h2 id="prediction">Prediction</h2>
 
 <p>Once the weights have been learnt, new probabilities can be predicted from
 explanatory variables.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">def</span> <span style="color: #CC00FF">predict_outcome</span>(df,w):
-    <span style="color: #CC3300; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #CC3300; font-style: italic">    takes in a test data set and computed weights</span>
-<span style="color: #CC3300; font-style: italic">    returns a vector of predicted output, the confusion matrix</span>
-<span style="color: #CC3300; font-style: italic">    and the number of misclassifications</span>
-<span style="color: #CC3300; font-style: italic">    &quot;&quot;&quot;</span>
-    confusion_matrix <span style="color: #555555">=</span> np<span style="color: #555555">.</span>zeros((<span style="color: #FF6600">2</span>,<span style="color: #FF6600">2</span>))
-    p <span style="color: #555555">=</span> []
-    <span style="color: #006699; font-weight: bold">for</span> line <span style="color: #000000; font-weight: bold">in</span> df<span style="color: #555555">.</span>values:
-        x <span style="color: #555555">=</span> np<span style="color: #555555">.</span>append(<span style="color: #FF6600">1</span>,line[<span style="color: #FF6600">0</span>:<span style="color: #FF6600">3</span>])
-        p<span style="color: #555555">.</span>append(prob_log(x,w))
-        <span style="color: #006699; font-weight: bold">if</span> (prob_log(x,w)<span style="color: #555555">&gt;.</span><span style="color: #FF6600">5</span>) <span style="color: #000000; font-weight: bold">and</span> line[<span style="color: #FF6600">3</span>]:
-            confusion_matrix[<span style="color: #FF6600">1</span>,<span style="color: #FF6600">1</span>]<span style="color: #555555">+=</span><span style="color: #FF6600">1</span>
-        <span style="color: #006699; font-weight: bold">elif</span> (prob_log(x,w)<span style="color: #555555">&lt;.</span><span style="color: #FF6600">5</span>) <span style="color: #000000; font-weight: bold">and</span> line[<span style="color: #FF6600">3</span>]:
-            confusion_matrix[<span style="color: #FF6600">1</span>,<span style="color: #FF6600">0</span>]<span style="color: #555555">+=</span><span style="color: #FF6600">1</span>
-        <span style="color: #006699; font-weight: bold">elif</span> (prob_log(x,w)<span style="color: #555555">&lt;.</span><span style="color: #FF6600">5</span>) <span style="color: #000000; font-weight: bold">and</span> <span style="color: #000000; font-weight: bold">not</span> line[<span style="color: #FF6600">3</span>]:
-            confusion_matrix[<span style="color: #FF6600">0</span>,<span style="color: #FF6600">0</span>]<span style="color: #555555">+=</span><span style="color: #FF6600">1</span>
-        <span style="color: #006699; font-weight: bold">else</span>:
-            confusion_matrix[<span style="color: #FF6600">0</span>,<span style="color: #FF6600">1</span>]<span style="color: #555555">+=</span><span style="color: #FF6600">1</span>
-    <span style="color: #006699; font-weight: bold">return</span> p, confusion_matrix, <span style="color: #336666">len</span>(df)<span style="color: #555555">-</span><span style="color: #336666">sum</span>(np<span style="color: #555555">.</span>diag(confusion_matrix))
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span><span style=""> </span><span style="color:#a6e22e">predict_outcome</span><span style="">(</span><span style="">df</span><span style="">,</span><span style="">w</span><span style="">):</span><span style="">
+</span><span style="">    </span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    takes in a test data set and computed weights
+</span><span style="color:#e6db74">    returns a vector of predicted output, the confusion matrix
+</span><span style="color:#e6db74">    and the number of misclassifications
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span><span style="">
+</span><span style="">    </span><span style="">confusion_matrix</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">np</span><span style="color:#f92672">.</span><span style="">zeros</span><span style="">((</span><span style="color:#ae81ff">2</span><span style="">,</span><span style="color:#ae81ff">2</span><span style="">))</span><span style="">
+</span><span style="">    </span><span style="">p</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">[]</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">line</span><span style=""> </span><span style="color:#f92672">in</span><span style=""> </span><span style="">df</span><span style="color:#f92672">.</span><span style="">values</span><span style="">:</span><span style="">
+</span><span style="">        </span><span style="">x</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">np</span><span style="color:#f92672">.</span><span style="">append</span><span style="">(</span><span style="color:#ae81ff">1</span><span style="">,</span><span style="">line</span><span style="">[</span><span style="color:#ae81ff">0</span><span style="">:</span><span style="color:#ae81ff">3</span><span style="">])</span><span style="">
+</span><span style="">        </span><span style="">p</span><span style="color:#f92672">.</span><span style="">append</span><span style="">(</span><span style="">prob_log</span><span style="">(</span><span style="">x</span><span style="">,</span><span style="">w</span><span style="">))</span><span style="">
+</span><span style="">        </span><span style="color:#66d9ef">if</span><span style=""> </span><span style="">(</span><span style="">prob_log</span><span style="">(</span><span style="">x</span><span style="">,</span><span style="">w</span><span style="">)</span><span style="color:#f92672">&gt;.</span><span style="color:#ae81ff">5</span><span style="">)</span><span style=""> </span><span style="color:#f92672">and</span><span style=""> </span><span style="">line</span><span style="">[</span><span style="color:#ae81ff">3</span><span style="">]:</span><span style="">
+</span><span style="">            </span><span style="">confusion_matrix</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">,</span><span style="color:#ae81ff">1</span><span style="">]</span><span style="color:#f92672">+=</span><span style="color:#ae81ff">1</span><span style="">
+</span><span style="">        </span><span style="color:#66d9ef">elif</span><span style=""> </span><span style="">(</span><span style="">prob_log</span><span style="">(</span><span style="">x</span><span style="">,</span><span style="">w</span><span style="">)</span><span style="color:#f92672">&lt;.</span><span style="color:#ae81ff">5</span><span style="">)</span><span style=""> </span><span style="color:#f92672">and</span><span style=""> </span><span style="">line</span><span style="">[</span><span style="color:#ae81ff">3</span><span style="">]:</span><span style="">
+</span><span style="">            </span><span style="">confusion_matrix</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">,</span><span style="color:#ae81ff">0</span><span style="">]</span><span style="color:#f92672">+=</span><span style="color:#ae81ff">1</span><span style="">
+</span><span style="">        </span><span style="color:#66d9ef">elif</span><span style=""> </span><span style="">(</span><span style="">prob_log</span><span style="">(</span><span style="">x</span><span style="">,</span><span style="">w</span><span style="">)</span><span style="color:#f92672">&lt;.</span><span style="color:#ae81ff">5</span><span style="">)</span><span style=""> </span><span style="color:#f92672">and</span><span style=""> </span><span style="color:#f92672">not</span><span style=""> </span><span style="">line</span><span style="">[</span><span style="color:#ae81ff">3</span><span style="">]:</span><span style="">
+</span><span style="">            </span><span style="">confusion_matrix</span><span style="">[</span><span style="color:#ae81ff">0</span><span style="">,</span><span style="color:#ae81ff">0</span><span style="">]</span><span style="color:#f92672">+=</span><span style="color:#ae81ff">1</span><span style="">
+</span><span style="">        </span><span style="color:#66d9ef">else</span><span style="">:</span><span style="">
+</span><span style="">            </span><span style="">confusion_matrix</span><span style="">[</span><span style="color:#ae81ff">0</span><span style="">,</span><span style="color:#ae81ff">1</span><span style="">]</span><span style="color:#f92672">+=</span><span style="color:#ae81ff">1</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="">p</span><span style="">,</span><span style=""> </span><span style="">confusion_matrix</span><span style="">,</span><span style=""> </span><span style="">len</span><span style="">(</span><span style="">df</span><span style="">)</span><span style="color:#f92672">-</span><span style="">sum</span><span style="">(</span><span style="">np</span><span style="color:#f92672">.</span><span style="">diag</span><span style="">(</span><span style="">confusion_matrix</span><span style="">))</span></code></pre>
+</div>
 
 <h2 id="cross-validated-evaluation">Cross-validated evaluation</h2>
 
@@ -520,16 +511,15 @@ explanatory variables.</p>
 will allow us to estimate the real error rate of our prediction. 100 cross
 validations are performed and for each of them, we add the error to a list.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>error <span style="color: #555555">=</span> []
-weights <span style="color: #555555">=</span> []
-<span style="color: #006699; font-weight: bold">for</span> test <span style="color: #000000; font-weight: bold">in</span> <span style="color: #336666">range</span>(<span style="color: #FF6600">100</span>):
-    trainIndex <span style="color: #555555">=</span> np<span style="color: #555555">.</span>random<span style="color: #555555">.</span>rand(<span style="color: #336666">len</span>(data0)) <span style="color: #555555">&lt;</span> <span style="color: #FF6600">0.85</span>
-    data_train <span style="color: #555555">=</span> data1[trainIndex]
-    data_test <span style="color: #555555">=</span> data1[<span style="color: #555555">~</span>trainIndex]
-    weights<span style="color: #555555">.</span>append(learn_weights(data_train))
-    error<span style="color: #555555">.</span>append(predict_outcome(data_test,weights[<span style="color: #555555">-</span><span style="color: #FF6600">1</span>])[<span style="color: #FF6600">2</span>])
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="">error</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">[]</span><span style="">
+</span><span style=""></span><span style="">weights</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">[]</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">test</span><span style=""> </span><span style="color:#f92672">in</span><span style=""> </span><span style="">range</span><span style="">(</span><span style="color:#ae81ff">100</span><span style="">):</span><span style="">
+</span><span style="">    </span><span style="">trainIndex</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">np</span><span style="color:#f92672">.</span><span style="">random</span><span style="color:#f92672">.</span><span style="">rand</span><span style="">(</span><span style="">len</span><span style="">(</span><span style="">data0</span><span style="">))</span><span style=""> </span><span style="color:#f92672">&lt;</span><span style=""> </span><span style="color:#ae81ff">0.85</span><span style="">
+</span><span style="">    </span><span style="">data_train</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">data1</span><span style="">[</span><span style="">trainIndex</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">data_test</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">data1</span><span style="">[</span><span style="color:#f92672">~</span><span style="">trainIndex</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">weights</span><span style="color:#f92672">.</span><span style="">append</span><span style="">(</span><span style="">learn_weights</span><span style="">(</span><span style="">data_train</span><span style="">))</span><span style="">
+</span><span style="">    </span><span style="">error</span><span style="color:#f92672">.</span><span style="">append</span><span style="">(</span><span style="">predict_outcome</span><span style="">(</span><span style="">data_test</span><span style="">,</span><span style="">weights</span><span style="">[</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="">])[</span><span style="color:#ae81ff">2</span><span style="">])</span></code></pre>
+</div>
 
 <p>The following results were obtained:
 <img src="/img/posts/BankNotes/figures/GLM_errors.png" alt="Evolution of the model with different coefficient values" /></p>

@@ -5,6 +5,24 @@
     
     <url>
     
+      <loc>https://matbesancon.github.io/post/2018-08-17-abstract_graph/</loc>
+      <lastmod>2018-08-17T00:00:00+02:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/talk/juliacon18/</loc>
+      <lastmod>2018-08-09T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://matbesancon.github.io/post/2018-05-25-colgen2/</loc>
       <lastmod>2018-05-30T00:00:00+02:00</lastmod>
     </url>
@@ -312,7 +330,7 @@
     <url>
     
       <loc>https://matbesancon.github.io/tags/graph/</loc>
-      <lastmod>2018-01-15T00:00:00+01:00</lastmod>
+      <lastmod>2018-08-17T00:00:00+02:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -351,6 +369,16 @@
     
     <url>
     
+      <loc>https://matbesancon.github.io/tags/interface/</loc>
+      <lastmod>2018-08-17T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://matbesancon.github.io/tags/jekyll/</loc>
       <lastmod>2017-09-05T00:00:00+02:00</lastmod>
       <priority>0</priority>
@@ -362,7 +390,7 @@
     <url>
     
       <loc>https://matbesancon.github.io/tags/julia/</loc>
-      <lastmod>2018-05-30T00:00:00+02:00</lastmod>
+      <lastmod>2018-08-17T00:00:00+02:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -433,6 +461,16 @@
     
       <loc>https://matbesancon.github.io/tags/optimization/</loc>
       <lastmod>2018-05-30T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/package/</loc>
+      <lastmod>2018-08-17T00:00:00+02:00</lastmod>
       <priority>0</priority>
     </url>
     

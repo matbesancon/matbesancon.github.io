@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.27-DEV" />
+  <meta name="generator" content="Hugo 0.28" />
   <meta name="author" content="Mathieu Besançon">
   <meta name="description" content="PhD student in applied mathematics for energy systems">
 
@@ -257,11 +257,10 @@ making it stochastic, and finally turn it into a discrete version.</p>
 <p>Before running the code below, two imports will be used:</p>
 </blockquote>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">import</span> DifferentialEquations
-<span style="color: #006699; font-weight: bold">const</span> DiffEq <span style="color: #555555">=</span> DifferentialEquations
-<span style="color: #006699; font-weight: bold">import</span> Plots
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span><span style=""> </span><span style="">DifferentialEquations</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">const</span><span style=""> </span><span style="">DiffEq</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DifferentialEquations</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">import</span><span style=""> </span><span style="">Plots</span></code></pre>
+</div>
 
 <p>I tend to prefer explicit imports in Julia code, it helps to see from which
 part each function and type comes. As <code>DifferentialEquations</code> is longuish to
@@ -322,17 +321,16 @@ $$
 And the initial conditions $u(0) = u₀$.</p>
 
 <p>In Julia with DifferentialEquations, this becomes:
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>α <span style="color: #555555">=</span> <span style="color: #FF6600">0.8</span>
-β <span style="color: #555555">=</span> <span style="color: #FF6600">3.0</span>
-diffeq <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(du, u, p, t)
-    du[<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
-    du[<span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> α <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>] <span style="color: #555555">-</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
-    du[<span style="color: #FF6600">3</span>] <span style="color: #555555">=</span> β <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
-<span style="color: #006699; font-weight: bold">end</span>
-u₀ <span style="color: #555555">=</span> [<span style="color: #FF6600">49.0</span>;<span style="color: #FF6600">1.0</span>;<span style="color: #FF6600">0.0</span>]
-tspan <span style="color: #555555">=</span> (<span style="color: #FF6600">0.0</span>, <span style="color: #FF6600">1.0</span>)
-</pre></div>
-</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">α</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">0.8</span><span style="">
+</span><span style=""></span><span style="">β</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">3.0</span><span style="">
+</span><span style=""></span><span style="">diffeq</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">function</span><span style="">(</span><span style="">du</span><span style="">,</span><span style=""> </span><span style="">u</span><span style="">,</span><span style=""> </span><span style="">p</span><span style="">,</span><span style=""> </span><span style="">t</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">α</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">α</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">β</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">3</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">β</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span><span style="">
+</span><span style=""></span><span style="">u₀</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">[</span><span style="color:#ae81ff">49.0</span><span style="">;</span><span style="color:#ae81ff">1.0</span><span style="">;</span><span style="color:#ae81ff">0.0</span><span style="">]</span><span style="">
+</span><span style=""></span><span style="">tspan</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">(</span><span style="color:#ae81ff">0.0</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">1.0</span><span style="">)</span></code></pre>
+</div></p>
 
 <p><code>diffeq</code> models the dynamic behavior, <code>u₀</code> the starting conditions
 and <code>tspan</code> the time range over which we observe the system
@@ -346,19 +344,17 @@ of the package is built around two steps:<br />
 2. Solving the problem using a solver of our choice and providing additional
 information on how to solve it, yielding a solution.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>ODEProblem(diffeq, u₀, tspan)
-sol <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>solve(prob)
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">prob</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">ODEProblem</span><span style="">(</span><span style="">diffeq</span><span style="">,</span><span style=""> </span><span style="">u₀</span><span style="">,</span><span style=""> </span><span style="">tspan</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">sol</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">solve</span><span style="">(</span><span style="">prob</span><span style="">)</span></code></pre>
+</div>
 
 <p>One very nice property of solutions produced by the package is that they
 contain a direct way to produce plots. This is fairly common in Julia to
 implement methods from other packages, here the <code>ODESolution</code> type implements
 Plots.plot:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>Plots<span style="color: #555555">.</span>plot(sol)
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">Plots</span><span style="color:#f92672">.</span><span style="">plot</span><span style="">(</span><span style="">sol</span><span style="">)</span></code></pre>
+</div>
 
 <p><img src="/img/posts/DiffEq/smooth.png" alt="Solution to the ODE" /></p>
 
@@ -399,18 +395,17 @@ $$</p>
 
 <h1 id="stochastic-version">Stochastic version</h1>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>σ1 <span style="color: #555555">=</span> <span style="color: #FF6600">0.07</span>
-σ2 <span style="color: #555555">=</span> <span style="color: #FF6600">0.4</span>
-noise_func <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(du, u, p, t)
-    du[<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> σ1 <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
-    du[<span style="color: #FF6600">3</span>] <span style="color: #555555">=</span> σ2 <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
-    du[<span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> du[<span style="color: #FF6600">1</span>]  <span style="color: #555555">-</span> du[<span style="color: #FF6600">3</span>]
-<span style="color: #006699; font-weight: bold">end</span>
-
-stoch_prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>SDEProblem(diffeq, noise_func, u₀, tspan)
-sol_stoch <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>solve(stoch_prob, DiffEq<span style="color: #555555">.</span>SRIW1())
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">σ1</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">0.07</span><span style="">
+</span><span style=""></span><span style="">σ2</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">0.4</span><span style="">
+</span><span style=""></span><span style="">noise_func</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">function</span><span style="">(</span><span style="">du</span><span style="">,</span><span style=""> </span><span style="">u</span><span style="">,</span><span style=""> </span><span style="">p</span><span style="">,</span><span style=""> </span><span style="">t</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">σ1</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">3</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">σ2</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style="">  </span><span style="color:#f92672">-</span><span style=""> </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">3</span><span style="">]</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">
+</span><span style=""></span><span style="">stoch_prob</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">SDEProblem</span><span style="">(</span><span style="">diffeq</span><span style="">,</span><span style=""> </span><span style="">noise_func</span><span style="">,</span><span style=""> </span><span style="">u₀</span><span style="">,</span><span style=""> </span><span style="">tspan</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">sol_stoch</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">solve</span><span style="">(</span><span style="">stoch_prob</span><span style="">,</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">SRIW1</span><span style="">())</span></code></pre>
+</div>
 
 <p>Note that we also change the solver provided to the <code>solve</code> function to adapt
 to stochastic equations. The last variation is set to the opposite of the sum
@@ -432,21 +427,20 @@ This results in a $G(u,t)$ matrix of $3 × 2$. We can then make sure that the
 the sum of variations for the three variables cancel out to keep a constant
 total population.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>noise_func_cons <span style="color: #555555">=</span> <span style="color: #006699; font-weight: bold">function</span>(du, u, p, t)
-    du[<span style="color: #FF6600">1</span>, <span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> σ1 <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
-    du[<span style="color: #FF6600">1</span>, <span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> <span style="color: #FF6600">0.0</span>
-    du[<span style="color: #FF6600">2</span>, <span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> σ1 <span style="color: #555555">*</span> u[<span style="color: #FF6600">1</span>] <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
-    du[<span style="color: #FF6600">2</span>, <span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> <span style="color: #555555">-</span> σ2 <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
-    du[<span style="color: #FF6600">3</span>,<span style="color: #FF6600">1</span>] <span style="color: #555555">=</span> <span style="color: #FF6600">0.0</span>
-    du[<span style="color: #FF6600">3</span>,<span style="color: #FF6600">2</span>] <span style="color: #555555">=</span> σ2 <span style="color: #555555">*</span> u[<span style="color: #FF6600">2</span>]
-<span style="color: #006699; font-weight: bold">end</span>
-sde_cons <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>SDEProblem(
-    diffeq, noise_func_cons, u₀, tspan,
-    noise_rate_prototype<span style="color: #555555">=</span>zeros(<span style="color: #FF6600">3</span>,<span style="color: #FF6600">2</span>)
-)
-cons_solution <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>solve(sde_cons, DiffEq<span style="color: #555555">.</span>EM(), dt<span style="color: #555555">=</span><span style="color: #FF6600">1</span><span style="color: #555555">/</span><span style="color: #FF6600">500</span>)
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">noise_func_cons</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">function</span><span style="">(</span><span style="">du</span><span style="">,</span><span style=""> </span><span style="">u</span><span style="">,</span><span style=""> </span><span style="">p</span><span style="">,</span><span style=""> </span><span style="">t</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">σ1</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">2</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">0.0</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">σ1</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">2</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">σ2</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">3</span><span style="">,</span><span style="color:#ae81ff">1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">0.0</span><span style="">
+</span><span style="">    </span><span style="">du</span><span style="">[</span><span style="color:#ae81ff">3</span><span style="">,</span><span style="color:#ae81ff">2</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">σ2</span><span style=""> </span><span style="color:#f92672">*</span><span style=""> </span><span style="">u</span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span><span style="">
+</span><span style=""></span><span style="">sde_cons</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">SDEProblem</span><span style="">(</span><span style="">
+</span><span style="">    </span><span style="">diffeq</span><span style="">,</span><span style=""> </span><span style="">noise_func_cons</span><span style="">,</span><span style=""> </span><span style="">u₀</span><span style="">,</span><span style=""> </span><span style="">tspan</span><span style="">,</span><span style="">
+</span><span style="">    </span><span style="">noise_rate_prototype</span><span style="color:#f92672">=</span><span style="">zeros</span><span style="">(</span><span style="color:#ae81ff">3</span><span style="">,</span><span style="color:#ae81ff">2</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">cons_solution</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">solve</span><span style="">(</span><span style="">sde_cons</span><span style="">,</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">EM</span><span style="">(),</span><span style=""> </span><span style="">dt</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">500</span><span style="">)</span></code></pre>
+</div>
 
 <p>We also provide a <code>noise_rate_prototype</code> parameter to the problem builder to
 indicate we don&rsquo;t want to use a diagonal noise.</p>
@@ -468,16 +462,15 @@ follows exactly the package tutorial on
 <a href="http://docs.juliadiffeq.org/latest/tutorials/discrete_stochastic_example.html" target="_blank">discrete stochastic problems</a>,
 so building it should be straightforward.</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>infect_rate <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>Reaction(α, [<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>],[(<span style="color: #FF6600">1</span>,<span style="color: #555555">-</span><span style="color: #FF6600">1</span>),(<span style="color: #FF6600">2</span>,<span style="color: #FF6600">1</span>)])
-recover_rate <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>Reaction(β, [<span style="color: #FF6600">2</span>],[(<span style="color: #FF6600">2</span>,<span style="color: #555555">-</span><span style="color: #FF6600">1</span>),(<span style="color: #FF6600">3</span>,<span style="color: #FF6600">1</span>)])
-disc_prob <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>GillespieProblem(
-    DiffEq<span style="color: #555555">.</span>DiscreteProblem(round<span style="color: #555555">.</span>(<span style="color: #007788; font-weight: bold">Int</span>,u₀), tspan),
-    DiffEq<span style="color: #555555">.</span>Direct(),
-    infect_rate, recover_rate,
-)
-disc_sol <span style="color: #555555">=</span> DiffEq<span style="color: #555555">.</span>solve(disc_prob, DiffEq<span style="color: #555555">.</span>Discrete());
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">infect_rate</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">Reaction</span><span style="">(</span><span style="">α</span><span style="">,</span><span style=""> </span><span style="">[</span><span style="color:#ae81ff">1</span><span style="">,</span><span style="color:#ae81ff">2</span><span style="">],[(</span><span style="color:#ae81ff">1</span><span style="">,</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="">),(</span><span style="color:#ae81ff">2</span><span style="">,</span><span style="color:#ae81ff">1</span><span style="">)])</span><span style="">
+</span><span style=""></span><span style="">recover_rate</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">Reaction</span><span style="">(</span><span style="">β</span><span style="">,</span><span style=""> </span><span style="">[</span><span style="color:#ae81ff">2</span><span style="">],[(</span><span style="color:#ae81ff">2</span><span style="">,</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="">),(</span><span style="color:#ae81ff">3</span><span style="">,</span><span style="color:#ae81ff">1</span><span style="">)])</span><span style="">
+</span><span style=""></span><span style="">disc_prob</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">GillespieProblem</span><span style="">(</span><span style="">
+</span><span style="">    </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">DiscreteProblem</span><span style="">(</span><span style="">round</span><span style="color:#f92672">.</span><span style="">(</span><span style="color:#66d9ef">Int</span><span style="">,</span><span style="">u₀</span><span style="">),</span><span style=""> </span><span style="">tspan</span><span style="">),</span><span style="">
+</span><span style="">    </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">Direct</span><span style="">(),</span><span style="">
+</span><span style="">    </span><span style="">infect_rate</span><span style="">,</span><span style=""> </span><span style="">recover_rate</span><span style="">,</span><span style="">
+</span><span style=""></span><span style="">)</span><span style="">
+</span><span style=""></span><span style="">disc_sol</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">solve</span><span style="">(</span><span style="">disc_prob</span><span style="">,</span><span style=""> </span><span style="">DiffEq</span><span style="color:#f92672">.</span><span style="">Discrete</span><span style="">());</span></code></pre>
+</div>
 
 <p>We define the infection and recovery rate and the variables $uᵢ$ that are
 affected, and call the Discrete solver. The Plots.jl integration once again

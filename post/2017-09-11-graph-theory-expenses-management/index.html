@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.27-DEV" />
+  <meta name="generator" content="Hugo 0.28" />
   <meta name="author" content="Mathieu Besançon">
   <meta name="description" content="PhD student in applied mathematics for energy systems">
 
@@ -317,15 +317,14 @@ is the vector composed of one triplet:</p>
 </blockquote>
 
 <p>In Julia, the expense information can be translated to a structure:
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>User <span style="color: #555555">=</span> <span style="color: #007788; font-weight: bold">Int</span>
-GraphCoin <span style="color: #555555">=</span> <span style="color: #007788; font-weight: bold">Float16</span>
-struct Expense
-    payer<span style="color: #555555">::</span>User
-    amount<span style="color: #555555">::</span>GraphCoin
-    users<span style="color: #555555">::</span><span style="color: #007788; font-weight: bold">Set</span>{User}
-<span style="color: #006699; font-weight: bold">end</span>
-</pre></div>
-</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">User</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">Int</span><span style="">
+</span><span style=""></span><span style="">GraphCoin</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">Float16</span><span style="">
+</span><span style=""></span><span style="">struct</span><span style=""> </span><span style="">Expense</span><span style="">
+</span><span style="">    </span><span style="">payer</span><span style="color:#f92672">::</span><span style="">User</span><span style="">
+</span><span style="">    </span><span style="">amount</span><span style="color:#f92672">::</span><span style="">GraphCoin</span><span style="">
+</span><span style="">    </span><span style="">users</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Set</span><span style="">{</span><span style="">User</span><span style="">}</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span></code></pre>
+</div></p>
 
 <h2 id="reducing-expenses">Reducing expenses</h2>
 
@@ -392,44 +391,42 @@ owed money, see <a href="https://en.wikipedia.org/wiki/Maximum_flow_problem" tar
 <p>Given a vector of expenses, we should be able to build the matrix holding what
 is owed in net from a user to another:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #CC3300">&quot;&quot;&quot;</span>
-<span style="color: #CC3300">    Builds the matrix of net owed GraphCoins</span>
-<span style="color: #CC3300">&quot;&quot;&quot;</span>
-<span style="color: #006699; font-weight: bold">function</span> compute_net_owing(expenses<span style="color: #555555">::</span><span style="color: #007788; font-weight: bold">Vector</span>{Expense}, nusers<span style="color: #555555">::</span><span style="color: #007788; font-weight: bold">Int</span>)
-    owing_matrix <span style="color: #555555">=</span> zeros(GraphCoin, nusers, nusers)
-    <span style="color: #0099FF; font-style: italic"># row owes to column</span>
-    <span style="color: #006699; font-weight: bold">for</span> expense <span style="color: #006699">in</span> expenses
-        <span style="color: #006699; font-weight: bold">for</span> user <span style="color: #006699">in</span> expense<span style="color: #555555">.</span>users
-            <span style="color: #006699; font-weight: bold">if</span> user <span style="color: #555555">!=</span> expense<span style="color: #555555">.</span>payer
-                owing_matrix[user,expense<span style="color: #555555">.</span>payer] <span style="color: #555555">+=</span> expense<span style="color: #555555">.</span>amount <span style="color: #555555">/</span> length(expense<span style="color: #555555">.</span>users)
-            <span style="color: #006699; font-weight: bold">end</span>
-        <span style="color: #006699; font-weight: bold">end</span>
-    <span style="color: #006699; font-weight: bold">end</span>
-    <span style="color: #0099FF; font-style: italic"># compute net owed amount</span>
-    net_owing <span style="color: #555555">=</span> zeros(GraphCoin, nusers, nusers)    
-    <span style="color: #006699; font-weight: bold">for</span> i <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>nusers<span style="color: #555555">-</span><span style="color: #FF6600">1</span>
-        <span style="color: #006699; font-weight: bold">for</span> j <span style="color: #006699">in</span> i<span style="color: #555555">+</span><span style="color: #FF6600">1</span><span style="color: #555555">:</span>nusers
-            <span style="color: #006699; font-weight: bold">if</span> owing_matrix[i,j] <span style="color: #555555">&gt;</span> owing_matrix[j,i]
-                net_owing[i,j] <span style="color: #555555">=</span> owing_matrix[i,j] <span style="color: #555555">-</span> owing_matrix[j,i]
-            <span style="color: #006699; font-weight: bold">elseif</span> owing_matrix[i,j] <span style="color: #555555">&lt;</span> owing_matrix[j,i]
-                net_owing[j,i] <span style="color: #555555">=</span> owing_matrix[j,i] <span style="color: #555555">-</span> owing_matrix[i,j]
-            <span style="color: #006699; font-weight: bold">end</span>
-        <span style="color: #006699; font-weight: bold">end</span>
-    <span style="color: #006699; font-weight: bold">end</span>
-    <span style="color: #006699; font-weight: bold">return</span> net_owing<span style="color: #555555">::</span><span style="color: #007788; font-weight: bold">Matrix</span>{GraphCoin}
-<span style="color: #006699; font-weight: bold">end</span>
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    Builds the matrix of net owed GraphCoins
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">function</span><span style=""> </span><span style="">compute_net_owing</span><span style="">(</span><span style="">expenses</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span><span style="">{</span><span style="">Expense</span><span style="">},</span><span style=""> </span><span style="">nusers</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">owing_matrix</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">zeros</span><span style="">(</span><span style="">GraphCoin</span><span style="">,</span><span style=""> </span><span style="">nusers</span><span style="">,</span><span style=""> </span><span style="">nusers</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="color:#75715e"># row owes to column</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">expense</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="">expenses</span><span style="">
+</span><span style="">        </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">user</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="">expense</span><span style="color:#f92672">.</span><span style="">users</span><span style="">
+</span><span style="">            </span><span style="color:#66d9ef">if</span><span style=""> </span><span style="">user</span><span style=""> </span><span style="color:#f92672">!=</span><span style=""> </span><span style="">expense</span><span style="color:#f92672">.</span><span style="">payer</span><span style="">
+</span><span style="">                </span><span style="">owing_matrix</span><span style="">[</span><span style="">user</span><span style="">,</span><span style="">expense</span><span style="color:#f92672">.</span><span style="">payer</span><span style="">]</span><span style=""> </span><span style="color:#f92672">+=</span><span style=""> </span><span style="">expense</span><span style="color:#f92672">.</span><span style="">amount</span><span style=""> </span><span style="color:#f92672">/</span><span style=""> </span><span style="">length</span><span style="">(</span><span style="">expense</span><span style="color:#f92672">.</span><span style="">users</span><span style="">)</span><span style="">
+</span><span style="">            </span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">        </span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">    </span><span style="color:#75715e"># compute net owed amount</span><span style="">
+</span><span style="">    </span><span style="">net_owing</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">zeros</span><span style="">(</span><span style="">GraphCoin</span><span style="">,</span><span style=""> </span><span style="">nusers</span><span style="">,</span><span style=""> </span><span style="">nusers</span><span style="">)</span><span style="">    
+</span><span style="">    </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">i</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">nusers</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="">
+</span><span style="">        </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">j</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="">i</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">nusers</span><span style="">
+</span><span style="">            </span><span style="color:#66d9ef">if</span><span style=""> </span><span style="">owing_matrix</span><span style="">[</span><span style="">i</span><span style="">,</span><span style="">j</span><span style="">]</span><span style=""> </span><span style="color:#f92672">&gt;</span><span style=""> </span><span style="">owing_matrix</span><span style="">[</span><span style="">j</span><span style="">,</span><span style="">i</span><span style="">]</span><span style="">
+</span><span style="">                </span><span style="">net_owing</span><span style="">[</span><span style="">i</span><span style="">,</span><span style="">j</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">owing_matrix</span><span style="">[</span><span style="">i</span><span style="">,</span><span style="">j</span><span style="">]</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">owing_matrix</span><span style="">[</span><span style="">j</span><span style="">,</span><span style="">i</span><span style="">]</span><span style="">
+</span><span style="">            </span><span style="color:#66d9ef">elseif</span><span style=""> </span><span style="">owing_matrix</span><span style="">[</span><span style="">i</span><span style="">,</span><span style="">j</span><span style="">]</span><span style=""> </span><span style="color:#f92672">&lt;</span><span style=""> </span><span style="">owing_matrix</span><span style="">[</span><span style="">j</span><span style="">,</span><span style="">i</span><span style="">]</span><span style="">
+</span><span style="">                </span><span style="">net_owing</span><span style="">[</span><span style="">j</span><span style="">,</span><span style="">i</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">owing_matrix</span><span style="">[</span><span style="">j</span><span style="">,</span><span style="">i</span><span style="">]</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">owing_matrix</span><span style="">[</span><span style="">i</span><span style="">,</span><span style="">j</span><span style="">]</span><span style="">
+</span><span style="">            </span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">        </span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="">net_owing</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Matrix</span><span style="">{</span><span style="">GraphCoin</span><span style="">}</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span></code></pre>
+</div>
 
 <p>From that matrix, we should determine the net amount any user owes or is owed:
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #CC3300">&quot;&quot;&quot;</span>
-<span style="color: #CC3300">    What is owed to a given user (negative if user owes money)</span>
-<span style="color: #CC3300">&quot;&quot;&quot;</span>
-<span style="color: #006699; font-weight: bold">function</span> net_owed_user(net_owing<span style="color: #555555">::</span><span style="color: #007788; font-weight: bold">Matrix</span>{GraphCoin})
-    <span style="color: #006699; font-weight: bold">return</span> (sum(net_owing,<span style="color: #FF6600">1</span>)<span style="color: #555555">&#39;</span> <span style="color: #555555">-</span> sum(net_owing,<span style="color: #FF6600">2</span>))[<span style="color: #555555">:</span>,<span style="color: #FF6600">1</span>]
-<span style="color: #006699; font-weight: bold">end</span>
-</pre></div>
-</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    What is owed to a given user (negative if user owes money)
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">function</span><span style=""> </span><span style="">net_owed_user</span><span style="">(</span><span style="">net_owing</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Matrix</span><span style="">{</span><span style="">GraphCoin</span><span style="">})</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="">(</span><span style="">sum</span><span style="">(</span><span style="">net_owing</span><span style="">,</span><span style="color:#ae81ff">1</span><span style="">)</span><span style="color:#960050;background-color:#1e0010">&#39;</span><span style=""> </span><span style="color:#f92672">-</span><span style=""> </span><span style="">sum</span><span style="">(</span><span style="">net_owing</span><span style="">,</span><span style="color:#ae81ff">2</span><span style="">))[</span><span style="color:#f92672">:</span><span style="">,</span><span style="color:#ae81ff">1</span><span style="">]</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span></code></pre>
+</div></p>
 
 <p>The <code>sum</code> function used with <code>1</code> or <code>2</code> sums a matrix over its rows, columns
 respectively. This computes a difference between what a user is owed and what
@@ -454,34 +451,33 @@ the whole package into the namespace. <code>lg</code> has become my usual name f
 LightGraphs package.</p>
 </blockquote>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">function</span> build_graph(net_owing<span style="color: #555555">::</span><span style="color: #007788; font-weight: bold">Matrix</span>{GraphCoin})
-    nusers <span style="color: #555555">=</span> size(net_owing,<span style="color: #FF6600">1</span>)
-    g <span style="color: #555555">=</span> lg<span style="color: #555555">.</span>DiGraph(nusers <span style="color: #555555">+</span> <span style="color: #FF6600">2</span>)
-    source <span style="color: #555555">=</span> nusers <span style="color: #555555">+</span> <span style="color: #FF6600">1</span>
-    sink <span style="color: #555555">=</span> nusers <span style="color: #555555">+</span> <span style="color: #FF6600">2</span>
-    net_user <span style="color: #555555">=</span> net_owed_user(net_owing)
-    v1 <span style="color: #555555">=</span> [idx <span style="color: #006699; font-weight: bold">for</span> idx <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>nusers <span style="color: #006699; font-weight: bold">if</span> net_user[idx] <span style="color: #555555">&lt;</span> <span style="color: #FF6600">0</span>]
-    v2 <span style="color: #555555">=</span> [idx <span style="color: #006699; font-weight: bold">for</span> idx <span style="color: #006699">in</span> <span style="color: #FF6600">1</span><span style="color: #555555">:</span>nusers <span style="color: #006699; font-weight: bold">if</span> net_user[idx] <span style="color: #555555">&gt;=</span> <span style="color: #FF6600">0</span>]
-    capacity <span style="color: #555555">=</span> zeros(GraphCoin, nusers<span style="color: #555555">+</span><span style="color: #FF6600">2</span>,nusers<span style="color: #555555">+</span><span style="color: #FF6600">2</span>)
-    demand <span style="color: #555555">=</span> zeros(GraphCoin, nusers<span style="color: #555555">+</span><span style="color: #FF6600">2</span>,nusers<span style="color: #555555">+</span><span style="color: #FF6600">2</span>)
-    maxcap <span style="color: #555555">=</span> sum(net_owing)
-    <span style="color: #006699; font-weight: bold">for</span> u1 <span style="color: #006699">in</span> v1
-        lg<span style="color: #555555">.</span>add_edge!(g,source,u1)
-        capacity[source,u1] <span style="color: #555555">=</span> <span style="color: #555555">-</span>net_user[u1]
-        <span style="color: #006699; font-weight: bold">for</span> u2 <span style="color: #006699">in</span> v2
-            lg<span style="color: #555555">.</span>add_edge!(g,u1,u2)
-            capacity[u1,u2] <span style="color: #555555">=</span> maxcap
-        <span style="color: #006699; font-weight: bold">end</span>
-    <span style="color: #006699; font-weight: bold">end</span>
-    <span style="color: #006699; font-weight: bold">for</span> u2 <span style="color: #006699">in</span> v2
-        lg<span style="color: #555555">.</span>add_edge!(g,u2,sink)
-        capacity[u2,sink] <span style="color: #555555">=</span> maxcap
-        demand[u2,sink] <span style="color: #555555">=</span> net_user[u2]
-    <span style="color: #006699; font-weight: bold">end</span>
-    (g, capacity, demand)
-<span style="color: #006699; font-weight: bold">end</span>
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span><span style=""> </span><span style="">build_graph</span><span style="">(</span><span style="">net_owing</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Matrix</span><span style="">{</span><span style="">GraphCoin</span><span style="">})</span><span style="">
+</span><span style="">    </span><span style="">nusers</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">size</span><span style="">(</span><span style="">net_owing</span><span style="">,</span><span style="color:#ae81ff">1</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">g</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">DiGraph</span><span style="">(</span><span style="">nusers</span><span style=""> </span><span style="color:#f92672">+</span><span style=""> </span><span style="color:#ae81ff">2</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">source</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">nusers</span><span style=""> </span><span style="color:#f92672">+</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="">
+</span><span style="">    </span><span style="">sink</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">nusers</span><span style=""> </span><span style="color:#f92672">+</span><span style=""> </span><span style="color:#ae81ff">2</span><span style="">
+</span><span style="">    </span><span style="">net_user</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">net_owed_user</span><span style="">(</span><span style="">net_owing</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">v1</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">[</span><span style="">idx</span><span style=""> </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">idx</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">nusers</span><span style=""> </span><span style="color:#66d9ef">if</span><span style=""> </span><span style="">net_user</span><span style="">[</span><span style="">idx</span><span style="">]</span><span style=""> </span><span style="color:#f92672">&lt;</span><span style=""> </span><span style="color:#ae81ff">0</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">v2</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">[</span><span style="">idx</span><span style=""> </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">idx</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">nusers</span><span style=""> </span><span style="color:#66d9ef">if</span><span style=""> </span><span style="">net_user</span><span style="">[</span><span style="">idx</span><span style="">]</span><span style=""> </span><span style="color:#f92672">&gt;=</span><span style=""> </span><span style="color:#ae81ff">0</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="">capacity</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">zeros</span><span style="">(</span><span style="">GraphCoin</span><span style="">,</span><span style=""> </span><span style="">nusers</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="">,</span><span style="">nusers</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">demand</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">zeros</span><span style="">(</span><span style="">GraphCoin</span><span style="">,</span><span style=""> </span><span style="">nusers</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="">,</span><span style="">nusers</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">maxcap</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">sum</span><span style="">(</span><span style="">net_owing</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">u1</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="">v1</span><span style="">
+</span><span style="">        </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">add_edge!</span><span style="">(</span><span style="">g</span><span style="">,</span><span style="">source</span><span style="">,</span><span style="">u1</span><span style="">)</span><span style="">
+</span><span style="">        </span><span style="">capacity</span><span style="">[</span><span style="">source</span><span style="">,</span><span style="">u1</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#f92672">-</span><span style="">net_user</span><span style="">[</span><span style="">u1</span><span style="">]</span><span style="">
+</span><span style="">        </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">u2</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="">v2</span><span style="">
+</span><span style="">            </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">add_edge!</span><span style="">(</span><span style="">g</span><span style="">,</span><span style="">u1</span><span style="">,</span><span style="">u2</span><span style="">)</span><span style="">
+</span><span style="">            </span><span style="">capacity</span><span style="">[</span><span style="">u1</span><span style="">,</span><span style="">u2</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">maxcap</span><span style="">
+</span><span style="">        </span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">u2</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="">v2</span><span style="">
+</span><span style="">        </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">add_edge!</span><span style="">(</span><span style="">g</span><span style="">,</span><span style="">u2</span><span style="">,</span><span style="">sink</span><span style="">)</span><span style="">
+</span><span style="">        </span><span style="">capacity</span><span style="">[</span><span style="">u2</span><span style="">,</span><span style="">sink</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">maxcap</span><span style="">
+</span><span style="">        </span><span style="">demand</span><span style="">[</span><span style="">u2</span><span style="">,</span><span style="">sink</span><span style="">]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">net_user</span><span style="">[</span><span style="">u2</span><span style="">]</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">end</span><span style="">
+</span><span style="">    </span><span style="">(</span><span style="">g</span><span style="">,</span><span style=""> </span><span style="">capacity</span><span style="">,</span><span style=""> </span><span style="">demand</span><span style="">)</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span></code></pre>
+</div>
 
 <p>This function builds our graph structure and all informations we need attached.</p>
 
@@ -497,13 +493,12 @@ using Clp: ClpSolver
 <p>We also need a Linear Programming solver to pass to the flow solver, all we
 have to do is bundle the pieces together:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span><span style="color: #006699; font-weight: bold">function</span> solve_expense(expenses<span style="color: #555555">::</span><span style="color: #007788; font-weight: bold">Vector</span>{Expense}, nusers<span style="color: #555555">::</span><span style="color: #007788; font-weight: bold">Int</span>)
-    (g, capacity, demand) <span style="color: #555555">=</span> build_graph(compute_net_owing(expenses, nusers))
-    flow <span style="color: #555555">=</span> mincost_flow(g, capacity, demand, ones(nusers<span style="color: #555555">+</span><span style="color: #FF6600">2</span>,nusers<span style="color: #555555">+</span><span style="color: #FF6600">2</span>), ClpSolver(), nusers<span style="color: #555555">+</span><span style="color: #FF6600">1</span>, nusers<span style="color: #555555">+</span><span style="color: #FF6600">2</span>)
-    <span style="color: #006699; font-weight: bold">return</span> flow[<span style="color: #FF6600">1</span><span style="color: #555555">:</span><span style="color: #006699; font-weight: bold">end</span><span style="color: #555555">-</span><span style="color: #FF6600">2</span>,<span style="color: #FF6600">1</span><span style="color: #555555">:</span><span style="color: #006699; font-weight: bold">end</span><span style="color: #555555">-</span><span style="color: #FF6600">2</span>]
-<span style="color: #006699; font-weight: bold">end</span>
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span><span style=""> </span><span style="">solve_expense</span><span style="">(</span><span style="">expenses</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span><span style="">{</span><span style="">Expense</span><span style="">},</span><span style=""> </span><span style="">nusers</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="">(</span><span style="">g</span><span style="">,</span><span style=""> </span><span style="">capacity</span><span style="">,</span><span style=""> </span><span style="">demand</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">build_graph</span><span style="">(</span><span style="">compute_net_owing</span><span style="">(</span><span style="">expenses</span><span style="">,</span><span style=""> </span><span style="">nusers</span><span style="">))</span><span style="">
+</span><span style="">    </span><span style="">flow</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">mincost_flow</span><span style="">(</span><span style="">g</span><span style="">,</span><span style=""> </span><span style="">capacity</span><span style="">,</span><span style=""> </span><span style="">demand</span><span style="">,</span><span style=""> </span><span style="">ones</span><span style="">(</span><span style="">nusers</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="">,</span><span style="">nusers</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="">),</span><span style=""> </span><span style="">ClpSolver</span><span style="">(),</span><span style=""> </span><span style="">nusers</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="">,</span><span style=""> </span><span style="">nusers</span><span style="color:#f92672">+</span><span style="color:#ae81ff">2</span><span style="">)</span><span style="">
+</span><span style="">    </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="">flow</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#66d9ef">end</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="">,</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#66d9ef">end</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="">]</span><span style="">
+</span><span style=""></span><span style="color:#66d9ef">end</span></code></pre>
+</div>
 
 <p>We truncate the <code>flow</code> matrix because we are only interested in what users
 are paying each other, not in the flows from and to the source and sink.</p>
@@ -512,14 +507,13 @@ are paying each other, not in the flows from and to the source and sink.</p>
 
 <p>Now that all functions are set, we can use it on any expense problem:</p>
 
-<div class="highlight" style="background: #f0f3f3"><pre style="line-height: 125%"><span></span>expenses <span style="color: #555555">=</span> [
-    Expense(<span style="color: #FF6600">1</span>, <span style="color: #FF6600">10</span>, <span style="color: #007788; font-weight: bold">Set</span>([<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>])),
-    Expense(<span style="color: #FF6600">1</span>, <span style="color: #FF6600">24</span>, <span style="color: #007788; font-weight: bold">Set</span>([<span style="color: #FF6600">1</span>,<span style="color: #FF6600">2</span>,<span style="color: #FF6600">3</span>])),
-    Expense(<span style="color: #FF6600">3</span>, <span style="color: #FF6600">10</span>, <span style="color: #007788; font-weight: bold">Set</span>([<span style="color: #FF6600">2</span>,<span style="color: #FF6600">3</span>]))
-]
-solve_expense(expenses, <span style="color: #FF6600">3</span>)
-</pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">expenses</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">[</span><span style="">
+</span><span style="">    </span><span style="">Expense</span><span style="">(</span><span style="color:#ae81ff">1</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">10</span><span style="">,</span><span style=""> </span><span style="color:#66d9ef">Set</span><span style="">([</span><span style="color:#ae81ff">1</span><span style="">,</span><span style="color:#ae81ff">2</span><span style="">])),</span><span style="">
+</span><span style="">    </span><span style="">Expense</span><span style="">(</span><span style="color:#ae81ff">1</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">24</span><span style="">,</span><span style=""> </span><span style="color:#66d9ef">Set</span><span style="">([</span><span style="color:#ae81ff">1</span><span style="">,</span><span style="color:#ae81ff">2</span><span style="">,</span><span style="color:#ae81ff">3</span><span style="">])),</span><span style="">
+</span><span style="">    </span><span style="">Expense</span><span style="">(</span><span style="color:#ae81ff">3</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">10</span><span style="">,</span><span style=""> </span><span style="color:#66d9ef">Set</span><span style="">([</span><span style="color:#ae81ff">2</span><span style="">,</span><span style="color:#ae81ff">3</span><span style="">]))</span><span style="">
+</span><span style=""></span><span style="">]</span><span style="">
+</span><span style=""></span><span style="">solve_expense</span><span style="">(</span><span style="">expenses</span><span style="">,</span><span style=""> </span><span style="color:#ae81ff">3</span><span style="">)</span></code></pre>
+</div>
 
 <pre><code>3×3 Array{Float64,2}:
   0.0  0.0  0.0
