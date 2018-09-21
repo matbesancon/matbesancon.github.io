@@ -75,15 +75,6 @@
     </item>
     
     <item>
-      <title>Distributions</title>
-      <link>https://matbesancon.github.io/tags/distributions/</link>
-      <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/distributions/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Engineering</title>
       <link>https://matbesancon.github.io/tags/engineering/</link>
       <pubDate>Sat, 21 May 2016 00:00:00 +0200</pubDate>
@@ -143,6 +134,15 @@
       <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/tags/integer-optimization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Interface</title>
+      <link>https://matbesancon.github.io/tags/interface/</link>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/interface/</guid>
       <description></description>
     </item>
     

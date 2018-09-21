@@ -7,17 +7,8 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Tue, 04 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 10 Jan 2018 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/julia-package/" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>Mixed continuous-discrete distributions</title>
-      <link>https://matbesancon.github.io/project/mixed_distributions/</link>
-      <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://matbesancon.github.io/project/mixed_distributions/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>JuliaGraphs contributions</title>
