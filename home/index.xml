@@ -8,7 +8,64 @@
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
     <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/home/" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="https://matbesancon.github.io/home/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>https://matbesancon.github.io/home/about/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/home/about/</guid>
+      <description>Biography I&amp;rsquo;m a PhD student in a double program between Ecole Polytechnique of Montréal, at the GERAD lab and the INOCS team at INRIA Lille, in applied mathematics for energy systems (smart grids). Other fields of interest include data science, machine learning, signal processing. Before that I worked in various industries, from an IoT startup to steel manufacturing and studied at the UTC and (a bit) at the TUBS.</description>
+    </item>
+    
+    <item>
+      <title>Recent &amp; Upcoming Talks</title>
+      <link>https://matbesancon.github.io/home/talks/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/home/talks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Recent Posts</title>
+      <link>https://matbesancon.github.io/home/posts/</link>
+      <pubDate>Sun, 10 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/home/posts/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Projects</title>
+      <link>https://matbesancon.github.io/home/projects/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/home/projects/</guid>
+      <description>Different projects, open-source and (hope soon) academic.</description>
+    </item>
+    
+    <item>
+      <title>Experiences</title>
+      <link>https://matbesancon.github.io/home/experiences/</link>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/home/experiences/</guid>
+      <description>Prior to the PhD program, I had several long experiences combining data, applied mathematics, programming and algorithms:
+ Equisense: research engineer, data scientist and back-end developer. Several posts I wrote are from the time there. Siemens: Master Thesis on the development of alarm chain building algorithms for automated industrial systems ArcelorMittal: 6-month internship, using data analysis and process improvement methodologies to tackle production-stopping phenomena on steel rolling mills  </description>
+    </item>
+    
+    <item>
+      <title>Contact</title>
+      <link>https://matbesancon.github.io/home/contact/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/home/contact/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

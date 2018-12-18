@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.28" />
+  <meta name="generator" content="Hugo 0.52" />
   <meta name="author" content="Mathieu Besançon">
   <meta name="description" content="PhD student in applied mathematics for energy systems">
 
@@ -300,11 +300,10 @@ to a node $j$, therefore all the information of a graph can be kept as an
 <p>We don&rsquo;t know what the use cases for our type will be, and therefore,
 we will parametrize the graph type over the matrix type:</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span><span style=""> </span><span style="">LightGraphs</span><span style="">;</span><span style=""> </span><span style="color:#66d9ef">const</span><span style=""> </span><span style="">lg</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">LightGraphs</span><span style="">
-</span><span style=""></span><span style="">mutable</span><span style=""> </span><span style="">struct</span><span style=""> </span><span style="">MatrixDiGraph</span><span style="">{</span><span style="">MT</span><span style=""> </span><span style="color:#f92672">&lt;:</span><span style=""> </span><span style="color:#66d9ef">AbstractMatrix</span><span style="">{</span><span style="color:#66d9ef">Bool</span><span style="">}}</span><span style=""> </span><span style="color:#f92672">&lt;:</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">AbstractGraph</span><span style="">{</span><span style="color:#66d9ef">Int</span><span style="">}</span><span style="">
-</span><span style="">  </span><span style="">matrix</span><span style="color:#f92672">::</span><span style="">MT</span><span style="">
-</span><span style=""></span><span style="color:#66d9ef">end</span></code></pre>
-</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> LightGraphs; <span style="color:#66d9ef">const</span> lg <span style="color:#f92672">=</span> LightGraphs
+mutable struct MatrixDiGraph{MT <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">AbstractMatrix</span>{<span style="color:#66d9ef">Bool</span>}} <span style="color:#f92672">&lt;:</span> lg<span style="color:#f92672">.</span>AbstractGraph{<span style="color:#66d9ef">Int</span>}
+  matrix<span style="color:#f92672">::</span>MT
+<span style="color:#66d9ef">end</span></code></pre></div>
 
 <p>The edges are simply mapping an entry (i,j) to a boolean (whether there is an
 edge from i to j). Even though creating a graph type that can be directed
@@ -320,18 +319,17 @@ with methods defined over the type itself, of the form <code>function(g::MyType)
 by checking the help in a Julia REPL: <code>?LightGraphs.vertices</code> or on the
 <a href="http://juliagraphs.github.io/LightGraphs.jl/stable/types.html#AbstractGraph-Type-1" target="_blank">documentation page</a>.</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">lg</span><span style="color:#f92672">.</span><span style="">is_directed</span><span style="">(</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">true</span><span style="">
-</span><span style=""></span><span style="">lg</span><span style="color:#f92672">.</span><span style="">edgetype</span><span style="">(</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">SimpleGraphs</span><span style="color:#f92672">.</span><span style="">SimpleEdge</span><span style="">{</span><span style="color:#66d9ef">Int</span><span style="">}</span><span style="">
-</span><span style=""></span><span style="">lg</span><span style="color:#f92672">.</span><span style="">ne</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">sum</span><span style="">(</span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="">lg</span><span style="color:#f92672">.</span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">size</span><span style="">(</span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">)[</span><span style="color:#ae81ff">1</span><span style="">]</span><span style="">
-</span><span style="">
-</span><span style=""></span><span style="">lg</span><span style="color:#f92672">.</span><span style="">vertices</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style="">
-</span><span style="">
-</span><span style=""></span><span style="color:#66d9ef">function</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">edges</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style="">
-</span><span style="">    </span><span style="">n</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style="">
-</span><span style="">    </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="">(</span><span style="">lg</span><span style="color:#f92672">.</span><span style="">SimpleGraphs</span><span style="color:#f92672">.</span><span style="">SimpleEdge</span><span style="">(</span><span style="">i</span><span style="">,</span><span style="">j</span><span style="">)</span><span style=""> </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">i</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">n</span><span style=""> </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">j</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">n</span><span style=""> </span><span style="color:#66d9ef">if</span><span style=""> </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">[</span><span style="">i</span><span style="">,</span><span style="">j</span><span style="">])</span><span style="">
-</span><span style=""></span><span style="color:#66d9ef">end</span></code></pre>
-</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">lg<span style="color:#f92672">.</span>is_directed(<span style="color:#f92672">::</span>MatrixDiGraph) <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+lg<span style="color:#f92672">.</span>edgetype(<span style="color:#f92672">::</span>MatrixDiGraph) <span style="color:#f92672">=</span> lg<span style="color:#f92672">.</span>SimpleGraphs<span style="color:#f92672">.</span>SimpleEdge{<span style="color:#66d9ef">Int</span>}
+lg<span style="color:#f92672">.</span>ne(g<span style="color:#f92672">::</span>MatrixDiGraph) <span style="color:#f92672">=</span> sum(g<span style="color:#f92672">.</span>m)
+lg<span style="color:#f92672">.</span>nv(g<span style="color:#f92672">::</span>MatrixDiGraph) <span style="color:#f92672">=</span> size(g<span style="color:#f92672">.</span>m)[<span style="color:#ae81ff">1</span>]
+
+lg<span style="color:#f92672">.</span>vertices(g<span style="color:#f92672">::</span>MatrixDiGraph) <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>nv(g)
+
+<span style="color:#66d9ef">function</span> lg<span style="color:#f92672">.</span>edges(g<span style="color:#f92672">::</span>MatrixDiGraph)
+    n <span style="color:#f92672">=</span> lg<span style="color:#f92672">.</span>nv(g)
+    <span style="color:#66d9ef">return</span> (lg<span style="color:#f92672">.</span>SimpleGraphs<span style="color:#f92672">.</span>SimpleEdge(i,j) <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>n <span style="color:#66d9ef">for</span> j <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>n <span style="color:#66d9ef">if</span> g<span style="color:#f92672">.</span>m[i,j])
+<span style="color:#66d9ef">end</span></code></pre></div>
 
 <p>Note the last function <code>edges</code>, for which the documentation specifies that we
 need to return an <strong>iterator</strong> over edges. We don&rsquo;t need to collect the comprehension
@@ -339,10 +337,9 @@ in a Vector, returning a lazy generator.</p>
 
 <p>Some operations have to be defined on both the graph and a node, of the form
 <code>function(g::MyType, node)</code>.
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">lg</span><span style="color:#f92672">.</span><span style="">outneighbors</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">,</span><span style=""> </span><span style="">node</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">[</span><span style="">v</span><span style=""> </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">v</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">lg</span><span style="color:#f92672">.</span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style=""> </span><span style="color:#66d9ef">if</span><span style=""> </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">[</span><span style="">node</span><span style="">,</span><span style=""> </span><span style="">v</span><span style="">]]</span><span style="">
-</span><span style=""></span><span style="">lg</span><span style="color:#f92672">.</span><span style="">inneighbors</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">,</span><span style=""> </span><span style="">node</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">[</span><span style="">v</span><span style=""> </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">v</span><span style=""> </span><span style="color:#66d9ef">in</span><span style=""> </span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">lg</span><span style="color:#f92672">.</span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style=""> </span><span style="color:#66d9ef">if</span><span style=""> </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">[</span><span style="">v</span><span style="">,</span><span style=""> </span><span style="">node</span><span style="">]]</span><span style="">
-</span><span style=""></span><span style="">lg</span><span style="color:#f92672">.</span><span style="">has_vertex</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">,</span><span style=""> </span><span style="">v</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Integer</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">v</span><span style=""> </span><span style="color:#f92672">&lt;=</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&amp;&amp;</span><span style=""> </span><span style="">v</span><span style=""> </span><span style="color:#f92672">&gt;</span><span style=""> </span><span style="color:#ae81ff">0</span></code></pre>
-</div></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">lg<span style="color:#f92672">.</span>outneighbors(g<span style="color:#f92672">::</span>MatrixDiGraph, node) <span style="color:#f92672">=</span> [v <span style="color:#66d9ef">for</span> v <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>lg<span style="color:#f92672">.</span>nv(g) <span style="color:#66d9ef">if</span> g<span style="color:#f92672">.</span>m[node, v]]
+lg<span style="color:#f92672">.</span>inneighbors(g<span style="color:#f92672">::</span>MatrixDiGraph, node) <span style="color:#f92672">=</span> [v <span style="color:#66d9ef">for</span> v <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>lg<span style="color:#f92672">.</span>nv(g) <span style="color:#66d9ef">if</span> g<span style="color:#f92672">.</span>m[v, node]]
+lg<span style="color:#f92672">.</span>has_vertex(g<span style="color:#f92672">::</span>MatrixDiGraph, v<span style="color:#f92672">::</span><span style="color:#66d9ef">Integer</span>) <span style="color:#f92672">=</span> v <span style="color:#f92672">&lt;=</span> lg<span style="color:#f92672">.</span>nv(g) <span style="color:#f92672">&amp;&amp;</span> v <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span></code></pre></div></p>
 
 <p>Out <code>MatrixDiGraph</code> type is pretty straight-forward to work with and all
 required methods are easy to relate to the way information is stored in the
@@ -350,8 +347,7 @@ adjacency matrix.</p>
 
 <p>The last step is implementing methods on both the graph and an edge of the
 form <code>function(g::MatrixDiGraph,e)</code>. The only one we need here is:
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="">lg</span><span style="color:#f92672">.</span><span style="">has_edge</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">,</span><span style="">i</span><span style="">,</span><span style="">j</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">[</span><span style="">i</span><span style="">,</span><span style="">j</span><span style="">]</span></code></pre>
-</div></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">lg<span style="color:#f92672">.</span>has_edge(g<span style="color:#f92672">::</span>MatrixDiGraph,i,j) <span style="color:#f92672">=</span> g<span style="color:#f92672">.</span>m[i,j]</code></pre></div></p>
 
 <h2 id="optional-mutability">Optional mutability</h2>
 
@@ -361,41 +357,39 @@ The general behavior for operations mutating a graph is to return whether
 the operation succeded. They consist in adding or removing elements from
 either the edges or nodes.</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span><span style=""> </span><span style="">LightGraphs</span><span style="color:#f92672">:</span><span style=""> </span><span style="">rem_edge!</span><span style="">,</span><span style=""> </span><span style="">rem_vertex!</span><span style="">,</span><span style=""> </span><span style="">add_edge!</span><span style="">,</span><span style=""> </span><span style="">add_vertex!</span><span style="">
-</span><span style="">
-</span><span style=""></span><span style="color:#66d9ef">function</span><span style=""> </span><span style="">add_edge!</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">,</span><span style=""> </span><span style="">e</span><span style="">)</span><span style="">
-</span><span style="">    </span><span style="">has_edge</span><span style="">(</span><span style="">g</span><span style="">,</span><span style="">e</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&amp;&amp;</span><span style=""> </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="color:#66d9ef">false</span><span style="">
-</span><span style="">    </span><span style="">n</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style="">
-</span><span style="">    </span><span style="">(</span><span style="">src</span><span style="">(</span><span style="">e</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&gt;</span><span style=""> </span><span style="">n</span><span style=""> </span><span style="color:#f92672">||</span><span style=""> </span><span style="">dst</span><span style="">(</span><span style="">e</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&gt;</span><span style=""> </span><span style="">n</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&amp;&amp;</span><span style=""> </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="color:#66d9ef">false</span><span style="">
-</span><span style="">    </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">[</span><span style="">src</span><span style="">(</span><span style="">e</span><span style="">),</span><span style="">dst</span><span style="">(</span><span style="">e</span><span style="">)]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">true</span><span style="">
-</span><span style=""></span><span style="color:#66d9ef">end</span><span style="">
-</span><span style="">
-</span><span style=""></span><span style="color:#66d9ef">function</span><span style=""> </span><span style="">rem_edge!</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">,</span><span style="">e</span><span style="">)</span><span style="">
-</span><span style="">    </span><span style="">has_edge</span><span style="">(</span><span style="">g</span><span style="">,</span><span style="">e</span><span style="">)</span><span style=""> </span><span style="color:#f92672">||</span><span style=""> </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="color:#66d9ef">false</span><span style="">
-</span><span style="">    </span><span style="">n</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style="">
-</span><span style="">    </span><span style="">(</span><span style="">src</span><span style="">(</span><span style="">e</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&gt;</span><span style=""> </span><span style="">n</span><span style=""> </span><span style="color:#f92672">||</span><span style=""> </span><span style="">dst</span><span style="">(</span><span style="">e</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&gt;</span><span style=""> </span><span style="">n</span><span style="">)</span><span style=""> </span><span style="color:#f92672">&amp;&amp;</span><span style=""> </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="color:#66d9ef">false</span><span style="">
-</span><span style="">    </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">[</span><span style="">src</span><span style="">(</span><span style="">e</span><span style="">),</span><span style="">dst</span><span style="">(</span><span style="">e</span><span style="">)]</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">false</span><span style="">
-</span><span style="">    </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="color:#66d9ef">true</span><span style="">
-</span><span style=""></span><span style="color:#66d9ef">end</span><span style="">
-</span><span style="">
-</span><span style=""></span><span style="color:#66d9ef">function</span><span style=""> </span><span style="">add_vertex!</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style="">
-</span><span style="">    </span><span style="">n</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">nv</span><span style="">(</span><span style="">g</span><span style="">)</span><span style="">
-</span><span style="">    </span><span style="">m</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">zeros</span><span style="">(</span><span style="color:#66d9ef">Bool</span><span style="">,</span><span style="">n</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="">,</span><span style="">n</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="">)</span><span style="">
-</span><span style="">    </span><span style="">m</span><span style="">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">n</span><span style="">,</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="">n</span><span style="">]</span><span style=""> </span><span style="color:#f92672">.=</span><span style=""> </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">
-</span><span style="">    </span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">m</span><span style="">
-</span><span style="">    </span><span style="color:#66d9ef">return</span><span style=""> </span><span style="color:#66d9ef">true</span><span style="">
-</span><span style=""></span><span style="color:#66d9ef">end</span></code></pre>
-</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> LightGraphs<span style="color:#f92672">:</span> rem_edge!, rem_vertex!, add_edge!, add_vertex!
+
+<span style="color:#66d9ef">function</span> add_edge!(g<span style="color:#f92672">::</span>MatrixDiGraph, e)
+    has_edge(g,e) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+    n <span style="color:#f92672">=</span> nv(g)
+    (src(e) <span style="color:#f92672">&gt;</span> n <span style="color:#f92672">||</span> dst(e) <span style="color:#f92672">&gt;</span> n) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+    g<span style="color:#f92672">.</span>m[src(e),dst(e)] <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> rem_edge!(g<span style="color:#f92672">::</span>MatrixDiGraph,e)
+    has_edge(g,e) <span style="color:#f92672">||</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+    n <span style="color:#f92672">=</span> nv(g)
+    (src(e) <span style="color:#f92672">&gt;</span> n <span style="color:#f92672">||</span> dst(e) <span style="color:#f92672">&gt;</span> n) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+    g<span style="color:#f92672">.</span>m[src(e),dst(e)] <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> add_vertex!(g<span style="color:#f92672">::</span>MatrixDiGraph)
+    n <span style="color:#f92672">=</span> nv(g)
+    m <span style="color:#f92672">=</span> zeros(<span style="color:#66d9ef">Bool</span>,n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>,n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
+    m[<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>n,<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>n] <span style="color:#f92672">.=</span> g<span style="color:#f92672">.</span>m
+    g<span style="color:#f92672">.</span>m <span style="color:#f92672">=</span> m
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
 
 <h2 id="testing-our-graph-type-on-real-data">Testing our graph type on real data</h2>
 
 <p>We will use the graph type to compute the PageRank of</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span><span style=""> </span><span style="">SNAPDatasets</span><span style="">
-</span><span style=""></span><span style="">data</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">SNAPDatasets</span><span style="color:#f92672">.</span><span style="">loadsnap</span><span style="">(</span><span style="color:#f92672">:</span><span style="">ego_twitter_d</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="">twitter_graph</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">MatrixDiGraph</span><span style="">(</span><span style="">lg</span><span style="color:#f92672">.</span><span style="">adjacency_matrix</span><span style="">(</span><span style="">data</span><span style="">)[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span><span style="">,</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span><span style="">]</span><span style="color:#f92672">.==</span><span style="color:#ae81ff">1</span><span style="">);</span><span style="">
-</span><span style=""></span><span style="">ranks</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">pagerank</span><span style="">(</span><span style="">twitter_graph</span><span style="">)</span></code></pre>
-</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> SNAPDatasets
+data <span style="color:#f92672">=</span> SNAPDatasets<span style="color:#f92672">.</span>loadsnap(<span style="color:#f92672">:</span>ego_twitter_d)
+twitter_graph <span style="color:#f92672">=</span> MatrixDiGraph(lg<span style="color:#f92672">.</span>adjacency_matrix(data)[<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>]<span style="color:#f92672">.==</span><span style="color:#ae81ff">1</span>);
+ranks <span style="color:#f92672">=</span> lg<span style="color:#f92672">.</span>pagerank(twitter_graph)</code></pre></div>
 
 <p>Note the broadcast check <code>.==1</code>, <code>adjacency_matrix</code> is specified to yield a
 matrix of <code>Int</code>, so we use this to cast the entries to boolean values.</p>
@@ -411,14 +405,13 @@ graph type, some functions might have smarter implementations, let&rsquo;s see o
 example. What <code>MatrixDiGraph</code> is already an <code>adjacency_matrix</code>, so we know
 there should be no computation required to return it (it&rsquo;s almost a no-op).</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span><span style=""> </span><span style="">BenchmarkTools</span><span style="color:#f92672">:</span><span style=""> </span><span style="color:#a6e22e">@btime</span><span style="">
-</span><span style="">
-</span><span style=""></span><span style="color:#a6e22e">@btime</span><span style=""> </span><span style="">adjacency_matrix</span><span style="">(</span><span style="">bigger_twitter</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="">println</span><span style="">(</span><span style="color:#e6db74">&#34;why did that take so long?&#34;</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="">lg</span><span style="color:#f92672">.</span><span style="">adjacency_matrix</span><span style="">(</span><span style="">g</span><span style="color:#f92672">::</span><span style="">MatrixDiGraph</span><span style="">)</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#66d9ef">Int</span><span style="color:#f92672">.</span><span style="">(</span><span style="">g</span><span style="color:#f92672">.</span><span style="">m</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="color:#a6e22e">@btime</span><span style=""> </span><span style="">A</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">lg</span><span style="color:#f92672">.</span><span style="">adjacency_matrix</span><span style="">(</span><span style="">bigger_twitter</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="">println</span><span style="">(</span><span style="color:#e6db74">&#34;that&#39;s better.&#34;</span><span style="">)</span></code></pre>
-</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span> BenchmarkTools<span style="color:#f92672">:</span> <span style="color:#a6e22e">@btime</span>
+
+<span style="color:#a6e22e">@btime</span> adjacency_matrix(bigger_twitter)
+println(<span style="color:#e6db74">&#34;why did that take so long?&#34;</span>)
+lg<span style="color:#f92672">.</span>adjacency_matrix(g<span style="color:#f92672">::</span>MatrixDiGraph) <span style="color:#f92672">=</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">.</span>(g<span style="color:#f92672">.</span>m)
+<span style="color:#a6e22e">@btime</span> A <span style="color:#f92672">=</span> lg<span style="color:#f92672">.</span>adjacency_matrix(bigger_twitter)
+println(<span style="color:#e6db74">&#34;that&#39;s better.&#34;</span>)</code></pre></div>
 
 <p>This should yield roughly:</p>
 

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.28" />
+  <meta name="generator" content="Hugo 0.52" />
   <meta name="author" content="Mathieu Besançon">
   <meta name="description" content="PhD student in applied mathematics for energy systems">
 
@@ -313,15 +313,14 @@ but feel free to keep your favorite tools.</p>
 <p>So our first lines of code (once you placed your data in the proper repository)
 should look like this:</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span><span style=""> </span><span style="">numpy</span><span style=""> </span><span style="color:#f92672">as</span><span style=""> </span><span style="">np</span><span style="">
-</span><span style=""></span><span style="color:#f92672">import</span><span style=""> </span><span style="">pandas</span><span style=""> </span><span style="color:#f92672">as</span><span style=""> </span><span style="">pd</span><span style="">
-</span><span style=""></span><span style="color:#f92672">import</span><span style=""> </span><span style="">ggplot</span><span style="">
-</span><span style=""></span><span style="color:#f92672">from</span><span style=""> </span><span style="">matplotlib</span><span style=""> </span><span style="color:#f92672">import</span><span style=""> </span><span style="">pyplot</span><span style=""> </span><span style="color:#66d9ef">as</span><span style=""> </span><span style="">plt</span><span style="">
-</span><span style=""></span><span style="color:#f92672">import</span><span style=""> </span><span style="">scipy.stats</span><span style=""> </span><span style="color:#f92672">as</span><span style=""> </span><span style="">stats</span><span style="">
-</span><span style=""></span><span style="color:#f92672">import</span><span style=""> </span><span style="">scipy.spatial.distance</span><span style="">
-</span><span style=""></span><span style="color:#f92672">from</span><span style=""> </span><span style="">collections</span><span style=""> </span><span style="color:#f92672">import</span><span style=""> </span><span style="">Counter</span><span style="">
-</span><span style=""></span><span style="color:#f92672">import</span><span style=""> </span><span style="">urllib3</span></code></pre>
-</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
+<span style="color:#f92672">import</span> ggplot
+<span style="color:#f92672">from</span> matplotlib <span style="color:#f92672">import</span> pyplot <span style="color:#66d9ef">as</span> plt
+<span style="color:#f92672">import</span> scipy.stats <span style="color:#f92672">as</span> stats
+<span style="color:#f92672">import</span> scipy.spatial.distance
+<span style="color:#f92672">from</span> collections <span style="color:#f92672">import</span> Counter
+<span style="color:#f92672">import</span> urllib3</code></pre></div>
 
 <h3 id="source-files">Source files</h3>
 
@@ -344,23 +343,21 @@ project, especially if you were not involved in the data collection process.</p>
 <p>Instead of manually downloading the data and placing it in our project
 repository, we will download using the <em>urllib3</em> library.</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="">url</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;https://archive.ics.uci.edu/ml/machine-learning-databases/00267/data_banknote_authentication.txt&#34;</span><span style="">
-</span><span style=""></span><span style="">http</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">urllib3</span><span style="color:#f92672">.</span><span style="">PoolManager</span><span style="">()</span><span style="">
-</span><span style=""></span><span style="">r</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">http</span><span style="color:#f92672">.</span><span style="">request</span><span style="">(</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;GET&#39;</span><span style="">,</span><span style="">url</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="color:#66d9ef">with</span><span style=""> </span><span style="">open</span><span style="">(</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;data_banknote_authentication.txt&#34;</span><span style="">,</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;wb&#39;</span><span style="">)</span><span style=""> </span><span style="color:#66d9ef">as</span><span style=""> </span><span style="">f</span><span style="">:</span><span style="">
-</span><span style="">  </span><span style="">f</span><span style="color:#f92672">.</span><span style="">write</span><span style="">(</span><span style="">r</span><span style="color:#f92672">.</span><span style="">data</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="">r</span><span style="color:#f92672">.</span><span style="">release_conn</span><span style="">()</span><span style="">
-</span><span style=""></span><span style="">data0</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">pd</span><span style="color:#f92672">.</span><span style="">read_csv</span><span style="">(</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;data_banknote_authentication.txt&#34;</span><span style="">,</span><span style="">
-</span><span style="">  </span><span style="">names</span><span style="color:#f92672">=</span><span style="">[</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;vari&#34;</span><span style="">,</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;skew&#34;</span><span style="">,</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;kurtosis&#34;</span><span style="">,</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;entropy&#34;</span><span style="">,</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;class&#34;</span><span style="">])</span></code></pre>
-</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://archive.ics.uci.edu/ml/machine-learning-databases/00267/data_banknote_authentication.txt&#34;</span>
+http <span style="color:#f92672">=</span> urllib3<span style="color:#f92672">.</span>PoolManager()
+r <span style="color:#f92672">=</span> http<span style="color:#f92672">.</span>request(<span style="color:#e6db74">&#39;GET&#39;</span>,url)
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;data_banknote_authentication.txt&#34;</span>,<span style="color:#e6db74">&#39;wb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+  f<span style="color:#f92672">.</span>write(r<span style="color:#f92672">.</span>data)
+r<span style="color:#f92672">.</span>release_conn()
+data0 <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#34;data_banknote_authentication.txt&#34;</span>,
+  names<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;vari&#34;</span>,<span style="color:#e6db74">&#34;skew&#34;</span>,<span style="color:#e6db74">&#34;kurtosis&#34;</span>,<span style="color:#e6db74">&#34;entropy&#34;</span>,<span style="color:#e6db74">&#34;class&#34;</span>])</code></pre></div>
 
 <h2 id="key-statistics-and-overview">Key statistics and overview</h2>
 
 <p>Since the data were loaded using pandas, key methods of the DataFrame
 object can be used to find some key information in the data.</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="">data0</span><span style="color:#f92672">.</span><span style="">describe</span><span style="">()</span></code></pre>
-</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data0<span style="color:#f92672">.</span>describe()</code></pre></div>
 
 <table>
 <thead>
@@ -467,14 +464,13 @@ The estimate can also be split by class to find differences in the
 distributions. Using ggplot and the pandas <code>groupby</code> method, the
 plots can be generated and saved as such:</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span><span style=""> </span><span style="">v</span><span style=""> </span><span style="color:#f92672">in</span><span style=""> </span><span style="">data0</span><span style="color:#f92672">.</span><span style="">columns</span><span style="">[:</span><span style="color:#ae81ff">4</span><span style="">]:</span><span style="">
-</span><span style=""></span><span style="">ggplot</span><span style="color:#f92672">.</span><span style="">ggsave</span><span style="">(</span><span style="">
-</span><span style="">  </span><span style="">ggplot</span><span style="color:#f92672">.</span><span style="">ggplot</span><span style="">(</span><span style="">ggplot</span><span style="color:#f92672">.</span><span style="">aes</span><span style="">(</span><span style="">x</span><span style="color:#f92672">=</span><span style="">v</span><span style="">,</span><span style=""> </span><span style="">color</span><span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;class&#39;</span><span style="">),</span><span style="">data</span><span style="color:#f92672">=</span><span style="">data0</span><span style="">)</span><span style="color:#f92672">+</span><span style="">
-</span><span style="">  </span><span style="">ggplot</span><span style="color:#f92672">.</span><span style="">geom_density</span><span style="">()</span><span style="color:#f92672">+</span><span style="">
-</span><span style="">  </span><span style="">ggplot</span><span style="color:#f92672">.</span><span style="">geom_point</span><span style="">(</span><span style="">ggplot</span><span style="color:#f92672">.</span><span style="">aes</span><span style="">(</span><span style="">y</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span><span style="">),</span><span style="">alpha</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0.2</span><span style="">)</span><span style="color:#f92672">+</span><span style="">
-</span><span style="">  </span><span style="">ggplot</span><span style="color:#f92672">.</span><span style="">labs</span><span style="">(</span><span style="">title</span><span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;KDE &#39;</span><span style="color:#f92672">+</span><span style="">v</span><span style="">,</span><span style="">x</span><span style="color:#f92672">=</span><span style="">v</span><span style="">,</span><span style="">y</span><span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;KDE&#34;</span><span style="">),</span><span style="">
-</span><span style="">  </span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;KDE_&#39;</span><span style="color:#f92672">+</span><span style="">v</span><span style="color:#f92672">+</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;.png&#39;</span><span style="">,</span><span style="">width</span><span style="color:#f92672">=</span><span style="color:#ae81ff">18</span><span style="">,</span><span style="">height</span><span style="color:#f92672">=</span><span style="color:#ae81ff">12</span><span style="">)</span></code></pre>
-</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> v <span style="color:#f92672">in</span> data0<span style="color:#f92672">.</span>columns[:<span style="color:#ae81ff">4</span>]:
+ggplot<span style="color:#f92672">.</span>ggsave(
+  ggplot<span style="color:#f92672">.</span>ggplot(ggplot<span style="color:#f92672">.</span>aes(x<span style="color:#f92672">=</span>v, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;class&#39;</span>),data<span style="color:#f92672">=</span>data0)<span style="color:#f92672">+</span>
+  ggplot<span style="color:#f92672">.</span>geom_density()<span style="color:#f92672">+</span>
+  ggplot<span style="color:#f92672">.</span>geom_point(ggplot<span style="color:#f92672">.</span>aes(y<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.2</span>)<span style="color:#f92672">+</span>
+  ggplot<span style="color:#f92672">.</span>labs(title<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;KDE &#39;</span><span style="color:#f92672">+</span>v,x<span style="color:#f92672">=</span>v,y<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;KDE&#34;</span>),
+  <span style="color:#e6db74">&#39;KDE_&#39;</span><span style="color:#f92672">+</span>v<span style="color:#f92672">+</span><span style="color:#e6db74">&#39;.png&#39;</span>,width<span style="color:#f92672">=</span><span style="color:#ae81ff">18</span>,height<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)</code></pre></div>
 
 <p><img src="/img/posts/BankNotes/figures/KDE_entropy.png" alt="" />
 <img src="/img/posts/BankNotes/figures/KDE_Vari.png" alt="" />
@@ -489,10 +485,9 @@ categories than the Kurtosis.</p>
 
 <p>We generate a color list using for-comprehension:</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="">col</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">list</span><span style="">(</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;r&#39;</span><span style=""> </span><span style="color:#66d9ef">if</span><span style=""> </span><span style="">i</span><span style="color:#f92672">==</span><span style="color:#ae81ff">1</span><span style=""> </span><span style="color:#66d9ef">else</span><span style=""> </span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;b&#39;</span><span style=""> </span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">i</span><span style=""> </span><span style="color:#f92672">in</span><span style=""> </span><span style="">data0</span><span style="">[</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;class&#34;</span><span style="">])</span><span style="">
-</span><span style=""></span><span style="">pd</span><span style="color:#f92672">.</span><span style="">tools</span><span style="color:#f92672">.</span><span style="">plotting</span><span style="color:#f92672">.</span><span style="">scatter_matrix</span><span style="">(</span><span style="">data0</span><span style="color:#f92672">.</span><span style="">ix</span><span style="">[:,:</span><span style="color:#ae81ff">4</span><span style="">],</span><span style="">figsize</span><span style="color:#f92672">=</span><span style="">(</span><span style="color:#ae81ff">6</span><span style="">,</span><span style="color:#ae81ff">3</span><span style="">),</span><span style="">
-</span><span style=""></span><span style="">color</span><span style="color:#f92672">=</span><span style="">col</span><span style="">,</span><span style="">diagonal</span><span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;kde&#39;</span><span style="">)</span></code></pre>
-</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">col <span style="color:#f92672">=</span> list(<span style="color:#e6db74">&#39;r&#39;</span> <span style="color:#66d9ef">if</span> i<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> data0[<span style="color:#e6db74">&#34;class&#34;</span>])
+pd<span style="color:#f92672">.</span>tools<span style="color:#f92672">.</span>plotting<span style="color:#f92672">.</span>scatter_matrix(data0<span style="color:#f92672">.</span>ix[:,:<span style="color:#ae81ff">4</span>],figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">3</span>),
+color<span style="color:#f92672">=</span>col,diagonal<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;kde&#39;</span>)</code></pre></div>
 
 <p><img src="/img/posts/BankNotes/figures/scatter_matrix.png" alt="Scatter matrix: red dots represent the class &quot;1&quot;" /></p>
 
@@ -508,26 +503,25 @@ some techniques based on independent features might not be efficient here.</p>
 
 <h2 id="testing-a-distribution-with-quantile-quantile-plots">Testing a distribution with Quantile-Quantile plots</h2>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Subsetting the data by class</span><span style="">
-</span><span style=""></span><span style="">d0</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">data0</span><span style="">[</span><span style="">data0</span><span style="">[</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;class&#34;</span><span style="">]</span><span style="color:#f92672">==</span><span style="color:#ae81ff">0</span><span style="">]</span><span style="">
-</span><span style=""></span><span style="">d1</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">data0</span><span style="">[</span><span style="">data0</span><span style="">[</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;class&#34;</span><span style="">]</span><span style="color:#f92672">==</span><span style="color:#ae81ff">1</span><span style="">]</span><span style="">
-</span><span style="">
-</span><span style=""></span><span style="color:#75715e"># For each variable</span><span style="">
-</span><span style=""></span><span style="color:#66d9ef">for</span><span style=""> </span><span style="">v</span><span style=""> </span><span style="color:#f92672">in</span><span style=""> </span><span style="">data0</span><span style="color:#f92672">.</span><span style="">columns</span><span style="">[:</span><span style="color:#ae81ff">4</span><span style="">]:</span><span style="">
-</span><span style=""></span><span style="color:#75715e">#set the figure size</span><span style="">
-</span><span style=""></span><span style="">plt</span><span style="color:#f92672">.</span><span style="">figure</span><span style="">(</span><span style="">figsize</span><span style="color:#f92672">=</span><span style="">(</span><span style="color:#ae81ff">9</span><span style="">,</span><span style="color:#ae81ff">4</span><span style="">))</span><span style="">
-</span><span style=""></span><span style="color:#75715e"># define two subplots</span><span style="">
-</span><span style=""></span><span style="">ax1</span><span style=""> </span><span style="color:#f92672">=</span><span style="">  </span><span style="">plt</span><span style="color:#f92672">.</span><span style="">subplot</span><span style="">(</span><span style="color:#ae81ff">121</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="color:#75715e"># compute the quantile-quantile plot with normal distribution</span><span style="">
-</span><span style=""></span><span style="">stats</span><span style="color:#f92672">.</span><span style="">probplot</span><span style="">(</span><span style="">d0</span><span style="">[</span><span style="">v</span><span style="">],</span><span style="">dist</span><span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;norm&#39;</span><span style="">,</span><span style="">plot</span><span style="color:#f92672">=</span><span style="">plt</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="color:#75715e"># add title</span><span style="">
-</span><span style=""></span><span style="">plt</span><span style="color:#f92672">.</span><span style="">title</span><span style="">(</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;Normal QQ-plot &#34;</span><span style="color:#f92672">+</span><span style="">v</span><span style=""> </span><span style="color:#f92672">+</span><span style=""> </span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34; - Class 0&#34;</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="">ax2</span><span style=""> </span><span style="color:#f92672">=</span><span style=""> </span><span style="">plt</span><span style="color:#f92672">.</span><span style="">subplot</span><span style="">(</span><span style="color:#ae81ff">122</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="">stats</span><span style="color:#f92672">.</span><span style="">probplot</span><span style="">(</span><span style="">d1</span><span style="">[</span><span style="">v</span><span style="">],</span><span style="">dist</span><span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;norm&#39;</span><span style="">,</span><span style="">plot</span><span style="color:#f92672">=</span><span style="">plt</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="">plt</span><span style="color:#f92672">.</span><span style="">title</span><span style="">(</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;Normal QQ-plot &#34;</span><span style="color:#f92672">+</span><span style="">v</span><span style=""> </span><span style="color:#f92672">+</span><span style=""> </span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34; - Class 1&#34;</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="">plt</span><span style="color:#f92672">.</span><span style="">savefig</span><span style="">(</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;qqplot_&#34;</span><span style="color:#f92672">+</span><span style="">v</span><span style="color:#f92672">+</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;.png&#34;</span><span style="">,</span><span style="">width</span><span style="color:#f92672">=</span><span style="color:#ae81ff">700</span><span style="">,</span><span style="">height</span><span style="color:#f92672">=</span><span style="color:#ae81ff">250</span><span style="">)</span><span style="">
-</span><span style=""></span><span style="">plt</span><span style="color:#f92672">.</span><span style="">show</span><span style="">()</span></code></pre>
-</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Subsetting the data by class</span>
+d0 <span style="color:#f92672">=</span> data0[data0[<span style="color:#e6db74">&#34;class&#34;</span>]<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>]
+d1 <span style="color:#f92672">=</span> data0[data0[<span style="color:#e6db74">&#34;class&#34;</span>]<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>]
+
+<span style="color:#75715e"># For each variable</span>
+<span style="color:#66d9ef">for</span> v <span style="color:#f92672">in</span> data0<span style="color:#f92672">.</span>columns[:<span style="color:#ae81ff">4</span>]:
+<span style="color:#75715e">#set the figure size</span>
+plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">9</span>,<span style="color:#ae81ff">4</span>))
+<span style="color:#75715e"># define two subplots</span>
+ax1 <span style="color:#f92672">=</span>  plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">121</span>)
+<span style="color:#75715e"># compute the quantile-quantile plot with normal distribution</span>
+stats<span style="color:#f92672">.</span>probplot(d0[v],dist<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;norm&#39;</span>,plot<span style="color:#f92672">=</span>plt)
+<span style="color:#75715e"># add title</span>
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;Normal QQ-plot &#34;</span><span style="color:#f92672">+</span>v <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; - Class 0&#34;</span>)
+ax2 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">122</span>)
+stats<span style="color:#f92672">.</span>probplot(d1[v],dist<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;norm&#39;</span>,plot<span style="color:#f92672">=</span>plt)
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;Normal QQ-plot &#34;</span><span style="color:#f92672">+</span>v <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; - Class 1&#34;</span>)
+plt<span style="color:#f92672">.</span>savefig(<span style="color:#e6db74">&#34;qqplot_&#34;</span><span style="color:#f92672">+</span>v<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;.png&#34;</span>,width<span style="color:#f92672">=</span><span style="color:#ae81ff">700</span>,height<span style="color:#f92672">=</span><span style="color:#ae81ff">250</span>)
+plt<span style="color:#f92672">.</span>show()</code></pre></div>
 
 <p><img src="/img/posts/BankNotes/figures/qqplot_entropy.png" alt="QQplot entropy" />
 <img src="/img/posts/BankNotes/figures/qqplot_skew.png" alt="QQplot skewness" />
@@ -545,8 +539,7 @@ more robust than mean and variance. The pandas library offers a quick method
 and plotting tool to represent boxplots for each class and variable. It
 highlights the differences in the spread of the data.</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="">data0</span><span style="color:#f92672">.</span><span style="">groupby</span><span style="">(</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;class&#34;</span><span style="">)</span><span style="color:#f92672">.</span><span style="">boxplot</span><span style="">(</span><span style="">figsize</span><span style="color:#f92672">=</span><span style="">(</span><span style="color:#ae81ff">9</span><span style="">,</span><span style="color:#ae81ff">5</span><span style="">))</span></code></pre>
-</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data0<span style="color:#f92672">.</span>groupby(<span style="color:#e6db74">&#34;class&#34;</span>)<span style="color:#f92672">.</span>boxplot(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">9</span>,<span style="color:#ae81ff">5</span>))</code></pre></div>
 
 <p><img src="/static/img/posts/BankNotes/figures/Boxplot.png" alt="Boxplot representation" /></p>
 

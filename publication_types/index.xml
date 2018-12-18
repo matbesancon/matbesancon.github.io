@@ -7,7 +7,9 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <atom:link href="/publication_types/" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="https://matbesancon.github.io/publication_types/index.xml" rel="self" type="application/rss+xml" />
+    
     
   </channel>
 </rss>
