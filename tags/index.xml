@@ -94,6 +94,15 @@
     </item>
     
     <item>
+      <title>Energy</title>
+      <link>https://matbesancon.github.io/tags/energy/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/energy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Engineering</title>
       <link>https://matbesancon.github.io/tags/engineering/</link>
       <pubDate>Sat, 21 May 2016 00:00:00 +0200</pubDate>
@@ -108,6 +117,15 @@
       <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/tags/functional/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Game</title>
+      <link>https://matbesancon.github.io/tags/game/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/game/</guid>
       <description></description>
     </item>
     
@@ -186,7 +204,7 @@
     <item>
       <title>Julia Package</title>
       <link>https://matbesancon.github.io/tags/julia-package/</link>
-      <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/tags/julia-package/</guid>
       <description></description>
@@ -231,7 +249,7 @@
     <item>
       <title>Open Source</title>
       <link>https://matbesancon.github.io/tags/open-source/</link>
-      <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/tags/open-source/</guid>
       <description></description>
@@ -240,7 +258,7 @@
     <item>
       <title>Optimization</title>
       <link>https://matbesancon.github.io/tags/optimization/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/tags/optimization/</guid>
       <description></description>
@@ -283,6 +301,15 @@
     </item>
     
     <item>
+      <title>Rust</title>
+      <link>https://matbesancon.github.io/tags/rust/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/rust/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Startup</title>
       <link>https://matbesancon.github.io/tags/startup/</link>
       <pubDate>Fri, 07 Oct 2016 00:00:00 +0200</pubDate>
@@ -297,6 +324,15 @@
       <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/tags/statistics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Stats</title>
+      <link>https://matbesancon.github.io/tags/stats/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/stats/</guid>
       <description></description>
     </item>
     

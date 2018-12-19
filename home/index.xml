@@ -18,16 +18,7 @@
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/home/about/</guid>
-      <description>Biography I&amp;rsquo;m a PhD student in a double program between Ecole Polytechnique of Montréal, at the GERAD lab and the INOCS team at INRIA Lille, in applied mathematics for energy systems (smart grids). Other fields of interest include data science, machine learning, signal processing. Before that I worked in various industries, from an IoT startup to steel manufacturing and studied at the UTC and (a bit) at the TUBS.</description>
-    </item>
-    
-    <item>
-      <title>Recent &amp; Upcoming Talks</title>
-      <link>https://matbesancon.github.io/home/talks/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://matbesancon.github.io/home/talks/</guid>
-      <description></description>
+      <description>Biography I&amp;rsquo;m a PhD student in a double program between Ecole Polytechnique of Montréal, at the GERAD lab and the INOCS team at INRIA Lille, in mathematical optimization for energy systems (smart grids). I especially focus on bilevel optimization problems and pricing for demand response. Other fields of interest include non-linear optimization &amp;amp; applications in engineering, integer optimization &amp;amp; decompositions and machine learning. Before that I worked in various industries, from an IoT startup to steel manufacturing.</description>
     </item>
     
     <item>
@@ -36,6 +27,15 @@
       <pubDate>Sun, 10 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/home/posts/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Recent &amp; Upcoming Talks</title>
+      <link>https://matbesancon.github.io/home/talks/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/home/talks/</guid>
       <description></description>
     </item>
     
@@ -55,7 +55,7 @@
       
       <guid>https://matbesancon.github.io/home/experiences/</guid>
       <description>Prior to the PhD program, I had several long experiences combining data, applied mathematics, programming and algorithms:
- Equisense: research engineer, data scientist and back-end developer. Several posts I wrote are from the time there. Siemens: Master Thesis on the development of alarm chain building algorithms for automated industrial systems ArcelorMittal: 6-month internship, using data analysis and process improvement methodologies to tackle production-stopping phenomena on steel rolling mills  </description>
+ Equisense: research engineer on signal processing and new hardware, data scientist and back-end developer Siemens: Master Thesis on the development of alarm chain building algorithms for automated industrial systems ArcelorMittal: 6-month industrial placement, using data analysis and process improvement methodologies to tackle production-stopping phenomena on steel rolling mills  </description>
     </item>
     
     <item>
