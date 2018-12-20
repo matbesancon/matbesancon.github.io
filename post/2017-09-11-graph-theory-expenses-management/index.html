@@ -317,8 +317,8 @@ is the vector composed of one triplet:</p>
 </blockquote>
 
 <p>In Julia, the expense information can be translated to a structure:
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">User <span style="color:#f92672">=</span> <span style="color:#66d9ef">Int</span>
-GraphCoin <span style="color:#f92672">=</span> <span style="color:#66d9ef">Float16</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">const</span> User <span style="color:#f92672">=</span> <span style="color:#66d9ef">Int</span>
+<span style="color:#66d9ef">const</span> GraphCoin <span style="color:#f92672">=</span> <span style="color:#66d9ef">Float16</span>
 struct Expense
     payer<span style="color:#f92672">::</span>User
     amount<span style="color:#f92672">::</span>GraphCoin
@@ -391,7 +391,7 @@ owed money, see <a href="https://en.wikipedia.org/wiki/Maximum_flow_problem" tar
 is owed in net from a user to another:</p>
 
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#e6db74">&#34;&#34;&#34;
-</span><span style="color:#e6db74">    Builds the matrix of net owed GraphCoins
+</span><span style="color:#e6db74">Builds the matrix of net owed GraphCoins
 </span><span style="color:#e6db74">&#34;&#34;&#34;</span>
 <span style="color:#66d9ef">function</span> compute_net_owing(expenses<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{Expense}, nusers<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>)
     owing_matrix <span style="color:#f92672">=</span> zeros(GraphCoin, nusers, nusers)
@@ -414,7 +414,7 @@ is owed in net from a user to another:</p>
             <span style="color:#66d9ef">end</span>
         <span style="color:#66d9ef">end</span>
     <span style="color:#66d9ef">end</span>
-    <span style="color:#66d9ef">return</span> net_owing<span style="color:#f92672">::</span><span style="color:#66d9ef">Matrix</span>{GraphCoin}
+    <span style="color:#66d9ef">return</span> net_owing
 <span style="color:#66d9ef">end</span></code></pre></div>
 
 <p>From that matrix, we should determine the net amount any user owes or is owed:
