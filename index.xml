@@ -11,6 +11,284 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Winter warm-up: toy models for heat exchangers</title>
+      <link>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</link>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</guid>
+      <description>
+
+&lt;p&gt;Enjoying the calm of the frozen eastern French countryside for the last week of 2018,
+I was struck by nostalgia while reading a SIAM news article [1] on a
+near-reversible heat exchange between two flows and decided to dust off my
+thermodynamics books (especially [2]).&lt;/p&gt;
+
+&lt;p&gt;Research in mathematical optimization was not the
+obvious path I was on a couple years ago. The joint bachelor-master&amp;rsquo;s program
+I followed in France was in process engineering, a discipline crossing
+transfer phenomena (heat exchange, fluid mechanics, thermodynamics), control,
+knowledge of the matter transformations at hand
+(chemical, biochemical, nuclear reactions) and industrial engineering
+(see note at the end of this page).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Hypotheses&lt;/strong&gt; Throughout the article, we will use a set of flow hypotheses
+which build up the core of our model for heat exchange.
+These can seem odd but are pretty common in process engineering and
+realistic in many applications.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;The two flows advance in successive &amp;ldquo;layers&amp;rdquo;.&lt;/li&gt;
+&lt;li&gt;Each layer has a homogeneous temperature; we therefore ignore boundary layer effects.&lt;/li&gt;
+&lt;li&gt;Successive layers do not exchange matter nor heat. The rationale behind this
+is that the temperature difference between fluids is significantly higher than between layers.&lt;/li&gt;
+&lt;li&gt;Pressure losses in the exchanger does not release a significant heat compared to
+the fluid heat exchange.&lt;/li&gt;
+&lt;li&gt;The fluid and wall properties are constant with temperature.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;starting-simple-parallel-flow-heat-exchange&#34;&gt;Starting simple: parallel flow heat exchange&lt;/h2&gt;
+
+&lt;p&gt;In this model, both flows enter the exchanger on the same side, one at a
+hot temperature, the other at a cold temperature. Heat is exchanged along the
+exchanger wall, proportional at any point to the difference in temperature
+between the two fluids. We therefore study the evolution of two variables
+$u_1(x)$ and $u_2(x)$ in an interval $x \in [0,L]$ with $L$ the length of
+the exchanger.&lt;/p&gt;
+
+&lt;p&gt;In any layer $[x, x + \delta x]$, the heat exchange is equal to:
+$$\delta \dot{Q} = h \cdot (u_2(x) - u_1(x)) \cdot \delta x$$
+with $h$ a coefficient depending on the wall heat exchange properties.&lt;/p&gt;
+
+&lt;p&gt;Moreover, the variation in internal energy of the cold fluid is equal to
+$\delta \dot{Q}$ and is also expressed as:&lt;/p&gt;
+
+&lt;p&gt;$$ c_2 \cdot \dot{m}_2 \cdot (u_2(x+\delta x) - u_2(x)) $$
+$c_2$ is the calorific capacity of the hot flow and  $\dot{m}_2$ its
+mass flow rate. The you can check that the given expression is a power.
+The same expressions apply to the cold fluid.
+Let us first assume the following:&lt;/p&gt;
+
+&lt;p&gt;$$c_2 \cdot \dot{m}_2 = c_1 \cdot \dot{m}_1$$&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; DifferentialEquations
+&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; DiffEq &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; DifferentialEquations
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; parallel_exchanger(du,u,p,x)
+    h &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; p[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#75715e&#34;&gt;# heat exchange coefficient&lt;/span&gt;
+    Q &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; h &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; (u[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;u[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;])
+    du[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;Q
+    du[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Q
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; parallel_solution(L, p)
+    problem &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ODEProblem(
+      parallel_exchanger, &lt;span style=&#34;color:#75715e&#34;&gt;# function describing the dynamics of the system&lt;/span&gt;
+      u₀,                 &lt;span style=&#34;color:#75715e&#34;&gt;# initial conditions u0&lt;/span&gt;
+      (&lt;span style=&#34;color:#ae81ff&#34;&gt;0.&lt;/span&gt;, L),            &lt;span style=&#34;color:#75715e&#34;&gt;# region overwhich the solution is built, x ∈ [0,L]&lt;/span&gt;
+      p,                  &lt;span style=&#34;color:#75715e&#34;&gt;# parameters, here the aggregated transfer constant h&lt;/span&gt;
+    )
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; DiffEq&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;solve(problem, DiffEq&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Tsit5())
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+plot(parallel_solution([&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;100.0&lt;/span&gt;], &lt;span style=&#34;color:#ae81ff&#34;&gt;50.0&lt;/span&gt;, (&lt;span style=&#34;color:#ae81ff&#34;&gt;0.05&lt;/span&gt;)))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/heatex/parallel.svg&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;This model is pretty simple, its performance is however low from
+a practical perspective. First on the purpose itself, we can compute for two
+fluids the equilibrium temperature. This temperature can be adjusted
+by the ratio of two mass flow rates but will remain a weighted average.
+Suppose the goal of the exchange is to heat the cold fluid, the necessary
+mass flow $\dot{m}_2$ tends to $\infty$ as the targeted temperature tends to
+$u_2(L)$, and this is independent of the performance of the heat exchanger
+itself, represented by the coefficient $h$. Here is the extended model using
+the flow rate ratio to adjust the temperature profiles:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; DifferentialEquations
+&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; DiffEq &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; DifferentialEquations
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; ratio_exchanger(du,u,p,x)
+    h &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; p[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#75715e&#34;&gt;# heat exchange coefficient&lt;/span&gt;
+    r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; p[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#75715e&#34;&gt;# ratio of mass flow rate 2 / mass flow rate 1&lt;/span&gt;
+    Q &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; h &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; (u[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;u[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;])
+    du[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;Q
+    du[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Q &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; r
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; ratio_solution(u₀, L, p)
+    problem &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; DiffEq&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ODEProblem(
+      ratio_exchanger, &lt;span style=&#34;color:#75715e&#34;&gt;# function describing the dynamics of the system&lt;/span&gt;
+      u₀,              &lt;span style=&#34;color:#75715e&#34;&gt;# initial conditions u0&lt;/span&gt;
+      (&lt;span style=&#34;color:#ae81ff&#34;&gt;0.&lt;/span&gt;, L),         &lt;span style=&#34;color:#75715e&#34;&gt;# region overwhich the solution is built, x ∈ [0,L]&lt;/span&gt;
+      p,               &lt;span style=&#34;color:#75715e&#34;&gt;# parameters, here the aggregated transfer constant h&lt;/span&gt;
+    )
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; DiffEq&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;solve(problem, DiffEq&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Tsit5())
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (idx,r) &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; enumerate((&lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;500.0&lt;/span&gt;))
+    plot(ratio_solution([&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;100.0&lt;/span&gt;], &lt;span style=&#34;color:#ae81ff&#34;&gt;50.0&lt;/span&gt;, (&lt;span style=&#34;color:#ae81ff&#34;&gt;0.05&lt;/span&gt;, r)))
+    xlabel!(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;x (m)&amp;#34;&lt;/span&gt;)
+    ylabel!(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;T °C&amp;#34;&lt;/span&gt;)
+    title!(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Parallel flow with ration &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$r&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+    savefig(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;parallel_ratio_&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$&lt;/span&gt;(idx)&lt;span style=&#34;color:#e6db74&#34;&gt;.pdf&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/heatex/parallel_ratio_1.svg&#34;&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/heatex/parallel_ratio_2.svg&#34;&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/heatex/parallel_ratio_3.svg&#34;&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/heatex/parallel_ratio_4.svg&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;This model has an analytical closed-form solution given by:
+$$ T_{eq} = \frac{100\cdot \dot{m}_2}{\dot{m}_1 + \dot{m}_2} $$
+$$ u_1(x) = T_{eq} \cdot (1 - e^{-}) $$&lt;/p&gt;
+
+&lt;h2 id=&#34;opposite-flow-model&#34;&gt;Opposite flow model&lt;/h2&gt;
+
+&lt;p&gt;This model is trickier because we don&amp;rsquo;t consider the dynamics of the system
+along one dimension anymore. The two fluids flowing in opposite directions
+are two interdependent systems. We won&amp;rsquo;t go through the analytical solution
+but use a similar discretization as in article [1].&lt;/p&gt;
+
+&lt;p&gt;This model takes $n$ discrete cells, each considered at a given temperature.
+Two cells of the cold and hot flows are considered to have exchanged heat
+after crossing.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/heatex/counterflow.png&#34;&gt;
+[3]&lt;/p&gt;
+
+&lt;p&gt;Applying the energy conservation principle, the gain of internal energy
+between cell $k$ and $k+1$ for the cold flow is equal to the loss of
+internal energy of the hot flow from cell $k+1$ to cell $k$. These differences
+come from heat exchanged, expressed as:&lt;/p&gt;
+
+&lt;p&gt;$$\dot{Q}_k = h \cdot dx \cdot (u_{2,k+1} - u_{1,k}) $$
+$$\dot{Q}_k = \dot{m}_1 \cdot c_1 \cdot (u_{1,k+1} - u_{1,k}) $$
+$$\dot{Q}_k = \dot{m}_2 \cdot c_2 \cdot (u_{2,k+1} - u_{2,k}) $$&lt;/p&gt;
+
+&lt;p&gt;Watch out the sense of the last equation since the heat exchange is
+a loss for the hot flow. Again we use the simplifying assumption of
+equality of the quantities:
+$$ \dot{m}_i \cdot c_i $$&lt;/p&gt;
+
+&lt;p&gt;Our model only depends on the number of discretization steps $n$ and transfer
+coefficient $h$.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; discrete_crossing(n, h; itermax &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;50000&lt;/span&gt;)
+    u1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;}(undef, itermax, n)
+    u2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;}(undef, itermax, n)
+    u1[&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;.=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;
+    u1[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;.=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;
+    u2[&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;,n] &lt;span style=&#34;color:#f92672&#34;&gt;.=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100.0&lt;/span&gt;
+    u2[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;.=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100.0&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; iter &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;itermax
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; k &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;n&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+            δq &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; h &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; (u2[iter&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, k&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; u1[iter&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, k]) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;50.0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;n)
+            u2[iter, k]   &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; u2[iter&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, k&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; δq
+            u1[iter, k&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; u1[iter&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, k]   &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; δq
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    (u1,u2)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/heatex/cross.svg&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;After convergence, we observe a parallel temperature profiles along the
+exchanger, the difference between the two flows at any point being reduced
+to $\epsilon$ mentioned in article [1]. The two differences between our model
+and theirs are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The discretization grid is slightly different since we consider the exchange
+to happen between cell $k$ and cell $k+1$ at the node between them, while they
+consider an exchange between $k-1$ and $k+1$ at cell $k$.&lt;/li&gt;
+&lt;li&gt;They consider two flow unit which just crossed reach the same temperature,
+while we consider a heat exchange limited by the temperature difference
+(the two flows do not reach identical temperatures but tend towards it).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Finally we can change the ratio:
+$$\frac{\dot{m}_1\cdot c_1}{\dot{m}_2\cdot c_2}$$ for the counterflow model
+as we did in the parallel case.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; discrete_crossing(n, h, ratio; itermax &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;50000&lt;/span&gt;)
+    u1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;}(undef, itermax, n)
+    u2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;}(undef, itermax, n)
+    u1[&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;.=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;
+    u1[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;.=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;
+    u2[&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;,n] &lt;span style=&#34;color:#f92672&#34;&gt;.=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100.0&lt;/span&gt;
+    u2[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;.=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100.0&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; iter &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;itermax
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; k &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;n&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+            δq &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; h &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; (u2[iter&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, k&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; u1[iter&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, k]) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;50.0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; n
+            u2[iter, k]   &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; u2[iter&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, k&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; δq &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; ratio
+            u1[iter, k&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; u1[iter&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, k]   &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; δq
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    (u1,u2)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;Julia tip&lt;/em&gt;: note that we do not define a new function for this but
+create a &lt;strong&gt;method&lt;/strong&gt; for the function &lt;code&gt;discrete_crossing&lt;/code&gt; defined above
+with a new signature &lt;code&gt;(n, h, ratio)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We can plot the result:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; x0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; range(&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, length &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;, stop &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; L)
+p &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; plot(x0, a1[&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;], label &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;u1 ratio 1.0&amp;#34;&lt;/span&gt;, legend &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;bottomright)
+plot!(p, x0, a2[&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;], label &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;u2 ratio 1.0&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; ratio &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;0.1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;0.5&lt;/span&gt;)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;global&lt;/span&gt; p
+    (r1, r2) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; discrete_crossing(&lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.1&lt;/span&gt;, ratio)
+    plot!(p, x0, r1[&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;], label &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;u1 ratio &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$&lt;/span&gt;(ratio)&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+    plot!(p, x0, r2[&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;], label &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;u2 ratio &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$&lt;/span&gt;(ratio)&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/heatex/ratio_variation.svg&#34;&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;To keep this post short, we will not show the influence of all parameters.
+Some key effects to consider:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Increasing $h$ increases the gap between the flow temperatures&lt;/li&gt;
+&lt;li&gt;Increasing the number of steps does not change the result for a step size
+small enough&lt;/li&gt;
+&lt;li&gt;Increasing the exchanger length reduces the gap&lt;/li&gt;
+&lt;li&gt;A ratio of 1 minimizes the temperature difference at every point
+(and thus minimizes the entropy). This very low entropy creation is a positive
+sign for engineers from a thermodynamics point of view: we are not &amp;ldquo;degrading&amp;rdquo;
+the &amp;ldquo;quality&amp;rdquo; of available energy to perform this heat exchange or in other
+terms, we are not destroying &lt;a href=&#34;https://en.wikipedia.org/wiki/Exergy&#34; target=&#34;_blank&#34;&gt;exergy&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Feel free to reach out on &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;
+or via email if you have comments or questions, I&amp;rsquo;d be glad to take both.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Note on process engineering&lt;/em&gt;
+The term is gaining more traction in English, and should replace
+chemical engineering in higher education to acknowledge the diversity of
+application fields, greater than the chemical industry alone.
+The German equivalent &lt;em&gt;Verfahrenstechnik&lt;/em&gt; has been used for decades and
+&lt;em&gt;Génie des Procédés&lt;/em&gt; is now considered a norm in most French-speaking
+universities and &lt;a href=&#34;https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_Fran%C3%A7aise_de_G%C3%A9nie_des_Proc%C3%A9d%C3%A9s&#34; target=&#34;_blank&#34;&gt;consortia&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Sources:&lt;/p&gt;
+
+&lt;p&gt;[1] Levi M. A Near-perfect Heat Exchange. SIAM news. 2018 Dec;51(10):4.&lt;/p&gt;
+
+&lt;p&gt;[2] Borel L, Favrat D. Thermodynamique et énergétique. PPUR presses polytechniques; 2nd edition, 2011.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Image sources:
+[3] Geogebra&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>A Bilevel Framework for Optimal Price-Setting of Time-and-Level-of-Use Tariffs</title>
       <link>https://matbesancon.github.io/project/tlou/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
@@ -1305,8 +1583,8 @@ is the vector composed of one triplet:&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;In Julia, the expense information can be translated to a structure:
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; User &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; GraphCoin &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Float16&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;User &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;
+GraphCoin &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Float16&lt;/span&gt;
 struct Expense
     payer&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;User
     amount&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;GraphCoin
@@ -1379,7 +1657,7 @@ owed money, see &lt;a href=&#34;https://en.wikipedia.org/wiki/Maximum_flow_probl
 is owed in net from a user to another:&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Builds the matrix of net owed GraphCoins
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    Builds the matrix of net owed GraphCoins
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; compute_net_owing(expenses&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{Expense}, nusers&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;)
     owing_matrix &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; zeros(GraphCoin, nusers, nusers)
@@ -1402,7 +1680,7 @@ is owed in net from a user to another:&lt;/p&gt;
             &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
         &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
     &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; net_owing
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; net_owing&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{GraphCoin}
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;From that matrix, we should determine the net amount any user owes or is owed:
@@ -1567,25 +1845,6 @@ formulated as a linear optimization problem formulated using MathProgBase.jl,
 using any user-provided solver.&lt;/p&gt;
 
 &lt;p&gt;Many thanks to the whole JuliaGraphs team for their trust, support and advice.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>WebFuncs</title>
-      <link>https://matbesancon.github.io/project/webfuncs/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://matbesancon.github.io/project/webfuncs/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/matbesancon/WebFuncs.jl&#34; target=&#34;_blank&#34;&gt;WebFuncs.jl&lt;/a&gt; is a Julia project testing the language out of its natural
-scope. Having built quite a bit with Go and Python, I wanted to see if
-the Julia ecosystem had tools for HTTP handling.&lt;/p&gt;
-
-&lt;p&gt;The inspiration of a simple-to-use function server came from the
-&lt;a href=&#34;https://github.com/metrue/fx&#34; target=&#34;_blank&#34;&gt;fx project&lt;/a&gt;. Define your function, the
-package throws it as a server for you.&lt;/p&gt;
-
-&lt;p&gt;The package has been accepted on Julia package repository and can be fetched
-using &lt;code&gt;Pkg.add(&amp;quot;WebFuncs&amp;quot;)&lt;/code&gt;.&lt;/p&gt;
 </description>
     </item>
     

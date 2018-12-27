@@ -7,24 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 18 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Content tagged as &#39;Academic&#39;</title>
-      <link>https://matbesancon.github.io/tags/academic/</link>
-      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/academic/</guid>
-      <description>Here is a list of all the content that has been tagged as academic.</description>
-    </item>
-    
-    <item>
       <title>Academia</title>
       <link>https://matbesancon.github.io/tags/academia/</link>
-      <pubDate>Thu, 27 Sep 2018 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/tags/academia/</guid>
       <description></description>
@@ -105,7 +96,7 @@
     <item>
       <title>Engineering</title>
       <link>https://matbesancon.github.io/tags/engineering/</link>
-      <pubDate>Sat, 21 May 2016 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/tags/engineering/</guid>
       <description></description>
@@ -195,7 +186,7 @@
     <item>
       <title>Julia</title>
       <link>https://matbesancon.github.io/tags/julia/</link>
-      <pubDate>Fri, 17 Aug 2018 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/tags/julia/</guid>
       <description></description>

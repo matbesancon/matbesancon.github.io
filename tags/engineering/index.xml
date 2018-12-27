@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Sat, 21 May 2016 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 27 Dec 2018 00:00:00 +0100</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/engineering/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Winter warm-up: toy models for heat exchangers</title>
+      <link>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</link>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</guid>
+      <description>Enjoying the calm of the frozen eastern French countryside for the last week of 2018, I was struck by nostalgia while reading a SIAM news article [1] on a near-reversible heat exchange between two flows and decided to dust off my thermodynamics books (especially [2]).
+Research in mathematical optimization was not the obvious path I was on a couple years ago. The joint bachelor-master&amp;rsquo;s program I followed in France was in process engineering, a discipline crossing transfer phenomena (heat exchange, fluid mechanics, thermodynamics), control, knowledge of the matter transformations at hand (chemical, biochemical, nuclear reactions) and industrial engineering (see note at the end of this page).</description>
+    </item>
     
     <item>
       <title>Bringing data science to engineers</title>

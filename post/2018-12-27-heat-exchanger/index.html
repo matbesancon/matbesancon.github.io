@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.52" />
+  <meta name="author" content="Mathieu Besançon">
+  <meta name="description" content="PhD student in applied mathematics for energy systems">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  
+
+  <link rel="alternate" href="https://matbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+  <link rel="feed" href="https://matbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="https://matbesancon.github.io/post/2018-12-27-heat-exchanger/">
+
+  
+
+  <title>Winter warm-up: toy models for heat exchangers | μβ</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">μβ</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#talks">
+            
+            <span>Talks</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#experiences">
+            
+            <span>Experiences</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+<div class="article-header">
+  <img src="/img//posts/heatex/frozen_land.jpg" class="article-banner" itemprop="image">
+  
+</div>
+
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Winter warm-up: toy models for heat exchangers</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-12-27 00:00:00 &#43;0100 CET" itemprop="datePublished">
+      Thu, Dec 27, 2018
+    </time>
+  </span>
+
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="/tags/julia">julia</a
+    >, 
+    
+    <a href="/tags/engineering">engineering</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2018-12-27-heat-exchanger%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Winter%20warm-up%3a%20toy%20models%20for%20heat%20exchangers&amp;url=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2018-12-27-heat-exchanger%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2018-12-27-heat-exchanger%2f&amp;title=Winter%20warm-up%3a%20toy%20models%20for%20heat%20exchangers"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2018-12-27-heat-exchanger%2f&amp;title=Winter%20warm-up%3a%20toy%20models%20for%20heat%20exchangers"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Winter%20warm-up%3a%20toy%20models%20for%20heat%20exchangers&amp;body=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2018-12-27-heat-exchanger%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<p>Enjoying the calm of the frozen eastern French countryside for the last week of 2018,
+I was struck by nostalgia while reading a SIAM news article [1] on a
+near-reversible heat exchange between two flows and decided to dust off my
+thermodynamics books (especially [2]).</p>
+
+<p>Research in mathematical optimization was not the
+obvious path I was on a couple years ago. The joint bachelor-master&rsquo;s program
+I followed in France was in process engineering, a discipline crossing
+transfer phenomena (heat exchange, fluid mechanics, thermodynamics), control,
+knowledge of the matter transformations at hand
+(chemical, biochemical, nuclear reactions) and industrial engineering
+(see note at the end of this page).</p>
+
+<p><strong>Hypotheses</strong> Throughout the article, we will use a set of flow hypotheses
+which build up the core of our model for heat exchange.
+These can seem odd but are pretty common in process engineering and
+realistic in many applications.</p>
+
+<ol>
+<li>The two flows advance in successive &ldquo;layers&rdquo;.</li>
+<li>Each layer has a homogeneous temperature; we therefore ignore boundary layer effects.</li>
+<li>Successive layers do not exchange matter nor heat. The rationale behind this
+is that the temperature difference between fluids is significantly higher than between layers.</li>
+<li>Pressure losses in the exchanger does not release a significant heat compared to
+the fluid heat exchange.</li>
+<li>The fluid and wall properties are constant with temperature.</li>
+</ol>
+
+<h2 id="starting-simple-parallel-flow-heat-exchange">Starting simple: parallel flow heat exchange</h2>
+
+<p>In this model, both flows enter the exchanger on the same side, one at a
+hot temperature, the other at a cold temperature. Heat is exchanged along the
+exchanger wall, proportional at any point to the difference in temperature
+between the two fluids. We therefore study the evolution of two variables
+$u_1(x)$ and $u_2(x)$ in an interval $x \in [0,L]$ with $L$ the length of
+the exchanger.</p>
+
+<p>In any layer $[x, x + \delta x]$, the heat exchange is equal to:
+$$\delta \dot{Q} = h \cdot (u_2(x) - u_1(x)) \cdot \delta x$$
+with $h$ a coefficient depending on the wall heat exchange properties.</p>
+
+<p>Moreover, the variation in internal energy of the cold fluid is equal to
+$\delta \dot{Q}$ and is also expressed as:</p>
+
+<p>$$ c_2 \cdot \dot{m}_2 \cdot (u_2(x+\delta x) - u_2(x)) $$
+$c_2$ is the calorific capacity of the hot flow and  $\dot{m}_2$ its
+mass flow rate. The you can check that the given expression is a power.
+The same expressions apply to the cold fluid.
+Let us first assume the following:</p>
+
+<p>$$c_2 \cdot \dot{m}_2 = c_1 \cdot \dot{m}_1$$</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> DifferentialEquations
+<span style="color:#66d9ef">const</span> DiffEq <span style="color:#f92672">=</span> DifferentialEquations
+
+<span style="color:#66d9ef">function</span> parallel_exchanger(du,u,p,x)
+    h <span style="color:#f92672">=</span> p[<span style="color:#ae81ff">1</span>] <span style="color:#75715e"># heat exchange coefficient</span>
+    Q <span style="color:#f92672">=</span> h <span style="color:#f92672">*</span> (u[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>u[<span style="color:#ae81ff">2</span>])
+    du[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>Q
+    du[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> Q
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> parallel_solution(L, p)
+    problem <span style="color:#f92672">=</span> DiffEq<span style="color:#f92672">.</span>ODEProblem(
+      parallel_exchanger, <span style="color:#75715e"># function describing the dynamics of the system</span>
+      u₀,                 <span style="color:#75715e"># initial conditions u0</span>
+      (<span style="color:#ae81ff">0.</span>, L),            <span style="color:#75715e"># region overwhich the solution is built, x ∈ [0,L]</span>
+      p,                  <span style="color:#75715e"># parameters, here the aggregated transfer constant h</span>
+    )
+    <span style="color:#66d9ef">return</span> DiffEq<span style="color:#f92672">.</span>solve(problem, DiffEq<span style="color:#f92672">.</span>Tsit5())
+<span style="color:#66d9ef">end</span>
+
+plot(parallel_solution([<span style="color:#ae81ff">0.0</span>,<span style="color:#ae81ff">100.0</span>], <span style="color:#ae81ff">50.0</span>, (<span style="color:#ae81ff">0.05</span>)))</code></pre></div>
+
+<p><img src="/img/posts/heatex/parallel.svg"></p>
+
+<p>This model is pretty simple, its performance is however low from
+a practical perspective. First on the purpose itself, we can compute for two
+fluids the equilibrium temperature. This temperature can be adjusted
+by the ratio of two mass flow rates but will remain a weighted average.
+Suppose the goal of the exchange is to heat the cold fluid, the necessary
+mass flow $\dot{m}_2$ tends to $\infty$ as the targeted temperature tends to
+$u_2(L)$, and this is independent of the performance of the heat exchanger
+itself, represented by the coefficient $h$. Here is the extended model using
+the flow rate ratio to adjust the temperature profiles:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> DifferentialEquations
+<span style="color:#66d9ef">const</span> DiffEq <span style="color:#f92672">=</span> DifferentialEquations
+
+<span style="color:#66d9ef">function</span> ratio_exchanger(du,u,p,x)
+    h <span style="color:#f92672">=</span> p[<span style="color:#ae81ff">1</span>] <span style="color:#75715e"># heat exchange coefficient</span>
+    r <span style="color:#f92672">=</span> p[<span style="color:#ae81ff">2</span>] <span style="color:#75715e"># ratio of mass flow rate 2 / mass flow rate 1</span>
+    Q <span style="color:#f92672">=</span> h <span style="color:#f92672">*</span> (u[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>u[<span style="color:#ae81ff">2</span>])
+    du[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>Q
+    du[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> Q <span style="color:#f92672">/</span> r
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> ratio_solution(u₀, L, p)
+    problem <span style="color:#f92672">=</span> DiffEq<span style="color:#f92672">.</span>ODEProblem(
+      ratio_exchanger, <span style="color:#75715e"># function describing the dynamics of the system</span>
+      u₀,              <span style="color:#75715e"># initial conditions u0</span>
+      (<span style="color:#ae81ff">0.</span>, L),         <span style="color:#75715e"># region overwhich the solution is built, x ∈ [0,L]</span>
+      p,               <span style="color:#75715e"># parameters, here the aggregated transfer constant h</span>
+    )
+    <span style="color:#66d9ef">return</span> DiffEq<span style="color:#f92672">.</span>solve(problem, DiffEq<span style="color:#f92672">.</span>Tsit5())
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">for</span> (idx,r) <span style="color:#66d9ef">in</span> enumerate((<span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">5.0</span>, <span style="color:#ae81ff">10.0</span>, <span style="color:#ae81ff">500.0</span>))
+    plot(ratio_solution([<span style="color:#ae81ff">0.0</span>,<span style="color:#ae81ff">100.0</span>], <span style="color:#ae81ff">50.0</span>, (<span style="color:#ae81ff">0.05</span>, r)))
+    xlabel!(<span style="color:#e6db74">&#34;x (m)&#34;</span>)
+    ylabel!(<span style="color:#e6db74">&#34;T °C&#34;</span>)
+    title!(<span style="color:#e6db74">&#34;Parallel flow with ration </span><span style="color:#e6db74">$r</span><span style="color:#e6db74">&#34;</span>)
+    savefig(<span style="color:#e6db74">&#34;parallel_ratio_</span><span style="color:#e6db74">$</span>(idx)<span style="color:#e6db74">.pdf&#34;</span>)
+<span style="color:#66d9ef">end</span></code></pre></div>
+
+<p><img src="/img/posts/heatex/parallel_ratio_1.svg">
+<img src="/img/posts/heatex/parallel_ratio_2.svg">
+<img src="/img/posts/heatex/parallel_ratio_3.svg">
+<img src="/img/posts/heatex/parallel_ratio_4.svg"></p>
+
+<p>This model has an analytical closed-form solution given by:
+$$ T_{eq} = \frac{100\cdot \dot{m}_2}{\dot{m}_1 + \dot{m}_2} $$
+$$ u_1(x) = T_{eq} \cdot (1 - e^{-}) $$</p>
+
+<h2 id="opposite-flow-model">Opposite flow model</h2>
+
+<p>This model is trickier because we don&rsquo;t consider the dynamics of the system
+along one dimension anymore. The two fluids flowing in opposite directions
+are two interdependent systems. We won&rsquo;t go through the analytical solution
+but use a similar discretization as in article [1].</p>
+
+<p>This model takes $n$ discrete cells, each considered at a given temperature.
+Two cells of the cold and hot flows are considered to have exchanged heat
+after crossing.</p>
+
+<p><img src="/img/posts/heatex/counterflow.png">
+[3]</p>
+
+<p>Applying the energy conservation principle, the gain of internal energy
+between cell $k$ and $k+1$ for the cold flow is equal to the loss of
+internal energy of the hot flow from cell $k+1$ to cell $k$. These differences
+come from heat exchanged, expressed as:</p>
+
+<p>$$\dot{Q}_k = h \cdot dx \cdot (u_{2,k+1} - u_{1,k}) $$
+$$\dot{Q}_k = \dot{m}_1 \cdot c_1 \cdot (u_{1,k+1} - u_{1,k}) $$
+$$\dot{Q}_k = \dot{m}_2 \cdot c_2 \cdot (u_{2,k+1} - u_{2,k}) $$</p>
+
+<p>Watch out the sense of the last equation since the heat exchange is
+a loss for the hot flow. Again we use the simplifying assumption of
+equality of the quantities:
+$$ \dot{m}_i \cdot c_i $$</p>
+
+<p>Our model only depends on the number of discretization steps $n$ and transfer
+coefficient $h$.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> discrete_crossing(n, h; itermax <span style="color:#f92672">=</span> <span style="color:#ae81ff">50000</span>)
+    u1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}(undef, itermax, n)
+    u2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}(undef, itermax, n)
+    u1[<span style="color:#f92672">:</span>,<span style="color:#ae81ff">1</span>] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">0.0</span>
+    u1[<span style="color:#ae81ff">1</span>,<span style="color:#f92672">:</span>] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">0.0</span>
+    u2[<span style="color:#f92672">:</span>,n] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">100.0</span>
+    u2[<span style="color:#ae81ff">1</span>,<span style="color:#f92672">:</span>] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">100.0</span>
+    <span style="color:#66d9ef">for</span> iter <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">:</span>itermax
+        <span style="color:#66d9ef">for</span> k <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+            δq <span style="color:#f92672">=</span> h <span style="color:#f92672">*</span> (u2[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> u1[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k]) <span style="color:#f92672">*</span> (<span style="color:#ae81ff">50.0</span><span style="color:#f92672">/</span>n)
+            u2[iter, k]   <span style="color:#f92672">=</span> u2[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> δq
+            u1[iter, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> u1[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k]   <span style="color:#f92672">+</span> δq
+        <span style="color:#66d9ef">end</span>
+    <span style="color:#66d9ef">end</span>
+    (u1,u2)
+<span style="color:#66d9ef">end</span></code></pre></div></p>
+
+<p><img src="/img/posts/heatex/cross.svg"></p>
+
+<p>After convergence, we observe a parallel temperature profiles along the
+exchanger, the difference between the two flows at any point being reduced
+to $\epsilon$ mentioned in article [1]. The two differences between our model
+and theirs are:</p>
+
+<ul>
+<li>The discretization grid is slightly different since we consider the exchange
+to happen between cell $k$ and cell $k+1$ at the node between them, while they
+consider an exchange between $k-1$ and $k+1$ at cell $k$.</li>
+<li>They consider two flow unit which just crossed reach the same temperature,
+while we consider a heat exchange limited by the temperature difference
+(the two flows do not reach identical temperatures but tend towards it).</li>
+</ul>
+
+<p>Finally we can change the ratio:
+$$\frac{\dot{m}_1\cdot c_1}{\dot{m}_2\cdot c_2}$$ for the counterflow model
+as we did in the parallel case.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> discrete_crossing(n, h, ratio; itermax <span style="color:#f92672">=</span> <span style="color:#ae81ff">50000</span>)
+    u1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}(undef, itermax, n)
+    u2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}(undef, itermax, n)
+    u1[<span style="color:#f92672">:</span>,<span style="color:#ae81ff">1</span>] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">0.0</span>
+    u1[<span style="color:#ae81ff">1</span>,<span style="color:#f92672">:</span>] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">0.0</span>
+    u2[<span style="color:#f92672">:</span>,n] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">100.0</span>
+    u2[<span style="color:#ae81ff">1</span>,<span style="color:#f92672">:</span>] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">100.0</span>
+    <span style="color:#66d9ef">for</span> iter <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">:</span>itermax
+        <span style="color:#66d9ef">for</span> k <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+            δq <span style="color:#f92672">=</span> h <span style="color:#f92672">*</span> (u2[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> u1[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k]) <span style="color:#f92672">*</span> <span style="color:#ae81ff">50.0</span> <span style="color:#f92672">/</span> n
+            u2[iter, k]   <span style="color:#f92672">=</span> u2[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> δq <span style="color:#f92672">*</span> ratio
+            u1[iter, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> u1[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k]   <span style="color:#f92672">+</span> δq
+        <span style="color:#66d9ef">end</span>
+    <span style="color:#66d9ef">end</span>
+    (u1,u2)
+<span style="color:#66d9ef">end</span></code></pre></div>
+
+<p><em>Julia tip</em>: note that we do not define a new function for this but
+create a <strong>method</strong> for the function <code>discrete_crossing</code> defined above
+with a new signature <code>(n, h, ratio)</code>.</p>
+
+<p>We can plot the result:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">const</span> x0 <span style="color:#f92672">=</span> range(<span style="color:#ae81ff">0.0</span>, length <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>, stop <span style="color:#f92672">=</span> L)
+p <span style="color:#f92672">=</span> plot(x0, a1[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u1 ratio 1.0&#34;</span>, legend <span style="color:#f92672">=</span> <span style="color:#f92672">:</span>bottomright)
+plot!(p, x0, a2[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u2 ratio 1.0&#34;</span>)
+<span style="color:#66d9ef">for</span> ratio <span style="color:#66d9ef">in</span> (<span style="color:#ae81ff">0.1</span>,<span style="color:#ae81ff">0.5</span>)
+    <span style="color:#66d9ef">global</span> p
+    (r1, r2) <span style="color:#f92672">=</span> discrete_crossing(<span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">0.1</span>, ratio)
+    plot!(p, x0, r1[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u1 ratio </span><span style="color:#e6db74">$</span>(ratio)<span style="color:#e6db74">&#34;</span>)
+    plot!(p, x0, r2[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u2 ratio </span><span style="color:#e6db74">$</span>(ratio)<span style="color:#e6db74">&#34;</span>)
+<span style="color:#66d9ef">end</span></code></pre></div></p>
+
+<p><img src="/img/posts/heatex/ratio_variation.svg"></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>To keep this post short, we will not show the influence of all parameters.
+Some key effects to consider:</p>
+
+<ul>
+<li>Increasing $h$ increases the gap between the flow temperatures</li>
+<li>Increasing the number of steps does not change the result for a step size
+small enough</li>
+<li>Increasing the exchanger length reduces the gap</li>
+<li>A ratio of 1 minimizes the temperature difference at every point
+(and thus minimizes the entropy). This very low entropy creation is a positive
+sign for engineers from a thermodynamics point of view: we are not &ldquo;degrading&rdquo;
+the &ldquo;quality&rdquo; of available energy to perform this heat exchange or in other
+terms, we are not destroying <a href="https://en.wikipedia.org/wiki/Exergy" target="_blank">exergy</a>.</li>
+</ul>
+
+<p>Feel free to reach out on <a href="https://twitter.com/matbesancon" target="_blank">Twitter</a>
+or via email if you have comments or questions, I&rsquo;d be glad to take both.</p>
+
+<hr />
+
+<p><em>Note on process engineering</em>
+The term is gaining more traction in English, and should replace
+chemical engineering in higher education to acknowledge the diversity of
+application fields, greater than the chemical industry alone.
+The German equivalent <em>Verfahrenstechnik</em> has been used for decades and
+<em>Génie des Procédés</em> is now considered a norm in most French-speaking
+universities and <a href="https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_Fran%C3%A7aise_de_G%C3%A9nie_des_Proc%C3%A9d%C3%A9s" target="_blank">consortia</a>.</p>
+
+<hr />
+
+<p>Sources:</p>
+
+<p>[1] Levi M. A Near-perfect Heat Exchange. SIAM news. 2018 Dec;51(10):4.</p>
+
+<p>[2] Borel L, Favrat D. Thermodynamique et énergétique. PPUR presses polytechniques; 2nd edition, 2011.</p>
+
+<hr />
+
+<p>Image sources:
+[3] Geogebra</p>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="https://matbesancon.github.io/post/2018-09-27-year-in-phd/"><span
+      aria-hidden="true">&larr;</span> A year in PhD</a></li>
+    
+
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mathieu Besançon &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js" integrity="sha512-iHzEu7GbSc705hE2skyH6/AlTpOfBmkx7nUqTLGzPYR+C1tRaItbRlJ7hT/D3YQ9SV0fqLKzp4XY9wKulTBGTw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js" integrity="sha512-Z5heTz36xTemt1TbtbfXtTq5lMfYnOkXM2/eWcTTiLU01+Sw4ku1i7vScDc8fWhrP2abz9GQzgKH5NGBLoYlAw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/ScrollToPlugin.min.js" integrity="sha512-CDeU7pRtkPX6XJtF/gcFWlEwyaX7mcAp5sO3VIu/ylsdR74wEw4wmBpD5yYTrmMAiAboi9thyBUr1vXRPA7t0Q==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+
