@@ -92,6 +92,13 @@ Let us first assume the following:&lt;/p&gt;
 
 plot(parallel_solution([&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;100.0&lt;/span&gt;], &lt;span style=&#34;color:#ae81ff&#34;&gt;50.0&lt;/span&gt;, (&lt;span style=&#34;color:#ae81ff&#34;&gt;0.05&lt;/span&gt;)))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;$$ u_1(x) = T_{eq} \cdot (1 - e^{-h\cdot x}) $$
+$$ u_2(x) = (100 - T_{eq}) \cdot e^{-h\cdot x} + T_{eq} $$&lt;/p&gt;
+
+&lt;p&gt;With $T_{eq}$ the limit temperature, trivially 50°C with equal flows.&lt;/p&gt;
+
+&lt;p&gt;(Full disclaimer: I&amp;rsquo;m a bit rusty and had to double-check for errors)&lt;/p&gt;
+
 &lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/heatex/parallel.svg&#34;&gt;&lt;/p&gt;
 
 &lt;p&gt;This model is pretty simple, its performance is however low from
@@ -129,7 +136,7 @@ the flow rate ratio to adjust the temperature profiles:&lt;/p&gt;
     plot(ratio_solution([&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;100.0&lt;/span&gt;], &lt;span style=&#34;color:#ae81ff&#34;&gt;50.0&lt;/span&gt;, (&lt;span style=&#34;color:#ae81ff&#34;&gt;0.05&lt;/span&gt;, r)))
     xlabel!(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;x (m)&amp;#34;&lt;/span&gt;)
     ylabel!(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;T °C&amp;#34;&lt;/span&gt;)
-    title!(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Parallel flow with ration &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$r&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+    title!(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Parallel flow with ratio &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$r&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
     savefig(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;parallel_ratio_&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$&lt;/span&gt;(idx)&lt;span style=&#34;color:#e6db74&#34;&gt;.pdf&amp;#34;&lt;/span&gt;)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -139,8 +146,9 @@ the flow rate ratio to adjust the temperature profiles:&lt;/p&gt;
 &lt;img src=&#34;https://matbesancon.github.io/img/posts/heatex/parallel_ratio_4.svg&#34;&gt;&lt;/p&gt;
 
 &lt;p&gt;This model has an analytical closed-form solution given by:
-$$ T_{eq} = \frac{100\cdot \dot{m}_2}{\dot{m}_1 + \dot{m}_2} $$
-$$ u_1(x) = T_{eq} \cdot (1 - e^{-}) $$&lt;/p&gt;
+$$ T_{eq} = \frac{100\cdot \dot{m}_2}{\dot{m}_1 + \dot{m}_2} = 100\cdot\frac{r}{1+r} $$
+$$ u_1(x) = T_{eq} \cdot (1 - e^{-h\cdot x}) $$
+$$ u_2(x) = (100 - T_{eq}) \cdot e^{-h\cdot x \cdot r} + T_{eq} $$&lt;/p&gt;
 
 &lt;h2 id=&#34;opposite-flow-model&#34;&gt;Opposite flow model&lt;/h2&gt;
 

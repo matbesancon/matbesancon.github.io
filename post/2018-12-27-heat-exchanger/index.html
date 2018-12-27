@@ -311,6 +311,13 @@ Let us first assume the following:</p>
 
 plot(parallel_solution([<span style="color:#ae81ff">0.0</span>,<span style="color:#ae81ff">100.0</span>], <span style="color:#ae81ff">50.0</span>, (<span style="color:#ae81ff">0.05</span>)))</code></pre></div>
 
+<p>$$ u_1(x) = T_{eq} \cdot (1 - e^{-h\cdot x}) $$
+$$ u_2(x) = (100 - T_{eq}) \cdot e^{-h\cdot x} + T_{eq} $$</p>
+
+<p>With $T_{eq}$ the limit temperature, trivially 50°C with equal flows.</p>
+
+<p>(Full disclaimer: I&rsquo;m a bit rusty and had to double-check for errors)</p>
+
 <p><img src="/img/posts/heatex/parallel.svg"></p>
 
 <p>This model is pretty simple, its performance is however low from
@@ -348,7 +355,7 @@ the flow rate ratio to adjust the temperature profiles:</p>
     plot(ratio_solution([<span style="color:#ae81ff">0.0</span>,<span style="color:#ae81ff">100.0</span>], <span style="color:#ae81ff">50.0</span>, (<span style="color:#ae81ff">0.05</span>, r)))
     xlabel!(<span style="color:#e6db74">&#34;x (m)&#34;</span>)
     ylabel!(<span style="color:#e6db74">&#34;T °C&#34;</span>)
-    title!(<span style="color:#e6db74">&#34;Parallel flow with ration </span><span style="color:#e6db74">$r</span><span style="color:#e6db74">&#34;</span>)
+    title!(<span style="color:#e6db74">&#34;Parallel flow with ratio </span><span style="color:#e6db74">$r</span><span style="color:#e6db74">&#34;</span>)
     savefig(<span style="color:#e6db74">&#34;parallel_ratio_</span><span style="color:#e6db74">$</span>(idx)<span style="color:#e6db74">.pdf&#34;</span>)
 <span style="color:#66d9ef">end</span></code></pre></div>
 
@@ -358,8 +365,9 @@ the flow rate ratio to adjust the temperature profiles:</p>
 <img src="/img/posts/heatex/parallel_ratio_4.svg"></p>
 
 <p>This model has an analytical closed-form solution given by:
-$$ T_{eq} = \frac{100\cdot \dot{m}_2}{\dot{m}_1 + \dot{m}_2} $$
-$$ u_1(x) = T_{eq} \cdot (1 - e^{-}) $$</p>
+$$ T_{eq} = \frac{100\cdot \dot{m}_2}{\dot{m}_1 + \dot{m}_2} = 100\cdot\frac{r}{1+r} $$
+$$ u_1(x) = T_{eq} \cdot (1 - e^{-h\cdot x}) $$
+$$ u_2(x) = (100 - T_{eq}) \cdot e^{-h\cdot x \cdot r} + T_{eq} $$</p>
 
 <h2 id="opposite-flow-model">Opposite flow model</h2>
 
