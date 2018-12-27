@@ -197,7 +197,8 @@ coefficient $h$.
     (u1,u2)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/heatex/cross.svg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We can observe the convergence of the solution at different iterations:
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/heatex/cross.svg&#34;&gt;&lt;/p&gt;
 
 &lt;p&gt;After convergence, we observe a parallel temperature profiles along the
 exchanger, the difference between the two flows at any point being reduced
