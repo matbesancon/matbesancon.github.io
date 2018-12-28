@@ -281,19 +281,20 @@ the exchanger.</p>
 $$\delta \dot{Q} = h \cdot (u_2(x) - u_1(x)) \cdot \delta x$$
 with $h$ a coefficient depending on the wall heat exchange properties.</p>
 
-<p>Moreover, the variation in internal energy of the cold fluid is equal to
+<p>Moreover, the variation in internal energy of the hot flow is equal to
 $\delta \dot{Q}$ and is also expressed as:</p>
 
 <p>$$ c_2 \cdot \dot{m}_2 \cdot (u_2(x+\delta x) - u_2(x)) $$
 $c_2$ is the calorific capacity of the hot flow and  $\dot{m}_2$ its
 mass flow rate. The you can check that the given expression is a power.
-The same expressions apply to the cold fluid.
+The same expressions apply to the cold flow.
 Let us first assume the following:</p>
 
 <p>$$c_2 \cdot \dot{m}_2 = c_1 \cdot \dot{m}_1$$</p>
 
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> DifferentialEquations
 <span style="color:#66d9ef">const</span> DiffEq <span style="color:#f92672">=</span> DifferentialEquations
+<span style="color:#66d9ef">using</span> Plots
 
 <span style="color:#66d9ef">function</span> parallel_exchanger(du,u,p,x)
     h <span style="color:#f92672">=</span> p[<span style="color:#ae81ff">1</span>] <span style="color:#75715e"># heat exchange coefficient</span>
@@ -391,7 +392,7 @@ between cell $k$ and $k+1$ for the cold flow is equal to the loss of
 internal energy of the hot flow from cell $k+1$ to cell $k$. These differences
 come from heat exchanged, expressed as:</p>
 
-<p>$$\dot{Q}_k = h \cdot dx \cdot (u_{2,k+1} - u_{1,k}) $$
+<p>$$\dot{Q}_k = h \cdot \Delta x \cdot (u_{2,k+1} - u_{1,k}) $$
 $$\dot{Q}_k = \dot{m}_1 \cdot c_1 \cdot (u_{1,k+1} - u_{1,k}) $$
 $$\dot{Q}_k = \dot{m}_2 \cdot c_2 \cdot (u_{2,k+1} - u_{2,k}) $$</p>
 
@@ -400,8 +401,8 @@ a loss for the hot flow. Again we use the simplifying assumption of
 equality of the quantities:
 $$ \dot{m}_i \cdot c_i $$</p>
 
-<p>Our model only depends on the number of discretization steps $n$ and transfer
-coefficient $h$.
+<p>Our model only depends on the number of discretization steps $n$
+and transfer coefficient $h$.
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> discrete_crossing(n, h; itermax <span style="color:#f92672">=</span> <span style="color:#ae81ff">50000</span>)
     u1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}(undef, itermax, n)
     u2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}(undef, itermax, n)
@@ -418,6 +419,18 @@ coefficient $h$.
     <span style="color:#66d9ef">end</span>
     (u1,u2)
 <span style="color:#66d9ef">end</span></code></pre></div></p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">const</span> (a1, a2) <span style="color:#f92672">=</span> discrete_crossing(<span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">0.1</span>)
+<span style="color:#66d9ef">const</span> x0 <span style="color:#f92672">=</span> range(<span style="color:#ae81ff">0.0</span>, length <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>, stop <span style="color:#f92672">=</span> L)
+
+p <span style="color:#f92672">=</span> plot(x0, a1[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u1 final&#34;</span>, legend <span style="color:#f92672">=</span> <span style="color:#f92672">:</span>topleft)
+plot!(p, x0, a2[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u2 final&#34;</span>)
+<span style="color:#66d9ef">for</span> iter <span style="color:#66d9ef">in</span> (<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">100</span>)
+    <span style="color:#66d9ef">global</span> p
+    plot!(p, x0, a1[iter,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u1 </span><span style="color:#e6db74">$</span>(iter)<span style="color:#e6db74">&#34;</span>)
+    plot!(p, x0, a2[iter,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u2 </span><span style="color:#e6db74">$</span>(iter)<span style="color:#e6db74">&#34;</span>)
+<span style="color:#66d9ef">end</span>
+xlabel!(<span style="color:#e6db74">&#34;x (m)&#34;</span>)</code></pre></div>
 
 <p>We can observe the convergence of the solution at different iterations:
 <img src="/img/posts/heatex/cross.svg"></p>
@@ -470,7 +483,8 @@ plot!(p, x0, a2[<span style="color:#66d9ef">end</span>,<span style="color:#f9267
     (r1, r2) <span style="color:#f92672">=</span> discrete_crossing(<span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">0.1</span>, ratio)
     plot!(p, x0, r1[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u1 ratio </span><span style="color:#e6db74">$</span>(ratio)<span style="color:#e6db74">&#34;</span>)
     plot!(p, x0, r2[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u2 ratio </span><span style="color:#e6db74">$</span>(ratio)<span style="color:#e6db74">&#34;</span>)
-<span style="color:#66d9ef">end</span></code></pre></div></p>
+<span style="color:#66d9ef">end</span>
+xlabel!(<span style="color:#e6db74">&#34;x (m)&#34;</span>)</code></pre></div></p>
 
 <p><img src="/img/posts/heatex/ratio_variation.svg"></p>
 
@@ -503,6 +517,10 @@ application fields, greater than the chemical industry alone.
 The German equivalent <em>Verfahrenstechnik</em> has been used for decades and
 <em>Génie des Procédés</em> is now considered a norm in most French-speaking
 universities and <a href="https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_Fran%C3%A7aise_de_G%C3%A9nie_des_Proc%C3%A9d%C3%A9s" target="_blank">consortia</a>.</p>
+
+<hr />
+
+<p>Edit: thanks BYP for the sharp-as-ever proofreading</p>
 
 <hr />
 

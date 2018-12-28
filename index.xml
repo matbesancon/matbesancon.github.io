@@ -59,19 +59,20 @@ the exchanger.&lt;/p&gt;
 $$\delta \dot{Q} = h \cdot (u_2(x) - u_1(x)) \cdot \delta x$$
 with $h$ a coefficient depending on the wall heat exchange properties.&lt;/p&gt;
 
-&lt;p&gt;Moreover, the variation in internal energy of the cold fluid is equal to
+&lt;p&gt;Moreover, the variation in internal energy of the hot flow is equal to
 $\delta \dot{Q}$ and is also expressed as:&lt;/p&gt;
 
 &lt;p&gt;$$ c_2 \cdot \dot{m}_2 \cdot (u_2(x+\delta x) - u_2(x)) $$
 $c_2$ is the calorific capacity of the hot flow and  $\dot{m}_2$ its
 mass flow rate. The you can check that the given expression is a power.
-The same expressions apply to the cold fluid.
+The same expressions apply to the cold flow.
 Let us first assume the following:&lt;/p&gt;
 
 &lt;p&gt;$$c_2 \cdot \dot{m}_2 = c_1 \cdot \dot{m}_1$$&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; DifferentialEquations
 &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; DiffEq &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; DifferentialEquations
+&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; Plots
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; parallel_exchanger(du,u,p,x)
     h &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; p[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#75715e&#34;&gt;# heat exchange coefficient&lt;/span&gt;
@@ -169,7 +170,7 @@ between cell $k$ and $k+1$ for the cold flow is equal to the loss of
 internal energy of the hot flow from cell $k+1$ to cell $k$. These differences
 come from heat exchanged, expressed as:&lt;/p&gt;
 
-&lt;p&gt;$$\dot{Q}_k = h \cdot dx \cdot (u_{2,k+1} - u_{1,k}) $$
+&lt;p&gt;$$\dot{Q}_k = h \cdot \Delta x \cdot (u_{2,k+1} - u_{1,k}) $$
 $$\dot{Q}_k = \dot{m}_1 \cdot c_1 \cdot (u_{1,k+1} - u_{1,k}) $$
 $$\dot{Q}_k = \dot{m}_2 \cdot c_2 \cdot (u_{2,k+1} - u_{2,k}) $$&lt;/p&gt;
 
@@ -178,8 +179,8 @@ a loss for the hot flow. Again we use the simplifying assumption of
 equality of the quantities:
 $$ \dot{m}_i \cdot c_i $$&lt;/p&gt;
 
-&lt;p&gt;Our model only depends on the number of discretization steps $n$ and transfer
-coefficient $h$.
+&lt;p&gt;Our model only depends on the number of discretization steps $n$
+and transfer coefficient $h$.
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; discrete_crossing(n, h; itermax &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;50000&lt;/span&gt;)
     u1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;}(undef, itermax, n)
     u2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;}(undef, itermax, n)
@@ -196,6 +197,18 @@ coefficient $h$.
     &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
     (u1,u2)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; (a1, a2) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; discrete_crossing(&lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.1&lt;/span&gt;)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; x0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; range(&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, length &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;, stop &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; L)
+
+p &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; plot(x0, a1[&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;], label &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;u1 final&amp;#34;&lt;/span&gt;, legend &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;topleft)
+plot!(p, x0, a2[&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;], label &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;u2 final&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; iter &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;global&lt;/span&gt; p
+    plot!(p, x0, a1[iter,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;], label &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;u1 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$&lt;/span&gt;(iter)&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+    plot!(p, x0, a2[iter,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;], label &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;u2 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$&lt;/span&gt;(iter)&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+xlabel!(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;x (m)&amp;#34;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;We can observe the convergence of the solution at different iterations:
 &lt;img src=&#34;https://matbesancon.github.io/img/posts/heatex/cross.svg&#34;&gt;&lt;/p&gt;
@@ -248,7 +261,8 @@ plot!(p, x0, a2[&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;,&lt;s
     (r1, r2) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; discrete_crossing(&lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.1&lt;/span&gt;, ratio)
     plot!(p, x0, r1[&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;], label &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;u1 ratio &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$&lt;/span&gt;(ratio)&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
     plot!(p, x0, r2[&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;], label &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;u2 ratio &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$&lt;/span&gt;(ratio)&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+xlabel!(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;x (m)&amp;#34;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/heatex/ratio_variation.svg&#34;&gt;&lt;/p&gt;
 
@@ -281,6 +295,10 @@ application fields, greater than the chemical industry alone.
 The German equivalent &lt;em&gt;Verfahrenstechnik&lt;/em&gt; has been used for decades and
 &lt;em&gt;Génie des Procédés&lt;/em&gt; is now considered a norm in most French-speaking
 universities and &lt;a href=&#34;https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_Fran%C3%A7aise_de_G%C3%A9nie_des_Proc%C3%A9d%C3%A9s&#34; target=&#34;_blank&#34;&gt;consortia&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Edit: thanks BYP for the sharp-as-ever proofreading&lt;/p&gt;
 
 &lt;hr /&gt;
 
