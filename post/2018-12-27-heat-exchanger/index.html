@@ -425,7 +425,7 @@ and transfer coefficient $h$.
 
 p <span style="color:#f92672">=</span> plot(x0, a1[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u1 final&#34;</span>, legend <span style="color:#f92672">=</span> <span style="color:#f92672">:</span>topleft)
 plot!(p, x0, a2[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u2 final&#34;</span>)
-<span style="color:#66d9ef">for</span> iter <span style="color:#66d9ef">in</span> (<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">100</span>)
+<span style="color:#66d9ef">for</span> iter <span style="color:#66d9ef">in</span> (<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">500</span>)
     <span style="color:#66d9ef">global</span> p
     plot!(p, x0, a1[iter,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u1 </span><span style="color:#e6db74">$</span>(iter)<span style="color:#e6db74">&#34;</span>)
     plot!(p, x0, a2[iter,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u2 </span><span style="color:#e6db74">$</span>(iter)<span style="color:#e6db74">&#34;</span>)
