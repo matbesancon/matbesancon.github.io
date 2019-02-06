@@ -11,6 +11,193 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>A naive and incomplete guide to peer-review</title>
+      <link>https://matbesancon.github.io/post/2019-02-04-article-review/</link>
+      <pubDate>Mon, 04 Feb 2019 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-02-04-article-review/</guid>
+      <description>
+
+&lt;hr /&gt;
+
+&lt;p&gt;After the first submissions to journals, most researchers will be contacted
+by editors for reviewing articles others have written. It may seem like a
+daunting task, evaluating the work someone else put several months to
+prepare, code, write, correct and submit.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: to preserve the anonymity of the reviews I made and am
+making, all examples I give below are made up.&lt;/p&gt;
+
+&lt;p&gt;The main phases of my reviewing process are:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;What is this about? Can I review it?&lt;/li&gt;
+&lt;li&gt;Is the paper in the scope of the journal?&lt;/li&gt;
+&lt;li&gt;Are there some topics I might struggle to understand?&lt;/li&gt;
+&lt;li&gt;Diving in, a first pass to get the story right&lt;/li&gt;
+&lt;li&gt;Thematic passes &amp;amp; writing the recommendations&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;what-is-this-about-can-i-review-it&#34;&gt;What is this about? Can I review it?&lt;/h2&gt;
+
+&lt;p&gt;After receiving the invitation and getting the manuscript, my screening phase
+consists in reading only these three elements:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Title&lt;/li&gt;
+&lt;li&gt;Abstract&lt;/li&gt;
+&lt;li&gt;Keywords&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;At that point, I roughly know if it is relevant for both the journal and me
+that I review it. If I feel way out of scope, I&amp;rsquo;ll reach out to the editor.
+I will also quickly check the name of the authors to make sure I do not have
+a conflict of interests with any of them, without looking them up on the
+internet of course, the goal is to avoid bias if I know them at a personal level.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Since this only took a quick screening, it can be done in a day or two,
+letting the reviewer know too late that you will not review increases
+the time to publication which is bad for the author, the journal and scientific
+publication in general.&lt;/p&gt;
+
+&lt;h2 id=&#34;is-the-paper-in-the-scope-of-the-journal&#34;&gt;Is the paper in the scope of the journal?&lt;/h2&gt;
+
+&lt;p&gt;At that point, I re-read the journal&amp;rsquo;s aim and scope and keep in mind the main
+ideas. If I am not that familiar with it, I will also check titles and abstracts
+of random papers in the last issues. This will help during the review if
+there are some doubts on the manuscript being at the right spot.&lt;/p&gt;
+
+&lt;h2 id=&#34;are-there-some-topics-i-might-struggle-to-understand&#34;&gt;Are there some topics I might struggle to understand?&lt;/h2&gt;
+
+&lt;p&gt;If I have doubts on some parts of the method or context
+and can identify them, I&amp;rsquo;ll search for foundational articles and reference
+text books on the subject.&lt;/p&gt;
+
+&lt;p&gt;In any case, it is predictable that not all reviewers of the paper cover
+the same area of expertise, especially for multi-disciplinary
+journals. Still, it is always better to be comfortable with all components.
+Take a case in mathematical optimization, for instance a manuscript
+tackling a problem in power systems, with a game theoretical aspect and
+formulating a Semi-Definite Positive model solved using a bundle method.
+I might be familiar with the application (power systems) and game-theoretical
+considerations in such domain, but without being an expert in SDP and even less
+bundle methods. This is not a reason to refuse the role of reviewer.&lt;/p&gt;
+
+&lt;p&gt;However, not being proficient on a component can introduce a bias in the
+review by putting the reviewer on the defensive:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;why do the authors need all this fuss with this thing I&amp;rsquo;ve never heard of,
+why not the good all techniques like what I do&amp;rdquo;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I&amp;rsquo;ve seen read different comments in reviews which looked a lot like this.
+This is why it can be valuable to take some time to get more familiar
+with shadow areas. Plus this makes reviewing a challenge and an excuse
+to learn something new and connected to my area.&lt;/p&gt;
+
+&lt;h2 id=&#34;diving-in-a-first-pass-to-get-the-story-right&#34;&gt;Diving in, a first pass to get the story right&lt;/h2&gt;
+
+&lt;p&gt;At that point, I book at least two hours for a first read of the paper,
+with a pen, a printed version and a notebook. I should eventually get a
+tablet to take notes on the PDF instead of print-outs but for the moment,
+the number of papers I am asked to review remains reasonable.
+I read it through without interruptions (no phone, no open browser, no music
+or music without lyrics), taking notes on the side on all things that cross
+my mind.
+Notes are of different types: small mistakes, remarkable points, key information
+and the &amp;ldquo;interrogation queue&amp;rdquo;. This queue is inspired by developers&amp;rsquo; code review
+and the most advanced metric found for it:
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/peer_review/wtfm.jpg&#34; alt=&#34;&#34; /&gt;
+An element is added in the queue when something is missing for my
+understanding here and has not been introduced upwards in the article.
+An element is removed from the queue when an explanation for it appears
+(so later in the article). Of course, any element remaining in the queue
+at the end of the manuscript is a problem: it is never explained,
+introduced properly. Two considerations play a role for the quality of
+the paper for its ease of understanding:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;How long is the queue at any point in the paper? Does it introduce too much cognitive load?&lt;/li&gt;
+&lt;li&gt;How long is the distance between the appearance of an element in the queue? (the interrogation moment) and its removal (the aha moment)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The second point is easy to solve, just recommend introducing the concept
+before the place in the text where the interrogation appeared.
+The first point will require more work on the authors&amp;rsquo; side
+to displace all explanations before the introduction of the concept/symbol,
+reducing the overall cognitive load at any moment for the reader.&lt;/p&gt;
+
+&lt;h2 id=&#34;thematic-read-writing-the-recommendations&#34;&gt;Thematic read &amp;amp; writing the recommendations&lt;/h2&gt;
+
+&lt;p&gt;After the first reading round, I usually have some ideas about what are the key
+axes of the review, I can start writing it up with all the small details
+(typos, clumsy or vague phrasing, etc), all that is not on the structure nor on
+the content. A good rule of thumb is that those minor corrections are limited
+to few words in just one sentence.
+After that, I write down different main axes, as for instance:
+&amp;ldquo;this step of the methodology section is not detailed enough&amp;rdquo; and quote
+either precise points in the text where the problem arises from and/or
+recommendations for fixing it: &amp;ldquo;this or that would make the article to be reproducible&amp;rdquo;.
+The deeper a problem is, the more discussion it brings, the goal is not to let
+the authors stuck with a blind comment, see the following examples nobody likes reading:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;Some steps in Section III seem incorrect&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;How much does it cost to the reviewer to point out where and why exactly?&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;The authors did not manage to highlight a significant part of the literature&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;On which topic? What is not covered? Do you mean the authors did not cite &lt;strong&gt;your&lt;/strong&gt; article?&lt;/p&gt;
+
+&lt;p&gt;Only after these last points am I 100% certain of the final recommendation I
+will give for the manuscript, the usual options are:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;With the minor modifications recommended, the paper is good to be published in my opinion.&lt;/li&gt;
+&lt;li&gt;Some required modifications are major, re-submit for another reviewing round.&lt;/li&gt;
+&lt;li&gt;The issues raised during review are too central to fix during review rounds, the work needs a huge re-write.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;After forming this opinion, if I am not too late on the deadline, I will
+let myself some time off the review (a few days), and then come back to what
+I wrote to be sure every comment can be understood and used by the authors to
+improve the paper. Also, I want to be sure not to have written anything
+too rash. Nobody wants to be &lt;a href=&#34;https://twitter.com/thirdreviewer&#34; target=&#34;_blank&#34;&gt;that&lt;/a&gt;
+&lt;a href=&#34;https://twitter.com/YourPaperSucks&#34; target=&#34;_blank&#34;&gt;reviewer&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Even though peer review is considered a pillar of modern research, it has its
+history, qualities and flaws, and is fundamentally made by human beings and
+does not systematically reflect a universal truth; that should be kept in mind
+at all time. Also, the scientific communities should keep challenging it by
+making it evolve and experimenting &lt;a href=&#34;https://elifesciences.org/articles/36545&#34; target=&#34;_blank&#34;&gt;new ways&lt;/a&gt;
+of &lt;a href=&#34;http://www.theoj.org/&#34; target=&#34;_blank&#34;&gt;carrying it out&lt;/a&gt;, addressing some key
+&lt;a href=&#34;http://www.immpressmagazine.com/peer-review-is-broken/&#34; target=&#34;_blank&#34;&gt;flaws&lt;/a&gt;. Note that I do
+not say the solutions presented in these articles are the ground truth,
+all I am stating is that it is worth opening the discussion, which academia
+is not doing much at the moment.&lt;/p&gt;
+
+&lt;p&gt;Maybe you have other tips for reviewing papers, how do you improve your process?
+Which points were too domain-dependent / idealistic? (I did warn it was a naive view)
+Reach out any way you prefer, &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;,
+&lt;a href=&#34;https://matbesancon.github.io/#contact&#34;&gt;email&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;[1]
+Source for the cover image:
+&lt;em&gt;Journal des Savants&lt;/em&gt; or &lt;em&gt;Journal Des Sçavans&lt;/em&gt; in old French, considered the earliest scientific journal.
+&lt;a href=&#34;https://jamesgray2.me/2016/09/06/le-journal-des-savants-1681-1699/&#34; target=&#34;_blank&#34;&gt;https://jamesgray2.me/2016/09/06/le-journal-des-savants-1681-1699/&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Winter warm-up: toy models for heat exchangers</title>
       <link>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</link>
       <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
@@ -1610,8 +1797,8 @@ is the vector composed of one triplet:&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;In Julia, the expense information can be translated to a structure:
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;User &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;
-GraphCoin &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Float16&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; User &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; GraphCoin &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Float16&lt;/span&gt;
 struct Expense
     payer&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;User
     amount&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;GraphCoin
@@ -1684,7 +1871,7 @@ owed money, see &lt;a href=&#34;https://en.wikipedia.org/wiki/Maximum_flow_probl
 is owed in net from a user to another:&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    Builds the matrix of net owed GraphCoins
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Builds the matrix of net owed GraphCoins
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; compute_net_owing(expenses&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{Expense}, nusers&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;)
     owing_matrix &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; zeros(GraphCoin, nusers, nusers)
@@ -1707,7 +1894,7 @@ is owed in net from a user to another:&lt;/p&gt;
             &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
         &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
     &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; net_owing&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{GraphCoin}
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; net_owing
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;From that matrix, we should determine the net amount any user owes or is owed:
@@ -1846,32 +2033,6 @@ Special thanks to &lt;a href=&#34;http://www.bromberger.com/&#34; target=&#34;_b
 
 &lt;p&gt;[1] James Fairbanks Seth Bromberger and other contributors. Juliagraphs/LightGraphs.jl:
 Lightgraphs, 2017, &lt;a href=&#34;https://doi.org/10.5281/zenodo.889971&#34; target=&#34;_blank&#34;&gt;https://doi.org/10.5281/zenodo.889971&lt;/a&gt;. DOI: 10.5281/zenodo.889971&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>JuliaGraphs contributions</title>
-      <link>https://matbesancon.github.io/project/juliagraphs/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://matbesancon.github.io/project/juliagraphs/</guid>
-      <description>&lt;p&gt;Starting from a weird Kaggle &lt;a href=&#34;https://www.kaggle.com/c/santa-gift-matching&#34; target=&#34;_blank&#34;&gt;side-project&lt;/a&gt;
-during the Chrismas holidays, I gradually got involved in the &lt;a href=&#34;https://juliagraphs.github.io/&#34; target=&#34;_blank&#34;&gt;JuliaGraphs&lt;/a&gt;
-ecosystem. After some discussion on the Julia Slack &lt;em&gt;#graphs&lt;/em&gt; channel,
-I went from reporting a simple feature I needed to helping with the
-re-organization by splitting out two packages:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsMatching.jl&#34; target=&#34;_blank&#34;&gt;LightGraphsMatching.jl&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsFlows.jl&#34; target=&#34;_blank&#34;&gt;LightGraphsFlows.jl&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I also implemented the
-&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsFlows.jl/blob/master/src/mincost.jl&#34; target=&#34;_blank&#34;&gt;min-cost flow problem&lt;/a&gt;
-formulated as a linear optimization problem formulated using MathProgBase.jl,
-using any user-provided solver.&lt;/p&gt;
-
-&lt;p&gt;Many thanks to the whole JuliaGraphs team for their trust, support and advice.&lt;/p&gt;
 </description>
     </item>
     
