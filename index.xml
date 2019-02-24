@@ -86,13 +86,13 @@ written $M$, hence the name:&lt;/p&gt;
 
 &lt;p&gt;$$x \leq M \cdot y $$&lt;/p&gt;
 
-&lt;p&gt;If $y=0$, $x$ can be at most M, otherwise it is bounded by $M$. If $M$
+&lt;p&gt;If $y=0$, $x$ can be at most 0, otherwise it is bounded by $M$. If $M$
 is sufficiently big, the constraint becomes inactive.
 However, smaller $M$ values yield tighter formulations, solved more efficiently.
 See &lt;a href=&#34;https://orinanobworld.blogspot.com/2018/09/choosing-big-m-values.html&#34; target=&#34;_blank&#34;&gt;Paul Rubin&amp;rsquo;s&lt;/a&gt;
 detailed blog post on the subject. If we want bounds as tight as possible, it
 is always preferable to choose one bound per constraint, instead of one unique
-big M for them all, which means we need a majorant of all individual $M$.&lt;/p&gt;
+$M$ for them all, which means we need a majorant of all individual $M$.&lt;/p&gt;
 
 &lt;p&gt;As a rule of thumb, big-M constraints are pretty efficient if $M$ is tight,
 but if we have no idea about it, SOS1 constraints may be more interesting,
@@ -215,8 +215,8 @@ to another.&lt;/p&gt;
 &lt;h1 id=&#34;polishing-our-design-enriched-types&#34;&gt;Polishing our design: enriched types&lt;/h1&gt;
 
 &lt;p&gt;The last solution is great, we are dispatching on our algorithm and parameter
-types. However, in a realistic research or development work, many decisions more
-decisions are taken, algorithms options, number types, various parameters.
+types. However, in a realistic research or development work, many more
+decisions are taken such as algorithms options, number types, various parameters.
 We will likely end up with something similar to:&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; do_science(x, y, z,
@@ -321,6 +321,10 @@ use cases for the Julia type system, check out
 articles.
 Feel free to reach out any way you prefer, &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;,
 &lt;a href=&#34;https://matbesancon.github.io/#contact&#34;&gt;email&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Edits: thanks BYP for sharp proofreading and constructive critics.&lt;/p&gt;
 
 &lt;hr /&gt;
 

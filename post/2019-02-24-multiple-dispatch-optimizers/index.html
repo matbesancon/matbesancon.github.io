@@ -303,13 +303,13 @@ written $M$, hence the name:</p>
 
 <p>$$x \leq M \cdot y $$</p>
 
-<p>If $y=0$, $x$ can be at most M, otherwise it is bounded by $M$. If $M$
+<p>If $y=0$, $x$ can be at most 0, otherwise it is bounded by $M$. If $M$
 is sufficiently big, the constraint becomes inactive.
 However, smaller $M$ values yield tighter formulations, solved more efficiently.
 See <a href="https://orinanobworld.blogspot.com/2018/09/choosing-big-m-values.html" target="_blank">Paul Rubin&rsquo;s</a>
 detailed blog post on the subject. If we want bounds as tight as possible, it
 is always preferable to choose one bound per constraint, instead of one unique
-big M for them all, which means we need a majorant of all individual $M$.</p>
+$M$ for them all, which means we need a majorant of all individual $M$.</p>
 
 <p>As a rule of thumb, big-M constraints are pretty efficient if $M$ is tight,
 but if we have no idea about it, SOS1 constraints may be more interesting,
@@ -432,8 +432,8 @@ to another.</p>
 <h1 id="polishing-our-design-enriched-types">Polishing our design: enriched types</h1>
 
 <p>The last solution is great, we are dispatching on our algorithm and parameter
-types. However, in a realistic research or development work, many decisions more
-decisions are taken, algorithms options, number types, various parameters.
+types. However, in a realistic research or development work, many more
+decisions are taken such as algorithms options, number types, various parameters.
 We will likely end up with something similar to:</p>
 
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> do_science(x, y, z,
@@ -538,6 +538,10 @@ use cases for the Julia type system, check out
 articles.
 Feel free to reach out any way you prefer, <a href="https://twitter.com/matbesancon" target="_blank">Twitter</a>,
 <a href="/#contact">email</a>.</p>
+
+<hr />
+
+<p>Edits: thanks BYP for sharp proofreading and constructive critics.</p>
 
 <hr />
 
