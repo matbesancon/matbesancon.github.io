@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.52" />
+  <meta name="author" content="Mathieu Besançon">
+  <meta name="description" content="PhD student in applied mathematics for energy systems">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  
+
+  <link rel="alternate" href="https://matbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+  <link rel="feed" href="https://matbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/">
+
+  
+
+  <title>Multiple dispatch - an example for mathematical optimizers | μβ</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">μβ</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#talks">
+            
+            <span>Talks</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#experiences">
+            
+            <span>Experiences</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Multiple dispatch - an example for mathematical optimizers</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2019-02-24 00:00:00 &#43;0100 CET" itemprop="datePublished">
+      Sun, Feb 24, 2019
+    </time>
+  </span>
+
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="/tags/optimization">optimization</a
+    >, 
+    
+    <a href="/tags/julia">julia</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2019-02-24-multiple-dispatch-optimizers%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Multiple%20dispatch%20-%20an%20example%20for%20mathematical%20optimizers&amp;url=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2019-02-24-multiple-dispatch-optimizers%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2019-02-24-multiple-dispatch-optimizers%2f&amp;title=Multiple%20dispatch%20-%20an%20example%20for%20mathematical%20optimizers"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2019-02-24-multiple-dispatch-optimizers%2f&amp;title=Multiple%20dispatch%20-%20an%20example%20for%20mathematical%20optimizers"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Multiple%20dispatch%20-%20an%20example%20for%20mathematical%20optimizers&amp;body=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2019-02-24-multiple-dispatch-optimizers%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<p>In a recent pull request on a personal project, I spent some time designing
+an intuitive API for a specific problem. After reaching a satisfying result,
+I realized this would never have been possible without one of the central
+mechanisms of the Julia language: <strong>multiple dispatch</strong>. Feel free to read the
+<a href="https://docs.julialang.org/en/v1/manual/methods/" target="_blank">Julia docs</a> on the topic
+or what <a href="https://en.wikipedia.org/wiki/Multiple_dispatch" target="_blank">Wikipedia</a> has to say
+about it.</p>
+
+<p>This post is a walkthrough for multiple dispatch for a case in mathematical
+optimization. The first part will introduce the problem context and requires
+some notion in mathematical optimization, if this stuff is scary, feel free to
+skip to the rest directly.</p>
+
+<h2>Table of Contents</h2>
+<nav id="TableOfContents">
+<ul>
+<li><a href="#refresher-on-if-then-else-constraints">Refresher on if-then-else constraints</a></li>
+<li><a href="#modeling-if-then-else-constraints">Modeling if-then-else constraints</a></li>
+<li><a href="#handling-big-m-in-an-elegant-way">Handling big M in an elegant way</a></li>
+<li><a href="#polishing-our-design-enriched-types">Polishing our design: enriched types</a></li>
+<li><a href="#conclusion-avoiding-a-clarity-flexibility-trade-off">Conclusion: avoiding a clarity-flexibility trade-off</a></li>
+</ul>
+</nav>
+
+
+<h1 id="refresher-on-if-then-else-constraints">Refresher on if-then-else constraints</h1>
+
+<p>I promised an example oriented towards mathematical optimization, here it is:
+it is common to model constraints with two variables $(x, y)$,
+$x$ continuous and $y$ binary stating:</p>
+
+<ul>
+<li>$y = 0 \Rightarrow x = 0$</li>
+<li>If $y = 1$, there is no specific constraint on $x$</li>
+</ul>
+
+<p>Some examples of models with such constraint:</p>
+
+<ul>
+<li><strong>Facility location</strong>: if a wharehouse is not opened, $y = 0$, then the quantity
+served by this point has to be $x = 0$, otherwise, the quantity can go up to
+the wharehouse capacity.</li>
+<li><strong>Unit commitment</strong> (a classic problem for power systems): if a power plant
+has not been activated for a given hour, then it cannot supply any power,
+otherwise, it can supply up to its capacity.</li>
+<li><strong>Complementarity constraints</strong>: if a dual variable $\lambda$ is 0,
+then the corresponding constraint is not active (in non-degenerate cases,
+the slack variable is non-zero)</li>
+</ul>
+
+<p>Logical constraints with such if-then-else structure cannot be handled by
+established optimization solvers, at least not in an efficient way. There are
+two usual ways to implement this, &ldquo;big-M&rdquo; type constraints and special-ordered
+sets of type 1 <code>SOS1</code>.</p>
+
+<p>A SOS1 constraint specifies that out of a set of variables or expressions,
+at most one of them can be non-zero. In our case, the if-then-else constraint
+can be modeled as:
+$$SOS1(x,\, 1-y)$$</p>
+
+<p>Most solvers handling integer variables can use these $SOS1$ constraints
+within a branch-and-bound procedure.</p>
+
+<p>The other formulation is using an upper-bound on the $x$ variable, usually
+written $M$, hence the name:</p>
+
+<p>$$x \leq M \cdot y $$</p>
+
+<p>If $y=0$, $x$ can be at most M, otherwise it is bounded by $M$. If $M$
+is sufficiently big, the constraint becomes inactive.
+However, smaller $M$ values yield tighter formulations, solved more efficiently.
+See <a href="https://orinanobworld.blogspot.com/2018/09/choosing-big-m-values.html" target="_blank">Paul Rubin&rsquo;s</a>
+detailed blog post on the subject. If we want bounds as tight as possible, it
+is always preferable to choose one bound per constraint, instead of one unique
+big M for them all, which means we need a majorant of all individual $M$.</p>
+
+<p>As a rule of thumb, big-M constraints are pretty efficient if $M$ is tight,
+but if we have no idea about it, SOS1 constraints may be more interesting,
+see [1] for recent numerical experiments applied to bilevel problems.</p>
+
+<h1 id="modeling-if-then-else-constraints">Modeling if-then-else constraints</h1>
+
+<p>Now that the context is set, our task is to model if-then-else constraints
+in the best possible way, in a modeling package for instance. We want the user
+to specify something as:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> handle_ifthenelse(x, y, method, params)
+    <span style="color:#75715e"># build the constraint with method using params</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+
+<p>Without a dispatch feature baked within the language, we will end up doing
+it ourselves, for instance in:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> handle_ifthenelse(x, y, method, params)
+    <span style="color:#66d9ef">if</span> typeof(method) <span style="color:#f92672">==</span> SOS1Method
+        <span style="color:#75715e"># model as SOS1Method</span>
+    <span style="color:#66d9ef">elseif</span> typeof(method) <span style="color:#f92672">==</span> BigMMethod
+        <span style="color:#75715e"># handle as big M with params</span>
+    <span style="color:#66d9ef">else</span>
+        throw(<span style="color:#66d9ef">MethodError</span>(<span style="color:#e6db74">&#34;Method unknown&#34;</span>))
+    <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+
+<p>NB: if you have to do that in Julia, there is a <code>isa(x, T)</code> function
+verifying if <code>x</code> is a <code>T</code> in a more concise way, this is verifying sub-typing
+instead of type equality, which is much more flexible.</p>
+
+<p>The function is way longer than necessary, and will have to be modified every
+time. In a more idiomatic way, what we can do is:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">struct SOS1Method <span style="color:#66d9ef">end</span>
+struct BigMMethod <span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> handle_ifthenelse(x, y, <span style="color:#f92672">::</span>SOS1Method)
+    <span style="color:#75715e"># model as SOS1Method</span>
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> handle_ifthenelse(x, y, <span style="color:#f92672">::</span>BigMMethod, params)
+    <span style="color:#75715e"># handle as big M with params</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+
+<p>Much better here, three things to notice:</p>
+
+<ul>
+<li>This may look similar to pattern matching in function arguments if you are
+familiar with languages as Elixir. However, the method to use can be determined
+using static dispatch, i.e. at compile-time.</li>
+<li>We don&rsquo;t need to carry around <code>params</code> in the case of the SOS1 method,
+since we don&rsquo;t use them, so we can adapt the method signature to pass only
+what is needed.</li>
+<li>This code is much easier to document, each method can be documented on
+its own type, and the reader can refer to the method directly.</li>
+</ul>
+
+<p>Cherry on top, any user can define their own technique by importing our function
+and defining a new behavior:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> OtherPackage <span style="color:#75715e"># where the function is defined</span>
+
+struct MyNewMethod <span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> handle_ifthenelse(x, y, <span style="color:#f92672">::</span>MyNewMethod)
+    <span style="color:#75715e"># define a new method for ifthenelse, much more efficient</span>
+<span style="color:#66d9ef">end</span></code></pre></div></p>
+
+<h1 id="handling-big-m-in-an-elegant-way">Handling big M in an elegant way</h1>
+
+<p>We have seen how to dispatch on the technique, but still we are missing one
+point: handling the <code>params</code> in big-M formulations. If you have pairs of $(x_j,y_j)$,
+then users may want:</p>
+
+<p>$$ x_j \leq M_j \cdot y_j\,\, \forall j $$</p>
+
+<p>Or:
+$$ x_j \leq M \cdot y_j\,\, \forall j $$</p>
+
+<p>The first formulation requires a vector of M values, and the second one
+requires a scalar. One default option would be to adapt to the most general one:
+if several M values are given, build a vector, if there is only one, repeat it
+for each $j$. One way to do it using dynamic typing:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">struct BigMMethod <span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> handle_ifthenelse(x, y, <span style="color:#f92672">::</span>BigMMethod, M<span style="color:#f92672">::</span><span style="color:#66d9ef">Union</span>{<span style="color:#66d9ef">Real</span>,<span style="color:#66d9ef">AbstractVector</span>{<span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Real</span>}})
+    <span style="color:#66d9ef">if</span> M isa <span style="color:#66d9ef">Real</span>
+        <span style="color:#75715e"># handle with one unique M</span>
+    <span style="color:#66d9ef">else</span>
+        <span style="color:#75715e"># it is a vector</span>
+        <span style="color:#75715e"># handle with each M[j]</span>
+    <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span></code></pre></div></p>
+
+<p>Note that we can constrain the type of M to be either a scalar or a Vector
+using <code>Union</code> type. Still, this type verification can be done using dispatch,
+and we can handle the multiple cases:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">struct BigMMethod <span style="color:#66d9ef">end</span>
+
+<span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">Use one unique big M value
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+<span style="color:#66d9ef">function</span> handle_ifthenelse(x, y, <span style="color:#f92672">::</span>BigMMethod, M<span style="color:#f92672">::</span><span style="color:#66d9ef">Real</span>)
+    <span style="color:#75715e"># handle with one unique M</span>
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">Use a vector of big M value
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+<span style="color:#66d9ef">function</span> handle_ifthenelse(x, y, <span style="color:#f92672">::</span>BigMMethod, Mvec<span style="color:#f92672">::</span><span style="color:#66d9ef">AbstractVector</span>)
+    <span style="color:#75715e"># handle with each Mvec[j]</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+
+<p>This solution is fine, and resolving most things at compile-time.
+Also, note that we are defining one signature as a convenience way redirecting
+to another.</p>
+
+<h1 id="polishing-our-design-enriched-types">Polishing our design: enriched types</h1>
+
+<p>The last solution is great, we are dispatching on our algorithm and parameter
+types. However, in a realistic research or development work, many decisions more
+decisions are taken, algorithms options, number types, various parameters.
+We will likely end up with something similar to:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> do_science(x, y, z,
+                    <span style="color:#f92672">::</span>Alg1, params_alg_1,
+                    <span style="color:#f92672">::</span>Alg2, params_alg_2,
+                    <span style="color:#f92672">::</span>Alg3, <span style="color:#75715e"># algortithm 3 does not need parameters</span>
+                    <span style="color:#f92672">::</span>Alg4, params_alg_4)
+    <span style="color:#75715e"># do something with params_alg_1 for Alg1</span>
+    <span style="color:#75715e"># do something with params_alg_2 for Alg2</span>
+    <span style="color:#75715e"># ...</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+
+<p>Requiring users to pass all arguments and types in the correct order.
+A long chain of positional arguments like this end makes for error-prone
+and cumbersome interfaces. Can we change this? We created all our types as
+empty structures <code>struct A end</code> and use it just to dispatch. Instead,
+we could store adapted parameters within the corresponding type:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">struct Alg1
+    coefficient<span style="color:#f92672">::</span><span style="color:#66d9ef">Float64</span>
+    direction<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">Float64</span>}
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#75715e"># define other types</span>
+
+<span style="color:#66d9ef">function</span> do_science(x, y, z, a1<span style="color:#f92672">::</span>Alg1, a2<span style="color:#f92672">::</span>Alg2, <span style="color:#f92672">::</span>Alg3, a4<span style="color:#f92672">::</span>Alg4)
+    <span style="color:#75715e"># do something with params_alg_1 for Alg1</span>
+    <span style="color:#75715e"># a1.coefficient, a1.direction...</span>
+    <span style="color:#75715e"># do something with Alg2</span>
+    <span style="color:#75715e"># ...</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+
+<p>Getting back to our initial use case of <code>BigMMethod</code>, we need to store
+the $M$ value(s) in the structure:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">struct BigMMethod
+    M<span style="color:#f92672">::</span><span style="color:#66d9ef">Union</span>{<span style="color:#66d9ef">Float64</span>, <span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">Float64</span>}}
+<span style="color:#66d9ef">end</span></code></pre></div></p>
+
+<p>This seems fine, however, the Julia compiler cannot know the type of the <code>M</code>
+field at compile-time, instead, we can use a type parameter here:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">struct BigMMethod{MT<span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Union</span>{<span style="color:#66d9ef">Real</span>, <span style="color:#66d9ef">AbstractVector</span>{<span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Real</span>}}}
+    M<span style="color:#f92672">::</span>MT
+    BigMMethod(M<span style="color:#f92672">::</span>MT) where {MT} <span style="color:#f92672">=</span> new{MT}(M)
+<span style="color:#66d9ef">end</span></code></pre></div></p>
+
+<p>When constructing the BigMMethod with this definition, it can be specialized
+on <code>MT</code>, the type of <code>M</code>, two examples of valid definitions are:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">BigMMethod(<span style="color:#ae81ff">3.0</span>)
+<span style="color:#75715e"># result: BigMMethod{Float64}(3.0)</span>
+
+BigMMethod(<span style="color:#ae81ff">3</span>)
+<span style="color:#75715e"># result: BigMMethod{Int}(3)</span>
+
+BigMMethod([<span style="color:#ae81ff">3.0</span>, <span style="color:#ae81ff">5.0</span>])
+<span style="color:#75715e"># result BigMMethod{Vector{Float64}}([3.0, 5.0])</span></code></pre></div></p>
+
+<p>The advantage is we can now specialize the <code>handle_ifthenelse</code>
+signature on the type parameter of M, as below:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">Use one unique big M value
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+<span style="color:#66d9ef">function</span> handle_ifthenelse(x, y, bm<span style="color:#f92672">::</span>BigMMethod{<span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Real</span>})
+    <span style="color:#75715e"># handle with one unique M bm.M</span>
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">Use a vector of big M value
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+<span style="color:#66d9ef">function</span> handle_ifthenelse(x, y, bm<span style="color:#f92672">::</span>BigMMethod{<span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">AbstractVector</span>})
+    <span style="color:#75715e"># handle with each bm.M[j]</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+
+<p>The advantage is a strictly identical signature, whatever the method and
+its parameters, users will always call it with:
+<code>handle_ifthenelse(x, y, bm::BigMMethod{&lt;:AbstractVector})</code></p>
+
+<h1 id="conclusion-avoiding-a-clarity-flexibility-trade-off">Conclusion: avoiding a clarity-flexibility trade-off</h1>
+
+<p>In this simple but commonly encountered example, we leveraged multiple dispatch,
+the ability to choose a function implementation depending on the type of its
+arguments. This helped us define a homogeneous interface for specifying a type
+of constraint, specializing on the method (SOS1 or big M) and on the data
+available (one M or a vector of M values).</p>
+
+<p>Performance bonus, this design is providing the Julia compiler with strong type
+information while remaining flexible for the user. In Julia terminology,
+this property is called <a href="https://docs.julialang.org/en/v1/manual/performance-tips/#Avoid-changing-the-type-of-a-variable-1" target="_blank">type stability</a>.
+We would not have benefitted from this property if we had used reflection-based
+design (with <code>typeof()</code> and <code>isa</code>).</p>
+
+<p>This idea of using big-M as an example did not come up in the abstract but is
+a simplification of the design used in the
+<a href="https://github.com/matbesancon/BilevelOptimization.jl" target="_blank">BilevelOptimization.jl</a>
+package. Remember I mentioned complementarity constraints, it is exactly this
+use case.</p>
+
+<p>If you are interested in more examples of multiple dispatch and hands-on
+use cases for the Julia type system, check out
+<a href="https://blog.moelf.xyz/real-world-example-for-julia-typing/" target="_blank">these</a>
+<a href="https://white.ucc.asn.au/2018/10/03/Dispatch,-Traits-and-Metaprogramming-Over-Reflection.html" target="_blank">two</a>
+articles.
+Feel free to reach out any way you prefer, <a href="https://twitter.com/matbesancon" target="_blank">Twitter</a>,
+<a href="/#contact">email</a>.</p>
+
+<hr />
+
+<p>Sources:</p>
+
+<p>[1] Henrik Carøe Bylling&rsquo;s thesis, KU, <a href="http://web.math.ku.dk/noter/filer/phd19hb.pdf" target="_blank">http://web.math.ku.dk/noter/filer/phd19hb.pdf</a></p>
+
+<hr />
+
+<p>Image sources:</p>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="https://matbesancon.github.io/post/2019-02-04-article-review/"><span
+      aria-hidden="true">&larr;</span> A naive and incomplete guide to peer-review</a></li>
+    
+
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mathieu Besançon &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js" integrity="sha512-iHzEu7GbSc705hE2skyH6/AlTpOfBmkx7nUqTLGzPYR+C1tRaItbRlJ7hT/D3YQ9SV0fqLKzp4XY9wKulTBGTw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js" integrity="sha512-Z5heTz36xTemt1TbtbfXtTq5lMfYnOkXM2/eWcTTiLU01+Sw4ku1i7vScDc8fWhrP2abz9GQzgKH5NGBLoYlAw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/ScrollToPlugin.min.js" integrity="sha512-CDeU7pRtkPX6XJtF/gcFWlEwyaX7mcAp5sO3VIu/ylsdR74wEw4wmBpD5yYTrmMAiAboi9thyBUr1vXRPA7t0Q==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

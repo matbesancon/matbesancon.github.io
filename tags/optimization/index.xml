@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Tue, 18 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 24 Feb 2019 00:00:00 +0100</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/optimization/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Multiple dispatch - an example for mathematical optimizers</title>
+      <link>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</link>
+      <pubDate>Sun, 24 Feb 2019 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</guid>
+      <description>In a recent pull request on a personal project, I spent some time designing an intuitive API for a specific problem. After reaching a satisfying result, I realized this would never have been possible without one of the central mechanisms of the Julia language: multiple dispatch. Feel free to read the Julia docs on the topic or what Wikipedia has to say about it.
+This post is a walkthrough for multiple dispatch for a case in mathematical optimization.</description>
+    </item>
     
     <item>
       <title>A Bilevel Framework for Optimal Price-Setting of Time-and-Level-of-Use Tariffs</title>
