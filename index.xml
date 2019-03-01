@@ -324,7 +324,13 @@ Feel free to reach out any way you prefer, &lt;a href=&#34;https://twitter.com/m
 
 &lt;hr /&gt;
 
-&lt;p&gt;Edits: thanks BYP for sharp proofreading and constructive critics.&lt;/p&gt;
+&lt;p&gt;Edit 1: thanks BYP for sharp proofreading and constructive critics.&lt;/p&gt;
+
+&lt;p&gt;Edit 2: Thanks Mathieu Tanneau for pointing out the alternative solution of
+indicator constraints instead of big M, as documented in &lt;a href=&#34;http://www.gurobi.com/documentation/7.5/refman/constraints.html&#34; target=&#34;_blank&#34;&gt;Gurobi&lt;/a&gt;, &lt;a href=&#34;https://www.ibm.com/support/knowledgecenter/SSSA5P_12.8.0/ilog.odms.cplex.help/CPLEX/UsrMan/topics/discr_optim/indicator_constr/01_indicators_title_synopsis.html&#34; target=&#34;_blank&#34;&gt;CPLEX&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Edit 3: For more info on big M constraints and underlying issues, you can read
+&lt;a href=&#34;https://twitter.com/thserra&#34; target=&#34;_blank&#34;&gt;Thiago Serra&lt;/a&gt;&amp;rsquo;s &lt;a href=&#34;https://thiagoserra.com/2017/06/15/big-m-good-in-practice-bad-in-theory-and-ugly-numerically/&#34; target=&#34;_blank&#34;&gt;post&lt;/a&gt;, which includes nice visualizations of the problem space.&lt;/p&gt;
 
 &lt;hr /&gt;
 
