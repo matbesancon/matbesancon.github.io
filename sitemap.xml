@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>https://matbesancon.github.io/post/2019-01-24-entrepreneurial-state-review/</loc>
+      <lastmod>2019-03-18T00:00:00+01:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</loc>
       <lastmod>2019-02-24T00:00:00+01:00</lastmod>
     </url>
@@ -351,6 +360,16 @@
     
     <url>
     
+      <loc>https://matbesancon.github.io/tags/book/</loc>
+      <lastmod>2019-03-18T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://matbesancon.github.io/categories/</loc>
       <priority>0</priority>
     </url>
@@ -392,6 +411,16 @@
     
       <loc>https://matbesancon.github.io/tags/distributions/</loc>
       <lastmod>2018-09-04T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/economics/</loc>
+      <lastmod>2019-03-18T00:00:00+01:00</lastmod>
       <priority>0</priority>
     </url>
     
