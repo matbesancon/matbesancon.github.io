@@ -25,7 +25,7 @@ lists for which the size is known at compile-time. This is inspired by
 a &lt;a href=&#34;https://aerodatablog.wordpress.com/2019/03/03/a-typedlist-in-scala/#joe_barnes_talk&#34; target=&#34;_blank&#34;&gt;post&lt;/a&gt;
 on a Scala equivalent but will take different roads to see more than a plain port.
 Of course, this implementation is not that handy nor efficient but
-is mostly meant to explore the possibilities of the type system,
+is mostly meant to push the limits of the type system,
 especially a trick of using recursive types as values
 (replacing a dependent type system).
 Some other references:&lt;/p&gt;
@@ -57,9 +57,14 @@ type of data it contains:
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; MyList{T} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
 
 &lt;p&gt;Some types are however parametrized on other things, if we look at the
-definition of &lt;code&gt;AbstractArray&lt;/code&gt; for example:
-&amp;gt;   AbstractArray{T,N}
-&amp;gt;  Supertype for N-dimensional arrays (or array-like types) with elements of type T.&lt;/p&gt;
+definition of &lt;code&gt;AbstractArray&lt;/code&gt; for example:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;  AbstractArray{T,N}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Supertype for N-dimensional arrays (or array-like types) with elements of type T.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;The two type parameters are another type &lt;code&gt;T&lt;/code&gt; and and integer &lt;code&gt;N&lt;/code&gt; for the
 dimensionality (tensor rank). The only constraint for a value to be
@@ -67,7 +72,8 @@ an acceptable type parameter is to be composed of plain bits, complying
 with &lt;code&gt;isbitstype&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;This looks great, we could define our StaticList
-directly using integers.
+directly using integers.&lt;/p&gt;
+
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;A static list of type `T` and length `L`
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
@@ -88,7 +94,7 @@ struct Cons{T,L} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt
 
 &lt;span style=&#34;color:#75715e&#34;&gt;# Usage:&lt;/span&gt;
 &lt;span style=&#34;color:#75715e&#34;&gt;# Cons(3, Nil{Int}()) is of type StaticList{Int,1}&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;# Cons(4, Cons(3, Nil{Int}())) is of type StaticList{Int,2}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# Cons(4, Cons(3, Nil{Int}())) is of type StaticList{Int,2}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;If you try to evaluate this code, you will get an error:
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;ERROR&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;MethodError&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; no method matching &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;TypeVar&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
@@ -126,6 +132,8 @@ Cons{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;,&lt;span style
 
 julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; Cons(&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;, Cons(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, Nil{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}()))
 Cons{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;}(&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;, Cons{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, Nil{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;}()))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This might be the neatest option for building the &lt;code&gt;StaticList&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h1 id=&#34;recursive-natural-numbers&#34;&gt;Recursive natural numbers&lt;/h1&gt;
 

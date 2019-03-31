@@ -244,7 +244,7 @@ lists for which the size is known at compile-time. This is inspired by
 a <a href="https://aerodatablog.wordpress.com/2019/03/03/a-typedlist-in-scala/#joe_barnes_talk" target="_blank">post</a>
 on a Scala equivalent but will take different roads to see more than a plain port.
 Of course, this implementation is not that handy nor efficient but
-is mostly meant to explore the possibilities of the type system,
+is mostly meant to push the limits of the type system,
 especially a trick of using recursive types as values
 (replacing a dependent type system).
 Some other references:</p>
@@ -276,9 +276,14 @@ type of data it contains:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> MyList{T} <span style="color:#66d9ef">end</span></code></pre></div></p>
 
 <p>Some types are however parametrized on other things, if we look at the
-definition of <code>AbstractArray</code> for example:
-&gt;   AbstractArray{T,N}
-&gt;  Supertype for N-dimensional arrays (or array-like types) with elements of type T.</p>
+definition of <code>AbstractArray</code> for example:</p>
+
+<blockquote>
+<pre><code>  AbstractArray{T,N}
+</code></pre>
+
+<p>Supertype for N-dimensional arrays (or array-like types) with elements of type T.</p>
+</blockquote>
 
 <p>The two type parameters are another type <code>T</code> and and integer <code>N</code> for the
 dimensionality (tensor rank). The only constraint for a value to be
@@ -286,7 +291,8 @@ an acceptable type parameter is to be composed of plain bits, complying
 with <code>isbitstype</code>.</p>
 
 <p>This looks great, we could define our StaticList
-directly using integers.
+directly using integers.</p>
+
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#e6db74">&#34;&#34;&#34;
 </span><span style="color:#e6db74">A static list of type `T` and length `L`
 </span><span style="color:#e6db74">&#34;&#34;&#34;</span>
@@ -307,7 +313,7 @@ struct Cons{T,L} <span style="color:#f92672">&lt;:</span> StaticList{T,L<span st
 
 <span style="color:#75715e"># Usage:</span>
 <span style="color:#75715e"># Cons(3, Nil{Int}()) is of type StaticList{Int,1}</span>
-<span style="color:#75715e"># Cons(4, Cons(3, Nil{Int}())) is of type StaticList{Int,2}</span></code></pre></div></p>
+<span style="color:#75715e"># Cons(4, Cons(3, Nil{Int}())) is of type StaticList{Int,2}</span></code></pre></div>
 
 <p>If you try to evaluate this code, you will get an error:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">ERROR<span style="color:#f92672">:</span> <span style="color:#66d9ef">MethodError</span><span style="color:#f92672">:</span> no method matching <span style="color:#f92672">+</span>(<span style="color:#f92672">::</span><span style="color:#66d9ef">TypeVar</span>, <span style="color:#f92672">::</span><span style="color:#66d9ef">Int64</span>)</code></pre></div></p>
@@ -345,6 +351,8 @@ Cons{<span style="color:#66d9ef">Int64</span>,<span style="color:#ae81ff">1</spa
 
 julia<span style="color:#f92672">&gt;</span> Cons(<span style="color:#ae81ff">4</span>, Cons(<span style="color:#ae81ff">3</span>, Nil{<span style="color:#66d9ef">Int</span>}()))
 Cons{<span style="color:#66d9ef">Int64</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>}(<span style="color:#ae81ff">4</span>, Cons{<span style="color:#66d9ef">Int64</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>}(<span style="color:#ae81ff">3</span>, Nil{<span style="color:#66d9ef">Int64</span>}()))</code></pre></div>
+
+<p>This might be the neatest option for building the <code>StaticList</code>.</p>
 
 <h1 id="recursive-natural-numbers">Recursive natural numbers</h1>
 
