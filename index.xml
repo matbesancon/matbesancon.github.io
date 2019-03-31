@@ -104,6 +104,29 @@ another mechanism. For the macro-based approach,
 does exactly that. More discussion on computed type parameters in
 [1] and [2].&lt;/p&gt;
 
+&lt;p&gt;&lt;strong&gt;Edit&lt;/strong&gt;: using integer type parameters can be achieved using &lt;em&gt;ComputedFieldTypes.jl&lt;/em&gt; as such:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; ComputedFieldTypes
+
+julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; StaticList{T,L} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; struct Nil{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@computed&lt;/span&gt; struct Cons{T,L} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,L}
+           h&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
+           t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;}
+           &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Cons(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T, t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L0}) where {T,L0}
+               L &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; L0&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+               new{T,L}(v,t)
+           &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+       &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; Cons(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, Nil{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}())
+Cons{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, Nil{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;}())
+
+julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; Cons(&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;, Cons(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, Nil{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}()))
+Cons{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;}(&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;, Cons{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, Nil{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;}()))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;h1 id=&#34;recursive-natural-numbers&#34;&gt;Recursive natural numbers&lt;/h1&gt;
 
 &lt;p&gt;We can use the same technique as in the Scala post, representing natural
