@@ -11,6 +11,361 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Static lists in Julia</title>
+      <link>https://matbesancon.github.io/post/2019-03-30-static-list/</link>
+      <pubDate>Sat, 30 Mar 2019 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-03-30-static-list/</guid>
+      <description>
+
+&lt;hr /&gt;
+
+&lt;p&gt;This post explores the possibility to build static lists in Julia, meaning
+lists for which the size is known at compile-time. This is inspired by
+a &lt;a href=&#34;https://aerodatablog.wordpress.com/2019/03/03/a-typedlist-in-scala/#joe_barnes_talk&#34; target=&#34;_blank&#34;&gt;post&lt;/a&gt;
+on a Scala equivalent but will take different roads to see more than a plain port.
+Of course, this implementation is not that handy nor efficient but
+is mostly meant to explore the possibilities of the type system,
+especially a trick of using recursive types as values
+(replacing a dependent type system).
+Some other references:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The list operations are inspired by the implementation in &lt;a href=&#34;https://github.com/JuliaCollections/DataStructures.jl&#34; target=&#34;_blank&#34;&gt;&lt;em&gt;DataStructures.jl&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaArrays/StaticArrays.jl&#34; target=&#34;_blank&#34;&gt;&lt;em&gt;StaticArrays.jl&lt;/em&gt;&lt;/a&gt; is a good inspiration for static data structures in Julia&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#first-thoughts-value-type-parameter&#34;&gt;First thoughts: value type parameter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#recursive-natural-numbers&#34;&gt;Recursive natural numbers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#implementing-a-list-y-behaviour&#34;&gt;Implementing a list-y behaviour&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#special-valued-lists&#34;&gt;Special-valued lists&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#multi-typed-lists&#34;&gt;Multi-typed lists&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#sources&#34;&gt;Sources&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nav&gt;
+
+
+&lt;h1 id=&#34;first-thoughts-value-type-parameter&#34;&gt;First thoughts: value type parameter&lt;/h1&gt;
+
+&lt;p&gt;Julia allows developers to define type parameters.
+In the case of a list, the most obvious one may be the
+type of data it contains:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; MyList{T} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;Some types are however parametrized on other things, if we look at the
+definition of &lt;code&gt;AbstractArray&lt;/code&gt; for example:
+&amp;gt;   AbstractArray{T,N}
+&amp;gt;  Supertype for N-dimensional arrays (or array-like types) with elements of type T.&lt;/p&gt;
+
+&lt;p&gt;The two type parameters are another type &lt;code&gt;T&lt;/code&gt; and and integer &lt;code&gt;N&lt;/code&gt; for the
+dimensionality (tensor rank). The only constraint for a value to be
+an acceptable type parameter is to be composed of plain bits, complying
+with &lt;code&gt;isbitstype&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This looks great, we could define our StaticList
+directly using integers.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;A static list of type `T` and length `L`
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; StaticList{T,L} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+struct Nil{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+StaticList{T}() where T &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Nil{T}()
+StaticList(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T) where T &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Cons(v, Nil{T}())
+
+struct Cons{T,L} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,L&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;}
+    h&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
+    t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L}
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Cons(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T, t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L}) where {T,L}
+        new{T,L}(v,t)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# Usage:&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# Cons(3, Nil{Int}()) is of type StaticList{Int,1}&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# Cons(4, Cons(3, Nil{Int}())) is of type StaticList{Int,2}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;If you try to evaluate this code, you will get an error:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;ERROR&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;MethodError&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; no method matching &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;TypeVar&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;Pretty explicit, you cannot perform any computation on values used as type
+parameters. With more complex operations, this could make the compiler hang,
+crash or at least perform poorly (we would be forcing the compiler to execute
+this code at compile-time).&lt;/p&gt;
+
+&lt;p&gt;One way there might be around this is macros or replacing sub-typing with
+another mechanism. For the macro-based approach,
+&lt;a href=&#34;https://github.com/vtjnash/ComputedFieldTypes.jl&#34; target=&#34;_blank&#34;&gt;ComputedFieldTypes.jl&lt;/a&gt;
+does exactly that. More discussion on computed type parameters in
+[1] and [2].&lt;/p&gt;
+
+&lt;h1 id=&#34;recursive-natural-numbers&#34;&gt;Recursive natural numbers&lt;/h1&gt;
+
+&lt;p&gt;We can use the same technique as in the Scala post, representing natural
+number using recursive types.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ZeroLength&lt;/code&gt; is a special singleton type&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Next{L}&lt;/code&gt; represents the number following the one represented by &lt;code&gt;L&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We can modify our previous example:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;A type parameter for List length, the numerical length can be retrieved
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;using `length(l::Length)`
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; Length &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+struct ZeroLength &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; Length &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+struct Next{L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; Length &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;A linked list of size known at compile-time
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; StaticList{T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+struct Nil{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,ZeroLength} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+StaticList{T}() where T &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Nil{T}()
+StaticList(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T) where T &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Cons(v, Nil{T}())
+
+struct Cons{T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,Next{L}}
+    h&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
+    t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L}
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Cons(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T, t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L}) where {T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length}
+        new{T,L}(v,t)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;By default, the type of the Nil is ignored if different
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;from the type of first value
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+Cons(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T,&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{Nil{T1}}) where {T,T1} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Cons(v, Nil{T}())&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;We can then define basic information for a list, its length:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;length(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{ZeroLength}) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;length(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{Next{L}}) where {L} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; length(L)
+
+Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;eltype(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L}) where {T,L} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; T
+Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;length(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L}) where {T,L} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; length(L)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;One thing should catch your attention in this block,
+we use a recursive definition of &lt;code&gt;length&lt;/code&gt; for the &lt;code&gt;Length&lt;/code&gt; type,
+which means we can blow our compiler. However, both of the definitions
+are static, in the sense that they don&amp;rsquo;t use type information, so
+the final call should reduce to spitting out the length cached at compile-time.
+You can confirm this is the case by checking the produced assembly instructions with &lt;code&gt;@code_native&lt;/code&gt;.
+We respected our contract of a list with size known at compile-time.&lt;/p&gt;
+
+&lt;h1 id=&#34;implementing-a-list-y-behaviour&#34;&gt;Implementing a list-y behaviour&lt;/h1&gt;
+
+&lt;p&gt;This part is heavily inspired by the &lt;em&gt;DataStructures.jl&lt;/em&gt; list implementation,
+as such we will not re-define methods with semantically similar but
+implement them for our list type. Doing so for your own package
+allows user to switch implementation for the same generic code.&lt;/p&gt;
+
+&lt;p&gt;The first operation is being able to join a head with an existing list:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;DataStructures&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cons(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T,l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L}) where {T,L} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Cons(v,l)
+
+&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Allows for `cons(v,Nil)`. Note that the `Nil` type is ignored.
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+DataStructures&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cons(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T,&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{Nil}) where {T} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; StaticList(v)
+
+(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Colon&lt;/span&gt;)(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T,l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L}) where {T,L} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; DataStructures&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cons(v, l)
+(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Colon&lt;/span&gt;)(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T,&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{Nil}) where {T,L} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; DataStructures&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cons(v, Nil{T})&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Implementing the odd &lt;code&gt;::Colon&lt;/code&gt; methods allows for a very neat syntax:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;l0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; StaticList{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}()
+l1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;l0
+l2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;l1&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Unlike the Scala post, we are not using the &lt;code&gt;::&lt;/code&gt; operator which
+is reserved for typing expressions in Julia.
+We can add a basic head and tail methods, which allow querying
+list elements without touching the inner structure. This
+will be useful later on.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;DataStructures&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;head(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Cons{T,L}) where {T,L} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; l&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;h
+DataStructures&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;tail(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Cons{T,L}) where {T,L} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; l&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;t&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Testing list equality can be done recursively, dispatching on the three
+possible cases:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;(l1&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList, l2&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;(l1&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;L1,l2&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;L2) where {T1,L,T2,L1&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Cons{T1,L},L2&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Cons{T2,L}}
+    l1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;h &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; l2&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;h &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; l1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;t &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; l2&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;t
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Two `Nil` are always considered equal, no matter the type
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Nil,&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Nil) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We can now define basic higher-order functions, such as &lt;code&gt;zip&lt;/code&gt; below,
+and implement the iteration interface.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;zip(l1&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Nil{T1},l2&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T2,L2}) where {T1,T2,L2}
+    Nil{&lt;span style=&#34;color:#66d9ef&#34;&gt;Tuple&lt;/span&gt;{T1,T2}}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;zip(l1&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Cons{T1,L1},l2&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Cons{T2,L2}) where {T1,L1,T2,L2}
+    v &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (l1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;h, l2&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;h)
+    Cons(v,zip(l1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;t,l2&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;t))
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Nil) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nothing
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList, state&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Cons &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; l)
+    (state&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;h, state&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;t)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Iterating over our lists is fairly straight-forward, and will be more efficient than
+the recursive implementations of the higher-order functions, we still kept it for
+equality checking, more a matter of keeping a functional style in line with the Scala post.&lt;/p&gt;
+
+&lt;p&gt;The case of list reversal is fairly straightforward: iterate and accumulate
+the list in a new one.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;reverse(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L}) where {T,L}
+    l2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Nil{T}
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; h &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; l
+        l2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Cons(h, l2)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    l2
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We define the cat operation between multiple lists.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cat(l1&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L},l2&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L}) where {T,L}
+    l &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; l2
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; e &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; reverse(l1)
+        l &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Cons(e, l)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    l
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The reverse is necessary to keep the order of the two lists.&lt;/p&gt;
+
+&lt;h1 id=&#34;special-valued-lists&#34;&gt;Special-valued lists&lt;/h1&gt;
+
+&lt;p&gt;Now that we have a basic static list implementation, we can spice things up.
+&lt;code&gt;StaticList&lt;/code&gt; is just an abstract type in our case, not an algebraic data type
+as in common functional implementations, meaning we can define other sub-types.&lt;/p&gt;
+
+&lt;p&gt;Imagine a numeric list, with a series of zeros or ones somewhere.
+Instead of storing all of them, we can find a smart way of representing them.
+Let us define a static list of ones:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;struct OnesStaticList{T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Number&lt;/span&gt;,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;OnesStaticList, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{ZeroLength}) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nothing
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;OnesStaticList{T,L}, state&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{Next{L1}} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; L) where &lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;
+    (one(T), L1)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This list corresponds to the 1 value of type &lt;code&gt;T&lt;/code&gt;, repeated for all elements.
+In a similar fashion, one can define a ZeroList:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;struct ZerosStaticList{T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Number&lt;/span&gt;,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;ZerosStaticList, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{ZeroLength}) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nothing
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;ZerosStaticList{T,L}, state&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{Next{L1}} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; L) where&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;
+    (zero(T), L1)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;One thing to note is that these lists are terminal, in the sense that they cannot
+be part of a greater list. To fix this, we can add a tail to these as follows:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;struct ZerosStaticList{T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Number&lt;/span&gt;,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length,TL&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;StaticList{T,&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length}}
+	t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;TL
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;ZerosStaticList, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{ZeroLength}) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; l&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;t
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;ZerosStaticList{T,L}, state&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{Next{L1}} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; L) where&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;
+    (zero(T), L1)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;t&lt;/code&gt; field of the list contains the tail after the series of zeros,
+we can thus build a much simpler representation in case of long constant series.
+In a similar fashion, one could define a constant list of &lt;code&gt;N&lt;/code&gt; elements, storing
+the value just once.&lt;/p&gt;
+
+&lt;h1 id=&#34;multi-typed-lists&#34;&gt;Multi-typed lists&lt;/h1&gt;
+
+&lt;p&gt;There is one last extension we can think of with this data structure.
+Since we have a recursive length parameter, why not add it a type at each new node?&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; TLength &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+struct TZeroLength &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TLength &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+struct TNext{T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;TLength} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TLength &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; TStaticList{L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;TLength} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+struct TNil &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TStaticList{TZeroLength} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+struct TCons{T, L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;TLength} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TStaticList{TNext{T,L}}
+    h&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
+    t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;TStaticList{L}
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; TCons(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T, t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;TStaticList{L}) where {T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;TLength}
+        new{T,L}(v,t)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;With such construct, all nodes can be of a different type &lt;code&gt;T&lt;/code&gt;, without
+removing the type information from the compiler.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; TCons(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;,TNil())
+TCons{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;,TZeroLength}(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, TNil())
+
+julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; TCons(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ha&amp;#34;&lt;/span&gt;, TCons(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;,TNil()))
+TCons{String,TNext{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;,TZeroLength}}(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ha&amp;#34;&lt;/span&gt;, TCons{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;,TZeroLength}(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, TNil()))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;One interesting thing to note here is that the type takes the same
+structure as the list itself:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Type&lt;/strong&gt;: either a &lt;code&gt;T&lt;/code&gt; and a &lt;code&gt;TLength&lt;/code&gt; containing the rest of the type, or &lt;code&gt;TNil&lt;/code&gt;&lt;br /&gt;
+&lt;strong&gt;Data&lt;/strong&gt;: either a value of a given type and the rest of the list, or empty list&lt;/p&gt;
+
+&lt;h1 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;The Julia type system and compiler allow for sophisticated specifications
+when designing data structures, which gives it a feel of compiled languages.
+This however should not be abused, in our little toy example, the type parameter
+grows in complexity as the list does, which means the compiler has to carry out
+some computation.&lt;/p&gt;
+
+&lt;p&gt;If you want some further compile-time tricks, &lt;a href=&#34;https://www.youtube.com/watch?v=SeqAQHKLNj4&#34; target=&#34;_blank&#34;&gt;Andy Ferris&amp;rsquo;s&lt;/a&gt;
+workshop at JuliaCon 2018 details how to perform compile-time computations
+between bits and then bytes.&lt;/p&gt;
+
+&lt;p&gt;If you have any idea how to implement &lt;code&gt;StaticList&lt;/code&gt; using integer parameters instead
+of custom struct I would be glad to exchange. Porting this to
+use &lt;a href=&#34;https://github.com/vtjnash/ComputedFieldTypes.jl&#34; target=&#34;_blank&#34;&gt;ComputedFieldTypes.jl&lt;/a&gt; might be a fun
+experiment.&lt;/p&gt;
+
+&lt;p&gt;Feel free to reach out any way you prefer, &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;,
+&lt;a href=&#34;https://matbesancon.github.io/#contact&#34;&gt;email&lt;/a&gt; to exchange or discuss this post.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&#34;sources&#34;&gt;Sources&lt;/h1&gt;
+
+&lt;p&gt;Header image source: &lt;a href=&#34;https://pxhere.com/en/photo/742575&#34; target=&#34;_blank&#34;&gt;https://pxhere.com/en/photo/742575&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;[1] A proposal on Julia &amp;ldquo;Defer calculation of field types until type parameters are known&amp;rdquo;, &lt;a href=&#34;https://github.com/JuliaLang/julia/issues/18466&#34; target=&#34;_blank&#34;&gt;julia/issues/18466&lt;/a&gt;&lt;br /&gt;
+[2] Discussion on compile-time computations on &lt;a href=&#34;https://discourse.julialang.org/t/compile-time-arithmetic-for-parameterized-types/13991&#34; target=&#34;_blank&#34;&gt;Discourse&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Book review: the Entrepreneurial State</title>
       <link>https://matbesancon.github.io/post/2019-01-24-entrepreneurial-state-review/</link>
       <pubDate>Mon, 18 Mar 2019 00:00:00 +0100</pubDate>
@@ -1835,323 +2190,6 @@ warm starts.&lt;/p&gt;
 
 &lt;p&gt;Thanks to Aristide for his very sharp ideas and views on this article which
 contributed to its improvement!&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;Image source: &lt;a href=&#34;https://www.flickr.com/photos/30478819@N08/38272827564&#34; target=&#34;_blank&#34;&gt;https://www.flickr.com/photos/30478819@N08/38272827564&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Tackling the cutting stock problem: part 1, problem exploration</title>
-      <link>https://matbesancon.github.io/post/2018-05-23-colgen/</link>
-      <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
-      <description>
-
-&lt;p&gt;Integer optimization often feels weird (at least to me). Simple reformulations
-of a (mixed) integer optimization problem (MIP) can make it way easier to solve.
-We&amp;rsquo;re going to explore one well-known example of such integer problem in two
-blog posts. This first part introduces the problem and develops a naive solution.
-We&amp;rsquo;re going to see why it&amp;rsquo;s complex to solve and why this formulation does not
-scale.&lt;/p&gt;
-
-&lt;p&gt;In a second post, we will see a reformulation of the problem which makes it
-easier to solve and scales to bigger instances.&lt;/p&gt;
-
-&lt;h2 id=&#34;integer-optimization-reminder&#34;&gt;Integer optimization reminder&lt;/h2&gt;
-
-&lt;p&gt;An optimization problem takes three components: decisions variables $x$, a set of
-constraints telling you if a decision is feasible or not and a cost function
-$c(x)$ giving a total cost of a decision. Optimization is a domain of applied
-mathematics consisting in finding the best feasible decision for a problem.
-Lots of decision problems come with &lt;em&gt;integrality constraints&lt;/em&gt;: if $x$ is the
-decision, then it can only take integer values 0,1,2&amp;hellip; or even only binary
-values ${0,1}$. Think of problems involving number of units produced
-for a good, yes/no decisions, etc&amp;hellip; If a problem has lots of variables, naive
-enumerations of feasible solutions becomes impossible: even problems with 50
-variables can make your average laptop crash.&lt;/p&gt;
-
-&lt;h2 id=&#34;the-cutting-stock-problem&#34;&gt;The cutting stock problem&lt;/h2&gt;
-
-&lt;p&gt;The problem is not new and has been given quite some thoughts because of its
-different industrial applications, it has been one of the first applications of
-the column generation method we are going to use. The key elements of the problems
-are: given some large rolls (metal, paper or other), we need to cut smaller
-portions of given lengths to satisfy a demand for the different small lengths.
-Find &lt;a href=&#34;https://en.wikipedia.org/wiki/Cutting_stock_problem&#34; target=&#34;_blank&#34;&gt;more details here&lt;/a&gt;.
-A small instance might be: given rolls of size $100cm$, we want to cut at least
-7 rolls of size $12cm$ and 9 rolls of size $29cm$. The objective is to minimize
-the number of big rolls to satisfy this demand.&lt;/p&gt;
-
-&lt;p&gt;How do we formulate this mathematically?&lt;/p&gt;
-
-&lt;h3 id=&#34;decisions&#34;&gt;Decisions&lt;/h3&gt;
-
-&lt;p&gt;$Y_i$ is a binary decision indicating if we use the big roll number $i$. $X_{ij}$ is an integer
-giving the number of times we cut a small roll $j$ in the big roll $i$.&lt;/p&gt;
-
-&lt;h3 id=&#34;constraints&#34;&gt;Constraints&lt;/h3&gt;
-
-&lt;p&gt;$Y$ are binary variables, $X$ are integer. Now the less trivial constraints:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Demand satisfaction constraint&lt;/strong&gt;: the sum over all $i$ big rolls of the cut $j$
-has to satisfy the demand for that cut:
-$$\sum_{i} X_{ij} \geq D_j $$&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;For the two-cut example with the demand of $7 \times 12cm$ and $9 \times 29cm$,
-let&amp;rsquo;s suppose we have 10 big rolls $i \in {1&amp;hellip;10}$, the demand for the first
-12cm cut is 7 cuts, the number of cuts of this size produced is:
-$$ \sum_i X_{i1} =  X_{1,1} + X_{2,1} + &amp;hellip; + X_{10,1}$$&lt;/p&gt;
-
-&lt;p&gt;This total must at least match the demand, so:
-$$ X_{1,1} + X_{2,1} + &amp;hellip; + X_{10,1} \geq 7 $$&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Roll size constraint&lt;/strong&gt;: if a roll $i$ is used, we cannot fit more width
-onto it than its total width:
-$$\sum_{j} X_{ij} \cdot W_j \leq L \cdot Y_i $$&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;For the two-cut example with the demand of $7 \times 12cm$ and $9 \times 29cm$,
-let&amp;rsquo;s suppose we have one roll $i$:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;If $Y_i = 0$, the roll size constraint becomes:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;$$ \sum_{j} X_{ij} \cdot W_j = 12 \cdot X_{i1} + 29 \cdot X_{i2} \leq 0 $$&lt;/p&gt;
-
-&lt;p&gt;The only feasible solution for this roll $i$ is ($X_{i1} = 0,X_{i2} = 0$).&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;If $Y_i = 1$, the roll size constraint becomes:
-$$ 12 \cdot X_{i1} + 29 \cdot X_{i2} \leq 100 $$&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Which means we can fit as many cuts as the roll size allows for.&lt;/p&gt;
-
-&lt;h2 id=&#34;a-first-naive-implementation&#34;&gt;A first naive implementation&lt;/h2&gt;
-
-&lt;p&gt;Let&amp;rsquo;s first import the necessary packages: we&amp;rsquo;re using JuMP as a modeling
-tool, which is an optimization-specific language embedded in Julia
-(compare it to AMPL, GAMS, Pyomo, PuLP).
-As I consider it an embedded language, I&amp;rsquo;ll do a full import into my namespace
-with &lt;code&gt;using&lt;/code&gt; (unlike what I usually do with packages). We also use &lt;code&gt;Cbc&lt;/code&gt;,
-an open-source solver for integer problems from the Coin-OR suite.&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; JuMP
-&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; Cbc&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; CbcSolver&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;We can define our optimization problem within a function taking the parameters
-of the cutting stock problem, namely a &lt;code&gt;maxwidth&lt;/code&gt; of the big rolls, scalar
-assuming all of them have the same width, a &lt;code&gt;widths&lt;/code&gt; vector, one element for
-each cut size $j$ and a &lt;code&gt;demand&lt;/code&gt; vector, again, one for each cut size.&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; cutting_stock_model(maxwidth, widths, demand, N &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; sum(demand))
-    &lt;span style=&#34;color:#75715e&#34;&gt;# Define the JuMP model&lt;/span&gt;
-    m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Model(solver &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; CbcSolver())
-    &lt;span style=&#34;color:#75715e&#34;&gt;# define the two groups of variables over their respective indices&lt;/span&gt;
-    Y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@variable&lt;/span&gt;(m, Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;N],Bin)
-    X &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@variable&lt;/span&gt;(m, X[i&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;N,j&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;length(widths)],&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;)
-    &lt;span style=&#34;color:#75715e&#34;&gt;# define both constraints and objective&lt;/span&gt;
-    demand_satisfac &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@constraint&lt;/span&gt;(m, [j&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;length(widths)],
-        sum(X[i,j] &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;N) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; demand[j]
-    )
-    roll_size_const &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@constraint&lt;/span&gt;(m, [i&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;N],
-        sum(X[i,j] &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; widths[j] &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;length(widths)) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; Y[i] &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; maxwidth
-    )
-    &lt;span style=&#34;color:#a6e22e&#34;&gt;@objective&lt;/span&gt;(m, Min, sum(Y[i] &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;N))
-    &lt;span style=&#34;color:#75715e&#34;&gt;# return the model formulation to solve later&lt;/span&gt;
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; m
-&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Here $N$ has to be an upper bound on the number of big rolls to use, otherwise
-the problem will be infeasible (not enough big rolls to find a solution
-satisfying the demand). An initial naive value for this could be the total
-demand, after all one small cut per roll can be considered a worst-case solution.&lt;/p&gt;
-
-&lt;p&gt;Note that we don&amp;rsquo;t call &lt;code&gt;solve&lt;/code&gt; on the model yet, the function simply builds the
-model, this will help us see how it evolves with various entry parameters.
-In Julia REPL, or by using the &lt;code&gt;@show&lt;/code&gt; macro, we can have more details on the
-model. Using &lt;code&gt;println(m)&lt;/code&gt; instead of &lt;code&gt;@show&lt;/code&gt; will build a mathematical
-formulation of the model in a LateX-like style, which can be valuable to
-ensure your implementation matches the initial formulation.&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; println(cutting_stock_model(&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;, [&lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;]))
-Min Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;]
-Subject to
- X[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;≥&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;
- X[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;≥&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;
- &lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt; Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;≤&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
- &lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt; Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;≤&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
- &lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt; Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;≤&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
- &lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt; Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;≤&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
- &lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt; Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;≤&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
- &lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt; Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;≤&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
- &lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt; X[&lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt; Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;≤&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
- Y[i] &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;} ∀ i &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;}
- X[i,j], integer, ∀ i &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;}, j &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Let&amp;rsquo;s see what the model looks like for different instances:
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; cutting_stock_model(&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;, [&lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;85&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;97&lt;/span&gt;], &lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt;)
-(Minimization problem with&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
- &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;602&lt;/span&gt; linear constraints
- &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;600&lt;/span&gt; variables&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt; binary, &lt;span style=&#34;color:#ae81ff&#34;&gt;400&lt;/span&gt; integer
-Solver is CbcMathProg,
-X[i,j], integer, ∀ i &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color:#ae81ff&#34;&gt;199&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt;}, j &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;},
-Y[i] &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;} ∀ i &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color:#ae81ff&#34;&gt;199&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt;})
-
-julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; cutting_stock_model(&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;, [&lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;25&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;85&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;97&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;52&lt;/span&gt;], &lt;span style=&#34;color:#ae81ff&#34;&gt;300&lt;/span&gt;)
-(Minimization problem with&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
- &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1203&lt;/span&gt; linear constraints
- &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1200&lt;/span&gt; variables&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;300&lt;/span&gt; binary, &lt;span style=&#34;color:#ae81ff&#34;&gt;900&lt;/span&gt; integer
-Solver is CbcMathProg,
-X[i,j], integer,∀ i &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color:#ae81ff&#34;&gt;299&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;300&lt;/span&gt;}, j &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;},
-Y[i] &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;} ∀ i &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color:#ae81ff&#34;&gt;299&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;300&lt;/span&gt;})
-
-julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; cutting_stock_model(&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;, [&lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;25&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;40&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;41&lt;/span&gt;], [&lt;span style=&#34;color:#ae81ff&#34;&gt;85&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;97&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;52&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;63&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;77&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;31&lt;/span&gt;], &lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;)
-(Minimization problem with&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
- &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3506&lt;/span&gt; linear constraints
- &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3500&lt;/span&gt; variables&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt; binary, &lt;span style=&#34;color:#ae81ff&#34;&gt;3000&lt;/span&gt; integer
-Solver is CbcMathProg,
-X[i,j], integer, ∀ i &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color:#ae81ff&#34;&gt;499&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;}, j &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;},
-Y[i] &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;} ∀ i &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,…,&lt;span style=&#34;color:#ae81ff&#34;&gt;499&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;})&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
-
-&lt;p&gt;We see the number of variables and constraints explode as we add more possible
-cut sizes. More precisely:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Number of variables: $ size(X) + size(Y) = Nrolls \cdot Ncuts + Nrolls $&lt;/li&gt;
-&lt;li&gt;Number of constraints: $ size(DemandConstr) + size(WidthConstr) = Ncuts + Nrolls$&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Without going into details on the solving process, two things make the problem
-difficult to solve:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Symmetry: if we place cuts on a roll $Y_1$ and leave another $Y_2$ unused,
-the resulting solution is concretely the same as using $Y_2$ and leaving $Y_1$
-unused.&lt;/li&gt;
-&lt;li&gt;Bad relaxation: integer solvers mostly work by solving a &amp;ldquo;relaxed&amp;rdquo; version
-of the problem without the integrality constraint, and then iteratively
-restricting the problem to find the best integer solution. If the relaxed
-version of the problem yields solutions far away from an integer one, the solver
-will have more work to get there.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Difficulty (1) is pretty intuitive, but we could get some insight on (2).
-Let&amp;rsquo;s define our relaxed problem. We&amp;rsquo;re going to use the &lt;code&gt;Clp&lt;/code&gt; solver, which
-will solve the same problem, but without the &lt;code&gt;Int&lt;/code&gt; restriction for $X$
-nor the &lt;code&gt;Bin&lt;/code&gt; restriction for $Y$:
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; relaxed_cutting_stock(maxwidth, widths, demand, N &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; sum(demand))
-   m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Model(solver &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ClpSolver())
-   Y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@variable&lt;/span&gt;(m, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; Y[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;N] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)
-   X &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@variable&lt;/span&gt;(m, X[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;N,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;length(widths)] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
-   demand_satisfac &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@constraint&lt;/span&gt;(m, [j&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;length(widths)], sum(X[i,j] &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;N) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; demand[j])
-   roll_size_const &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@constraint&lt;/span&gt;(m, [i&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;N], sum(X[i,j] &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; widths[j] &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;length(widths)) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; Y[i] &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; maxwidth)
-   &lt;span style=&#34;color:#a6e22e&#34;&gt;@objective&lt;/span&gt;(m, Min, sum(Y[i] &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;N))
-   &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (m,Y,X)
-&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s see the results:&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [(i,getvalue(Y[i])) &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;N &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; getvalue(Y[i]) ≉ &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]
-&lt;span style=&#34;color:#ae81ff&#34;&gt;33&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;element &lt;span style=&#34;color:#66d9ef&#34;&gt;Array&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Tuple&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int64&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;},&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;}&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;11&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;13&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;14&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;16&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;17&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;18&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;19&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;21&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;22&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;23&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;24&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;25&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;26&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;27&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;28&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;29&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;31&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;32&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.9&lt;/span&gt;)
- (&lt;span style=&#34;color:#ae81ff&#34;&gt;84&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;)
-
-idxs &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [i &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (i,_ ) &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; res]
-julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; [getvalue(X)[i,&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;] &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; idxs]
-&lt;span style=&#34;color:#ae81ff&#34;&gt;33&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;element &lt;span style=&#34;color:#66d9ef&#34;&gt;Array&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Array&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;},&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;}&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;7.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.2&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4.0&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.16&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.16&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.16&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.16&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.16&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.16&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.16&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.16&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;5.8&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1.216&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;7.2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.144&lt;/span&gt;]
- [&lt;span style=&#34;color:#ae81ff&#34;&gt;8.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.16&lt;/span&gt;]&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;We notice the $Y$ variables are overall pretty saturated and almost integer,
-but the $X$ variables are highly fractional: the linear cuts are divided such
-that they fit perfectly the big rolls. This will make the variable hard to
-get to an integer solution.&lt;/p&gt;
-
-&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
-
-&lt;p&gt;This was a quick intro to the cutting stock problem to get a grasp of its
-structure and difficulty, the goal was not to get too technical and keep a
-broad target audience.&lt;/p&gt;
-
-&lt;p&gt;Hope you enjoyed it, if that&amp;rsquo;s the case, I&amp;rsquo;ll see you on the next article,
-we&amp;rsquo;ll implement a &lt;em&gt;column generation&lt;/em&gt; algorithm from scratch to solve it.
-If you have any question/remarks, feel free to &lt;a href=&#34;http://twitter.com/matbesancon/&#34; target=&#34;_blank&#34;&gt;get in touch&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;thanks&#34;&gt;Thanks&lt;/h2&gt;
-
-&lt;p&gt;Special thanks to &lt;a href=&#34;https://github.com/SohamTamba&#34; target=&#34;_blank&#34;&gt;Soham&lt;/a&gt; and Aristide
-for their feedback, these helped me a great deal simplify the structure and add
-details and explanations where needed.&lt;/p&gt;
 
 &lt;hr /&gt;
 

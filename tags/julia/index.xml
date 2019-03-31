@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Sun, 24 Feb 2019 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 30 Mar 2019 00:00:00 +0100</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/julia/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Static lists in Julia</title>
+      <link>https://matbesancon.github.io/post/2019-03-30-static-list/</link>
+      <pubDate>Sat, 30 Mar 2019 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-03-30-static-list/</guid>
+      <description>This post explores the possibility to build static lists in Julia, meaning lists for which the size is known at compile-time. This is inspired by a post on a Scala equivalent but will take different roads to see more than a plain port. Of course, this implementation is not that handy nor efficient but is mostly meant to explore the possibilities of the type system, especially a trick of using recursive types as values (replacing a dependent type system).</description>
+    </item>
     
     <item>
       <title>Multiple dispatch - an example for mathematical optimizers</title>
