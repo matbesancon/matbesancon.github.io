@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 30 May 2018 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 07 Apr 2019 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/jump/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Picking different names with integer optimization</title>
+      <link>https://matbesancon.github.io/post/2019-04-07-name_distances/</link>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-04-07-name_distances/</guid>
+      <description>I must admit I am not always the most talented at social events. One point I am especially bad at is remembering names, and it gets even harder when lots of people have similar or similar-sounding names. What if we could select a list of people with names as different from each other as possible?
+First some definitions, different here is meant with respect to the Hamming distance of any two names.</description>
+    </item>
     
     <item>
       <title>The cutting stock problem: part 2, solving with column generation</title>
