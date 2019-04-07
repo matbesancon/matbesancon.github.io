@@ -66,7 +66,7 @@ definition of &lt;code&gt;AbstractArray&lt;/code&gt; for example:&lt;/p&gt;
 &lt;p&gt;Supertype for N-dimensional arrays (or array-like types) with elements of type T.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;The two type parameters are another type &lt;code&gt;T&lt;/code&gt; and and integer &lt;code&gt;N&lt;/code&gt; for the
+&lt;p&gt;The two type parameters are another type &lt;code&gt;T&lt;/code&gt; and integer &lt;code&gt;N&lt;/code&gt; for the
 dimensionality (tensor rank). The only constraint for a value to be
 an acceptable type parameter is to be composed of plain bits, complying
 with &lt;code&gt;isbitstype&lt;/code&gt;.&lt;/p&gt;
