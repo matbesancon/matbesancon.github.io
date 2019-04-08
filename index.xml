@@ -54,9 +54,10 @@ $ E = $ {$ (i,j) | i \in $ {$ 1..|V| $}$, j \in ${$ 1..i-1 $}}&lt;/p&gt;
 
 &lt;p&gt;It&amp;rsquo;s an integer problem with a quadratic number of variables and constraints.
 Some other formulations have been proposed, and there may be a specific structure
-to exploit given that we have a complete graph, but for the moment it will do.&lt;/p&gt;
+to exploit given that we have a complete graph.
+For the moment though, this generic formulation will do.&lt;/p&gt;
 
-&lt;h2 id=&#34;implementing-the-model-with-julia&#34;&gt;Implementing the model with Julia&lt;/h2&gt;
+&lt;h2 id=&#34;a-julia-implementation&#34;&gt;A Julia implementation&lt;/h2&gt;
 
 &lt;p&gt;What we want is a function taking a collection of names and returning which
 are selected. The first thing to do is build this distance matrix.
@@ -130,10 +131,11 @@ to represent this:&lt;/p&gt;
 &lt;p&gt;$$\max_{x,y} d $$
 subject to:
 $$ y_{ij} \Rightarrow d \leq c_{ij} \,\, \forall (i,j) \in E$$
-$$ 2y_{ij} \leq x_i + x_j \forall (i,j) \in E $$&lt;/p&gt;
+$$ 2y_{ij} \leq x_i + x_j \forall (i,j) \in E $$
+$$ \sum_{i \in V} x_i = k $$&lt;/p&gt;
 
 &lt;p&gt;Depending on the solver support, the indicator constraint can be modelled directly,
-with big M or SOS1 constraints.&lt;/p&gt;
+with big M or SOS1 constraints. This remains harder than the initial model.&lt;/p&gt;
 
 &lt;p&gt;Special thanks to Yuan for bringing out the discussion which led to this
 post.&lt;/p&gt;
