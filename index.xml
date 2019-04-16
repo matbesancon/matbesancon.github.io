@@ -132,7 +132,7 @@ to represent this:&lt;/p&gt;
 subject to:
 $$ y_{ij} \Rightarrow d \leq c_{ij} \,\, \forall (i,j) \in E$$
 $$ 2y_{ij} \leq x_i + x_j \forall (i,j) \in E $$
-$$ \sum_{i \in V} x_i = k $$&lt;/p&gt;
+$$ \sum_{(i,j) \in E} y_{ij} = k\cdot (k-1) $$&lt;/p&gt;
 
 &lt;p&gt;Depending on the solver support, the indicator constraint can be modelled directly,
 with big M or SOS1 constraints. This remains harder than the initial model.&lt;/p&gt;
