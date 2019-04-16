@@ -36,7 +36,7 @@ it will do the trick for now.&lt;/p&gt;
 &lt;p&gt;This sounds like a problem representable as a complete graph.
 The names are the vertices, and the weight associated with each edge $(i,j)$
 is the distance between the names of the nodes. We want to take a subset
-of $k$ nodes, such that the sum of edge weights for the induced subgraph
+of $k$ nodes, such that the sum of edge weights for the induced sub-graph
 is maximum. This is therefore a particular case of maximum (edge) weight clique
 problem over a complete graph, which has been investigated in [1, 2] among others.&lt;/p&gt;
 
