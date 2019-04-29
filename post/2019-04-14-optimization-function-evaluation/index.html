@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.52" />
+  <meta name="author" content="Mathieu Besançon">
+  <meta name="description" content="PhD student in applied mathematics for energy systems">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  
+
+  <link rel="alternate" href="https://matbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+  <link rel="feed" href="https://matbesancon.github.io/index.xml" type="application/rss+xml" title="μβ">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/">
+
+  
+
+  <title>Variables are not values: types and expressions in mathematical optimization | μβ</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">μβ</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#talks">
+            
+            <span>Talks</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#experiences">
+            
+            <span>Experiences</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Variables are not values: types and expressions in mathematical optimization</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2019-04-29 00:00:00 &#43;0200 CEST" itemprop="datePublished">
+      Mon, Apr 29, 2019
+    </time>
+  </span>
+
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="/tags/optimization">optimization</a
+    >, 
+    
+    <a href="/tags/jump">jump</a
+    >, 
+    
+    <a href="/tags/functional">functional</a
+    >, 
+    
+    <a href="/tags/python">python</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2019-04-14-optimization-function-evaluation%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Variables%20are%20not%20values%3a%20types%20and%20expressions%20in%20mathematical%20optimization&amp;url=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2019-04-14-optimization-function-evaluation%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2019-04-14-optimization-function-evaluation%2f&amp;title=Variables%20are%20not%20values%3a%20types%20and%20expressions%20in%20mathematical%20optimization"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2019-04-14-optimization-function-evaluation%2f&amp;title=Variables%20are%20not%20values%3a%20types%20and%20expressions%20in%20mathematical%20optimization"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Variables%20are%20not%20values%3a%20types%20and%20expressions%20in%20mathematical%20optimization&amp;body=https%3a%2f%2fmatbesancon.github.io%2fpost%2f2019-04-14-optimization-function-evaluation%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<p>This week, I came across Richard Oberdieck&rsquo;s <a href="https://github.com/RichardOberdieck/optimization-blog/blob/master/Why%20'evaluate'%20is%20the%20feature%20I%20am%20missing%20the%20most%20from%20commercial%20MIP%20solvers.ipynb" target="_blank">post</a>,
+&ldquo;Why &lsquo;evaluate&rsquo; is the feature I am missing the most from commercial MIP solvers&rdquo;.
+It would indeed be practical to have for the reasons listed by the author, but
+some barriers stand to have it as it is expressed in the snippets presented.</p>
+
+<h2>Table of Contents</h2>
+<nav id="TableOfContents">
+<ul>
+<li><a href="#initial-problem-statement">Initial problem statement</a></li>
+<li><a href="#a-terminology-problem">A terminology problem</a></li>
+<li><a href="#encoding-possibilities-as-sum-types">Encoding possibilities as sum-types</a></li>
+<li><a href="#a-typed-solution-for-describing-mathematical-problems">A typed solution for describing mathematical problems</a></li>
+<li><a href="#stealing-a-solution-elsewhere">Stealing a solution elsewhere</a></li>
+<li><a href="#further-resources">Further resources</a></li>
+</ul>
+</nav>
+
+
+<h1 id="initial-problem-statement">Initial problem statement</h1>
+
+<p>The author first tests the optimization of a non-linear function through scipy
+as such:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">func <span style="color:#f92672">=</span> <span style="color:#66d9ef">lambda</span> x: np<span style="color:#f92672">.</span>cos(<span style="color:#ae81ff">14.5</span> <span style="color:#f92672">*</span> x <span style="color:#f92672">-</span> <span style="color:#ae81ff">0.3</span>) <span style="color:#f92672">+</span> (x <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.2</span>) <span style="color:#f92672">*</span> x
+func(<span style="color:#ae81ff">5</span>) <span style="color:#75715e"># 25.001603108415402</span></code></pre></div>
+
+<p>So far so good, we are defining a scalar function, passing it a scalar value
+at which it evaluates and returns the value, which is what it is
+supposed to do.</p>
+
+<p>Now the real gripe comes when moving on to developing against a black box
+solver (often commercial, closed-source), commonly used for linear,
+mixed-integer problems:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> xpress <span style="color:#f92672">as</span> xp
+
+<span style="color:#75715e"># Define the model and variables</span>
+Model <span style="color:#f92672">=</span> xp<span style="color:#f92672">.</span>problem()
+x <span style="color:#f92672">=</span> xp<span style="color:#f92672">.</span>var(lb<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, ub<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+Model<span style="color:#f92672">.</span>addVariable(x)
+
+<span style="color:#75715e"># Define the objective and solve</span>
+test_objective <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">*</span>x
+Model<span style="color:#f92672">.</span>setObjective(test_objective)
+Model<span style="color:#f92672">.</span>solve()
+<span style="color:#75715e"># test_objective(5) does not work</span></code></pre></div></p>
+
+<p>One first problem to notice here is that <code>test_objective</code>
+is at best an expression, not a function, meaning it does
+not depend on an input argument but on decision variables declared globally.
+That is one point why it cannot be called.</p>
+
+<p>Now, the rest of this article will be some thoughts on how optimization problems
+could be structured and represented in a programming language.</p>
+
+<p>One hack that could be used is being able to set the values of <code>x</code>, but this
+needs to be done at the global level:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x <span style="color:#f92672">=</span> xp<span style="color:#f92672">.</span>var(lb<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, ub<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+Model<span style="color:#f92672">.</span>addVariable(x)
+
+<span style="color:#75715e"># Define the objective</span>
+test_objective <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">*</span>x
+
+x<span style="color:#f92672">.</span>set(<span style="color:#ae81ff">5</span>)
+<span style="color:#75715e"># evaluates test_objective with the set value of x</span>
+xp<span style="color:#f92672">.</span>evaluale(test_objective)</code></pre></div></p>
+
+<p>Having to use the global scope, with an action on one
+object (the variable <code>x</code>) modifying another
+(the <code>test_objective</code> expression) is called a side-effect and quickly makes
+things confusing as your program grows in complexity. You have to contain the
+state in some way and keep track. Keeping track of value changes is
+more or less fine, but the hardest part is keeping track
+of value definitions. Consider the following example:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x <span style="color:#f92672">=</span> xp<span style="color:#f92672">.</span>var(lb<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, ub<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+Model<span style="color:#f92672">.</span>addVariable(x)
+y <span style="color:#f92672">=</span> xp<span style="color:#f92672">.</span>var(lb<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, ub<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+Model<span style="color:#f92672">.</span>addVariable(y)
+
+<span style="color:#75715e"># Define the objective and solve</span>
+test_objective <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">*</span>x <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>y
+xp<span style="color:#f92672">.</span>evaluale(test_objective) <span style="color:#75715e"># no variable set, what should this return?</span>
+
+x<span style="color:#f92672">.</span>set(<span style="color:#ae81ff">5</span>)
+xp<span style="color:#f92672">.</span>evaluale(test_objective) <span style="color:#75715e"># y is not set, what should this return?</span></code></pre></div></p>
+
+<h1 id="a-terminology-problem">A terminology problem</h1>
+
+<p>We are touching a more fundamental problem here, <strong>variables are not values</strong>
+and cannot be considered as such. Merging the term &ldquo;variable&rdquo; for variables
+of your Python/Julia/other program with the decision variables from an
+optimization problem creates a great confusion.
+Just like variables, the term function is confusing here:
+most optimization techniques exploit the problem structure,
+think linear, disciplined convex, semi-definite; anything beyond non-linear
+differentiable or black-box optimization will use the specific structure
+in a specialized algorithm.
+If standard functions from your programming language are used, no structure
+can be leveraged by the solver, which only sees a function pointer it can pass
+values to. So working with mathematical optimization forces you to re-think
+what you call &ldquo;variables&rdquo; and what you call &ldquo;functions&rdquo;.</p>
+
+<p>There is something we can do for the function part, which is defining
+arithmetic rules over variables and expressions, which is for instance what
+the JuMP modelling framework does:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span> JuMP
+m <span style="color:#f92672">=</span> Model()
+<span style="color:#a6e22e">@variable</span>(m, x1 <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)
+<span style="color:#a6e22e">@variable</span>(m, x2 <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)
+
+<span style="color:#75715e"># random affine function</span>
+f(a, b) <span style="color:#f92672">=</span> π <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>a <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>b
+
+f(x1, x2) <span style="color:#75715e"># returns a JuMP.GenericAffExpr{Float64,VariableRef}</span>
+
+<span style="color:#a6e22e">@variable</span>(m, y)
+f(x1, x2) <span style="color:#f92672">+</span> y  <span style="color:#75715e"># also builds a JuMP.GenericAffExpr{Float64,VariableRef}</span></code></pre></div></p>
+
+<p>This works especially well with affine functions because composing affine
+expressions builds other affine expressions but gets more complex any time
+other types of constraints are added. For some great resource on types and
+functions for mathematical optimization, watch Prof. Madeleine Udell&rsquo;s
+<a href="https://www.youtube.com/watch?v=skLGTYs5kAk" target="_blank">talk</a> at JuliaCon17 (the Julia
+syntax is from a pre-1.0 version, it may look funny).</p>
+
+<h1 id="encoding-possibilities-as-sum-types">Encoding possibilities as sum-types</h1>
+
+<p>Getting back to evaluation, to make this work, you need to know what
+<strong>values</strong> variables hold. What if the model hasn&rsquo;t been optimized yet?
+You could take:
+1. A numerical approach and return <code>NaN</code> (floating point value for Not-A-Number)
+2. An imperative approach and throw an error when we evaluate an expression without values set or the model optimized
+3. A typed functional approach and describe the possibility of presence/absence of a value through types</p>
+
+<p>The first approach was JuMP 0.18 and prior, the second is JuMP 0.19 and onward,
+the third is the one of interest to us, if we want to describe what is happening
+through types.</p>
+
+<p>If you show these three options to a developer used to statically-typed
+functional programming, they would tell you that the first option coming to mind
+is an <em>option</em>, a type which can be either some value or nothing.
+In the case of an optimization model, it would be some numerical value
+if we have a value to return (that is, we optimized the model and found a
+solution).
+The problem is, there are many reasons for which you may have or not a value.
+What you could do in that case is get more advanced information from your model.
+This is the approach <code>JuMP</code> is taking with a bunch of model attributes you
+can query at any time, see the <a href="http://www.juliaopt.org/JuMP.jl/stable/solutions/" target="_blank">documentation</a>
+for things you can query at any time.</p>
+
+<p>The problem is that querying information on the status of the problem (solved,
+unsolved, impossible to solve&hellip;) and getting values attached to variables can
+be unrelated.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">m <span style="color:#f92672">=</span> Model()
+<span style="color:#a6e22e">@variable</span>(m, x <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)
+<span style="color:#a6e22e">@variable</span>(m, y <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)
+
+<span style="color:#75715e"># getting status: nothing because not optimized</span>
+termination_status(m)
+<span style="color:#75715e"># OPTIMIZE_NOT_CALLED::TerminationStatusCode = 0</span>
+
+primal_status(m) <span style="color:#75715e"># NO_SOLUTION::ResultStatusCode = 0</span>
+
+JuMP<span style="color:#f92672">.</span>value(x) <span style="color:#75715e"># ERROR: NoOptimizer()</span>
+<span style="color:#75715e"># woops, we forgot that we hadn&#39;t optimized yet</span></code></pre></div></p>
+
+<p>This is indeed because <code>x</code> does not exist by itself, there is
+a &ldquo;magic bridge&rdquo; between the variable <code>x</code> and the model <code>m</code>.
+The computer science term for this &ldquo;magic bridge&rdquo; is a
+<strong><a href="https://en.wikipedia.org/wiki/Side_effect_(computer_science)" target="_blank">side-effect</a></strong>,
+the same kind as mentioned earlier when we set the value of a variable at the
+global scope. Again, they are fine at a small scale but are often the parts
+making a program confusing. Every time I&rsquo;m reviewing some code by researchers
+starting out, the first thing I encourage them to do is to create self-contained
+bits of code within functions and remove mutable global state.</p>
+
+<h1 id="a-typed-solution-for-describing-mathematical-problems">A typed solution for describing mathematical problems</h1>
+
+<p>We stated that the variables and model are bound together. In that case, let
+us not split them but describe them as one thing and since this one thing
+accepts different possible states, we will use
+<a href="https://en.wikipedia.org/wiki/Tagged_union" target="_blank">tagged unions</a>, which you can
+think of as C enumerations with associated values. Other synonyms for this
+construct are sum types (as in OCaml and Haskell).</p>
+
+<p>We can think of the solution process of an optimization problem at a high level
+as a function:</p>
+
+<pre><code>solve(Model(Variables, Constraints, Objective)) -&gt; OptimizationResult
+</code></pre>
+
+<p>Where <code>OptimizationResult</code> is a sum type:</p>
+
+<pre><code>OptimizationResult = Infeasible(info) | Unbounded(info) | Optimal(info) | NearOptimal(info) ...
+</code></pre>
+
+<p>In this case, everything can stay immutable, expressions including objective
+and constraints are only used to build the model in input, they can be
+evaluated at any points and just describe some expressions of variables.
+The <strong>value</strong> of the variables resulting from the optimization are on
+available in cases where it makes sense. If the results are stored in the
+solution info structure, we can query values where it makes sense only,
+here in the <code>Optimal</code> and <code>NearOptimal</code> cases, with a syntax like:</p>
+
+<pre><code>match OptimizationResult {
+    Optimal(info) -&gt; value(info, x) # or info.value(x)
+    Infeasible(info) -&gt; ...
+    Unbounded(info)  -&gt; ...
+}
+</code></pre>
+
+<p>Internally, info would keep an association from variables to corresponding
+values. No more confusion on what binding of your computer program represents
+what symbolic variable of your problem.</p>
+
+<p>So why would we keep using these bindings associated with variables, if they
+have never been independent from the problem in the first place? The obvious
+reason that comes to mind is practical syntax, we can write expressions in
+a quasi-mathematical way (here in JuMP):
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#a6e22e">@expression</span>(m, <span style="color:#ae81ff">3</span>x <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>x<span style="color:#f92672">^</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">4</span>y)</code></pre></div></p>
+
+<p>While if variables were attached to the model, the required syntax would be
+in the flavour of:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#a6e22e">@expression</span>(m, <span style="color:#ae81ff">3</span>m[<span style="color:#f92672">:</span>x] <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>m[<span style="color:#f92672">:</span>x]<span style="color:#f92672">^</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">4</span>m[<span style="color:#f92672">:</span>y])</code></pre></div></p>
+
+<p>Which quickly becomes hard to read. Can we do better?</p>
+
+<h1 id="stealing-a-solution-elsewhere">Stealing a solution elsewhere</h1>
+
+<p>I stumbled upon an interesting solution to such problem while reading the
+documentation for various probabilistic programming languages built on top
+of Julia. Here is one example from <a href="http://turing.ml/docs/get-started" target="_blank">Turing.jl</a>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#a6e22e">@model</span> gdemo(x, y) <span style="color:#f92672">=</span> <span style="color:#66d9ef">begin</span>
+  s <span style="color:#f92672">~</span> InverseGamma(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>)
+  m <span style="color:#f92672">~</span> Normal(<span style="color:#ae81ff">0</span>,sqrt(s))
+  x <span style="color:#f92672">~</span> Normal(m, sqrt(s))
+  y <span style="color:#f92672">~</span> Normal(m, sqrt(s))
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#75715e"># sample from the model using an algorithm</span>
+chn <span style="color:#f92672">=</span> sample(gdemo(<span style="color:#ae81ff">1.5</span>, <span style="color:#ae81ff">2</span>), HMC(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">0.1</span>, <span style="color:#ae81ff">5</span>))</code></pre></div></p>
+
+<p>It&rsquo;s just one step away from imagining the same for optimization:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#a6e22e">@optim_model</span> linmodel(a, b) <span style="color:#f92672">=</span> <span style="color:#66d9ef">begin</span>
+  x[<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>
+  <span style="color:#ae81ff">5</span> <span style="color:#f92672">&lt;=</span> y <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">10</span>
+  z <span style="color:#f92672">∈</span> 𝔹
+  cons1<span style="color:#f92672">:</span> y <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">5</span>z
+  cons2<span style="color:#f92672">:</span> x <span style="color:#f92672">+</span> y <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">3</span>
+  Min x
+<span style="color:#66d9ef">end</span>
+
+result <span style="color:#f92672">=</span> optimize(linmodel)</code></pre></div></p>
+
+<p>Naming the constraints would be necessary to retrieve associated dual values.
+Retrieving values associated with variables could be done in an associative
+structure (think a dictionary/hash map). This structure removes any confusion as
+to what belongs where in an optimization model. The variables <code>x, y, z</code> are
+indeed defined within a given model and explicitly <strong>belong</strong> to it.</p>
+
+<p>Why are interfaces not built this way? Warning, speculative opinions below:</p>
+
+<p>One reason is the ubiquity of C &amp; C++ in optimization.
+The vast majority of commonly used solvers is built
+in either of these, supporting limited programming constructs and based on
+passing pointers around to change the values pointed to. Because the solvers are
+built like this, interfaces follow the same constructions. Once a dominant
+number of interfaces are identical, building something widely different is a
+disadvantage with a steeper learning curve.</p>
+
+<p>Another more nuanced reason is that declarative software is hard to get right.
+One often has to build everything upfront, here in the <code>@optim_model</code> block.
+Getting meaningful errors is much harder, and debugging optimization models
+is already a tricky business.</p>
+
+<p>Lastly, lots of algorithms are based on incremental modifications of models
+(think column and row generation), or combinations with other bricks. This
+requires some &ldquo;hackability&rdquo; of the model. If one looks at Algebraic Modelling
+Languages, everything seems to fall apart once you try to implement
+decompositions. Usually it involves a completely different syntax for the
+decomposition scheme (the imperative part) and for the model declaration
+(the declarative part).</p>
+
+<p>So overall, even though side-effects are a central part of the barrier to
+the expression of mathematical optimization in a mathematical, type-based
+declarative way, they are needed because of the legacy of solvers and some
+algorithms which become hairy to express without it.</p>
+
+<h1 id="further-resources">Further resources</h1>
+
+<p>As pointed above, Prof. Madeleine Udell&rsquo;s <a href="https://www.youtube.com/watch?v=skLGTYs5kAk" target="_blank">talk</a>
+gives some great perspectives on leveraging types for expressive optimization
+modelling. For the brave and avid readers, this
+<a href="https://www.cs.cmu.edu/~rwh/theses/agarwal.pdf" target="_blank">PhD thesis</a> tackles
+the semantics of a formal language for optimization problems.
+If you have further resources on the subject, please reach out.</p>
+
+<p>Thanks Richard for the initial post and the following discussion which led to
+this post. For shorter and nicely written posts on optimization, go read his
+<a href="https://github.com/RichardOberdieck/optimization-blog" target="_blank">blog</a>.</p>
+
+<p><strong>Note</strong>: I try never to use the terms &ldquo;mathematical programming&rdquo; and
+&ldquo;mathematical program&rdquo; which are respectively synonyms for
+&ldquo;mathematical optimization&rdquo; and &ldquo;mathematical optimization problem&rdquo; respectively.
+We can see why in this post: this kind of context where the term &ldquo;program&rdquo;
+could refer to a computer program or a mathematical problem becomes very
+confusing. We are in 2019 and the term &ldquo;program&rdquo; is now universally understood
+as a computer program. Moreover, &ldquo;mathematical programming&rdquo; merely refers to
+a problem specification, it is very confusing to say that
+&ldquo;linear/semi-definite/convex programming&rdquo; is merely meant as putting together
+a bunch of equations, not at all about how to tackle these.</p>
+
+<hr />
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="https://matbesancon.github.io/post/2019-04-07-name_distances/"><span
+      aria-hidden="true">&larr;</span> Picking different names with integer optimization</a></li>
+    
+
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mathieu Besançon &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js" integrity="sha512-iHzEu7GbSc705hE2skyH6/AlTpOfBmkx7nUqTLGzPYR+C1tRaItbRlJ7hT/D3YQ9SV0fqLKzp4XY9wKulTBGTw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js" integrity="sha512-Z5heTz36xTemt1TbtbfXtTq5lMfYnOkXM2/eWcTTiLU01+Sw4ku1i7vScDc8fWhrP2abz9GQzgKH5NGBLoYlAw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/ScrollToPlugin.min.js" integrity="sha512-CDeU7pRtkPX6XJtF/gcFWlEwyaX7mcAp5sO3VIu/ylsdR74wEw4wmBpD5yYTrmMAiAboi9thyBUr1vXRPA7t0Q==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

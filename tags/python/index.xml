@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 13 Jan 2016 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 29 Apr 2019 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Variables are not values: types and expressions in mathematical optimization</title>
+      <link>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</link>
+      <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</guid>
+      <description>This week, I came across Richard Oberdieck&amp;rsquo;s post, &amp;ldquo;Why &amp;lsquo;evaluate&amp;rsquo; is the feature I am missing the most from commercial MIP solvers&amp;rdquo;. It would indeed be practical to have for the reasons listed by the author, but some barriers stand to have it as it is expressed in the snippets presented.
+Table of Contents  Initial problem statement A terminology problem Encoding possibilities as sum-types A typed solution for describing mathematical problems Stealing a solution elsewhere Further resources   Initial problem statement The author first tests the optimization of a non-linear function through scipy as such:</description>
+    </item>
     
     <item>
       <title>A Pythonic data science project: Part III</title>
