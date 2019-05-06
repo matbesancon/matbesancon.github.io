@@ -6,8 +6,8 @@
     <description>Recent content in graphs on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 10 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
+    <lastBuildDate>Wed, 10 Jan 2018 00:00:00 +0100</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/graphs/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>JuliaGraphs contributions</title>
       <link>https://matbesancon.github.io/project/juliagraphs/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/project/juliagraphs/</guid>
       <description>A graph modeling and analysis ecosystem for Julia</description>

@@ -6,7 +6,7 @@
     <description>Recent content in Tags on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
+    <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
     <lastBuildDate>Mon, 29 Apr 2019 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
@@ -105,7 +105,7 @@
     <item>
       <title>energy</title>
       <link>https://matbesancon.github.io/tags/energy/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/tags/energy/</guid>
       <description></description>
@@ -114,7 +114,7 @@
     <item>
       <title>game</title>
       <link>https://matbesancon.github.io/tags/game/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/tags/game/</guid>
       <description></description>
@@ -123,7 +123,7 @@
     <item>
       <title>julia-package</title>
       <link>https://matbesancon.github.io/tags/julia-package/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/tags/julia-package/</guid>
       <description></description>
@@ -132,7 +132,7 @@
     <item>
       <title>open-source</title>
       <link>https://matbesancon.github.io/tags/open-source/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/tags/open-source/</guid>
       <description></description>
@@ -141,7 +141,7 @@
     <item>
       <title>rust</title>
       <link>https://matbesancon.github.io/tags/rust/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/tags/rust/</guid>
       <description></description>
@@ -150,7 +150,7 @@
     <item>
       <title>stats</title>
       <link>https://matbesancon.github.io/tags/stats/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/tags/stats/</guid>
       <description></description>
@@ -222,7 +222,7 @@
     <item>
       <title>graphs</title>
       <link>https://matbesancon.github.io/tags/graphs/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/tags/graphs/</guid>
       <description></description>

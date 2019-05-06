@@ -6,8 +6,8 @@
     <description>Recent content in game on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Tue, 18 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
+    <lastBuildDate>Tue, 18 Dec 2018 00:00:00 +0100</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/game/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>YASPR: Yet Another Snake on Piston &amp; Rust</title>
       <link>https://matbesancon.github.io/project/yaspr/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/project/yaspr/</guid>
       <description>Trying out game development with the Piston framework in Rust</description>

@@ -6,8 +6,8 @@
     <description>Recent content in Homes on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Sun, 10 Sep 2017 00:00:00 +0000</lastBuildDate>
+    <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
+    <lastBuildDate>Sun, 10 Sep 2017 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/home/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title></title>
       <link>https://matbesancon.github.io/home/about/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/home/about/</guid>
       <description>Biography I&amp;rsquo;m a PhD candidate in a double program (cotutelle) between École Polytechnique of Montréal, at the GERAD lab and Centrale Lille, at INRIA &amp;amp; the Cristal lab, in mathematical optimization for smart grids. I especially focus on bilevel optimization problems and pricing for demand response. Other fields of interest include non-linear optimization &amp;amp; applications in engineering, integer optimization &amp;amp; decompositions, game theory and statistical learning. Before that I worked in various industries, from an IoT startup to steel manufacturing.</description>
@@ -24,7 +24,7 @@
     <item>
       <title>Recent Posts</title>
       <link>https://matbesancon.github.io/home/posts/</link>
-      <pubDate>Sun, 10 Sep 2017 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 10 Sep 2017 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/home/posts/</guid>
       <description></description>
@@ -33,7 +33,7 @@
     <item>
       <title>Recent &amp; Upcoming Talks</title>
       <link>https://matbesancon.github.io/home/talks/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/home/talks/</guid>
       <description></description>
@@ -42,7 +42,7 @@
     <item>
       <title>Projects</title>
       <link>https://matbesancon.github.io/home/projects/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/home/projects/</guid>
       <description>Different projects, open-source and academic.</description>
@@ -51,7 +51,7 @@
     <item>
       <title>Experiences</title>
       <link>https://matbesancon.github.io/home/experiences/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/home/experiences/</guid>
       <description>Prior to the PhD program, I had several long experiences combining data, applied mathematics, programming and algorithms:
@@ -61,7 +61,7 @@
     <item>
       <title>Contact</title>
       <link>https://matbesancon.github.io/home/contact/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/home/contact/</guid>
       <description></description>

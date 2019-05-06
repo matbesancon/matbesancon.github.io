@@ -5,7 +5,7 @@
     <description>Recent content in μβ on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
+    <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
     <lastBuildDate>Mon, 29 Apr 2019 00:00:00 +0200</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
@@ -1782,7 +1782,7 @@ universities and &lt;a href=&#34;https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9
     <item>
       <title>A Bilevel Framework for Optimal Price-Setting of Time-and-Level-of-Use Tariffs</title>
       <link>https://matbesancon.github.io/project/tlou/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/project/tlou/</guid>
       <description>&lt;p&gt;The pre-print of the presented work can be found on &lt;a href=&#34;https://arxiv.org/abs/1809.00512&#34; target=&#34;_blank&#34;&gt;arXiv&lt;/a&gt;.
@@ -1806,7 +1806,7 @@ model Time-and-Level-of-Use tariffs.&lt;/p&gt;
     <item>
       <title>JuliaStats contributions</title>
       <link>https://matbesancon.github.io/project/distributions/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/project/distributions/</guid>
       <description>&lt;p&gt;Contributions to the &lt;a href=&#34;https://juliastats.github.io&#34; target=&#34;_blank&#34;&gt;JuliaStats&lt;/a&gt; ecosystem,
@@ -1819,7 +1819,7 @@ and flexible interface.&lt;/p&gt;
     <item>
       <title>YASPR: Yet Another Snake on Piston &amp; Rust</title>
       <link>https://matbesancon.github.io/project/yaspr/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/project/yaspr/</guid>
       <description></description>
@@ -1828,7 +1828,7 @@ and flexible interface.&lt;/p&gt;
     <item>
       <title>Introduction to Julia and its ecosystems for optimization and modeling</title>
       <link>https://matbesancon.github.io/talk/julia_opt_workshop/</link>
-      <pubDate>Wed, 21 Nov 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 21 Nov 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/talk/julia_opt_workshop/</guid>
       <description>&lt;p&gt;We gave an overview of the Julia programming language for researchers in
@@ -2068,7 +2068,7 @@ to my situation, I&amp;rsquo;d be interested to know how it relates or not to yo
     <item>
       <title>Julia, programming model, type system and use cases</title>
       <link>https://matbesancon.github.io/talk/lillefp_julia/</link>
-      <pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 20 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/talk/lillefp_julia/</guid>
       <description>&lt;p&gt;Quick overview of the Julia programming language at the LilleFP

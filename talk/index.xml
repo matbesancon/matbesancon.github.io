@@ -6,8 +6,8 @@
     <description>Recent content in Recent &amp; Upcoming Talks on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0000</lastBuildDate>
+    <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
+    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0100</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/talk/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Introduction to Julia and its ecosystems for optimization and modeling</title>
       <link>https://matbesancon.github.io/talk/julia_opt_workshop/</link>
-      <pubDate>Wed, 21 Nov 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 21 Nov 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/talk/julia_opt_workshop/</guid>
       <description>We gave an overview of the Julia programming language for researchers in optimization theory and practice. The talk was divided in four parts:
@@ -25,7 +25,7 @@
     <item>
       <title>Julia, programming model, type system and use cases</title>
       <link>https://matbesancon.github.io/talk/lillefp_julia/</link>
-      <pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 20 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/talk/lillefp_julia/</guid>
       <description>Quick overview of the Julia programming language at the LilleFP meetup. Slides are in Franglish but should be understandable. The programming model was presented with a quick overview of parts of the type system and multiple dispatch mechanism.
@@ -35,7 +35,7 @@ It was really nice to be able to exchange with people coming from very different
     <item>
       <title>Graph interfaces, bespoke graphs for every occasion</title>
       <link>https://matbesancon.github.io/talk/juliacon18/</link>
-      <pubDate>Thu, 09 Aug 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 09 Aug 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/talk/juliacon18/</guid>
       <description>We presented the LightGraphs.jl package with James for anyone in need of a simple &amp;amp; extensible graph library in Julia, the core interface for abstract graphs and essential algorithms included.
@@ -46,7 +46,7 @@ Anyone can come up with their own graph type, and we show it by building the sim
     <item>
       <title>Intro to package development in Julia</title>
       <link>https://matbesancon.github.io/talk/julia_montreal/</link>
-      <pubDate>Thu, 08 Mar 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 08 Mar 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/talk/julia_montreal/</guid>
       <description>A quick introduction to the why and how of package development in Julia for scientific computing, with two applications of custom arrays. One of them, MatFuncs.jl was live-coded and available here.</description>
@@ -55,7 +55,7 @@ Anyone can come up with their own graph type, and we show it by building the sim
     <item>
       <title>Golang in a multi-project, multi-platform team</title>
       <link>https://matbesancon.github.io/talk/golang_talk_lille/</link>
-      <pubDate>Thu, 06 Jul 2017 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 06 Jul 2017 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/talk/golang_talk_lille/</guid>
       <description>This talk was part of a second meetup introducing Golang use cases to Lille tech community. The slides (in French) can be found here.</description>

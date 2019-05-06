@@ -6,7 +6,7 @@
     <description>Recent content in golang on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
+    <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
     <lastBuildDate>Thu, 19 Oct 2017 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
@@ -20,6 +20,15 @@
       <guid>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</guid>
       <description>Switching from data scientist to graduate student is not
 only a variation in tasks, but also in success criteria and work flow</description>
+    </item>
+    
+    <item>
+      <title>Golang in a multi-project, multi-platform team</title>
+      <link>https://matbesancon.github.io/talk/golang_talk_lille/</link>
+      <pubDate>Thu, 06 Jul 2017 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/talk/golang_talk_lille/</guid>
+      <description>This talk was part of a second meetup introducing Golang use cases to Lille tech community. The slides (in French) can be found here.</description>
     </item>
     
   </channel>

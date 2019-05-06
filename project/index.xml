@@ -6,7 +6,7 @@
     <description>Recent content in Projects on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
+    <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
     <lastBuildDate>Sat, 09 Sep 2017 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/project/index.xml" rel="self" type="application/rss+xml" />
@@ -15,7 +15,7 @@
     <item>
       <title>A Bilevel Framework for Optimal Price-Setting of Time-and-Level-of-Use Tariffs</title>
       <link>https://matbesancon.github.io/project/tlou/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/project/tlou/</guid>
       <description>Formulating the TLOU price-setting as a bilevel optimization problem</description>
@@ -24,7 +24,7 @@
     <item>
       <title>JuliaStats contributions</title>
       <link>https://matbesancon.github.io/project/distributions/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/project/distributions/</guid>
       <description>Toolkit for statistical modeling in Julia</description>
@@ -33,7 +33,7 @@
     <item>
       <title>YASPR: Yet Another Snake on Piston &amp; Rust</title>
       <link>https://matbesancon.github.io/project/yaspr/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/project/yaspr/</guid>
       <description>Trying out game development with the Piston framework in Rust</description>
@@ -51,7 +51,7 @@
     <item>
       <title>JuliaGraphs contributions</title>
       <link>https://matbesancon.github.io/project/juliagraphs/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/project/juliagraphs/</guid>
       <description>A graph modeling and analysis ecosystem for Julia</description>
@@ -60,7 +60,7 @@
     <item>
       <title>WebFuncs</title>
       <link>https://matbesancon.github.io/project/webfuncs/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/project/webfuncs/</guid>
       <description>Serve Julia functions with HTTP</description>

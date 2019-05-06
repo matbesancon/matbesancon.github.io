@@ -1,7 +1,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/tags/</loc>
@@ -11,7 +10,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</loc>
@@ -19,7 +17,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -30,7 +27,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/tags/jump/</loc>
@@ -39,7 +35,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -50,7 +45,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/tags/python/</loc>
@@ -59,7 +53,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -70,7 +63,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2019-04-07-name_distances/</loc>
@@ -78,7 +70,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -89,7 +80,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/tags/julia/</loc>
@@ -99,7 +89,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2019-03-30-static-list/</loc>
@@ -108,7 +97,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2019-01-24-entrepreneurial-state-review/</loc>
@@ -116,7 +104,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -127,7 +114,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/tags/economics/</loc>
@@ -137,7 +123,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</loc>
@@ -146,7 +131,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2019-02-04-article-review/</loc>
@@ -154,7 +138,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -165,7 +148,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</loc>
@@ -173,7 +155,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -184,102 +165,91 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/project/tlou/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-12-18T00:00:00+01:00</lastmod>
     </url>
     
   
-    
     
     <url>
     
       <loc>https://matbesancon.github.io/project/distributions/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-12-18T00:00:00+01:00</lastmod>
     </url>
     
   
-    
     
     <url>
     
       <loc>https://matbesancon.github.io/project/yaspr/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-12-18T00:00:00+01:00</lastmod>
     </url>
     
   
-    
     
     <url>
     
       <loc>https://matbesancon.github.io/tags/energy/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-12-18T00:00:00+01:00</lastmod>
       <priority>0</priority>
     </url>
     
   
-    
     
     <url>
     
       <loc>https://matbesancon.github.io/tags/game/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-12-18T00:00:00+01:00</lastmod>
       <priority>0</priority>
     </url>
     
   
-    
     
     <url>
     
       <loc>https://matbesancon.github.io/tags/julia-package/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-12-18T00:00:00+01:00</lastmod>
       <priority>0</priority>
     </url>
     
   
-    
     
     <url>
     
       <loc>https://matbesancon.github.io/tags/open-source/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-12-18T00:00:00+01:00</lastmod>
       <priority>0</priority>
     </url>
     
   
-    
     
     <url>
     
       <loc>https://matbesancon.github.io/tags/rust/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-12-18T00:00:00+01:00</lastmod>
       <priority>0</priority>
     </url>
     
   
-    
     
     <url>
     
       <loc>https://matbesancon.github.io/tags/stats/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-12-18T00:00:00+01:00</lastmod>
       <priority>0</priority>
     </url>
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/talk/julia_opt_workshop/</loc>
-      <lastmod>2018-11-21T00:00:00+00:00</lastmod>
+      <lastmod>2018-11-21T00:00:00+01:00</lastmod>
     </url>
     
   
-    
     
     <url>
     
@@ -288,7 +258,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -299,15 +268,13 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/talk/lillefp_julia/</loc>
-      <lastmod>2018-09-20T00:00:00+00:00</lastmod>
+      <lastmod>2018-09-20T00:00:00+02:00</lastmod>
     </url>
     
   
-    
     
     <url>
     
@@ -316,7 +283,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -327,7 +293,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/tags/statistics/</loc>
@@ -337,7 +302,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2018-08-17-abstract_graph/</loc>
@@ -345,7 +309,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -356,7 +319,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/tags/package/</loc>
@@ -366,15 +328,13 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/talk/juliacon18/</loc>
-      <lastmod>2018-08-09T00:00:00+00:00</lastmod>
+      <lastmod>2018-08-09T00:00:00+02:00</lastmod>
     </url>
     
   
-    
     
     <url>
     
@@ -383,7 +343,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -394,7 +353,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/tags/modeling/</loc>
@@ -404,7 +362,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2018-05-23-colgen/</loc>
@@ -413,15 +370,13 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/talk/julia_montreal/</loc>
-      <lastmod>2018-03-08T00:00:00+00:00</lastmod>
+      <lastmod>2018-03-08T00:00:00+01:00</lastmod>
     </url>
     
   
-    
     
     <url>
     
@@ -431,34 +386,30 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/project/juliagraphs/</loc>
-      <lastmod>2018-01-10T00:00:00+00:00</lastmod>
+      <lastmod>2018-01-10T00:00:00+01:00</lastmod>
     </url>
     
   
-    
     
     <url>
     
       <loc>https://matbesancon.github.io/project/webfuncs/</loc>
-      <lastmod>2018-01-10T00:00:00+00:00</lastmod>
+      <lastmod>2018-01-10T00:00:00+01:00</lastmod>
     </url>
     
   
-    
     
     <url>
     
       <loc>https://matbesancon.github.io/tags/graphs/</loc>
-      <lastmod>2018-01-10T00:00:00+00:00</lastmod>
+      <lastmod>2018-01-10T00:00:00+01:00</lastmod>
       <priority>0</priority>
     </url>
     
   
-    
     
     <url>
     
@@ -467,7 +418,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -478,7 +428,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/tags/numerical-techniques/</loc>
@@ -488,7 +437,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</loc>
@@ -497,7 +445,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</loc>
@@ -505,7 +452,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -516,7 +462,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/tags/productivity/</loc>
@@ -526,7 +471,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/project/</loc>
@@ -535,7 +479,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2017-09-05-moving-content-hugo/</loc>
@@ -543,7 +486,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -554,7 +496,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/tags/hugo/</loc>
@@ -563,7 +504,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -574,7 +514,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/tags/medium/</loc>
@@ -583,7 +522,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -594,24 +532,13 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/talk/golang_talk_lille/</loc>
-      <lastmod>2017-07-06T00:00:00+00:00</lastmod>
+      <lastmod>2017-07-06T00:00:00+02:00</lastmod>
     </url>
     
   
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/talk/</loc>
-      <lastmod>2017-01-01T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
     
     <url>
     
@@ -621,6 +548,13 @@
     
   
     
+    <url>
+    
+      <loc>https://matbesancon.github.io/talk/</loc>
+      <lastmod>2017-01-01T00:00:00+01:00</lastmod>
+    </url>
+    
+  
     
     <url>
     
@@ -629,7 +563,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -640,7 +573,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2016-09-13-page-rank/</loc>
@@ -648,7 +580,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -659,7 +590,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/tags/data-science/</loc>
@@ -669,7 +599,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2016-08-11-back-to-startup/</loc>
@@ -677,7 +606,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -687,7 +615,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</loc>
@@ -695,7 +622,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -706,7 +632,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2016-01-13-fraud-detection3/</loc>
@@ -714,7 +639,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -725,7 +649,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/post/2016-01-12-fraud-detection2/</loc>
@@ -733,7 +656,6 @@
     </url>
     
   
-    
     
     <url>
     
@@ -743,7 +665,6 @@
     
   
     
-    
     <url>
     
       <loc>https://matbesancon.github.io/categories/</loc>
@@ -751,7 +672,6 @@
     </url>
     
   
-    
     
     <url>
     
