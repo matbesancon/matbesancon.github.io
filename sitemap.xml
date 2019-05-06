@@ -1,5 +1,14 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/</loc>
+      <lastmod>2019-04-29T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
   
     
     
@@ -14,8 +23,78 @@
     
     <url>
     
+      <loc>https://matbesancon.github.io/tags/functional/</loc>
+      <lastmod>2019-04-29T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/jump/</loc>
+      <lastmod>2019-04-29T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/optimization/</loc>
+      <lastmod>2019-04-29T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/python/</loc>
+      <lastmod>2019-04-29T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/</loc>
+      <lastmod>2019-04-29T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://matbesancon.github.io/post/2019-04-07-name_distances/</loc>
       <lastmod>2019-04-07T00:00:00+02:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/graph/</loc>
+      <lastmod>2019-04-07T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/julia/</loc>
+      <lastmod>2019-04-07T00:00:00+02:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -41,6 +120,26 @@
     
     <url>
     
+      <loc>https://matbesancon.github.io/tags/book/</loc>
+      <lastmod>2019-03-18T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/economics/</loc>
+      <lastmod>2019-03-18T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</loc>
       <lastmod>2019-02-24T00:00:00+01:00</lastmod>
     </url>
@@ -59,8 +158,28 @@
     
     <url>
     
+      <loc>https://matbesancon.github.io/tags/academia/</loc>
+      <lastmod>2019-02-04T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</loc>
       <lastmod>2018-12-27T00:00:00+01:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/engineering/</loc>
+      <lastmod>2018-12-27T00:00:00+01:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -95,6 +214,66 @@
     
     <url>
     
+      <loc>https://matbesancon.github.io/tags/energy/</loc>
+      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/game/</loc>
+      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/julia-package/</loc>
+      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/open-source/</loc>
+      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/rust/</loc>
+      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/stats/</loc>
+      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://matbesancon.github.io/talk/julia_opt_workshop/</loc>
       <lastmod>2018-11-21T00:00:00+00:00</lastmod>
     </url>
@@ -106,6 +285,16 @@
     
       <loc>https://matbesancon.github.io/post/2018-09-27-year-in-phd/</loc>
       <lastmod>2018-09-27T00:00:00+02:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/phd/</loc>
+      <lastmod>2018-09-27T00:00:00+02:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -131,8 +320,48 @@
     
     <url>
     
+      <loc>https://matbesancon.github.io/tags/distributions/</loc>
+      <lastmod>2018-09-04T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/statistics/</loc>
+      <lastmod>2018-09-04T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://matbesancon.github.io/post/2018-08-17-abstract_graph/</loc>
       <lastmod>2018-08-17T00:00:00+02:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/interface/</loc>
+      <lastmod>2018-08-17T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/package/</loc>
+      <lastmod>2018-08-17T00:00:00+02:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -151,6 +380,26 @@
     
       <loc>https://matbesancon.github.io/post/2018-05-25-colgen2/</loc>
       <lastmod>2018-05-30T00:00:00+02:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/integer-optimization/</loc>
+      <lastmod>2018-05-30T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/modeling/</loc>
+      <lastmod>2018-05-30T00:00:00+02:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -203,8 +452,38 @@
     
     <url>
     
+      <loc>https://matbesancon.github.io/tags/graphs/</loc>
+      <lastmod>2018-01-10T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</loc>
       <lastmod>2017-12-20T00:00:00+01:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/applied-math/</loc>
+      <lastmod>2017-12-20T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/numerical-techniques/</loc>
+      <lastmod>2017-12-20T00:00:00+01:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -230,6 +509,26 @@
     
     <url>
     
+      <loc>https://matbesancon.github.io/tags/golang/</loc>
+      <lastmod>2017-10-19T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/productivity/</loc>
+      <lastmod>2017-10-19T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://matbesancon.github.io/project/</loc>
       <lastmod>2017-09-09T00:00:00+02:00</lastmod>
     </url>
@@ -241,6 +540,56 @@
     
       <loc>https://matbesancon.github.io/post/2017-09-05-moving-content-hugo/</loc>
       <lastmod>2017-09-05T00:00:00+02:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/blog/</loc>
+      <lastmod>2017-09-05T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/hugo/</loc>
+      <lastmod>2017-09-05T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/jekyll/</loc>
+      <lastmod>2017-09-05T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/medium/</loc>
+      <lastmod>2017-09-05T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/writing/</loc>
+      <lastmod>2017-09-05T00:00:00+02:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -284,8 +633,38 @@
     
     <url>
     
+      <loc>https://matbesancon.github.io/tags/startup/</loc>
+      <lastmod>2016-10-07T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://matbesancon.github.io/post/2016-09-13-page-rank/</loc>
       <lastmod>2016-09-13T00:00:00+02:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/algorithm/</loc>
+      <lastmod>2016-09-13T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/data-science/</loc>
+      <lastmod>2016-09-13T00:00:00+02:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -320,8 +699,28 @@
     
     <url>
     
+      <loc>https://matbesancon.github.io/tags/data/</loc>
+      <lastmod>2016-05-21T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://matbesancon.github.io/post/2016-01-13-fraud-detection3/</loc>
       <lastmod>2016-01-13T00:00:00+01:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://matbesancon.github.io/tags/classification/</loc>
+      <lastmod>2016-01-13T00:00:00+01:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -347,56 +746,6 @@
     
     <url>
     
-      <loc>https://matbesancon.github.io/tags/academia/</loc>
-      <lastmod>2019-02-04T00:00:00+01:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/algorithm/</loc>
-      <lastmod>2016-09-13T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/applied-math/</loc>
-      <lastmod>2017-12-20T00:00:00+01:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/blog/</loc>
-      <lastmod>2017-09-05T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/book/</loc>
-      <lastmod>2019-03-18T00:00:00+01:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>https://matbesancon.github.io/categories/</loc>
       <priority>0</priority>
     </url>
@@ -406,357 +755,7 @@
     
     <url>
     
-      <loc>https://matbesancon.github.io/tags/classification/</loc>
-      <lastmod>2016-01-13T00:00:00+01:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/data/</loc>
-      <lastmod>2016-05-21T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/data-science/</loc>
-      <lastmod>2016-09-13T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/distributions/</loc>
-      <lastmod>2018-09-04T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/economics/</loc>
-      <lastmod>2019-03-18T00:00:00+01:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/energy/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/engineering/</loc>
-      <lastmod>2018-12-27T00:00:00+01:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/functional/</loc>
-      <lastmod>2019-04-29T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/game/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/golang/</loc>
-      <lastmod>2017-10-19T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/graph/</loc>
-      <lastmod>2019-04-07T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/graphs/</loc>
-      <lastmod>2018-01-10T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/hugo/</loc>
-      <lastmod>2017-09-05T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/integer-optimization/</loc>
-      <lastmod>2018-05-30T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/interface/</loc>
-      <lastmod>2018-08-17T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/jekyll/</loc>
-      <lastmod>2017-09-05T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/julia/</loc>
-      <lastmod>2019-04-07T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/julia-package/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/jump/</loc>
-      <lastmod>2019-04-29T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/medium/</loc>
-      <lastmod>2017-09-05T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/modeling/</loc>
-      <lastmod>2018-05-30T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/numerical-techniques/</loc>
-      <lastmod>2017-12-20T00:00:00+01:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/open-source/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/optimization/</loc>
-      <lastmod>2019-04-29T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/package/</loc>
-      <lastmod>2018-08-17T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/phd/</loc>
-      <lastmod>2018-09-27T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/productivity/</loc>
-      <lastmod>2017-10-19T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>https://matbesancon.github.io/publication_types/</loc>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/python/</loc>
-      <lastmod>2019-04-29T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/rust/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/startup/</loc>
-      <lastmod>2016-10-07T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/statistics/</loc>
-      <lastmod>2018-09-04T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/stats/</loc>
-      <lastmod>2018-12-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/</loc>
-      <lastmod>2019-02-04T00:00:00+01:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/tags/writing/</loc>
-      <lastmod>2017-09-05T00:00:00+02:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://matbesancon.github.io/</loc>
-      <lastmod>2016-04-20T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

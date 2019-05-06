@@ -7,121 +7,13 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Mon, 04 Feb 2019 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 29 Apr 2019 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Academia</title>
-      <link>https://matbesancon.github.io/tags/academia/</link>
-      <pubDate>Mon, 04 Feb 2019 00:00:00 +0100</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/academia/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Algorithm</title>
-      <link>https://matbesancon.github.io/tags/algorithm/</link>
-      <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/algorithm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Applied Math</title>
-      <link>https://matbesancon.github.io/tags/applied-math/</link>
-      <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/applied-math/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Blog</title>
-      <link>https://matbesancon.github.io/tags/blog/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/blog/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Book</title>
-      <link>https://matbesancon.github.io/tags/book/</link>
-      <pubDate>Mon, 18 Mar 2019 00:00:00 +0100</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/book/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Classification</title>
-      <link>https://matbesancon.github.io/tags/classification/</link>
-      <pubDate>Wed, 13 Jan 2016 00:00:00 +0100</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/classification/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Data</title>
-      <link>https://matbesancon.github.io/tags/data/</link>
-      <pubDate>Sat, 21 May 2016 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/data/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Data Science</title>
-      <link>https://matbesancon.github.io/tags/data-science/</link>
-      <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/data-science/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Distributions</title>
-      <link>https://matbesancon.github.io/tags/distributions/</link>
-      <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/distributions/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Economics</title>
-      <link>https://matbesancon.github.io/tags/economics/</link>
-      <pubDate>Mon, 18 Mar 2019 00:00:00 +0100</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/economics/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Energy</title>
-      <link>https://matbesancon.github.io/tags/energy/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/energy/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Engineering</title>
-      <link>https://matbesancon.github.io/tags/engineering/</link>
-      <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/engineering/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Functional</title>
+      <title>functional</title>
       <link>https://matbesancon.github.io/tags/functional/</link>
       <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
       
@@ -130,97 +22,7 @@
     </item>
     
     <item>
-      <title>Game</title>
-      <link>https://matbesancon.github.io/tags/game/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/game/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Golang</title>
-      <link>https://matbesancon.github.io/tags/golang/</link>
-      <pubDate>Thu, 19 Oct 2017 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/golang/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Graph</title>
-      <link>https://matbesancon.github.io/tags/graph/</link>
-      <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/graph/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Graphs</title>
-      <link>https://matbesancon.github.io/tags/graphs/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/graphs/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Hugo</title>
-      <link>https://matbesancon.github.io/tags/hugo/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/hugo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Integer Optimization</title>
-      <link>https://matbesancon.github.io/tags/integer-optimization/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/integer-optimization/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Interface</title>
-      <link>https://matbesancon.github.io/tags/interface/</link>
-      <pubDate>Fri, 17 Aug 2018 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/interface/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Jekyll</title>
-      <link>https://matbesancon.github.io/tags/jekyll/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/jekyll/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Julia</title>
-      <link>https://matbesancon.github.io/tags/julia/</link>
-      <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/julia/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Julia Package</title>
-      <link>https://matbesancon.github.io/tags/julia-package/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/julia-package/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Jump</title>
+      <title>jump</title>
       <link>https://matbesancon.github.io/tags/jump/</link>
       <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
       
@@ -229,43 +31,7 @@
     </item>
     
     <item>
-      <title>Medium</title>
-      <link>https://matbesancon.github.io/tags/medium/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/medium/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Modeling</title>
-      <link>https://matbesancon.github.io/tags/modeling/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/modeling/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Numerical Techniques</title>
-      <link>https://matbesancon.github.io/tags/numerical-techniques/</link>
-      <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/numerical-techniques/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Open Source</title>
-      <link>https://matbesancon.github.io/tags/open-source/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/open-source/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Optimization</title>
+      <title>optimization</title>
       <link>https://matbesancon.github.io/tags/optimization/</link>
       <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
       
@@ -274,34 +40,7 @@
     </item>
     
     <item>
-      <title>Package</title>
-      <link>https://matbesancon.github.io/tags/package/</link>
-      <pubDate>Fri, 17 Aug 2018 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/package/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Phd</title>
-      <link>https://matbesancon.github.io/tags/phd/</link>
-      <pubDate>Thu, 27 Sep 2018 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/phd/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Productivity</title>
-      <link>https://matbesancon.github.io/tags/productivity/</link>
-      <pubDate>Thu, 19 Oct 2017 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/productivity/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Python</title>
+      <title>python</title>
       <link>https://matbesancon.github.io/tags/python/</link>
       <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
       
@@ -310,7 +49,97 @@
     </item>
     
     <item>
-      <title>Rust</title>
+      <title>graph</title>
+      <link>https://matbesancon.github.io/tags/graph/</link>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/graph/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>julia</title>
+      <link>https://matbesancon.github.io/tags/julia/</link>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/julia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>book</title>
+      <link>https://matbesancon.github.io/tags/book/</link>
+      <pubDate>Mon, 18 Mar 2019 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/book/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>economics</title>
+      <link>https://matbesancon.github.io/tags/economics/</link>
+      <pubDate>Mon, 18 Mar 2019 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/economics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>academia</title>
+      <link>https://matbesancon.github.io/tags/academia/</link>
+      <pubDate>Mon, 04 Feb 2019 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/academia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>engineering</title>
+      <link>https://matbesancon.github.io/tags/engineering/</link>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/engineering/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>energy</title>
+      <link>https://matbesancon.github.io/tags/energy/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/energy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>game</title>
+      <link>https://matbesancon.github.io/tags/game/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/game/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>julia-package</title>
+      <link>https://matbesancon.github.io/tags/julia-package/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/julia-package/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>open-source</title>
+      <link>https://matbesancon.github.io/tags/open-source/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/open-source/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rust</title>
       <link>https://matbesancon.github.io/tags/rust/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
@@ -319,25 +148,7 @@
     </item>
     
     <item>
-      <title>Startup</title>
-      <link>https://matbesancon.github.io/tags/startup/</link>
-      <pubDate>Fri, 07 Oct 2016 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/startup/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Statistics</title>
-      <link>https://matbesancon.github.io/tags/statistics/</link>
-      <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/statistics/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Stats</title>
+      <title>stats</title>
       <link>https://matbesancon.github.io/tags/stats/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
@@ -346,11 +157,200 @@
     </item>
     
     <item>
-      <title>Writing</title>
+      <title>phd</title>
+      <link>https://matbesancon.github.io/tags/phd/</link>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/phd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>distributions</title>
+      <link>https://matbesancon.github.io/tags/distributions/</link>
+      <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/distributions/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>statistics</title>
+      <link>https://matbesancon.github.io/tags/statistics/</link>
+      <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/statistics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>interface</title>
+      <link>https://matbesancon.github.io/tags/interface/</link>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/interface/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>package</title>
+      <link>https://matbesancon.github.io/tags/package/</link>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/package/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>integer-optimization</title>
+      <link>https://matbesancon.github.io/tags/integer-optimization/</link>
+      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/integer-optimization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>modeling</title>
+      <link>https://matbesancon.github.io/tags/modeling/</link>
+      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/modeling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>graphs</title>
+      <link>https://matbesancon.github.io/tags/graphs/</link>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/graphs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>applied-math</title>
+      <link>https://matbesancon.github.io/tags/applied-math/</link>
+      <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/applied-math/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>numerical-techniques</title>
+      <link>https://matbesancon.github.io/tags/numerical-techniques/</link>
+      <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/numerical-techniques/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>https://matbesancon.github.io/tags/golang/</link>
+      <pubDate>Thu, 19 Oct 2017 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>productivity</title>
+      <link>https://matbesancon.github.io/tags/productivity/</link>
+      <pubDate>Thu, 19 Oct 2017 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/productivity/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>blog</title>
+      <link>https://matbesancon.github.io/tags/blog/</link>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/blog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hugo</title>
+      <link>https://matbesancon.github.io/tags/hugo/</link>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jekyll</title>
+      <link>https://matbesancon.github.io/tags/jekyll/</link>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/jekyll/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>medium</title>
+      <link>https://matbesancon.github.io/tags/medium/</link>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/medium/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>writing</title>
       <link>https://matbesancon.github.io/tags/writing/</link>
       <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/tags/writing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>startup</title>
+      <link>https://matbesancon.github.io/tags/startup/</link>
+      <pubDate>Fri, 07 Oct 2016 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/startup/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>algorithm</title>
+      <link>https://matbesancon.github.io/tags/algorithm/</link>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/algorithm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data-science</title>
+      <link>https://matbesancon.github.io/tags/data-science/</link>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/data-science/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data</title>
+      <link>https://matbesancon.github.io/tags/data/</link>
+      <pubDate>Sat, 21 May 2016 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/data/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>classification</title>
+      <link>https://matbesancon.github.io/tags/classification/</link>
+      <pubDate>Wed, 13 Jan 2016 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/classification/</guid>
       <description></description>
     </item>
     

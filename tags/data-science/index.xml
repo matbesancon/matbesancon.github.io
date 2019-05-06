@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Data Science on μβ</title>
+    <title>data-science on μβ</title>
     <link>https://matbesancon.github.io/tags/data-science/</link>
-    <description>Recent content in Data Science on μβ</description>
+    <description>Recent content in data-science on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,7 +18,7 @@
       <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-09-13-page-rank/</guid>
-      <description>When I came back to Equisense, I was surprised and intrigued by many things. But there was one element of the job in particular I had not planned: coming back to low level and embedded programming from higher abstractions I was used to. No OS, no libraries, no smooth write-and-test work-flow, just brutal and bare metal. I clearly needed to blow some steam off with something closer to what I usually do (or did), a data-driven and functional project using nice techs.</description>
+      <description>The logic and implementation of one of the first algorithms to power the modern web</description>
     </item>
     
     <item>
@@ -27,8 +27,8 @@
       <pubDate>Sat, 21 May 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</guid>
-      <description>The goal of this article is to present couple challenges waiting the industrial data scientist or industrial data science teams, the deep reasons I believe are the root of this inertia, based on my experience (in both data science and engineering projects) and exchanges with engineers and data scientists. The last part introduces some suggestions to make the collaboration richer for both sides.
-Why isn&amp;rsquo;t data science already everywhere in engineering?</description>
+      <description>Thoughts as an engineer-by-training evolving towards data skills in a
+manufacturing context.</description>
     </item>
     
     <item>
@@ -37,10 +37,7 @@ Why isn&amp;rsquo;t data science already everywhere in engineering?</description
       <pubDate>Wed, 13 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-13-fraud-detection3/</guid>
-      <description>[1]
-Part III: Model development
-To follow the following article without any trouble, I would recommend to start with the beginning.
-How does predictive modeling work Keep the terminology in mind This is important to understand the principles and sub-disciplines of machine learning. We are trying to predict a specific output, our information of interest, which is the category of bank note we observe (genuine or forged). This task is therefore labeled as supervised learning, as opposed to unsupervised learning which consists of finding patterns or groups from data without a priori identification of those groups.</description>
+      <description>Learning by doing: predicting the outcome.</description>
     </item>
     
     <item>
@@ -49,9 +46,7 @@ How does predictive modeling work Keep the terminology in mind This is important
       <pubDate>Tue, 12 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-12-fraud-detection2/</guid>
-      <description>[1]
-Part II: Feature engineering
-What is feature engineering? It could be describe as the transformation of raw data to produce a model input which will have better performance. The features are the new variables created in the process. It is often described as based on domain knowledge and more of an art than of a science. Therefore, it requires a great attention and a more &amp;ldquo;manual&amp;rdquo; process than the rest of data science projects.</description>
+      <description>Learning by doing: the feature engineering step.</description>
     </item>
     
     <item>
@@ -60,9 +55,7 @@ What is feature engineering? It could be describe as the transformation of raw d
       <pubDate>Mon, 11 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-11-fraud-detection/</guid>
-      <description>A complete predictive modeling project in Python Part I: Preprocessing and exploratory analysis
-One of the amazing things with data science is the ability to tackle complex problems involving hidden parallel phenomena interacting with each other, just from the data they produce.
-As an example, we will use data extracted from images of forged and genuine banknotes. The distinction between the two categories would be thought to require a deep domain expertise, which limits the ability to check more than a few banknotes at a time.</description>
+      <description>Learning by doing: detecting fraud on bank notes using Python in 3 steps.</description>
     </item>
     
   </channel>

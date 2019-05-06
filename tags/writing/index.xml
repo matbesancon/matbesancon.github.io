@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Writing on μβ</title>
+    <title>writing on μβ</title>
     <link>https://matbesancon.github.io/tags/writing/</link>
-    <description>Recent content in Writing on μβ</description>
+    <description>Recent content in writing on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,8 +18,7 @@
       <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-09-05-moving-content-hugo/</guid>
-      <description>Last weeks have been pretty intense. I officially left Equisense and started a joined PhD project between INRIA Lille and Ecole Polytechnique Montreal. I had been preparing for this fresh start for several months and also wanted to evolve in my content creation process.
-A journey from plain markdown to Hugo I started writing articles to keep track of my learning paths on various topics, including numerical techniques, data analysis and programming.</description>
+      <description>New steps, new platform.</description>
     </item>
     
   </channel>

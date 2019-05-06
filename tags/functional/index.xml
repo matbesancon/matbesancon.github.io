@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Functional on μβ</title>
+    <title>functional on μβ</title>
     <link>https://matbesancon.github.io/tags/functional/</link>
-    <description>Recent content in Functional on μβ</description>
+    <description>Recent content in functional on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,8 +18,7 @@
       <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</guid>
-      <description>This week, I came across Richard Oberdieck&amp;rsquo;s post, &amp;ldquo;Why &amp;lsquo;evaluate&amp;rsquo; is the feature I am missing the most from commercial MIP solvers&amp;rdquo;. It would indeed be practical to have for the reasons listed by the author, but some barriers stand to have it as it is expressed in the snippets presented.
-Table of Contents  Initial problem statement A terminology problem Encoding possibilities as sum-types A typed solution for describing mathematical problems Stealing a solution elsewhere Further resources   Initial problem statement The author first tests the optimization of a non-linear function through scipy as such:</description>
+      <description>Some digging in representations for optimization modelling</description>
     </item>
     
     <item>
@@ -28,7 +27,7 @@ Table of Contents  Initial problem statement A terminology problem Encoding poss
       <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-09-13-page-rank/</guid>
-      <description>When I came back to Equisense, I was surprised and intrigued by many things. But there was one element of the job in particular I had not planned: coming back to low level and embedded programming from higher abstractions I was used to. No OS, no libraries, no smooth write-and-test work-flow, just brutal and bare metal. I clearly needed to blow some steam off with something closer to what I usually do (or did), a data-driven and functional project using nice techs.</description>
+      <description>The logic and implementation of one of the first algorithms to power the modern web</description>
     </item>
     
   </channel>

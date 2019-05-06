@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Applied Math on μβ</title>
+    <title>applied-math on μβ</title>
     <link>https://matbesancon.github.io/tags/applied-math/</link>
-    <description>Recent content in Applied Math on μβ</description>
+    <description>Recent content in applied-math on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,9 +18,7 @@
       <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
-      <description>In the last article, we explored different modeling options for a three-component systems which could represent the dynamics of a chemical reaction or a disease propagation in a population. Building on top of this model, we will formulate a desirable outcome and find a decision which maximizes this outcome.
- In addition to the packages imported in the last post, we will also use BlackBoxOptim.jl:
- import DifferentialEquations const DiffEq = DifferentialEquations import Plots import Optim The model The same chemical system with three components, A, B and R will be used: $$A + B → 2B$$ $$B → R$$</description>
+      <description>Now that we&amp;rsquo;ve built a model, let&amp;rsquo;s use it to make the best decision</description>
     </item>
     
     <item>
@@ -29,8 +27,7 @@
       <pubDate>Thu, 14 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
-      <description>DifferentialEquations.jl came to be a key component of Julia&amp;rsquo;s scientific ecosystem. After checking the JuliaCon talk of its creator, I couldn&amp;rsquo;t wait to start building stuff with it, so I created and developed a simple example detailed in this blog post. Starting from a basic ordinary differential equation (ODE), we add noise, making it stochastic, and finally turn it into a discrete version.
- Before running the code below, two imports will be used:</description>
+      <description>Playing around with the differential equation solver turned simulation engine</description>
     </item>
     
   </channel>

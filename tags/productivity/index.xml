@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Productivity on μβ</title>
+    <title>productivity on μβ</title>
     <link>https://matbesancon.github.io/tags/productivity/</link>
-    <description>Recent content in Productivity on μβ</description>
+    <description>Recent content in productivity on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,8 +18,8 @@
       <pubDate>Thu, 19 Oct 2017 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</guid>
-      <description>The start of my journey as a PhD student last September was a big step, but also an opportunity to review and improve my working habits. My day time had to be used properly, both for results&amp;rsquo; sake and to be able to keep a balanced life.
-I had been introduced to the Pomodoro technique at Equisense (thanks Camille!) but remained skeptical as for its potential value within my work flow at the time.</description>
+      <description>Switching from data scientist to graduate student is not
+only a variation in tasks, but also in success criteria and work flow</description>
     </item>
     
   </channel>

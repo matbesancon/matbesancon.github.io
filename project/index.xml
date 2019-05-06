@@ -18,9 +18,7 @@
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/tlou/</guid>
-      <description>The pre-print of the presented work can be found on arXiv. The manuscript has also been submitted and should be published in the coming months.
-This project was presented at several conferences, including:
- Optimization days, Montréal, May 2018 NSERC Energy Storage Technology Network (NEST-Net) annual meeting, Toronto, June 2018. It was under the network&amp;rsquo;s project Optimal Brokerage Models for the Grid Integration of Energy Storage. JuliaCon, London, August 2018 (poster)  An open-source Julia package has been released here for other researchers to model Time-and-Level-of-Use tariffs.</description>
+      <description>Formulating the TLOU price-setting as a bilevel optimization problem</description>
     </item>
     
     <item>
@@ -29,7 +27,7 @@ This project was presented at several conferences, including:
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/distributions/</guid>
-      <description>Contributions to the JuliaStats ecosystem, especially the Distributions.jl package for modeling probability distributions in Julia using a minimal and flexible interface.</description>
+      <description>Toolkit for statistical modeling in Julia</description>
     </item>
     
     <item>
@@ -38,7 +36,7 @@ This project was presented at several conferences, including:
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/yaspr/</guid>
-      <description></description>
+      <description>Trying out game development with the Piston framework in Rust</description>
     </item>
     
     <item>
@@ -47,7 +45,7 @@ This project was presented at several conferences, including:
       <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/mixed_distributions/</guid>
-      <description></description>
+      <description>Modelling, inferring and sampling from continuous-discrete distributions in Julia, on top of Distributions.jl</description>
     </item>
     
     <item>
@@ -56,8 +54,7 @@ This project was presented at several conferences, including:
       <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/juliagraphs/</guid>
-      <description>Starting from a weird Kaggle side-project during the Chrismas holidays, I gradually got involved in the JuliaGraphs ecosystem. After some discussion on the Julia Slack #graphs channel, I went from reporting a simple feature I needed to helping with the re-organization by splitting out two packages:
- LightGraphsMatching.jl LightGraphsFlows.jl  I also implemented the min-cost flow problem formulated as a linear optimization problem formulated using MathProgBase.jl, using any user-provided solver.</description>
+      <description>A graph modeling and analysis ecosystem for Julia</description>
     </item>
     
     <item>
@@ -66,9 +63,7 @@ This project was presented at several conferences, including:
       <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/webfuncs/</guid>
-      <description>WebFuncs.jl is a Julia project testing the language out of its natural scope. Having built quite a bit with Go and Python, I wanted to see if the Julia ecosystem had tools for HTTP handling.
-The inspiration of a simple-to-use function server came from the fx project. Define your function, the package throws it as a server for you.
-The package has been accepted on Julia package repository and can be fetched using Pkg.</description>
+      <description>Serve Julia functions with HTTP</description>
     </item>
     
   </channel>

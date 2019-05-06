@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Startup on μβ</title>
+    <title>startup on μβ</title>
     <link>https://matbesancon.github.io/tags/startup/</link>
-    <description>Recent content in Startup on μβ</description>
+    <description>Recent content in startup on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,8 +18,7 @@
       <pubDate>Fri, 07 Oct 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-10-7-company-values/</guid>
-      <description>Two weeks ago, the Equisense team spent a couple days together near the ocean in northern France. The goal was to get to know each other better and sit down to (re)think on the way we work, where we are heading and try to put some words on who we are and how we plan on moving forward.
-You named it, we tried to define one of the obsessions in the startup culture: company values.</description>
+      <description>And how to avoid becoming one of the biggest clichés of startup culture</description>
     </item>
     
     <item>
@@ -28,8 +27,7 @@ You named it, we tried to define one of the obsessions in the startup culture: c
       <pubDate>Thu, 11 Aug 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-08-11-back-to-startup/</guid>
-      <description>In politics, a government&amp;rsquo;s first decisions and actions are often reviewed and assessed after the famous first 100 days. According to Wikipedia, the term was coined by F. Roosevelt himself. I wanted to throw the first thoughts on my comeback at Equisense, on culture and operations and the difference between the two stages.
-Startups are in a continuous headlong rush I&amp;rsquo;ll not wait the 100 days to write this post, because in a startup things move faster, so why wait another month?</description>
+      <description>100 days after a come-back.</description>
     </item>
     
     <item>
@@ -38,7 +36,7 @@ Startups are in a continuous headlong rush I&amp;rsquo;ll not wait the 100 days 
       <pubDate>Mon, 11 Jul 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-07-11-hackathon/</guid>
-      <description>It&amp;rsquo;s monday morning and I&amp;rsquo;m waking up with a hangover sensation, not from partying in the streets of Lille as one could think at the beginning of the week, but from the last intense 48 hours. I took part in the so-called &amp;ldquo;creathon&amp;rdquo; organized by the Switch up challenge and MakeSense. The special touch on this event was the social impact the projects were meant to have. The result could even not be a company but a non-profit organization.</description>
+      <description>Feedback after a weekend re-discovering the early stage feelings.</description>
     </item>
     
   </channel>

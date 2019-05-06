@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Rust on μβ</title>
+    <title>rust on μβ</title>
     <link>https://matbesancon.github.io/tags/rust/</link>
-    <description>Recent content in Rust on μβ</description>
+    <description>Recent content in rust on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,7 +18,7 @@
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/yaspr/</guid>
-      <description></description>
+      <description>Trying out game development with the Piston framework in Rust</description>
     </item>
     
   </channel>

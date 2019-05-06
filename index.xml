@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>μβ on μβ</title>
@@ -7,7 +6,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 29 Apr 2019 00:00:00 +0200</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
@@ -23,18 +22,8 @@
 It would indeed be practical to have for the reasons listed by the author, but
 some barriers stand to have it as it is expressed in the snippets presented.&lt;/p&gt;
 
-&lt;h2&gt;Table of Contents&lt;/h2&gt;
-&lt;nav id=&#34;TableOfContents&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#initial-problem-statement&#34;&gt;Initial problem statement&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#a-terminology-problem&#34;&gt;A terminology problem&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#encoding-possibilities-as-sum-types&#34;&gt;Encoding possibilities as sum-types&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#a-typed-solution-for-describing-mathematical-problems&#34;&gt;A typed solution for describing mathematical problems&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#stealing-a-solution-elsewhere&#34;&gt;Stealing a solution elsewhere&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#further-resources&#34;&gt;Further resources&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/nav&gt;
-
+&lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;/p&gt;
 
 &lt;h1 id=&#34;initial-problem-statement&#34;&gt;Initial problem statement&lt;/h1&gt;
 
@@ -498,19 +487,8 @@ Some other references:&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/JuliaArrays/StaticArrays.jl&#34; target=&#34;_blank&#34;&gt;&lt;em&gt;StaticArrays.jl&lt;/em&gt;&lt;/a&gt; is a good inspiration for static data structures in Julia&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2&gt;Table of Contents&lt;/h2&gt;
-&lt;nav id=&#34;TableOfContents&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#first-thoughts-value-type-parameter&#34;&gt;First thoughts: value type parameter&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#recursive-natural-numbers&#34;&gt;Recursive natural numbers&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#implementing-a-list-y-behaviour&#34;&gt;Implementing a list-y behaviour&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#special-valued-lists&#34;&gt;Special-valued lists&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#multi-typed-lists&#34;&gt;Multi-typed lists&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#sources&#34;&gt;Sources&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/nav&gt;
-
+&lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;/p&gt;
 
 &lt;h1 id=&#34;first-thoughts-value-type-parameter&#34;&gt;First thoughts: value type parameter&lt;/h1&gt;
 
@@ -542,12 +520,12 @@ directly using integers.&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; StaticList{T,L} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
-struct Nil{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; Nil{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 StaticList{T}() where T &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Nil{T}()
 StaticList(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T) where T &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Cons(v, Nil{T}())
 
-struct Cons{T,L} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,L&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; Cons{T,L} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,L&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;}
     h&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
     t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L}
     &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Cons(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T, t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L}) where {T,L}
@@ -579,9 +557,9 @@ does exactly that. More discussion on computed type parameters in
 
 julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; StaticList{T,L} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
-julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; struct Nil{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; Nil{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
-julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@computed&lt;/span&gt; struct Cons{T,L} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,L}
+julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@computed&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; Cons{T,L} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,L}
            h&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
            t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;}
            &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Cons(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T, t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L0}) where {T,L0}
@@ -614,20 +592,20 @@ number using recursive types.&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;using `length(l::Length)`
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; Length &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
-struct ZeroLength &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; Length &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
-struct Next{L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; Length &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; ZeroLength &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; Length &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; Next{L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; Length &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;A linked list of size known at compile-time
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; StaticList{T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
-struct Nil{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,ZeroLength} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; Nil{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,ZeroLength} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 StaticList{T}() where T &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Nil{T}()
 StaticList(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T) where T &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Cons(v, Nil{T}())
 
-struct Cons{T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,Next{L}}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; Cons{T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,Next{L}}
     h&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
     t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L}
     &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Cons(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T, t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;StaticList{T,L}) where {T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length}
@@ -759,7 +737,7 @@ as in common functional implementations, meaning we can define other sub-types.&
 Instead of storing all of them, we can find a smart way of representing them.
 Let us define a static list of ones:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;struct OnesStaticList{T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Number&lt;/span&gt;,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; OnesStaticList{T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Number&lt;/span&gt;,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;OnesStaticList, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{ZeroLength}) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nothing
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;OnesStaticList{T,L}, state&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{Next{L1}} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; L) where &lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;
@@ -769,7 +747,7 @@ Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(l&lt;span st
 &lt;p&gt;This list corresponds to the 1 value of type &lt;code&gt;T&lt;/code&gt;, repeated for all elements.
 In a similar fashion, one can define a ZeroList:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;struct ZerosStaticList{T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Number&lt;/span&gt;,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; ZerosStaticList{T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Number&lt;/span&gt;,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;ZerosStaticList, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{ZeroLength}) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nothing
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(l&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;ZerosStaticList{T,L}, state&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{Next{L1}} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; L) where&lt;span style=&#34;color:#f92672&#34;&gt;$&lt;/span&gt;
@@ -778,7 +756,7 @@ Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(l&lt;span st
 
 &lt;p&gt;One thing to note is that these lists are terminal, in the sense that they cannot
 be part of a greater list. To fix this, we can add a tail to these as follows:
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;struct ZerosStaticList{T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Number&lt;/span&gt;,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length,TL&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;StaticList{T,&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length}}
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; ZerosStaticList{T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Number&lt;/span&gt;,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length,TL&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;StaticList{T,&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length}}
 	t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;TL
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
@@ -798,14 +776,14 @@ the value just once.&lt;/p&gt;
 Since we have a recursive length parameter, why not add it a type at each new node?&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; TLength &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
-struct TZeroLength &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TLength &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
-struct TNext{T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;TLength} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TLength &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; TZeroLength &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TLength &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; TNext{T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;TLength} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TLength &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; TStaticList{L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;TLength} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
-struct TNil &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TStaticList{TZeroLength} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; TNil &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TStaticList{TZeroLength} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
-struct TCons{T, L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;TLength} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TStaticList{TNext{T,L}}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; TCons{T, L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;TLength} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TStaticList{TNext{T,L}}
     h&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
     t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;TStaticList{L}
     &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; TCons(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T, t&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;TStaticList{L}) where {T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;TLength}
@@ -1009,17 +987,8 @@ optimization. The first part will introduce the problem context and requires
 some notion in mathematical optimization, if this stuff is scary, feel free to
 skip to the rest directly.&lt;/p&gt;
 
-&lt;h2&gt;Table of Contents&lt;/h2&gt;
-&lt;nav id=&#34;TableOfContents&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#refresher-on-if-then-else-constraints&#34;&gt;Refresher on if-then-else constraints&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#modeling-if-then-else-constraints&#34;&gt;Modeling if-then-else constraints&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#handling-big-m-in-an-elegant-way&#34;&gt;Handling big M in an elegant way&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#polishing-our-design-enriched-types&#34;&gt;Polishing our design: enriched types&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#conclusion-avoiding-a-clarity-flexibility-trade-off&#34;&gt;Conclusion: avoiding a clarity-flexibility trade-off&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/nav&gt;
-
+&lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;/p&gt;
 
 &lt;h1 id=&#34;refresher-on-if-then-else-constraints&#34;&gt;Refresher on if-then-else constraints&lt;/h1&gt;
 
@@ -1106,8 +1075,8 @@ instead of type equality, which is much more flexible.&lt;/p&gt;
 &lt;p&gt;The function is way longer than necessary, and will have to be modified every
 time. In a more idiomatic way, what we can do is:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;struct SOS1Method &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
-struct BigMMethod &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; SOS1Method &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; BigMMethod &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; handle_ifthenelse(x, y, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;SOS1Method)
     &lt;span style=&#34;color:#75715e&#34;&gt;# model as SOS1Method&lt;/span&gt;
@@ -1134,7 +1103,7 @@ its own type, and the reader can refer to the method directly.&lt;/li&gt;
 and defining a new behavior:
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; OtherPackage &lt;span style=&#34;color:#75715e&#34;&gt;# where the function is defined&lt;/span&gt;
 
-struct MyNewMethod &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; MyNewMethod &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; handle_ifthenelse(x, y, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;MyNewMethod)
     &lt;span style=&#34;color:#75715e&#34;&gt;# define a new method for ifthenelse, much more efficient&lt;/span&gt;
@@ -1155,7 +1124,7 @@ $$ x_j \leq M \cdot y_j\,\, \forall j $$&lt;/p&gt;
 requires a scalar. One default option would be to adapt to the most general one:
 if several M values are given, build a vector, if there is only one, repeat it
 for each $j$. One way to do it using dynamic typing:
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;struct BigMMethod &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; BigMMethod &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; handle_ifthenelse(x, y, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;BigMMethod, M&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Union&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;}})
     &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; M isa &lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;
@@ -1170,7 +1139,7 @@ for each $j$. One way to do it using dynamic typing:
 using &lt;code&gt;Union&lt;/code&gt; type. Still, this type verification can be done using dispatch,
 and we can handle the multiple cases:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;struct BigMMethod &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; BigMMethod &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Use one unique big M value
@@ -1213,7 +1182,7 @@ and cumbersome interfaces. Can we change this? We created all our types as
 empty structures &lt;code&gt;struct A end&lt;/code&gt; and use it just to dispatch. Instead,
 we could store adapted parameters within the corresponding type:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;struct Alg1
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; Alg1
     coefficient&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;
     direction&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;}
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
@@ -1229,13 +1198,13 @@ we could store adapted parameters within the corresponding type:&lt;/p&gt;
 
 &lt;p&gt;Getting back to our initial use case of &lt;code&gt;BigMMethod&lt;/code&gt;, we need to store
 the $M$ value(s) in the structure:
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;struct BigMMethod
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; BigMMethod
     M&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Union&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;}}
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
 
 &lt;p&gt;This seems fine, however, the Julia compiler cannot know the type of the &lt;code&gt;M&lt;/code&gt;
 field at compile-time, instead, we can use a type parameter here:
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;struct BigMMethod{MT&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Union&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;}}}
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; BigMMethod{MT&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Union&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;}}}
     M&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;MT
     BigMMethod(M&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;MT) where {MT} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; new{MT}(M)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
@@ -2069,11 +2038,11 @@ you&amp;rsquo;re using. Yes all of &lt;a href=&#34;https://donate.wikimedia.org/
 &lt;a href=&#34;http://github.com/JuliaStats/&#34; target=&#34;_blank&#34;&gt;JuliaStats&lt;/a&gt; ecosystems, mostly because these
 are subjects I understand (at least a bit) and/or used.
 Key take-away:
-&lt;div class=&#34;alert alert-note&#34;&gt;
-  &lt;p&gt;You don&amp;rsquo;t need to be an expert programmer to help out&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;&lt;/p&gt;
 
-&lt;/div&gt;
-&lt;/p&gt;
+&lt;p&gt;You don&amp;rsquo;t need to be an expert programmer to help out&lt;/p&gt;
+
+&lt;p&gt;&lt;/div&gt;&lt;/p&gt;
 
 &lt;p&gt;Reporting issues you have and contributing to improve the documentation
 is as valuable as writing code.&lt;/p&gt;
@@ -2186,7 +2155,7 @@ to a node $j$, therefore all the information of a graph can be kept as an
 we will parametrize the graph type over the matrix type:&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; LightGraphs; &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; lg &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LightGraphs
-mutable struct MatrixDiGraph{MT &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractMatrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Bool&lt;/span&gt;}} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AbstractGraph{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;mutable&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; MatrixDiGraph{MT &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractMatrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Bool&lt;/span&gt;}} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AbstractGraph{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}
   matrix&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;MT
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 

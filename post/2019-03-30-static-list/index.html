@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.52" />
+  <meta name="generator" content="Hugo 0.55.5" />
   <meta name="author" content="Mathieu Besançon">
   <meta name="description" content="PhD student in applied mathematics for energy systems">
 
@@ -254,7 +254,7 @@ Some other references:</p>
 <li><a href="https://github.com/JuliaArrays/StaticArrays.jl" target="_blank"><em>StaticArrays.jl</em></a> is a good inspiration for static data structures in Julia</li>
 </ul>
 
-<h2>Table of Contents</h2>
+<p><h2>Table of Contents</h2>
 <nav id="TableOfContents">
 <ul>
 <li><a href="#first-thoughts-value-type-parameter">First thoughts: value type parameter</a></li>
@@ -265,8 +265,7 @@ Some other references:</p>
 <li><a href="#conclusion">Conclusion</a></li>
 <li><a href="#sources">Sources</a></li>
 </ul>
-</nav>
-
+</nav></p>
 
 <h1 id="first-thoughts-value-type-parameter">First thoughts: value type parameter</h1>
 
@@ -298,12 +297,12 @@ directly using integers.</p>
 </span><span style="color:#e6db74">&#34;&#34;&#34;</span>
 <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> StaticList{T,L} <span style="color:#66d9ef">end</span>
 
-struct Nil{T} <span style="color:#f92672">&lt;:</span> StaticList{T,<span style="color:#ae81ff">0</span>} <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">struct</span> Nil{T} <span style="color:#f92672">&lt;:</span> StaticList{T,<span style="color:#ae81ff">0</span>} <span style="color:#66d9ef">end</span>
 
 StaticList{T}() where T <span style="color:#f92672">=</span> Nil{T}()
 StaticList(v<span style="color:#f92672">::</span>T) where T <span style="color:#f92672">=</span> Cons(v, Nil{T}())
 
-struct Cons{T,L} <span style="color:#f92672">&lt;:</span> StaticList{T,L<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>}
+<span style="color:#66d9ef">struct</span> Cons{T,L} <span style="color:#f92672">&lt;:</span> StaticList{T,L<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>}
     h<span style="color:#f92672">::</span>T
     t<span style="color:#f92672">::</span>StaticList{T,L}
     <span style="color:#66d9ef">function</span> Cons(v<span style="color:#f92672">::</span>T, t<span style="color:#f92672">::</span>StaticList{T,L}) where {T,L}
@@ -335,9 +334,9 @@ does exactly that. More discussion on computed type parameters in
 
 julia<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> StaticList{T,L} <span style="color:#66d9ef">end</span>
 
-julia<span style="color:#f92672">&gt;</span> struct Nil{T} <span style="color:#f92672">&lt;:</span> StaticList{T,<span style="color:#ae81ff">0</span>} <span style="color:#66d9ef">end</span>
+julia<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">struct</span> Nil{T} <span style="color:#f92672">&lt;:</span> StaticList{T,<span style="color:#ae81ff">0</span>} <span style="color:#66d9ef">end</span>
 
-julia<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">@computed</span> struct Cons{T,L} <span style="color:#f92672">&lt;:</span> StaticList{T,L}
+julia<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">@computed</span> <span style="color:#66d9ef">struct</span> Cons{T,L} <span style="color:#f92672">&lt;:</span> StaticList{T,L}
            h<span style="color:#f92672">::</span>T
            t<span style="color:#f92672">::</span>StaticList{T,L<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>}
            <span style="color:#66d9ef">function</span> Cons(v<span style="color:#f92672">::</span>T, t<span style="color:#f92672">::</span>StaticList{T,L0}) where {T,L0}
@@ -370,20 +369,20 @@ number using recursive types.</p>
 </span><span style="color:#e6db74">using `length(l::Length)`
 </span><span style="color:#e6db74">&#34;&#34;&#34;</span>
 <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> Length <span style="color:#66d9ef">end</span>
-struct ZeroLength <span style="color:#f92672">&lt;:</span> Length <span style="color:#66d9ef">end</span>
-struct Next{L<span style="color:#f92672">&lt;:</span>Length} <span style="color:#f92672">&lt;:</span> Length <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">struct</span> ZeroLength <span style="color:#f92672">&lt;:</span> Length <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">struct</span> Next{L<span style="color:#f92672">&lt;:</span>Length} <span style="color:#f92672">&lt;:</span> Length <span style="color:#66d9ef">end</span>
 
 <span style="color:#e6db74">&#34;&#34;&#34;
 </span><span style="color:#e6db74">A linked list of size known at compile-time
 </span><span style="color:#e6db74">&#34;&#34;&#34;</span>
 <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> StaticList{T,L<span style="color:#f92672">&lt;:</span>Length} <span style="color:#66d9ef">end</span>
 
-struct Nil{T} <span style="color:#f92672">&lt;:</span> StaticList{T,ZeroLength} <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">struct</span> Nil{T} <span style="color:#f92672">&lt;:</span> StaticList{T,ZeroLength} <span style="color:#66d9ef">end</span>
 
 StaticList{T}() where T <span style="color:#f92672">=</span> Nil{T}()
 StaticList(v<span style="color:#f92672">::</span>T) where T <span style="color:#f92672">=</span> Cons(v, Nil{T}())
 
-struct Cons{T,L<span style="color:#f92672">&lt;:</span>Length} <span style="color:#f92672">&lt;:</span> StaticList{T,Next{L}}
+<span style="color:#66d9ef">struct</span> Cons{T,L<span style="color:#f92672">&lt;:</span>Length} <span style="color:#f92672">&lt;:</span> StaticList{T,Next{L}}
     h<span style="color:#f92672">::</span>T
     t<span style="color:#f92672">::</span>StaticList{T,L}
     <span style="color:#66d9ef">function</span> Cons(v<span style="color:#f92672">::</span>T, t<span style="color:#f92672">::</span>StaticList{T,L}) where {T,L<span style="color:#f92672">&lt;:</span>Length}
@@ -515,7 +514,7 @@ as in common functional implementations, meaning we can define other sub-types.<
 Instead of storing all of them, we can find a smart way of representing them.
 Let us define a static list of ones:</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">struct OnesStaticList{T<span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Number</span>,L<span style="color:#f92672">&lt;:</span>Length} <span style="color:#66d9ef">end</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> OnesStaticList{T<span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Number</span>,L<span style="color:#f92672">&lt;:</span>Length} <span style="color:#66d9ef">end</span>
 
 Base<span style="color:#f92672">.</span>iterate(l<span style="color:#f92672">::</span>OnesStaticList, <span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{ZeroLength}) <span style="color:#f92672">=</span> nothing
 <span style="color:#66d9ef">function</span> Base<span style="color:#f92672">.</span>iterate(l<span style="color:#f92672">::</span>OnesStaticList{T,L}, state<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{Next{L1}} <span style="color:#f92672">=</span> L) where <span style="color:#f92672">$</span>
@@ -525,7 +524,7 @@ Base<span style="color:#f92672">.</span>iterate(l<span style="color:#f92672">::<
 <p>This list corresponds to the 1 value of type <code>T</code>, repeated for all elements.
 In a similar fashion, one can define a ZeroList:</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">struct ZerosStaticList{T<span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Number</span>,L<span style="color:#f92672">&lt;:</span>Length} <span style="color:#66d9ef">end</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> ZerosStaticList{T<span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Number</span>,L<span style="color:#f92672">&lt;:</span>Length} <span style="color:#66d9ef">end</span>
 
 Base<span style="color:#f92672">.</span>iterate(l<span style="color:#f92672">::</span>ZerosStaticList, <span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{ZeroLength}) <span style="color:#f92672">=</span> nothing
 <span style="color:#66d9ef">function</span> Base<span style="color:#f92672">.</span>iterate(l<span style="color:#f92672">::</span>ZerosStaticList{T,L}, state<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{Next{L1}} <span style="color:#f92672">=</span> L) where<span style="color:#f92672">$</span>
@@ -534,7 +533,7 @@ Base<span style="color:#f92672">.</span>iterate(l<span style="color:#f92672">::<
 
 <p>One thing to note is that these lists are terminal, in the sense that they cannot
 be part of a greater list. To fix this, we can add a tail to these as follows:
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">struct ZerosStaticList{T<span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Number</span>,L<span style="color:#f92672">&lt;:</span>Length,TL<span style="color:#f92672">&lt;:</span>StaticList{T,<span style="color:#f92672">&lt;:</span>Length}}
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> ZerosStaticList{T<span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Number</span>,L<span style="color:#f92672">&lt;:</span>Length,TL<span style="color:#f92672">&lt;:</span>StaticList{T,<span style="color:#f92672">&lt;:</span>Length}}
 	t<span style="color:#f92672">::</span>TL
 <span style="color:#66d9ef">end</span>
 
@@ -554,14 +553,14 @@ the value just once.</p>
 Since we have a recursive length parameter, why not add it a type at each new node?</p>
 
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> TLength <span style="color:#66d9ef">end</span>
-struct TZeroLength <span style="color:#f92672">&lt;:</span> TLength <span style="color:#66d9ef">end</span>
-struct TNext{T,L<span style="color:#f92672">&lt;:</span>TLength} <span style="color:#f92672">&lt;:</span> TLength <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">struct</span> TZeroLength <span style="color:#f92672">&lt;:</span> TLength <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">struct</span> TNext{T,L<span style="color:#f92672">&lt;:</span>TLength} <span style="color:#f92672">&lt;:</span> TLength <span style="color:#66d9ef">end</span>
 
 <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> TStaticList{L<span style="color:#f92672">&lt;:</span>TLength} <span style="color:#66d9ef">end</span>
 
-struct TNil <span style="color:#f92672">&lt;:</span> TStaticList{TZeroLength} <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">struct</span> TNil <span style="color:#f92672">&lt;:</span> TStaticList{TZeroLength} <span style="color:#66d9ef">end</span>
 
-struct TCons{T, L<span style="color:#f92672">&lt;:</span>TLength} <span style="color:#f92672">&lt;:</span> TStaticList{TNext{T,L}}
+<span style="color:#66d9ef">struct</span> TCons{T, L<span style="color:#f92672">&lt;:</span>TLength} <span style="color:#f92672">&lt;:</span> TStaticList{TNext{T,L}}
     h<span style="color:#f92672">::</span>T
     t<span style="color:#f92672">::</span>TStaticList{L}
     <span style="color:#66d9ef">function</span> TCons(v<span style="color:#f92672">::</span>T, t<span style="color:#f92672">::</span>TStaticList{L}) where {T,L<span style="color:#f92672">&lt;:</span>TLength}

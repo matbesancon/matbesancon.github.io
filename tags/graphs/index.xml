@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Graphs on μβ</title>
+    <title>graphs on μβ</title>
     <link>https://matbesancon.github.io/tags/graphs/</link>
-    <description>Recent content in Graphs on μβ</description>
+    <description>Recent content in graphs on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,8 +18,7 @@
       <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/juliagraphs/</guid>
-      <description>Starting from a weird Kaggle side-project during the Chrismas holidays, I gradually got involved in the JuliaGraphs ecosystem. After some discussion on the Julia Slack #graphs channel, I went from reporting a simple feature I needed to helping with the re-organization by splitting out two packages:
- LightGraphsMatching.jl LightGraphsFlows.jl  I also implemented the min-cost flow problem formulated as a linear optimization problem formulated using MathProgBase.jl, using any user-provided solver.</description>
+      <description>A graph modeling and analysis ecosystem for Julia</description>
     </item>
     
   </channel>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Julia on μβ</title>
+    <title>julia on μβ</title>
     <link>https://matbesancon.github.io/tags/julia/</link>
-    <description>Recent content in Julia on μβ</description>
+    <description>Recent content in julia on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,8 +18,7 @@
       <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-07-name_distances/</guid>
-      <description>I must admit I am not always the most talented at social events. One point I am especially bad at is remembering names, and it gets even harder when lots of people have similar or similar-sounding names. What if we could select a list of people with names as different from each other as possible?
-First some definitions, different here is meant with respect to the Hamming distance of any two names.</description>
+      <description>Making social events easier as a graph problem.</description>
     </item>
     
     <item>
@@ -28,7 +27,7 @@ First some definitions, different here is meant with respect to the Hamming dist
       <pubDate>Sat, 30 Mar 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-03-30-static-list/</guid>
-      <description>This post explores the possibility to build static lists in Julia, meaning lists for which the size is known at compile-time. This is inspired by a post on a Scala equivalent but will take different roads to see more than a plain port. Of course, this implementation is not that handy nor efficient but is mostly meant to push the limits of the type system, especially a trick of using recursive types as values (replacing a dependent type system).</description>
+      <description>Pushing the type system for more compile-time information</description>
     </item>
     
     <item>
@@ -37,8 +36,7 @@ First some definitions, different here is meant with respect to the Hamming dist
       <pubDate>Sun, 24 Feb 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</guid>
-      <description>In a recent pull request on a personal project, I spent some time designing an intuitive API for a specific problem. After reaching a satisfying result, I realized this would never have been possible without one of the central mechanisms of the Julia language: multiple dispatch. Feel free to read the Julia docs on the topic or what Wikipedia has to say about it.
-This post is a walkthrough for multiple dispatch for a case in mathematical optimization.</description>
+      <description>Leveraging one of Julia central features for clearer formulation of an optimization problem.</description>
     </item>
     
     <item>
@@ -47,8 +45,7 @@ This post is a walkthrough for multiple dispatch for a case in mathematical opti
       <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</guid>
-      <description>Enjoying the calm of the frozen eastern French countryside for the last week of 2018, I was struck by nostalgia while reading a SIAM news article [1] on a near-reversible heat exchange between two flows and decided to dust off my thermodynamics books (especially [2]).
-Research in mathematical optimization was not the obvious path I was on a couple years ago. The joint bachelor-master&amp;rsquo;s program I followed in France was in process engineering, a discipline crossing transfer phenomena (heat exchange, fluid mechanics, thermodynamics), control, knowledge of the matter transformations at hand (chemical, biochemical, nuclear reactions) and industrial engineering (see note at the end of this page).</description>
+      <description></description>
     </item>
     
     <item>
@@ -57,8 +54,7 @@ Research in mathematical optimization was not the obvious path I was on a couple
       <pubDate>Fri, 17 Aug 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-08-17-abstract_graph/</guid>
-      <description>This is an adapted post on the talk we gave with James at JuliaCon 2018 in London. You can see the original slides, the video still requires a bit of post-processing.
-Last week JuliaCon in London was a great and very condensed experience. The two talks on LightGraphs.jl received a lot of positive feedback and more than that, we saw how people are using the library for a variety of use cases which is a great signal for the work on the JuliaGraphs ecosystem (see the lightning talk).</description>
+      <description>Who needs libraries when from scratch looks so good</description>
     </item>
     
     <item>
@@ -67,9 +63,7 @@ Last week JuliaCon in London was a great and very condensed experience. The two 
       <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-25-colgen2/</guid>
-      <description>In the previous post, we explored a well-known integer optimization situation in manufacturing, the cutting stock problem. After some details on the decisions, constraints and objectives, we implemented a naive model in JuMP.
-One key thing to notice is the explosion of number of variables and constraints and the fact that relaxed solutions (without constraining variables to be integers) are very far from actual feasible solutions.
-We will now use an other way of formulating the problem, using a problem decomposition and an associated solution method (column generation).</description>
+      <description>A column generation algorithm for the cutting width problem using Julia and JuMP</description>
     </item>
     
     <item>
@@ -78,8 +72,7 @@ We will now use an other way of formulating the problem, using a problem decompo
       <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
-      <description>Integer optimization often feels weird (at least to me). Simple reformulations of a (mixed) integer optimization problem (MIP) can make it way easier to solve. We&amp;rsquo;re going to explore one well-known example of such integer problem in two blog posts. This first part introduces the problem and develops a naive solution. We&amp;rsquo;re going to see why it&amp;rsquo;s complex to solve and why this formulation does not scale.
-In a second post, we will see a reformulation of the problem which makes it easier to solve and scales to bigger instances.</description>
+      <description>Solving a cutting stock problem step by step using Julia and JuMP</description>
     </item>
     
     <item>
@@ -88,9 +81,7 @@ In a second post, we will see a reformulation of the problem which makes it easi
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
-      <description>With the end-of-year celebrations, we all had some expenses to manage, some of them shared with friends, and we all have this eternal problem of splitting them fairly.
- Les bons comptes font les bons amis. French wisdom
- Applications like Tricount or Splitwise became famous precisely by solving this problem for you: just enter the expenses one by one, with who owes whom and you&amp;rsquo;ll get the simplest transactions to balance the amounts at the end.</description>
+      <description>Graph theory and Julia to solve the boring aspect of having friends</description>
     </item>
     
     <item>
@@ -99,9 +90,7 @@ In a second post, we will see a reformulation of the problem which makes it easi
       <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
-      <description>In the last article, we explored different modeling options for a three-component systems which could represent the dynamics of a chemical reaction or a disease propagation in a population. Building on top of this model, we will formulate a desirable outcome and find a decision which maximizes this outcome.
- In addition to the packages imported in the last post, we will also use BlackBoxOptim.jl:
- import DifferentialEquations const DiffEq = DifferentialEquations import Plots import Optim The model The same chemical system with three components, A, B and R will be used: $$A + B → 2B$$ $$B → R$$</description>
+      <description>Now that we&amp;rsquo;ve built a model, let&amp;rsquo;s use it to make the best decision</description>
     </item>
     
     <item>
@@ -110,8 +99,7 @@ In a second post, we will see a reformulation of the problem which makes it easi
       <pubDate>Thu, 14 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
-      <description>DifferentialEquations.jl came to be a key component of Julia&amp;rsquo;s scientific ecosystem. After checking the JuliaCon talk of its creator, I couldn&amp;rsquo;t wait to start building stuff with it, so I created and developed a simple example detailed in this blog post. Starting from a basic ordinary differential equation (ODE), we add noise, making it stochastic, and finally turn it into a discrete version.
- Before running the code below, two imports will be used:</description>
+      <description>Playing around with the differential equation solver turned simulation engine</description>
     </item>
     
   </channel>

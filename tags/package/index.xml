@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Package on μβ</title>
+    <title>package on μβ</title>
     <link>https://matbesancon.github.io/tags/package/</link>
-    <description>Recent content in Package on μβ</description>
+    <description>Recent content in package on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,8 +18,7 @@
       <pubDate>Fri, 17 Aug 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-08-17-abstract_graph/</guid>
-      <description>This is an adapted post on the talk we gave with James at JuliaCon 2018 in London. You can see the original slides, the video still requires a bit of post-processing.
-Last week JuliaCon in London was a great and very condensed experience. The two talks on LightGraphs.jl received a lot of positive feedback and more than that, we saw how people are using the library for a variety of use cases which is a great signal for the work on the JuliaGraphs ecosystem (see the lightning talk).</description>
+      <description>Who needs libraries when from scratch looks so good</description>
     </item>
     
   </channel>

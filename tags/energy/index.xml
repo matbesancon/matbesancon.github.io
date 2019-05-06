@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Energy on μβ</title>
+    <title>energy on μβ</title>
     <link>https://matbesancon.github.io/tags/energy/</link>
-    <description>Recent content in Energy on μβ</description>
+    <description>Recent content in energy on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,9 +18,7 @@
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/tlou/</guid>
-      <description>The pre-print of the presented work can be found on arXiv. The manuscript has also been submitted and should be published in the coming months.
-This project was presented at several conferences, including:
- Optimization days, Montréal, May 2018 NSERC Energy Storage Technology Network (NEST-Net) annual meeting, Toronto, June 2018. It was under the network&amp;rsquo;s project Optimal Brokerage Models for the Grid Integration of Energy Storage. JuliaCon, London, August 2018 (poster)  An open-source Julia package has been released here for other researchers to model Time-and-Level-of-Use tariffs.</description>
+      <description>Formulating the TLOU price-setting as a bilevel optimization problem</description>
     </item>
     
   </channel>

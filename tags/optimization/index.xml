@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Optimization on μβ</title>
+    <title>optimization on μβ</title>
     <link>https://matbesancon.github.io/tags/optimization/</link>
-    <description>Recent content in Optimization on μβ</description>
+    <description>Recent content in optimization on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,8 +18,7 @@
       <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</guid>
-      <description>This week, I came across Richard Oberdieck&amp;rsquo;s post, &amp;ldquo;Why &amp;lsquo;evaluate&amp;rsquo; is the feature I am missing the most from commercial MIP solvers&amp;rdquo;. It would indeed be practical to have for the reasons listed by the author, but some barriers stand to have it as it is expressed in the snippets presented.
-Table of Contents  Initial problem statement A terminology problem Encoding possibilities as sum-types A typed solution for describing mathematical problems Stealing a solution elsewhere Further resources   Initial problem statement The author first tests the optimization of a non-linear function through scipy as such:</description>
+      <description>Some digging in representations for optimization modelling</description>
     </item>
     
     <item>
@@ -28,8 +27,7 @@ Table of Contents  Initial problem statement A terminology problem Encoding poss
       <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-07-name_distances/</guid>
-      <description>I must admit I am not always the most talented at social events. One point I am especially bad at is remembering names, and it gets even harder when lots of people have similar or similar-sounding names. What if we could select a list of people with names as different from each other as possible?
-First some definitions, different here is meant with respect to the Hamming distance of any two names.</description>
+      <description>Making social events easier as a graph problem.</description>
     </item>
     
     <item>
@@ -38,8 +36,7 @@ First some definitions, different here is meant with respect to the Hamming dist
       <pubDate>Sun, 24 Feb 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</guid>
-      <description>In a recent pull request on a personal project, I spent some time designing an intuitive API for a specific problem. After reaching a satisfying result, I realized this would never have been possible without one of the central mechanisms of the Julia language: multiple dispatch. Feel free to read the Julia docs on the topic or what Wikipedia has to say about it.
-This post is a walkthrough for multiple dispatch for a case in mathematical optimization.</description>
+      <description>Leveraging one of Julia central features for clearer formulation of an optimization problem.</description>
     </item>
     
     <item>
@@ -48,9 +45,7 @@ This post is a walkthrough for multiple dispatch for a case in mathematical opti
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/tlou/</guid>
-      <description>The pre-print of the presented work can be found on arXiv. The manuscript has also been submitted and should be published in the coming months.
-This project was presented at several conferences, including:
- Optimization days, Montréal, May 2018 NSERC Energy Storage Technology Network (NEST-Net) annual meeting, Toronto, June 2018. It was under the network&amp;rsquo;s project Optimal Brokerage Models for the Grid Integration of Energy Storage. JuliaCon, London, August 2018 (poster)  An open-source Julia package has been released here for other researchers to model Time-and-Level-of-Use tariffs.</description>
+      <description>Formulating the TLOU price-setting as a bilevel optimization problem</description>
     </item>
     
     <item>
@@ -59,9 +54,7 @@ This project was presented at several conferences, including:
       <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-25-colgen2/</guid>
-      <description>In the previous post, we explored a well-known integer optimization situation in manufacturing, the cutting stock problem. After some details on the decisions, constraints and objectives, we implemented a naive model in JuMP.
-One key thing to notice is the explosion of number of variables and constraints and the fact that relaxed solutions (without constraining variables to be integers) are very far from actual feasible solutions.
-We will now use an other way of formulating the problem, using a problem decomposition and an associated solution method (column generation).</description>
+      <description>A column generation algorithm for the cutting width problem using Julia and JuMP</description>
     </item>
     
     <item>
@@ -70,8 +63,7 @@ We will now use an other way of formulating the problem, using a problem decompo
       <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
-      <description>Integer optimization often feels weird (at least to me). Simple reformulations of a (mixed) integer optimization problem (MIP) can make it way easier to solve. We&amp;rsquo;re going to explore one well-known example of such integer problem in two blog posts. This first part introduces the problem and develops a naive solution. We&amp;rsquo;re going to see why it&amp;rsquo;s complex to solve and why this formulation does not scale.
-In a second post, we will see a reformulation of the problem which makes it easier to solve and scales to bigger instances.</description>
+      <description>Solving a cutting stock problem step by step using Julia and JuMP</description>
     </item>
     
     <item>
@@ -80,9 +72,7 @@ In a second post, we will see a reformulation of the problem which makes it easi
       <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
-      <description>In the last article, we explored different modeling options for a three-component systems which could represent the dynamics of a chemical reaction or a disease propagation in a population. Building on top of this model, we will formulate a desirable outcome and find a decision which maximizes this outcome.
- In addition to the packages imported in the last post, we will also use BlackBoxOptim.jl:
- import DifferentialEquations const DiffEq = DifferentialEquations import Plots import Optim The model The same chemical system with three components, A, B and R will be used: $$A + B → 2B$$ $$B → R$$</description>
+      <description>Now that we&amp;rsquo;ve built a model, let&amp;rsquo;s use it to make the best decision</description>
     </item>
     
   </channel>

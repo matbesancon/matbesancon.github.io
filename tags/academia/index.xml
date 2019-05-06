@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Academia on μβ</title>
+    <title>academia on μβ</title>
     <link>https://matbesancon.github.io/tags/academia/</link>
-    <description>Recent content in Academia on μβ</description>
+    <description>Recent content in academia on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,9 +18,7 @@
       <pubDate>Mon, 04 Feb 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-02-04-article-review/</guid>
-      <description>After the first submissions to journals, most researchers will be contacted by editors for reviewing articles others have written. It may seem like a daunting task, evaluating the work someone else put several months to prepare, code, write, correct and submit.
-Disclaimer: to preserve the anonymity of the reviews I made and am making, all examples I give below are made up.
-The main phases of my reviewing process are:</description>
+      <description>Gathering some thoughts on what worked and what did not.</description>
     </item>
     
     <item>
@@ -29,9 +27,7 @@ The main phases of my reviewing process are:</description>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/tlou/</guid>
-      <description>The pre-print of the presented work can be found on arXiv. The manuscript has also been submitted and should be published in the coming months.
-This project was presented at several conferences, including:
- Optimization days, Montréal, May 2018 NSERC Energy Storage Technology Network (NEST-Net) annual meeting, Toronto, June 2018. It was under the network&amp;rsquo;s project Optimal Brokerage Models for the Grid Integration of Energy Storage. JuliaCon, London, August 2018 (poster)  An open-source Julia package has been released here for other researchers to model Time-and-Level-of-Use tariffs.</description>
+      <description>Formulating the TLOU price-setting as a bilevel optimization problem</description>
     </item>
     
     <item>
@@ -40,8 +36,7 @@ This project was presented at several conferences, including:
       <pubDate>Thu, 27 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-09-27-year-in-phd/</guid>
-      <description>So, it&amp;rsquo;s been a bit more than a year since I took a flight to Montréal to start a PhD on mathematical optimization &amp;amp; game theory for smart grids.
-After the rush of summer conferences, and my return to France for a part of my PhD at INRIA Lille, it is a good time to take a step back and think of what has been going on and what is coming next.</description>
+      <description></description>
     </item>
     
   </channel>

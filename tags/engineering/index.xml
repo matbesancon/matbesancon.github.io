@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Engineering on μβ</title>
+    <title>engineering on μβ</title>
     <link>https://matbesancon.github.io/tags/engineering/</link>
-    <description>Recent content in Engineering on μβ</description>
+    <description>Recent content in engineering on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,8 +18,7 @@
       <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</guid>
-      <description>Enjoying the calm of the frozen eastern French countryside for the last week of 2018, I was struck by nostalgia while reading a SIAM news article [1] on a near-reversible heat exchange between two flows and decided to dust off my thermodynamics books (especially [2]).
-Research in mathematical optimization was not the obvious path I was on a couple years ago. The joint bachelor-master&amp;rsquo;s program I followed in France was in process engineering, a discipline crossing transfer phenomena (heat exchange, fluid mechanics, thermodynamics), control, knowledge of the matter transformations at hand (chemical, biochemical, nuclear reactions) and industrial engineering (see note at the end of this page).</description>
+      <description></description>
     </item>
     
     <item>
@@ -28,8 +27,8 @@ Research in mathematical optimization was not the obvious path I was on a couple
       <pubDate>Sat, 21 May 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</guid>
-      <description>The goal of this article is to present couple challenges waiting the industrial data scientist or industrial data science teams, the deep reasons I believe are the root of this inertia, based on my experience (in both data science and engineering projects) and exchanges with engineers and data scientists. The last part introduces some suggestions to make the collaboration richer for both sides.
-Why isn&amp;rsquo;t data science already everywhere in engineering?</description>
+      <description>Thoughts as an engineer-by-training evolving towards data skills in a
+manufacturing context.</description>
     </item>
     
   </channel>

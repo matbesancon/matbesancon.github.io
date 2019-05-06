@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Julia Package on μβ</title>
+    <title>julia-package on μβ</title>
     <link>https://matbesancon.github.io/tags/julia-package/</link>
-    <description>Recent content in Julia Package on μβ</description>
+    <description>Recent content in julia-package on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,7 +18,7 @@
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/distributions/</guid>
-      <description>Contributions to the JuliaStats ecosystem, especially the Distributions.jl package for modeling probability distributions in Julia using a minimal and flexible interface.</description>
+      <description>Toolkit for statistical modeling in Julia</description>
     </item>
     
     <item>
@@ -27,7 +27,7 @@
       <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/mixed_distributions/</guid>
-      <description></description>
+      <description>Modelling, inferring and sampling from continuous-discrete distributions in Julia, on top of Distributions.jl</description>
     </item>
     
     <item>
@@ -36,8 +36,7 @@
       <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/juliagraphs/</guid>
-      <description>Starting from a weird Kaggle side-project during the Chrismas holidays, I gradually got involved in the JuliaGraphs ecosystem. After some discussion on the Julia Slack #graphs channel, I went from reporting a simple feature I needed to helping with the re-organization by splitting out two packages:
- LightGraphsMatching.jl LightGraphsFlows.jl  I also implemented the min-cost flow problem formulated as a linear optimization problem formulated using MathProgBase.jl, using any user-provided solver.</description>
+      <description>A graph modeling and analysis ecosystem for Julia</description>
     </item>
     
     <item>
@@ -46,9 +45,7 @@
       <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/webfuncs/</guid>
-      <description>WebFuncs.jl is a Julia project testing the language out of its natural scope. Having built quite a bit with Go and Python, I wanted to see if the Julia ecosystem had tools for HTTP handling.
-The inspiration of a simple-to-use function server came from the fx project. Define your function, the package throws it as a server for you.
-The package has been accepted on Julia package repository and can be fetched using Pkg.</description>
+      <description>Serve Julia functions with HTTP</description>
     </item>
     
   </channel>

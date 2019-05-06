@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Python on μβ</title>
+    <title>python on μβ</title>
     <link>https://matbesancon.github.io/tags/python/</link>
-    <description>Recent content in Python on μβ</description>
+    <description>Recent content in python on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,8 +18,7 @@
       <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</guid>
-      <description>This week, I came across Richard Oberdieck&amp;rsquo;s post, &amp;ldquo;Why &amp;lsquo;evaluate&amp;rsquo; is the feature I am missing the most from commercial MIP solvers&amp;rdquo;. It would indeed be practical to have for the reasons listed by the author, but some barriers stand to have it as it is expressed in the snippets presented.
-Table of Contents  Initial problem statement A terminology problem Encoding possibilities as sum-types A typed solution for describing mathematical problems Stealing a solution elsewhere Further resources   Initial problem statement The author first tests the optimization of a non-linear function through scipy as such:</description>
+      <description>Some digging in representations for optimization modelling</description>
     </item>
     
     <item>
@@ -28,10 +27,7 @@ Table of Contents  Initial problem statement A terminology problem Encoding poss
       <pubDate>Wed, 13 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-13-fraud-detection3/</guid>
-      <description>[1]
-Part III: Model development
-To follow the following article without any trouble, I would recommend to start with the beginning.
-How does predictive modeling work Keep the terminology in mind This is important to understand the principles and sub-disciplines of machine learning. We are trying to predict a specific output, our information of interest, which is the category of bank note we observe (genuine or forged). This task is therefore labeled as supervised learning, as opposed to unsupervised learning which consists of finding patterns or groups from data without a priori identification of those groups.</description>
+      <description>Learning by doing: predicting the outcome.</description>
     </item>
     
     <item>
@@ -40,9 +36,7 @@ How does predictive modeling work Keep the terminology in mind This is important
       <pubDate>Tue, 12 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-12-fraud-detection2/</guid>
-      <description>[1]
-Part II: Feature engineering
-What is feature engineering? It could be describe as the transformation of raw data to produce a model input which will have better performance. The features are the new variables created in the process. It is often described as based on domain knowledge and more of an art than of a science. Therefore, it requires a great attention and a more &amp;ldquo;manual&amp;rdquo; process than the rest of data science projects.</description>
+      <description>Learning by doing: the feature engineering step.</description>
     </item>
     
     <item>
@@ -51,9 +45,7 @@ What is feature engineering? It could be describe as the transformation of raw d
       <pubDate>Mon, 11 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-11-fraud-detection/</guid>
-      <description>A complete predictive modeling project in Python Part I: Preprocessing and exploratory analysis
-One of the amazing things with data science is the ability to tackle complex problems involving hidden parallel phenomena interacting with each other, just from the data they produce.
-As an example, we will use data extracted from images of forged and genuine banknotes. The distinction between the two categories would be thought to require a deep domain expertise, which limits the ability to check more than a few banknotes at a time.</description>
+      <description>Learning by doing: detecting fraud on bank notes using Python in 3 steps.</description>
     </item>
     
   </channel>

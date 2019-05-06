@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Modeling on μβ</title>
+    <title>modeling on μβ</title>
     <link>https://matbesancon.github.io/tags/modeling/</link>
-    <description>Recent content in Modeling on μβ</description>
+    <description>Recent content in modeling on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,9 +18,7 @@
       <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-25-colgen2/</guid>
-      <description>In the previous post, we explored a well-known integer optimization situation in manufacturing, the cutting stock problem. After some details on the decisions, constraints and objectives, we implemented a naive model in JuMP.
-One key thing to notice is the explosion of number of variables and constraints and the fact that relaxed solutions (without constraining variables to be integers) are very far from actual feasible solutions.
-We will now use an other way of formulating the problem, using a problem decomposition and an associated solution method (column generation).</description>
+      <description>A column generation algorithm for the cutting width problem using Julia and JuMP</description>
     </item>
     
     <item>
@@ -29,8 +27,7 @@ We will now use an other way of formulating the problem, using a problem decompo
       <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
-      <description>Integer optimization often feels weird (at least to me). Simple reformulations of a (mixed) integer optimization problem (MIP) can make it way easier to solve. We&amp;rsquo;re going to explore one well-known example of such integer problem in two blog posts. This first part introduces the problem and develops a naive solution. We&amp;rsquo;re going to see why it&amp;rsquo;s complex to solve and why this formulation does not scale.
-In a second post, we will see a reformulation of the problem which makes it easier to solve and scales to bigger instances.</description>
+      <description>Solving a cutting stock problem step by step using Julia and JuMP</description>
     </item>
     
     <item>
@@ -39,9 +36,7 @@ In a second post, we will see a reformulation of the problem which makes it easi
       <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
-      <description>In the last article, we explored different modeling options for a three-component systems which could represent the dynamics of a chemical reaction or a disease propagation in a population. Building on top of this model, we will formulate a desirable outcome and find a decision which maximizes this outcome.
- In addition to the packages imported in the last post, we will also use BlackBoxOptim.jl:
- import DifferentialEquations const DiffEq = DifferentialEquations import Plots import Optim The model The same chemical system with three components, A, B and R will be used: $$A + B → 2B$$ $$B → R$$</description>
+      <description>Now that we&amp;rsquo;ve built a model, let&amp;rsquo;s use it to make the best decision</description>
     </item>
     
     <item>
@@ -50,8 +45,7 @@ In a second post, we will see a reformulation of the problem which makes it easi
       <pubDate>Thu, 14 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
-      <description>DifferentialEquations.jl came to be a key component of Julia&amp;rsquo;s scientific ecosystem. After checking the JuliaCon talk of its creator, I couldn&amp;rsquo;t wait to start building stuff with it, so I created and developed a simple example detailed in this blog post. Starting from a basic ordinary differential equation (ODE), we add noise, making it stochastic, and finally turn it into a discrete version.
- Before running the code below, two imports will be used:</description>
+      <description>Playing around with the differential equation solver turned simulation engine</description>
     </item>
     
   </channel>

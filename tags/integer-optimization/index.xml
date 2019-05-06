@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Integer Optimization on μβ</title>
+    <title>integer-optimization on μβ</title>
     <link>https://matbesancon.github.io/tags/integer-optimization/</link>
-    <description>Recent content in Integer Optimization on μβ</description>
+    <description>Recent content in integer-optimization on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Mathieu Besançon</copyright>
@@ -18,9 +18,7 @@
       <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-25-colgen2/</guid>
-      <description>In the previous post, we explored a well-known integer optimization situation in manufacturing, the cutting stock problem. After some details on the decisions, constraints and objectives, we implemented a naive model in JuMP.
-One key thing to notice is the explosion of number of variables and constraints and the fact that relaxed solutions (without constraining variables to be integers) are very far from actual feasible solutions.
-We will now use an other way of formulating the problem, using a problem decomposition and an associated solution method (column generation).</description>
+      <description>A column generation algorithm for the cutting width problem using Julia and JuMP</description>
     </item>
     
     <item>
@@ -29,8 +27,7 @@ We will now use an other way of formulating the problem, using a problem decompo
       <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
-      <description>Integer optimization often feels weird (at least to me). Simple reformulations of a (mixed) integer optimization problem (MIP) can make it way easier to solve. We&amp;rsquo;re going to explore one well-known example of such integer problem in two blog posts. This first part introduces the problem and develops a naive solution. We&amp;rsquo;re going to see why it&amp;rsquo;s complex to solve and why this formulation does not scale.
-In a second post, we will see a reformulation of the problem which makes it easier to solve and scales to bigger instances.</description>
+      <description>Solving a cutting stock problem step by step using Julia and JuMP</description>
     </item>
     
   </channel>

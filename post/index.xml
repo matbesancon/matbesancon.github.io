@@ -18,8 +18,7 @@
       <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</guid>
-      <description>This week, I came across Richard Oberdieck&amp;rsquo;s post, &amp;ldquo;Why &amp;lsquo;evaluate&amp;rsquo; is the feature I am missing the most from commercial MIP solvers&amp;rdquo;. It would indeed be practical to have for the reasons listed by the author, but some barriers stand to have it as it is expressed in the snippets presented.
-Table of Contents  Initial problem statement A terminology problem Encoding possibilities as sum-types A typed solution for describing mathematical problems Stealing a solution elsewhere Further resources   Initial problem statement The author first tests the optimization of a non-linear function through scipy as such:</description>
+      <description>Some digging in representations for optimization modelling</description>
     </item>
     
     <item>
@@ -28,8 +27,7 @@ Table of Contents  Initial problem statement A terminology problem Encoding poss
       <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-07-name_distances/</guid>
-      <description>I must admit I am not always the most talented at social events. One point I am especially bad at is remembering names, and it gets even harder when lots of people have similar or similar-sounding names. What if we could select a list of people with names as different from each other as possible?
-First some definitions, different here is meant with respect to the Hamming distance of any two names.</description>
+      <description>Making social events easier as a graph problem.</description>
     </item>
     
     <item>
@@ -38,7 +36,7 @@ First some definitions, different here is meant with respect to the Hamming dist
       <pubDate>Sat, 30 Mar 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-03-30-static-list/</guid>
-      <description>This post explores the possibility to build static lists in Julia, meaning lists for which the size is known at compile-time. This is inspired by a post on a Scala equivalent but will take different roads to see more than a plain port. Of course, this implementation is not that handy nor efficient but is mostly meant to push the limits of the type system, especially a trick of using recursive types as values (replacing a dependent type system).</description>
+      <description>Pushing the type system for more compile-time information</description>
     </item>
     
     <item>
@@ -47,7 +45,7 @@ First some definitions, different here is meant with respect to the Hamming dist
       <pubDate>Mon, 18 Mar 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-01-24-entrepreneurial-state-review/</guid>
-      <description>While reading books, lots of thoughts come and go, especially if the subject resonates and is connected to topics of interest. If the book is a novel or other fiction, I try to keep these thoughts away to remain in the universe and story. For non-fiction though, some of these thoughts constitute valuable elements to put on a larger frame, with other publications, slowly building context for the topics at hand.</description>
+      <description>Some thoughts and notes on an industrial policy book.</description>
     </item>
     
     <item>
@@ -56,8 +54,7 @@ First some definitions, different here is meant with respect to the Hamming dist
       <pubDate>Sun, 24 Feb 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</guid>
-      <description>In a recent pull request on a personal project, I spent some time designing an intuitive API for a specific problem. After reaching a satisfying result, I realized this would never have been possible without one of the central mechanisms of the Julia language: multiple dispatch. Feel free to read the Julia docs on the topic or what Wikipedia has to say about it.
-This post is a walkthrough for multiple dispatch for a case in mathematical optimization.</description>
+      <description>Leveraging one of Julia central features for clearer formulation of an optimization problem.</description>
     </item>
     
     <item>
@@ -66,9 +63,7 @@ This post is a walkthrough for multiple dispatch for a case in mathematical opti
       <pubDate>Mon, 04 Feb 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-02-04-article-review/</guid>
-      <description>After the first submissions to journals, most researchers will be contacted by editors for reviewing articles others have written. It may seem like a daunting task, evaluating the work someone else put several months to prepare, code, write, correct and submit.
-Disclaimer: to preserve the anonymity of the reviews I made and am making, all examples I give below are made up.
-The main phases of my reviewing process are:</description>
+      <description>Gathering some thoughts on what worked and what did not.</description>
     </item>
     
     <item>
@@ -77,8 +72,7 @@ The main phases of my reviewing process are:</description>
       <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</guid>
-      <description>Enjoying the calm of the frozen eastern French countryside for the last week of 2018, I was struck by nostalgia while reading a SIAM news article [1] on a near-reversible heat exchange between two flows and decided to dust off my thermodynamics books (especially [2]).
-Research in mathematical optimization was not the obvious path I was on a couple years ago. The joint bachelor-master&amp;rsquo;s program I followed in France was in process engineering, a discipline crossing transfer phenomena (heat exchange, fluid mechanics, thermodynamics), control, knowledge of the matter transformations at hand (chemical, biochemical, nuclear reactions) and industrial engineering (see note at the end of this page).</description>
+      <description></description>
     </item>
     
     <item>
@@ -87,8 +81,7 @@ Research in mathematical optimization was not the obvious path I was on a couple
       <pubDate>Thu, 27 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-09-27-year-in-phd/</guid>
-      <description>So, it&amp;rsquo;s been a bit more than a year since I took a flight to Montréal to start a PhD on mathematical optimization &amp;amp; game theory for smart grids.
-After the rush of summer conferences, and my return to France for a part of my PhD at INRIA Lille, it is a good time to take a step back and think of what has been going on and what is coming next.</description>
+      <description></description>
     </item>
     
     <item>
@@ -97,8 +90,7 @@ After the rush of summer conferences, and my return to France for a part of my P
       <pubDate>Fri, 17 Aug 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-08-17-abstract_graph/</guid>
-      <description>This is an adapted post on the talk we gave with James at JuliaCon 2018 in London. You can see the original slides, the video still requires a bit of post-processing.
-Last week JuliaCon in London was a great and very condensed experience. The two talks on LightGraphs.jl received a lot of positive feedback and more than that, we saw how people are using the library for a variety of use cases which is a great signal for the work on the JuliaGraphs ecosystem (see the lightning talk).</description>
+      <description>Who needs libraries when from scratch looks so good</description>
     </item>
     
     <item>
@@ -107,9 +99,7 @@ Last week JuliaCon in London was a great and very condensed experience. The two 
       <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-25-colgen2/</guid>
-      <description>In the previous post, we explored a well-known integer optimization situation in manufacturing, the cutting stock problem. After some details on the decisions, constraints and objectives, we implemented a naive model in JuMP.
-One key thing to notice is the explosion of number of variables and constraints and the fact that relaxed solutions (without constraining variables to be integers) are very far from actual feasible solutions.
-We will now use an other way of formulating the problem, using a problem decomposition and an associated solution method (column generation).</description>
+      <description>A column generation algorithm for the cutting width problem using Julia and JuMP</description>
     </item>
     
     <item>
@@ -118,8 +108,7 @@ We will now use an other way of formulating the problem, using a problem decompo
       <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
-      <description>Integer optimization often feels weird (at least to me). Simple reformulations of a (mixed) integer optimization problem (MIP) can make it way easier to solve. We&amp;rsquo;re going to explore one well-known example of such integer problem in two blog posts. This first part introduces the problem and develops a naive solution. We&amp;rsquo;re going to see why it&amp;rsquo;s complex to solve and why this formulation does not scale.
-In a second post, we will see a reformulation of the problem which makes it easier to solve and scales to bigger instances.</description>
+      <description>Solving a cutting stock problem step by step using Julia and JuMP</description>
     </item>
     
     <item>
@@ -128,9 +117,7 @@ In a second post, we will see a reformulation of the problem which makes it easi
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
-      <description>With the end-of-year celebrations, we all had some expenses to manage, some of them shared with friends, and we all have this eternal problem of splitting them fairly.
- Les bons comptes font les bons amis. French wisdom
- Applications like Tricount or Splitwise became famous precisely by solving this problem for you: just enter the expenses one by one, with who owes whom and you&amp;rsquo;ll get the simplest transactions to balance the amounts at the end.</description>
+      <description>Graph theory and Julia to solve the boring aspect of having friends</description>
     </item>
     
     <item>
@@ -139,9 +126,7 @@ In a second post, we will see a reformulation of the problem which makes it easi
       <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
-      <description>In the last article, we explored different modeling options for a three-component systems which could represent the dynamics of a chemical reaction or a disease propagation in a population. Building on top of this model, we will formulate a desirable outcome and find a decision which maximizes this outcome.
- In addition to the packages imported in the last post, we will also use BlackBoxOptim.jl:
- import DifferentialEquations const DiffEq = DifferentialEquations import Plots import Optim The model The same chemical system with three components, A, B and R will be used: $$A + B → 2B$$ $$B → R$$</description>
+      <description>Now that we&amp;rsquo;ve built a model, let&amp;rsquo;s use it to make the best decision</description>
     </item>
     
     <item>
@@ -150,8 +135,7 @@ In a second post, we will see a reformulation of the problem which makes it easi
       <pubDate>Thu, 14 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
-      <description>DifferentialEquations.jl came to be a key component of Julia&amp;rsquo;s scientific ecosystem. After checking the JuliaCon talk of its creator, I couldn&amp;rsquo;t wait to start building stuff with it, so I created and developed a simple example detailed in this blog post. Starting from a basic ordinary differential equation (ODE), we add noise, making it stochastic, and finally turn it into a discrete version.
- Before running the code below, two imports will be used:</description>
+      <description>Playing around with the differential equation solver turned simulation engine</description>
     </item>
     
     <item>
@@ -160,8 +144,8 @@ In a second post, we will see a reformulation of the problem which makes it easi
       <pubDate>Thu, 19 Oct 2017 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</guid>
-      <description>The start of my journey as a PhD student last September was a big step, but also an opportunity to review and improve my working habits. My day time had to be used properly, both for results&amp;rsquo; sake and to be able to keep a balanced life.
-I had been introduced to the Pomodoro technique at Equisense (thanks Camille!) but remained skeptical as for its potential value within my work flow at the time.</description>
+      <description>Switching from data scientist to graduate student is not
+only a variation in tasks, but also in success criteria and work flow</description>
     </item>
     
     <item>
@@ -170,8 +154,7 @@ I had been introduced to the Pomodoro technique at Equisense (thanks Camille!) b
       <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-09-05-moving-content-hugo/</guid>
-      <description>Last weeks have been pretty intense. I officially left Equisense and started a joined PhD project between INRIA Lille and Ecole Polytechnique Montreal. I had been preparing for this fresh start for several months and also wanted to evolve in my content creation process.
-A journey from plain markdown to Hugo I started writing articles to keep track of my learning paths on various topics, including numerical techniques, data analysis and programming.</description>
+      <description>New steps, new platform.</description>
     </item>
     
     <item>
@@ -180,8 +163,7 @@ A journey from plain markdown to Hugo I started writing articles to keep track o
       <pubDate>Fri, 07 Oct 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-10-7-company-values/</guid>
-      <description>Two weeks ago, the Equisense team spent a couple days together near the ocean in northern France. The goal was to get to know each other better and sit down to (re)think on the way we work, where we are heading and try to put some words on who we are and how we plan on moving forward.
-You named it, we tried to define one of the obsessions in the startup culture: company values.</description>
+      <description>And how to avoid becoming one of the biggest clichés of startup culture</description>
     </item>
     
     <item>
@@ -190,7 +172,7 @@ You named it, we tried to define one of the obsessions in the startup culture: c
       <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-09-13-page-rank/</guid>
-      <description>When I came back to Equisense, I was surprised and intrigued by many things. But there was one element of the job in particular I had not planned: coming back to low level and embedded programming from higher abstractions I was used to. No OS, no libraries, no smooth write-and-test work-flow, just brutal and bare metal. I clearly needed to blow some steam off with something closer to what I usually do (or did), a data-driven and functional project using nice techs.</description>
+      <description>The logic and implementation of one of the first algorithms to power the modern web</description>
     </item>
     
     <item>
@@ -199,8 +181,7 @@ You named it, we tried to define one of the obsessions in the startup culture: c
       <pubDate>Thu, 11 Aug 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-08-11-back-to-startup/</guid>
-      <description>In politics, a government&amp;rsquo;s first decisions and actions are often reviewed and assessed after the famous first 100 days. According to Wikipedia, the term was coined by F. Roosevelt himself. I wanted to throw the first thoughts on my comeback at Equisense, on culture and operations and the difference between the two stages.
-Startups are in a continuous headlong rush I&amp;rsquo;ll not wait the 100 days to write this post, because in a startup things move faster, so why wait another month?</description>
+      <description>100 days after a come-back.</description>
     </item>
     
     <item>
@@ -209,7 +190,7 @@ Startups are in a continuous headlong rush I&amp;rsquo;ll not wait the 100 days 
       <pubDate>Mon, 11 Jul 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-07-11-hackathon/</guid>
-      <description>It&amp;rsquo;s monday morning and I&amp;rsquo;m waking up with a hangover sensation, not from partying in the streets of Lille as one could think at the beginning of the week, but from the last intense 48 hours. I took part in the so-called &amp;ldquo;creathon&amp;rdquo; organized by the Switch up challenge and MakeSense. The special touch on this event was the social impact the projects were meant to have. The result could even not be a company but a non-profit organization.</description>
+      <description>Feedback after a weekend re-discovering the early stage feelings.</description>
     </item>
     
     <item>
@@ -218,8 +199,8 @@ Startups are in a continuous headlong rush I&amp;rsquo;ll not wait the 100 days 
       <pubDate>Sat, 21 May 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</guid>
-      <description>The goal of this article is to present couple challenges waiting the industrial data scientist or industrial data science teams, the deep reasons I believe are the root of this inertia, based on my experience (in both data science and engineering projects) and exchanges with engineers and data scientists. The last part introduces some suggestions to make the collaboration richer for both sides.
-Why isn&amp;rsquo;t data science already everywhere in engineering?</description>
+      <description>Thoughts as an engineer-by-training evolving towards data skills in a
+manufacturing context.</description>
     </item>
     
     <item>
@@ -228,10 +209,7 @@ Why isn&amp;rsquo;t data science already everywhere in engineering?</description
       <pubDate>Wed, 13 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-13-fraud-detection3/</guid>
-      <description>[1]
-Part III: Model development
-To follow the following article without any trouble, I would recommend to start with the beginning.
-How does predictive modeling work Keep the terminology in mind This is important to understand the principles and sub-disciplines of machine learning. We are trying to predict a specific output, our information of interest, which is the category of bank note we observe (genuine or forged). This task is therefore labeled as supervised learning, as opposed to unsupervised learning which consists of finding patterns or groups from data without a priori identification of those groups.</description>
+      <description>Learning by doing: predicting the outcome.</description>
     </item>
     
     <item>
@@ -240,9 +218,7 @@ How does predictive modeling work Keep the terminology in mind This is important
       <pubDate>Tue, 12 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-12-fraud-detection2/</guid>
-      <description>[1]
-Part II: Feature engineering
-What is feature engineering? It could be describe as the transformation of raw data to produce a model input which will have better performance. The features are the new variables created in the process. It is often described as based on domain knowledge and more of an art than of a science. Therefore, it requires a great attention and a more &amp;ldquo;manual&amp;rdquo; process than the rest of data science projects.</description>
+      <description>Learning by doing: the feature engineering step.</description>
     </item>
     
     <item>
@@ -251,9 +227,7 @@ What is feature engineering? It could be describe as the transformation of raw d
       <pubDate>Mon, 11 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-11-fraud-detection/</guid>
-      <description>A complete predictive modeling project in Python Part I: Preprocessing and exploratory analysis
-One of the amazing things with data science is the ability to tackle complex problems involving hidden parallel phenomena interacting with each other, just from the data they produce.
-As an example, we will use data extracted from images of forged and genuine banknotes. The distinction between the two categories would be thought to require a deep domain expertise, which limits the ability to check more than a few banknotes at a time.</description>
+      <description>Learning by doing: detecting fraud on bank notes using Python in 3 steps.</description>
     </item>
     
   </channel>

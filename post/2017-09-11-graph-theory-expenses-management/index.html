@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.52" />
+  <meta name="generator" content="Hugo 0.55.5" />
   <meta name="author" content="Mathieu Besançon">
   <meta name="description" content="PhD student in applied mathematics for energy systems">
 
@@ -260,13 +260,13 @@ perspective and see how to come up with a solution using Julia and the
 JuliaGraphs ecosystem [1].</p>
 
 <div class="alert alert-note">
-  <p>We will use the awesome GraphCoin as a currency in this post, noted GPHC to
-be sure no one feels hurt.</p>
+  
+We will use the awesome GraphCoin as a currency in this post, noted GPHC to
+be sure no one feels hurt.
 
 </div>
 
-
-<h2>Table of Contents</h2>
+<p><h2>Table of Contents</h2>
 <nav id="TableOfContents">
 <ul>
 <li>
@@ -284,8 +284,7 @@ be sure no one feels hurt.</p>
 <li><a href="#conclusion-perspective-and-note-on-gphc">Conclusion, perspective and note on GPHC</a></li>
 </ul></li>
 </ul>
-</nav>
-
+</nav></p>
 
 <h2 id="the-expenses-model">The expenses model</h2>
 
@@ -319,7 +318,7 @@ is the vector composed of one triplet:</p>
 <p>In Julia, the expense information can be translated to a structure:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">const</span> User <span style="color:#f92672">=</span> <span style="color:#66d9ef">Int</span>
 <span style="color:#66d9ef">const</span> GraphCoin <span style="color:#f92672">=</span> <span style="color:#66d9ef">Float16</span>
-struct Expense
+<span style="color:#66d9ef">struct</span> Expense
     payer<span style="color:#f92672">::</span>User
     amount<span style="color:#f92672">::</span>GraphCoin
     users<span style="color:#f92672">::</span><span style="color:#66d9ef">Set</span>{User}
@@ -475,7 +474,7 @@ LightGraphs package.</p>
     (g, capacity, demand)
 <span style="color:#66d9ef">end</span></code></pre></div>
 
-<p>This function builds our graph structure and all informations we need attached.</p>
+<p>This function builds our graph structure and all data we need attached.</p>
 
 <h3 id="solving-the-flow-problem">Solving the flow problem</h3>
 
