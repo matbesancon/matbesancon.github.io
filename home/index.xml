@@ -40,22 +40,21 @@
     </item>
     
     <item>
+      <title>Experience</title>
+      <link>https://matbesancon.github.io/home/experience/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.github.io/home/experience/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Projects</title>
       <link>https://matbesancon.github.io/home/projects/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/home/projects/</guid>
       <description>Different projects, open-source and academic.</description>
-    </item>
-    
-    <item>
-      <title>Experiences</title>
-      <link>https://matbesancon.github.io/home/experiences/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/home/experiences/</guid>
-      <description>Prior to the PhD program, I had several long experiences combining data, applied mathematics, programming and algorithms:
- Equisense: research engineer on signal processing and new hardware, data scientist and back-end developer Siemens: Master Thesis on the development of alarm chain building algorithms for automated industrial systems ArcelorMittal: 6-month industrial placement, using data analysis and process improvement methodologies to tackle production-stopping phenomena on steel rolling mills  </description>
     </item>
     
     <item>
