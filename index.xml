@@ -242,6 +242,25 @@ cuts of each type. Finally, one &amp;ldquo;hack&amp;rdquo; I&amp;rsquo;m using i
 bound on the $\eta$ value, making it (almost) sure to have a bounded initial
 problem and thus a defined initial solution $y$.&lt;/p&gt;
 
+&lt;p&gt;We will re-use the small example from the lecture notes above:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; test_data()
+    c &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#ae81ff&#34;&gt;2.&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3.&lt;/span&gt;]
+    A &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+    D &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; zeros(&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;.+&lt;/span&gt; [&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;]
+    b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;]
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; SimpleBenders&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;SubProblemData(b, D, A, c)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; test_data()
+&lt;span style=&#34;color:#75715e&#34;&gt;# objective function on y&lt;/span&gt;
+f(v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;v[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+&lt;span style=&#34;color:#75715e&#34;&gt;# initialize the problem&lt;/span&gt;
+m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Model(with_optimizer(SCIP&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Optimizer))
+&lt;span style=&#34;color:#a6e22e&#34;&gt;@variable&lt;/span&gt;(m, y[j&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+&lt;span style=&#34;color:#75715e&#34;&gt;# solve and voilà&lt;/span&gt;
+(m, y, cuts, nopt_cons, nfeas_cons) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; SimpleBenders&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;benders_optimize!(m, y, data, () &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; Clp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Optimizer(LogLevel &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;), f)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;The full code is available on
 &lt;a href=&#34;https://github.com/matbesancon/SimpleBenders.jl&#34; target=&#34;_blank&#34;&gt;Github&lt;/a&gt;, run it, modify it
 and don&amp;rsquo;t hesitate to submit pull requests and issues, I&amp;rsquo;m sure there are :)&lt;/p&gt;
