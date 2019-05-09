@@ -7,10 +7,253 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Mon, 29 Apr 2019 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 08 May 2019 00:00:00 +0200</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>A take on Benders decomposition in JuMP</title>
+      <link>https://matbesancon.github.io/post/2019-05-08-simple-benders/</link>
+      <pubDate>Wed, 08 May 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-05-08-simple-benders/</guid>
+      <description>
+
+&lt;p&gt;Last Friday was a great seminar of the Combinatorial Optimization group in
+Paris, celebrating the 85th birthday of Jack Edmonds, one of the founding
+researchers of combinatorial optimization, with the notable Blossom matching algorithm.
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;.&lt;a href=&#34;https://twitter.com/SoniaVanier?ref_src=twsrc%5Etfw&#34;&gt;@SoniaVanier&lt;/a&gt; opened the workshop and organized a great party at Sorbonne for Jack Edmonds. I had a great honor to be one of the speakers at this event &lt;a href=&#34;https://twitter.com/hashtag/orms?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#orms&lt;/a&gt; &lt;a href=&#34;https://t.co/oHwKvg43Zm&#34;&gt;pic.twitter.com/oHwKvg43Zm&lt;/a&gt;&lt;/p&gt;&amp;mdash; Ivana Ljubic (@ILjubic) &lt;a href=&#34;https://twitter.com/ILjubic/status/1124375711194722304?ref_src=twsrc%5Etfw&#34;&gt;May 3, 2019&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Laurence Wolsey and Ivana Ljubic were both giving talks on applications and
+developments in Benders decompositions. It also made me want to refresh my
+knowledge of the subject and play a bit with a simple implementation.&lt;/p&gt;
+
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Laurence Wolsey talks about Benders decomposition at the Jack Edmonds birthday workshop at Sorbonne &lt;a href=&#34;https://twitter.com/hashtag/orms?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#orms&lt;/a&gt; &lt;a href=&#34;https://t.co/K8hjdqKmwQ&#34;&gt;pic.twitter.com/K8hjdqKmwQ&lt;/a&gt;&lt;/p&gt;&amp;mdash; Ivana Ljubic (@ILjubic) &lt;a href=&#34;https://twitter.com/ILjubic/status/1124327078625722368?ref_src=twsrc%5Etfw&#34;&gt;May 3, 2019&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;/p&gt;
+
+&lt;h1 id=&#34;high-level-idea&#34;&gt;High-level idea&lt;/h1&gt;
+
+&lt;p&gt;Problem decompositions are used on large-scale optimization problems with a
+particular structure. The decomposition turns a compact, hard-to-solve
+formulation into an easier one but of great size. In the case of Benders,
+great size means a number of constraints growing exponentially
+with the size of the input problem. Adding all constraints upfront would be too
+costly. Furthermore, in general, only a small fraction of these constraints will be
+active in a final solution, the associated algorithm is to generate them incrementally,
+re-solve the problem with the new constraint until no relevant constraint can
+be found anymore.&lt;/p&gt;
+
+&lt;p&gt;We can establish a more general pattern of on-the-fly addition of
+information to an optimization problem, which entails two components:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;An incrementally-built problem, called &lt;strong&gt;Restricted Master Problem&lt;/strong&gt; (RMP) in decomposition.&lt;/li&gt;
+&lt;li&gt;An &lt;strong&gt;oracle&lt;/strong&gt; or &lt;strong&gt;sub-problem&lt;/strong&gt;, taking the problem state and building the new required structure (here a new constraint).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Sounds familiar? Benders can be seen as the &amp;ldquo;dual twin&amp;rdquo; of the Dantzig-Wolfe
+decomposition I had played with in a &lt;a href=&#34;https://matbesancon.github.io/post/2018-05-25-colgen2/&#34; target=&#34;_blank&#34;&gt;previous post&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;digging-into-the-structure&#34;&gt;Digging into the structure&lt;/h1&gt;
+
+&lt;p&gt;Now that we have a general idea of the problem at hand, let&amp;rsquo;s see the specifics.
+Consider a problem such as:
+$$ \min_{x,y} f(y) + c^T x $$
+s.t. $$ G(y) \in \mathcal{S}$$
+     $$ A x + D y \geq b $$
+     $$ x \in \mathbb{R}^{n_1}, y \in \mathcal{Y} $$&lt;/p&gt;
+
+&lt;p&gt;We will not consider the constraints specific to $y$ (the first row) nor the
+$y$-component of the objective. The key assumption of Benders is that if the $y$
+are fixed, the problem on the $x$ variables is fast to solve.
+Lots of heuristics use this idea of &amp;ldquo;fix-and-optimize&amp;rdquo; to avoid incorporating
+the &amp;ldquo;hard&amp;rdquo; variables in the problem, Benders leverages several properties to
+bring the idea to exact methods (exact in the sense of proven optimality).&lt;/p&gt;
+
+&lt;p&gt;Taking the problem above, we can simplify the structure by abstracting away
+(i.e. projecting out) the $x$ part:
+$$ \min_{y} f(y) + \phi(y) $$
+s.t. $$ G(y) \in \mathcal{S}$$
+     $$ y \in \mathcal{Y} $$&lt;/p&gt;
+
+&lt;p&gt;Where:
+$$ \phi(y) = \min_{x} \{c^T x, Ax \geq b - Dy, x \geq 0 \} $$&lt;/p&gt;
+
+&lt;p&gt;$\phi(y)$ is a non-smooth function, with $\, dom\ \phi \,$ the feasible domain
+of the problem. If you are familiar with bilevel optimization, this could
+remind you of the &lt;em&gt;optimal value function&lt;/em&gt; used to describe lower-level problems.
+We will call $SP$ the sub-problem defined in the function $\phi$.&lt;/p&gt;
+
+&lt;p&gt;The essence of Benders is to start from an outer-approximation (overly optimistic)
+by replacing $\phi$ with a variable $\eta$ which might be higher than the min value,
+and then add cuts which progressively constrain the problem.
+The initial outer-approximation is:&lt;/p&gt;
+
+&lt;p&gt;$$ \min_{y,\eta} f(y) + \eta $$
+s.t. $$ G(y) \in \mathcal{S}$$
+     $$ y \in \mathcal{Y} $$&lt;/p&gt;
+
+&lt;p&gt;Of course since $\eta$ is unconstrained, the problem will start unbounded.
+What are valid cuts for this? Let us define the dual of the sub-problem $SP$,
+which we will name $DSP$:
+$$ \max_{\alpha} (b - Dy)^T \alpha  $$
+s.t. $$ A^T \alpha \leq c $$
+     $$ \alpha \geq 0 $$&lt;/p&gt;
+
+&lt;p&gt;Given that $\eta \geq min SP$, by duality, $\eta \geq max DSP$.
+Furthermore, by strong duality of linear problems, if $\eta = \min \max_{y} DSP$,
+it is exactly equal to the minimum of $\phi(y)$ and yields the optimal solution.&lt;/p&gt;
+
+&lt;p&gt;One thing to note about the feasible domain of $DSP$, it does not depend on
+the value of $y$. This means $z$ feasible for all values of the dual is
+equivalent to being feasible for all extreme points and rays of the dual
+polyhedron. Each of these can yield a new cut to add to the relaxed problem.
+For the sake of conciseness, I will not go into details on the case when
+the sub-problem is not feasible for a $y$ solution. Briefly, this is equivalent
+to the dual being unbounded, it thus defines an extreme ray which must be cut
+out. For more details, you can check &lt;a href=&#34;http://www.iems.ucf.edu/qzheng/grpmbr/seminar/Yuping_Intro_to_BendersDecomp.pdf&#34; target=&#34;_blank&#34;&gt;these lecture notes&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;a-jump-implementation&#34;&gt;A JuMP implementation&lt;/h1&gt;
+
+&lt;p&gt;We will define a simple implementation using &lt;a href=&#34;http://www.juliaopt.org/JuMP.jl/stable/&#34; target=&#34;_blank&#34;&gt;JuMP&lt;/a&gt;,
+a generic optimization modeling library on top of Julia, usable with various
+solvers. Since the master and sub-problem resolutions are completely independent,
+they can be solved in separated software components, even with different solvers.
+To highlight this, we will use &lt;a href=&#34;https://github.com/SCIP-Interfaces/SCIP.jl&#34; target=&#34;_blank&#34;&gt;SCIP&lt;/a&gt;
+to solve the master problem and COIN-OR&amp;rsquo;s &lt;a href=&#34;https://github.com/juliaopt/Clp.jl&#34; target=&#34;_blank&#34;&gt;Clp&lt;/a&gt;
+to solve the sub-problem.&lt;/p&gt;
+
+&lt;p&gt;We can start by importing the required packages:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; JuMP
+&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; SCIP
+&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; Clp
+&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; LinearAlgebra&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; dot&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;defining-and-solving-dual-sub-problems&#34;&gt;Defining and solving dual sub-problems&lt;/h2&gt;
+
+&lt;p&gt;Let us store static sub-problem data in a structure:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; SubProblemData
+    b&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;}
+    D&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;}
+    A&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;}
+    c&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And the dual sub-problem is entirely contained in another structure:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; DualSubProblem
+    data&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;SubProblemData
+    α&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{VariableRef}
+    m&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Model
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; DualSubProblem(d&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;SubProblemData, m&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Model)
+    α &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@variable&lt;/span&gt;(m, α[i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;size(d&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;A, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@constraint&lt;/span&gt;(m, dot(d&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;A, α) &lt;span style=&#34;color:#f92672&#34;&gt;.&amp;lt;=&lt;/span&gt; d&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;c)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; DualSubProblem(d, α, m)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code&gt;DualSubProblem&lt;/code&gt; is constructed from the static data and a JuMP model.
+We mentioned that the feasible space of the sub-problem is independent of the
+value of $y$, thus we can add the constraint right away. Only to optimize it
+do we require the $\hat{y}$ value, which is used to set the objective.
+We can then either return a feasibility cut or optimality cut depending on
+the solution status of the dual sub-problem:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; JuMP&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;optimize!(sp&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;DualSubProblem, yh)
+    obj &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; sp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;data&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;b &lt;span style=&#34;color:#f92672&#34;&gt;.-&lt;/span&gt; sp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;data&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;D &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; yh
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@objective&lt;/span&gt;(sp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;m, Max, dot(obj, sp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;α))
+    optimize!(sp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;m)
+    st &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; termination_status(sp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;m)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; st &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;OPTIMAL
+        α &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; JuMP&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;(sp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;α)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;OptimalityCut, α)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;elseif&lt;/span&gt; st &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;DUAL_INFEASIBLE
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;FeasibilityCut, α)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;
+        error(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DualSubProblem error: status &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$status&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;iterating-on-the-master-problem&#34;&gt;Iterating on the master problem&lt;/h2&gt;
+
+&lt;p&gt;The main part of the resolution holds here in three steps.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Initialize a master problem with variables $(y,\eta)$&lt;/li&gt;
+&lt;li&gt;Optimize and pass the $\hat{y}$ value to the sub-problem.&lt;/li&gt;
+&lt;li&gt;Get back a dual value $\alpha$ from the dual sub-problem&lt;/li&gt;
+&lt;li&gt;Is the constraint generated by the $\alpha$ value already respected?&lt;/li&gt;
+&lt;li&gt;If yes, the solution is optimal.&lt;/li&gt;
+&lt;li&gt;If no, add the corresponding cut to the master problem, return to 2.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; benders_optimize!(m&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Model, y&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{VariableRef}, sd&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;SubProblemData, sp_optimizer, f&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Union&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Function&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;}; eta_bound&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1000.0&lt;/span&gt;)
+    subproblem &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Model(with_optimizer(sp_optimizer))
+    dsp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; DualSubProblem(sd, subproblem)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@variable&lt;/span&gt;(m, η &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; eta_bound)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@objective&lt;/span&gt;(m, Min, f(y) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; η)
+    optimize!(m)
+    st &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(m, MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;TerminationStatus())
+    &lt;span style=&#34;color:#75715e&#34;&gt;# restricted master has a solution or is unbounded&lt;/span&gt;
+    nopt_cons, nfeas_cons &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@info&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Initial status &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$st&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+    cuts &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Tuple&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Symbol&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;}}[]
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (st &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;DUAL_INFEASIBLE) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; (st &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;OPTIMAL)
+        optimize!(m)
+        st &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(m, MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;TerminationStatus())
+        ŷ &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; JuMP&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;value&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;(y)
+        η0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; JuMP&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;value(η)
+        (res, α) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; optimize!(dsp, ŷ)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; res &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;OptimalityCut
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;@info&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Optimality cut found&amp;#34;&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; η0 &lt;span style=&#34;color:#f92672&#34;&gt;≥&lt;/span&gt; α&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; (dsp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;data&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;b &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; dsp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;data&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;D &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; ŷ)
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;
+                nopt_cons &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+                &lt;span style=&#34;color:#a6e22e&#34;&gt;@constraint&lt;/span&gt;(m, η &lt;span style=&#34;color:#f92672&#34;&gt;≥&lt;/span&gt; α&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; (dsp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;data&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;b &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; dsp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;data&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;D &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; y))
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;@info&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Feasibility cut found&amp;#34;&lt;/span&gt;
+            nfeas_cons &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;@constraint&lt;/span&gt;(m, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;≥&lt;/span&gt; α&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; (dsp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;data&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;b &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; dsp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;data&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;D &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; y))
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+        push!(cuts, (res, α))
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (m, y, cuts, nopt_cons, nfeas_cons)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Note that we pass the function an already-built model with variable $y$ defined.
+This allows for a prior flexible definition of constraints of the type:
+$$y \in \mathcal{Y}$$
+$$G(y) \in \mathcal{S}$$&lt;/p&gt;
+
+&lt;p&gt;Also, we return the $\alpha$ values found by the sub-problems and the number of
+cuts of each type. Finally, one &amp;ldquo;hack&amp;rdquo; I&amp;rsquo;m using is to give an arbitrary lower
+bound on the $\eta$ value, making it (almost) sure to have a bounded initial
+problem and thus a defined initial solution $y$.&lt;/p&gt;
+
+&lt;p&gt;The full code is available on
+&lt;a href=&#34;https://github.com/matbesancon/SimpleBenders.jl&#34; target=&#34;_blank&#34;&gt;Github&lt;/a&gt;, run it, modify it
+and don&amp;rsquo;t hesitate to submit pull requests and issues, I&amp;rsquo;m sure there are :)&lt;/p&gt;
+
+&lt;p&gt;Benders is a central pillar for various problems in optimization, research is
+still very active to bring it to non-linear convex or non-convex sub-problems
+where duality cannot be used. If you liked this post or have questions,
+don&amp;rsquo;t hesitate to react or ping me on &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+</description>
+    </item>
     
     <item>
       <title>Variables are not values: types and expressions in mathematical optimization</title>

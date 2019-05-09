@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Mon, 29 Apr 2019 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 08 May 2019 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/julia/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>A take on Benders decomposition in JuMP</title>
+      <link>https://matbesancon.github.io/post/2019-05-08-simple-benders/</link>
+      <pubDate>Wed, 08 May 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-05-08-simple-benders/</guid>
+      <description>Cracking Benders decomposition, one cut at a time.</description>
+    </item>
     
     <item>
       <title>Variables are not values: types and expressions in mathematical optimization</title>

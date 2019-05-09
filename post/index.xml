@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>A take on Benders decomposition in JuMP</title>
+      <link>https://matbesancon.github.io/post/2019-05-08-simple-benders/</link>
+      <pubDate>Wed, 08 May 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-05-08-simple-benders/</guid>
+      <description>Cracking Benders decomposition, one cut at a time.</description>
+    </item>
+    
+    <item>
       <title>Variables are not values: types and expressions in mathematical optimization</title>
       <link>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</link>
       <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>

@@ -3,8 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://matbesancon.github.io/post/2019-05-08-simple-benders/</loc>
+    <lastmod>2019-05-08T21:45:13+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://matbesancon.github.io/tags/</loc>
-    <lastmod>2019-05-08T17:19:05+02:00</lastmod>
+    <lastmod>2019-05-08T21:45:13+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/integer-optimization/</loc>
+    <lastmod>2019-05-08T21:45:13+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/julia/</loc>
+    <lastmod>2019-05-08T21:45:13+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/jump/</loc>
+    <lastmod>2019-05-08T21:45:13+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/optimization/</loc>
+    <lastmod>2019-05-08T21:45:13+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/</loc>
+    <lastmod>2019-05-08T21:45:13+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -20,32 +55,8 @@
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/tags/julia/</loc>
-    <lastmod>2019-05-08T17:19:05+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/jump/</loc>
-    <lastmod>2019-05-08T17:19:05+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/optimization/</loc>
-    <lastmod>2019-05-08T17:19:05+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://matbesancon.github.io/tags/python/</loc>
     <lastmod>2019-04-29T11:28:36+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/</loc>
-    <lastmod>2019-05-08T17:19:05+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -56,12 +67,6 @@
   
   <url>
     <loc>https://matbesancon.github.io/tags/graph/</loc>
-    <lastmod>2019-05-08T17:19:05+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/integer-optimization/</loc>
     <lastmod>2019-05-08T17:19:05+02:00</lastmod>
     <priority>0</priority>
   </url>
