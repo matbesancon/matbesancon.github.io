@@ -5,21 +5,12 @@
     <link>https://matbesancon.github.io/tags/modeling/</link>
     <description>Recent content in modeling on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 30 May 2018 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 23 May 2018 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/modeling/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>The cutting stock problem: part 2, solving with column generation</title>
-      <link>https://matbesancon.github.io/post/2018-05-25-colgen2/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/post/2018-05-25-colgen2/</guid>
-      <description>A column generation algorithm for the cutting width problem using Julia and JuMP</description>
-    </item>
     
     <item>
       <title>Tackling the cutting stock problem: part 1, problem exploration</title>

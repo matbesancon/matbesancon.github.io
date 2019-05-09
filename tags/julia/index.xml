@@ -5,12 +5,21 @@
     <link>https://matbesancon.github.io/tags/julia/</link>
     <description>Recent content in julia on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Sun, 07 Apr 2019 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 29 Apr 2019 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/julia/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Variables are not values: types and expressions in mathematical optimization</title>
+      <link>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</link>
+      <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</guid>
+      <description>Some digging in representations for optimization modelling</description>
+    </item>
     
     <item>
       <title>Picking different names with integer optimization</title>

@@ -5,7 +5,7 @@
     <link>https://matbesancon.github.io/tags/</link>
     <description>Recent content in Tags on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
     <lastBuildDate>Mon, 29 Apr 2019 00:00:00 +0200</lastBuildDate>
     
@@ -18,6 +18,15 @@
       <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/tags/functional/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>julia</title>
+      <link>https://matbesancon.github.io/tags/julia/</link>
+      <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/julia/</guid>
       <description></description>
     </item>
     
@@ -58,11 +67,11 @@
     </item>
     
     <item>
-      <title>julia</title>
-      <link>https://matbesancon.github.io/tags/julia/</link>
+      <title>integer-optimization</title>
+      <link>https://matbesancon.github.io/tags/integer-optimization/</link>
       <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
       
-      <guid>https://matbesancon.github.io/tags/julia/</guid>
+      <guid>https://matbesancon.github.io/tags/integer-optimization/</guid>
       <description></description>
     </item>
     
@@ -168,7 +177,7 @@
     <item>
       <title>distributions</title>
       <link>https://matbesancon.github.io/tags/distributions/</link>
-      <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 04 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/tags/distributions/</guid>
       <description></description>
@@ -177,7 +186,7 @@
     <item>
       <title>statistics</title>
       <link>https://matbesancon.github.io/tags/statistics/</link>
-      <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 04 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/tags/statistics/</guid>
       <description></description>
@@ -202,29 +211,11 @@
     </item>
     
     <item>
-      <title>integer-optimization</title>
-      <link>https://matbesancon.github.io/tags/integer-optimization/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/integer-optimization/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>modeling</title>
       <link>https://matbesancon.github.io/tags/modeling/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/tags/modeling/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>graphs</title>
-      <link>https://matbesancon.github.io/tags/graphs/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0100</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/graphs/</guid>
       <description></description>
     </item>
     
@@ -333,15 +324,6 @@
       <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/tags/data-science/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>data</title>
-      <link>https://matbesancon.github.io/tags/data/</link>
-      <pubDate>Sat, 21 May 2016 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/data/</guid>
       <description></description>
     </item>
     

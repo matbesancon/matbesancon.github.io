@@ -5,7 +5,7 @@
     <link>https://matbesancon.github.io/tags/graph/</link>
     <description>Recent content in graph on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
     <lastBuildDate>Sun, 07 Apr 2019 00:00:00 +0200</lastBuildDate>
     
@@ -37,6 +37,15 @@
       
       <guid>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
       <description>Graph theory and Julia to solve the boring aspect of having friends</description>
+    </item>
+    
+    <item>
+      <title>JuliaGraphs contributions</title>
+      <link>https://matbesancon.github.io/project/juliagraphs/</link>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/project/juliagraphs/</guid>
+      <description>A graph modeling and analysis ecosystem for Julia</description>
     </item>
     
   </channel>

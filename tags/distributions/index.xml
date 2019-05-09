@@ -5,9 +5,9 @@
     <link>https://matbesancon.github.io/tags/distributions/</link>
     <description>Recent content in distributions on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Tue, 04 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 04 Sep 2018 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/distributions/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Mixed continuous-discrete distributions</title>
       <link>https://matbesancon.github.io/project/mixed_distributions/</link>
-      <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 04 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/project/mixed_distributions/</guid>
       <description>Modelling, inferring and sampling from continuous-discrete distributions in Julia, on top of Distributions.jl</description>

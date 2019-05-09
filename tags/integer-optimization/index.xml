@@ -5,12 +5,21 @@
     <link>https://matbesancon.github.io/tags/integer-optimization/</link>
     <description>Recent content in integer-optimization on μβ</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 30 May 2018 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 07 Apr 2019 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/integer-optimization/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Picking different names with integer optimization</title>
+      <link>https://matbesancon.github.io/post/2019-04-07-name_distances/</link>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-04-07-name_distances/</guid>
+      <description>Making social events easier as a graph problem.</description>
+    </item>
     
     <item>
       <title>The cutting stock problem: part 2, solving with column generation</title>

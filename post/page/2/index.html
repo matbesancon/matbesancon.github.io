@@ -1,27 +1,45 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en-ca">
 <head>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="Source Themes Academic 3.0.0">
-  <meta name="generator" content="Hugo 0.55.5" />
-  <meta name="author" content="Mathieu Besançon">
+  <meta name="generator" content="Source Themes Academic 4.3.0">
 
+  
+
+  
   
   
   
   
     
+    
+    
   
-  <meta name="description" content="PhD student in applied mathematics for energy systems">
-
-  
-  <link rel="alternate" hreflang="en-us" href="https://matbesancon.github.io/post/">
-
   
 
+  <meta name="author" content="Mathieu Besançon">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="PhD candidate in mathematical optimization">
+
+  
+  <link rel="alternate" hreflang="en-ca" href="https://matbesancon.github.io/post/">
+
+  
+
+
+  
+
+  
+
+  
 
   
 
@@ -40,9 +58,8 @@
   
   
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
 
     
@@ -50,6 +67,12 @@
     
       
     
+    
+      
+      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+      
     
 
     
@@ -63,7 +86,11 @@
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,400italic,700|Roboto+Mono">
   
 
-  <link rel="stylesheet" href="/styles.css">
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.min.9e398b7a64ee2c82769da9724cdbf0cc.css">
+
   
 
   
@@ -71,8 +98,8 @@
   
 
   
-  <link rel="alternate" href="https://matbesancon.github.io/post/index.xml" type="application/rss+xml" title="μβ">
-  <link rel="feed" href="https://matbesancon.github.io/post/index.xml" type="application/rss+xml" title="μβ">
+  <link rel="alternate" href="/post/index.xml" type="application/rss+xml" title="μβ">
+  <link rel="feed" href="/post/index.xml" type="application/rss+xml" title="μβ">
   
 
   <link rel="manifest" href="/site.webmanifest">
@@ -81,19 +108,25 @@
 
   <link rel="canonical" href="https://matbesancon.github.io/post/">
 
-  <meta property="twitter:card" content="summary_large_image">
+  
+  
+  
+  
+    
+    
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@matbesancon">
+  <meta property="twitter:creator" content="@matbesancon">
   
   <meta property="og:site_name" content="μβ">
   <meta property="og:url" content="https://matbesancon.github.io/post/">
   <meta property="og:title" content="Posts | μβ">
-  <meta property="og:description" content="PhD student in applied mathematics for energy systems">
+  <meta property="og:description" content="PhD candidate in mathematical optimization"><meta property="og:image" content="https://matbesancon.github.io/img/icon-192.png">
+  <meta property="og:locale" content="en-ca">
   
   
-    
-  <meta property="og:image" content="https://matbesancon.github.io/img/icon-192.png">
-  <meta property="og:locale" content="en-us">
-  
-  <meta property="og:updated_time" content="2017-01-01T00:00:00&#43;01:00">
   
 
   
@@ -104,6 +137,38 @@
 
 </head>
 <body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" >
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" role="textbox" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
 
 <nav class="navbar navbar-light fixed-top navbar-expand-lg py-0" id="navbar-main">
   <div class="container">
@@ -122,7 +187,7 @@
 
       
       
-      <ul class="navbar-nav ml-auto">
+      <ul class="navbar-nav mr-auto">
         
 
         
@@ -133,8 +198,22 @@
           
         
 
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
         <li class="nav-item">
-          <a class="nav-link" href="/#about">
+          <a class="nav-link " href="/#about">
             
             <span>Home</span>
             
@@ -152,8 +231,22 @@
           
         
 
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
         <li class="nav-item">
-          <a class="nav-link" href="/#posts">
+          <a class="nav-link " href="/#posts">
             
             <span>Posts</span>
             
@@ -171,8 +264,22 @@
           
         
 
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
         <li class="nav-item">
-          <a class="nav-link" href="/#talks">
+          <a class="nav-link " href="/#talks">
             
             <span>Talks</span>
             
@@ -190,8 +297,22 @@
           
         
 
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
         <li class="nav-item">
-          <a class="nav-link" href="/#experience">
+          <a class="nav-link " href="/#experience">
             
             <span>Experience</span>
             
@@ -209,8 +330,22 @@
           
         
 
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
         <li class="nav-item">
-          <a class="nav-link" href="/#projects">
+          <a class="nav-link " href="/#projects">
             
             <span>Projects</span>
             
@@ -228,8 +363,22 @@
           
         
 
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
         <li class="nav-item">
-          <a class="nav-link" href="/#contact">
+          <a class="nav-link " href="/#contact">
             
             <span>Contact</span>
             
@@ -240,10 +389,26 @@
         
 
       
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
 
         
 
         
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
       </ul>
 
     </div>
@@ -292,50 +457,66 @@
   
   
     
-    
       
 
-<div class="media stream-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+<div class="media stream-item" itemscope itemtype="http://schema.org/BlogPosting">
   <div class="media-body">
 
-    <h3 class="article-title mb-0 mt-0" itemprop="headline">
+    <h3 class="article-title mb-0 mt-0" itemprop="name">
       <a href="/post/2018-05-23-colgen/" itemprop="url">Tackling the cutting stock problem: part 1, problem exploration</a>
     </h3>
 
-    
-    
-      
-    
     
     <div class="article-style" itemprop="articleBody">
       Solving a cutting stock problem step by step using Julia and JuMP
     </div>
     
 
-    <div class="stream-meta">
-    
+    <div class="stream-meta article-metadata">
+
+      
+
+      
+        
+
+
+
+<meta content="2018-05-23 00:00:00 &#43;0200 CEST" itemprop="datePublished">
+<meta content="2018-07-25 22:52:48 &#43;0200 CEST" itemprop="dateModified">
 
 <div class="article-metadata">
 
   
   
-  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    <time>2018-07-25</time>
   </span>
   
 
-  <span class="article-date">
-    
-        Last updated on
-    
-    <meta content="2018-05-23 00:00:00 &#43;0200 CEST" itemprop="datePublished">
-    <time datetime="2018-07-25 22:52:48 &#43;0200 CEST" itemprop="dateModified">
-      Wed, Jul 25, 2018
-    </time>
-  </span>
-  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
-  </span>
+  
 
   
   <span class="middot-divider"></span>
@@ -348,12 +529,16 @@
   
 
   
+  
 
   
 
 </div>
 
+      
     </div>
+
+    
 
   </div>
   <div class="ml-3">
@@ -365,50 +550,66 @@
     
   
     
-    
       
 
-<div class="media stream-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+<div class="media stream-item" itemscope itemtype="http://schema.org/BlogPosting">
   <div class="media-body">
 
-    <h3 class="article-title mb-0 mt-0" itemprop="headline">
+    <h3 class="article-title mb-0 mt-0" itemprop="name">
       <a href="/post/2017-09-11-graph-theory-expenses-management/" itemprop="url">Solving the group expenses headache with graphs</a>
     </h3>
 
-    
-    
-      
-    
     
     <div class="article-style" itemprop="articleBody">
       Graph theory and Julia to solve the boring aspect of having friends
     </div>
     
 
-    <div class="stream-meta">
-    
+    <div class="stream-meta article-metadata">
+
+      
+
+      
+        
+
+
+
+<meta content="2018-01-15 00:00:00 &#43;0100 CET" itemprop="datePublished">
+<meta content="2019-05-06 16:12:13 &#43;0200 CEST" itemprop="dateModified">
 
 <div class="article-metadata">
 
   
   
-  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    <time>2019-05-06</time>
   </span>
   
 
-  <span class="article-date">
-    
-        Last updated on
-    
-    <meta content="2018-01-15 00:00:00 &#43;0100 CET" itemprop="datePublished">
-    <time datetime="2019-05-06 16:12:13 &#43;0200 CEST" itemprop="dateModified">
-      Mon, May 6, 2019
-    </time>
-  </span>
-  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
-  </span>
+  
 
   
   <span class="middot-divider"></span>
@@ -421,12 +622,16 @@
   
 
   
+  
 
   
 
 </div>
 
+      
     </div>
+
+    
 
   </div>
   <div class="ml-3">
@@ -438,50 +643,66 @@
     
   
     
-    
       
 
-<div class="media stream-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+<div class="media stream-item" itemscope itemtype="http://schema.org/BlogPosting">
   <div class="media-body">
 
-    <h3 class="article-title mb-0 mt-0" itemprop="headline">
+    <h3 class="article-title mb-0 mt-0" itemprop="name">
       <a href="/post/2017-12-20-diffeq-julia2/" itemprop="url">DifferentialEquations.jl - part 2: decision from the model</a>
     </h3>
 
-    
-    
-      
-    
     
     <div class="article-style" itemprop="articleBody">
       Now that we&rsquo;ve built a model, let&rsquo;s use it to make the best decision
     </div>
     
 
-    <div class="stream-meta">
-    
+    <div class="stream-meta article-metadata">
+
+      
+
+      
+        
+
+
+
+<meta content="2017-12-20 00:00:00 &#43;0100 CET" itemprop="datePublished">
+<meta content="2019-05-06 16:12:13 &#43;0200 CEST" itemprop="dateModified">
 
 <div class="article-metadata">
 
   
   
-  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    <time>2019-05-06</time>
   </span>
   
 
-  <span class="article-date">
-    
-        Last updated on
-    
-    <meta content="2017-12-20 00:00:00 &#43;0100 CET" itemprop="datePublished">
-    <time datetime="2019-05-06 16:12:13 &#43;0200 CEST" itemprop="dateModified">
-      Mon, May 6, 2019
-    </time>
-  </span>
-  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
-  </span>
+  
 
   
   <span class="middot-divider"></span>
@@ -494,12 +715,16 @@
   
 
   
+  
 
   
 
 </div>
 
+      
     </div>
+
+    
 
   </div>
   <div class="ml-3">
@@ -511,50 +736,66 @@
     
   
     
-    
       
 
-<div class="media stream-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+<div class="media stream-item" itemscope itemtype="http://schema.org/BlogPosting">
   <div class="media-body">
 
-    <h3 class="article-title mb-0 mt-0" itemprop="headline">
+    <h3 class="article-title mb-0 mt-0" itemprop="name">
       <a href="/post/2017-12-14-diffeq-julia/" itemprop="url">Getting started with DifferentialEquations.jl</a>
     </h3>
 
-    
-    
-      
-    
     
     <div class="article-style" itemprop="articleBody">
       Playing around with the differential equation solver turned simulation engine
     </div>
     
 
-    <div class="stream-meta">
-    
+    <div class="stream-meta article-metadata">
+
+      
+
+      
+        
+
+
+
+<meta content="2017-12-14 00:00:00 &#43;0100 CET" itemprop="datePublished">
+<meta content="2018-07-25 22:52:48 &#43;0200 CEST" itemprop="dateModified">
 
 <div class="article-metadata">
 
   
   
-  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    <time>2018-07-25</time>
   </span>
   
 
-  <span class="article-date">
-    
-        Last updated on
-    
-    <meta content="2017-12-14 00:00:00 &#43;0100 CET" itemprop="datePublished">
-    <time datetime="2018-07-25 22:52:48 &#43;0200 CEST" itemprop="dateModified">
-      Wed, Jul 25, 2018
-    </time>
-  </span>
-  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
-  </span>
+  
 
   
   <span class="middot-divider"></span>
@@ -567,12 +808,16 @@
   
 
   
+  
 
   
 
 </div>
 
+      
     </div>
+
+    
 
   </div>
   <div class="ml-3">
@@ -584,20 +829,30 @@
     
   
     
-    
       
 
-<div class="media stream-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+<div class="media stream-item" itemscope itemtype="http://schema.org/BlogPosting">
   <div class="media-body">
 
-    <h3 class="article-title mb-0 mt-0" itemprop="headline">
+    <h3 class="article-title mb-0 mt-0" itemprop="name">
       <a href="/post/2017-10-19-tomate-cli/" itemprop="url">Switching my work flow to Pomodoro for grad studies - part I: motivation  </a>
     </h3>
 
-    
-    
-      
-    
     
     <div class="article-style" itemprop="articleBody">
       Switching from data scientist to graduate student is not
@@ -605,30 +860,36 @@ only a variation in tasks, but also in success criteria and work flow
     </div>
     
 
-    <div class="stream-meta">
-    
+    <div class="stream-meta article-metadata">
+
+      
+
+      
+        
+
+
+
+<meta content="2017-10-19 00:00:00 &#43;0200 CEST" itemprop="datePublished">
+<meta content="2017-10-20 15:22:07 -0400 -0400" itemprop="dateModified">
 
 <div class="article-metadata">
 
   
   
-  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    <time>2017-10-20</time>
   </span>
   
 
-  <span class="article-date">
-    
-        Last updated on
-    
-    <meta content="2017-10-19 00:00:00 &#43;0200 CEST" itemprop="datePublished">
-    <time datetime="2017-10-20 15:22:07 -0400 -0400" itemprop="dateModified">
-      Fri, Oct 20, 2017
-    </time>
-  </span>
-  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
-  </span>
+  
 
   
   <span class="middot-divider"></span>
@@ -641,12 +902,16 @@ only a variation in tasks, but also in success criteria and work flow
   
 
   
+  
 
   
 
 </div>
 
+      
     </div>
+
+    
 
   </div>
   <div class="ml-3">
@@ -658,50 +923,66 @@ only a variation in tasks, but also in success criteria and work flow
     
   
     
-    
       
 
-<div class="media stream-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+<div class="media stream-item" itemscope itemtype="http://schema.org/BlogPosting">
   <div class="media-body">
 
-    <h3 class="article-title mb-0 mt-0" itemprop="headline">
+    <h3 class="article-title mb-0 mt-0" itemprop="name">
       <a href="/post/2017-09-05-moving-content-hugo/" itemprop="url">Moving my content creation to a home-made Hugo site</a>
     </h3>
 
-    
-    
-      
-    
     
     <div class="article-style" itemprop="articleBody">
       New steps, new platform.
     </div>
     
 
-    <div class="stream-meta">
-    
+    <div class="stream-meta article-metadata">
+
+      
+
+      
+        
+
+
+
+<meta content="2017-09-05 00:00:00 &#43;0200 CEST" itemprop="datePublished">
+<meta content="2019-05-06 16:12:13 &#43;0200 CEST" itemprop="dateModified">
 
 <div class="article-metadata">
 
   
   
-  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    <time>2019-05-06</time>
   </span>
   
 
-  <span class="article-date">
-    
-        Last updated on
-    
-    <meta content="2017-09-05 00:00:00 &#43;0200 CEST" itemprop="datePublished">
-    <time datetime="2019-05-06 16:12:13 &#43;0200 CEST" itemprop="dateModified">
-      Mon, May 6, 2019
-    </time>
-  </span>
-  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
-  </span>
+  
 
   
   <span class="middot-divider"></span>
@@ -714,12 +995,16 @@ only a variation in tasks, but also in success criteria and work flow
   
 
   
+  
 
   
 
 </div>
 
+      
     </div>
+
+    
 
   </div>
   <div class="ml-3">
@@ -731,50 +1016,66 @@ only a variation in tasks, but also in success criteria and work flow
     
   
     
-    
       
 
-<div class="media stream-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+<div class="media stream-item" itemscope itemtype="http://schema.org/BlogPosting">
   <div class="media-body">
 
-    <h3 class="article-title mb-0 mt-0" itemprop="headline">
+    <h3 class="article-title mb-0 mt-0" itemprop="name">
       <a href="/post/2016-10-7-company-values/" itemprop="url">Company values: stop trying to dictate who you are</a>
     </h3>
 
-    
-    
-      
-    
     
     <div class="article-style" itemprop="articleBody">
       And how to avoid becoming one of the biggest clichés of startup culture
     </div>
     
 
-    <div class="stream-meta">
-    
+    <div class="stream-meta article-metadata">
+
+      
+
+      
+        
+
+
+
+<meta content="2016-10-07 00:00:00 &#43;0200 CEST" itemprop="datePublished">
+<meta content="2017-09-11 22:03:29 -0400 -0400" itemprop="dateModified">
 
 <div class="article-metadata">
 
   
   
-  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    <time>2017-09-11</time>
   </span>
   
 
-  <span class="article-date">
-    
-        Last updated on
-    
-    <meta content="2016-10-07 00:00:00 &#43;0200 CEST" itemprop="datePublished">
-    <time datetime="2017-09-11 22:03:29 -0400 -0400" itemprop="dateModified">
-      Mon, Sep 11, 2017
-    </time>
-  </span>
-  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
-  </span>
+  
 
   
   <span class="middot-divider"></span>
@@ -787,12 +1088,16 @@ only a variation in tasks, but also in success criteria and work flow
   
 
   
+  
 
   
 
 </div>
 
+      
     </div>
+
+    
 
   </div>
   <div class="ml-3">
@@ -804,50 +1109,66 @@ only a variation in tasks, but also in success criteria and work flow
     
   
     
-    
       
 
-<div class="media stream-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+<div class="media stream-item" itemscope itemtype="http://schema.org/BlogPosting">
   <div class="media-body">
 
-    <h3 class="article-title mb-0 mt-0" itemprop="headline">
+    <h3 class="article-title mb-0 mt-0" itemprop="name">
       <a href="/post/2016-09-13-page-rank/" itemprop="url">Functional and parallel PageRank implementation in Scala</a>
     </h3>
 
-    
-    
-      
-    
     
     <div class="article-style" itemprop="articleBody">
       The logic and implementation of one of the first algorithms to power the modern web
     </div>
     
 
-    <div class="stream-meta">
-    
+    <div class="stream-meta article-metadata">
+
+      
+
+      
+        
+
+
+
+<meta content="2016-09-13 00:00:00 &#43;0200 CEST" itemprop="datePublished">
+<meta content="2018-07-25 22:52:48 &#43;0200 CEST" itemprop="dateModified">
 
 <div class="article-metadata">
 
   
   
-  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    <time>2018-07-25</time>
   </span>
   
 
-  <span class="article-date">
-    
-        Last updated on
-    
-    <meta content="2016-09-13 00:00:00 &#43;0200 CEST" itemprop="datePublished">
-    <time datetime="2018-07-25 22:52:48 &#43;0200 CEST" itemprop="dateModified">
-      Wed, Jul 25, 2018
-    </time>
-  </span>
-  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
-  </span>
+  
 
   
   <span class="middot-divider"></span>
@@ -860,12 +1181,16 @@ only a variation in tasks, but also in success criteria and work flow
   
 
   
+  
 
   
 
 </div>
 
+      
     </div>
+
+    
 
   </div>
   <div class="ml-3">
@@ -877,50 +1202,66 @@ only a variation in tasks, but also in success criteria and work flow
     
   
     
-    
       
 
-<div class="media stream-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+<div class="media stream-item" itemscope itemtype="http://schema.org/BlogPosting">
   <div class="media-body">
 
-    <h3 class="article-title mb-0 mt-0" itemprop="headline">
+    <h3 class="article-title mb-0 mt-0" itemprop="name">
       <a href="/post/2016-08-11-back-to-startup/" itemprop="url">Back to startup life: thoughts after the first days</a>
     </h3>
 
-    
-    
-      
-    
     
     <div class="article-style" itemprop="articleBody">
       100 days after a come-back.
     </div>
     
 
-    <div class="stream-meta">
-    
+    <div class="stream-meta article-metadata">
+
+      
+
+      
+        
+
+
+
+<meta content="2016-08-11 00:00:00 &#43;0200 CEST" itemprop="datePublished">
+<meta content="2017-09-11 22:03:29 -0400 -0400" itemprop="dateModified">
 
 <div class="article-metadata">
 
   
   
-  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    <time>2017-09-11</time>
   </span>
   
 
-  <span class="article-date">
-    
-        Last updated on
-    
-    <meta content="2016-08-11 00:00:00 &#43;0200 CEST" itemprop="datePublished">
-    <time datetime="2017-09-11 22:03:29 -0400 -0400" itemprop="dateModified">
-      Mon, Sep 11, 2017
-    </time>
-  </span>
-  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
-  </span>
+  
 
   
   <span class="middot-divider"></span>
@@ -933,12 +1274,16 @@ only a variation in tasks, but also in success criteria and work flow
   
 
   
+  
 
   
 
 </div>
 
+      
     </div>
+
+    
 
   </div>
   <div class="ml-3">
@@ -950,50 +1295,66 @@ only a variation in tasks, but also in success criteria and work flow
     
   
     
-    
       
 
-<div class="media stream-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+<div class="media stream-item" itemscope itemtype="http://schema.org/BlogPosting">
   <div class="media-body">
 
-    <h3 class="article-title mb-0 mt-0" itemprop="headline">
+    <h3 class="article-title mb-0 mt-0" itemprop="name">
       <a href="/post/2016-07-11-hackathon/" itemprop="url">On startup weekends and getting things done</a>
     </h3>
 
-    
-    
-      
-    
     
     <div class="article-style" itemprop="articleBody">
       Feedback after a weekend re-discovering the early stage feelings.
     </div>
     
 
-    <div class="stream-meta">
-    
+    <div class="stream-meta article-metadata">
+
+      
+
+      
+        
+
+
+
+<meta content="2016-07-11 00:00:00 &#43;0200 CEST" itemprop="datePublished">
+<meta content="2017-09-11 22:03:29 -0400 -0400" itemprop="dateModified">
 
 <div class="article-metadata">
 
   
   
-  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    <time>2017-09-11</time>
   </span>
   
 
-  <span class="article-date">
-    
-        Last updated on
-    
-    <meta content="2016-07-11 00:00:00 &#43;0200 CEST" itemprop="datePublished">
-    <time datetime="2017-09-11 22:03:29 -0400 -0400" itemprop="dateModified">
-      Mon, Sep 11, 2017
-    </time>
-  </span>
-  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Mathieu Besançon">
-  </span>
+  
 
   
   <span class="middot-divider"></span>
@@ -1006,12 +1367,16 @@ only a variation in tasks, but also in success criteria and work flow
   
 
   
+  
 
   
 
 </div>
 
+      
     </div>
+
+    
 
   </div>
   <div class="ml-3">
@@ -1097,21 +1462,23 @@ only a variation in tasks, but also in success criteria and work flow
     
     
     
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
 
       
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+        
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/julia.min.js"></script>
+        
+      
 
       
       
     
 
-    <script src="/js/hugo-academic.js"></script>
-    
-
     
     
 
@@ -1120,6 +1487,8 @@ only a variation in tasks, but also in success criteria and work flow
     
 
     
+    
+    <script>hljs.initHighlightingOnLoad();</script>
     
 
     
@@ -1128,7 +1497,7 @@ only a variation in tasks, but also in success criteria and work flow
       const search_index_filename = "/index.json";
       const i18n = {
         'placeholder': "Search...",
-        'results': "Search Results",
+        'results': "results found",
         'no_results': "No results found"
       };
       const content_type = {
@@ -1144,12 +1513,44 @@ only a variation in tasks, but also in success criteria and work flow
     
 
     
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
 
     
     
 
     
     
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.3258b3a711acd6208568ec000de4beec.js"></script>
 
   </body>
 </html>
