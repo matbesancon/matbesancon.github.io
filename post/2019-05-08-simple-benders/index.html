@@ -759,7 +759,7 @@ the solution status of the dual sub-problem:</p>
         (res, α) <span style="color:#f92672">=</span> optimize!(dsp, ŷ)
         <span style="color:#66d9ef">if</span> res <span style="color:#f92672">==</span> <span style="color:#f92672">:</span>OptimalityCut
             <span style="color:#a6e22e">@info</span> <span style="color:#e6db74">&#34;Optimality cut found&#34;</span>
-            <span style="color:#66d9ef">if</span> η0 <span style="color:#f92672">≥</span> dot(α, (dsp<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>b <span style="color:#f92672">-</span> dsp<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>D <span style="color:#f92672">*</span> y)̂)
+            <span style="color:#66d9ef">if</span> η0 <span style="color:#f92672">≥</span> dot(α, (dsp<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>b <span style="color:#f92672">-</span> dsp<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>D <span style="color:#f92672">*</span> ŷ))
                 <span style="color:#66d9ef">break</span>
             <span style="color:#66d9ef">else</span>
                 nopt_cons <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
