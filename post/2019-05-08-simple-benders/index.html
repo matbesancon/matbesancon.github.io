@@ -127,7 +127,7 @@
   
   <meta property="article:published_time" content="2019-05-08T00:00:00&#43;02:00">
   
-  <meta property="article:modified_time" content="2019-05-09T15:33:20&#43;02:00">
+  <meta property="article:modified_time" content="2019-05-09T15:36:25&#43;02:00">
   
 
   
@@ -448,7 +448,7 @@
 
 
 <meta content="2019-05-08 00:00:00 &#43;0200 CEST" itemprop="datePublished">
-<meta content="2019-05-09 15:33:20 &#43;0200 CEST" itemprop="dateModified">
+<meta content="2019-05-09 15:36:25 &#43;0200 CEST" itemprop="dateModified">
 
 <div class="article-metadata">
 
@@ -571,6 +571,8 @@ knowledge of the subject and play a bit with a simple implementation.</p>
 <p><h2>Table of Contents</h2>
 <nav id="TableOfContents">
 <ul>
+<li>
+<ul>
 <li><a href="#high-level-idea">High-level idea</a></li>
 <li><a href="#digging-into-the-structure">Digging into the structure</a></li>
 <li><a href="#a-jump-implementation">A JuMP implementation</a>
@@ -578,10 +580,11 @@ knowledge of the subject and play a bit with a simple implementation.</p>
 <li><a href="#defining-and-solving-dual-sub-problems">Defining and solving dual sub-problems</a></li>
 <li><a href="#iterating-on-the-master-problem">Iterating on the master problem</a></li>
 </ul></li>
+</ul></li>
 </ul>
 </nav></p>
 
-<h1 id="high-level-idea">High-level idea</h1>
+<h2 id="high-level-idea">High-level idea</h2>
 
 <p>Problem decompositions are used on large-scale optimization problems with a
 particular structure. The decomposition turns a compact, hard-to-solve
@@ -604,7 +607,7 @@ information to an optimization problem, which entails two components:</p>
 <p>Sounds familiar? Benders can be seen as the &ldquo;dual twin&rdquo; of the Dantzig-Wolfe
 decomposition I had played with in a <a href="https://matbesancon.github.io/post/2018-05-25-colgen2/" target="_blank">previous post</a>.</p>
 
-<h1 id="digging-into-the-structure">Digging into the structure</h1>
+<h2 id="digging-into-the-structure">Digging into the structure</h2>
 
 <p>Now that we have a general idea of the problem at hand, let&rsquo;s see the specifics.
 Consider a problem such as:
@@ -663,7 +666,7 @@ the sub-problem is not feasible for a $y$ solution. Briefly, this is equivalent
 to the dual being unbounded, it thus defines an extreme ray which must be cut
 out. For more details, you can check <a href="http://www.iems.ucf.edu/qzheng/grpmbr/seminar/Yuping_Intro_to_BendersDecomp.pdf" target="_blank">these lecture notes</a>.</p>
 
-<h1 id="a-jump-implementation">A JuMP implementation</h1>
+<h2 id="a-jump-implementation">A JuMP implementation</h2>
 
 <p>We will define a simple implementation using <a href="http://www.juliaopt.org/JuMP.jl/stable/" target="_blank">JuMP</a>,
 a generic optimization modeling library on top of Julia, usable with various
@@ -680,7 +683,7 @@ to solve the sub-problem.</p>
 <span style="color:#66d9ef">import</span> Clp
 <span style="color:#66d9ef">using</span> LinearAlgebra<span style="color:#f92672">:</span> dot</code></pre></div>
 
-<h2 id="defining-and-solving-dual-sub-problems">Defining and solving dual sub-problems</h2>
+<h3 id="defining-and-solving-dual-sub-problems">Defining and solving dual sub-problems</h3>
 
 <p>Let us store static sub-problem data in a structure:</p>
 
@@ -727,7 +730,7 @@ the solution status of the dual sub-problem:</p>
     <span style="color:#66d9ef">end</span>
 <span style="color:#66d9ef">end</span></code></pre></div>
 
-<h2 id="iterating-on-the-master-problem">Iterating on the master problem</h2>
+<h3 id="iterating-on-the-master-problem">Iterating on the master problem</h3>
 
 <p>The main part of the resolution holds here in three steps.</p>
 

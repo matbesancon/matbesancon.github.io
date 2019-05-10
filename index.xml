@@ -38,7 +38,7 @@ knowledge of the subject and play a bit with a simple implementation.&lt;/p&gt;
 &lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
 &lt;/p&gt;
 
-&lt;h1 id=&#34;high-level-idea&#34;&gt;High-level idea&lt;/h1&gt;
+&lt;h2 id=&#34;high-level-idea&#34;&gt;High-level idea&lt;/h2&gt;
 
 &lt;p&gt;Problem decompositions are used on large-scale optimization problems with a
 particular structure. The decomposition turns a compact, hard-to-solve
@@ -61,7 +61,7 @@ information to an optimization problem, which entails two components:&lt;/p&gt;
 &lt;p&gt;Sounds familiar? Benders can be seen as the &amp;ldquo;dual twin&amp;rdquo; of the Dantzig-Wolfe
 decomposition I had played with in a &lt;a href=&#34;https://matbesancon.github.io/post/2018-05-25-colgen2/&#34; target=&#34;_blank&#34;&gt;previous post&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h1 id=&#34;digging-into-the-structure&#34;&gt;Digging into the structure&lt;/h1&gt;
+&lt;h2 id=&#34;digging-into-the-structure&#34;&gt;Digging into the structure&lt;/h2&gt;
 
 &lt;p&gt;Now that we have a general idea of the problem at hand, let&amp;rsquo;s see the specifics.
 Consider a problem such as:
@@ -120,7 +120,7 @@ the sub-problem is not feasible for a $y$ solution. Briefly, this is equivalent
 to the dual being unbounded, it thus defines an extreme ray which must be cut
 out. For more details, you can check &lt;a href=&#34;http://www.iems.ucf.edu/qzheng/grpmbr/seminar/Yuping_Intro_to_BendersDecomp.pdf&#34; target=&#34;_blank&#34;&gt;these lecture notes&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h1 id=&#34;a-jump-implementation&#34;&gt;A JuMP implementation&lt;/h1&gt;
+&lt;h2 id=&#34;a-jump-implementation&#34;&gt;A JuMP implementation&lt;/h2&gt;
 
 &lt;p&gt;We will define a simple implementation using &lt;a href=&#34;http://www.juliaopt.org/JuMP.jl/stable/&#34; target=&#34;_blank&#34;&gt;JuMP&lt;/a&gt;,
 a generic optimization modeling library on top of Julia, usable with various
@@ -137,7 +137,7 @@ to solve the sub-problem.&lt;/p&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; Clp
 &lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; LinearAlgebra&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; dot&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id=&#34;defining-and-solving-dual-sub-problems&#34;&gt;Defining and solving dual sub-problems&lt;/h2&gt;
+&lt;h3 id=&#34;defining-and-solving-dual-sub-problems&#34;&gt;Defining and solving dual sub-problems&lt;/h3&gt;
 
 &lt;p&gt;Let us store static sub-problem data in a structure:&lt;/p&gt;
 
@@ -184,7 +184,7 @@ the solution status of the dual sub-problem:&lt;/p&gt;
     &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id=&#34;iterating-on-the-master-problem&#34;&gt;Iterating on the master problem&lt;/h2&gt;
+&lt;h3 id=&#34;iterating-on-the-master-problem&#34;&gt;Iterating on the master problem&lt;/h3&gt;
 
 &lt;p&gt;The main part of the resolution holds here in three steps.&lt;/p&gt;
 
