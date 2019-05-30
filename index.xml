@@ -7,10 +7,206 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 08 May 2019 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 30 May 2019 11:14:43 +0200</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Vertex removal in LightGraphs</title>
+      <link>https://matbesancon.github.io/post/2019-05-30-vertex-safe-removal/</link>
+      <pubDate>Thu, 30 May 2019 11:14:43 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-05-30-vertex-safe-removal/</guid>
+      <description>
+
+&lt;p&gt;In various graph-related algorithms, a graph is modified through successive
+operations, merging, creating and deleting vertices. That&amp;rsquo;s the case for the
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Blossom_algorithm&#34; target=&#34;_blank&#34;&gt;Blossom algorithm&lt;/a&gt; finding a
+best matching in a graph and using contractions of nodes. In such cases, it can
+be useful to keep the same vertex numbers and delete only the vertex number
+being contracted.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;LightGraphs.jl&lt;/em&gt; offers a set of abstractions, types and algorithms to get started
+with graphs. The claim of the abstraction is simple: whatever the underlying
+structure representing your graph, if it implements the &lt;code&gt;AbstractGraph&lt;/code&gt; interface,
+it can be used out of the box with all algorithms built on LightGraphs.
+The main concrete type presented by &lt;em&gt;LightGraphs.jl&lt;/em&gt; is &lt;code&gt;SimpleGraph&lt;/code&gt; and its
+directed counterpart &lt;code&gt;SimpleDiGraph&lt;/code&gt;, only storing edges as adjacency lists,
+meaning vertices are just the integers from 1 to the length of the list.
+This means that in a graph with 6 vertices, deleting vertex 4 will put vertex 5
+in its place, and 6 at the place of the 5th. Luckily, the interface should
+allow us to build a graph type on top of another graph, re-implementing only
+vertex removal.&lt;/p&gt;
+
+&lt;h2 id=&#34;a-simple-vertex-safe-implementation&#34;&gt;A simple vertex-safe implementation&lt;/h2&gt;
+
+&lt;p&gt;First things first, we will build it as a struct, using LightGraphs:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; LightGraphs
+&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; LG &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LightGraphs
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; VSafeGraph{T, G&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AbstractGraph{T}, V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AbstractGraph{T}
+    g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;G
+    deleted_vertices&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;V
+    VSafeGraph(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;G, v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;V) where {T, G&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AbstractGraph{T}, V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; new{T, G, V}(g, v)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+VSafeGraph(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;G) where {G&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AbstractGraph} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(g, &lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}())
+VSafeGraph(nv&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Integer&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;SimpleGraph(nv))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We added simple default constructors for convenience. The structure holds two
+elements:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;An inner abstract graph &lt;code&gt;g&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;A list of vertices already deleted: &lt;code&gt;deleted_vertices&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The interface can now be implemented for our type, starting with the trivial
+parts:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edges(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edges(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edgetype(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edgetype(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;VSafeGraph}) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; length(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (v &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g) &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;(v &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices))
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;(v &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices)
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, e) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, e)
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v1, v2) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v1, v2)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v)
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v1, v2) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v1, v2)
+
+Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;copy(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(copy(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g), copy(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleteed_vertices))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;For most of these, we only re-call the method on the inner graph type.
+Only for &lt;code&gt;LG.nv&lt;/code&gt;, which computes the number of vertices in the inner graph,
+minus the number of vertices in our removed list. Now the tricky part, removing
+a vertex:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v1)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g, v1) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; v1 &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v2 &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outneighbors(g, v1)
+        LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_edge!(g, v1, v2)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v2 &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inneighbors(g, v1)
+        LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_edge!(g, v2, v1)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    push!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices, v1)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Instead of removing the vertex &lt;code&gt;v1&lt;/code&gt; from the inner graph, the function removes
+all edges pointing to and from &lt;code&gt;v1&lt;/code&gt;, and then adds it to the removed list.&lt;/p&gt;
+
+&lt;h2 id=&#34;specific-and-generic-tests&#34;&gt;Specific and generic tests&lt;/h2&gt;
+
+&lt;p&gt;So far so good, we can add some basic tests to check our type behaves as
+expected:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@testset&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Graph construction and basic interface&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;
+    nv &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;
+    g1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(nv)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g1) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nv
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nv
+
+    g2_inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CompleteGraph(nv)
+    g2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(g2_inner)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g2) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g2_inner)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g2) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g2_inner)
+
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; all(sort(collect(LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g2))) &lt;span style=&#34;color:#f92672&#34;&gt;.==&lt;/span&gt; sort(collect(LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g2_inner))))
+
+    g3 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CompleteDiGraph(&lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;))
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g3)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g2)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#a6e22e&#34;&gt;@testset&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Vertex deletion&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;
+    Random&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;seed!(&lt;span style=&#34;color:#ae81ff&#34;&gt;33&lt;/span&gt;)
+    nv &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;45&lt;/span&gt;
+    inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CompleteGraph(nv)
+    g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(inner)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(inner) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(inner) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)
+    nrm &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; _ &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;
+        removed_ok &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_vertex!(g, rand(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;nv))
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;removed_ok
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;continue&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+        nrm &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(inner) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nv
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nv &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; nrm
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; length(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nrm
+
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(inner) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;So far so good. Now, with the promise of generic graphs and the AbstractGraph
+interface, we should be able to use &lt;strong&gt;any&lt;/strong&gt; algorithm in &lt;em&gt;LightGraphs.jl&lt;/em&gt;,
+let us try to compute a page rank and a Kruskal minimum spanning tree:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;nv &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;45&lt;/span&gt;
+inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CompleteGraph(nv)
+g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(inner)
+removed_ok &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_vertex!(g, rand(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;nv))
+&lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; removed_ok
+&lt;span style=&#34;color:#75715e&#34;&gt;# LG broken here&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;@test_throws&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BoundsError&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pagerank(g)
+&lt;span style=&#34;color:#a6e22e&#34;&gt;@test_throws&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BoundsError&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kruskal_mst(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Yikes, what&amp;rsquo;s happening here? Many parts of LightGraphs use vertices computed
+from &lt;code&gt;vertices(g)&lt;/code&gt;as indices for structures indexed by them. So if you remove
+vertex 4 in a 6-vertex graph, vertices will be &lt;code&gt;{1,2,3,5,6}&lt;/code&gt;, and the rank
+algorithm will try to access the 6th rank, even though only 5 exist.&lt;/p&gt;
+
+&lt;h2 id=&#34;fixes-and-proposal&#34;&gt;Fixes and proposal&lt;/h2&gt;
+
+&lt;p&gt;It would be too bad to throw the interface altogether, but we need to do
+something for the broken behaviour. The underlying assumption here is that
+vertices behave like indices for anything vertex-related.
+So the way we implement this interface for &lt;code&gt;VSafeGraph&lt;/code&gt; is &amp;ldquo;correct&amp;rdquo;, but the
+implicit contract is not, the way it is used in algorithms such as pagerank
+and Kruskal leak the underlying implementation for &lt;code&gt;SimpleGraph&lt;/code&gt;:
+a contiguous list of integers from 1 to the number of vertices.
+It reminds me of this &lt;a href=&#34;https://youtu.be/MdTTt5v-HWQ?t=692&#34; target=&#34;_blank&#34;&gt;great talk&lt;/a&gt;
+on paying attention to the &amp;ldquo;contract&amp;rdquo; of an interface in Go, the type is telling
+you what to expect in and out, but not how it is supposed or will be used.&lt;/p&gt;
+
+&lt;p&gt;The first fix is to make &lt;code&gt;vertices&lt;/code&gt; return &lt;code&gt;1:nv(g)&lt;/code&gt; for VSafeGraph, but if you
+think about it, it means it needs to do such with any graph type, which means
+the &lt;code&gt;vertices&lt;/code&gt; function is redundant with other functions of the interface and
+should not be mandatory. The other option is to fix breaking code to really
+use the interface signaled and documented and not the leaked implementation.&lt;/p&gt;
+
+&lt;p&gt;We still have some good news though:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Changing the code here is strictly non-breaking, since we would just remove
+the assumption that vertices are indices.&lt;/li&gt;
+&lt;li&gt;If we want to keep this assumption for some pieces of code, it means these
+pieces are not generic but specialized, something we can handle well using either
+dispatch on types or traits, which LightGraphs already does. There is a &lt;code&gt;IsDirected&lt;/code&gt;
+trait associated with the fact that a graph is directed or not, there could also
+be a &lt;code&gt;HasContiguousVertices&lt;/code&gt; trait signaling whether this assumption is validated
+for a type.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>A take on Benders decomposition in JuMP</title>

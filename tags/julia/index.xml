@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 08 May 2019 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 30 May 2019 11:14:43 +0200</lastBuildDate>
     
 	<atom:link href="https://matbesancon.github.io/tags/julia/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Vertex removal in LightGraphs</title>
+      <link>https://matbesancon.github.io/post/2019-05-30-vertex-safe-removal/</link>
+      <pubDate>Thu, 30 May 2019 11:14:43 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-05-30-vertex-safe-removal/</guid>
+      <description>In various graph-related algorithms, a graph is modified through successive operations, merging, creating and deleting vertices. That&amp;rsquo;s the case for the Blossom algorithm finding a best matching in a graph and using contractions of nodes. In such cases, it can be useful to keep the same vertex numbers and delete only the vertex number being contracted.
+LightGraphs.jl offers a set of abstractions, types and algorithms to get started with graphs.</description>
+    </item>
     
     <item>
       <title>A take on Benders decomposition in JuMP</title>
