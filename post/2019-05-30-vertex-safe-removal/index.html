@@ -472,7 +472,7 @@ LightGraphs.jl offers a set of abstractions, types and algorithms to get started
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    5 min read
+    6 min read
   </span>
   
 
@@ -724,7 +724,7 @@ you what to expect in and out, but not how it is supposed or will be used.</p>
 think about it, it means it needs to do such with any graph type, which means
 the <code>vertices</code> function is redundant with other functions of the interface and
 should not be mandatory. The other option is to fix breaking code to really
-use the interface signaled and documented and not the leaked implementation.</p>
+use the interface signalled and documented and not the leaked implementation.</p>
 
 <p>We still have some good news though:</p>
 
@@ -735,9 +735,24 @@ the assumption that vertices are indices.</li>
 pieces are not generic but specialized, something we can handle well using either
 dispatch on types or traits, which LightGraphs already does. There is a <code>IsDirected</code>
 trait associated with the fact that a graph is directed or not, there could also
-be a <code>HasContiguousVertices</code> trait signaling whether this assumption is validated
+be a <code>HasContiguousVertices</code> trait signalling whether this assumption is validated
 for a type.</li>
 </ul>
+
+<h2 id="edit-refined-proposal">Edit: refined proposal</h2>
+
+<p>Following some discussions with fellow LightGraphs developers and users, a
+softer transition could be:</p>
+
+<ol>
+<li>Add the functions <code>vertex_indices(g)</code> and <code>vertex_values(g)</code> to the interface, <code>vertex_values</code> could default to <code>vertex_indices</code>, which could itself default on <code>1:nv(g)</code>.</li>
+<li>Deprecate <code>vertices(g)</code>, with a fallback to <code>vertex_indices</code>.</li>
+<li>Replace all calls to <code>vertex</code> with either <code>vertex_indices</code> or <code>vertex_values</code> depending on which makes sense for the use case.</li>
+</ol>
+
+<p>This change is non-breaking and only deprecating <code>vertices</code>, making the
+interface more explicit. By keeping the two functions, we avoid having to use
+<code>enumerate(vertices_values(g))</code> every time we need indices.</p>
 
     </div>
 

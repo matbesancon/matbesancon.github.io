@@ -191,7 +191,7 @@ you what to expect in and out, but not how it is supposed or will be used.&lt;/p
 think about it, it means it needs to do such with any graph type, which means
 the &lt;code&gt;vertices&lt;/code&gt; function is redundant with other functions of the interface and
 should not be mandatory. The other option is to fix breaking code to really
-use the interface signaled and documented and not the leaked implementation.&lt;/p&gt;
+use the interface signalled and documented and not the leaked implementation.&lt;/p&gt;
 
 &lt;p&gt;We still have some good news though:&lt;/p&gt;
 
@@ -202,9 +202,24 @@ the assumption that vertices are indices.&lt;/li&gt;
 pieces are not generic but specialized, something we can handle well using either
 dispatch on types or traits, which LightGraphs already does. There is a &lt;code&gt;IsDirected&lt;/code&gt;
 trait associated with the fact that a graph is directed or not, there could also
-be a &lt;code&gt;HasContiguousVertices&lt;/code&gt; trait signaling whether this assumption is validated
+be a &lt;code&gt;HasContiguousVertices&lt;/code&gt; trait signalling whether this assumption is validated
 for a type.&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h2 id=&#34;edit-refined-proposal&#34;&gt;Edit: refined proposal&lt;/h2&gt;
+
+&lt;p&gt;Following some discussions with fellow LightGraphs developers and users, a
+softer transition could be:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Add the functions &lt;code&gt;vertex_indices(g)&lt;/code&gt; and &lt;code&gt;vertex_values(g)&lt;/code&gt; to the interface, &lt;code&gt;vertex_values&lt;/code&gt; could default to &lt;code&gt;vertex_indices&lt;/code&gt;, which could itself default on &lt;code&gt;1:nv(g)&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Deprecate &lt;code&gt;vertices(g)&lt;/code&gt;, with a fallback to &lt;code&gt;vertex_indices&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Replace all calls to &lt;code&gt;vertex&lt;/code&gt; with either &lt;code&gt;vertex_indices&lt;/code&gt; or &lt;code&gt;vertex_values&lt;/code&gt; depending on which makes sense for the use case.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This change is non-breaking and only deprecating &lt;code&gt;vertices&lt;/code&gt;, making the
+interface more explicit. By keeping the two functions, we avoid having to use
+&lt;code&gt;enumerate(vertices_values(g))&lt;/code&gt; every time we need indices.&lt;/p&gt;
 </description>
     </item>
     
