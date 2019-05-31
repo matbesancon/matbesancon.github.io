@@ -455,7 +455,7 @@
     <h2><a href="/post/2019-05-30-vertex-safe-removal/">Vertex removal in LightGraphs</a></h2>
     <div class="article-style">
       
-      In various graph-related algorithms, a graph is modified through successive operations, merging, creating and deleting vertices. That&rsquo;s the case for the Blossom algorithm finding a best matching in a graph and using contractions of nodes. In such cases, it can be useful to keep the same vertex numbers and delete only the vertex number being contracted.
+      In various graph-related algorithms, a graph is modified through successive operations, merging, creating and deleting vertices. That&rsquo;s the case for the Blossom algorithm finding a best matching in a graph and using contractions of nodes. In such cases, it can be useful to remove only the vertex being contracted, and maintain the number of all other vertices.
 LightGraphs.jl offers a set of abstractions, types and algorithms to get started with graphs.
       
     </div>

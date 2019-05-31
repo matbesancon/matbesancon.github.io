@@ -27,7 +27,7 @@
   
     
   
-  <meta name="description" content="In various graph-related algorithms, a graph is modified through successive operations, merging, creating and deleting vertices. That&rsquo;s the case for the Blossom algorithm finding a best matching in a graph and using contractions of nodes. In such cases, it can be useful to keep the same vertex numbers and delete only the vertex number being contracted.
+  <meta name="description" content="In various graph-related algorithms, a graph is modified through successive operations, merging, creating and deleting vertices. That&rsquo;s the case for the Blossom algorithm finding a best matching in a graph and using contractions of nodes. In such cases, it can be useful to remove only the vertex being contracted, and maintain the number of all other vertices.
 LightGraphs.jl offers a set of abstractions, types and algorithms to get started with graphs.">
 
   
@@ -121,7 +121,7 @@ LightGraphs.jl offers a set of abstractions, types and algorithms to get started
   <meta property="og:site_name" content="μβ">
   <meta property="og:url" content="https://matbesancon.github.io/post/2019-05-30-vertex-safe-removal/">
   <meta property="og:title" content="Vertex removal in LightGraphs | μβ">
-  <meta property="og:description" content="In various graph-related algorithms, a graph is modified through successive operations, merging, creating and deleting vertices. That&rsquo;s the case for the Blossom algorithm finding a best matching in a graph and using contractions of nodes. In such cases, it can be useful to keep the same vertex numbers and delete only the vertex number being contracted.
+  <meta property="og:description" content="In various graph-related algorithms, a graph is modified through successive operations, merging, creating and deleting vertices. That&rsquo;s the case for the Blossom algorithm finding a best matching in a graph and using contractions of nodes. In such cases, it can be useful to remove only the vertex being contracted, and maintain the number of all other vertices.
 LightGraphs.jl offers a set of abstractions, types and algorithms to get started with graphs."><meta property="og:image" content="https://matbesancon.github.io/img/icon-192.png">
   <meta property="og:locale" content="en-ca">
   
@@ -556,14 +556,14 @@ LightGraphs.jl offers a set of abstractions, types and algorithms to get started
 <p>In various graph-related algorithms, a graph is modified through successive
 operations, merging, creating and deleting vertices. That&rsquo;s the case for the
 <a href="https://en.wikipedia.org/wiki/Blossom_algorithm" target="_blank">Blossom algorithm</a> finding a
-best matching in a graph and using contractions of nodes. In such cases, it can
-be useful to keep the same vertex numbers and delete only the vertex number
-being contracted.</p>
+best matching in a graph and using contractions of nodes.
+In such cases, it can be useful to remove only the vertex being contracted,
+and maintain the number of all other vertices.</p>
 
 <p><em>LightGraphs.jl</em> offers a set of abstractions, types and algorithms to get started
 with graphs. The claim of the abstraction is simple: whatever the underlying
 structure representing your graph, if it implements the <code>AbstractGraph</code> interface,
-it can be used out of the box with all algorithms built on LightGraphs.
+it can be used out of the box with all algorithms built on <em>LightGraphs.jl</em>.
 The main concrete type presented by <em>LightGraphs.jl</em> is <code>SimpleGraph</code> and its
 directed counterpart <code>SimpleDiGraph</code>, only storing edges as adjacency lists,
 meaning vertices are just the integers from 1 to the length of the list.
@@ -702,7 +702,7 @@ removed_ok <span style="color:#f92672">=</span> LG<span style="color:#f92672">.<
 <span style="color:#a6e22e">@test_throws</span> <span style="color:#66d9ef">BoundsError</span> LG<span style="color:#f92672">.</span>pagerank(g)
 <span style="color:#a6e22e">@test_throws</span> <span style="color:#66d9ef">BoundsError</span> LG<span style="color:#f92672">.</span>kruskal_mst(g)</code></pre></div>
 
-<p>Yikes, what&rsquo;s happening here? Many parts of LightGraphs use vertices computed
+<p>Yikes, what&rsquo;s happening here? Many parts of <em>LightGraphs.jl</em> use vertices computed
 from <code>vertices(g)</code>as indices for structures indexed by them. So if you remove
 vertex 4 in a 6-vertex graph, vertices will be <code>{1,2,3,5,6}</code>, and the rank
 algorithm will try to access the 6th rank, even though only 5 exist.</p>
@@ -712,12 +712,12 @@ algorithm will try to access the 6th rank, even though only 5 exist.</p>
 <p>It would be too bad to throw the interface altogether, but we need to do
 something for the broken behaviour. The underlying assumption here is that
 vertices behave like indices for anything vertex-related.
-So the way we implement this interface for <code>VSafeGraph</code> is &ldquo;correct&rdquo;, but the
+So the way we implement this interface for <code>VSafeGraph</code> is correct, but the
 implicit contract is not, the way it is used in algorithms such as pagerank
 and Kruskal leak the underlying implementation for <code>SimpleGraph</code>:
 a contiguous list of integers from 1 to the number of vertices.
 It reminds me of this <a href="https://youtu.be/MdTTt5v-HWQ?t=692" target="_blank">great talk</a>
-on paying attention to the &ldquo;contract&rdquo; of an interface in Go, the type is telling
+on paying attention to the contract of an interface in Go, the type is telling
 you what to expect in and out, but not how it is supposed or will be used.</p>
 
 <p>The first fix is to make <code>vertices</code> return <code>1:nv(g)</code> for VSafeGraph, but if you
@@ -733,7 +733,7 @@ use the interface signalled and documented and not the leaked implementation.</p
 the assumption that vertices are indices.</li>
 <li>If we want to keep this assumption for some pieces of code, it means these
 pieces are not generic but specialized, something we can handle well using either
-dispatch on types or traits, which LightGraphs already does. There is a <code>IsDirected</code>
+dispatch on types or traits, which <em>LightGraphs.jl</em> already does. There is a <code>IsDirected</code>
 trait associated with the fact that a graph is directed or not, there could also
 be a <code>HasContiguousVertices</code> trait signalling whether this assumption is validated
 for a type.</li>
@@ -741,7 +741,7 @@ for a type.</li>
 
 <h2 id="edit-refined-proposal">Edit: refined proposal</h2>
 
-<p>Following some discussions with fellow LightGraphs developers and users, a
+<p>Following some discussions with fellow <em>LightGraphs.jl</em> developers and users, a
 softer transition could be:</p>
 
 <ol>

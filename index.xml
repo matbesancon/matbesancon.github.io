@@ -23,14 +23,14 @@
 &lt;p&gt;In various graph-related algorithms, a graph is modified through successive
 operations, merging, creating and deleting vertices. That&amp;rsquo;s the case for the
 &lt;a href=&#34;https://en.wikipedia.org/wiki/Blossom_algorithm&#34; target=&#34;_blank&#34;&gt;Blossom algorithm&lt;/a&gt; finding a
-best matching in a graph and using contractions of nodes. In such cases, it can
-be useful to keep the same vertex numbers and delete only the vertex number
-being contracted.&lt;/p&gt;
+best matching in a graph and using contractions of nodes.
+In such cases, it can be useful to remove only the vertex being contracted,
+and maintain the number of all other vertices.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;LightGraphs.jl&lt;/em&gt; offers a set of abstractions, types and algorithms to get started
 with graphs. The claim of the abstraction is simple: whatever the underlying
 structure representing your graph, if it implements the &lt;code&gt;AbstractGraph&lt;/code&gt; interface,
-it can be used out of the box with all algorithms built on LightGraphs.
+it can be used out of the box with all algorithms built on &lt;em&gt;LightGraphs.jl&lt;/em&gt;.
 The main concrete type presented by &lt;em&gt;LightGraphs.jl&lt;/em&gt; is &lt;code&gt;SimpleGraph&lt;/code&gt; and its
 directed counterpart &lt;code&gt;SimpleDiGraph&lt;/code&gt;, only storing edges as adjacency lists,
 meaning vertices are just the integers from 1 to the length of the list.
@@ -169,7 +169,7 @@ removed_ok &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span s
 &lt;span style=&#34;color:#a6e22e&#34;&gt;@test_throws&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BoundsError&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pagerank(g)
 &lt;span style=&#34;color:#a6e22e&#34;&gt;@test_throws&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BoundsError&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kruskal_mst(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Yikes, what&amp;rsquo;s happening here? Many parts of LightGraphs use vertices computed
+&lt;p&gt;Yikes, what&amp;rsquo;s happening here? Many parts of &lt;em&gt;LightGraphs.jl&lt;/em&gt; use vertices computed
 from &lt;code&gt;vertices(g)&lt;/code&gt;as indices for structures indexed by them. So if you remove
 vertex 4 in a 6-vertex graph, vertices will be &lt;code&gt;{1,2,3,5,6}&lt;/code&gt;, and the rank
 algorithm will try to access the 6th rank, even though only 5 exist.&lt;/p&gt;
@@ -179,12 +179,12 @@ algorithm will try to access the 6th rank, even though only 5 exist.&lt;/p&gt;
 &lt;p&gt;It would be too bad to throw the interface altogether, but we need to do
 something for the broken behaviour. The underlying assumption here is that
 vertices behave like indices for anything vertex-related.
-So the way we implement this interface for &lt;code&gt;VSafeGraph&lt;/code&gt; is &amp;ldquo;correct&amp;rdquo;, but the
+So the way we implement this interface for &lt;code&gt;VSafeGraph&lt;/code&gt; is correct, but the
 implicit contract is not, the way it is used in algorithms such as pagerank
 and Kruskal leak the underlying implementation for &lt;code&gt;SimpleGraph&lt;/code&gt;:
 a contiguous list of integers from 1 to the number of vertices.
 It reminds me of this &lt;a href=&#34;https://youtu.be/MdTTt5v-HWQ?t=692&#34; target=&#34;_blank&#34;&gt;great talk&lt;/a&gt;
-on paying attention to the &amp;ldquo;contract&amp;rdquo; of an interface in Go, the type is telling
+on paying attention to the contract of an interface in Go, the type is telling
 you what to expect in and out, but not how it is supposed or will be used.&lt;/p&gt;
 
 &lt;p&gt;The first fix is to make &lt;code&gt;vertices&lt;/code&gt; return &lt;code&gt;1:nv(g)&lt;/code&gt; for VSafeGraph, but if you
@@ -200,7 +200,7 @@ use the interface signalled and documented and not the leaked implementation.&lt
 the assumption that vertices are indices.&lt;/li&gt;
 &lt;li&gt;If we want to keep this assumption for some pieces of code, it means these
 pieces are not generic but specialized, something we can handle well using either
-dispatch on types or traits, which LightGraphs already does. There is a &lt;code&gt;IsDirected&lt;/code&gt;
+dispatch on types or traits, which &lt;em&gt;LightGraphs.jl&lt;/em&gt; already does. There is a &lt;code&gt;IsDirected&lt;/code&gt;
 trait associated with the fact that a graph is directed or not, there could also
 be a &lt;code&gt;HasContiguousVertices&lt;/code&gt; trait signalling whether this assumption is validated
 for a type.&lt;/li&gt;
@@ -208,7 +208,7 @@ for a type.&lt;/li&gt;
 
 &lt;h2 id=&#34;edit-refined-proposal&#34;&gt;Edit: refined proposal&lt;/h2&gt;
 
-&lt;p&gt;Following some discussions with fellow LightGraphs developers and users, a
+&lt;p&gt;Following some discussions with fellow &lt;em&gt;LightGraphs.jl&lt;/em&gt; developers and users, a
 softer transition could be:&lt;/p&gt;
 
 &lt;ol&gt;

@@ -17,7 +17,7 @@
       <pubDate>Thu, 30 May 2019 11:14:43 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-05-30-vertex-safe-removal/</guid>
-      <description>In various graph-related algorithms, a graph is modified through successive operations, merging, creating and deleting vertices. That&amp;rsquo;s the case for the Blossom algorithm finding a best matching in a graph and using contractions of nodes. In such cases, it can be useful to keep the same vertex numbers and delete only the vertex number being contracted.
+      <description>In various graph-related algorithms, a graph is modified through successive operations, merging, creating and deleting vertices. That&amp;rsquo;s the case for the Blossom algorithm finding a best matching in a graph and using contractions of nodes. In such cases, it can be useful to remove only the vertex being contracted, and maintain the number of all other vertices.
 LightGraphs.jl offers a set of abstractions, types and algorithms to get started with graphs.</description>
     </item>
     
