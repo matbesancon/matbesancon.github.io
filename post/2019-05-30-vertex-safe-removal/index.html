@@ -603,7 +603,7 @@ parts:</p>
 LG<span style="color:#f92672">.</span>edgetype(g<span style="color:#f92672">::</span>VSafeGraph) <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>edgetype(g<span style="color:#f92672">.</span>g)
 
 LG<span style="color:#f92672">.</span>is_directed(g<span style="color:#f92672">::</span>VSafeGraph) <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>is_directed(g<span style="color:#f92672">.</span>g)
-LG<span style="color:#f92672">.</span>is_directed(<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#f92672">&lt;:</span>VSafeGraph}) <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>is_directed(g<span style="color:#f92672">.</span>g)
+LG<span style="color:#f92672">.</span>is_directed(<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#f92672">&lt;:</span>VSafeGraph{T,G}}) where {T,G} <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>is_directed(G)
 
 LG<span style="color:#f92672">.</span>ne(g<span style="color:#f92672">::</span>VSafeGraph) <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>ne(g<span style="color:#f92672">.</span>g)
 LG<span style="color:#f92672">.</span>nv(g<span style="color:#f92672">::</span>VSafeGraph) <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>nv(g<span style="color:#f92672">.</span>g) <span style="color:#f92672">-</span> length(g<span style="color:#f92672">.</span>deleted_vertices)
@@ -615,8 +615,7 @@ LG<span style="color:#f92672">.</span>has_vertex(g<span style="color:#f92672">::
 
 LG<span style="color:#f92672">.</span>has_edge(g<span style="color:#f92672">::</span>VSafeGraph, e) <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>has_edge(g<span style="color:#f92672">.</span>g, e)
 
-LG<span style="color:#f92672">.</span>add_edge!(g<span style="color:#f92672">::</span>VSafeGraph, v1, v2) <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>add_edge!(g<span style="color:#f92672">.</span>g, v1, v2)
-LG<span style="color:#f92672">.</span>add_vertex!(g<span style="color:#f92672">::</span>VSafeGraph, v) <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>add_vertex!(g<span style="color:#f92672">.</span>g, v)
+LG<span style="color:#f92672">.</span>add_vertex!(g<span style="color:#f92672">::</span>VSafeGraph) <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>add_vertex!(g<span style="color:#f92672">.</span>g)
 
 LG<span style="color:#f92672">.</span>rem_edge!(g<span style="color:#f92672">::</span>VSafeGraph, v1, v2) <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>rem_edge!(g<span style="color:#f92672">.</span>g, v1, v2)
 
@@ -624,10 +623,17 @@ Base<span style="color:#f92672">.</span>copy(g<span style="color:#f92672">::</sp
 
 <p>For most of these, we only re-call the method on the inner graph type.
 Only for <code>LG.nv</code>, which computes the number of vertices in the inner graph,
-minus the number of vertices in our removed list. Now the tricky part, removing
-a vertex:</p>
+minus the number of vertices in our removed list. Now the tricky parts,
+adding an edge and removing a vertex, which require a bit more verifications:</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> LG<span style="color:#f92672">.</span>rem_vertex!(g<span style="color:#f92672">::</span>VSafeGraph, v1)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> LG<span style="color:#f92672">.</span>add_edge!(g<span style="color:#f92672">::</span>VSafeGraph, v1, v2)
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>LG<span style="color:#f92672">.</span>has_vertex(g, v1) <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>LG<span style="color:#f92672">.</span>has_vertex(g, v2)
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+    <span style="color:#66d9ef">end</span>
+    LG<span style="color:#f92672">.</span>add_edge!(g<span style="color:#f92672">.</span>g, v1, v2)
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> LG<span style="color:#f92672">.</span>rem_vertex!(g<span style="color:#f92672">::</span>VSafeGraph, v1)
     <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>LG<span style="color:#f92672">.</span>has_vertex(g, v1) <span style="color:#f92672">||</span> v1 <span style="color:#66d9ef">in</span> g<span style="color:#f92672">.</span>deleted_vertices
         <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
     <span style="color:#66d9ef">end</span>
@@ -753,6 +759,12 @@ softer transition could be:</p>
 <p>This change is non-breaking and only deprecating <code>vertices</code>, making the
 interface more explicit. By keeping the two functions, we avoid having to use
 <code>enumerate(vertices_values(g))</code> every time we need indices.</p>
+
+<h2 id="edit-2-corrections-to-the-functions">Edit 2: Corrections to the functions</h2>
+
+<p>I have corrected various functions following Pankaj&rsquo;s much needed
+<a href="https://github.com/matbesancon/VertexSafeGraphs.jl/pull/2" target="_blank">Pull Request</a>
+on the corresponding repository, thank!</p>
 
     </div>
 

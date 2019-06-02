@@ -70,7 +70,7 @@ parts:&lt;/p&gt;
 LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edgetype(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edgetype(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
 
 LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
-LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;VSafeGraph}) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;VSafeGraph{T,G}}) where {T,G} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(G)
 
 LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
 LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; length(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices)
@@ -82,8 +82,7 @@ LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g&lt;span s
 
 LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, e) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, e)
 
-LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v1, v2) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v1, v2)
-LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
 
 LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v1, v2) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v1, v2)
 
@@ -91,10 +90,17 @@ Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;copy(g&lt;span style
 
 &lt;p&gt;For most of these, we only re-call the method on the inner graph type.
 Only for &lt;code&gt;LG.nv&lt;/code&gt;, which computes the number of vertices in the inner graph,
-minus the number of vertices in our removed list. Now the tricky part, removing
-a vertex:&lt;/p&gt;
+minus the number of vertices in our removed list. Now the tricky parts,
+adding an edge and removing a vertex, which require a bit more verifications:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v1)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v1, v2)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g, v1) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g, v2)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v1, v2)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v1)
     &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g, v1) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; v1 &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices
         &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
     &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
@@ -220,6 +226,12 @@ softer transition could be:&lt;/p&gt;
 &lt;p&gt;This change is non-breaking and only deprecating &lt;code&gt;vertices&lt;/code&gt;, making the
 interface more explicit. By keeping the two functions, we avoid having to use
 &lt;code&gt;enumerate(vertices_values(g))&lt;/code&gt; every time we need indices.&lt;/p&gt;
+
+&lt;h2 id=&#34;edit-2-corrections-to-the-functions&#34;&gt;Edit 2: Corrections to the functions&lt;/h2&gt;
+
+&lt;p&gt;I have corrected various functions following Pankaj&amp;rsquo;s much needed
+&lt;a href=&#34;https://github.com/matbesancon/VertexSafeGraphs.jl/pull/2&#34; target=&#34;_blank&#34;&gt;Pull Request&lt;/a&gt;
+on the corresponding repository, thank!&lt;/p&gt;
 </description>
     </item>
     
