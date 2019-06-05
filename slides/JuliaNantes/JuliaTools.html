@@ -13251,7 +13251,7 @@ Polytechnique Montréal, INRIA &amp; Centrale Lille</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Logistics">Logistics<a class="anchor-link" href="#Logistics">&#182;</a></h2><p>Slides at <a href="https://matbesancon.github.io/slides/JuliaNantes/JuliaTools">https://matbesancon.github.io/slides/JuliaNantes/JuliaTools</a></p>
+<h2 id="Logistics">Logistics<a class="anchor-link" href="#Logistics">&#182;</a></h2><p>Slides at <a href="https://matbesancon.github.io/slides/JuliaNantes/JuliaTools.html">https://matbesancon.github.io/slides/JuliaNantes/JuliaTools.html</a></p>
 <p>Lots of references &amp; pointers, for the trip home.</p>
 <p>Twitter for live-complaints: <code>@matbesancon</code></p>
 
@@ -13492,9 +13492,19 @@ Polytechnique Montréal, INRIA &amp; Centrale Lille</p>
 <h3 id="Personal-tips">Personal tips<a class="anchor-link" href="#Personal-tips">&#182;</a></h3><p>Cover corner cases:</p>
 <ul>
 <li><code>@test_throws</code> with expected error</li>
-<li>Avoid too special structure in tests</li>
+<li><p>What happens with limit values?</p>
+<div class="highlight"><pre><span></span><span class="nd">@test_throws</span> <span class="kt">MethodError</span> <span class="n">mean</span><span class="p">([</span><span class="s">&quot;hello&quot;</span><span class="p">])</span>
+<span class="nd">@test</span> <span class="n">isnan</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="kt">Float64</span><span class="p">[]))</span>
+</pre></div>
+</li>
+<li><p>Avoid too special structure in tests
+Example: input always integer.</p>
+</li>
 </ul>
-<p>Example: input always integer.</p>
+<p>Avoid trivial "comfort" tests.<br>
+Example: copying a function implementation to test it:</p>
+<div class="highlight"><pre><span></span><span class="nd">@test</span> <span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
 
 </div>
 </div>
