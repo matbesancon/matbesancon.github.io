@@ -13263,7 +13263,7 @@ Polytechnique Montréal, INRIA &amp; Centrale Lille</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Content">Content<a class="anchor-link" href="#Content">&#182;</a></h1><ul>
 <li>Reproducibility, why?</li>
-<li>Start with Git</li>
+<li>Getting started with Git</li>
 <li>Working alone<ul>
 <li>Projects &amp; environments</li>
 <li>Tests</li>
@@ -13273,7 +13273,7 @@ Polytechnique Montréal, INRIA &amp; Centrale Lille</p>
 </li>
 <li>Collaborating on code<ul>
 <li>General workflow</li>
-<li>Do it yourself</li>
+<li>Demo &amp; homework</li>
 </ul>
 </li>
 </ul>
@@ -13291,7 +13291,7 @@ Polytechnique Montréal, INRIA &amp; Centrale Lille</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Reproducibility:-why-should-I-care?">Reproducibility: why should I care?<a class="anchor-link" href="#Reproducibility:-why-should-I-care?">&#182;</a></h1><ul>
 <li><strong>Industrial software</strong>:<ul>
-<li>Written once, used often, in all contexts</li>
+<li>Written once, used often, in (almost) all contexts</li>
 <li>Bugs are found (eventually) and fixed</li>
 </ul>
 </li>
@@ -13415,7 +13415,7 @@ Polytechnique Montréal, INRIA &amp; Centrale Lille</p>
 </ul>
 <h3 id="Manifest.toml">Manifest.toml<a class="anchor-link" href="#Manifest.toml">&#182;</a></h3><ul>
 <li>Generated when activating the project</li>
-<li>Shows <strong>How it was run</strong></li>
+<li>Shows <strong>how it was run</strong></li>
 <li>Useful for debugging and research</li>
 </ul>
 <p>Freeze the Manifest $\Rightarrow$ freeze how it's run</p>
@@ -13455,7 +13455,8 @@ Polytechnique Montréal, INRIA &amp; Centrale Lille</p>
 <span class="p">(</span><span class="n">v1</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span> <span class="n">pkg</span><span class="o">&gt;</span> <span class="n">activate</span> <span class="o">.</span>
 <span class="p">(</span><span class="n">JuliaNantes</span><span class="p">)</span> <span class="n">pkg</span><span class="o">&gt;</span> <span class="n">instantiate</span>
 </pre></div>
-<p>You are now in the same exact configuration as when the code was written.</p>
+<p>If <em>Manifest.toml</em> provided $\Rightarrow$ same exact configuration as when the code was written.<br>
+Otherwise $\Rightarrow$ compatible configuration with <em>Project.toml</em>, creates a Manifest file.</p>
 
 </div>
 </div>
@@ -13516,10 +13517,10 @@ Example: copying a function implementation to test it:</p>
 <li>Unit: test a given evaluation / data point</li>
 <li>Property tests: test a property of the result for given input</li>
 </ul>
-<p>Examples: positivity, idempotency, existence for <strong>any</strong> input<br>
-How to:</p>
+<p>Examples: positivity, idempotency, existence for <strong>any</strong> input, order conservation, ...</p>
+<p>Two steps:</p>
 <ol>
-<li>generate random input;</li>
+<li>generate random input</li>
 <li>test property</li>
 </ol>
 

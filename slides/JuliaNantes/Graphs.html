@@ -13252,7 +13252,7 @@ JuliaGraphs</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="First-things-first,-logistics">First things first, logistics<a class="anchor-link" href="#First-things-first,-logistics">&#182;</a></h2><p>Follow the slides at matbesancon.github.io/slides/JuliaNantes/Graphs</p>
+<h2 id="First-things-first,-logistics">First things first, logistics<a class="anchor-link" href="#First-things-first,-logistics">&#182;</a></h2><p>Follow the slides at <a href="https://matbesancon.github.io/slides/JuliaNantes/Graphs.html">https://matbesancon.github.io/slides/JuliaNantes/Graphs.html</a></p>
 
 </div>
 </div>
@@ -13317,18 +13317,7 @@ JuliaGraphs</p>
 <h2 id="What-is-a-graph?">What is a graph?<a class="anchor-link" href="#What-is-a-graph?">&#182;</a></h2>
 </div>
 </div>
-</div><aside class="notes">
-
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>La première chose qu'on apprend dans des cours d'informatiques, d'optimisation ou de maths appliquées, c'est
-qu'un graph est une pair d'ensembles, un ensemble de sommets et un ensemble d'arrêtes, chacune associant deux sommets, soit de façon dirigée, soit non dirigée.</p>
-
 </div>
-</div>
-</div>
-</aside>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13381,7 +13370,7 @@ $E = \{(1,2), (1,3), ...\}$</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Adjacency list, redundancy for faster lookup</p>
+<p>Adjacency list, redundancy for faster lookup, faster vertex insertion.</p>
 <div class="highlight"><pre><span></span><span class="n">graph3</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int</span><span class="p">[]</span> <span class="k">for</span> <span class="n">_</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="p">]</span>
 <span class="n">push!</span><span class="p">(</span><span class="n">graph3</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
@@ -13419,7 +13408,7 @@ $E = \{(1,2), (1,3), ...\}$</p>
 <h1 id="Graph-abstraction">Graph abstraction<a class="anchor-link" href="#Graph-abstraction">&#182;</a></h1><p>Say you define a type <code>G</code> which you want to be a graph, the following methods are required:</p>
 <div class="highlight"><pre><span></span><span class="n">LightGraphs</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="o">::</span><span class="n">G</span><span class="p">)</span>
 <span class="n">LightGraphs</span><span class="o">.</span><span class="n">edgetype</span><span class="p">(</span><span class="o">::</span><span class="n">G</span><span class="p">)</span>
-<span class="n">LightGraphs</span><span class="o">.</span><span class="n">is_directed</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">LightGraphs</span><span class="o">.</span><span class="n">is_directed</span><span class="p">(</span><span class="o">::</span><span class="kt">Type</span><span class="p">{</span><span class="n">G</span><span class="p">})</span>
 <span class="n">LightGraphs</span><span class="o">.</span><span class="n">ne</span><span class="p">(</span><span class="o">::</span><span class="n">G</span><span class="p">)</span>
 <span class="n">LightGraphs</span><span class="o">.</span><span class="n">nv</span><span class="p">(</span><span class="o">::</span><span class="n">G</span><span class="p">)</span>
 <span class="n">LightGraphs</span><span class="o">.</span><span class="n">vertices</span><span class="p">(</span><span class="o">::</span><span class="n">G</span><span class="p">)</span>
@@ -13442,8 +13431,7 @@ $E = \{(1,2), (1,3), ...\}$</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<div class="highlight"><pre><span></span><span class="n">LightGraphs</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="o">::</span><span class="n">G</span><span class="p">,</span> <span class="nb">e</span><span class="p">)</span>
-<span class="n">LightGraphs</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="o">::</span><span class="n">G</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">LightGraphs</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="o">::</span><span class="n">G</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -13456,17 +13444,7 @@ $E = \{(1,2), (1,3), ...\}$</p>
 
 </div>
 </div>
-</div><aside class="notes">
-
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Ce sont seulement des méthodes très intuitives, la façon dont on raisonne sur un graph.</p>
-
-</div>
-</div>
-</div>
-</aside></div></section></section><section><section>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -17095,9 +17073,9 @@ amount2:1-d})};a.filter.invert.toString=function(){return this()};a.filter.brigh
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Applications-of-LightGraphs">Applications of LightGraphs<a class="anchor-link" href="#Applications-of-LightGraphs">&#182;</a></h2><p><img src="./img/dependencies.svg" alt=""><br>
-Image credit: James Fairbanks
-<em>Graph interfaces in JuliaGraphs</em> M. Besançon, J. Fairbanks, JuliaCon 2018, London</p>
+<h2 id="Applications-of-LightGraphs">Applications of LightGraphs<a class="anchor-link" href="#Applications-of-LightGraphs">&#182;</a></h2><p>Source: 
+<em>Graph interfaces in JuliaGraphs</em> M. Besançon, J. Fairbanks, JuliaCon 2018, London
+<img src="./img/dependencies.svg" alt=""></p>
 
 </div>
 </div>
@@ -17206,6 +17184,7 @@ Image credit: James Fairbanks
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-julia"><pre><span></span><span class="n">LightGraphs</span><span class="o">.</span><span class="n">has_vertex</span><span class="p">(</span><span class="n">g</span><span class="o">::</span><span class="n">WGraph</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span> <span class="o">&lt;=</span> <span class="n">nv</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+
 <span class="k">function</span> <span class="n">LightGraphs</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">g</span><span class="o">::</span><span class="n">WGraph</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">v1</span> <span class="o">&gt;</span> <span class="n">v2</span>
         <span class="k">return</span> <span class="n">has_edge</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">v1</span><span class="p">)</span>
@@ -17237,8 +17216,8 @@ Image credit: James Fairbanks
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-julia"><pre><span></span><span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-<span class="n">wg</span> <span class="o">=</span> <span class="n">LightGraphs</span><span class="o">.</span><span class="n">WheelGraph</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<div class=" highlight hl-julia"><pre><span></span><span class="n">wg</span> <span class="o">=</span> <span class="n">LightGraphs</span><span class="o">.</span><span class="n">WheelGraph</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">gplot</span><span class="p">(</span><span class="n">wg</span><span class="p">,</span> <span class="n">nodelabel</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">(</span><span class="n">wg</span><span class="p">))</span>
 </pre></div>
 
@@ -18138,7 +18117,7 @@ Defining a graph type based on any matrix: <a href="https://matbesancon.github.i
 <ul>
 <li>Julia <a href="http://julialang.slack.com/">Slack</a>, #graphs channel</li>
 <li>Julia <a href="https://discourse.julialang.org/c/domain/opt">Discourse</a> forum</li>
-<li>Some issues? Tell the developers: <a href="http://github.com/JuliaGraphs/LightGraphs.jl/">http://github.com/JuliaGraphs/LightGraphs.jl/</a></li>
+<li>Some issues? Let the developers know: <a href="http://github.com/JuliaGraphs/LightGraphs.jl">http://github.com/JuliaGraphs/LightGraphs.jl</a></li>
 </ul>
 <h2 id="Homework">Homework<a class="anchor-link" href="#Homework">&#182;</a></h2><ul>
 <li>Try it out</li>
