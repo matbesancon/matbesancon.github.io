@@ -3126,8 +3126,15 @@ there, but we just compute them whenever needed.&lt;/p&gt;
 
 &lt;p&gt;Hope you enjoyed reading this second post on the cutting stock problem. A
 Jupyter notebook summing up all code snippets can be found at
-&lt;a href=&#34;https://github.com/matbesancon/column_generation_jump&#34; target=&#34;_blank&#34;&gt;this repository&lt;/a&gt;.
-Feel free to &lt;a href=&#34;http://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt; for feedback!&lt;/p&gt;
+&lt;a href=&#34;https://github.com/matbesancon/column_generation_jump&#34; target=&#34;_blank&#34;&gt;this repository&lt;/a&gt;,
+feel free to &lt;a href=&#34;http://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;ping me&lt;/a&gt; for feedback.&lt;/p&gt;
+
+&lt;h2 id=&#34;code-and-citation&#34;&gt;Code and citation&lt;/h2&gt;
+
+&lt;p&gt;Found this post useful for your work? The corresponding repository
+is available on &lt;a href=&#34;https://github.com/matbesancon/column_generation_jump&#34; target=&#34;_blank&#34;&gt;GitHub&lt;/a&gt;,
+consider citing it using the following DOI &lt;em&gt;10.5281/zenodo.3329389&lt;/em&gt;,
+the BibTeX entry is available on &lt;a href=&#34;https://zenodo.org/badge/latestdoi/130896714&#34; target=&#34;_blank&#34;&gt;Zenodo&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h3 id=&#34;note-on-performance&#34;&gt;Note on performance&lt;/h3&gt;
 
@@ -3452,6 +3459,13 @@ broad target audience.&lt;/p&gt;
 &lt;p&gt;Hope you enjoyed it, if that&amp;rsquo;s the case, I&amp;rsquo;ll see you on the next article,
 we&amp;rsquo;ll implement a &lt;em&gt;column generation&lt;/em&gt; algorithm from scratch to solve it.
 If you have any question/remarks, feel free to &lt;a href=&#34;http://twitter.com/matbesancon/&#34; target=&#34;_blank&#34;&gt;get in touch&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;code-and-citation&#34;&gt;Code and citation&lt;/h2&gt;
+
+&lt;p&gt;Found this post useful for your work? The corresponding repository
+is available on &lt;a href=&#34;https://github.com/matbesancon/column_generation_jump&#34; target=&#34;_blank&#34;&gt;GitHub&lt;/a&gt;,
+consider citing it using the following DOI &lt;em&gt;10.5281/zenodo.3329389&lt;/em&gt;,
+the BibTeX entry is available on &lt;a href=&#34;https://zenodo.org/badge/latestdoi/130896714&#34; target=&#34;_blank&#34;&gt;Zenodo&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;thanks&#34;&gt;Thanks&lt;/h2&gt;
 
