@@ -7,10 +7,140 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Thu, 30 May 2019 11:14:43 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 25 Jul 2019 18:14:43 +0200</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Leveraging special graph shapes in LightGraphs</title>
+      <link>https://matbesancon.github.io/post/2019-07-25-special-graphs/</link>
+      <pubDate>Thu, 25 Jul 2019 18:14:43 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-07-25-special-graphs/</guid>
+      <description>
+
+&lt;p&gt;In a &lt;a href=&#34;https://matbesancon.github.io/post/2019-05-30-vertex-safe-removal/&#34; target=&#34;_blank&#34;&gt;previous post&lt;/a&gt;, we
+pushed the boundaries of the LightGraphs.jl abstraction to see how conforming the
+algorithms are to the declared interface, noticing some implied assumptions
+that were not stated. This has led to the development of
+&lt;a href=&#34;https://github.com/matbesancon/VertexSafeGraphs.jl&#34; target=&#34;_blank&#34;&gt;VertexSafeGraphs.jl&lt;/a&gt; and
+soon to some work on LightGraphs.jl itself.&lt;/p&gt;
+
+&lt;p&gt;Another way to push the abstraction came out of the
+&lt;a href=&#34;http://matbesancon.github.io/slides/JuliaNantes/Graphs&#34; target=&#34;_blank&#34;&gt;JuliaNantes workshop&lt;/a&gt;:
+leveraging some special structure of graphs to optimize some specific operations.
+A good parallel can be established be with the &lt;code&gt;LinearAlgebra&lt;/code&gt; package from
+Julia Base, which defines special matrices such as &lt;code&gt;Diagonal&lt;/code&gt; and &lt;code&gt;Symmetric&lt;/code&gt;
+and &lt;code&gt;Adjoint&lt;/code&gt;, implementing the &lt;code&gt;AbstractMatrix&lt;/code&gt; interface but without storing
+all the entries.&lt;/p&gt;
+
+&lt;h2 id=&#34;a-basic-example&#34;&gt;A basic example&lt;/h2&gt;
+
+&lt;p&gt;Suppose you have a path graph or chain, this means any vertex is connected to
+its predecessor and successor only, except the first and last vertices.
+Such graph can be represented by a &lt;code&gt;LightGraphs.SimpleGraph&lt;/code&gt;:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; LightGraphs
+&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; LG &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LightGraphs
+
+g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;path_graph(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;)
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@assert&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g, v, v&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;# should not explode&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;This is all fine, but we are encoding in an adjacency list some structure that
+we are aware of from the beginning. If you are used to thinking in such way,
+&amp;ldquo;knowing it from the beginning&amp;rdquo; can be a hint that it can be encoded in terms
+of types and made zero-cost abstractions. The real only runtime information of
+a path graph (which is not available before receiving the actual graph) is its
+size $n$. The only thing to do is implement the handful of methods from the
+LightGraphs interface.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; PathGraph{T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Integer&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AbstractGraph{T}
+    nv&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edgetype(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Edge{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;PathGraph}) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edges(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Edge(i, i&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph, v)
+    LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g, v) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;[]
+    LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;[]
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; [&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; [LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; [v&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, v&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+LightGraphs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; outneighbors(g, v)
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; LightGraphs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph, v1, v2)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;has_vertex(g, v1) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;has_vertex(g, v2)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; abs(v1&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;v2) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;a-more-striking-example&#34;&gt;A more striking example&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;PathGraph&lt;/code&gt; may leave you skeptical as to the necessity of such machinery, and
+you are right. A more interesting example might be complete graphs. Again for
+these, the only required piece of information is the number of vertices,
+which is a lot lighter than storing all the possible edges. We can make a
+parallel with &lt;a href=&#34;https://github.com/JuliaArrays/FillArrays.jl&#34; target=&#34;_blank&#34;&gt;FillArrays.jl&lt;/a&gt;,
+implicitly representing the entries of a matrix.&lt;/p&gt;
+
+&lt;h3 id=&#34;use-cases&#34;&gt;Use cases&lt;/h3&gt;
+
+&lt;p&gt;The question of when to use a special-encoded graph is quite open.
+This type can be used with all functions assuming a graph-like behaviour, but
+is immutable, it is therefore not the most useful when you construct these
+special graphs as a starting point for an algorithm mutating them.&lt;/p&gt;
+
+&lt;h2 id=&#34;performance&#34;&gt;Performance&lt;/h2&gt;
+
+&lt;p&gt;As of now, simple benchmarks will show that the construction of special graphs
+is cheaper than the creation of the adjacency lists for &lt;code&gt;LightGraphs.SimpleGraph&lt;/code&gt;.
+Actually using them for &amp;ldquo;global&amp;rdquo; algorithms is another story:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; f(G, nv)
+    g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; G(nv)
+    pr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pagerank(g)
+    km &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; kruskal_mst(g)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (g, pr, km)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Trying to benchmark this function on &lt;code&gt;PathGraph&lt;/code&gt; shows it is way worse than
+the corresponding SimpleGraph structure, the &lt;code&gt;CompleteGraph&lt;/code&gt; implementation is
+about the same order of allocations and runtime as its list-y counterpart.&lt;/p&gt;
+
+&lt;p&gt;The suspect for the lack of speedup is the &lt;code&gt;edges&lt;/code&gt; operation, optimized with a custom edge
+iterator in LightGraphs and returning a heap-allocated &lt;code&gt;Array&lt;/code&gt; in SpecialGraphs
+for now. Taking performance seriously will requiring tackling this before
+anything else. Other opportunities for optimization may include returning
+&lt;a href=&#34;https://github.com/JuliaArrays/StaticArrays.jl/&#34; target=&#34;_blank&#34;&gt;StaticArrays&lt;/a&gt; and
+re-implementing optional methods such as &lt;code&gt;LightGraphs.adjacency_matrix&lt;/code&gt;
+using specialized matrix types.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion-and-further-reading&#34;&gt;Conclusion and further reading&lt;/h2&gt;
+
+&lt;p&gt;The work on these graph structures is happening in
+&lt;a href=&#34;https://github.com/JuliaGraphs/SpecialGraphs.jl&#34; target=&#34;_blank&#34;&gt;SpecialGraphs.jl&lt;/a&gt;, feel free
+to file issues and submit pull requests. Also check out the matrix-based
+graph prototype in &lt;a href=&#34;https://matbesancon.github.io/post/2018-08-17-abstract_graph/&#34; target=&#34;_blank&#34;&gt;this post&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Vertex removal in LightGraphs</title>

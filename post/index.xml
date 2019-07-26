@@ -12,6 +12,16 @@
     
     
     <item>
+      <title>Leveraging special graph shapes in LightGraphs</title>
+      <link>https://matbesancon.github.io/post/2019-07-25-special-graphs/</link>
+      <pubDate>Thu, 25 Jul 2019 18:14:43 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-07-25-special-graphs/</guid>
+      <description>In a previous post, we pushed the boundaries of the LightGraphs.jl abstraction to see how conforming the algorithms are to the declared interface, noticing some implied assumptions that were not stated. This has led to the development of VertexSafeGraphs.jl and soon to some work on LightGraphs.jl itself.
+Another way to push the abstraction came out of the JuliaNantes workshop: leveraging some special structure of graphs to optimize some specific operations.</description>
+    </item>
+    
+    <item>
       <title>Vertex removal in LightGraphs</title>
       <link>https://matbesancon.github.io/post/2019-05-30-vertex-safe-removal/</link>
       <pubDate>Thu, 30 May 2019 11:14:43 +0200</pubDate>
