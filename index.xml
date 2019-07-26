@@ -164,10 +164,9 @@ it can be used out of the box with all algorithms built on &lt;em&gt;LightGraphs
 The main concrete type presented by &lt;em&gt;LightGraphs.jl&lt;/em&gt; is &lt;code&gt;SimpleGraph&lt;/code&gt; and its
 directed counterpart &lt;code&gt;SimpleDiGraph&lt;/code&gt;, only storing edges as adjacency lists,
 meaning vertices are just the integers from 1 to the length of the list.
-This means that in a graph with 6 vertices, deleting vertex 4 will put vertex 5
-in its place, and 6 at the place of the 5th. Luckily, the interface should
-allow us to build a graph type on top of another graph, re-implementing only
-vertex removal.&lt;/p&gt;
+This means that in a graph with 6 vertices, deleting vertex 4 will re-label vertex 6
+as 4. Hopefully, the interface should allow us to build a graph type on top of another graph,
+re-implementing only vertex removal.&lt;/p&gt;
 
 &lt;h2 id=&#34;a-simple-vertex-safe-implementation&#34;&gt;A simple vertex-safe implementation&lt;/h2&gt;
 
@@ -362,6 +361,12 @@ interface more explicit. By keeping the two functions, we avoid having to use
 &lt;p&gt;I have corrected various functions following Pankaj&amp;rsquo;s much needed
 &lt;a href=&#34;https://github.com/matbesancon/VertexSafeGraphs.jl/pull/2&#34; target=&#34;_blank&#34;&gt;Pull Request&lt;/a&gt;
 on the corresponding repository, thank!&lt;/p&gt;
+
+&lt;h2 id=&#34;edit-3&#34;&gt;Edit 3&lt;/h2&gt;
+
+&lt;p&gt;Seth Bromberger spotted an error in my assumptions,
+We use swap-and-pop is used for vertex removal, so the last
+vertex will take the place of the removed one in the re-labelling.&lt;/p&gt;
 </description>
     </item>
     
