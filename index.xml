@@ -143,6 +143,21 @@ graph prototype in &lt;a href=&#34;https://matbesancon.github.io/post/2018-08-17
     </item>
     
     <item>
+      <title>LightGraphs, structure, abstractions and algorithms</title>
+      <link>https://matbesancon.github.io/talk/optimization_nantes/</link>
+      <pubDate>Mon, 24 Jun 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/talk/optimization_nantes/</guid>
+      <description>&lt;p&gt;LightGraphs has become the central package for working with graphs in Julia,
+exposing an interface for both directed and undirected graphs, a concrete and
+simple implementation of this interface and a set of essential graph algorithms.
+After a quick tour of the package features, we will show how algorithms
+developed using the interface work with different graph types, and how to
+develop our own specialized graph type as a user.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Vertex removal in LightGraphs</title>
       <link>https://matbesancon.github.io/post/2019-05-30-vertex-safe-removal/</link>
       <pubDate>Thu, 30 May 2019 11:14:43 +0200</pubDate>
@@ -2410,15 +2425,6 @@ universities and &lt;a href=&#34;https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9
       <guid>https://matbesancon.github.io/project/tlou/</guid>
       <description>&lt;p&gt;The pre-print of the presented work can be found on &lt;a href=&#34;https://arxiv.org/abs/1809.00512&#34; target=&#34;_blank&#34;&gt;arXiv&lt;/a&gt;.
 The manuscript has also been submitted and should be published in the coming months.&lt;/p&gt;
-
-&lt;p&gt;This project was presented at several conferences, including:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Optimization days, Montréal, May 2018&lt;/li&gt;
-&lt;li&gt;NSERC Energy Storage Technology Network (NEST-Net) annual meeting, Toronto, June 2018.
-It was under the network&amp;rsquo;s project &lt;em&gt;Optimal Brokerage Models for the Grid Integration of Energy Storage&lt;/em&gt;.&lt;/li&gt;
-&lt;li&gt;JuliaCon, London, August 2018 (poster)&lt;/li&gt;
-&lt;/ul&gt;
 
 &lt;p&gt;An open-source Julia package has been released
 &lt;a href=&#34;https://github.com/matbesancon/TLOU.jl&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for other researchers to

@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>LightGraphs, structure, abstractions and algorithms</title>
+      <link>https://matbesancon.github.io/talk/optimization_nantes/</link>
+      <pubDate>Mon, 24 Jun 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/talk/optimization_nantes/</guid>
+      <description>LightGraphs has become the central package for working with graphs in Julia, exposing an interface for both directed and undirected graphs, a concrete and simple implementation of this interface and a set of essential graph algorithms. After a quick tour of the package features, we will show how algorithms developed using the interface work with different graph types, and how to develop our own specialized graph type as a user.</description>
+    </item>
+    
+    <item>
       <title>Introduction to Julia and its ecosystems for optimization and modeling</title>
       <link>https://matbesancon.github.io/talk/julia_opt_workshop/</link>
       <pubDate>Wed, 21 Nov 2018 00:00:00 +0100</pubDate>
