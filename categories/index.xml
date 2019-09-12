@@ -4,11 +4,11 @@
     <title>Categories on μβ</title>
     <link>https://matbesancon.github.io/categories/</link>
     <description>Recent content in Categories on μβ</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
     
-	<atom:link href="https://matbesancon.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+	    <atom:link href="https://matbesancon.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

@@ -4,12 +4,12 @@
     <title>golang on μβ</title>
     <link>https://matbesancon.github.io/tags/golang/</link>
     <description>Recent content in golang on μβ</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
     <lastBuildDate>Thu, 19 Oct 2017 00:00:00 +0200</lastBuildDate>
     
-	<atom:link href="https://matbesancon.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+	    <atom:link href="https://matbesancon.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,8 +18,140 @@
       <pubDate>Thu, 19 Oct 2017 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</guid>
-      <description>Switching from data scientist to graduate student is not
-only a variation in tasks, but also in success criteria and work flow</description>
+      <description>
+
+&lt;p&gt;The start of my journey as a PhD student last September was a big step, but
+also an opportunity to review and improve my working habits. My day time
+had to be used properly, both for results&amp;rsquo; sake and to be able to keep
+a balanced life.&lt;/p&gt;
+
+&lt;p&gt;I had been introduced to the &lt;a href=&#34;https://en.wikipedia.org/wiki/Pomodoro_Technique&#34; target=&#34;_blank&#34;&gt;Pomodoro technique&lt;/a&gt;
+at Equisense (thanks &lt;a href=&#34;https://twitter.com/CamilleSaute&#34; target=&#34;_blank&#34;&gt;Camille&lt;/a&gt;!) but
+remained skeptical as for its potential value within my work
+flow at the time.&lt;/p&gt;
+
+&lt;p&gt;To make it short, the technique consists in the following steps:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Decide what task should be worked on.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Allocate a given time to work (around 25 minutes)&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Set a timer and get to work&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;When the time is up, make a short pause (~5 minutes), then repeat&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;After 4 work sprints, take a longer break (~15-30 minutes)&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;what-was-wrong-with-that&#34;&gt;What was wrong with that?&lt;/h2&gt;
+
+&lt;p&gt;The development, test and operation phases were generally self-determining
+and lead to sprints from 20 to 120 minutes (that length isn&amp;rsquo;t surprising
+for some tasks and when highly focused). These were also often
+interrupted by team interactions (required concertation with members
+of the tech and product team, backend-specific collaborative
+problem-solving, &amp;hellip;). The main point was that
+&lt;strong&gt;there are enough spontaneous interruptions of the work flow, no need to introduce an additional artificial one&lt;/strong&gt;.
+As I look back, I still think this was a valid reason
+not to use this technique.&lt;/p&gt;
+
+&lt;h2 id=&#34;what-has-changed&#34;&gt;What has changed?&lt;/h2&gt;
+
+&lt;p&gt;Time management as a grad student has to be un- and re-learned:
+rules are different, criteria for success change and so on.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/tomate/phd_time.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Time management seen by PhD comics [2]&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;problem-structure-programming-at-a-startup-vs-applied-math&#34;&gt;Problem structure: programming at a startup vs. applied math&lt;/h3&gt;
+
+&lt;p&gt;In my case, the major part of the workload switched from an
+implementation-heavy to a modeling-heavy context. As such,
+the work phases tend to be longer and with an heavier
+cognitive load. I am not saying that programming is
+easier, but I&amp;rsquo;m pretty sure mathematics almost always
+requires to keep more information in mind while working
+on a problem. Another opinion is that the part of
+instinct to find a path towards a solution is higher
+in mathematics.&lt;/p&gt;
+
+&lt;p&gt;While programming, there are some key techniques that
+reduce the number of possible sources to a problem:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Getting information on the state of the program at a given point (logging, debugging, printing to &lt;code&gt;stdout&lt;/code&gt;)&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;Testing the behavior of an isolated piece of the program with given input&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;These techniques also work for scientific computing of course, but are
+harder to apply to both modeling and symbolic calculus, the different
+pieces of the problem have to be combined to find special structures
+which allow for a resolution. More solutions also tend to come
+while NOT looking at mathematical problem than for programming
+problems, where solutions come either in front of the code or when
+voluntarily thinking of the problem.&lt;/p&gt;
+
+&lt;h3 id=&#34;team-dependent-work-vs-figure-it-out-for-yourself&#34;&gt;Team-dependent work vs. figure it out for yourself&lt;/h3&gt;
+
+&lt;p&gt;Most startups obviously value team work, it is one of the
+group skills that differentiate companies building great
+things from the ones stuck in an eternal early stage.
+This was even more true at Equisense where collaboration
+and product development were both very synchronous by
+modern standards. It had cons but ease two things:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Speed of product development&lt;/strong&gt;. Lots of team under-estimate post-development coordination, the last meters of the sprint to have a feature ready&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Programming by constraints&lt;/strong&gt;. Because of fast interactions between the people responsible for the different components, constraints from each one is quickly communicated and the modeling process is defined accounting for them right away.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now in research, especially in applied mathematics, the work is
+mostly independent, synchronization happens when working
+on a joined project for instance. This means that all the
+interruptions that were happening throughout the day are
+now gone!
+&lt;strong&gt;Nothing would stop you from working day and night without a break&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Two key results of this change of work style are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Work sprints are not naturally bound anymore, obviously with decreasing efficiency&lt;/li&gt;
+&lt;li&gt;Few to no interactions interrupt the sprints either&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;My conclusion was the necessity of a time management technique
+and associated tools, with a low cognitive overhead and bringing
+as little distraction as possible.&lt;/p&gt;
+
+&lt;p&gt;From these criteria, I rejected a mobile app,
+smartphones are great to bring different sources
+of information and communication channels together,
+not for remaining focused for hours,
+&lt;strong&gt;mobile apps are designed to catch and retain attention&lt;/strong&gt;,
+that&amp;rsquo;s simply part of their business model. I also rejected
+web-based solutions for the constraint of firing up
+a browser, amongst the heaviest pieces of software on our
+modern desktops, just to start a working session.&lt;/p&gt;
+
+&lt;p&gt;So desktop GUI or CLI it is. Even though there is the
+&lt;a href=&#34;http://gnomepomodoro.org/&#34; target=&#34;_blank&#34;&gt;gnomepomodoro project&lt;/a&gt;, it did not seem compatible with all
+Linux desktops. At that point, I realized the amount of
+work to build a Pomodoro was low, the requirements and
+constraints well known, I throw ideas
+together and start coding.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ll explain the initial development and iterations of
+the app in Go in a second article, if you liked this one,
+let me know!&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Sources and images:&lt;br /&gt;
+&lt;a href=&#34;https://pixabay.com/en/tomatoes-vegetables-red-delicious-73913&#34; target=&#34;_blank&#34;&gt;1&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://substance-en.etsmtl.ca/wp-content/uploads/2014/09/2.gif&#34; target=&#34;_blank&#34;&gt;2&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -28,7 +160,10 @@ only a variation in tasks, but also in success criteria and work flow</descripti
       <pubDate>Thu, 06 Jul 2017 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/talk/golang_talk_lille/</guid>
-      <description>This talk was part of a second meetup introducing Golang use cases to Lille tech community. The slides (in French) can be found here.</description>
+      <description>&lt;p&gt;This talk was part of a second meetup introducing Golang use cases
+to Lille tech community. The slides (in French) can be found
+&lt;a href=&#34;https://go-talks.appspot.com/github.com/matbesancon/golang-talk/talk.slide#1&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

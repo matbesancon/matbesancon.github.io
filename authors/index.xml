@@ -4,11 +4,11 @@
     <title>Authors on μβ</title>
     <link>https://matbesancon.github.io/authors/</link>
     <description>Recent content in Authors on μβ</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
     
-	<atom:link href="https://matbesancon.github.io/authors/index.xml" rel="self" type="application/rss+xml" />
+	    <atom:link href="https://matbesancon.github.io/authors/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -17,7 +17,25 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/authors/admin/</guid>
-      <description>I&amp;rsquo;m a PhD candidate in a double program (cotutelle) between École Polytechnique of Montréal, at the GERAD lab and Centrale Lille, at INRIA &amp;amp; the Cristal lab, in mathematical optimization for smart grids. I especially focus on bilevel optimization problems and pricing for demand response. Other fields of interest include non-linear optimization &amp;amp; applications in engineering, integer optimization &amp;amp; decompositions, game theory and statistical learning. Before that I worked in various industries, from an IoT startup to steel manufacturing.</description>
+      <description>&lt;p&gt;I&amp;rsquo;m a PhD candidate in a double program (&lt;em&gt;cotutelle&lt;/em&gt;) between
+&lt;a href=&#34;https://www.polymtl.ca&#34; target=&#34;_blank&#34;&gt;École Polytechnique of Montréal&lt;/a&gt;,
+at the &lt;a href=&#34;https://www.gerad.ca/en/&#34; target=&#34;_blank&#34;&gt;GERAD lab&lt;/a&gt; and
+Centrale Lille, at &lt;a href=&#34;https://team.inria.fr/inocs&#34; target=&#34;_blank&#34;&gt;INRIA&lt;/a&gt;
+&amp;amp; the &lt;a href=&#34;https://www.cristal.univ-lille.fr/?lang=en&#34; target=&#34;_blank&#34;&gt;Cristal&lt;/a&gt; lab,
+in mathematical optimization for smart grids.
+I especially focus on bilevel optimization problems and
+pricing for demand response. Other fields of interest include
+non-linear optimization &amp;amp; applications in engineering,
+integer optimization &amp;amp; decompositions, game theory and statistical learning.
+Before that I worked in various industries, from an IoT startup to steel
+manufacturing. I did my joint Bachelor-Master in Process Engineering at
+the &lt;a href=&#34;https://www.utc.fr&#34; target=&#34;_blank&#34;&gt;UTC&lt;/a&gt; with a semester at
+the &lt;a href=&#34;https://www.tu-braunschweig.de/?lang=en&#34; target=&#34;_blank&#34;&gt;TUBS&lt;/a&gt;.
+On a personal note, I read non-fictions, generally on economic policy, strategy
+and entrepreneurship, and enjoy games in various formats (tabletop, video, board, card).&lt;/p&gt;
+
+&lt;p&gt;My academic CV is available upon request.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

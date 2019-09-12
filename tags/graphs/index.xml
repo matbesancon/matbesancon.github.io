@@ -4,13 +4,384 @@
     <title>graphs on μβ</title>
     <link>https://matbesancon.github.io/tags/graphs/</link>
     <description>Recent content in graphs on μβ</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Thu, 25 Jul 2019 18:14:43 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 12 Sep 2019 00:00:00 +0200</lastBuildDate>
     
-	<atom:link href="https://matbesancon.github.io/tags/graphs/index.xml" rel="self" type="application/rss+xml" />
+	    <atom:link href="https://matbesancon.github.io/tags/graphs/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Bridges as an extended dispatch system</title>
+      <link>https://matbesancon.github.io/post/2019-09-12-bridging-indicator/</link>
+      <pubDate>Thu, 12 Sep 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-09-12-bridging-indicator/</guid>
+      <description>
+
+&lt;hr /&gt;
+
+&lt;p&gt;The progress of mathematical optimization as a domain has been tightly
+coupled with the development and improvement of computational methods and
+their implementations as computer programs. As observed in the recent
+MIPLIB compilation article &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;, the
+quantification of method performance in optimization cannot really be
+split from the experimental settings.&lt;/p&gt;
+
+&lt;p&gt;Different methods and implementations manipulate different data
+structures to represent the same optimization problem.
+Reformulating optimization problems has often been the role and responsibility
+of the practitionner, transforming the application problem at hand to fit a
+standard form that a given solver accepts as input for a solution method.
+Mapping a user-facing representation of an object into an internal
+representation is the role and description of compilers. For mathematical
+optimization specifically, &lt;strong&gt;Algebraic Modelling Languages&lt;/strong&gt; (AML) are domain-specific
+languages (and often an associated compiler and runtime) turning a user-specified
+code into data structures passed to solvers.&lt;/p&gt;
+
+&lt;p&gt;We will focus in this post on &lt;a href=&#34;https://github.com/JuliaOpt/MathOptInterface.jl&#34; target=&#34;_blank&#34;&gt;MathOptInterface.jl&lt;/a&gt;
+(&lt;strong&gt;MOI&lt;/strong&gt;) which acts as a second layer of the compilation phase of an AML.
+The main direct user-facing language for this is &lt;a href=&#34;https://github.com/JuliaOpt/JuMP.jl&#34; target=&#34;_blank&#34;&gt;JuMP&lt;/a&gt;,
+which has already been covered in multiple formats &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;.
+The problem has been read from the user code but not reformulated yet.
+In compiler terms, MOI appears after the parsing phase: the user code has been
+reckognized and transformed into corresponding internal structures.&lt;/p&gt;
+
+&lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Multiple dispatch is the specialization of code depending on the arity and type
+of arguments. When multiple definitions (methods) exist for a function, the types
+of the different arguments are used to determine which definition is compatible.
+If several definitions are compatible, the most specific with respect to the
+position in the type hierarchy is selected. If several definitions are compatible
+without a total ordering by specificity, the method call is ambiguous, which raises an error.
+More information on the dispatch system in Julia can be found
+&lt;a href=&#34;https://doi.org/10.1137/141000671&#34; target=&#34;_blank&#34;&gt;in the seminal article&lt;/a&gt; and the recent talk on
+&lt;a href=&#34;https://www.youtube.com/watch?v=kc9HwsxE1OY&#34; target=&#34;_blank&#34;&gt;multiple dispatch&lt;/a&gt;.
+See the following examples for the basic syntax:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;f(x) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# same as f(x::Any) = 3&lt;/span&gt;
+f(x&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;x
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# dispatch on arity&lt;/span&gt;
+f(x, y) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# defining and dispatching on a custom type&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; X
+  value&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+f(x&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;X) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;value&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1 id=&#34;re-formulating-problems-using-multiple-dispatch&#34;&gt;Re-formulating problems using multiple dispatch&lt;/h1&gt;
+
+&lt;p&gt;In this section, we will consider the reformulation of problems
+using multiple dispatch. In a generic form, an optimization problem can be
+written as:&lt;/p&gt;
+
+&lt;p&gt;$$\min_{x} f(x) \\ \text{s.t.}\\ \,\,\,F_i(x) \in S_i \,\,\, \forall i$$&lt;/p&gt;
+
+&lt;h2 id=&#34;the-example-of-linear-constraints&#34;&gt;The example of linear constraints&lt;/h2&gt;
+
+&lt;p&gt;We will build a reformulation system leveraging multiple dispatch.
+Assuming the user code is already parsed, the problem input can be represented
+as function-set pairs $(F_i, S_i)$. If we restrict this to individual linear
+constraints, all functions are of the form:
+$$ F_i(x) = a_i^T x $$&lt;/p&gt;
+
+&lt;p&gt;The three types of sets are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;LessThan(b)&lt;/code&gt;: $ y \in S_i \Leftrightarrow y \leq b $&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;GreaterThan(b)&lt;/code&gt;: $ y \in S_i \Leftrightarrow y \geq b $&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EqualTo(b)&lt;/code&gt;: $ y \in S_i \Leftrightarrow y = b $&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; ConstraintSet &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; LessThan{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; ConstraintSet
+    b&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; GreaterThan{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; ConstraintSet
+    b&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; EqualTo{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; ConstraintSet
+    b&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; ScalarFunction &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; ScalarAffineFunction{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; ScalarFunction
+    a&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{T}
+    x&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{VariableIndex}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now that the fundamental structures are there, let us think of a solver based
+on the simplex method, accepting only less-or-equal linear constraints.
+We will assume a &lt;code&gt;Model&lt;/code&gt; type has been defined, which supports a function
+&lt;code&gt;add_constraint!(m::Model, f::F, s::S)&lt;/code&gt;, which adds a constraint of type &lt;code&gt;F in S&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; add_constraint!(m&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Model, f&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;ScalarAffineFunction, s&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;LessThan)
+    pass_to_solver(m&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;solver_pointer, f, s)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; add_constraint!(m&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Model, f&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;ScalarAffineFunction{T}, s&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;GreaterThan{T}) where {T}
+    &lt;span style=&#34;color:#75715e&#34;&gt;# a^T x &amp;gt;= b &amp;lt;=&amp;gt; -a^T x &amp;lt;= b&lt;/span&gt;
+    leq_set &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LessThan{T}(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;b)
+    leq_function &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ScalarAffineFunction(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;f&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;a, f&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;x)
+    add_constraint!(m, leq_function, leq_set)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; add_constraint!(m&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Model, f&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;ScalarAffineFunction, s&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;EqualTo)
+    &lt;span style=&#34;color:#75715e&#34;&gt;# a^T x == b &amp;lt;=&amp;gt; a^T x &amp;lt;= b &amp;amp;&amp;amp; a^T x &amp;gt;= b&lt;/span&gt;
+    leq_set &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LessThan(s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;b)
+    geq_set &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LessThan(s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;b)
+    leq_function &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; copy(f)
+    geq_function &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; copy(f)
+    add_constraint!(m, leq_function, leq_set)
+    add_constraint!(m, geq_function, geq_set)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The dispatching rules of that program are determined statically
+and define the sequence of method calls:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;graph TD;
+    E[EqualTo] --&amp;gt; G[GreaterThan];
+    E[EqualTo] --&amp;gt; L[LessThan];
+    G[GreaterThan] --&amp;gt; L[LessThan];
+    L[LessThan] --&amp;gt; S[Solver];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/bridges/diagram1.svg&#34; style=&#34;width:40%;&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;At each call site, exactly one method is determined to be the appropriate
+one to use by the dispatch mechanism.&lt;/p&gt;
+
+&lt;h2 id=&#34;unique-dispatch-and-multiple-solvers&#34;&gt;Unique dispatch and multiple solvers&lt;/h2&gt;
+
+&lt;p&gt;Let us now consider that another solver is integrated into our dispatch-based
+optimization framework, but supporting only &lt;code&gt;GreaterThan&lt;/code&gt; constraints.
+The new method call diagram is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;graph TD;
+    E[EqualTo] --&amp;gt; G[GreaterThan];
+    E[EqualTo] --&amp;gt; L[LessThan];
+    L[LessThan] --&amp;gt; G[GreaterThan];
+    G[GreaterThan] --&amp;gt; S[Solver];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/bridges/diagram2.svg&#34; style=&#34;width:40%;&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;Considering that we wish to define one reformulation graph for all solvers,
+two possibilities occur:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Which path should be used is encoded in types.&lt;/li&gt;
+&lt;li&gt;The method called from a given node depends on runtime parameters.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The first option could sound more efficient, but as the number of nodes, arcs
+and solvers grow, compilation is rendered impossible, as one would have to
+recompute complete programs based on the addition of solvers or reformulations.
+The second option requires tools other than dispatch, since this mechanism
+uses precisely the types to determine the method. It is to tackle this problem
+of reformulating problems in graph above that the bridge system was developed
+in MOI.&lt;/p&gt;
+
+&lt;h1 id=&#34;the-bridge-system&#34;&gt;The bridge system&lt;/h1&gt;
+
+&lt;p&gt;The bridge system emerged as a solution to tackle the rapidly-growing
+number of supported functions, sets and constraints as function-set pairs.
+A bridge is the instantiation in the reformulation system of an arc in
+the diagram presented above. It is defined by:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The type of constraint it is replacing, represented by its function-set pair $(F_0, S_0)$.&lt;/li&gt;
+&lt;li&gt;The type of constraints which must be supported for the reformulation, as a collection of function-set pairs $[(F_i, S_i)]$.&lt;/li&gt;
+&lt;li&gt;The reformulation method itself which takes the initial constraint, creates the necessary variables and constraints and adds them to the model. In a Haskell-like notation, the declarative part of the bridge can be modelled with the following signature:
+$$ ([x_0], F_0, S_0) \rightarrow ([x_1], [(F_i,S_i)]) $$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;where $[x_0]$ is a collection of variables used by the initial constraint,
+$[x_1]$ is the collection of newly created variables, and the $(F_i,S_i)$ are the newly created constraints.&lt;/p&gt;
+
+&lt;h2 id=&#34;bridge-implementation&#34;&gt;Bridge implementation&lt;/h2&gt;
+
+&lt;p&gt;The bridge definition and most implementations live in the &lt;code&gt;MathOptInterface.Bridges&lt;/code&gt; module.
+It consists of an abstract type &lt;code&gt;AbstractBridge&lt;/code&gt; and some functions that bridges must implement.&lt;/p&gt;
+
+&lt;p&gt;We will see the greatly reduced example of a bridge type &lt;code&gt;MyBridge&lt;/code&gt; adding support for two types
+of constraints. The following code declares &lt;em&gt;what&lt;/em&gt; the bridge does:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; AbstractBridge &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; MyBridge1 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; AbstractBridge &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; MyBridge2 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; AbstractBridge &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;By default, bridges do not support a constraint `F-in-S`
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;supports_constraint(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;AbstractBridge}, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{F}, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{S}) where {F, S}
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;MyBridge1 supports `F1 in S1`
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt; 
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;supports_constraint(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{MyBridge1}, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{F1}, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{S1})
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;MyBridge2 supports `F2 in S2`
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;supports_constraint(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{MyBridge2{F2,S2}}, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{F2}, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{S2})
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Bridging a `F1 in S1` with `MyBridge1` requires creating constraints of type `F3 in S3` and `F3 in S4`
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+added_constraint_types(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{MyBridge1})
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; [(F3, S3), (F3, S4)]
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Bridging a `F2 in S2` with `MyBridge2` requires creating constraints of type `F3 in S3`
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+added_constraint_types(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{MyBridge2})
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; [(F3, S3)]
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;What these method implementations delcare is the following structure:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;graph LR;
+    F1[F1 in S1] -- B1 --&amp;gt; F33[F3 in S3];
+    F1[F1 in S1] -- B1 --&amp;gt; F34[F3 in S4];
+    F2[F2 in S2] -- B2 --&amp;gt; F33[F3 in S3];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/bridges/diagram3.svg&#34; style=&#34;width:40%;&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;Unlike dispatch, multiple possible bridges can be defined for a given constraint $F_1 \in S_1$.
+In optimization, this corresponds to multiple possible reformulations of a given constraint.&lt;/p&gt;
+
+&lt;p&gt;Now that the bridges behaviour have been defined, their implementation have to be given,
+again in a trimmed version of the real MOI code:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; bridge_constraint(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{MyBridge1}, model&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ModelLike, f&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;F1, s&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;S1)
+    (f3, s3) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; transform_constraint_first_component(f, s)
+    s4 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; transform_constraint_second_set(f, s)
+    new_constraint3 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_constraint(model, f3, s3)
+    new_constraint4 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_constraint(model, f3, s4)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; MyBridge1(new_constraint3, new_constraint4)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; bridge_constraint(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{MyBridge2}, model&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ModelLike, f&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;F2, s&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;S2)
+    (f3, s3) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; transform_constraint_first_component(f, s)
+    new_constraint3 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_constraint(model, f3, s3)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; MyBridge2(new_constraint3)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Finally, the graph is for the moment split across different bridges.
+The multiple dispatch mechanism uses a &lt;a href=&#34;https://pkg.julialang.org/docs/julia/THl1k/1.1.1/devdocs/functions.html&#34; target=&#34;_blank&#34;&gt;method table&lt;/a&gt;,
+the bridge system uses a bridge optimizer which stores all bridges and
+thus contains the necessary information to convert a constraint to a supported form.&lt;/p&gt;
+
+&lt;h2 id=&#34;problem-reformulation-heuristics&#34;&gt;Problem reformulation heuristics&lt;/h2&gt;
+
+&lt;p&gt;A bridge optimizer takes a given problem, a solver and the set of bridges,
+all of which representable in a single hyper-graph, a graph with possibly
+multiple edges between two given nodes.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/bridges/Problem1.svg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;$P$ represents the initial problem, pointing to the constraints it contains.
+There is an edge from $C_i$ to $C_j$ for each bridge reformulating $C_i$
+using at least a $C_j$ constraint. A constraint $C_i$ points to $S$ if the solver
+natively supports the constraint.&lt;/p&gt;
+
+&lt;p&gt;Some bridges require defining multiple new constraints. That is the case of $B_5$
+reformulating $C_6$ using $C_3$ and $C_4$. On the contrary, $C_3$ can be re-formulated
+either in $C_2$ using $B_2$ or in $C_4$ using $B_3$. In this setting, reformulating
+it in $C_2$ is appropriate, but may change depending on the solver.
+A potential large number of bridges could be introduced without being on any
+problem-solver path. For instance, there will likely be no semi-definite cone
+constraint when the problem at hand is linear, and $S$ a simplex-based solver.
+Without reasoning on specific constraints, it is hard to picture which
+reformulation is efficient.&lt;/p&gt;
+
+&lt;p&gt;The current bridging decision is based on a shortest-path heuristic.
+One bridge is considered a distance one, and a shortest path from all
+user-facing constraints to all solver-compatible constraints is determined.
+More precisely, a &lt;a href=&#34;https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm&#34; target=&#34;_blank&#34;&gt;Bellman-Ford&lt;/a&gt;
+type shortest path is used.&lt;/p&gt;
+
+&lt;h1 id=&#34;perspective-conclusion&#34;&gt;Perspective &amp;amp; conclusion&lt;/h1&gt;
+
+&lt;p&gt;MathOptInterface.jl may be one of the greatest strength of the JuMP ecosystem:
+setting the abstractions right allows the developers to integrate more exotic
+constraint types in a consistent manner.
+Optimization practitionners do not limit themselves to linear and
+mixed-integer problems, following improvements in performance and variety
+of solvers, see &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; for the motivation and structure of MOI, and recent
+developments around it presented at JuliaCon 2019.
+The type-based &lt;code&gt;Function in Set&lt;/code&gt; structure keeps the underlying
+machinery familiar to both optimization scientists formulating problems in a close
+fashion and Julia programmers leveraging multiple dispatch.&lt;/p&gt;
+
+&lt;p&gt;Transforming optimization problems using the bridge system is transparent,
+leaving the option for advanced users to pick which paths are chosen
+in the hypergraph. In the scenario where MOI was not performing these operations,
+the two options are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Reformulations by the modelling language&lt;/strong&gt;: this may mean a systematic
+overhead cost of using the user-facing modelling language, especially if the used
+reformulation is not ideal for a specific problem. This also creates a barrier for
+other modelling languages to emerge, since a great deal of work has gone in
+reformulations of the user-input. The two-layer structure of JuMP + MOI has enabled
+different languages such as &lt;a href=&#34;https://github.com/tkoolen/Parametron.jl&#34; target=&#34;_blank&#34;&gt;Parametron.jl&lt;/a&gt;
+or &lt;a href=&#34;https://github.com/JuliaOpt/Convex.jl&#34; target=&#34;_blank&#34;&gt;Convex.jl&lt;/a&gt; to emerge, sharing the same
+solver interfaces and middle infrastructure. The monolithic modelling environments
+historically dominant in mathematical optimization may explain to some extent why
+a large part of the optimization literature is working with solver APIs directly,
+thus loosing any ability to switch solver later.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Reformulations by the solver&lt;/strong&gt;: this is currently done for a lot of constraints,
+without always being transparent on which reformulation is applied and what the
+end-model is. This can lead to surprising behaviour when switching solvers
+or passing a different formulation of the same problem, without having access
+to what happens under the hood in a black-box proprietary solver.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The MOI system thus helps present and future researchers to avoid the pitfalls of the
+&lt;em&gt;two-language problem&lt;/em&gt; of optimization.&lt;/p&gt;
+
+&lt;h2 id=&#34;further-resources&#34;&gt;Further resources&lt;/h2&gt;
+
+&lt;p&gt;The diagrams were designed using &lt;a href=&#34;https://mermaidjs.github.io&#34; target=&#34;_blank&#34;&gt;MermaidJS&lt;/a&gt; &amp;amp; &lt;a href=&#34;https://draw.io&#34; target=&#34;_blank&#34;&gt;draw.io&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;MIPLIB 2017: Data-Driven Compilation of the 6th Mixed-Integer Programming Library, Gleixner, Ambros and Achterberg, Tobias and Christophel, Philipp and Lübbecke, Marco and Ralphs, Ted K and Hendel, Gregor and Gamrath, Gerald and Bastubbe, Michael and Berthold, Timo and Jarck, Kati and others, 2019.
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:1&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;JuMP initial paper &lt;a href=&#34;https://doi.org/10.1137/15M1020575&#34; target=&#34;_blank&#34;&gt;https://doi.org/10.1137/15M1020575&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:2&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;JuMP tutorial at JuliaCon2018: &lt;a href=&#34;https://www.youtube.com/watch?v=7tzFRIiseJI&#34; target=&#34;_blank&#34;&gt;https://www.youtube.com/watch?v=7tzFRIiseJI&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:3&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;MathOptInterface, JuMP extensions and MOI-based solvers at JuliaCon2019: &lt;a href=&#34;https://www.youtube.com/watch?v=cTmqmPcroFo&#34; target=&#34;_blank&#34;&gt;https://www.youtube.com/watch?v=cTmqmPcroFo&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:4&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Leveraging special graph shapes in LightGraphs</title>
@@ -18,8 +389,128 @@
       <pubDate>Thu, 25 Jul 2019 18:14:43 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-07-25-special-graphs/</guid>
-      <description>In a previous post, we pushed the boundaries of the LightGraphs.jl abstraction to see how conforming the algorithms are to the declared interface, noticing some implied assumptions that were not stated. This has led to the development of VertexSafeGraphs.jl and soon to some work on LightGraphs.jl itself.
-Another way to push the abstraction came out of the JuliaNantes workshop: leveraging some special structure of graphs to optimize some specific operations.</description>
+      <description>
+
+&lt;p&gt;In a &lt;a href=&#34;https://matbesancon.github.io/post/2019-05-30-vertex-safe-removal/&#34; target=&#34;_blank&#34;&gt;previous post&lt;/a&gt;, we
+pushed the boundaries of the LightGraphs.jl abstraction to see how conforming the
+algorithms are to the declared interface, noticing some implied assumptions
+that were not stated. This has led to the development of
+&lt;a href=&#34;https://github.com/matbesancon/VertexSafeGraphs.jl&#34; target=&#34;_blank&#34;&gt;VertexSafeGraphs.jl&lt;/a&gt; and
+soon to some work on LightGraphs.jl itself.&lt;/p&gt;
+
+&lt;p&gt;Another way to push the abstraction came out of the
+&lt;a href=&#34;http://matbesancon.github.io/slides/JuliaNantes/Graphs&#34; target=&#34;_blank&#34;&gt;JuliaNantes workshop&lt;/a&gt;:
+leveraging some special structure of graphs to optimize some specific operations.
+A good parallel can be established be with the &lt;code&gt;LinearAlgebra&lt;/code&gt; package from
+Julia Base, which defines special matrices such as &lt;code&gt;Diagonal&lt;/code&gt; and &lt;code&gt;Symmetric&lt;/code&gt;
+and &lt;code&gt;Adjoint&lt;/code&gt;, implementing the &lt;code&gt;AbstractMatrix&lt;/code&gt; interface but without storing
+all the entries.&lt;/p&gt;
+
+&lt;h2 id=&#34;a-basic-example&#34;&gt;A basic example&lt;/h2&gt;
+
+&lt;p&gt;Suppose you have a path graph or chain, this means any vertex is connected to
+its predecessor and successor only, except the first and last vertices.
+Such graph can be represented by a &lt;code&gt;LightGraphs.SimpleGraph&lt;/code&gt;:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; LightGraphs
+&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; LG &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LightGraphs
+
+g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;path_graph(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;)
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@assert&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g, v, v&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;# should not explode&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;This is all fine, but we are encoding in an adjacency list some structure that
+we are aware of from the beginning. If you are used to thinking in such way,
+&amp;ldquo;knowing it from the beginning&amp;rdquo; can be a hint that it can be encoded in terms
+of types and made zero-cost abstractions. The real only runtime information of
+a path graph (which is not available before receiving the actual graph) is its
+size $n$. The only thing to do is implement the handful of methods from the
+LightGraphs interface.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; PathGraph{T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Integer&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AbstractGraph{T}
+    nv&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edgetype(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Edge{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;PathGraph}) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edges(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Edge(i, i&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph, v)
+    LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g, v) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;[]
+    LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;[]
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; [&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; [LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; [v&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, v&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+LightGraphs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; outneighbors(g, v)
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; LightGraphs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;PathGraph, v1, v2)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;has_vertex(g, v1) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;has_vertex(g, v2)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; abs(v1&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;v2) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;a-more-striking-example&#34;&gt;A more striking example&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;PathGraph&lt;/code&gt; may leave you skeptical as to the necessity of such machinery, and
+you are right. A more interesting example might be complete graphs. Again for
+these, the only required piece of information is the number of vertices,
+which is a lot lighter than storing all the possible edges. We can make a
+parallel with &lt;a href=&#34;https://github.com/JuliaArrays/FillArrays.jl&#34; target=&#34;_blank&#34;&gt;FillArrays.jl&lt;/a&gt;,
+implicitly representing the entries of a matrix.&lt;/p&gt;
+
+&lt;h3 id=&#34;use-cases&#34;&gt;Use cases&lt;/h3&gt;
+
+&lt;p&gt;The question of when to use a special-encoded graph is quite open.
+This type can be used with all functions assuming a graph-like behaviour, but
+is immutable, it is therefore not the most useful when you construct these
+special graphs as a starting point for an algorithm mutating them.&lt;/p&gt;
+
+&lt;h2 id=&#34;performance&#34;&gt;Performance&lt;/h2&gt;
+
+&lt;p&gt;As of now, simple benchmarks will show that the construction of special graphs
+is cheaper than the creation of the adjacency lists for &lt;code&gt;LightGraphs.SimpleGraph&lt;/code&gt;.
+Actually using them for &amp;ldquo;global&amp;rdquo; algorithms is another story:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; f(G, nv)
+    g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; G(nv)
+    pr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pagerank(g)
+    km &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; kruskal_mst(g)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (g, pr, km)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Trying to benchmark this function on &lt;code&gt;PathGraph&lt;/code&gt; shows it is way worse than
+the corresponding SimpleGraph structure, the &lt;code&gt;CompleteGraph&lt;/code&gt; implementation is
+about the same order of allocations and runtime as its list-y counterpart.&lt;/p&gt;
+
+&lt;p&gt;The suspect for the lack of speedup is the &lt;code&gt;edges&lt;/code&gt; operation, optimized with a custom edge
+iterator in LightGraphs and returning a heap-allocated &lt;code&gt;Array&lt;/code&gt; in SpecialGraphs
+for now. Taking performance seriously will requiring tackling this before
+anything else. Other opportunities for optimization may include returning
+&lt;a href=&#34;https://github.com/JuliaArrays/StaticArrays.jl/&#34; target=&#34;_blank&#34;&gt;StaticArrays&lt;/a&gt; and
+re-implementing optional methods such as &lt;code&gt;LightGraphs.adjacency_matrix&lt;/code&gt;
+using specialized matrix types.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion-and-further-reading&#34;&gt;Conclusion and further reading&lt;/h2&gt;
+
+&lt;p&gt;The work on these graph structures is happening in
+&lt;a href=&#34;https://github.com/JuliaGraphs/SpecialGraphs.jl&#34; target=&#34;_blank&#34;&gt;SpecialGraphs.jl&lt;/a&gt;, feel free
+to file issues and submit pull requests. Also check out the matrix-based
+graph prototype in &lt;a href=&#34;https://matbesancon.github.io/post/2018-08-17-abstract_graph/&#34; target=&#34;_blank&#34;&gt;this post&lt;/a&gt;.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -28,8 +519,226 @@ Another way to push the abstraction came out of the JuliaNantes workshop: levera
       <pubDate>Thu, 30 May 2019 11:14:43 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-05-30-vertex-safe-removal/</guid>
-      <description>In various graph-related algorithms, a graph is modified through successive operations, merging, creating and deleting vertices. That&amp;rsquo;s the case for the Blossom algorithm finding a best matching in a graph and using contractions of nodes. In such cases, it can be useful to remove only the vertex being contracted, and maintain the number of all other vertices.
-LightGraphs.jl offers a set of abstractions, types and algorithms to get started with graphs.</description>
+      <description>
+
+&lt;p&gt;In various graph-related algorithms, a graph is modified through successive
+operations, merging, creating and deleting vertices. That&amp;rsquo;s the case for the
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Blossom_algorithm&#34; target=&#34;_blank&#34;&gt;Blossom algorithm&lt;/a&gt; finding a
+best matching in a graph and using contractions of nodes.
+In such cases, it can be useful to remove only the vertex being contracted,
+and maintain the number of all other vertices.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;LightGraphs.jl&lt;/em&gt; offers a set of abstractions, types and algorithms to get started
+with graphs. The claim of the abstraction is simple: whatever the underlying
+structure representing your graph, if it implements the &lt;code&gt;AbstractGraph&lt;/code&gt; interface,
+it can be used out of the box with all algorithms built on &lt;em&gt;LightGraphs.jl&lt;/em&gt;.
+The main concrete type presented by &lt;em&gt;LightGraphs.jl&lt;/em&gt; is &lt;code&gt;SimpleGraph&lt;/code&gt; and its
+directed counterpart &lt;code&gt;SimpleDiGraph&lt;/code&gt;, only storing edges as adjacency lists,
+meaning vertices are just the integers from 1 to the length of the list.
+This means that in a graph with 6 vertices, deleting vertex 4 will re-label vertex 6
+as 4. Hopefully, the interface should allow us to build a graph type on top of another graph,
+re-implementing only vertex removal.&lt;/p&gt;
+
+&lt;h2 id=&#34;a-simple-vertex-safe-implementation&#34;&gt;A simple vertex-safe implementation&lt;/h2&gt;
+
+&lt;p&gt;First things first, we will build it as a struct, using LightGraphs:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; LightGraphs
+&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; LG &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LightGraphs
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; VSafeGraph{T, G&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AbstractGraph{T}, V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AbstractGraph{T}
+    g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;G
+    deleted_vertices&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;V
+    VSafeGraph(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;G, v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;V) where {T, G&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AbstractGraph{T}, V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; new{T, G, V}(g, v)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+VSafeGraph(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;G) where {G&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AbstractGraph} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(g, &lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}())
+VSafeGraph(nv&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Integer&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;SimpleGraph(nv))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We added simple default constructors for convenience. The structure holds two
+elements:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;An inner abstract graph &lt;code&gt;g&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;A list of vertices already deleted: &lt;code&gt;deleted_vertices&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The interface can now be implemented for our type, starting with the trivial
+parts:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edges(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edges(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edgetype(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edgetype(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;VSafeGraph{T,G}}) where {T,G} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(G)
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; length(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (v &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g) &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;(v &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices))
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v)
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;(v &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices)
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, e) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, e)
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+
+LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v1, v2) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v1, v2)
+
+Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;copy(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(copy(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g), copy(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleteed_vertices))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;For most of these, we only re-call the method on the inner graph type.
+Only for &lt;code&gt;LG.nv&lt;/code&gt;, which computes the number of vertices in the inner graph,
+minus the number of vertices in our removed list. Now the tricky parts,
+adding an edge and removing a vertex, which require a bit more verifications:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v1, v2)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g, v1) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g, v2)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v1, v2)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;VSafeGraph, v1)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g, v1) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; v1 &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v2 &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outneighbors(g, v1)
+        LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_edge!(g, v1, v2)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v2 &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inneighbors(g, v1)
+        LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_edge!(g, v2, v1)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    push!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices, v1)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Instead of removing the vertex &lt;code&gt;v1&lt;/code&gt; from the inner graph, the function removes
+all edges pointing to and from &lt;code&gt;v1&lt;/code&gt;, and then adds it to the removed list.&lt;/p&gt;
+
+&lt;h2 id=&#34;specific-and-generic-tests&#34;&gt;Specific and generic tests&lt;/h2&gt;
+
+&lt;p&gt;So far so good, we can add some basic tests to check our type behaves as
+expected:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@testset&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Graph construction and basic interface&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;
+    nv &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;
+    g1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(nv)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g1) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nv
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nv
+
+    g2_inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CompleteGraph(nv)
+    g2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(g2_inner)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g2) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g2_inner)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g2) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g2_inner)
+
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; all(sort(collect(LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g2))) &lt;span style=&#34;color:#f92672&#34;&gt;.==&lt;/span&gt; sort(collect(LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g2_inner))))
+
+    g3 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CompleteDiGraph(&lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;))
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g3)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g2)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#a6e22e&#34;&gt;@testset&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Vertex deletion&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;
+    Random&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;seed!(&lt;span style=&#34;color:#ae81ff&#34;&gt;33&lt;/span&gt;)
+    nv &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;45&lt;/span&gt;
+    inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CompleteGraph(nv)
+    g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(inner)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(inner) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(inner) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)
+    nrm &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; _ &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;
+        removed_ok &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_vertex!(g, rand(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;nv))
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;removed_ok
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;continue&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+        nrm &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(inner) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nv
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nv &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; nrm
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; length(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nrm
+
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(inner) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;So far so good. Now, with the promise of generic graphs and the AbstractGraph
+interface, we should be able to use &lt;strong&gt;any&lt;/strong&gt; algorithm in &lt;em&gt;LightGraphs.jl&lt;/em&gt;,
+let us try to compute a page rank and a Kruskal minimum spanning tree:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;nv &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;45&lt;/span&gt;
+inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CompleteGraph(nv)
+g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(inner)
+removed_ok &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_vertex!(g, rand(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;nv))
+&lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; removed_ok
+&lt;span style=&#34;color:#75715e&#34;&gt;# LG broken here&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;@test_throws&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BoundsError&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pagerank(g)
+&lt;span style=&#34;color:#a6e22e&#34;&gt;@test_throws&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BoundsError&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kruskal_mst(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Yikes, what&amp;rsquo;s happening here? Many parts of &lt;em&gt;LightGraphs.jl&lt;/em&gt; use vertices computed
+from &lt;code&gt;vertices(g)&lt;/code&gt;as indices for structures indexed by them. So if you remove
+vertex 4 in a 6-vertex graph, vertices will be &lt;code&gt;{1,2,3,5,6}&lt;/code&gt;, and the rank
+algorithm will try to access the 6th rank, even though only 5 exist.&lt;/p&gt;
+
+&lt;h2 id=&#34;fixes-and-proposal&#34;&gt;Fixes and proposal&lt;/h2&gt;
+
+&lt;p&gt;It would be too bad to throw the interface altogether, but we need to do
+something for the broken behaviour. The underlying assumption here is that
+vertices behave like indices for anything vertex-related.
+So the way we implement this interface for &lt;code&gt;VSafeGraph&lt;/code&gt; is correct, but the
+implicit contract is not, the way it is used in algorithms such as pagerank
+and Kruskal leak the underlying implementation for &lt;code&gt;SimpleGraph&lt;/code&gt;:
+a contiguous list of integers from 1 to the number of vertices.
+It reminds me of this &lt;a href=&#34;https://youtu.be/MdTTt5v-HWQ?t=692&#34; target=&#34;_blank&#34;&gt;great talk&lt;/a&gt;
+on paying attention to the contract of an interface in Go, the type is telling
+you what to expect in and out, but not how it is supposed or will be used.&lt;/p&gt;
+
+&lt;p&gt;The first fix is to make &lt;code&gt;vertices&lt;/code&gt; return &lt;code&gt;1:nv(g)&lt;/code&gt; for VSafeGraph, but if you
+think about it, it means it needs to do such with any graph type, which means
+the &lt;code&gt;vertices&lt;/code&gt; function is redundant with other functions of the interface and
+should not be mandatory. The other option is to fix breaking code to really
+use the interface signalled and documented and not the leaked implementation.&lt;/p&gt;
+
+&lt;p&gt;We still have some good news though:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Changing the code here is strictly non-breaking, since we would just remove
+the assumption that vertices are indices.&lt;/li&gt;
+&lt;li&gt;If we want to keep this assumption for some pieces of code, it means these
+pieces are not generic but specialized, something we can handle well using either
+dispatch on types or traits, which &lt;em&gt;LightGraphs.jl&lt;/em&gt; already does. There is a &lt;code&gt;IsDirected&lt;/code&gt;
+trait associated with the fact that a graph is directed or not, there could also
+be a &lt;code&gt;HasContiguousVertices&lt;/code&gt; trait signalling whether this assumption is validated
+for a type.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;edit-refined-proposal&#34;&gt;Edit: refined proposal&lt;/h2&gt;
+
+&lt;p&gt;Following some discussions with fellow &lt;em&gt;LightGraphs.jl&lt;/em&gt; developers and users, a
+softer transition could be:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Add the functions &lt;code&gt;vertex_indices(g)&lt;/code&gt; and &lt;code&gt;vertex_values(g)&lt;/code&gt; to the interface, &lt;code&gt;vertex_values&lt;/code&gt; could default to &lt;code&gt;vertex_indices&lt;/code&gt;, which could itself default on &lt;code&gt;1:nv(g)&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Deprecate &lt;code&gt;vertices(g)&lt;/code&gt;, with a fallback to &lt;code&gt;vertex_indices&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Replace all calls to &lt;code&gt;vertex&lt;/code&gt; with either &lt;code&gt;vertex_indices&lt;/code&gt; or &lt;code&gt;vertex_values&lt;/code&gt; depending on which makes sense for the use case.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This change is non-breaking and only deprecating &lt;code&gt;vertices&lt;/code&gt;, making the
+interface more explicit. By keeping the two functions, we avoid having to use
+&lt;code&gt;enumerate(vertices_values(g))&lt;/code&gt; every time we need indices.&lt;/p&gt;
+
+&lt;h2 id=&#34;edit-2-corrections-to-the-functions&#34;&gt;Edit 2: Corrections to the functions&lt;/h2&gt;
+
+&lt;p&gt;I have corrected various functions following Pankaj&amp;rsquo;s much needed
+&lt;a href=&#34;https://github.com/matbesancon/VertexSafeGraphs.jl/pull/2&#34; target=&#34;_blank&#34;&gt;Pull Request&lt;/a&gt;
+on the corresponding repository, thank!&lt;/p&gt;
+
+&lt;h2 id=&#34;edit-3&#34;&gt;Edit 3&lt;/h2&gt;
+
+&lt;p&gt;Seth Bromberger spotted an error in my assumptions,
+We use swap-and-pop is used for vertex removal, so the last
+vertex will take the place of the removed one in the re-labelling.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

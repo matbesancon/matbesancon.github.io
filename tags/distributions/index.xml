@@ -4,12 +4,12 @@
     <title>distributions on μβ</title>
     <link>https://matbesancon.github.io/tags/distributions/</link>
     <description>Recent content in distributions on μβ</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
     <lastBuildDate>Tue, 04 Sep 2018 00:00:00 +0200</lastBuildDate>
     
-	<atom:link href="https://matbesancon.github.io/tags/distributions/index.xml" rel="self" type="application/rss+xml" />
+	    <atom:link href="https://matbesancon.github.io/tags/distributions/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,7 +18,7 @@
       <pubDate>Tue, 04 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/project/mixed_distributions/</guid>
-      <description>Modelling, inferring and sampling from continuous-discrete distributions in Julia, on top of Distributions.jl</description>
+      <description></description>
     </item>
     
   </channel>

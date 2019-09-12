@@ -4,11 +4,11 @@
     <title>Recent &amp; Upcoming Talks on μβ</title>
     <link>https://matbesancon.github.io/talk/</link>
     <description>Recent content in Recent &amp; Upcoming Talks on μβ</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
     
-	<atom:link href="https://matbesancon.github.io/talk/index.xml" rel="self" type="application/rss+xml" />
+	    <atom:link href="https://matbesancon.github.io/talk/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -17,7 +17,13 @@
       <pubDate>Mon, 24 Jun 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/talk/optimization_nantes/</guid>
-      <description>LightGraphs has become the central package for working with graphs in Julia, exposing an interface for both directed and undirected graphs, a concrete and simple implementation of this interface and a set of essential graph algorithms. After a quick tour of the package features, we will show how algorithms developed using the interface work with different graph types, and how to develop our own specialized graph type as a user.</description>
+      <description>&lt;p&gt;LightGraphs has become the central package for working with graphs in Julia,
+exposing an interface for both directed and undirected graphs, a concrete and
+simple implementation of this interface and a set of essential graph algorithms.
+After a quick tour of the package features, we will show how algorithms
+developed using the interface work with different graph types, and how to
+develop our own specialized graph type as a user.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -26,8 +32,17 @@
       <pubDate>Wed, 21 Nov 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/talk/julia_opt_workshop/</guid>
-      <description>We gave an overview of the Julia programming language for researchers in optimization theory and practice. The talk was divided in four parts:
- Introduction to the Julia language, key features and central mechanisms. Example use cases with linear algebra. The JuliaSmoothOptimizers ecosystem, organization &amp;amp; usage JuliaGraphs &amp;amp; the LightGraphs package, features and structure A quick tour of JuliaOpt &amp;amp; JuMP for structured, constrained optimization  </description>
+      <description>&lt;p&gt;We gave an overview of the Julia programming language for researchers in
+optimization theory and practice. The talk was divided in four parts:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Introduction to the Julia language, key features and central mechanisms.
+Example use cases with linear algebra.&lt;/li&gt;
+&lt;li&gt;The &lt;a href=&#34;https://github.com/JuliaSmoothOptimizers&#34; target=&#34;_blank&#34;&gt;JuliaSmoothOptimizers&lt;/a&gt; ecosystem, organization &amp;amp; usage&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaGraphs&#34; target=&#34;_blank&#34;&gt;JuliaGraphs&lt;/a&gt; &amp;amp; the &lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphs.jl&#34; target=&#34;_blank&#34;&gt;LightGraphs&lt;/a&gt; package, features and structure&lt;/li&gt;
+&lt;li&gt;A quick tour of JuliaOpt &amp;amp; &lt;a href=&#34;https://github.com/juliaopt/jump.jl&#34; target=&#34;_blank&#34;&gt;JuMP&lt;/a&gt; for structured, constrained optimization&lt;/li&gt;
+&lt;/ul&gt;
+</description>
     </item>
     
     <item>
@@ -36,8 +51,16 @@
       <pubDate>Thu, 20 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/talk/lillefp_julia/</guid>
-      <description>Quick overview of the Julia programming language at the LilleFP meetup. Slides are in Franglish but should be understandable. The programming model was presented with a quick overview of parts of the type system and multiple dispatch mechanism.
-It was really nice to be able to exchange with people coming from very different programming worlds and compare their approach, opinion and programming needs with some design choices of the language.</description>
+      <description>&lt;p&gt;Quick overview of the Julia programming language at the LilleFP
+meetup. Slides are in Franglish but should be understandable.
+The programming model was presented with a quick overview of parts
+of the type system and multiple dispatch mechanism.&lt;/p&gt;
+
+&lt;p&gt;It was really nice to be able to exchange with people coming from
+very different programming worlds and compare their approach,
+opinion and programming needs with some design choices of the
+language.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -46,9 +69,17 @@ It was really nice to be able to exchange with people coming from very different
       <pubDate>Thu, 09 Aug 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/talk/juliacon18/</guid>
-      <description>We presented the LightGraphs.jl package with James for anyone in need of a simple &amp;amp; extensible graph library in Julia, the core interface for abstract graphs and essential algorithms included.
-Anyone can come up with their own graph type, and we show it by building the simplest graph type from an adjacency matrix, implementing the LightGraphs interface, and then re-using the whole ecosystem on this type for free.
-[1] Image source: Photo by Fancycrave on Unsplash</description>
+      <description>&lt;p&gt;We presented the &lt;em&gt;LightGraphs.jl&lt;/em&gt; package with &lt;a href=&#34;https://twitter.com/fairbanksjp&#34; target=&#34;_blank&#34;&gt;James&lt;/a&gt; for anyone in need of a
+simple &amp;amp; extensible graph library in Julia, the core interface for abstract graphs and essential algorithms included.&lt;/p&gt;
+
+&lt;p&gt;Anyone can come up with their own graph type, and we show it by building the simplest graph type
+from an adjacency matrix, implementing the LightGraphs interface, and then re-using the whole
+ecosystem on this type for free.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;[1] Image source: Photo by Fancycrave on Unsplash&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -57,7 +88,10 @@ Anyone can come up with their own graph type, and we show it by building the sim
       <pubDate>Thu, 08 Mar 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/talk/julia_montreal/</guid>
-      <description>A quick introduction to the why and how of package development in Julia for scientific computing, with two applications of custom arrays. One of them, MatFuncs.jl was live-coded and available here.</description>
+      <description>&lt;p&gt;A quick introduction to the why and how of package development in Julia for
+scientific computing, with two applications of custom arrays. One of them,
+MatFuncs.jl was live-coded and available &lt;a href=&#34;https://github.com/matbesancon/MatFuncs.jl&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -66,7 +100,10 @@ Anyone can come up with their own graph type, and we show it by building the sim
       <pubDate>Thu, 06 Jul 2017 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/talk/golang_talk_lille/</guid>
-      <description>This talk was part of a second meetup introducing Golang use cases to Lille tech community. The slides (in French) can be found here.</description>
+      <description>&lt;p&gt;This talk was part of a second meetup introducing Golang use cases
+to Lille tech community. The slides (in French) can be found
+&lt;a href=&#34;https://go-talks.appspot.com/github.com/matbesancon/golang-talk/talk.slide#1&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

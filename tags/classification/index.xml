@@ -4,12 +4,12 @@
     <title>classification on μβ</title>
     <link>https://matbesancon.github.io/tags/classification/</link>
     <description>Recent content in classification on μβ</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
     <lastBuildDate>Wed, 13 Jan 2016 00:00:00 +0100</lastBuildDate>
     
-	<atom:link href="https://matbesancon.github.io/tags/classification/index.xml" rel="self" type="application/rss+xml" />
+	    <atom:link href="https://matbesancon.github.io/tags/classification/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,7 +18,336 @@
       <pubDate>Wed, 13 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-13-fraud-detection3/</guid>
-      <description>Learning by doing: predicting the outcome.</description>
+      <description>
+
+&lt;p&gt;[1]&lt;/p&gt;
+
+&lt;p&gt;Part III: Model development&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;To follow the following article without any trouble, I would recommend to
+start with the beginning.&lt;/p&gt;
+
+&lt;h1 id=&#34;how-does-predictive-modeling-work&#34;&gt;How does predictive modeling work&lt;/h1&gt;
+
+&lt;h2 id=&#34;keep-the-terminology-in-mind&#34;&gt;Keep the terminology in mind&lt;/h2&gt;
+
+&lt;p&gt;This is important to understand the principles and
+sub-disciplines of machine learning. We are trying to predict a specific
+&lt;strong&gt;output&lt;/strong&gt;, our information of interest, which is the category of bank note
+we observe (genuine or forged).
+This task is therefore labeled as &lt;strong&gt;supervised learning&lt;/strong&gt;, as opposed to
+&lt;strong&gt;unsupervised learning&lt;/strong&gt; which consists of finding patterns or groups from
+data without a priori identification of those groups.&lt;/p&gt;
+
+&lt;p&gt;Supervised learning can further be labeled as &lt;strong&gt;classification&lt;/strong&gt; or
+&lt;strong&gt;regression&lt;/strong&gt;, depending on the nature of the outcome, respectively
+categorical or numerical. It is essential to know because the two disciplines
+don&amp;rsquo;t involve the same models. Some models work in both cases but their expected
+behavior and performance would be different. In our case, the outcome is
+categorical with two levels.&lt;/p&gt;
+
+&lt;h2 id=&#34;how-does-classification-work&#34;&gt;How does classification work?&lt;/h2&gt;
+
+&lt;p&gt;Based on a subset of the data, we train a
+model, so we tune it to minimize its error on these data. To make a parallel
+with Object-Oriented Programming, the model is an &lt;strong&gt;instance&lt;/strong&gt; of the
+class which defines how it works. The attributes would be its parameters and
+it would always have two methods (functions usable only from the object):
+* &lt;strong&gt;train&lt;/strong&gt; the model from a set of observations (composed of predictive
+    variables and of the outcome)
+* &lt;strong&gt;predict&lt;/strong&gt; the outcome given some new observations
+Another optional method would be &lt;strong&gt;adapt&lt;/strong&gt; which takes new training data and
+adjusts/corrects the parameters. A brute-force way to perform this is to call
+the train method on both the old and new data, but for some models a more
+efficient technique exists.&lt;/p&gt;
+
+&lt;h2 id=&#34;independent-evaluation&#34;&gt;Independent evaluation&lt;/h2&gt;
+
+&lt;p&gt;A last significant element: we mentioned using only a subset of the data to
+train the model. The reason is that the performance of the model has to be
+evaluated, but if we compute the error on the training data, the result will
+be biased because the model was precisely trained to minimize the error on this
+training set. So the evaluation has to be done on a separated subset of the
+data, this is called &lt;strong&gt;cross validation&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;our-model-logistic-regression&#34;&gt;Our model: logistic regression&lt;/h1&gt;
+
+&lt;p&gt;This model was chosen mostly because
+it is visually and intuitively easy to understand and simple to
+implement from scratch.
+Plus, it covers a central topic in data science, optimization.
+The underlying reasoning is the following:
+The logit function of the probability of a level of the classes is
+linearly dependent on the predictors. This can be written as:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;log(p&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;p)) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; beta0 &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; beta[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; beta[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Why do we need the logit function here?
+Well technically, a linear regression could be fitted with the class as output
+(encoded as 0/1) and the features as predictive variables. However, for some
+values of the predictors, the model would yield outputs below 0 or above 1.
+The logistic function &lt;strong&gt;equation&lt;/strong&gt; yields an output between 0 and 1 and
+is therefore well suited to model a probability.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/linear_binary.png&#34; alt=&#34;Linear regression on binary output&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/logistic_binary.png&#34; alt=&#34;Logistic regression on binary output&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You can noticed a decision boundary, which is the limit between the
+region where the model yields a prediction &amp;ldquo;0&amp;rdquo; and a prediction &amp;ldquo;1&amp;rdquo;.
+The output of the model is a probability of the class &amp;ldquo;1&amp;rdquo;, the forged
+bank notes, so the decision boundary can be put at p=0.5, which would be
+our &amp;ldquo;best guess&amp;rdquo; for the transition between the two regions.&lt;/p&gt;
+
+&lt;h2 id=&#34;required-parameters&#34;&gt;Required parameters&lt;/h2&gt;
+
+&lt;p&gt;As you noticed in the previous explanation, the model takes a vector of
+parameters which correspond to the weights of the different variables.
+The intercept \beta_0 places the location of the point at which p=0.5,
+it shifts the curve to the right or the left.
+The coefficients of the variables correspond to the sharpness of the transition.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/logistic_coeff.png&#34; alt=&#34;Evolution of the model with different coefficient values&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;learning-process&#34;&gt;Learning process&lt;/h2&gt;
+
+&lt;h3 id=&#34;parameters-identification-issue&#34;&gt;Parameters identification issue&lt;/h3&gt;
+
+&lt;p&gt;Unlike linear regression, the learning process for logistic regression is not
+a straight-forward computation of the parameters through simple linear algebra
+operations. The criterion to optimize is the likelihood, or equivalently, the
+log-likelihood of the parameters:&lt;/p&gt;
+
+&lt;!-- \mathscr{L}(\beta|(X,Z)) = f_{\beta}\left(X=x,Z=z\right) --&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;L(beta&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;(X,z)) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; f(X,z)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;parameters-update&#34;&gt;Parameters update&lt;/h3&gt;
+
+&lt;p&gt;The best parameters in the sense of the log-likelihood are therefore found
+where this function reaches its maximum.
+For the logistic regression problem,
+there is only one critical point, which is also the only maximum of the
+log-likelihood. So the overall process is to start from a random set of
+parameters and to update it in the direction that increases the
+log-likelihood the most. This precise direction is given by the
+&lt;strong&gt;gradient&lt;/strong&gt; of the log-likelihood. The updated weights at each iteration
+can be written as:&lt;/p&gt;
+
+&lt;!-- \beta^{(n+1)} = \beta^{(n)} + \gamma^{(n)}\nabla(log(\mathscr{L}(\beta^{(n)}))) --&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;beta &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; beta &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; gamma&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; gradient_log_likelihood(beta)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Several criteria can be used to determine if a given set of parameters is an
+acceptable solution. A solution will be considered acceptable when the
+difference between two iterations is low enough.&lt;/p&gt;
+
+&lt;h3 id=&#34;optimal-learning-rate&#34;&gt;Optimal learning rate&lt;/h3&gt;
+
+&lt;p&gt;The coefficient gamma is called the &lt;strong&gt;learning rate&lt;/strong&gt;. Higher values lead to
+quicker variations of the parameters, but also to stability and convergence
+issues. Too small values on the other increase the number of steps required to
+reach an acceptable maximum. The best solution is often a varying learning
+rate, adapting the rate of variations. The rate at step n is chosen as follows:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;gamma_n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; alpha&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;min(c0,&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;(np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sqrt(n)&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Which means that the learning rate is constant for all first steps until the
+following condition is reached:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;c0)&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;c0&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;After this iteration, the learning rate slowly decreases because we assume the
+parameters are getting closer to the right value, which we don&amp;rsquo;t want to
+overshoot.&lt;/p&gt;
+
+&lt;h2 id=&#34;decision-boundaries-and-2d-representation&#34;&gt;Decision boundaries and 2D-representation&lt;/h2&gt;
+
+&lt;p&gt;A &lt;strong&gt;decision region&lt;/strong&gt; is the subset of the features space within which the
+decision taken by the model is identical. A &lt;strong&gt;decision boundary&lt;/strong&gt; is the
+subset of the space where the decision &amp;ldquo;switches&amp;rdquo;. For most algorithms,
+the decision taken on the boundary is arbitrary. The possible boundary
+shapes are a key characteristic of machine learning algorithms.&lt;/p&gt;
+
+&lt;p&gt;In our case, logistic regression models the logit of the probability,
+which is strictly monotonous with the probability as linearly
+proportional to the predictors. It can be deduced that the decision
+boundary will be a straight line separating the two classes.
+This can be visualized using two features of the data, &amp;ldquo;vari&amp;rdquo; and
+&amp;ldquo;k_resid&amp;rdquo;:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;w &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; learn_weights(data1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iloc[:,(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;)])
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# building the mesh&lt;/span&gt;
+xmesh, ymesh &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;meshgrid(np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;arange(data1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;vari&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;min()&lt;span style=&#34;color:#f92672&#34;&gt;-.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;,data1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;vari&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;max()&lt;span style=&#34;color:#f92672&#34;&gt;+.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;01&lt;/span&gt;),\
+    np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;arange(data1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;k_resid&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;min()&lt;span style=&#34;color:#f92672&#34;&gt;-.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;,data1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;k_resid&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;max()&lt;span style=&#34;color:#f92672&#34;&gt;+.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;01&lt;/span&gt;))
+
+pmap &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;DataFrame(np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;c_[np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ones((len(xmesh&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ravel()),)),xmesh&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ravel(),ymesh&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ravel()])
+p &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;array([])
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; line &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; pmap&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;values:
+    p &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(p,(prob_log(line,w)))
+
+p &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; p&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;reshape(xmesh&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;shape)
+
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;contourf(xmesh, ymesh, np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;power(p,&lt;span style=&#34;color:#ae81ff&#34;&gt;8&lt;/span&gt;), cmap&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;RdBu&amp;#39;&lt;/span&gt;,alpha&lt;span style=&#34;color:#f92672&#34;&gt;=.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(data1[data1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;class&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;][&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;vari&amp;#34;&lt;/span&gt;],data1[data1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;class&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;][&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;k_resid&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Class 0&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(data1[data1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;class&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;vari&amp;#34;&lt;/span&gt;],data1[data1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;class&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;k_resid&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;r+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Class 1&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;legend(loc&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;upper right&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2-dimension logistic regression result&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;xlabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;vari&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ylabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;k_resid&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;grid()
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/2dimension.png&#34; alt=&#34;Decision boundary for two dimensions&#34; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;implementation&#34;&gt;Implementation&lt;/h1&gt;
+
+&lt;h2 id=&#34;elementary-functions&#34;&gt;Elementary functions&lt;/h2&gt;
+
+&lt;p&gt;Modularizing the code increases the readability, we define the
+implementations of two mathematical functions:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;prob_log&lt;/span&gt;(x,w):
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    probability of an observation belonging
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    to the class &amp;#34;one&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    given the predictors x and weights w
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exp(np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;dot(x,w))&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;(np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exp(np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;dot(x,w))&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;grad_log_like&lt;/span&gt;(X, y, w):
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    computes the gradient of the log-likelihood from predictors X,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    output y and weights w
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;dot(X&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;T,y&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apply_along_axis(&lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; x: prob_log(x,w),&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,X))&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;reshape((len(w),))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;learning-algorithm&#34;&gt;Learning algorithm&lt;/h2&gt;
+
+&lt;p&gt;A function computes the optimal weights from iterations to find the maximal
+log-likelihood of the parameters, using the two previous functions.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;learn_weights&lt;/span&gt;(df):
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    computes and updates the weights until convergence
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    given the features and outcome in a data frame
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+    X &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;c_[np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ones(len(df)),np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;array(df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iloc[:,:df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;shape[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;])]
+    y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;array(df[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;class&amp;#34;&lt;/span&gt;])
+    niter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+    error &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0001&lt;/span&gt;
+    w &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;zeros((df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;shape[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;],))
+    w0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; w&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;
+    alpha &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; sum(abs(w0&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;w))&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;error &lt;span style=&#34;color:#f92672&#34;&gt;and&lt;/span&gt; niter &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10000&lt;/span&gt;:
+        niter&lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+        w0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; w
+        w &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; w &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; alpha&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;min(&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;(niter&lt;span style=&#34;color:#f92672&#34;&gt;**.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;))) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; (grad_log_like(X,y,w))
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; niter&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;10000&lt;/span&gt;:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Maximum iterations reached&amp;#34;&lt;/span&gt;)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; w&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;prediction&#34;&gt;Prediction&lt;/h2&gt;
+
+&lt;p&gt;Once the weights have been learnt, new probabilities can be predicted from
+explanatory variables.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;predict_outcome&lt;/span&gt;(df,w):
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    takes in a test data set and computed weights
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    returns a vector of predicted output, the confusion matrix
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    and the number of misclassifications
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+    confusion_matrix &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;zeros((&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;))
+    p &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; line &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; df&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;values:
+        x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,line[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;:&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;])
+        p&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(prob_log(x,w))
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (prob_log(x,w)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;and&lt;/span&gt; line[&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;]:
+            confusion_matrix[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;elif&lt;/span&gt; (prob_log(x,w)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;and&lt;/span&gt; line[&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;]:
+            confusion_matrix[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;elif&lt;/span&gt; (prob_log(x,w)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;and&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; line[&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;]:
+            confusion_matrix[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+            confusion_matrix[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; p, confusion_matrix, len(df)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;sum(np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;diag(confusion_matrix))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;cross-validated-evaluation&#34;&gt;Cross-validated evaluation&lt;/h2&gt;
+
+&lt;p&gt;Learning weights on a training subset and getting the error on an other subset
+will allow us to estimate the real error rate of our prediction. 100 cross
+validations are performed and for each of them, we add the error to a list.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;error &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
+weights &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; test &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;):
+    trainIndex &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;random&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rand(len(data0)) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.85&lt;/span&gt;
+    data_train &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; data1[trainIndex]
+    data_test &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; data1[&lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt;trainIndex]
+    weights&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(learn_weights(data_train))
+    error&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;append(predict_outcome(data_test,weights[&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;])[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;])&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The following results were obtained:
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/GLM_errors.png&#34; alt=&#34;Evolution of the model with different coefficient values&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The model produces on average 2.66 mis-classifications for 100 evaluated
+banknotes. Note that on each test, 85% of the observations
+went into the training set, which is arbitrary. However, too few
+training points would yield inaccurate models and higher error rates.&lt;/p&gt;
+
+&lt;h1 id=&#34;improvement-perspectives-and-conclusion&#34;&gt;Improvement perspectives and conclusion&lt;/h1&gt;
+
+&lt;p&gt;On this data set, we managed to build independent and reliable features and
+model the probability of belonging to the forged banknotes class thanks to a
+logistic regression model. This appeared to be quite successful from the error
+estimation on the test set. However, few further progresses could be made.&lt;/p&gt;
+
+&lt;h2 id=&#34;testing-other-models&#34;&gt;Testing other models&lt;/h2&gt;
+
+&lt;p&gt;We only implemented the logistic regression from scratch, given that several
+models would have increased the length of this article. But some other
+algorithms would have been interesting, such as:
+* K nearest neighbors
+* Support Vector Machine
+* Model-based predictions such as naive Bayes or Quadratic Discriminant Analysis
+* Classification Tree&lt;/p&gt;
+
+&lt;p&gt;Fact of interest: the two first algorithms also build linear decision
+boundaries, but based on other criteria.&lt;/p&gt;
+
+&lt;h2 id=&#34;adjusting-the-costs&#34;&gt;Adjusting the costs&lt;/h2&gt;
+
+&lt;p&gt;We assumed that misclassifying a true banknote was just as bad as doing so for
+a forged one. This is why using a limit at p=0.5 was the optimal choice. But
+suppose that taking a forged banknote for a genuine one costs twice more than
+the opposite error. Then the limit probability will be set at p = 0.25 to
+minimize the overall cost. More generally, a &lt;strong&gt;cost matrix&lt;/strong&gt; can be built
+to minimize the sum of the element-wise product of the cost matrix with the
+confusion matrix. Here is an interesting
+&lt;a href=&#34;http://stackoverflow.com/questions/17464229/weka-cost-matrix-interpretation&#34; target=&#34;_blank&#34;&gt;Stack Overflow topic&lt;/a&gt;
+topic on the matter.&lt;/p&gt;
+
+&lt;h2 id=&#34;online-classification&#34;&gt;Online classification&lt;/h2&gt;
+
+&lt;p&gt;The analysis carried on in this article is still far from the objective of some
+data projects, which would be to build a reusable on-line classifier.
+In our case, this could be used by bank to instantaneously verify bank notes
+received. This raises some new issues like the update of different parameters
+and the detection of new patterns.&lt;/p&gt;
+
+&lt;p&gt;Special thanks to Rémi for reading the first awful drafts
+and giving me some valuable feedback.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;font size=&#34;0.7&#34;&gt;
+ [1] Image source: scikit-learn.org
+ [2] Additional resource from the University of Washington
+ &lt;a href=&#34;http://courses.washington.edu/css490/2012.Winter/lecture_slides/05b_logistic_regression.pdf&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;
+ [3] Resource from the Carnegie Mellon University &lt;a href=&#34;http://www.cs.cmu.edu/~awm/15781/slides/LogRegress-9-29-05.pdf&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;
+&lt;/font&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -27,7 +356,289 @@
       <pubDate>Tue, 12 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-12-fraud-detection2/</guid>
-      <description>Learning by doing: the feature engineering step.</description>
+      <description>
+
+&lt;p&gt;[1]&lt;/p&gt;
+
+&lt;p&gt;Part II: Feature engineering&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&#34;what-is-feature-engineering&#34;&gt;What is feature engineering?&lt;/h1&gt;
+
+&lt;p&gt;It could be describe as the transformation of raw data to produce
+a model input which will have better performance. The &lt;em&gt;features&lt;/em&gt; are
+the new variables created in the process.
+It is often described as based on domain knowledge and more of an
+art than of a science. Therefore, it requires a great attention and
+a more &amp;ldquo;manual&amp;rdquo; process than the rest of data science projects.&lt;/p&gt;
+
+&lt;p&gt;Feature engineering tends to be heavier when raw data are far from
+the expected input format of our learning models
+(images or text for instance). It can be noticed that some feature
+engineering was already performed on our data, since banknotes were
+registered as images taken from a digital camera, and we only received
+5 features for each image.&lt;/p&gt;
+
+&lt;h1 id=&#34;correlated-variables&#34;&gt;Correlated variables&lt;/h1&gt;
+
+&lt;h2 id=&#34;simple-linear-and-polynomial-regression&#34;&gt;Simple linear and polynomial regression&lt;/h2&gt;
+
+&lt;p&gt;We noticed some strong dependencies between variables thanks to the
+scatter plot. Those can deter the performance and robustness of
+several machine learning models. Skewness and kurtosis seem to be
+somehow related. A regression line can be fitted with the skewness as
+explanatory variable:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;a, b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; stats&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;linregress(data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;kurtosis&amp;#34;&lt;/span&gt;])[:&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;kurtosis&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;g+&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2.5&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2.5&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;0.05&lt;/span&gt;) ,b&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;a&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2.5&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2.5&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;0.05&lt;/span&gt;),&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Simple linear regression&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;xlabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Skewness&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ylabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Kurtosis&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/linear_reg.png&#34; alt=&#34;Linear regression&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The following result highlights a lack in the model. The slope and intercept
+seem to be biased by a dense cluster of points with the skewness
+between 1 and 2. The points with a low skewness are under-represented in the
+model and do not follow the trend of the regression line. A robust regression
+technique could correct this bias, but a polynomial regression is the most
+straight-forward method to capture a higher part of the variance here.
+The second-degree polynomial model can be written as:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;y_hat &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;square(x) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; b&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;x &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; c&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;and its coefficients can be determined through the minimization of least-square
+error in numpy:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;a, b, c &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;polyfit(data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;kurtosis&amp;#34;&lt;/span&gt;],deg&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;kurtosis&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;),a&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;b&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;c,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2nd degree polynomial regression&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;xlabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Skewness&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ylabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Kurtosis&amp;#39;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div style =&#34;text-align: center;&#34; markdown=&#34;1&#34;&gt;
+![Polynomial regression](/img/posts/BankNotes/figures/poly_reg.png)
+&lt;/div&gt;
+
+&lt;p&gt;A polynomial regression yields a much better output with balanced residuals.
+The p-value for all coefficients is below the 1% confidence criterion.
+One strong drawback can however be noticed: the polynomial model predicts an
+increase in the kurtosis for skewness superior to 2, but there is no evidence
+for this statement in our data, so the model could lead to stronger errors.&lt;/p&gt;
+
+&lt;p&gt;The regression does not capture all the variance (and does not explain all
+underlying phenomena) of the Kurtosis, so a transformed variable has to be kept,
+which should be independent from the skewness. The most obvious value is the
+residual of the polynomial regression we performed.&lt;/p&gt;
+
+&lt;p&gt;We can can represent this residual versus the explanatory variable
+to be assured that:
+* The residuals are centered around 0
+* The variance of the residuals is approximately constant with the skewness
+* There are still patterns in the Kurtosis: the residuals are not just noise&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;p0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;scatter(d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;skew&amp;#39;&lt;/span&gt;],c&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;b&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;a&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;kurtosis&amp;#34;&lt;/span&gt;],c&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;,marker&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;)
+p0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;scatter(d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;skew&amp;#39;&lt;/span&gt;],c&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;b&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;a&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;kurtosis&amp;#34;&lt;/span&gt;],c&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;,marker&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Explanatory variable vs Regression residuals&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;xlabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Skewness&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ylabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Residuals&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;legend([&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1&amp;#34;&lt;/span&gt;])
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div style=&#34;text-align: center;&#34; markdown=&#34;1&#34;&gt;
+![Residuals of the regression](/img/posts/BankNotes/figures/resid_reg.png)
+&lt;/div&gt;
+
+&lt;p&gt;The data is now much more uncorrelated, so the feature of interest is the
+residual of the regression which will replace the kurtosis in the data.&lt;/p&gt;
+
+&lt;h2 id=&#34;class-dependent-regression&#34;&gt;Class-dependent regression&lt;/h2&gt;
+
+&lt;p&gt;We can try and repeat the same process for the entropy and skewness, which
+also seem to be related to each other.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;p0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;scatter(d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;skew&amp;#39;&lt;/span&gt;],c&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;b&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;a&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;kurtosis&amp;#34;&lt;/span&gt;],c&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;,marker&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;)
+p0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;scatter(d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;skew&amp;#39;&lt;/span&gt;],c&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;b&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;a&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;kurtosis&amp;#34;&lt;/span&gt;],c&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;,marker&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Explanatory variable vs Regression residuals&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;xlabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Skewness&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ylabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Residuals&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;legend([&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1&amp;#34;&lt;/span&gt;])
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;show()
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Class 0&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;r+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Class 1&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;xlabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Skewness&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ylabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Entropy&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;grid()
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;legend()
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/skew_entropy.png&#34; alt=&#34;Skewness-Entropy&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We can try can fit a 2nd-degree polynomial function:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;ft &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;polyfit(data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;],deg&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Class 0&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;r+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Class 1&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;14.5&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;),
+         ft[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;14.5&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;14.5&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;ft[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;
+         np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;14.5&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;ft[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-&amp;#39;&lt;/span&gt;,linewidth&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; ,
+         label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Fitted polynom&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;xlabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Skewness&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ylabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Entropy&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;grid()
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;legend(loc&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;bottom center&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/fit1_entropy.png&#34; alt=&#34;Polynomial regression on entropy&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;However, it seems that the model does not fit well our data and that the points
+are not equally distributed on both side of the curve. There is another
+pattern, which is class-dependent, so two polynomial curves should be fitted,
+one for each class:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;f0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;polyfit(d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;],deg&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)
+x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;14&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+f1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;polyfit(d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;],deg&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)
+
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(x,f0[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;f0[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;f0[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Fitted 0&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;+&amp;#39;&lt;/span&gt;,alpha&lt;span style=&#34;color:#f92672&#34;&gt;=.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Class 0&amp;#34;&lt;/span&gt;)
+
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(x,f1[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;f1[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;f1[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Fitted 1&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;m+&amp;#39;&lt;/span&gt;,alpha&lt;span style=&#34;color:#f92672&#34;&gt;=.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Class 1&amp;#34;&lt;/span&gt;)
+
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Class dependent fit&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;xlabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Skewness&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ylabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Entropy&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;grid()
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;legend(loc&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;bottom center&amp;#39;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;savefig(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;class_depend.png&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/class_depend.png&#34; alt=&#34;Class-dependent polynomial regression&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The model seems to capture more of the variance in our data, which we can
+confirm by plotting the residuals of the class-dependent regression.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],f0[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;f0[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
+        f0[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;b+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Class 0&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],f1[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;f1[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
+        f1[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;r+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Class 1&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;legend()
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;grid()
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;xlabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Skewness&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ylabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Residuals&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;savefig(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;res_class_dep.png&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/res_class_dep.png&#34; alt=&#34;Residuals of the class-dependent polynomial regression&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We have a proper working model, with just one problem: &lt;strong&gt;we used
+the class to predict the entropy&lt;/strong&gt; whereas our classification
+objective is to proceed the other way around. Since we noticed
+that each class follows a different curve, a difference between
+the distance to the first model and the distance to the second
+model, which will be noted &amp;ldquo;d&amp;rdquo;, can be computed as:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;d &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;abs(y &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; x&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apply(f0)) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;abs(y&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apply(f1))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;A positive &amp;ldquo;d&amp;rdquo; value indicates that the entropy of the observation
+is closer to the model fitted on the class 1, this seems to be a
+rather relevant indicator to use to build our models. However, this
+variable seems correlated to the skewness. The latter could have become
+unnecessary for our prediction, so we choose to eliminate it from
+the features and take the risk of an information loss.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;d &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; abs(data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;f0[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;f0[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;f0[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;])&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;\
+    abs(data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;f1[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;f1[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;f1[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;])
+
+d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;d&amp;#34;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; d[data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;class&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]
+d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;d&amp;#34;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; d[data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;class&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;grid()
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;d&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;b+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Class 0&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plot(d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;d&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;r+&amp;#39;&lt;/span&gt;,label&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Class 1&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;legend()
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;d vs skewness for each class&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;xlabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Skewness&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ylabel(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;d&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/d_skew.png&#34; alt=&#34;distance vs skewness for each class&#34; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;variable-scaling&#34;&gt;Variable scaling&lt;/h1&gt;
+
+&lt;h2 id=&#34;common-scaling-techniques&#34;&gt;Common scaling techniques&lt;/h2&gt;
+
+&lt;p&gt;Very different spreads could be noticed among variables during the exploratory
+part. This can lead to a bias in the distance between two points. A possible
+solution to this is &lt;strong&gt;scaling&lt;/strong&gt; or &lt;strong&gt;standardization&lt;/strong&gt;.
+* &lt;strong&gt;Variance scaling&lt;/strong&gt; of a variable is the division of each value by the
+variable standard deviation. The output is a variable with variance 1.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Min-Max standardization&lt;/strong&gt; of a variable is the division of each value by
+the difference between the maximum and minimum values. The outcome values
+are all contained in the interval [0,1].&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;x_stand &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;(x&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;max()&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;min())&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Other standardization operations exist, but those are the
+most common because of the properties highlighted.&lt;/p&gt;
+
+&lt;h2 id=&#34;advantages-and-risks&#34;&gt;Advantages and risks&lt;/h2&gt;
+
+&lt;p&gt;Scaling variables may avoid the distance between data points
+to be over-influenced by high-variance variables, because
+the ability to classify the data points from a variable
+is usually not proportional to the variable variance.&lt;/p&gt;
+
+&lt;p&gt;Furthermore, all people with notions in physics and calculus
+would find it awkward to compute a distance from heterogeneous
+variables (which would have different units and meaning).&lt;/p&gt;
+
+&lt;p&gt;However, scaling might increase the weight of variables carrying mostly
+or only noise, to which the model would fit, increasing the error on
+new data.&lt;/p&gt;
+
+&lt;p&gt;For this case, the second risk seems very low: all variables seem to
+carry information, which we could observe because of the low number of
+variables.&lt;/p&gt;
+
+&lt;h1 id=&#34;feature-engineering-pipeline&#34;&gt;Feature engineering pipeline&lt;/h1&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;a, b, c &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;polyfit(data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;kurtosis&amp;#34;&lt;/span&gt;],deg&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)
+
+data1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; data0&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;copy() &lt;span style=&#34;color:#75715e&#34;&gt;# copying the data&lt;/span&gt;
+
+data1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;columns &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;vari&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;skew&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;k_resid&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;entropy&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;class&amp;#39;&lt;/span&gt;]
+data1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;k_resid&amp;#34;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;kurtosis&amp;#34;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;square(a&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;(data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; b&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; c)
+
+data1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;columns  &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;vari&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;skew&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;k_resid&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;d&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;class&amp;#39;&lt;/span&gt;] &lt;span style=&#34;color:#75715e&#34;&gt;# computing the feature from the entropy regression&lt;/span&gt;
+
+f0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;polyfit(d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],d0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;],deg&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)
+f1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;polyfit(d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;],d1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;],deg&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)
+
+data1[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;d&amp;#34;&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; abs(data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;f0[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;f0[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;f0[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;])&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;\
+    abs(data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;f1[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;f1[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;f1[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;])
+
+data1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; data1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;drop(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;# removing skew&lt;/span&gt;
+
+data1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iloc[:,:&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; data1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iloc[:,:&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sqrt(np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;var(data1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iloc[:,:&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;])) &lt;span style=&#34;color:#75715e&#34;&gt;# data normalization&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;data1&lt;/code&gt; can now be used in the next step which will consist in the
+implementation of a basic machine learning algorithm. This is the key
+part in an analysis-oriented data science project, and I hope to see you there.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;font size=&#34;0.7&#34;&gt;
+[1] Image source: Philipp Wagner: Machine Learning with OpenCV2
+ &lt;/font&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -36,7 +647,319 @@
       <pubDate>Mon, 11 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-11-fraud-detection/</guid>
-      <description>Learning by doing: detecting fraud on bank notes using Python in 3 steps.</description>
+      <description>
+
+&lt;h2 id=&#34;a-complete-predictive-modeling-project-in-python&#34;&gt;A complete predictive modeling project in Python&lt;/h2&gt;
+
+&lt;p&gt;Part I: Preprocessing and exploratory analysis&lt;/p&gt;
+
+&lt;p&gt;One of the amazing things with data science is the ability to tackle
+complex problems involving hidden parallel phenomena interacting with each
+other, just from the data they produce.&lt;/p&gt;
+
+&lt;p&gt;As an example, we will use data extracted from images of forged and genuine
+banknotes. The distinction between the two categories would be thought to
+require a deep domain expertise, which limits the ability to check
+more than a few banknotes at a time. An automated and trustable test would
+be of interest for many businesses, governments and organizations.&lt;/p&gt;
+
+&lt;p&gt;Starting from the data provided by H. Dörsken and
+Volker Lohweg, from the University of Applied Science of Ostwestfalen-Lippe,
+Germany on the
+&lt;a href=&#34;https://archive.ics.uci.edu/ml/datasets/banknote+authentication&#34; target=&#34;_blank&#34;&gt;UCI Machine Learning Repository&lt;/a&gt;,
+we will follow key steps of a data science project to build a performant, yet
+scalable classifier.&lt;/p&gt;
+
+&lt;p&gt;The dataset was built by applying a wavelet
+transform on images of banknotes to extract 4 features:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Variance, skewness, kurtosis of the wavelet transform (respectively second,
+third and fourth moment of the distribution).&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Entropy of the image, which can be interpreted as the amount of information
+or randomness (which is represented by how different adjacent pixels are).&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can find further information on Wavelet on &lt;a href=&#34;https://en.wikipedia.org/wiki/Wavelet_transform&#34; target=&#34;_blank&#34;&gt;Wikipedia&lt;/a&gt;
+or ask &lt;a href=&#34;https://www.quora.com/In-an-intuitive-explanation-what-is-a-wavelet-transform-and-how-does-it-work-in-an-image&#34; target=&#34;_blank&#34;&gt;Quora&lt;/a&gt;.
+An explanation of entropy as meant in the image processing context can
+be found &lt;a href=&#34;http://www.astro.cornell.edu/research/projects/compression/entropy.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;To get a better understanding of the way the algorithms works,
+the full model will be built from scratch or almost (not using a machine
+learning library like scikit-learn on Python or caret on R).&lt;/p&gt;
+
+&lt;p&gt;Basic statistic notions (variance, linear regression) and some basic python
+knowledge is recommended to follow through the three articles.&lt;/p&gt;
+
+&lt;h2 id=&#34;programming-choices-and-libraries&#34;&gt;Programming choices and libraries&lt;/h2&gt;
+
+&lt;h3 id=&#34;language-and-environment&#34;&gt;Language and environment&lt;/h3&gt;
+
+&lt;p&gt;Python, which is a great
+compromise between practicality (with handy data format and manipulation)
+and scalability (much easier to implement for large scale, automated
+computation than R, Octave or Matlab). More precisely, Python 3.5.1 with
+the Anaconda distribution 2.4.0, I personally use the Spyder environment
+but feel free to keep your favorite tools.&lt;/p&gt;
+
+&lt;h3 id=&#34;libraries&#34;&gt;Libraries&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Collections (built-in) for occurrence counting&lt;/li&gt;
+&lt;li&gt;numpy 1.10.1, providing key data format, mathematical manipulation techniques.&lt;/li&gt;
+&lt;li&gt;scipy 0.16.0, imported here for the distance matrix computation and the stat submodule for Quantile-Quantile plots.&lt;/li&gt;
+&lt;li&gt;pandas 0.17.1 for advanced data format, high-level manipulation and visualization&lt;/li&gt;
+&lt;li&gt;pyplot from matplotlib 1.5.0 for basic visualization&lt;/li&gt;
+&lt;li&gt;ggplot 0.6.8, which I think is a much improved way to visualize data&lt;/li&gt;
+&lt;li&gt;urllib3 to parse the data directly from the repository (no manual download)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So our first lines of code (once you placed your data in the proper repository)
+should look like this:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; numpy &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; np
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; pandas &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; pd
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; ggplot
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; matplotlib &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; pyplot &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; plt
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scipy.stats &lt;span style=&#34;color:#f92672&#34;&gt;as&lt;/span&gt; stats
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scipy.spatial.distance
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; collections &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Counter
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; urllib3&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;source-files&#34;&gt;Source files&lt;/h3&gt;
+
+&lt;p&gt;The source files will be available on the corresponding Github repository.
+These include:
+* preprocess.py to load the data and libraries
+* exploratory.py for preliminary visualization
+* feature_eng.py where the data will be transformed to boost the model performance
+* model_GLM.py where we define key functions and build our model
+* model.py where we will visualize characteristics of the model&lt;/p&gt;
+
+&lt;h1 id=&#34;dataset-overview-and-exploratory-analysis&#34;&gt;Dataset overview and exploratory analysis&lt;/h1&gt;
+
+&lt;p&gt;Understanding intuitive phenomena in the data and test its underlying structure
+are the objectives for this first (usually long) phase of a data science
+project, especially if you were not involved in the data collection process.&lt;/p&gt;
+
+&lt;h2 id=&#34;data-parsing&#34;&gt;Data parsing&lt;/h2&gt;
+
+&lt;p&gt;Instead of manually downloading the data and placing it in our project
+repository, we will download using the &lt;em&gt;urllib3&lt;/em&gt; library.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;url &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://archive.ics.uci.edu/ml/machine-learning-databases/00267/data_banknote_authentication.txt&amp;#34;&lt;/span&gt;
+http &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; urllib3&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;PoolManager()
+r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; http&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;request(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;GET&amp;#39;&lt;/span&gt;,url)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;with&lt;/span&gt; open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;data_banknote_authentication.txt&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;wb&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; f:
+  f&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;write(r&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;data)
+r&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;release_conn()
+data0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;read_csv(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;data_banknote_authentication.txt&amp;#34;&lt;/span&gt;,
+  names&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;vari&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;skew&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;kurtosis&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;entropy&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;class&amp;#34;&lt;/span&gt;])&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;key-statistics-and-overview&#34;&gt;Key statistics and overview&lt;/h2&gt;
+
+&lt;p&gt;Since the data were loaded using pandas, key methods of the DataFrame
+object can be used to find some key information in the data.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;data0&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;describe()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;center&#34;&gt;&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;vari&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;skew&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;kurtosis&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;entropy&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;class&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;count&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;mean&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.433735&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1.922353&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1.397627&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;-1.191657&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.444606&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;std&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;2.842763&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;5.869047&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4.310030&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;2.101013&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.497103&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;min&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;-7.042100&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;-13.773100&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;-5.286100&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;-8.548200&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.000000&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;25%&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;-1.773000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;-1.708200&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;-1.574975&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;-2.413450&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.000000&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;50%&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.496180&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;2.319650&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.616630&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;-0.586650&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.000000&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;75%&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;2.821475&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;6.814625&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;3.179250&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0.394810&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1.000000&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;max&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;6.824800&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;12.951600&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;17.927400&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;2.449500&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1.000000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Negative values can be noticed in the variance and entropy, whereas it is
+theoretically impossible, so it can be deduced that some preprocessing
+operations were already performed.&lt;/p&gt;
+
+&lt;p&gt;We are trying to detect forged banknotes thanks to the extracted features.
+The dataset contains 1372 observations, including 610 forged banknotes, so
+roughly 45%. The two classes are balanced in the data, which might be relevant
+for some algorithms. Indeed, a higher proportion of a category in the
+characteristic of interest (here whether the banknote is genuine or not) yields
+a higher &lt;strong&gt;prior probability&lt;/strong&gt; for that outcome in Bayesian reasoning.&lt;/p&gt;
+
+&lt;h2 id=&#34;kernel-density-estimation-for-each-variable-by-class&#34;&gt;Kernel Density Estimation for each variable by class&lt;/h2&gt;
+
+&lt;p&gt;KDE are powerful tools to understand how 1-dimensional data are distributed.
+The estimate can also be split by class to find differences in the
+distributions. Using ggplot and the pandas &lt;code&gt;groupby&lt;/code&gt; method, the
+plots can be generated and saved as such:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; data0&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;columns[:&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;]:
+ggplot&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ggsave(
+  ggplot&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ggplot(ggplot&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;aes(x&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;v, color&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;class&amp;#39;&lt;/span&gt;),data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;data0)&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
+  ggplot&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;geom_density()&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
+  ggplot&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;geom_point(ggplot&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;aes(y&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;),alpha&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0.2&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
+  ggplot&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;labs(title&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;KDE &amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;v,x&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;v,y&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;KDE&amp;#34;&lt;/span&gt;),
+  &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;KDE_&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;v&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;.png&amp;#39;&lt;/span&gt;,width&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;18&lt;/span&gt;,height&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/KDE_entropy.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/KDE_Vari.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/KDE_skew.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/KDE_kurtosis.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Using this first simple visualization technique, we can deduce that the
+variance may be much more efficient to separate the two banknotes
+categories than the Kurtosis.&lt;/p&gt;
+
+&lt;h2 id=&#34;visualizing-variable-combinations-with-scatter-plots&#34;&gt;Visualizing variable combinations with scatter plots&lt;/h2&gt;
+
+&lt;p&gt;We generate a color list using for-comprehension:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;col &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; list(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; i&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;class&amp;#34;&lt;/span&gt;])
+pd&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;tools&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;plotting&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;scatter_matrix(data0&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ix[:,:&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;],figsize&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;),
+color&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;col,diagonal&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;kde&amp;#39;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/scatter_matrix.png&#34; alt=&#34;Scatter matrix: red dots represent the class &amp;quot;1&amp;quot;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;A scatter plot is the most straight-forward way to understand intuitive and
+obvious patterns in the data. It is especially efficient when the number of
+variables and classes is limited, such as our data set. It allows us to
+understand class-dependent, non-linear relationships between variables.&lt;/p&gt;
+
+&lt;p&gt;This is much more efficient than a simple statistic, such as the correlation
+coefficient which would not have found the skewness and entropy to be related.
+From these rather strong relationships between variables, we now know that
+some techniques based on independent features might not be efficient here.&lt;/p&gt;
+
+&lt;h2 id=&#34;testing-a-distribution-with-quantile-quantile-plots&#34;&gt;Testing a distribution with Quantile-Quantile plots&lt;/h2&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Subsetting the data by class&lt;/span&gt;
+d0 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; data0[data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;class&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]
+d1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; data0[data0[&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;class&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# For each variable&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; data0&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;columns[:&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;]:
+&lt;span style=&#34;color:#75715e&#34;&gt;#set the figure size&lt;/span&gt;
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;figure(figsize&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;))
+&lt;span style=&#34;color:#75715e&#34;&gt;# define two subplots&lt;/span&gt;
+ax1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;  plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;subplot(&lt;span style=&#34;color:#ae81ff&#34;&gt;121&lt;/span&gt;)
+&lt;span style=&#34;color:#75715e&#34;&gt;# compute the quantile-quantile plot with normal distribution&lt;/span&gt;
+stats&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;probplot(d0[v],dist&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;norm&amp;#39;&lt;/span&gt;,plot&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;plt)
+&lt;span style=&#34;color:#75715e&#34;&gt;# add title&lt;/span&gt;
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Normal QQ-plot &amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; - Class 0&amp;#34;&lt;/span&gt;)
+ax2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;subplot(&lt;span style=&#34;color:#ae81ff&#34;&gt;122&lt;/span&gt;)
+stats&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;probplot(d1[v],dist&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;norm&amp;#39;&lt;/span&gt;,plot&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;plt)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;title(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Normal QQ-plot &amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; - Class 1&amp;#34;&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;savefig(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;qqplot_&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;v&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.png&amp;#34;&lt;/span&gt;,width&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;700&lt;/span&gt;,height&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;250&lt;/span&gt;)
+plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/qqplot_entropy.png&#34; alt=&#34;QQplot entropy&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/qqplot_skew.png&#34; alt=&#34;QQplot skewness&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/qqplot_vari.png&#34; alt=&#34;QQplot variance&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/BankNotes/figures/qqplot_kurtosis.png&#34; alt=&#34;QQplot kurtosis&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Even though some variables are quite far from normally distributed, the
+hypothesis would be acceptable for some model-based learning algorithms using
+properties of Gaussian variables.&lt;/p&gt;
+
+&lt;h2 id=&#34;non-parametric-distribution-with-boxplots&#34;&gt;Non-parametric distribution with boxplots&lt;/h2&gt;
+
+&lt;p&gt;Boxplots represent the data using 25th, 50th and 75th percentiles which can be
+more robust than mean and variance. The pandas library offers a quick method
+and plotting tool to represent boxplots for each class and variable. It
+highlights the differences in the spread of the data.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;data0&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;groupby(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;class&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;boxplot(figsize&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/static/img/posts/BankNotes/figures/Boxplot.png&#34; alt=&#34;Boxplot representation&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This will be useful in the next part, when the data will be transformed to
+enhance the performance and robustness of predictive models.&lt;/p&gt;
+
+&lt;p&gt;So see you in the next part for feature engineering!&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;font size=&#34;0.7&#34;&gt;
+[1] Image source: ik1pmr.com
+&lt;/font&gt;&lt;/p&gt;
+</description>
     </item>
     
   </channel>

@@ -4,12 +4,12 @@
     <title>hugo on μβ</title>
     <link>https://matbesancon.github.io/tags/hugo/</link>
     <description>Recent content in hugo on μβ</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
     <lastBuildDate>Tue, 05 Sep 2017 00:00:00 +0200</lastBuildDate>
     
-	<atom:link href="https://matbesancon.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+	    <atom:link href="https://matbesancon.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,7 +18,79 @@
       <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-09-05-moving-content-hugo/</guid>
-      <description>New steps, new platform.</description>
+      <description>
+
+&lt;p&gt;Last weeks have been pretty intense. I officially left Equisense and  started
+a joined PhD project between INRIA Lille and École Polytechnique Montreal.
+I had been preparing for this fresh start for several months and also wanted
+to evolve in my content creation process.&lt;/p&gt;
+
+&lt;h2 id=&#34;a-journey-from-plain-markdown-to-hugo&#34;&gt;A journey from plain markdown to Hugo&lt;/h2&gt;
+
+&lt;p&gt;I started writing articles to keep track of my learning paths on various topics,
+including numerical techniques, data analysis and programming. My first articles
+were either hand-written or RMarkdown-generated Markdown files on a GitHub repository.&lt;/p&gt;
+
+&lt;p&gt;As I was slowly moving from R to Python, Jupyter notebook became pretty handy
+to mix paragraphs, code snippets, results and charts. It also forced me to
+quit declaring and modifying variables, an annoying habit got from always
+having a REPL and text editor bundled in most scientific computing IDEs
+(Matlab, Scilab, RStudio, Jupyter).&lt;/p&gt;
+
+&lt;p&gt;Great, the articles were not centralized though but split into their GitHub
+repositories, you have to admit this is not the most user-friendly browsing
+experience. I found several blogs running on &lt;a href=&#34;https://jekyllrb.com&#34; target=&#34;_blank&#34;&gt;Jekyll&lt;/a&gt;
+and I decided to give it a try. For someone who is not fond of struggles with
+front-end side layout issues, this was a true gift, I could easily reuse
+templates from front-end developers and designers (special thanks for the
+awesome &lt;a href=&#34;http://hemangsk.github.io/Gravity&#34; target=&#34;_blank&#34;&gt;Gravity project&lt;/a&gt;)
+without much struggle and focus on what I liked: building projects and
+writing content.&lt;/p&gt;
+
+&lt;h2 id=&#34;switching-to-the-writing-platform&#34;&gt;Switching to THE writing platform&lt;/h2&gt;
+
+&lt;p&gt;I kept maintaining the Jekyll blog until almost exactly one year ago. During
+that time, I was mostly writing in the context of a side-project or thinking on
+our journey at &lt;a href=&#34;https://www.equisense.com&#34; target=&#34;_blank&#34;&gt;Equisense&lt;/a&gt;. This raised new
+requirements for the writing process such as collaborative writing, review from
+friends, seeing the overall picture we were sending as a team from the sum of
+our articles.&lt;/p&gt;
+
+&lt;p&gt;For these reasons, my articles gradually switched to Medium,
+first published as an individual, then on the
+&lt;a href=&#34;https://medium.com/equisense&#34; target=&#34;_blank&#34;&gt;Equisense page&lt;/a&gt;. This was a very productive time
+for writing as we encouraged one another and had a direct impact on the way we
+presented the team, how we work and our learning path: an invaluable tool to
+help candidates decide whether the company was a fit for them and to ease the
+onboading.&lt;/p&gt;
+
+&lt;h2 id=&#34;if-medium-works-why-would-anyone-go-back-to-writing-everything-from-scratch&#34;&gt;If Medium works, why would anyone go back to writing everything from scratch?&lt;/h2&gt;
+
+&lt;p&gt;I really enjoy the writing experience on Medium, with some drawbacks.
+Medium&amp;rsquo;s design is very opinionated, that&amp;rsquo;s a part of what makes it a experience.
+However, leaving some choices on key topics is essential (at least to me) on the
+content-creation side.
+I believe this should be the case on any two-sided platform:
+&lt;strong&gt;be opinionated on the user-side, leave flexibility on the creator side.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The perfect example is the bright screen. It ensures the Medium experience is
+consistent with the unique font, background etc&amp;hellip; But writing on a dark screen
+is a lot more comfortable, especially when you&amp;rsquo;re used to it or when your eyes
+are more light-sensitive: writing late in the evening or early in the morning
+was not conceivable to me on the Medium interface. The hack I used was to write
+everything on &lt;a href=&#34;https://atom.io&#34; target=&#34;_blank&#34;&gt;Atom&lt;/a&gt;, then paste everything to Medium once the
+first draft was ready, still a bit of a pain.&lt;/p&gt;
+
+&lt;p&gt;This might seem minor as a reason to switch, but the root behind it is more
+essential: &lt;strong&gt;Medium is a platform, you&amp;rsquo;re therefore a user, not an owner&lt;/strong&gt;.
+Despite its global success, the company is still young and looking for the
+right model. Nothing tells me the model they choose tomorrow will be one I
+want to contribute to (how paid content will be managed for instance).
+Switching platforms for written content is a lot more tedious than choosing well
+at the beginning. This new step in my professional and personal life is the
+perfect occasion to rethink that commitment, I will still be re-publishing
+content to Medium, but not as the primary source.&lt;/p&gt;
+</description>
     </item>
     
   </channel>
