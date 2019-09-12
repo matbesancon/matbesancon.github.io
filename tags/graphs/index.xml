@@ -32,7 +32,7 @@ split from the experimental settings.&lt;/p&gt;
 &lt;p&gt;Different methods and implementations manipulate different data
 structures to represent the same optimization problem.
 Reformulating optimization problems has often been the role and responsibility
-of the practitionner, transforming the application problem at hand to fit a
+of the practitioner, transforming the application problem at hand to fit a
 standard form that a given solver accepts as input for a solution method.
 Mapping a user-facing representation of an object into an internal
 representation is the role and description of compilers. For mathematical
@@ -46,7 +46,7 @@ The main direct user-facing language for this is &lt;a href=&#34;https://github.
 which has already been covered in multiple formats &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;.
 The problem has been read from the user code but not reformulated yet.
 In compiler terms, MOI appears after the parsing phase: the user code has been
-reckognized and transformed into corresponding internal structures.&lt;/p&gt;
+recognized and transformed into corresponding internal structures.&lt;/p&gt;
 
 &lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
 &lt;/p&gt;
@@ -258,7 +258,7 @@ added_constraint_types(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;
     &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; [(F3, S3)]
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;What these method implementations delcare is the following structure:&lt;/p&gt;
+&lt;p&gt;What these method implementations declare is the following structure:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;graph LR;
     F1[F1 in S1] -- B1 --&amp;gt; F33[F3 in S3];
@@ -327,7 +327,7 @@ type shortest path is used.&lt;/p&gt;
 &lt;p&gt;MathOptInterface.jl may be one of the greatest strength of the JuMP ecosystem:
 setting the abstractions right allows the developers to integrate more exotic
 constraint types in a consistent manner.
-Optimization practitionners do not limit themselves to linear and
+Optimization practitioners do not limit themselves to linear and
 mixed-integer problems, following improvements in performance and variety
 of solvers, see &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; for the motivation and structure of MOI, and recent
 developments around it presented at JuliaCon 2019.
