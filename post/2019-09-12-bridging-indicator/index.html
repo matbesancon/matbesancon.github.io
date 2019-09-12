@@ -118,7 +118,7 @@
   
   <meta property="article:published_time" content="2019-09-12T00:00:00&#43;02:00">
   
-  <meta property="article:modified_time" content="2019-09-12T16:54:22&#43;02:00">
+  <meta property="article:modified_time" content="2019-09-12T19:00:58&#43;02:00">
   
 
   
@@ -422,7 +422,7 @@
 
 
 <meta content="2019-09-12 00:00:00 &#43;0200 CEST" itemprop="datePublished">
-<meta content="2019-09-12 16:54:22 &#43;0200 CEST" itemprop="dateModified">
+<meta content="2019-09-12 19:00:58 &#43;0200 CEST" itemprop="dateModified">
 
 <div class="article-metadata">
 
@@ -886,7 +886,7 @@ Without reasoning on specific constraints, it is hard to picture which
 reformulation is efficient.</p>
 
 <p>The current bridging decision is based on a shortest-path heuristic.
-One bridge is considered a distance one, and a shortest path from all
+One bridge is considered a unit distance, and a shortest path from all
 user-facing constraints to all solver-compatible constraints is determined.
 More precisely, a <a href="https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm" target="_blank">Bellman-Ford</a>
 type shortest path is used.</p>
@@ -898,8 +898,9 @@ setting the abstractions right allows the developers to integrate more exotic
 constraint types in a consistent manner.
 Optimization practitioners do not limit themselves to linear and
 mixed-integer problems, following improvements in performance and variety
-of solvers, see <sup class="footnote-ref" id="fnref:4"><a href="#fn:4">4</a></sup> for the motivation and structure of MOI, and recent
-developments around it presented at JuliaCon 2019.
+of solvers, the recent JuMP session at JuliaCon 2019<sup class="footnote-ref" id="fnref:4"><a href="#fn:4">4</a></sup> lays out the
+motivation and structure of MOI, and recent
+developments it enabled.
 The type-based <code>Function in Set</code> structure keeps the underlying
 machinery familiar to both optimization scientists formulating problems in a close
 fashion and Julia programmers leveraging multiple dispatch.</p>
