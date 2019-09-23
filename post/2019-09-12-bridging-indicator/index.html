@@ -118,7 +118,7 @@
   
   <meta property="article:published_time" content="2019-09-12T00:00:00&#43;02:00">
   
-  <meta property="article:modified_time" content="2019-09-12T19:00:58&#43;02:00">
+  <meta property="article:modified_time" content="2019-09-12T19:57:33&#43;02:00">
   
 
   
@@ -422,7 +422,7 @@
 
 
 <meta content="2019-09-12 00:00:00 &#43;0200 CEST" itemprop="datePublished">
-<meta content="2019-09-12 19:00:58 &#43;0200 CEST" itemprop="dateModified">
+<meta content="2019-09-12 19:57:33 &#43;0200 CEST" itemprop="dateModified">
 
 <div class="article-metadata">
 
@@ -577,25 +577,26 @@
 <p>The progress of mathematical optimization as a domain has been tightly
 coupled with the development and improvement of computational methods and
 their implementations as computer programs. As observed in the recent
-MIPLIB compilation article <sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup>, the
-quantification of method performance in optimization cannot really be
-split from the experimental settings.</p>
+MIPLIB compilation <sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup>, the quantification of method performance in
+optimization cannot really be split from the experimental settings.</p>
 
 <p>Different methods and implementations manipulate different data
 structures to represent the same optimization problem.
 Reformulating optimization problems has often been the role and responsibility
 of the practitioner, transforming the application problem at hand to fit a
 standard form that a given solver accepts as input for a solution method.
-Mapping a user-facing representation of an object into an internal
-representation is the role and description of compilers. For mathematical
-optimization specifically, <strong>Algebraic Modelling Languages</strong> (AML) are domain-specific
-languages (and often an associated compiler and runtime) turning a user-specified
-code into data structures passed to solvers.</p>
+Interested readers may find work on formal representation of optimization
+problems as data structures by Liberti et al<sup class="footnote-ref" id="fnref:5"><a href="#fn:5">2</a></sup><sup class="footnote-ref" id="fnref:6"><a href="#fn:6">3</a></sup>.
+Mapping a user-facing representation of an object into a semantically
+equivalent internal representation is the role of compilers.
+For mathematical optimization specifically, <strong>Algebraic Modelling Languages</strong>
+(AML) are domain-specific languages (and often an associated compiler and runtime)
+turning a user-specified code into data structures passed to solvers.</p>
 
 <p>We will focus in this post on <a href="https://github.com/JuliaOpt/MathOptInterface.jl" target="_blank">MathOptInterface.jl</a>
 (<strong>MOI</strong>) which acts as a second layer of the compilation phase of an AML.
 The main direct user-facing language for this is <a href="https://github.com/JuliaOpt/JuMP.jl" target="_blank">JuMP</a>,
-which has already been covered in multiple formats <sup class="footnote-ref" id="fnref:2"><a href="#fn:2">2</a></sup><sup class="footnote-ref" id="fnref:3"><a href="#fn:3">3</a></sup>.
+which has already been covered in multiple formats <sup class="footnote-ref" id="fnref:2"><a href="#fn:2">4</a></sup><sup class="footnote-ref" id="fnref:3"><a href="#fn:3">5</a></sup>.
 The problem has been read from the user code but not reformulated yet.
 In compiler terms, MOI appears after the parsing phase: the user code has been
 recognized and transformed into corresponding internal structures.</p>
@@ -898,7 +899,7 @@ setting the abstractions right allows the developers to integrate more exotic
 constraint types in a consistent manner.
 Optimization practitioners do not limit themselves to linear and
 mixed-integer problems, following improvements in performance and variety
-of solvers, the recent JuMP session at JuliaCon 2019<sup class="footnote-ref" id="fnref:4"><a href="#fn:4">4</a></sup> lays out the
+of solvers, the recent JuMP session at JuliaCon 2019<sup class="footnote-ref" id="fnref:4"><a href="#fn:4">6</a></sup> lays out the
 motivation and structure of MOI, and recent
 developments it enabled.
 The type-based <code>Function in Set</code> structure keeps the underlying
@@ -942,6 +943,10 @@ to what happens under the hood in a black-box proprietary solver.</li>
 <ol>
 <li id="fn:1">MIPLIB 2017: Data-Driven Compilation of the 6th Mixed-Integer Programming Library, Gleixner, Ambros and Achterberg, Tobias and Christophel, Philipp and Lübbecke, Marco and Ralphs, Ted K and Hendel, Gregor and Gamrath, Gerald and Bastubbe, Michael and Berthold, Timo and Jarck, Kati and others, 2019.
  <a class="footnote-return" href="#fnref:1"><sup>^</sup></a></li>
+<li id="fn:5">Liberti, Leo. &ldquo;Reformulations in mathematical programming: Definitions and systematics.&rdquo; RAIRO-Operations Research 43.1 (2009): 55-85. <a href="http://www.numdam.org/article/RO_2009__43_1_55_0.pdf" target="_blank">Preprint</a>
+ <a class="footnote-return" href="#fnref:5"><sup>^</sup></a></li>
+<li id="fn:6">Liberti, Leo and Cafieri, Sonia and Tarissan, Fabien, Reformulations in Mathematical Programming: A Computational Approach, <a href="https://doi.org/10.1007/978-3-642-01085-9_7" target="_blank">DOI</a>, <a href="https://www.lix.polytechnique.fr/~liberti/arschapter.pdf" target="_blank">Preprint</a>
+ <a class="footnote-return" href="#fnref:6"><sup>^</sup></a></li>
 <li id="fn:2">JuMP initial paper <a href="https://doi.org/10.1137/15M1020575" target="_blank">https://doi.org/10.1137/15M1020575</a>
  <a class="footnote-return" href="#fnref:2"><sup>^</sup></a></li>
 <li id="fn:3">JuMP tutorial at JuliaCon2018: <a href="https://www.youtube.com/watch?v=7tzFRIiseJI" target="_blank">https://www.youtube.com/watch?v=7tzFRIiseJI</a>
