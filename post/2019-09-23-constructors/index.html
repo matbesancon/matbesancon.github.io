@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en-ca">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.4.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Mathieu Besançon">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Constructors are a basic building block of object-oriented programming (OOP). They expose ways to build specific types of objects consistently, using arbitrary rules to validate properties. Still, constructors are odd beasts in the OOP world. In Java, this is usually the first case of function overloading that learning programmers meet, often without knowing the term. An overloaded constructor is shown in the following example:
+class Car { private Motor motor; public Car(Motor m) { this.">
+
+  
+  <link rel="alternate" hreflang="en-ca" href="https://matbesancon.github.io/post/2019-09-23-constructors/">
+
+  
+
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/monokai.min.css" crossorigin="anonymous" title="hl-light">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/monokai.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+      
+    
+
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,400italic,700|Roboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://matbesancon.github.io/post/2019-09-23-constructors/">
+
+  
+  
+  
+  
+    
+    
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@matbesancon">
+  <meta property="twitter:creator" content="@matbesancon">
+  
+  <meta property="og:site_name" content="μβ">
+  <meta property="og:url" content="https://matbesancon.github.io/post/2019-09-23-constructors/">
+  <meta property="og:title" content="Lessons learned on object constructors | μβ">
+  <meta property="og:description" content="Constructors are a basic building block of object-oriented programming (OOP). They expose ways to build specific types of objects consistently, using arbitrary rules to validate properties. Still, constructors are odd beasts in the OOP world. In Java, this is usually the first case of function overloading that learning programmers meet, often without knowing the term. An overloaded constructor is shown in the following example:
+class Car { private Motor motor; public Car(Motor m) { this."><meta property="og:image" content="https://matbesancon.github.io/img/icon-192.png">
+  <meta property="twitter:image" content="https://matbesancon.github.io/img/icon-192.png"><meta property="og:locale" content="en-ca">
+  
+  <meta property="article:published_time" content="2019-09-24T00:00:00&#43;02:00">
+  
+  <meta property="article:modified_time" content="2019-09-24T00:00:00&#43;02:00">
+  
+
+  
+
+
+  
+
+
+
+
+
+  <title>Lessons learned on object constructors | μβ</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">μβ</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>Home</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#talks"><span>Talks</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#experience"><span>Experience</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  <article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1 itemprop="name">Lessons learned on object constructors</h1>
+
+  
+
+  
+    
+
+
+
+<meta content="2019-09-24 00:00:00 &#43;0200 CEST" itemprop="datePublished">
+<meta content="2019-09-24 00:00:00 &#43;0200 CEST" itemprop="dateModified">
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    <time>2019-09-24</time>
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    7 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+
+  
+    
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://matbesancon.github.io/post/2019-09-23-constructors/&amp;text=Lessons%20learned%20on%20object%20constructors" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://matbesancon.github.io/post/2019-09-23-constructors/&amp;t=Lessons%20learned%20on%20object%20constructors" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Lessons%20learned%20on%20object%20constructors&amp;body=https://matbesancon.github.io/post/2019-09-23-constructors/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://matbesancon.github.io/post/2019-09-23-constructors/&amp;title=Lessons%20learned%20on%20object%20constructors" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=Lessons%20learned%20on%20object%20constructors%20https://matbesancon.github.io/post/2019-09-23-constructors/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://matbesancon.github.io/post/2019-09-23-constructors/&amp;title=Lessons%20learned%20on%20object%20constructors" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<hr />
+
+<p>Constructors are a basic building block of object-oriented programming (OOP).
+They expose ways to build specific types of objects consistently,
+using arbitrary rules to validate properties.
+Still, constructors are odd beasts in the OOP world.
+In Java, this is usually the first case of function overloading that learning
+programmers meet, often without knowing the term. An overloaded constructor is
+shown in the following example:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> Motor motor<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span><span style="color:#f92672">(</span>Motor m<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> m<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Motor<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
+
+<p>Scala and Kotlin, which are both languages on the Java Virtual Machine designed
+after and learning from Java, made the design choice of imposing a
+<strong>primary constructor</strong>, which all other constructors have to call.
+Constructors are weird beasts because they act partly as a function, partly as a
+method. Moreover, they expose a special use of <code>this</code> as a method call instead
+of being a pointer to the current object:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> Motor motor<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span><span style="color:#f92672">(</span>Motor m<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// &#39;this&#39; as an object reference
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> m<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> power<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Motor m <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Motor<span style="color:#f92672">(</span>power<span style="color:#f92672">);</span>
+        <span style="color:#75715e">// this as a method
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">(</span>m<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
+
+<p>This has been in my experience confusing and harder to teach on my side because
+it forces the learner to get a grasp of many specific tricks at the same time.
+Another hard-to-grasp point is <code>this(motor)</code>, which has never been defined has
+such. The definition it corresponds to is <code>Car(Motor m)</code>, the required mental
+load here is just unnecessary.
+This is why I appreciate Kotlin and Scala having made constructors more
+restrictive, removing the need for hand-wavy explanations for bad design.
+This great <a href="https://matklad.github.io/2019/07/16/perils-of-constructors.html" target="_blank">blog post</a>
+gives an overview of constructors in different mainstream languages and compare
+them with the trait-based system of Rust.</p>
+
+<h1 id="constructors-outside-class-based-oop">Constructors outside class-based OOP</h1>
+
+<p>I will focus here on <a href="https://docs.julialang.org/en/v1/manual/types/#Composite-Types-1" target="_blank">composite types</a>
+or <code>struct</code>. There is a whole section of the <a href="https://docs.julialang.org/en/v1/manual/constructors/" target="_blank">Julia docs</a>
+on constructors, but I would summarize things as:</p>
+
+<ol>
+<li>There is a primary constructor which must provide values for all fields.</li>
+<li>All other constructors are just functions, no magic is involved, and constructors are just multiple methods in the context of multiple dispatch.</li>
+</ol>
+
+<p>This way of building objects as simple structures holding data in different
+fields is not new, Kotlin and Scala have a similar pattern as we mentioned above.
+Languages like Rust and Go take a different path by having structures being
+plain structures, initialized by providing all fields directly:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// rust example
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Motor</span> {
+    <span style="color:#66d9ef">pub</span> power: <span style="color:#66d9ef">u8</span>,
+}
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Car</span> {
+    <span style="color:#66d9ef">pub</span> motor : <span style="color:#a6e22e">Motor</span>
+}
+<span style="color:#75715e">// let m = Motor{power : 33};
+</span></code></pre></div></p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// go example
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Motor</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Power</span> <span style="color:#66d9ef">uint</span>
+}
+<span style="color:#f92672">//</span> <span style="color:#a6e22e">m</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Motor</span>{<span style="color:#ae81ff">33</span>}</code></pre></div>
+
+<p>Both languages have conventions for calling a standard constructing function,
+namely <code>fn new(args) -&gt; T</code> and <code>func NewT(args)</code> for Rust and Go respectively,
+but those are not special and remain a simple convention without additional
+language complexity.</p>
+
+<h1 id="two-lessons-learned">Two lessons learned</h1>
+
+<p>Two interesting Pull Requests are about to be merged in
+<a href="https://github.com/JuliaStats/Distributions.jl" target="_blank">Distributions.jl</a>,
+which is the main package for working with probability distributions in Julia.
+Both revolve around a revision of the work of constructors.
+I will use them to make a point which I believe generalizes well to other systems.
+No probability theory should be needed here, it is merely a motivating example.</p>
+
+<h2 id="lesson-1-product-distributions-and-constructor-promises">Lesson 1: product distributions and constructor promises</h2>
+
+<p>Given multiple random variables: $ X_{i}, i = 1..n $ we define a
+<strong>product distribution</strong> as the vector random variable built by stacking the
+different $ X_i $:</p>
+
+<p>$$ X = [ X_i | i \in 1..n ] $$</p>
+
+<p>They arrived in Distributions.jl in <a href="https://github.com/JuliaStats/Distributions.jl/pull/722" target="_blank">this PR</a>
+if you are curious.
+One thing to be careful about is that the term &ldquo;product distribution&rdquo; does not
+correspond with the eponymous Wikipedia entry. What we refer to here is the
+<a href="https://en.wikipedia.org/wiki/Product_type" target="_blank">product type</a> in the sense of tuple
+construction and not the arithmetic product. One important property is that the
+entries of the product type are independent distributions, which helps a great
+deal deducing properties of the product distribution.</p>
+
+<p>An example product type could be the product of two univariate Gaussian
+distributions:</p>
+
+<p>$$ X_1 \sim \mathcal{N}(0, 1)$$
+$$ X_2 \sim \mathcal{N}(0, 2)$$
+$$ X = [X_1, X_2]$$</p>
+
+<p>The implementation of the <code>Product</code> type stores the vector of univariate
+distributions, sampling and computing the PDF/CDF is done on a per-entry basis.
+The corresponding code would look like this:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span> Distributions<span style="color:#f92672">:</span> Normal, Product, pdf
+
+Xs <span style="color:#f92672">=</span> [Normal(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>), Normal(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>)]
+p <span style="color:#f92672">=</span> Product(Xs)
+
+<span style="color:#75715e"># sample from p</span>
+rand(p)
+
+<span style="color:#75715e"># compute PDF at (x1 = 0, x2 = 1)</span>
+pdf(p, [<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>])</code></pre></div></p>
+
+<p>One problem we have here is that we know some specialized, faster techniques
+can be used in specific cases. Our product here for example, is nothing more
+than a multivariate Gaussian distribution with independent components:
+$$ X \sim \mathcal{N}([0, 0], diag([1, 2]))$$
+with $diag(\cdot)$ constructing a diagonal matrix from a vector.</p>
+
+<p>Sampling and computing quantities of interest for such multivariate would be
+much faster by using a multivariate directly.
+Our new design can leverage multiple dispatch, and would look as follows:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> Product(distributions<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#f92672">&lt;:</span>Gaussian})
+	<span style="color:#75715e"># construct multivariate gaussian</span>
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> Product(distributions<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#f92672">&lt;:</span>Uniform})
+	<span style="color:#75715e"># construct multivariate uniform</span>
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> Product(distributions<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#f92672">&lt;:</span>UnivariateDistribution})
+	<span style="color:#75715e"># construct generic Product</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+
+<p>It is all fine and type-stable; if you don&rsquo;t know what it means, just think
+sound from a type perspective. One issue here though is that we break the
+promise of a constructor.
+A constructor of <code>Product</code> is supposed to return a <code>Product</code> and exactly this.
+If you work in a language that uses algebraic data types for possible failures
+and absence as <code>Maybe/Either/Result/Option</code>, the constructor should return the
+type and not one of these.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> T
+	<span style="color:#75715e"># type fields</span>
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">T constructor
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+T(args) <span style="color:#f92672">=</span> <span style="color:#75715e"># ...</span>
+
+value <span style="color:#f92672">=</span> T(args)
+
+<span style="color:#75715e"># the following should always be true</span>
+typeof(value) <span style="color:#f92672">&lt;:</span> T</code></pre></div>
+
+<p>In our cases, a more efficient implementation cannot be returned from a
+constructor. This means the construction of our type must be left to another
+method which could return it or something else.
+In the case of product distributions, it was done in <a href="https://github.com/JuliaStats/Distributions.jl/pull/975" target="_blank">this PR</a>,
+adding the function <code>product_distribution</code> in Distributions.jl, which can have
+various methods returning a <code>Product</code> or something else.
+With this design, it is left possible for a distribution to define a special
+product type, while the default <code>Product</code> will work reasonably well.</p>
+
+<p>The lesson learned here is to be wary of exposing constructors when many paths
+are possible, and a dispatch system might be preferable. Constructors
+should always return the same type and are not ideal for a specialization system.</p>
+
+<h2 id="lesson-2-main-constructors-should-remain-lean">Lesson 2: main constructors should remain lean</h2>
+
+<p>Many constructors for probability distributions include a verification of the
+parameters. When constructing a uniform distribution $\mathcal{U}(a, b)$, one
+would want to verify that $a \leq b$. For a Gaussian distribution, one would
+verify that the standard deviation is positive. These checks are fine, but have
+a runtime cost and may interrupt the construction of the object.
+There are many cases in which the parameters are guaranteed to be valid, two of
+them being:</p>
+
+<ol>
+<li>Constructing an object by copy.</li>
+<li>Constructing an object with default parameters.</li>
+</ol>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> T
+	<span style="color:#75715e"># fields</span>
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> T()
+	<span style="color:#75715e"># default parameters are valid</span>
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> T(t<span style="color:#f92672">::</span>T)
+	<span style="color:#75715e"># t is already constructed, and is therefore valid</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+
+<p>Throwing errors in a constructor is ill-advised, because again,
+the promise of a constructor is to construct the object.
+In languages where throwing is not advised, it means the constructor would
+return a <code>Maybe{T} / Either{_, T}</code>, which again breaks the promise.
+The problem is that if checking is not the default, users are less likely to
+call the checking function. The solution found here is to use a keyword in
+all constructors:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> D{T <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">Real</span>} <span style="color:#f92672">&lt;:</span> Distribution
+	param<span style="color:#f92672">::</span>T
+	D{T}(param) where {T} <span style="color:#f92672">=</span> new{T}(param)
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> D(p<span style="color:#f92672">::</span>T; check_arg <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>) where {T}
+	<span style="color:#66d9ef">if</span> check_arg
+		verify(param)
+	<span style="color:#66d9ef">end</span>
+	<span style="color:#66d9ef">return</span> D{T}(param)
+<span style="color:#66d9ef">end</span></code></pre></div>
+
+<p>The default is still to check the validity of parameters, but objects of type
+<code>D</code> can now be constructed with opt-out checking. Another way to do it is
+with multiple dispatch:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> NoArgCheck <span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">struct</span> D{T <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">Real</span>} <span style="color:#f92672">&lt;:</span> Distribution
+	param<span style="color:#f92672">::</span>T
+	D{T}(param) where {T} <span style="color:#f92672">=</span> new{T}(param)
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#66d9ef">function</span> D(p<span style="color:#f92672">::</span>T, <span style="color:#f92672">::</span>NoArgCheck) where {T}
+	<span style="color:#66d9ef">return</span> D{T}(param)
+<span style="color:#66d9ef">end</span></code></pre></div>
+
+<p>In either cases, users can now take the responsibility of checking parameters
+themselves. One general rule to highlight here for scientific programming work
+is that the constructor is a fixed cost imposed on all users, treat additional
+checks and operations carefully.</p>
+
+    </div>
+
+    
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/julia/">julia</a>
+  
+  <a class="badge badge-light" href="/tags/rust/">rust</a>
+  
+  <a class="badge badge-light" href="/tags/java/">java</a>
+  
+</div>
+
+
+
+    
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  <div class="media author-card" itemscope itemtype="http://schema.org/Person">
+    
+      
+      <img class="portrait mr-3" src="/authors/admin/avatar_hu591aeda45a2f5e5db0f5b88ac2146875_34571_250x250_fill_q90_lanczos_center.jpg" itemprop="image" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title" itemprop="name"><a href="https://matbesancon.github.io/">Mathieu Besançon</a></h5>
+      <h6 class="card-subtitle">PhD candidate in mathematical optimization</h6>
+      <p class="card-text" itemprop="description">My research interests include bilevel optimization, demand response and pricing.</p>
+      <ul class="network-icon" aria-hidden="true">
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="/#contact" >
+              <i class="fas fa-envelope"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://twitter.com/matbesancon" target="_blank" rel="noopener">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://scholar.google.co.uk/citations?user=-xStCAIAAAAJ" target="_blank" rel="noopener">
+              <i class="ai ai-google-scholar"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://github.com/matbesancon" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://quora.com/profile/Mathieu-Besan%c3%a7on" target="_blank" rel="noopener">
+              <i class="fab fa-quora"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://orcid.org/0000-0002-6284-3033" target="_blank" rel="noopener">
+              <i class="ai ai-orcid"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://linkedin.com/in/mbesancon" target="_blank" rel="noopener">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+
+      
+      
+      <div class="article-widget">
+        <div class="hr-light"></div>
+        <h3>Related</h3>
+        <ul>
+          
+          <li><a href="/post/2019-09-12-bridging-indicator/">Bridges as an extended dispatch system</a></li>
+          
+          <li><a href="/post/2019-07-25-special-graphs/">Leveraging special graph shapes in LightGraphs</a></li>
+          
+          <li><a href="/post/2019-05-30-vertex-safe-removal/">Vertex removal in LightGraphs</a></li>
+          
+          <li><a href="/post/2019-05-08-simple-benders/">A take on Benders decomposition in JuMP</a></li>
+          
+          <li><a href="/post/2019-04-14-optimization-function-evaluation/">Variables are not values: types and expressions in mathematical optimization</a></li>
+          
+        </ul>
+      </div>
+      
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+    <script src="/js/mathjax-config.js"></script>
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.0.0/mermaid.min.js" integrity="sha256-0w92bcB21IY5+rGI84MGj52jNfHNbXVeQLrZ0CGdjNY=" crossorigin="anonymous" title="mermaid"></script>
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/julia.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/scala.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/python.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/rust.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+        
+      
+
+      
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "results found",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.4e51017b38c7ebaadd7e25fc9503f88c.js"></script>
+
+    
+
+
+
+
+
+
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    &copy; 2019 Mathieu Besançon &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" id="back_to_top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
