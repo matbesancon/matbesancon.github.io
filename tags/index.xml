@@ -7,10 +7,37 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Thu, 12 Sep 2019 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 24 Sep 2019 00:00:00 +0200</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>java</title>
+      <link>https://matbesancon.github.io/tags/java/</link>
+      <pubDate>Tue, 24 Sep 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>julia</title>
+      <link>https://matbesancon.github.io/tags/julia/</link>
+      <pubDate>Tue, 24 Sep 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/julia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rust</title>
+      <link>https://matbesancon.github.io/tags/rust/</link>
+      <pubDate>Tue, 24 Sep 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/rust/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>graphs</title>
@@ -18,15 +45,6 @@
       <pubDate>Thu, 12 Sep 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/tags/graphs/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>julia</title>
-      <link>https://matbesancon.github.io/tags/julia/</link>
-      <pubDate>Thu, 12 Sep 2019 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/julia/</guid>
       <description></description>
     </item>
     
@@ -162,15 +180,6 @@
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/tags/open-source/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>rust</title>
-      <link>https://matbesancon.github.io/tags/rust/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/rust/</guid>
       <description></description>
     </item>
     
