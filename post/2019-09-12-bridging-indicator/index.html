@@ -118,7 +118,7 @@
   
   <meta property="article:published_time" content="2019-09-12T00:00:00&#43;02:00">
   
-  <meta property="article:modified_time" content="2019-09-23T19:27:14&#43;02:00">
+  <meta property="article:modified_time" content="2019-09-24T20:30:33&#43;02:00">
   
 
   
@@ -422,7 +422,7 @@
 
 
 <meta content="2019-09-12 00:00:00 &#43;0200 CEST" itemprop="datePublished">
-<meta content="2019-09-23 19:27:14 &#43;0200 CEST" itemprop="dateModified">
+<meta content="2019-09-24 20:30:33 &#43;0200 CEST" itemprop="dateModified">
 
 <div class="article-metadata">
 
@@ -437,7 +437,7 @@
           Last updated on
       
     
-    <time>2019-09-23</time>
+    <time>2019-09-24</time>
   </span>
   
 
@@ -578,11 +578,12 @@
 coupled with the development and improvement of computational methods and
 their implementations as computer programs. As observed in the recent
 MIPLIB compilation <sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup>, the quantification of method performance in
-optimization cannot really be split from the experimental settings.</p>
+optimization cannot really be split from the experimental settings, solver
+performance is far from a theoretical science.</p>
 
 <p>Different methods and implementations manipulate different data
 structures to represent the same optimization problem.
-Reformulating optimization problems has often been the role and responsibility
+Reformulating optimization models has often been the role and responsibility
 of the practitioner, transforming the application problem at hand to fit a
 standard form that a given solver accepts as input for a solution method.
 Interested readers may find work on formal representation of optimization
@@ -591,15 +592,19 @@ Mapping a user-facing representation of an object into a semantically
 equivalent internal representation is the role of compilers.
 For mathematical optimization specifically, <strong>Algebraic Modelling Languages</strong>
 (AML) are domain-specific languages (and often an associated compiler and runtime)
-turning a user-specified code into data structures passed to solvers.</p>
+turning a user-specified code into data structures passed to solvers. Examples
+of such languages are JuMP, Pyomo, GAMS or AMPL; the first two being embedded in
+a host language (Julia and Python respectively), while the two last are
+stand-alone with their own compiler and runtime.</p>
 
 <p>We will focus in this post on <a href="https://github.com/JuliaOpt/MathOptInterface.jl" target="_blank">MathOptInterface.jl</a>
 (<strong>MOI</strong>) which acts as a second layer of the compilation phase of an AML.
 The main direct user-facing language for this is <a href="https://github.com/JuliaOpt/JuMP.jl" target="_blank">JuMP</a>,
-which has already been covered in multiple formats <sup class="footnote-ref" id="fnref:2"><a href="#fn:2">4</a></sup><sup class="footnote-ref" id="fnref:3"><a href="#fn:3">5</a></sup>.
-The problem has been read from the user code but not reformulated yet.
-In compiler terms, MOI appears after the parsing phase: the user code has been
-recognized and transformed into corresponding internal structures.</p>
+which has already been covered in other resources<sup class="footnote-ref" id="fnref:2"><a href="#fn:2">4</a></sup><sup class="footnote-ref" id="fnref:3"><a href="#fn:3">5</a></sup>.
+When passed to MOI, the problem has been read from the user code but not
+reformulated yet. In compiler terms, MOI appears after the parsing phase:
+the user code has been recognized and transformed into corresponding internal
+structures.</p>
 
 <p><h2>Table of Contents</h2>
 <nav id="TableOfContents">
@@ -620,6 +625,8 @@ recognized and transformed into corresponding internal structures.</p>
 </ul></li>
 </ul>
 </nav></p>
+
+<h1 id="re-formulating-problems-using-multiple-dispatch">Re-formulating problems using multiple dispatch</h1>
 
 <p>Multiple dispatch is the specialization of code depending on the arity and type
 of arguments. When multiple definitions (methods) exist for a function, the types
@@ -644,8 +651,6 @@ f(x, y) <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span
 <span style="color:#66d9ef">end</span>
 
 f(x<span style="color:#f92672">::</span>X) <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">*</span> x<span style="color:#f92672">.</span>value</code></pre></div>
-
-<h1 id="re-formulating-problems-using-multiple-dispatch">Re-formulating problems using multiple dispatch</h1>
 
 <p>In this section, we will consider the reformulation of problems
 using multiple dispatch. In a generic form, an optimization problem can be
@@ -716,7 +721,7 @@ We will assume a <code>Model</code> type has been defined, which supports a func
     add_constraint!(m, geq_function, geq_set)
 <span style="color:#66d9ef">end</span></code></pre></div>
 
-<p>The dispatching rules of that program are determined statically
+<p>The dispatching rules of that program can be determined statically
 and define the sequence of method calls:</p>
 
 <pre><code>graph TD;
@@ -754,7 +759,7 @@ two possibilities occur:</p>
 <li>The method called from a given node depends on runtime parameters.</li>
 </ol>
 
-<p>The first option could sound more efficient, but as the number of nodes, arcs
+<p>The first option could appear more efficient, but as the number of nodes, arcs
 and solvers grow, compilation is rendered impossible, as one would have to
 recompute complete programs based on the addition of solvers or reformulations.
 The second option requires tools other than dispatch, since this mechanism
@@ -802,7 +807,7 @@ of constraints. The following code declares <em>what</em> the bridge does:</p>
 
 <span style="color:#e6db74">&#34;&#34;&#34;
 </span><span style="color:#e6db74">MyBridge1 supports `F1 in S1`
-</span><span style="color:#e6db74">&#34;&#34;&#34;</span> 
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
 <span style="color:#66d9ef">function</span> MOI<span style="color:#f92672">.</span>supports_constraint(<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{MyBridge1}, <span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{F1}, <span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{S1})
     <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
 <span style="color:#66d9ef">end</span>
@@ -930,8 +935,8 @@ or passing a different formulation of the same problem, without having access
 to what happens under the hood in a black-box proprietary solver.</li>
 </ul>
 
-<p>The MOI system thus helps present and future researchers to avoid the pitfalls of the
-<em>two-language problem</em> of optimization.</p>
+<p>The MOI system thus helps present and future researchers to avoid the pitfalls
+of the <em>two-language problem</em> of mathematical optimization.</p>
 
 <h2 id="further-resources">Further resources</h2>
 

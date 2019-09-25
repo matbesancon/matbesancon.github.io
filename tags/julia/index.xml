@@ -253,35 +253,52 @@ all constructors:&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; D{T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; Distribution
 	param&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
-	D{T}(param) where {T} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; new{T}(param)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; D(p&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T; check_arg &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;) where {T}
 	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; check_arg
-		verify(param)
+		verify_parameter(p)
 	&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; D{T}(param)
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; D{T}(p)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The default is still to check the validity of parameters, but objects of type
 &lt;code&gt;D&lt;/code&gt; can now be constructed with opt-out checking. Another way to do it is
 with multiple dispatch:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; NoArgCheck &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;A flag structure to avoid checking arguments.
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; NoArgCheck &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; D{T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; Distribution
 	param&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
-	D{T}(param) where {T} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; new{T}(param)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
+&lt;span style=&#34;color:#75715e&#34;&gt;# standard constructor, validates the parameter&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; D(p&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T) where {T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;}
+	verify_parameter(p)
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; D{T}(p)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# faster constructor, no argument checking&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; D(p&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;NoArgCheck) where {T}
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; D{T}(param)
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; D{T}(p)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;In either cases, users can now take the responsibility of checking parameters
-themselves. One general rule to highlight here for scientific programming work
+themselves. In recent Julia version, the compiler optimization of boolean
+constants will make the two roughly equivalent.
+One general rule to highlight here for scientific programming work
 is that the constructor is a fixed cost imposed on all users, treat additional
 checks and operations carefully.&lt;/p&gt;
+
+&lt;p&gt;If you found this post useful (or not) or want to react in some way, feel free
+to reach out on &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt; and/or
+&lt;a href=&#34;https://www.reddit.com/r/Julia/comments/d90m1e/lessons_learned_on_object_constructors/&#34; target=&#34;_blank&#34;&gt;Reddit&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Edit&lt;/strong&gt;: thanks Alec for spotting redundant code. Another &lt;a href=&#34;https://gbracha.blogspot.com/2007/06/constructors-considered-harmful.html&#34; target=&#34;_blank&#34;&gt;blog post&lt;/a&gt;
+on the subject was posted on Reddit (thanks Paul for pointing it out).&lt;/p&gt;
 </description>
     </item>
     
@@ -299,11 +316,12 @@ checks and operations carefully.&lt;/p&gt;
 coupled with the development and improvement of computational methods and
 their implementations as computer programs. As observed in the recent
 MIPLIB compilation &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;, the quantification of method performance in
-optimization cannot really be split from the experimental settings.&lt;/p&gt;
+optimization cannot really be split from the experimental settings, solver
+performance is far from a theoretical science.&lt;/p&gt;
 
 &lt;p&gt;Different methods and implementations manipulate different data
 structures to represent the same optimization problem.
-Reformulating optimization problems has often been the role and responsibility
+Reformulating optimization models has often been the role and responsibility
 of the practitioner, transforming the application problem at hand to fit a
 standard form that a given solver accepts as input for a solution method.
 Interested readers may find work on formal representation of optimization
@@ -312,18 +330,24 @@ Mapping a user-facing representation of an object into a semantically
 equivalent internal representation is the role of compilers.
 For mathematical optimization specifically, &lt;strong&gt;Algebraic Modelling Languages&lt;/strong&gt;
 (AML) are domain-specific languages (and often an associated compiler and runtime)
-turning a user-specified code into data structures passed to solvers.&lt;/p&gt;
+turning a user-specified code into data structures passed to solvers. Examples
+of such languages are JuMP, Pyomo, GAMS or AMPL; the first two being embedded in
+a host language (Julia and Python respectively), while the two last are
+stand-alone with their own compiler and runtime.&lt;/p&gt;
 
 &lt;p&gt;We will focus in this post on &lt;a href=&#34;https://github.com/JuliaOpt/MathOptInterface.jl&#34; target=&#34;_blank&#34;&gt;MathOptInterface.jl&lt;/a&gt;
 (&lt;strong&gt;MOI&lt;/strong&gt;) which acts as a second layer of the compilation phase of an AML.
 The main direct user-facing language for this is &lt;a href=&#34;https://github.com/JuliaOpt/JuMP.jl&#34; target=&#34;_blank&#34;&gt;JuMP&lt;/a&gt;,
-which has already been covered in multiple formats &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;.
-The problem has been read from the user code but not reformulated yet.
-In compiler terms, MOI appears after the parsing phase: the user code has been
-recognized and transformed into corresponding internal structures.&lt;/p&gt;
+which has already been covered in other resources&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;.
+When passed to MOI, the problem has been read from the user code but not
+reformulated yet. In compiler terms, MOI appears after the parsing phase:
+the user code has been recognized and transformed into corresponding internal
+structures.&lt;/p&gt;
 
 &lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
 &lt;/p&gt;
+
+&lt;h1 id=&#34;re-formulating-problems-using-multiple-dispatch&#34;&gt;Re-formulating problems using multiple dispatch&lt;/h1&gt;
 
 &lt;p&gt;Multiple dispatch is the specialization of code depending on the arity and type
 of arguments. When multiple definitions (methods) exist for a function, the types
@@ -348,8 +372,6 @@ f(x, y) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 f(x&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;X) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;value&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h1 id=&#34;re-formulating-problems-using-multiple-dispatch&#34;&gt;Re-formulating problems using multiple dispatch&lt;/h1&gt;
 
 &lt;p&gt;In this section, we will consider the reformulation of problems
 using multiple dispatch. In a generic form, an optimization problem can be
@@ -420,7 +442,7 @@ We will assume a &lt;code&gt;Model&lt;/code&gt; type has been defined, which sup
     add_constraint!(m, geq_function, geq_set)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The dispatching rules of that program are determined statically
+&lt;p&gt;The dispatching rules of that program can be determined statically
 and define the sequence of method calls:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;graph TD;
@@ -458,7 +480,7 @@ two possibilities occur:&lt;/p&gt;
 &lt;li&gt;The method called from a given node depends on runtime parameters.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;The first option could sound more efficient, but as the number of nodes, arcs
+&lt;p&gt;The first option could appear more efficient, but as the number of nodes, arcs
 and solvers grow, compilation is rendered impossible, as one would have to
 recompute complete programs based on the addition of solvers or reformulations.
 The second option requires tools other than dispatch, since this mechanism
@@ -506,7 +528,7 @@ of constraints. The following code declares &lt;em&gt;what&lt;/em&gt; the bridge
 
 &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;MyBridge1 supports `F1 in S1`
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt; 
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;supports_constraint(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{MyBridge1}, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{F1}, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{S1})
     &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
@@ -634,8 +656,8 @@ or passing a different formulation of the same problem, without having access
 to what happens under the hood in a black-box proprietary solver.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;The MOI system thus helps present and future researchers to avoid the pitfalls of the
-&lt;em&gt;two-language problem&lt;/em&gt; of optimization.&lt;/p&gt;
+&lt;p&gt;The MOI system thus helps present and future researchers to avoid the pitfalls
+of the &lt;em&gt;two-language problem&lt;/em&gt; of mathematical optimization.&lt;/p&gt;
 
 &lt;h2 id=&#34;further-resources&#34;&gt;Further resources&lt;/h2&gt;
 

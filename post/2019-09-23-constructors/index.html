@@ -118,7 +118,7 @@ class Car { private Motor motor; public Car(Motor m) { this."><meta property="og
   
   <meta property="article:published_time" content="2019-09-24T00:00:00&#43;02:00">
   
-  <meta property="article:modified_time" content="2019-09-24T00:00:00&#43;02:00">
+  <meta property="article:modified_time" content="2019-09-24T20:30:33&#43;02:00">
   
 
   
@@ -422,7 +422,7 @@ class Car { private Motor motor; public Car(Motor m) { this."><meta property="og
 
 
 <meta content="2019-09-24 00:00:00 &#43;0200 CEST" itemprop="datePublished">
-<meta content="2019-09-24 00:00:00 &#43;0200 CEST" itemprop="dateModified">
+<meta content="2019-09-24 20:30:33 &#43;0200 CEST" itemprop="dateModified">
 
 <div class="article-metadata">
 
@@ -433,6 +433,8 @@ class Car { private Motor motor; public Car(Motor m) { this."><meta property="og
   <span class="article-date">
     
     
+      
+          Last updated on
       
     
     <time>2019-09-24</time>
@@ -803,35 +805,52 @@ all constructors:</p>
 
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> D{T <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">Real</span>} <span style="color:#f92672">&lt;:</span> Distribution
 	param<span style="color:#f92672">::</span>T
-	D{T}(param) where {T} <span style="color:#f92672">=</span> new{T}(param)
 <span style="color:#66d9ef">end</span>
 
 <span style="color:#66d9ef">function</span> D(p<span style="color:#f92672">::</span>T; check_arg <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>) where {T}
 	<span style="color:#66d9ef">if</span> check_arg
-		verify(param)
+		verify_parameter(p)
 	<span style="color:#66d9ef">end</span>
-	<span style="color:#66d9ef">return</span> D{T}(param)
+	<span style="color:#66d9ef">return</span> D{T}(p)
 <span style="color:#66d9ef">end</span></code></pre></div>
 
 <p>The default is still to check the validity of parameters, but objects of type
 <code>D</code> can now be constructed with opt-out checking. Another way to do it is
 with multiple dispatch:</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> NoArgCheck <span style="color:#66d9ef">end</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">A flag structure to avoid checking arguments.
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+<span style="color:#66d9ef">struct</span> NoArgCheck <span style="color:#66d9ef">end</span>
 
 <span style="color:#66d9ef">struct</span> D{T <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">Real</span>} <span style="color:#f92672">&lt;:</span> Distribution
 	param<span style="color:#f92672">::</span>T
-	D{T}(param) where {T} <span style="color:#f92672">=</span> new{T}(param)
 <span style="color:#66d9ef">end</span>
 
+<span style="color:#75715e"># standard constructor, validates the parameter</span>
+<span style="color:#66d9ef">function</span> D(p<span style="color:#f92672">::</span>T) where {T <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">Real</span>}
+	verify_parameter(p)
+	<span style="color:#66d9ef">return</span> D{T}(p)
+<span style="color:#66d9ef">end</span>
+
+<span style="color:#75715e"># faster constructor, no argument checking</span>
 <span style="color:#66d9ef">function</span> D(p<span style="color:#f92672">::</span>T, <span style="color:#f92672">::</span>NoArgCheck) where {T}
-	<span style="color:#66d9ef">return</span> D{T}(param)
+	<span style="color:#66d9ef">return</span> D{T}(p)
 <span style="color:#66d9ef">end</span></code></pre></div>
 
 <p>In either cases, users can now take the responsibility of checking parameters
-themselves. One general rule to highlight here for scientific programming work
+themselves. In recent Julia version, the compiler optimization of boolean
+constants will make the two roughly equivalent.
+One general rule to highlight here for scientific programming work
 is that the constructor is a fixed cost imposed on all users, treat additional
 checks and operations carefully.</p>
+
+<p>If you found this post useful (or not) or want to react in some way, feel free
+to reach out on <a href="https://twitter.com/matbesancon" target="_blank">Twitter</a> and/or
+<a href="https://www.reddit.com/r/Julia/comments/d90m1e/lessons_learned_on_object_constructors/" target="_blank">Reddit</a>.</p>
+
+<p><strong>Edit</strong>: thanks Alec for spotting redundant code. Another <a href="https://gbracha.blogspot.com/2007/06/constructors-considered-harmful.html" target="_blank">blog post</a>
+on the subject was posted on Reddit (thanks Paul for pointing it out).</p>
 
     </div>
 

@@ -253,35 +253,52 @@ all constructors:&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; D{T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; Distribution
 	param&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
-	D{T}(param) where {T} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; new{T}(param)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; D(p&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T; check_arg &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;) where {T}
 	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; check_arg
-		verify(param)
+		verify_parameter(p)
 	&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; D{T}(param)
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; D{T}(p)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The default is still to check the validity of parameters, but objects of type
 &lt;code&gt;D&lt;/code&gt; can now be constructed with opt-out checking. Another way to do it is
 with multiple dispatch:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; NoArgCheck &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;A flag structure to avoid checking arguments.
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; NoArgCheck &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; D{T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; Distribution
 	param&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
-	D{T}(param) where {T} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; new{T}(param)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
+&lt;span style=&#34;color:#75715e&#34;&gt;# standard constructor, validates the parameter&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; D(p&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T) where {T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;}
+	verify_parameter(p)
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; D{T}(p)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# faster constructor, no argument checking&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; D(p&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;NoArgCheck) where {T}
-	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; D{T}(param)
+	&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; D{T}(p)
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;In either cases, users can now take the responsibility of checking parameters
-themselves. One general rule to highlight here for scientific programming work
+themselves. In recent Julia version, the compiler optimization of boolean
+constants will make the two roughly equivalent.
+One general rule to highlight here for scientific programming work
 is that the constructor is a fixed cost imposed on all users, treat additional
 checks and operations carefully.&lt;/p&gt;
+
+&lt;p&gt;If you found this post useful (or not) or want to react in some way, feel free
+to reach out on &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt; and/or
+&lt;a href=&#34;https://www.reddit.com/r/Julia/comments/d90m1e/lessons_learned_on_object_constructors/&#34; target=&#34;_blank&#34;&gt;Reddit&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Edit&lt;/strong&gt;: thanks Alec for spotting redundant code. Another &lt;a href=&#34;https://gbracha.blogspot.com/2007/06/constructors-considered-harmful.html&#34; target=&#34;_blank&#34;&gt;blog post&lt;/a&gt;
+on the subject was posted on Reddit (thanks Paul for pointing it out).&lt;/p&gt;
 </description>
     </item>
     
