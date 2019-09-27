@@ -89,6 +89,8 @@ written as:&lt;/p&gt;
 
 &lt;p&gt;$$\min_{x} f(x) \\ \text{s.t.}\\ \,\,\,F_i(x) \in S_i \,\,\, \forall i$$&lt;/p&gt;
 
+&lt;p&gt;$$\begin{align} \min_{x} \,\,&amp;amp; f(x) \\ \text{s.t.}\\ &amp;amp; F_i(x) \in S_i &amp;amp; \forall i \end{align} $$&lt;/p&gt;
+
 &lt;h2 id=&#34;the-example-of-linear-constraints&#34;&gt;The example of linear constraints&lt;/h2&gt;
 
 &lt;p&gt;We will build a reformulation system leveraging multiple dispatch.
