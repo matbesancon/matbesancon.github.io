@@ -682,7 +682,7 @@ $$ F_i(x) = a_i^T x $$</p>
 <li><code>EqualTo(b)</code>: $ y \in S_i \Leftrightarrow y = b $</li>
 </ul>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> ConstraintSet <span style="color:#66d9ef">end</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">abstract</span> type ConstraintSet <span style="color:#66d9ef">end</span>
 
 <span style="color:#66d9ef">struct</span> LessThan{T} <span style="color:#f92672">&lt;:</span> ConstraintSet
     b<span style="color:#f92672">::</span>T
@@ -696,7 +696,7 @@ $$ F_i(x) = a_i^T x $$</p>
     b<span style="color:#f92672">::</span>T
 <span style="color:#66d9ef">end</span>
 
-<span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> ScalarFunction <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">abstract</span> type ScalarFunction <span style="color:#66d9ef">end</span>
 
 <span style="color:#66d9ef">struct</span> ScalarAffineFunction{T} <span style="color:#f92672">&lt;:</span> ScalarFunction
     a<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{T}
@@ -800,7 +800,7 @@ It consists of an abstract type <code>AbstractBridge</code> and some functions t
 <p>We will see the greatly reduced example of a bridge type <code>MyBridge</code> adding support for two types
 of constraints. The following code declares <em>what</em> the bridge does:</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> AbstractBridge <span style="color:#66d9ef">end</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">abstract</span> type AbstractBridge <span style="color:#66d9ef">end</span>
 
 <span style="color:#66d9ef">struct</span> MyBridge1 <span style="color:#f92672">&lt;:</span> AbstractBridge <span style="color:#66d9ef">end</span>
 
@@ -1285,7 +1285,7 @@ of the <em>two-language problem</em> of mathematical optimization.</p>
     
     
     
-    <script src="/js/academic.min.4e51017b38c7ebaadd7e25fc9503f88c.js"></script>
+    <script src="/js/academic.min.16bbb3750feb7244c9bc409a5a4fe678.js"></script>
 
     
 

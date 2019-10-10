@@ -582,16 +582,16 @@ In Java, this is usually the first case of function overloading that learning
 programmers meet, often without knowing the term. An overloaded constructor is
 shown in the following example:</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span> <span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">private</span> Motor motor<span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span> {
+    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">Motor</span> motor;
 
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span><span style="color:#f92672">(</span>Motor m<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> m<span style="color:#f92672">;</span>
-    <span style="color:#f92672">}</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Motor<span style="color:#f92672">();</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span></code></pre></div>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span>(Motor <span style="color:#a6e22e">m</span>) {
+        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> m;
+    }
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span>() {
+        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Motor();
+    }
+}</code></pre></div>
 
 <p>Scala and Kotlin, which are both languages on the Java Virtual Machine designed
 after and learning from Java, made the design choice of imposing a
@@ -600,19 +600,19 @@ Constructors are weird beasts because they act partly as a function, partly as a
 method. Moreover, they expose a special use of <code>this</code> as a method call instead
 of being a pointer to the current object:</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span> <span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">private</span> Motor motor<span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span> {
+    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">Motor</span> motor;
 
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span><span style="color:#f92672">(</span>Motor m<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span>(Motor <span style="color:#a6e22e">m</span>) {
         <span style="color:#75715e">// &#39;this&#39; as an object reference
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> m<span style="color:#f92672">;</span>
-    <span style="color:#f92672">}</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> power<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        Motor m <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Motor<span style="color:#f92672">(</span>power<span style="color:#f92672">);</span>
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> m;
+    }
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span>(<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">power</span>) {
+        Motor <span style="color:#a6e22e">m</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Motor(power);
         <span style="color:#75715e">// this as a method
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">(</span>m<span style="color:#f92672">);</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span></code></pre></div>
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>(m);
+    }
+}</code></pre></div>
 
 <p>This has been in my experience confusing and harder to teach on my side because
 it forces the learner to get a grasp of many specific tricks at the same time.
@@ -1170,7 +1170,7 @@ on the subject was posted on Reddit (thanks Paul for pointing it out).</p>
     
     
     
-    <script src="/js/academic.min.4e51017b38c7ebaadd7e25fc9503f88c.js"></script>
+    <script src="/js/academic.min.16bbb3750feb7244c9bc409a5a4fe678.js"></script>
 
     
 

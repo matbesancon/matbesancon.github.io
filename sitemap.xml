@@ -3,38 +3,33 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://matbesancon.github.io/tags/java/</loc>
+    <lastmod>2019-10-01T11:30:41+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/julia/</loc>
+    <lastmod>2019-10-01T12:28:51+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://matbesancon.github.io/post/2019-09-23-constructors/</loc>
+    <lastmod>2019-10-01T11:30:41+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/rust/</loc>
     <lastmod>2019-10-01T11:30:41+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://matbesancon.github.io/tags/</loc>
     <lastmod>2019-10-01T12:28:51+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/java/</loc>
-    <lastmod>2019-10-01T11:30:41+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/julia/</loc>
-    <lastmod>2019-10-01T12:28:51+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/rust/</loc>
-    <lastmod>2019-10-01T11:30:41+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://matbesancon.github.io/</loc>
     <lastmod>2019-10-01T12:28:51+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -45,30 +40,26 @@
   <url>
     <loc>https://matbesancon.github.io/tags/graphs/</loc>
     <lastmod>2019-10-01T12:28:51+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://matbesancon.github.io/tags/jump/</loc>
     <lastmod>2019-10-01T12:28:51+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://matbesancon.github.io/tags/optimization/</loc>
     <lastmod>2019-10-01T12:28:51+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/post/2019-07-25-special-graphs/</loc>
-    <lastmod>2019-07-26T10:52:27+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://matbesancon.github.io/tags/interface/</loc>
     <lastmod>2019-07-26T13:30:17+02:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/post/2019-07-25-special-graphs/</loc>
+    <lastmod>2019-07-26T10:52:27+02:00</lastmod>
   </url>
   
   <url>
@@ -89,7 +80,16 @@
   <url>
     <loc>https://matbesancon.github.io/tags/integer-optimization/</loc>
     <lastmod>2019-09-09T12:15:37+02:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/functional/</loc>
+    <lastmod>2019-05-09T14:12:49+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/python/</loc>
+    <lastmod>2019-05-09T14:12:49+02:00</lastmod>
   </url>
   
   <url>
@@ -98,15 +98,8 @@
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/tags/functional/</loc>
-    <lastmod>2019-05-09T14:12:49+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/python/</loc>
-    <lastmod>2019-05-09T14:12:49+02:00</lastmod>
-    <priority>0</priority>
+    <loc>https://matbesancon.github.io/tags/graph/</loc>
+    <lastmod>2019-05-08T17:19:05+02:00</lastmod>
   </url>
   
   <url>
@@ -115,14 +108,13 @@
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/tags/graph/</loc>
-    <lastmod>2019-05-08T17:19:05+02:00</lastmod>
-    <priority>0</priority>
+    <loc>https://matbesancon.github.io/post/2019-03-30-static-list/</loc>
+    <lastmod>2019-04-07T22:56:16+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/post/2019-03-30-static-list/</loc>
-    <lastmod>2019-04-07T22:56:16+02:00</lastmod>
+    <loc>https://matbesancon.github.io/tags/book/</loc>
+    <lastmod>2019-03-24T20:54:17+01:00</lastmod>
   </url>
   
   <url>
@@ -131,15 +123,8 @@
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/tags/book/</loc>
-    <lastmod>2019-03-24T20:54:17+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://matbesancon.github.io/tags/economics/</loc>
     <lastmod>2019-03-24T20:54:17+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -155,7 +140,11 @@
   <url>
     <loc>https://matbesancon.github.io/tags/academia/</loc>
     <lastmod>2019-08-03T09:11:54+02:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/engineering/</loc>
+    <lastmod>2019-05-09T14:12:49+02:00</lastmod>
   </url>
   
   <url>
@@ -164,14 +153,23 @@
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/tags/engineering/</loc>
-    <lastmod>2019-05-09T14:12:49+02:00</lastmod>
-    <priority>0</priority>
+    <loc>https://matbesancon.github.io/project/tlou/</loc>
+    <lastmod>2019-08-03T09:11:54+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/project/tlou/</loc>
+    <loc>https://matbesancon.github.io/tags/energy/</loc>
     <lastmod>2019-08-03T09:11:54+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/game/</loc>
+    <lastmod>2019-05-06T17:25:29+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/julia-package/</loc>
+    <lastmod>2019-05-08T17:19:05+02:00</lastmod>
   </url>
   
   <url>
@@ -180,38 +178,18 @@
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/project/yaspr/</loc>
-    <lastmod>2019-05-06T17:25:29+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/energy/</loc>
-    <lastmod>2019-08-03T09:11:54+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/game/</loc>
-    <lastmod>2019-05-06T17:25:29+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/julia-package/</loc>
-    <lastmod>2019-05-08T17:19:05+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://matbesancon.github.io/tags/open-source/</loc>
     <lastmod>2019-05-08T17:19:05+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/tags/stats/</loc>
+    <loc>https://matbesancon.github.io/tags/statistics/</loc>
     <lastmod>2019-05-08T17:19:05+02:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/project/yaspr/</loc>
+    <lastmod>2019-05-06T17:25:29+02:00</lastmod>
   </url>
   
   <url>
@@ -227,7 +205,6 @@
   <url>
     <loc>https://matbesancon.github.io/tags/phd/</loc>
     <lastmod>2018-09-27T18:11:35+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -236,20 +213,13 @@
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/project/mixed_distributions/</loc>
-    <lastmod>2019-05-08T17:19:05+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://matbesancon.github.io/tags/distributions/</loc>
     <lastmod>2019-05-08T17:19:05+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/tags/statistics/</loc>
+    <loc>https://matbesancon.github.io/project/mixed_distributions/</loc>
     <lastmod>2019-05-08T17:19:05+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -260,7 +230,6 @@
   <url>
     <loc>https://matbesancon.github.io/tags/package/</loc>
     <lastmod>2018-08-30T19:11:32+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -274,14 +243,13 @@
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/post/2018-05-23-colgen/</loc>
+    <loc>https://matbesancon.github.io/tags/modeling/</loc>
     <lastmod>2019-07-11T15:23:14+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/tags/modeling/</loc>
+    <loc>https://matbesancon.github.io/post/2018-05-23-colgen/</loc>
     <lastmod>2019-07-11T15:23:14+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -305,20 +273,18 @@
   </url>
   
   <url>
+    <loc>https://matbesancon.github.io/tags/applied-math/</loc>
+    <lastmod>2019-05-06T16:12:13+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</loc>
     <lastmod>2019-05-06T16:12:13+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/tags/applied-math/</loc>
-    <lastmod>2019-05-06T16:12:13+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://matbesancon.github.io/tags/numerical-techniques/</loc>
     <lastmod>2019-05-06T16:12:13+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -327,20 +293,38 @@
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</loc>
-    <lastmod>2017-10-20T15:22:07-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://matbesancon.github.io/tags/golang/</loc>
     <lastmod>2019-05-06T18:44:20+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://matbesancon.github.io/tags/productivity/</loc>
     <lastmod>2017-10-20T15:22:07-04:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</loc>
+    <lastmod>2017-10-20T15:22:07-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/blog/</loc>
+    <lastmod>2019-05-06T16:12:13+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/hugo/</loc>
+    <lastmod>2019-05-06T16:12:13+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/jekyll/</loc>
+    <lastmod>2019-05-06T16:12:13+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/medium/</loc>
+    <lastmod>2019-05-06T16:12:13+02:00</lastmod>
   </url>
   
   <url>
@@ -349,33 +333,8 @@
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/tags/blog/</loc>
-    <lastmod>2019-05-06T16:12:13+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/hugo/</loc>
-    <lastmod>2019-05-06T16:12:13+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/jekyll/</loc>
-    <lastmod>2019-05-06T16:12:13+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/medium/</loc>
-    <lastmod>2019-05-06T16:12:13+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://matbesancon.github.io/tags/writing/</loc>
     <lastmod>2019-05-06T16:12:13+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -391,24 +350,21 @@
   <url>
     <loc>https://matbesancon.github.io/tags/startup/</loc>
     <lastmod>2017-09-11T22:03:29-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/post/2016-09-13-page-rank/</loc>
-    <lastmod>2018-07-25T22:52:48+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://matbesancon.github.io/tags/algorithm/</loc>
     <lastmod>2018-07-25T22:52:48+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://matbesancon.github.io/tags/data-science/</loc>
     <lastmod>2019-05-09T14:12:49+02:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/post/2016-09-13-page-rank/</loc>
+    <lastmod>2018-07-25T22:52:48+02:00</lastmod>
   </url>
   
   <url>
@@ -434,7 +390,6 @@
   <url>
     <loc>https://matbesancon.github.io/tags/classification/</loc>
     <lastmod>2017-09-11T22:03:29-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -454,13 +409,10 @@
   
   <url>
     <loc>https://matbesancon.github.io/authors/</loc>
-    <lastmod>2019-05-08T21:45:13+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://matbesancon.github.io/categories/</loc>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -475,7 +427,6 @@
   
   <url>
     <loc>https://matbesancon.github.io/publication_types/</loc>
-    <priority>0</priority>
   </url>
   
   <url>

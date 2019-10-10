@@ -733,7 +733,7 @@ for each $j$. One way to do it using dynamic typing:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> BigMMethod <span style="color:#66d9ef">end</span>
 
 <span style="color:#66d9ef">function</span> handle_ifthenelse(x, y, <span style="color:#f92672">::</span>BigMMethod, M<span style="color:#f92672">::</span><span style="color:#66d9ef">Union</span>{<span style="color:#66d9ef">Real</span>,<span style="color:#66d9ef">AbstractVector</span>{<span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Real</span>}})
-    <span style="color:#66d9ef">if</span> M isa <span style="color:#66d9ef">Real</span>
+    <span style="color:#66d9ef">if</span> M <span style="color:#66d9ef">isa</span> <span style="color:#66d9ef">Real</span>
         <span style="color:#75715e"># handle with one unique M</span>
     <span style="color:#66d9ef">else</span>
         <span style="color:#75715e"># it is a vector</span>
@@ -1203,7 +1203,7 @@ indicator constraints instead of big M, as documented in <a href="http://www.gur
     
     
     
-    <script src="/js/academic.min.4e51017b38c7ebaadd7e25fc9503f88c.js"></script>
+    <script src="/js/academic.min.16bbb3750feb7244c9bc409a5a4fe678.js"></script>
 
     
 

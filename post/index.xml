@@ -29,16 +29,16 @@ In Java, this is usually the first case of function overloading that learning
 programmers meet, often without knowing the term. An overloaded constructor is
 shown in the following example:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Car&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; Motor motor&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Car&lt;/span&gt; {
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Motor&lt;/span&gt; motor;
 
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Car&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Motor m&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
-        &lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;motor&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; m&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
-    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Car&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
-        &lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;motor&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Motor&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
-    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Car&lt;/span&gt;(Motor &lt;span style=&#34;color:#a6e22e&#34;&gt;m&lt;/span&gt;) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;motor&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; m;
+    }
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Car&lt;/span&gt;() {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;motor&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Motor();
+    }
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Scala and Kotlin, which are both languages on the Java Virtual Machine designed
 after and learning from Java, made the design choice of imposing a
@@ -47,19 +47,19 @@ Constructors are weird beasts because they act partly as a function, partly as a
 method. Moreover, they expose a special use of &lt;code&gt;this&lt;/code&gt; as a method call instead
 of being a pointer to the current object:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Car&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; Motor motor&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Car&lt;/span&gt; {
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Motor&lt;/span&gt; motor;
 
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Car&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Motor m&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Car&lt;/span&gt;(Motor &lt;span style=&#34;color:#a6e22e&#34;&gt;m&lt;/span&gt;) {
         &lt;span style=&#34;color:#75715e&#34;&gt;// &amp;#39;this&amp;#39; as an object reference
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;motor&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; m&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
-    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Car&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; power&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
-        Motor m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Motor&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;power&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;motor&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; m;
+    }
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Car&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;power&lt;/span&gt;) {
+        Motor &lt;span style=&#34;color:#a6e22e&#34;&gt;m&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; Motor(power);
         &lt;span style=&#34;color:#75715e&#34;&gt;// this as a method
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;m&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
-    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;(m);
+    }
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;This has been in my experience confusing and harder to teach on my side because
 it forces the learner to get a grasp of many specific tricks at the same time.
@@ -398,7 +398,7 @@ $$ F_i(x) = a_i^T x $$&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;EqualTo(b)&lt;/code&gt;: $ y \in S_i \Leftrightarrow y = b $&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; ConstraintSet &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; type ConstraintSet &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; LessThan{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; ConstraintSet
     b&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
@@ -412,7 +412,7 @@ $$ F_i(x) = a_i^T x $$&lt;/p&gt;
     b&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; ScalarFunction &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; type ScalarFunction &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; ScalarAffineFunction{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; ScalarFunction
     a&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{T}
@@ -516,7 +516,7 @@ It consists of an abstract type &lt;code&gt;AbstractBridge&lt;/code&gt; and some
 &lt;p&gt;We will see the greatly reduced example of a bridge type &lt;code&gt;MyBridge&lt;/code&gt; adding support for two types
 of constraints. The following code declares &lt;em&gt;what&lt;/em&gt; the bridge does:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; AbstractBridge &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; type AbstractBridge &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; MyBridge1 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; AbstractBridge &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
@@ -1793,7 +1793,7 @@ Some other references:&lt;/p&gt;
 &lt;p&gt;Julia allows developers to define type parameters.
 In the case of a list, the most obvious one may be the
 type of data it contains:
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; MyList{T} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; type MyList{T} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
 
 &lt;p&gt;Some types are however parametrized on other things, if we look at the
 definition of &lt;code&gt;AbstractArray&lt;/code&gt; for example:&lt;/p&gt;
@@ -1816,7 +1816,7 @@ directly using integers.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;A static list of type `T` and length `L`
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; StaticList{T,L} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; type StaticList{T,L} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; Nil{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
@@ -1853,7 +1853,7 @@ does exactly that. More discussion on computed type parameters in
 
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; ComputedFieldTypes
 
-julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; StaticList{T,L} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; type StaticList{T,L} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; Nil{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
@@ -1889,14 +1889,14 @@ number using recursive types.&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;A type parameter for List length, the numerical length can be retrieved
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;using `length(l::Length)`
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; Length &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; type Length &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; ZeroLength &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; Length &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; Next{L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; Length &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;A linked list of size known at compile-time
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; StaticList{T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; type StaticList{T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Length} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; Nil{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; StaticList{T,ZeroLength} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
@@ -2073,11 +2073,11 @@ the value just once.&lt;/p&gt;
 &lt;p&gt;There is one last extension we can think of with this data structure.
 Since we have a recursive length parameter, why not add it a type at each new node?&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; TLength &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; type TLength &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; TZeroLength &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TLength &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; TNext{T,L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;TLength} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TLength &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; TStaticList{L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;TLength} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; type TStaticList{L&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;TLength} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; TNil &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; TStaticList{TZeroLength} &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
@@ -2425,7 +2425,7 @@ for each $j$. One way to do it using dynamic typing:
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; BigMMethod &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; handle_ifthenelse(x, y, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;BigMMethod, M&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Union&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;}})
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; M isa &lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; M &lt;span style=&#34;color:#66d9ef&#34;&gt;isa&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;
         &lt;span style=&#34;color:#75715e&#34;&gt;# handle with one unique M&lt;/span&gt;
     &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;
         &lt;span style=&#34;color:#75715e&#34;&gt;# it is a vector&lt;/span&gt;
@@ -3238,7 +3238,7 @@ from another &lt;em&gt;milieu&lt;/em&gt;, I was not used to the process of publi
 journals. First position I&amp;rsquo;ll take and try to maintain: &lt;strong&gt;the measures of academic
 success are broken, or at least imperfect&lt;/strong&gt; (reach out to future-me if I change my mind).
 One example of this is research software.
-&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Paraphrasing &lt;a href=&#34;https://twitter.com/mgymrek?ref_src=twsrc%5Etfw&#34;&gt;@mgymrek&lt;/a&gt;:&lt;br&gt;&lt;br&gt;Your paper is cited outside of your field in one semi-related paragraph: *counts towards your career progression*&lt;br&gt;&lt;br&gt;Your academic software package has 100 stars on GitHub: *counts for nothing*&lt;br&gt;&lt;br&gt;Something is wrong here 😐 &lt;a href=&#34;https://twitter.com/hashtag/jsm2018?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#jsm2018&lt;/a&gt;&lt;/p&gt;&amp;mdash; Sean Kross 🍎🍯 (@seankross) &lt;a href=&#34;https://twitter.com/seankross/status/1024059834654588929?ref_src=twsrc%5Etfw&#34;&gt;July 30, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Paraphrasing &lt;a href=&#34;https://twitter.com/mgymrek?ref_src=twsrc%5Etfw&#34;&gt;@mgymrek&lt;/a&gt;:&lt;br&gt;&lt;br&gt;Your paper is cited outside of your field in one semi-related paragraph: *counts towards your career progression*&lt;br&gt;&lt;br&gt;Your academic software package has 100 stars on GitHub: *counts for nothing*&lt;br&gt;&lt;br&gt;Something is wrong here 😐 &lt;a href=&#34;https://twitter.com/hashtag/jsm2018?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#jsm2018&lt;/a&gt;&lt;/p&gt;&amp;mdash; Sean Kross (@seankross) &lt;a href=&#34;https://twitter.com/seankross/status/1024059834654588929?ref_src=twsrc%5Etfw&#34;&gt;July 30, 2018&lt;/a&gt;&lt;/blockquote&gt;
 &lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
 
 &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Had my &amp;quot;software is part of the research process&amp;quot; argument with an academic who wanted to use software to generate results but didn&amp;#39;t want to &amp;quot;concentrate on it too much&amp;quot;. I should start counting how many times I go through this and throw a party when I get to a million.&lt;/p&gt;&amp;mdash; Simon Hettrick (@sjh5000) &lt;a href=&#34;https://twitter.com/sjh5000/status/1043112943372644353?ref_src=twsrc%5Etfw&#34;&gt;September 21, 2018&lt;/a&gt;&lt;/blockquote&gt;
@@ -4350,7 +4350,7 @@ is owed in net from a user to another:&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    What is owed to a given user (negative if user owes money)
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; net_owed_user(net_owing&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{GraphCoin})
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (sum(net_owing,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; sum(net_owing,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;))[&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (sum(net_owing,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; sum(net_owing,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;))[&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
 
 &lt;p&gt;The &lt;code&gt;sum&lt;/code&gt; function used with &lt;code&gt;1&lt;/code&gt; or &lt;code&gt;2&lt;/code&gt; sums a matrix over its rows, columns

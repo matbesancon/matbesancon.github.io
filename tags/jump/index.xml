@@ -105,7 +105,7 @@ $$ F_i(x) = a_i^T x $$&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;EqualTo(b)&lt;/code&gt;: $ y \in S_i \Leftrightarrow y = b $&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; ConstraintSet &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; type ConstraintSet &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; LessThan{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; ConstraintSet
     b&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
@@ -119,7 +119,7 @@ $$ F_i(x) = a_i^T x $$&lt;/p&gt;
     b&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
-&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; ScalarFunction &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; type ScalarFunction &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; ScalarAffineFunction{T} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; ScalarFunction
     a&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{T}
@@ -223,7 +223,7 @@ It consists of an abstract type &lt;code&gt;AbstractBridge&lt;/code&gt; and some
 &lt;p&gt;We will see the greatly reduced example of a bridge type &lt;code&gt;MyBridge&lt;/code&gt; adding support for two types
 of constraints. The following code declares &lt;em&gt;what&lt;/em&gt; the bridge does:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; AbstractBridge &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;abstract&lt;/span&gt; type AbstractBridge &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; MyBridge1 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; AbstractBridge &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 

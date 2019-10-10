@@ -538,7 +538,7 @@ is owed in net from a user to another:&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    What is owed to a given user (negative if user owes money)
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; net_owed_user(net_owing&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{GraphCoin})
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (sum(net_owing,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; sum(net_owing,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;))[&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (sum(net_owing,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; sum(net_owing,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;))[&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
 &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
 
 &lt;p&gt;The &lt;code&gt;sum&lt;/code&gt; function used with &lt;code&gt;1&lt;/code&gt; or &lt;code&gt;2&lt;/code&gt; sums a matrix over its rows, columns

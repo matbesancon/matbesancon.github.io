@@ -615,7 +615,7 @@ Some other references:</p>
 <p>Julia allows developers to define type parameters.
 In the case of a list, the most obvious one may be the
 type of data it contains:
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> MyList{T} <span style="color:#66d9ef">end</span></code></pre></div></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">abstract</span> type MyList{T} <span style="color:#66d9ef">end</span></code></pre></div></p>
 
 <p>Some types are however parametrized on other things, if we look at the
 definition of <code>AbstractArray</code> for example:</p>
@@ -638,7 +638,7 @@ directly using integers.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#e6db74">&#34;&#34;&#34;
 </span><span style="color:#e6db74">A static list of type `T` and length `L`
 </span><span style="color:#e6db74">&#34;&#34;&#34;</span>
-<span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> StaticList{T,L} <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">abstract</span> type StaticList{T,L} <span style="color:#66d9ef">end</span>
 
 <span style="color:#66d9ef">struct</span> Nil{T} <span style="color:#f92672">&lt;:</span> StaticList{T,<span style="color:#ae81ff">0</span>} <span style="color:#66d9ef">end</span>
 
@@ -675,7 +675,7 @@ does exactly that. More discussion on computed type parameters in
 
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">julia<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">using</span> ComputedFieldTypes
 
-julia<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> StaticList{T,L} <span style="color:#66d9ef">end</span>
+julia<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">abstract</span> type StaticList{T,L} <span style="color:#66d9ef">end</span>
 
 julia<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">struct</span> Nil{T} <span style="color:#f92672">&lt;:</span> StaticList{T,<span style="color:#ae81ff">0</span>} <span style="color:#66d9ef">end</span>
 
@@ -711,14 +711,14 @@ number using recursive types.</p>
 </span><span style="color:#e6db74">A type parameter for List length, the numerical length can be retrieved
 </span><span style="color:#e6db74">using `length(l::Length)`
 </span><span style="color:#e6db74">&#34;&#34;&#34;</span>
-<span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> Length <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">abstract</span> type Length <span style="color:#66d9ef">end</span>
 <span style="color:#66d9ef">struct</span> ZeroLength <span style="color:#f92672">&lt;:</span> Length <span style="color:#66d9ef">end</span>
 <span style="color:#66d9ef">struct</span> Next{L<span style="color:#f92672">&lt;:</span>Length} <span style="color:#f92672">&lt;:</span> Length <span style="color:#66d9ef">end</span>
 
 <span style="color:#e6db74">&#34;&#34;&#34;
 </span><span style="color:#e6db74">A linked list of size known at compile-time
 </span><span style="color:#e6db74">&#34;&#34;&#34;</span>
-<span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> StaticList{T,L<span style="color:#f92672">&lt;:</span>Length} <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">abstract</span> type StaticList{T,L<span style="color:#f92672">&lt;:</span>Length} <span style="color:#66d9ef">end</span>
 
 <span style="color:#66d9ef">struct</span> Nil{T} <span style="color:#f92672">&lt;:</span> StaticList{T,ZeroLength} <span style="color:#66d9ef">end</span>
 
@@ -895,11 +895,11 @@ the value just once.</p>
 <p>There is one last extension we can think of with this data structure.
 Since we have a recursive length parameter, why not add it a type at each new node?</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> TLength <span style="color:#66d9ef">end</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">abstract</span> type TLength <span style="color:#66d9ef">end</span>
 <span style="color:#66d9ef">struct</span> TZeroLength <span style="color:#f92672">&lt;:</span> TLength <span style="color:#66d9ef">end</span>
 <span style="color:#66d9ef">struct</span> TNext{T,L<span style="color:#f92672">&lt;:</span>TLength} <span style="color:#f92672">&lt;:</span> TLength <span style="color:#66d9ef">end</span>
 
-<span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">type</span> TStaticList{L<span style="color:#f92672">&lt;:</span>TLength} <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">abstract</span> type TStaticList{L<span style="color:#f92672">&lt;:</span>TLength} <span style="color:#66d9ef">end</span>
 
 <span style="color:#66d9ef">struct</span> TNil <span style="color:#f92672">&lt;:</span> TStaticList{TZeroLength} <span style="color:#66d9ef">end</span>
 
@@ -1260,7 +1260,7 @@ experiment.</p>
     
     
     
-    <script src="/js/academic.min.4e51017b38c7ebaadd7e25fc9503f88c.js"></script>
+    <script src="/js/academic.min.16bbb3750feb7244c9bc409a5a4fe678.js"></script>
 
     
 
