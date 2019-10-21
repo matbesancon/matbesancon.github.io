@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://matbesancon.github.io/post/2019-10-21-skype-a-scientist/</loc>
+    <lastmod>2019-10-21T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/</loc>
+    <lastmod>2019-10-21T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://matbesancon.github.io/tags/java/</loc>
     <lastmod>2019-10-01T11:30:41+02:00</lastmod>
   </url>
@@ -24,11 +34,6 @@
   
   <url>
     <loc>https://matbesancon.github.io/tags/</loc>
-    <lastmod>2019-10-10T16:24:19+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/</loc>
     <lastmod>2019-10-10T16:24:19+02:00</lastmod>
   </url>
   
