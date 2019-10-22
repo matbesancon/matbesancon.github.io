@@ -27,7 +27,9 @@ from the US (think 9-10 years old if like me, you have no idea what grades stand
 and their super-dedicated teacher.
 It was a fun time but the most surprising part was discovering the questions
 they had prepared. I thought it would be worth it to list them and record some
-answers.&lt;/p&gt;
+answers as I remember them.
+I grouped the questions in four arbitrary categories. The list also does not
+reflect the order in which the questions were asked.&lt;/p&gt;
 
 &lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
 HAHAHUGOSHORTCODE-TOC0-HBHB&lt;/p&gt;
@@ -47,13 +49,14 @@ started my PhD two years ago.&lt;/p&gt;
 &lt;h2 id=&#34;what-kind-of-place-do-you-work-in&#34;&gt;What kind of place do you work in?&lt;/h2&gt;
 
 &lt;p&gt;I work in a &amp;ldquo;lab&amp;rdquo;, but in my case this is an office
-(no white lab coat, no smoking tubes).
-with two other people. One of my offices is in a research institute called INRIA
-in Northern France, the other is in Montréal, Canada.&lt;/p&gt;
+(no white lab coat, no smoking tubes) with two other people.
+The office is located in a research institute, where other scientists and
+professors work on their research.&lt;/p&gt;
 
 &lt;h2 id=&#34;what-science-experiments-do-you-do&#34;&gt;What science experiments do you do?&lt;/h2&gt;
 
-&lt;p&gt;I write mathematical models to represent decisions, for example in power grids.
+&lt;p&gt;I write mathematical models to make better decisions in complex environments, for
+example in power grids.
 With specific models, the computers are really good at finding the best decisions.&lt;/p&gt;
 
 &lt;h2 id=&#34;how-many-days-a-week-do-you-work&#34;&gt;How many days a week do you work?&lt;/h2&gt;
@@ -63,11 +66,11 @@ sometimes I work a bit more, depending on the emergency of what I am doing.&lt;/
 
 &lt;h2 id=&#34;what-research-are-you-working-on&#34;&gt;What research are you working on?&lt;/h2&gt;
 
-&lt;p&gt;I am working on models for better decisions in power grids.
+&lt;p&gt;I am working on models for better decisions in what is called the &lt;em&gt;power grid&lt;/em&gt;.
 The power grid is the network connecting everything to electricity sources.
 Whether you are in your class or your kitchen at home, when you turn on the light,
 electricity is flowing all the way from places where it is produced
-(like the water network). These days, we get more and more renewable sources
+(like the water network). These days, there are more and more renewable sources
 like solar panels and wind farms, but sometimes there is no sun or wind, so we
 have to anticipate better what is happening and make our consumption flexible.&lt;/p&gt;
 
@@ -89,7 +92,7 @@ a keyboard, and a mess of papers, draft notes, books. I&amp;rsquo;m a messy scie
 
 &lt;h2 id=&#34;what-do-you-do-in-your-lab-if-you-work-in-a-lab&#34;&gt;What do you do in your lab? (if you work in a lab?)&lt;/h2&gt;
 
-&lt;p&gt;Once I obtain interesting models and answers from computers, I write articles
+&lt;p&gt;Once I have developed models and obtained interesting answers from computers, I write articles
 for other scientists to read. Other than that, I discuss with other people to
 find ideas on the models we write or how to write better computer programs,
 I drink coffee and eat cookies even when I shouldn&amp;rsquo;t.&lt;/p&gt;
@@ -99,14 +102,15 @@ I drink coffee and eat cookies even when I shouldn&amp;rsquo;t.&lt;/p&gt;
 &lt;h2 id=&#34;do-you-make-models-of-anything&#34;&gt;Do you make models of anything?&lt;/h2&gt;
 
 &lt;p&gt;I haven&amp;rsquo;t found counter-examples yet so I&amp;rsquo;ll go with yes, you can make
-models from anything. A model is a way we represent something in a way that is
+models of anything. A model is a way we represent something in a way that is
 easier to grasp, either for us humans, or for a computer.&lt;/p&gt;
 
 &lt;h2 id=&#34;how-did-the-language-of-math-get-created&#34;&gt;How did the language of math get created?&lt;/h2&gt;
 
 &lt;p&gt;I am not an expert in the history of science, but from what I remember of old
 mathematical papers I saw, the language of mathematics was created piece by piece,
-by iterations. First concepts would be created, like adding two numbers together
+by iterations.
+First, concepts would be created, like adding two numbers together
 into a bigger number. Then, some scientist, not necessarily the person who
 developed the concept, would find way to represent this abstract concept, for
 example with a cross symbol: $+$.&lt;/p&gt;
@@ -124,9 +128,14 @@ and people would only agree later on which one should be kept.&lt;/p&gt;
 &lt;p&gt;Because it&amp;rsquo;s both:&lt;/p&gt;
 
 &lt;ol&gt;
-&lt;li&gt;A new language to learn (how to say things)&lt;/li&gt;
+&lt;li&gt;A new language to learn (how to say or write things)&lt;/li&gt;
 &lt;li&gt;New concepts (new things we are able to say)&lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;p&gt;Things get easier with practice once you can relate the concept to things you
+already know or visualize. That&amp;rsquo;s also why you are learning multiplications
+with different models to see which one helps you relate the concept to what
+it applies to.&lt;/p&gt;
 
 &lt;h2 id=&#34;how-are-there-so-many-different-strategies-for-math&#34;&gt;How are there so many different strategies for math?&lt;/h2&gt;
 
