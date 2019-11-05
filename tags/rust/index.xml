@@ -7,7 +7,7 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Tue, 24 Sep 2019 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 24 Sep 2019 00:00:00 -0400</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/rust/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Lessons learned on object constructors</title>
       <link>https://matbesancon.github.io/post/2019-09-23-constructors/</link>
-      <pubDate>Tue, 24 Sep 2019 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 24 Sep 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-09-23-constructors/</guid>
       <description>
@@ -309,7 +309,7 @@ on the subject was posted on Reddit (thanks Paul for pointing it out).&lt;/p&gt;
     <item>
       <title>YASPR: Yet Another Snake on Piston &amp; Rust</title>
       <link>https://matbesancon.github.io/project/yaspr/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/project/yaspr/</guid>
       <description></description>

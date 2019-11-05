@@ -7,7 +7,7 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 08 May 2019 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 08 May 2019 00:00:00 -0400</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/integer-optimization/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>A take on Benders decomposition in JuMP</title>
       <link>https://matbesancon.github.io/post/2019-05-08-simple-benders/</link>
-      <pubDate>Wed, 08 May 2019 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 08 May 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-05-08-simple-benders/</guid>
       <description>
@@ -277,7 +277,7 @@ don&amp;rsquo;t hesitate to react or ping me on &lt;a href=&#34;https://twitter.
     <item>
       <title>Picking different names with integer optimization</title>
       <link>https://matbesancon.github.io/post/2019-04-07-name_distances/</link>
-      <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-07-name_distances/</guid>
       <description>
@@ -417,7 +417,7 @@ post, and to BYP for the feedback.&lt;/p&gt;
     <item>
       <title>The cutting stock problem: part 2, solving with column generation</title>
       <link>https://matbesancon.github.io/post/2018-05-25-colgen2/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 30 May 2018 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-25-colgen2/</guid>
       <description>
@@ -759,7 +759,7 @@ contributed to its improvement!&lt;/p&gt;
     <item>
       <title>Tackling the cutting stock problem: part 1, problem exploration</title>
       <link>https://matbesancon.github.io/post/2018-05-23-colgen/</link>
-      <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 23 May 2018 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
       <description>

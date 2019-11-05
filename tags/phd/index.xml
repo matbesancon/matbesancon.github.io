@@ -7,7 +7,7 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Thu, 27 Sep 2018 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 27 Sep 2018 00:00:00 -0400</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/phd/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>A year in PhD</title>
       <link>https://matbesancon.github.io/post/2018-09-27-year-in-phd/</link>
-      <pubDate>Thu, 27 Sep 2018 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-09-27-year-in-phd/</guid>
       <description>
@@ -173,7 +173,7 @@ from another &lt;em&gt;milieu&lt;/em&gt;, I was not used to the process of publi
 journals. First position I&amp;rsquo;ll take and try to maintain: &lt;strong&gt;the measures of academic
 success are broken, or at least imperfect&lt;/strong&gt; (reach out to future-me if I change my mind).
 One example of this is research software.
-&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Paraphrasing &lt;a href=&#34;https://twitter.com/mgymrek?ref_src=twsrc%5Etfw&#34;&gt;@mgymrek&lt;/a&gt;:&lt;br&gt;&lt;br&gt;Your paper is cited outside of your field in one semi-related paragraph: *counts towards your career progression*&lt;br&gt;&lt;br&gt;Your academic software package has 100 stars on GitHub: *counts for nothing*&lt;br&gt;&lt;br&gt;Something is wrong here 😐 &lt;a href=&#34;https://twitter.com/hashtag/jsm2018?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#jsm2018&lt;/a&gt;&lt;/p&gt;&amp;mdash; Sean Kross 🍋🌴 (@seankross) &lt;a href=&#34;https://twitter.com/seankross/status/1024059834654588929?ref_src=twsrc%5Etfw&#34;&gt;July 30, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Paraphrasing &lt;a href=&#34;https://twitter.com/mgymrek?ref_src=twsrc%5Etfw&#34;&gt;@mgymrek&lt;/a&gt;:&lt;br&gt;&lt;br&gt;Your paper is cited outside of your field in one semi-related paragraph: *counts towards your career progression*&lt;br&gt;&lt;br&gt;Your academic software package has 100 stars on GitHub: *counts for nothing*&lt;br&gt;&lt;br&gt;Something is wrong here 😐 &lt;a href=&#34;https://twitter.com/hashtag/jsm2018?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#jsm2018&lt;/a&gt;&lt;/p&gt;&amp;mdash; Sean Kross (@seankross) &lt;a href=&#34;https://twitter.com/seankross/status/1024059834654588929?ref_src=twsrc%5Etfw&#34;&gt;July 30, 2018&lt;/a&gt;&lt;/blockquote&gt;
 &lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
 
 &lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Had my &amp;quot;software is part of the research process&amp;quot; argument with an academic who wanted to use software to generate results but didn&amp;#39;t want to &amp;quot;concentrate on it too much&amp;quot;. I should start counting how many times I go through this and throw a party when I get to a million.&lt;/p&gt;&amp;mdash; Simon Hettrick (@sjh5000) &lt;a href=&#34;https://twitter.com/sjh5000/status/1043112943372644353?ref_src=twsrc%5Etfw&#34;&gt;September 21, 2018&lt;/a&gt;&lt;/blockquote&gt;
@@ -236,7 +236,7 @@ to my situation, I&amp;rsquo;d be interested to know how it relates or not to yo
     <item>
       <title>Switching my work flow to Pomodoro for grad studies - part I: motivation  </title>
       <link>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</link>
-      <pubDate>Thu, 19 Oct 2017 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 19 Oct 2017 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</guid>
       <description>

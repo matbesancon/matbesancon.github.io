@@ -7,7 +7,7 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 20 Dec 2017 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 20 Dec 2017 00:00:00 -0500</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/applied-math/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>DifferentialEquations.jl - part 2: decision from the model</title>
       <link>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</link>
-      <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
+      <pubDate>Wed, 20 Dec 2017 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
       <description>
@@ -351,7 +351,7 @@ use Optim.jl for the second case (boxed multivariate optimization without explic
     <item>
       <title>Getting started with DifferentialEquations.jl</title>
       <link>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</link>
-      <pubDate>Thu, 14 Dec 2017 00:00:00 +0100</pubDate>
+      <pubDate>Thu, 14 Dec 2017 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
       <description>

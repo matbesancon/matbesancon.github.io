@@ -7,15 +7,291 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Tue, 24 Sep 2019 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 04 Nov 2019 00:00:00 -0500</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/julia/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Working with binary libraries for optimization in Julia</title>
+      <link>https://matbesancon.github.io/post/2019-11-04-binary-julia/</link>
+      <pubDate>Mon, 04 Nov 2019 00:00:00 -0500</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2019-11-04-binary-julia/</guid>
+      <description>
+
+&lt;p&gt;Unlike other ecosystems in the scientific programming world, scientists
+and engineers working with Julia usually prefer a whole stack in Julia for many
+reasons. The compiler is doing way better when able to infer what
+is going on in a piece of code; when an error is thrown, the stack trace looks
+much nicer when only pure Julia code is involved, functions and types can be
+defined as generic as wanted without hard-coded container or number types for instance.&lt;/p&gt;
+
+&lt;p&gt;Sometimes however, inter-operability with native code is needed to use some
+external native libraries. By that I mean natively built libraries
+(&lt;code&gt;*.so&lt;/code&gt; files on Linux systems, &lt;code&gt;*.dylib&lt;/code&gt; on OSX, &lt;code&gt;*.dll&lt;/code&gt; on Windows).
+In this post, we will explore some tools to work with native libraries in Julia.
+In the last couple weeks, I tinkered a bit with the &lt;a href=&#34;https://www.highs.dev&#34; target=&#34;_blank&#34;&gt;HiGHS&lt;/a&gt;
+solver developed at the University of Edinburgh, which I will use as an example
+throughout this post. It is still work in progress, but has nice promises as the
+next-generation linear optimization solver in the COIN-OR suite.&lt;/p&gt;
+
+&lt;h1 id=&#34;what-does-a-native-lib-look-like&#34;&gt;What does a native lib look like?&lt;/h1&gt;
+
+&lt;p&gt;Looking at the &lt;a href=&#34;https://github.com/ERGO-Code/HiGHS/tree/a3160249c405f01b57bf27f3ff676058023122c6&#34; target=&#34;_blank&#34;&gt;repository&lt;/a&gt;,
+it is a pretty standard CMake-based C++ project producing both an executable and
+library which can be called through a C interface.
+The two initial components are:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;The source code producing the library, this can be written in any language producing native code (C, C++, Rust)&lt;/li&gt;
+&lt;li&gt;The header file defining the C API to call the library from other programs.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This interface is defined in a single header file &lt;code&gt;src/interfaces/highs_c_api.h&lt;/code&gt;,
+header files may define a bunch of types (structs, unions, enums) but most
+importantly they define function &lt;strong&gt;prototypes&lt;/strong&gt; looking like:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;int preprocess_variables(int* values, double offset, float coefficient);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When using the function from Julia, the call to the native library looks like
+the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;ccall(
+  (my_library_name, :preprocess_variables),
+  CInt, # return type
+  (Ptr{Cint}, Cdouble, Cfloat), # tuple of argument types
+  (pointer(my_array), 3.5, 4.5f) # tuple of arguments
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let us dive in.&lt;/p&gt;
+
+&lt;h1 id=&#34;solution-1-build-and-link&#34;&gt;Solution 1: build and link&lt;/h1&gt;
+
+&lt;p&gt;For this approach, the first step is to build the HiGHS library and have the
+library available. Following the documentation, the instructions are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;cd HiGHS # where HiGHS is installed
+mkdir build
+cd build
+cmake .. # generate makefiles
+make # build everything here in the build directory
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Like often with native packages, some dependencies might be implicitly assumed,
+here is a Dockerfile building the project on an alpine machine, you should be
+able to reproduce this with Docker installed.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-dockerfile&#34;&gt;FROM alpine:3.7
+
+RUN apk add git cmake g++ gcc clang make
+WORKDIR /optpreprocess_variables
+RUN git clone https://github.com/ERGO-Code/HiGHS.git
+RUN mkdir -p HiGHS/build
+WORKDIR /opt/HiGHS/build
+RUN cmake .. &amp;amp;&amp;amp; make
+RUN make test
+RUN make install # optional
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now back to the Julia side, say we assume the library is available at a given
+path, one can write the Julia functions corresponding to the interface. It is
+preferable not to expose error-prone C calls to the user. In the example of
+the &lt;code&gt;preprocess_variables&lt;/code&gt; function defined above, a Julia wrapper would look
+like:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;function preprocess_variables(my_array::Vector{Cint}, offset::Cdouble, coefficient::Cfloat)
+    result = ccall(
+        (:preprocess_variables, my_library_name),
+        Cint, (Ptr{Cint}, Cdouble, Cfloat),
+        (pointer(my_array), 3.5, 4.5f)
+    )
+    return result
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once these wrapper functions are defined, users can convert their values to the
+corresponding expected argument types and call them. The last thing needed is &lt;code&gt;my_library_name&lt;/code&gt;,
+which must be the path to the library object. Hard-coding or assuming paths
+should be avoided, it makes software harder to install on some systems.
+One thing that can be done is asking the user to pass the library path as an
+environment variable:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;ENV[&amp;quot;HIGHS_DIR&amp;quot;] # should contain the path to the HIGHS directory
+joinpath(ENV[&amp;quot;HIGHS_DIR&amp;quot;], &amp;quot;build&amp;quot;, &amp;quot;lib&amp;quot;, &amp;quot;libhighs.so&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Doing this every time is however not convenient. Since library paths are not
+changing at every call, one can check for this path at the installation of the
+package. For this purpose, a file &lt;code&gt;deps/build.jl&lt;/code&gt; can be added in every package
+and will be run at the installation of the package or when the &lt;code&gt;Pkg.build&lt;/code&gt;
+command is called. A &lt;code&gt;build.jl&lt;/code&gt; for our purpose could look like:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;const highs_location = ENV[&amp;quot;HIGHS_DIR&amp;quot;]
+const libhighs = joinpath(highs_location, &amp;quot;build&amp;quot;, &amp;quot;lib&amp;quot;, &amp;quot;libhighs.so&amp;quot;)
+const depsfile = joinpath(@__DIR__, &amp;quot;deps.jl&amp;quot;)
+open(depsfile, &amp;quot;w&amp;quot;) do f
+    print(f, &amp;quot;const libhighs = &amp;quot;)
+    print(f, libhighs)
+    println(f)
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The snippet above looks for the &lt;em&gt;libhighs.so&lt;/em&gt; library, using the environment
+variable as location of the base directory of HiGHS. Placed in &lt;code&gt;build.jl&lt;/code&gt;,
+the script will create a &lt;code&gt;deps.jl&lt;/code&gt; file in the &lt;code&gt;deps&lt;/code&gt; folder of the Julia
+package, and write &lt;code&gt;const libhighs = &amp;quot;/my/path/to/highs/lib/libhighs.so&amp;quot;&lt;/code&gt;.
+This is more or less what happens with the
+&lt;a href=&#34;https://github.com/SCIP-Interfaces/SCIP.jl&#34; target=&#34;_blank&#34;&gt;SCIP.jl wrapper&lt;/a&gt; v0.9.
+Once the build step succeeds, one can add in the main module in &lt;code&gt;/src&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;module HiGHS
+
+const deps_file = joinpath(dirname(@__FILE__),&amp;quot;..&amp;quot;,&amp;quot;deps&amp;quot;,&amp;quot;deps.jl&amp;quot;)
+if isfile(deps_file)
+    include(deps_file)
+else
+    error(&amp;quot;HiGHS not properly installed. Please run import Pkg; Pkg.build(\&amp;quot;HiGHS\&amp;quot;)&amp;quot;)
+end
+
+# other things
+
+end # module
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The global constant &lt;code&gt;libhighs&lt;/code&gt; can then be used for &lt;em&gt;ccall&lt;/em&gt;.
+We now have a functional package wrapping a native library downloaded and
+built separately. Summing up what we have, the Julia wrapper package looks as
+follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ tree
+.
+├── Project.toml
+├── README.md
+├── deps
+│   ├── build.jl
+│   ├── build.log
+│   ├── deps.jl
+├── src
+│   └── HiGHS.jl
+└── test
+    └── runtests.jl
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;deps/build.log&lt;/code&gt; and &lt;code&gt;deps/deps.jl&lt;/code&gt; are not committed in the repository but
+generated when installing and/or building the Julia package.&lt;/p&gt;
+
+&lt;h1 id=&#34;lifting-maintainers-burden-generating-wrapper-functions-with-clang-jl&#34;&gt;Lifting maintainers&amp;rsquo; burden: generating wrapper functions with Clang.jl&lt;/h1&gt;
+
+&lt;p&gt;One time-consuming task in the previous steps is going from the C header file
+describing the API to Julia functions wrapping the &lt;em&gt;ccall&lt;/em&gt;. The task is mostly
+repetitive and can be automated using &lt;a href=&#34;https://github.com/JuliaInterop/Clang.jl/&#34; target=&#34;_blank&#34;&gt;Clang.jl&lt;/a&gt;.
+This package will generate the appropriate functions from a header file,
+a reduced example looks like:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;import Clang
+
+# HIGHS_DIR = &amp;quot;path/to/highs/dir&amp;quot;
+const header_file = joinpath(HIGHS_DIR, &amp;quot;include&amp;quot;, &amp;quot;interfaces&amp;quot;, &amp;quot;highs_c_api.h&amp;quot;)
+const LIB_HEADERS = [header_file]
+
+const ctx = Clang.DefaultContext()
+
+Clang.parse_headers!(ctx, LIB_HEADERS,
+    includes=[Clang.CLANG_INCLUDE],
+)
+
+ctx.libname = &amp;quot;libhighs&amp;quot;
+ctx.options[&amp;quot;is_function_strictly_typed&amp;quot;] = true
+ctx.options[&amp;quot;is_struct_mutable&amp;quot;] = false
+
+const api_file = joinpath(@__DIR__, &amp;quot;../src/wrapper&amp;quot;, &amp;quot;$(ctx.libname)_api.jl&amp;quot;)
+
+open(api_file, &amp;quot;w&amp;quot;) do f
+    # write each generated function
+    # ...
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This snippet can be placed in a &lt;code&gt;/gen&lt;/code&gt; folder of the Julia wrapper package and
+writes to &lt;code&gt;src/wrapper&lt;/code&gt; all the functions wrapping C calls.
+It is less error-prone compared to manually writing the Julia interface and can
+save a great deal of time when managing updates of the native library.
+Again, the &lt;em&gt;SCIP.jl&lt;/em&gt; wrapper uses this method and can be used as example.
+Since the wrapper generation has different requirements than the package itself,
+we can provide it a Project.toml.
+Our package structure now looks like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ tree
+.
+├── Project.toml
+├── README.md
+├── deps
+│   ├── build.jl
+│   ├── build.log
+│   ├── deps.jl
+├── gen
+│   ├── Project.toml
+│   └── gen.jl
+├── src
+│   ├── HiGHS.jl
+│   └── wrapper
+│       ├── libhighs_api.jl
+│       └── libhighs_common.jl
+└── test
+    └── runtests.jl
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;lifting-the-user-s-burden-binarybuilder-binaryprovider&#34;&gt;Lifting the user&amp;rsquo;s burden: BinaryBuilder &amp;amp; BinaryProvider&lt;/h1&gt;
+
+&lt;p&gt;For non-open-source software, what we did up to here this is the best you can get:
+let users download and install the library, pass the path once at build time and
+partly generate the Julia wrapper for &lt;em&gt;ccall&lt;/em&gt; through Clang.jl.
+For open-source libraries however, could we go a step further and do everything
+for the user when they install the Julia package?&lt;/p&gt;
+
+&lt;p&gt;That&amp;rsquo;s where &lt;a href=&#34;https://github.com/JuliaPackaging/BinaryBuilder.jl&#34; target=&#34;_blank&#34;&gt;BinaryBuilder&lt;/a&gt;
+and &lt;a href=&#34;https://github.com/JuliaPackaging/BinaryProvider.jl&#34; target=&#34;_blank&#34;&gt;BinaryProvider&lt;/a&gt; come in.
+See the Docker file above, BinaryBuilder uses the same technology and arcane
+tricks to cross-compile the binary artifacts (executables and libraries) natively.
+It does so by letting you install the library as you would on your own machine,
+using cmake, make, make install, etc. The result of running BinaryBuilder is a
+single Julia script &lt;code&gt;build_tarballs.jl&lt;/code&gt; describing the commands run to produce
+the artifacts.
+This is placed in a repository with Continuous Integration support, which creates
+releases for all specified architectures, OS, compilers.
+You can see examples for the Clp solver &lt;a href=&#34;https://github.com/JuliaOpt/ClpBuilder&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;
+and for HiGHS &lt;a href=&#34;https://github.com/matbesancon/HiGHSBuilder/&#34; target=&#34;_blank&#34;&gt;there&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Back to the Julia package, we can now modify the &lt;code&gt;deps/build.jl&lt;/code&gt; script to use
+BinaryProvider, fetching the binaries corresponding to the current system.
+Without knowing anything about what&amp;rsquo;s going under the hood and how the library
+is built, users can simply perform &lt;code&gt;Pkg.add(&amp;quot;ThePackage&amp;quot;)&lt;/code&gt; which will build
+automatically and explicitly specify when a given OS or architecture is not
+supported. Take a look at the modified
+&lt;a href=&#34;https://github.com/matbesancon/HiGHS.jl/blob/569ca888e4feea83d00326c044ec0475fee008c5/deps/build.jl&#34; target=&#34;_blank&#34;&gt;build file&lt;/a&gt; using BinaryProvider.&lt;/p&gt;
+
+&lt;p&gt;They don&amp;rsquo;t need to guarantee that they have the same compiler, &lt;em&gt;make&lt;/em&gt; and &lt;em&gt;cmake&lt;/em&gt;
+version to have a repeatable &amp;amp; smooth installation of the package.&lt;/p&gt;
+
+&lt;h1 id=&#34;wrapping-up&#34;&gt;Wrapping up&lt;/h1&gt;
+
+&lt;p&gt;The process from 0 to a fully ready Julia package built on top of a binary
+library is still not straightforward. Special appreciation goes to the
+BinaryBuilder developers and contributors who helped me figure out some tricky
+bits. But the key take-away of this is that once the pipeline is built, updating
+the binary version or Julia wrapper is the same workflow one is used to with
+standard Julia packages. Keep building pure Julia software for all its benefits,
+but these tools I presented make it as great as possible to work with binaries.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Lessons learned on object constructors</title>
       <link>https://matbesancon.github.io/post/2019-09-23-constructors/</link>
-      <pubDate>Tue, 24 Sep 2019 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 24 Sep 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-09-23-constructors/</guid>
       <description>
@@ -309,7 +585,7 @@ on the subject was posted on Reddit (thanks Paul for pointing it out).&lt;/p&gt;
     <item>
       <title>Bridges as an extended dispatch system</title>
       <link>https://matbesancon.github.io/post/2019-09-12-bridging-indicator/</link>
-      <pubDate>Thu, 12 Sep 2019 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 12 Sep 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-09-12-bridging-indicator/</guid>
       <description>
@@ -1049,7 +1325,7 @@ vertex will take the place of the removed one in the re-labelling.&lt;/p&gt;
     <item>
       <title>A take on Benders decomposition in JuMP</title>
       <link>https://matbesancon.github.io/post/2019-05-08-simple-benders/</link>
-      <pubDate>Wed, 08 May 2019 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 08 May 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-05-08-simple-benders/</guid>
       <description>
@@ -1311,7 +1587,7 @@ don&amp;rsquo;t hesitate to react or ping me on &lt;a href=&#34;https://twitter.
     <item>
       <title>Variables are not values: types and expressions in mathematical optimization</title>
       <link>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</link>
-      <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
+      <pubDate>Mon, 29 Apr 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</guid>
       <description>
@@ -1624,7 +1900,7 @@ a bunch of equations, not at all about how to tackle these.&lt;/p&gt;
     <item>
       <title>Picking different names with integer optimization</title>
       <link>https://matbesancon.github.io/post/2019-04-07-name_distances/</link>
-      <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-07-name_distances/</guid>
       <description>
@@ -1764,7 +2040,7 @@ post, and to BYP for the feedback.&lt;/p&gt;
     <item>
       <title>Static lists in Julia</title>
       <link>https://matbesancon.github.io/post/2019-03-30-static-list/</link>
-      <pubDate>Sat, 30 Mar 2019 00:00:00 +0100</pubDate>
+      <pubDate>Sat, 30 Mar 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-03-30-static-list/</guid>
       <description>
@@ -2139,7 +2415,7 @@ experiment.&lt;/p&gt;
     <item>
       <title>Multiple dispatch - an example for mathematical optimizers</title>
       <link>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</link>
-      <pubDate>Sun, 24 Feb 2019 00:00:00 +0100</pubDate>
+      <pubDate>Sun, 24 Feb 2019 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</guid>
       <description>
@@ -2460,7 +2736,7 @@ indicator constraints instead of big M, as documented in &lt;a href=&#34;http://
     <item>
       <title>Winter warm-up: toy models for heat exchangers</title>
       <link>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</link>
-      <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</guid>
       <description>
@@ -2765,7 +3041,7 @@ universities and &lt;a href=&#34;https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9
     <item>
       <title>Building our own graph type in Julia</title>
       <link>https://matbesancon.github.io/post/2018-08-17-abstract_graph/</link>
-      <pubDate>Fri, 17 Aug 2018 00:00:00 +0200</pubDate>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-08-17-abstract_graph/</guid>
       <description>
@@ -2979,7 +3255,7 @@ enough (how dense? No idea), it might be interesting to store entries as as
     <item>
       <title>The cutting stock problem: part 2, solving with column generation</title>
       <link>https://matbesancon.github.io/post/2018-05-25-colgen2/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 30 May 2018 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-25-colgen2/</guid>
       <description>
@@ -3321,7 +3597,7 @@ contributed to its improvement!&lt;/p&gt;
     <item>
       <title>Tackling the cutting stock problem: part 1, problem exploration</title>
       <link>https://matbesancon.github.io/post/2018-05-23-colgen/</link>
-      <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 23 May 2018 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
       <description>
@@ -3645,7 +3921,7 @@ details and explanations where needed.&lt;/p&gt;
     <item>
       <title>Solving the group expenses headache with graphs</title>
       <link>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</link>
-      <pubDate>Mon, 15 Jan 2018 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
       <description>
@@ -3951,7 +4227,7 @@ Lightgraphs, 2017, &lt;a href=&#34;https://doi.org/10.5281/zenodo.889971&#34; ta
     <item>
       <title>DifferentialEquations.jl - part 2: decision from the model</title>
       <link>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</link>
-      <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
+      <pubDate>Wed, 20 Dec 2017 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
       <description>
@@ -4287,7 +4563,7 @@ use Optim.jl for the second case (boxed multivariate optimization without explic
     <item>
       <title>Getting started with DifferentialEquations.jl</title>
       <link>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</link>
-      <pubDate>Thu, 14 Dec 2017 00:00:00 +0100</pubDate>
+      <pubDate>Thu, 14 Dec 2017 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
       <description>

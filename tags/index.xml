@@ -7,33 +7,33 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Tue, 24 Sep 2019 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 04 Nov 2019 00:00:00 -0500</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>java</title>
-      <link>https://matbesancon.github.io/tags/java/</link>
-      <pubDate>Tue, 24 Sep 2019 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/java/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>julia</title>
       <link>https://matbesancon.github.io/tags/julia/</link>
-      <pubDate>Tue, 24 Sep 2019 00:00:00 +0200</pubDate>
+      <pubDate>Mon, 04 Nov 2019 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/tags/julia/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>java</title>
+      <link>https://matbesancon.github.io/tags/java/</link>
+      <pubDate>Tue, 24 Sep 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>rust</title>
       <link>https://matbesancon.github.io/tags/rust/</link>
-      <pubDate>Tue, 24 Sep 2019 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 24 Sep 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/rust/</guid>
       <description></description>
@@ -42,7 +42,7 @@
     <item>
       <title>graphs</title>
       <link>https://matbesancon.github.io/tags/graphs/</link>
-      <pubDate>Thu, 12 Sep 2019 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 12 Sep 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/graphs/</guid>
       <description></description>
@@ -51,7 +51,7 @@
     <item>
       <title>jump</title>
       <link>https://matbesancon.github.io/tags/jump/</link>
-      <pubDate>Thu, 12 Sep 2019 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 12 Sep 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/jump/</guid>
       <description></description>
@@ -60,7 +60,7 @@
     <item>
       <title>optimization</title>
       <link>https://matbesancon.github.io/tags/optimization/</link>
-      <pubDate>Thu, 12 Sep 2019 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 12 Sep 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/optimization/</guid>
       <description></description>
@@ -78,7 +78,7 @@
     <item>
       <title>integer-optimization</title>
       <link>https://matbesancon.github.io/tags/integer-optimization/</link>
-      <pubDate>Wed, 08 May 2019 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 08 May 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/integer-optimization/</guid>
       <description></description>
@@ -87,7 +87,7 @@
     <item>
       <title>functional</title>
       <link>https://matbesancon.github.io/tags/functional/</link>
-      <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
+      <pubDate>Mon, 29 Apr 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/functional/</guid>
       <description></description>
@@ -96,7 +96,7 @@
     <item>
       <title>python</title>
       <link>https://matbesancon.github.io/tags/python/</link>
-      <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
+      <pubDate>Mon, 29 Apr 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/python/</guid>
       <description></description>
@@ -105,7 +105,7 @@
     <item>
       <title>graph</title>
       <link>https://matbesancon.github.io/tags/graph/</link>
-      <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/graph/</guid>
       <description></description>
@@ -114,7 +114,7 @@
     <item>
       <title>book</title>
       <link>https://matbesancon.github.io/tags/book/</link>
-      <pubDate>Mon, 18 Mar 2019 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 18 Mar 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/book/</guid>
       <description></description>
@@ -123,7 +123,7 @@
     <item>
       <title>economics</title>
       <link>https://matbesancon.github.io/tags/economics/</link>
-      <pubDate>Mon, 18 Mar 2019 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 18 Mar 2019 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/economics/</guid>
       <description></description>
@@ -132,7 +132,7 @@
     <item>
       <title>academia</title>
       <link>https://matbesancon.github.io/tags/academia/</link>
-      <pubDate>Mon, 04 Feb 2019 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 04 Feb 2019 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/tags/academia/</guid>
       <description></description>
@@ -141,7 +141,7 @@
     <item>
       <title>engineering</title>
       <link>https://matbesancon.github.io/tags/engineering/</link>
-      <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/tags/engineering/</guid>
       <description></description>
@@ -150,7 +150,7 @@
     <item>
       <title>energy</title>
       <link>https://matbesancon.github.io/tags/energy/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/tags/energy/</guid>
       <description></description>
@@ -159,7 +159,7 @@
     <item>
       <title>game</title>
       <link>https://matbesancon.github.io/tags/game/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/tags/game/</guid>
       <description></description>
@@ -168,7 +168,7 @@
     <item>
       <title>julia-package</title>
       <link>https://matbesancon.github.io/tags/julia-package/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/tags/julia-package/</guid>
       <description></description>
@@ -177,7 +177,7 @@
     <item>
       <title>open-source</title>
       <link>https://matbesancon.github.io/tags/open-source/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/tags/open-source/</guid>
       <description></description>
@@ -186,7 +186,7 @@
     <item>
       <title>statistics</title>
       <link>https://matbesancon.github.io/tags/statistics/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/tags/statistics/</guid>
       <description></description>
@@ -195,7 +195,7 @@
     <item>
       <title>phd</title>
       <link>https://matbesancon.github.io/tags/phd/</link>
-      <pubDate>Thu, 27 Sep 2018 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/phd/</guid>
       <description></description>
@@ -204,7 +204,7 @@
     <item>
       <title>distributions</title>
       <link>https://matbesancon.github.io/tags/distributions/</link>
-      <pubDate>Tue, 04 Sep 2018 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 04 Sep 2018 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/distributions/</guid>
       <description></description>
@@ -213,7 +213,7 @@
     <item>
       <title>package</title>
       <link>https://matbesancon.github.io/tags/package/</link>
-      <pubDate>Fri, 17 Aug 2018 00:00:00 +0200</pubDate>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/package/</guid>
       <description></description>
@@ -222,7 +222,7 @@
     <item>
       <title>modeling</title>
       <link>https://matbesancon.github.io/tags/modeling/</link>
-      <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 23 May 2018 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/modeling/</guid>
       <description></description>
@@ -231,7 +231,7 @@
     <item>
       <title>applied-math</title>
       <link>https://matbesancon.github.io/tags/applied-math/</link>
-      <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
+      <pubDate>Wed, 20 Dec 2017 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/tags/applied-math/</guid>
       <description></description>
@@ -240,7 +240,7 @@
     <item>
       <title>numerical-techniques</title>
       <link>https://matbesancon.github.io/tags/numerical-techniques/</link>
-      <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
+      <pubDate>Wed, 20 Dec 2017 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/tags/numerical-techniques/</guid>
       <description></description>
@@ -249,7 +249,7 @@
     <item>
       <title>golang</title>
       <link>https://matbesancon.github.io/tags/golang/</link>
-      <pubDate>Thu, 19 Oct 2017 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 19 Oct 2017 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/golang/</guid>
       <description></description>
@@ -258,7 +258,7 @@
     <item>
       <title>productivity</title>
       <link>https://matbesancon.github.io/tags/productivity/</link>
-      <pubDate>Thu, 19 Oct 2017 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 19 Oct 2017 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/productivity/</guid>
       <description></description>
@@ -267,7 +267,7 @@
     <item>
       <title>blog</title>
       <link>https://matbesancon.github.io/tags/blog/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/blog/</guid>
       <description></description>
@@ -276,7 +276,7 @@
     <item>
       <title>hugo</title>
       <link>https://matbesancon.github.io/tags/hugo/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/hugo/</guid>
       <description></description>
@@ -285,7 +285,7 @@
     <item>
       <title>jekyll</title>
       <link>https://matbesancon.github.io/tags/jekyll/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/jekyll/</guid>
       <description></description>
@@ -294,7 +294,7 @@
     <item>
       <title>medium</title>
       <link>https://matbesancon.github.io/tags/medium/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/medium/</guid>
       <description></description>
@@ -303,7 +303,7 @@
     <item>
       <title>writing</title>
       <link>https://matbesancon.github.io/tags/writing/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/writing/</guid>
       <description></description>
@@ -312,7 +312,7 @@
     <item>
       <title>startup</title>
       <link>https://matbesancon.github.io/tags/startup/</link>
-      <pubDate>Fri, 07 Oct 2016 00:00:00 +0200</pubDate>
+      <pubDate>Fri, 07 Oct 2016 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/startup/</guid>
       <description></description>
@@ -321,7 +321,7 @@
     <item>
       <title>algorithm</title>
       <link>https://matbesancon.github.io/tags/algorithm/</link>
-      <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/algorithm/</guid>
       <description></description>
@@ -330,7 +330,7 @@
     <item>
       <title>data-science</title>
       <link>https://matbesancon.github.io/tags/data-science/</link>
-      <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 -0400</pubDate>
       
       <guid>https://matbesancon.github.io/tags/data-science/</guid>
       <description></description>
@@ -339,7 +339,7 @@
     <item>
       <title>classification</title>
       <link>https://matbesancon.github.io/tags/classification/</link>
-      <pubDate>Wed, 13 Jan 2016 00:00:00 +0100</pubDate>
+      <pubDate>Wed, 13 Jan 2016 00:00:00 -0500</pubDate>
       
       <guid>https://matbesancon.github.io/tags/classification/</guid>
       <description></description>

@@ -28,11 +28,11 @@
   
     
   
-  <meta name="description" content="And how to avoid becoming one of the biggest clichés of startup culture
+  <meta name="description" content="When going native is the only option, at least do it once and well.
 ">
 
   
-  <link rel="alternate" hreflang="en-ca" href="https://matbesancon.github.io/post/2016-10-7-company-values/">
+  <link rel="alternate" hreflang="en-ca" href="https://matbesancon.github.io/post/2019-11-04-binary-julia/">
 
   
 
@@ -95,7 +95,7 @@
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="https://matbesancon.github.io/post/2016-10-7-company-values/">
+  <link rel="canonical" href="https://matbesancon.github.io/post/2019-11-04-binary-julia/">
 
   
   
@@ -110,27 +110,27 @@
   <meta property="twitter:creator" content="@matbesancon">
   
   <meta property="og:site_name" content="μβ">
-  <meta property="og:url" content="https://matbesancon.github.io/post/2016-10-7-company-values/">
-  <meta property="og:title" content="Company values: stop trying to dictate who you are | μβ">
-  <meta property="og:description" content="And how to avoid becoming one of the biggest clichés of startup culture
+  <meta property="og:url" content="https://matbesancon.github.io/post/2019-11-04-binary-julia/">
+  <meta property="og:title" content="Working with binary libraries for optimization in Julia | μβ">
+  <meta property="og:description" content="When going native is the only option, at least do it once and well.
 "><meta property="og:image" content="https://matbesancon.github.io/img/icon-192.png">
   <meta property="twitter:image" content="https://matbesancon.github.io/img/icon-192.png"><meta property="og:locale" content="en-ca">
   
-  <meta property="article:published_time" content="2016-10-07T00:00:00-04:00">
+  <meta property="article:published_time" content="2019-11-04T00:00:00-05:00">
   
-  <meta property="article:modified_time" content="2017-09-11T22:03:29-04:00">
+  <meta property="article:modified_time" content="2019-11-04T00:00:00-05:00">
   
-
-  
-
 
   
 
 
+  
 
 
 
-  <title>Company values: stop trying to dictate who you are | μβ</title>
+
+
+  <title>Working with binary libraries for optimization in Julia | μβ</title>
 
 </head>
 
@@ -412,7 +412,7 @@
   
   
 <div class="article-container pt-3">
-  <h1 itemprop="name">Company values: stop trying to dictate who you are</h1>
+  <h1 itemprop="name">Working with binary libraries for optimization in Julia</h1>
 
   
 
@@ -421,8 +421,8 @@
 
 
 
-<meta content="2016-10-07 00:00:00 -0400 EDT" itemprop="datePublished">
-<meta content="2017-09-11 22:03:29 -0400 EDT" itemprop="dateModified">
+<meta content="2019-11-04 00:00:00 -0500 EST" itemprop="datePublished">
+<meta content="2019-11-04 00:00:00 -0500 EST" itemprop="dateModified">
 
 <div class="article-metadata">
 
@@ -434,10 +434,8 @@
     
     
       
-          Last updated on
-      
     
-    <time>2017-09-11</time>
+    <time>2019-11-04</time>
   </span>
   
 
@@ -446,7 +444,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    6 min read
+    7 min read
   </span>
   
 
@@ -469,7 +467,7 @@
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=https://matbesancon.github.io/post/2016-10-7-company-values/&amp;text=Company%20values:%20stop%20trying%20to%20dictate%20who%20you%20are" target="_blank" rel="noopener" class="share-btn-twitter">
+        <a href="https://twitter.com/intent/tweet?url=https://matbesancon.github.io/post/2019-11-04-binary-julia/&amp;text=Working%20with%20binary%20libraries%20for%20optimization%20in%20Julia" target="_blank" rel="noopener" class="share-btn-twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -482,7 +480,7 @@
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=https://matbesancon.github.io/post/2016-10-7-company-values/&amp;t=Company%20values:%20stop%20trying%20to%20dictate%20who%20you%20are" target="_blank" rel="noopener" class="share-btn-facebook">
+        <a href="https://www.facebook.com/sharer.php?u=https://matbesancon.github.io/post/2019-11-04-binary-julia/&amp;t=Working%20with%20binary%20libraries%20for%20optimization%20in%20Julia" target="_blank" rel="noopener" class="share-btn-facebook">
           <i class="fab fa-facebook-f"></i>
         </a>
       </li>
@@ -495,7 +493,7 @@
       
       
       <li>
-        <a href="mailto:?subject=Company%20values:%20stop%20trying%20to%20dictate%20who%20you%20are&amp;body=https://matbesancon.github.io/post/2016-10-7-company-values/" target="_blank" rel="noopener" class="share-btn-email">
+        <a href="mailto:?subject=Working%20with%20binary%20libraries%20for%20optimization%20in%20Julia&amp;body=https://matbesancon.github.io/post/2019-11-04-binary-julia/" target="_blank" rel="noopener" class="share-btn-email">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -508,7 +506,7 @@
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=https://matbesancon.github.io/post/2016-10-7-company-values/&amp;title=Company%20values:%20stop%20trying%20to%20dictate%20who%20you%20are" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?url=https://matbesancon.github.io/post/2019-11-04-binary-julia/&amp;title=Working%20with%20binary%20libraries%20for%20optimization%20in%20Julia" target="_blank" rel="noopener" class="share-btn-linkedin">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -521,7 +519,7 @@
       
       
       <li>
-        <a href="https://web.whatsapp.com/send?text=Company%20values:%20stop%20trying%20to%20dictate%20who%20you%20are%20https://matbesancon.github.io/post/2016-10-7-company-values/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <a href="https://web.whatsapp.com/send?text=Working%20with%20binary%20libraries%20for%20optimization%20in%20Julia%20https://matbesancon.github.io/post/2019-11-04-binary-julia/" target="_blank" rel="noopener" class="share-btn-whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -534,7 +532,7 @@
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=https://matbesancon.github.io/post/2016-10-7-company-values/&amp;title=Company%20values:%20stop%20trying%20to%20dictate%20who%20you%20are" target="_blank" rel="noopener" class="share-btn-weibo">
+        <a href="https://service.weibo.com/share/share.php?url=https://matbesancon.github.io/post/2019-11-04-binary-julia/&amp;title=Working%20with%20binary%20libraries%20for%20optimization%20in%20Julia" target="_blank" rel="noopener" class="share-btn-weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>
@@ -572,124 +570,271 @@
     <div class="article-style" itemprop="articleBody">
       
 
-<p>Two weeks ago, the Equisense <a href="http://equisense.com/en/about.html" target="_blank">team</a> spent a
-couple days together near the ocean in northern France. The goal was to get to
-know each other better and sit down to (re)think on the way we work, where we
-are heading and try to put some words on who we are and how we plan on moving
-forward.</p>
+<p>Unlike other ecosystems in the scientific programming world, scientists
+and engineers working with Julia usually prefer a whole stack in Julia for many
+reasons. The compiler is doing way better when able to infer what
+is going on in a piece of code; when an error is thrown, the stack trace looks
+much nicer when only pure Julia code is involved, functions and types can be
+defined as generic as wanted without hard-coded container or number types for instance.</p>
 
-<p>You named it, we tried to define one of the obsessions in the startup culture:
-company values. There are many pitfalls to avoid while doing so and any of them
-can make the company look as a cliché, under-ambitious or reject some of the
-stakeholders. Keep in mind that these values are publicly displayed or at least
-talked about, which means your employees, investors and clients could all feel
-disconnected from them. At best, their reaction would be
-&ldquo;whatever, I guess everybody says so&rdquo; and see you as another cliché.</p>
+<p>Sometimes however, inter-operability with native code is needed to use some
+external native libraries. By that I mean natively built libraries
+(<code>*.so</code> files on Linux systems, <code>*.dylib</code> on OSX, <code>*.dll</code> on Windows).
+In this post, we will explore some tools to work with native libraries in Julia.
+In the last couple weeks, I tinkered a bit with the <a href="https://www.highs.dev" target="_blank">HiGHS</a>
+solver developed at the University of Edinburgh, which I will use as an example
+throughout this post. It is still work in progress, but has nice promises as the
+next-generation linear optimization solver in the COIN-OR suite.</p>
 
-<p>At worst, they can reject the way you define yourself and consider the
-advantages of working with you are not worth it.
-But is the second scenario really worse? The scope of such problem is a lot
-wider than your external communication and the &ldquo;values&rdquo; tab of your website.</p>
+<h1 id="what-does-a-native-lib-look-like">What does a native lib look like?</h1>
 
-<p>Using Paul Graham&rsquo;s <a href="http://www.paulgraham.com/growth.html" target="_blank">definition</a>,
-a startup is all about growth, hence moving
-fast. Quick decisions and executions cannot come without breaking things and
-building tension on the way. Trying to define values because they make you
-sound confident while being agreeable by everyone cannot yield any outcome.
-No great result comes out of willing to please everyone, and the corollary is
-that <strong>every successful person and organization has haters</strong>. Given this
-statement, the best any entity can do is to choose who is likely not to stick
-with them and why.</p>
+<p>Looking at the <a href="https://github.com/ERGO-Code/HiGHS/tree/a3160249c405f01b57bf27f3ff676058023122c6" target="_blank">repository</a>,
+it is a pretty standard CMake-based C++ project producing both an executable and
+library which can be called through a C interface.
+The two initial components are:</p>
 
-<h2 id="why-values-anyway">Why values anyway?</h2>
+<ol>
+<li>The source code producing the library, this can be written in any language producing native code (C, C++, Rust)</li>
+<li>The header file defining the C API to call the library from other programs.</li>
+</ol>
 
-<p>This question is totally legit, especially in countries like France where the
-startup culture is still not familiar to a significant part of the population
-or like Germany where pragmatism is king in both what you do and how you
-communicate it.
-Traditional organizations have always had a simple deal on the recruitment side:
-lend me your skills and I&rsquo;ll pay you decently. On the clients&rsquo; side, the
-&ldquo;values&rdquo; displayed were traditionally associated with product differentiation
-(&ldquo;at XYZ, our obsession is to bring the best product to [insert target] at
-unbeatable prices&rdquo;).
-The shareholders&rsquo; side did not even need big words, a couple KPIs from the last
-quarter would do. As <a href="https://medium.com/@Nicolas_Colin" target="_blank">Nicolas Colin</a> phrases
-in several Medium posts, keeping what is being said to each of these
-stakeholders completely separated is not possible anymore in the digital age.
-That&rsquo;s partly why company&rsquo;s culture and values became central topics.</p>
+<p>This interface is defined in a single header file <code>src/interfaces/highs_c_api.h</code>,
+header files may define a bunch of types (structs, unions, enums) but most
+importantly they define function <strong>prototypes</strong> looking like:</p>
 
-<p>I&rsquo;ve seen two cases at traditional companies. The first situation is ignorance
-or non-existence of company values, maybe some of these will sound familiar:
-<em>&ldquo;Values? No this is the communication staff&rsquo;s business&rdquo;</em>
-<em>&ldquo;We&rsquo;re not here to dream, we&rsquo;re paid to get the job done&rdquo;</em></p>
+<pre><code class="language-c">int preprocess_variables(int* values, double offset, float coefficient);
+</code></pre>
 
-<p>The second attitude is picking up &ldquo;values&rdquo; corresponding to trends but
-completely disconnected from the organization&rsquo;s reality. Just visit the
-<a href="http://cbsg.sf.net" target="_blank">Corporate bullshit generator</a> and you will know what I&rsquo;m
-referring to:
-We&rsquo;ve all seen extremely conservative companies call themselves &ldquo;innovators&rdquo;
-or some historical monopolists call themselves &ldquo;disruptive&rdquo;.</p>
+<p>When using the function from Julia, the call to the native library looks like
+the following:</p>
 
-<p>So what changed with startups? Simple, you can redefine the way your market
-works (and sometimes create it in the process) and become the central element
-for it. That&rsquo;s an idea you can genuinely believe in, work for and something you
-can promise employees, shareholders and clients.
-Now where are your values in this? Simply where you want the market to go and
-the path you&rsquo;re ready to take to go there.</p>
+<pre><code class="language-julia">ccall(
+  (my_library_name, :preprocess_variables),
+  CInt, # return type
+  (Ptr{Cint}, Cdouble, Cfloat), # tuple of argument types
+  (pointer(my_array), 3.5, 4.5f) # tuple of arguments
+)
+</code></pre>
 
-<p>There are obviously other factors at stake here, the fact that millennials
-need to define themselves through what they do for instance and cannot just
-work for a decent paycheck in the same polite colleague relation for 40+ years.
-More than ever, our generation needs some sense in what we do at the moment and
-not in a 40-year projection.</p>
+<p>Let us dive in.</p>
 
-<h2 id="writing-down-values-is-about-choosing-a-path-and-sticking-to-it">Writing down values is about choosing a path and sticking to it</h2>
+<h1 id="solution-1-build-and-link">Solution 1: build and link</h1>
 
-<p>I&rsquo;d say this is the main highlight I got from hours of thoughts about the topic
-of company values. <strong>Choosing values is not about sounding cool</strong>, not about
-the image you want for the organization&rsquo;s recruitments.</p>
+<p>For this approach, the first step is to build the HiGHS library and have the
+library available. Following the documentation, the instructions are:</p>
 
-<p>Something concrete? Don&rsquo;t define yourself as hackers if you spend at least as
-much time planning as actually trying and building stuff. Don&rsquo;t pretend to
-disrupt anything if you&rsquo;re playing the old rules within a known and stable
-market. Don&rsquo;t define yourself as transparent if you&rsquo;re not obsessed with
-everyone knowing both how you think and operate.</p>
+<pre><code class="language-bash">cd HiGHS # where HiGHS is installed
+mkdir build
+cd build
+cmake .. # generate makefiles
+make # build everything here in the build directory
+</code></pre>
 
-<p>Defining yourself through the most trendy terms of the year has lead to a
-feeling of emptiness in the messages carried in the startup ecosystems and has
-even become one of its
-<a href="http://blog.caranddriver.com/2016-consumer-electronics-show-cutting-through-the-buzzwords-to-what-really-matters/" target="_blank">clichés</a>
-or even <a href="https://www.youtube.com/watch?v=J-GVd_HLlps" target="_blank">jokes</a>.</p>
+<p>Like often with native packages, some dependencies might be implicitly assumed,
+here is a Dockerfile building the project on an alpine machine, you should be
+able to reproduce this with Docker installed.</p>
 
-<h2 id="how-to-define-your-company-in-a-non-cliché-way">How to define your company in a non-cliché way</h2>
+<pre><code class="language-dockerfile">FROM alpine:3.7
 
-<p>I won&rsquo;t have the pretension to set the rules on this point, simply to match
-some great frameworks from people smarter than me who gave this point
-<a href="https://www.youtube.com/watch?v=MpVCQfImQ1A" target="_blank">years of thoughts</a>
-(conference in French by Oussama Ammar) with the annoying points we discussed.</p>
+RUN apk add git cmake g++ gcc clang make
+WORKDIR /optpreprocess_variables
+RUN git clone https://github.com/ERGO-Code/HiGHS.git
+RUN mkdir -p HiGHS/build
+WORKDIR /opt/HiGHS/build
+RUN cmake .. &amp;&amp; make
+RUN make test
+RUN make install # optional
+</code></pre>
 
-<ul>
-<li><p>Start with the hard way: define the cool things you are not. This goes with
-a conclusion drawn earlier, every successful organization has haters, but don’t
-get the cause-effect relation wrong: your company is not going to reach its
-goals once it has haters. It should have haters because it defined a clear path
-to success which induced not satisfying every stakeholder on the way. The
-corollary is even a stronger conclusion: trying to please every potential
-target and stakeholder is the safest way to getting stuck and unable to make
-any decision. This is a luxury startups cannot afford by definition. Immobility
-can only be explainable in traditional and established businesses.</p></li>
+<p>Now back to the Julia side, say we assume the library is available at a given
+path, one can write the Julia functions corresponding to the interface. It is
+preferable not to expose error-prone C calls to the user. In the example of
+the <code>preprocess_variables</code> function defined above, a Julia wrapper would look
+like:</p>
 
-<li><p>Define your values on the fly: just like you don’t decide as a child that
-you are a nice person, you don’t decide as a company that you are disrupters
-before living it. Discover your organization as you are working together and
-reaching the first painful milestones, these key steps in your development when
-you have to decide where priorities are being set and who is not going to
-remain supportive afterwards. These tough experiences and the retrospective
-understanding of your reaction as a team will make you more confident in what
-you are doing and help cut the fluff on things you are not meant to do.
-This is the focus everyone needs to move faster and sharper than the
-competition, the market and the context.</p></li>
-</ul>
+<pre><code class="language-julia">function preprocess_variables(my_array::Vector{Cint}, offset::Cdouble, coefficient::Cfloat)
+    result = ccall(
+        (:preprocess_variables, my_library_name),
+        Cint, (Ptr{Cint}, Cdouble, Cfloat),
+        (pointer(my_array), 3.5, 4.5f)
+    )
+    return result
+end
+</code></pre>
+
+<p>Once these wrapper functions are defined, users can convert their values to the
+corresponding expected argument types and call them. The last thing needed is <code>my_library_name</code>,
+which must be the path to the library object. Hard-coding or assuming paths
+should be avoided, it makes software harder to install on some systems.
+One thing that can be done is asking the user to pass the library path as an
+environment variable:</p>
+
+<pre><code class="language-julia">ENV[&quot;HIGHS_DIR&quot;] # should contain the path to the HIGHS directory
+joinpath(ENV[&quot;HIGHS_DIR&quot;], &quot;build&quot;, &quot;lib&quot;, &quot;libhighs.so&quot;)
+</code></pre>
+
+<p>Doing this every time is however not convenient. Since library paths are not
+changing at every call, one can check for this path at the installation of the
+package. For this purpose, a file <code>deps/build.jl</code> can be added in every package
+and will be run at the installation of the package or when the <code>Pkg.build</code>
+command is called. A <code>build.jl</code> for our purpose could look like:</p>
+
+<pre><code class="language-julia">const highs_location = ENV[&quot;HIGHS_DIR&quot;]
+const libhighs = joinpath(highs_location, &quot;build&quot;, &quot;lib&quot;, &quot;libhighs.so&quot;)
+const depsfile = joinpath(@__DIR__, &quot;deps.jl&quot;)
+open(depsfile, &quot;w&quot;) do f
+    print(f, &quot;const libhighs = &quot;)
+    print(f, libhighs)
+    println(f)
+end
+</code></pre>
+
+<p>The snippet above looks for the <em>libhighs.so</em> library, using the environment
+variable as location of the base directory of HiGHS. Placed in <code>build.jl</code>,
+the script will create a <code>deps.jl</code> file in the <code>deps</code> folder of the Julia
+package, and write <code>const libhighs = &quot;/my/path/to/highs/lib/libhighs.so&quot;</code>.
+This is more or less what happens with the
+<a href="https://github.com/SCIP-Interfaces/SCIP.jl" target="_blank">SCIP.jl wrapper</a> v0.9.
+Once the build step succeeds, one can add in the main module in <code>/src</code>:</p>
+
+<pre><code class="language-julia">module HiGHS
+
+const deps_file = joinpath(dirname(@__FILE__),&quot;..&quot;,&quot;deps&quot;,&quot;deps.jl&quot;)
+if isfile(deps_file)
+    include(deps_file)
+else
+    error(&quot;HiGHS not properly installed. Please run import Pkg; Pkg.build(\&quot;HiGHS\&quot;)&quot;)
+end
+
+# other things
+
+end # module
+</code></pre>
+
+<p>The global constant <code>libhighs</code> can then be used for <em>ccall</em>.
+We now have a functional package wrapping a native library downloaded and
+built separately. Summing up what we have, the Julia wrapper package looks as
+follows:</p>
+
+<pre><code class="language-bash">$ tree
+.
+├── Project.toml
+├── README.md
+├── deps
+│   ├── build.jl
+│   ├── build.log
+│   ├── deps.jl
+├── src
+│   └── HiGHS.jl
+└── test
+    └── runtests.jl
+</code></pre>
+
+<p><code>deps/build.log</code> and <code>deps/deps.jl</code> are not committed in the repository but
+generated when installing and/or building the Julia package.</p>
+
+<h1 id="lifting-maintainers-burden-generating-wrapper-functions-with-clang-jl">Lifting maintainers&rsquo; burden: generating wrapper functions with Clang.jl</h1>
+
+<p>One time-consuming task in the previous steps is going from the C header file
+describing the API to Julia functions wrapping the <em>ccall</em>. The task is mostly
+repetitive and can be automated using <a href="https://github.com/JuliaInterop/Clang.jl/" target="_blank">Clang.jl</a>.
+This package will generate the appropriate functions from a header file,
+a reduced example looks like:</p>
+
+<pre><code class="language-julia">import Clang
+
+# HIGHS_DIR = &quot;path/to/highs/dir&quot;
+const header_file = joinpath(HIGHS_DIR, &quot;include&quot;, &quot;interfaces&quot;, &quot;highs_c_api.h&quot;)
+const LIB_HEADERS = [header_file]
+
+const ctx = Clang.DefaultContext()
+
+Clang.parse_headers!(ctx, LIB_HEADERS,
+    includes=[Clang.CLANG_INCLUDE],
+)
+
+ctx.libname = &quot;libhighs&quot;
+ctx.options[&quot;is_function_strictly_typed&quot;] = true
+ctx.options[&quot;is_struct_mutable&quot;] = false
+
+const api_file = joinpath(@__DIR__, &quot;../src/wrapper&quot;, &quot;$(ctx.libname)_api.jl&quot;)
+
+open(api_file, &quot;w&quot;) do f
+    # write each generated function
+    # ...
+end
+</code></pre>
+
+<p>This snippet can be placed in a <code>/gen</code> folder of the Julia wrapper package and
+writes to <code>src/wrapper</code> all the functions wrapping C calls.
+It is less error-prone compared to manually writing the Julia interface and can
+save a great deal of time when managing updates of the native library.
+Again, the <em>SCIP.jl</em> wrapper uses this method and can be used as example.
+Since the wrapper generation has different requirements than the package itself,
+we can provide it a Project.toml.
+Our package structure now looks like this:</p>
+
+<pre><code class="language-bash">$ tree
+.
+├── Project.toml
+├── README.md
+├── deps
+│   ├── build.jl
+│   ├── build.log
+│   ├── deps.jl
+├── gen
+│   ├── Project.toml
+│   └── gen.jl
+├── src
+│   ├── HiGHS.jl
+│   └── wrapper
+│       ├── libhighs_api.jl
+│       └── libhighs_common.jl
+└── test
+    └── runtests.jl
+</code></pre>
+
+<h1 id="lifting-the-user-s-burden-binarybuilder-binaryprovider">Lifting the user&rsquo;s burden: BinaryBuilder &amp; BinaryProvider</h1>
+
+<p>For non-open-source software, what we did up to here this is the best you can get:
+let users download and install the library, pass the path once at build time and
+partly generate the Julia wrapper for <em>ccall</em> through Clang.jl.
+For open-source libraries however, could we go a step further and do everything
+for the user when they install the Julia package?</p>
+
+<p>That&rsquo;s where <a href="https://github.com/JuliaPackaging/BinaryBuilder.jl" target="_blank">BinaryBuilder</a>
+and <a href="https://github.com/JuliaPackaging/BinaryProvider.jl" target="_blank">BinaryProvider</a> come in.
+See the Docker file above, BinaryBuilder uses the same technology and arcane
+tricks to cross-compile the binary artifacts (executables and libraries) natively.
+It does so by letting you install the library as you would on your own machine,
+using cmake, make, make install, etc. The result of running BinaryBuilder is a
+single Julia script <code>build_tarballs.jl</code> describing the commands run to produce
+the artifacts.
+This is placed in a repository with Continuous Integration support, which creates
+releases for all specified architectures, OS, compilers.
+You can see examples for the Clp solver <a href="https://github.com/JuliaOpt/ClpBuilder" target="_blank">here</a>
+and for HiGHS <a href="https://github.com/matbesancon/HiGHSBuilder/" target="_blank">there</a>.</p>
+
+<p>Back to the Julia package, we can now modify the <code>deps/build.jl</code> script to use
+BinaryProvider, fetching the binaries corresponding to the current system.
+Without knowing anything about what&rsquo;s going under the hood and how the library
+is built, users can simply perform <code>Pkg.add(&quot;ThePackage&quot;)</code> which will build
+automatically and explicitly specify when a given OS or architecture is not
+supported. Take a look at the modified
+<a href="https://github.com/matbesancon/HiGHS.jl/blob/569ca888e4feea83d00326c044ec0475fee008c5/deps/build.jl" target="_blank">build file</a> using BinaryProvider.</p>
+
+<p>They don&rsquo;t need to guarantee that they have the same compiler, <em>make</em> and <em>cmake</em>
+version to have a repeatable &amp; smooth installation of the package.</p>
+
+<h1 id="wrapping-up">Wrapping up</h1>
+
+<p>The process from 0 to a fully ready Julia package built on top of a binary
+library is still not straightforward. Special appreciation goes to the
+BinaryBuilder developers and contributors who helped me figure out some tricky
+bits. But the key take-away of this is that once the pipeline is built, updating
+the binary version or Julia wrapper is the same workflow one is used to with
+standard Julia packages. Keep building pure Julia software for all its benefits,
+but these tools I presented make it as great as possible to work with binaries.</p>
 
     </div>
 
@@ -697,7 +842,7 @@ competition, the market and the context.</p></li>
 
 <div class="article-tags">
   
-  <a class="badge badge-light" href="/tags/startup/">startup</a>
+  <a class="badge badge-light" href="/tags/julia/">julia</a>
   
 </div>
 
@@ -865,9 +1010,15 @@ competition, the market and the context.</p></li>
         <h3>Related</h3>
         <ul>
           
-          <li><a href="/post/2016-08-11-back-to-startup/">Back to startup life: thoughts after the first days</a></li>
+          <li><a href="/post/2019-09-23-constructors/">Lessons learned on object constructors</a></li>
           
-          <li><a href="/post/2016-07-11-hackathon/">On startup weekends and getting things done</a></li>
+          <li><a href="/post/2019-09-12-bridging-indicator/">Bridges as an extended dispatch system</a></li>
+          
+          <li><a href="/post/2019-07-25-special-graphs/">Leveraging special graph shapes in LightGraphs</a></li>
+          
+          <li><a href="/post/2019-05-30-vertex-safe-removal/">Vertex removal in LightGraphs</a></li>
+          
+          <li><a href="/post/2019-05-08-simple-benders/">A take on Benders decomposition in JuMP</a></li>
           
         </ul>
       </div>
@@ -885,6 +1036,9 @@ competition, the market and the context.</p></li>
       
 
     
+    
+    
+    <script src="/js/mathjax-config.js"></script>
     
 
     
@@ -920,6 +1074,8 @@ competition, the market and the context.</p></li>
       
 
       
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
       
     
 
