@@ -284,6 +284,15 @@ bits. But the key take-away of this is that once the pipeline is built, updating
 the binary version or Julia wrapper is the same workflow one is used to with
 standard Julia packages. Keep building pure Julia software for all its benefits,
 but these tools I presented make it as great as possible to work with binaries.&lt;/p&gt;
+
+&lt;h2 id=&#34;edits&#34;&gt;Edits&lt;/h2&gt;
+
+&lt;p&gt;Some design work is in progress on the Pkg side to be able to reason with
+artifacts, a post can be found
+&lt;a href=&#34;https://github.com/JuliaLang/www.julialang.org/blob/43f5244c36cc8ec6e1728c697cf5de652b41e8fd/blog/_posts/2019-08-01-artifacts.md&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Many thanks to &lt;a href=&#34;https://github.com/staticfloat/&#34; target=&#34;_blank&#34;&gt;staticfloat&lt;/a&gt; and
+&lt;a href=&#34;https://github.com/giordano&#34; target=&#34;_blank&#34;&gt;giordano&lt;/a&gt; for the feedback and additional information.&lt;/p&gt;
 </description>
     </item>
     
