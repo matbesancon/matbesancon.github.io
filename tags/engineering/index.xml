@@ -7,7 +7,7 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Thu, 27 Dec 2018 00:00:00 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 27 Dec 2018 00:00:00 +0100</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/engineering/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Winter warm-up: toy models for heat exchangers</title>
       <link>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</link>
-      <pubDate>Thu, 27 Dec 2018 00:00:00 -0500</pubDate>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</guid>
       <description>
@@ -320,7 +320,7 @@ universities and &lt;a href=&#34;https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9
     <item>
       <title>Bringing data science to engineers</title>
       <link>https://matbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</link>
-      <pubDate>Sat, 21 May 2016 00:00:00 -0400</pubDate>
+      <pubDate>Sat, 21 May 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</guid>
       <description>

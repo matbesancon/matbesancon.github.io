@@ -7,7 +7,7 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Mon, 04 Nov 2019 00:00:00 -0500</lastBuildDate>
+    <lastBuildDate>Mon, 04 Nov 2019 00:00:00 +0100</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/julia/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Working with binary libraries for optimization in Julia</title>
       <link>https://matbesancon.github.io/post/2019-11-04-binary-julia/</link>
-      <pubDate>Mon, 04 Nov 2019 00:00:00 -0500</pubDate>
+      <pubDate>Mon, 04 Nov 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-11-04-binary-julia/</guid>
       <description>
@@ -300,7 +300,7 @@ artifacts, a post can be found
     <item>
       <title>Lessons learned on object constructors</title>
       <link>https://matbesancon.github.io/post/2019-09-23-constructors/</link>
-      <pubDate>Tue, 24 Sep 2019 00:00:00 -0400</pubDate>
+      <pubDate>Tue, 24 Sep 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-09-23-constructors/</guid>
       <description>
@@ -594,7 +594,7 @@ on the subject was posted on Reddit (thanks Paul for pointing it out).&lt;/p&gt;
     <item>
       <title>Bridges as an extended dispatch system</title>
       <link>https://matbesancon.github.io/post/2019-09-12-bridging-indicator/</link>
-      <pubDate>Thu, 12 Sep 2019 00:00:00 -0400</pubDate>
+      <pubDate>Thu, 12 Sep 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-09-12-bridging-indicator/</guid>
       <description>
@@ -1334,7 +1334,7 @@ vertex will take the place of the removed one in the re-labelling.&lt;/p&gt;
     <item>
       <title>A take on Benders decomposition in JuMP</title>
       <link>https://matbesancon.github.io/post/2019-05-08-simple-benders/</link>
-      <pubDate>Wed, 08 May 2019 00:00:00 -0400</pubDate>
+      <pubDate>Wed, 08 May 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-05-08-simple-benders/</guid>
       <description>
@@ -1596,7 +1596,7 @@ don&amp;rsquo;t hesitate to react or ping me on &lt;a href=&#34;https://twitter.
     <item>
       <title>Variables are not values: types and expressions in mathematical optimization</title>
       <link>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</link>
-      <pubDate>Mon, 29 Apr 2019 00:00:00 -0400</pubDate>
+      <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</guid>
       <description>
@@ -1909,7 +1909,7 @@ a bunch of equations, not at all about how to tackle these.&lt;/p&gt;
     <item>
       <title>Picking different names with integer optimization</title>
       <link>https://matbesancon.github.io/post/2019-04-07-name_distances/</link>
-      <pubDate>Sun, 07 Apr 2019 00:00:00 -0400</pubDate>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-07-name_distances/</guid>
       <description>
@@ -2049,7 +2049,7 @@ post, and to BYP for the feedback.&lt;/p&gt;
     <item>
       <title>Static lists in Julia</title>
       <link>https://matbesancon.github.io/post/2019-03-30-static-list/</link>
-      <pubDate>Sat, 30 Mar 2019 00:00:00 -0400</pubDate>
+      <pubDate>Sat, 30 Mar 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-03-30-static-list/</guid>
       <description>
@@ -2424,7 +2424,7 @@ experiment.&lt;/p&gt;
     <item>
       <title>Multiple dispatch - an example for mathematical optimizers</title>
       <link>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</link>
-      <pubDate>Sun, 24 Feb 2019 00:00:00 -0500</pubDate>
+      <pubDate>Sun, 24 Feb 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</guid>
       <description>
@@ -2745,7 +2745,7 @@ indicator constraints instead of big M, as documented in &lt;a href=&#34;http://
     <item>
       <title>Winter warm-up: toy models for heat exchangers</title>
       <link>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</link>
-      <pubDate>Thu, 27 Dec 2018 00:00:00 -0500</pubDate>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</guid>
       <description>
@@ -3050,7 +3050,7 @@ universities and &lt;a href=&#34;https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9
     <item>
       <title>Building our own graph type in Julia</title>
       <link>https://matbesancon.github.io/post/2018-08-17-abstract_graph/</link>
-      <pubDate>Fri, 17 Aug 2018 00:00:00 -0400</pubDate>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-08-17-abstract_graph/</guid>
       <description>
@@ -3264,7 +3264,7 @@ enough (how dense? No idea), it might be interesting to store entries as as
     <item>
       <title>The cutting stock problem: part 2, solving with column generation</title>
       <link>https://matbesancon.github.io/post/2018-05-25-colgen2/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 -0400</pubDate>
+      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-25-colgen2/</guid>
       <description>
@@ -3606,7 +3606,7 @@ contributed to its improvement!&lt;/p&gt;
     <item>
       <title>Tackling the cutting stock problem: part 1, problem exploration</title>
       <link>https://matbesancon.github.io/post/2018-05-23-colgen/</link>
-      <pubDate>Wed, 23 May 2018 00:00:00 -0400</pubDate>
+      <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
       <description>
@@ -3930,7 +3930,7 @@ details and explanations where needed.&lt;/p&gt;
     <item>
       <title>Solving the group expenses headache with graphs</title>
       <link>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</link>
-      <pubDate>Mon, 15 Jan 2018 00:00:00 -0500</pubDate>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
       <description>
@@ -4236,7 +4236,7 @@ Lightgraphs, 2017, &lt;a href=&#34;https://doi.org/10.5281/zenodo.889971&#34; ta
     <item>
       <title>DifferentialEquations.jl - part 2: decision from the model</title>
       <link>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</link>
-      <pubDate>Wed, 20 Dec 2017 00:00:00 -0500</pubDate>
+      <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
       <description>
@@ -4572,7 +4572,7 @@ use Optim.jl for the second case (boxed multivariate optimization without explic
     <item>
       <title>Getting started with DifferentialEquations.jl</title>
       <link>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</link>
-      <pubDate>Thu, 14 Dec 2017 00:00:00 -0500</pubDate>
+      <pubDate>Thu, 14 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
       <description>

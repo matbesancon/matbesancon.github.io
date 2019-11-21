@@ -7,7 +7,7 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Mon, 29 Apr 2019 00:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Mon, 29 Apr 2019 00:00:00 +0200</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/functional/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Variables are not values: types and expressions in mathematical optimization</title>
       <link>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</link>
-      <pubDate>Mon, 29 Apr 2019 00:00:00 -0400</pubDate>
+      <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</guid>
       <description>
@@ -328,7 +328,7 @@ a bunch of equations, not at all about how to tackle these.&lt;/p&gt;
     <item>
       <title>Functional and parallel PageRank implementation in Scala</title>
       <link>https://matbesancon.github.io/post/2016-09-13-page-rank/</link>
-      <pubDate>Tue, 13 Sep 2016 00:00:00 -0400</pubDate>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-09-13-page-rank/</guid>
       <description>

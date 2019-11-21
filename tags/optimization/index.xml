@@ -7,7 +7,7 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Thu, 12 Sep 2019 00:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Thu, 12 Sep 2019 00:00:00 +0200</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/optimization/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Bridges as an extended dispatch system</title>
       <link>https://matbesancon.github.io/post/2019-09-12-bridging-indicator/</link>
-      <pubDate>Thu, 12 Sep 2019 00:00:00 -0400</pubDate>
+      <pubDate>Thu, 12 Sep 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-09-12-bridging-indicator/</guid>
       <description>
@@ -397,7 +397,7 @@ of the &lt;em&gt;two-language problem&lt;/em&gt; of mathematical optimization.&l
     <item>
       <title>A take on Benders decomposition in JuMP</title>
       <link>https://matbesancon.github.io/post/2019-05-08-simple-benders/</link>
-      <pubDate>Wed, 08 May 2019 00:00:00 -0400</pubDate>
+      <pubDate>Wed, 08 May 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-05-08-simple-benders/</guid>
       <description>
@@ -659,7 +659,7 @@ don&amp;rsquo;t hesitate to react or ping me on &lt;a href=&#34;https://twitter.
     <item>
       <title>Variables are not values: types and expressions in mathematical optimization</title>
       <link>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</link>
-      <pubDate>Mon, 29 Apr 2019 00:00:00 -0400</pubDate>
+      <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</guid>
       <description>
@@ -972,7 +972,7 @@ a bunch of equations, not at all about how to tackle these.&lt;/p&gt;
     <item>
       <title>Picking different names with integer optimization</title>
       <link>https://matbesancon.github.io/post/2019-04-07-name_distances/</link>
-      <pubDate>Sun, 07 Apr 2019 00:00:00 -0400</pubDate>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-07-name_distances/</guid>
       <description>
@@ -1112,7 +1112,7 @@ post, and to BYP for the feedback.&lt;/p&gt;
     <item>
       <title>Multiple dispatch - an example for mathematical optimizers</title>
       <link>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</link>
-      <pubDate>Sun, 24 Feb 2019 00:00:00 -0500</pubDate>
+      <pubDate>Sun, 24 Feb 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</guid>
       <description>
@@ -1433,7 +1433,7 @@ indicator constraints instead of big M, as documented in &lt;a href=&#34;http://
     <item>
       <title>A Bilevel Framework for Optimal Price-Setting of Time-and-Level-of-Use Tariffs</title>
       <link>https://matbesancon.github.io/project/tlou/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 -0500</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/project/tlou/</guid>
       <description>&lt;p&gt;The pre-print of the presented work can be found on &lt;a href=&#34;https://arxiv.org/abs/1809.00512&#34; target=&#34;_blank&#34;&gt;arXiv&lt;/a&gt;.
@@ -1448,7 +1448,7 @@ model Time-and-Level-of-Use tariffs.&lt;/p&gt;
     <item>
       <title>The cutting stock problem: part 2, solving with column generation</title>
       <link>https://matbesancon.github.io/post/2018-05-25-colgen2/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 -0400</pubDate>
+      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-25-colgen2/</guid>
       <description>
@@ -1790,7 +1790,7 @@ contributed to its improvement!&lt;/p&gt;
     <item>
       <title>Tackling the cutting stock problem: part 1, problem exploration</title>
       <link>https://matbesancon.github.io/post/2018-05-23-colgen/</link>
-      <pubDate>Wed, 23 May 2018 00:00:00 -0400</pubDate>
+      <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
       <description>
@@ -2114,7 +2114,7 @@ details and explanations where needed.&lt;/p&gt;
     <item>
       <title>DifferentialEquations.jl - part 2: decision from the model</title>
       <link>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</link>
-      <pubDate>Wed, 20 Dec 2017 00:00:00 -0500</pubDate>
+      <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
       <description>
