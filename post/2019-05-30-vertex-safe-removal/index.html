@@ -729,7 +729,7 @@ removed_ok <span style="color:#f92672">=</span> LG<span style="color:#f92672">.<
 <span style="color:#a6e22e">@test_throws</span> <span style="color:#66d9ef">BoundsError</span> LG<span style="color:#f92672">.</span>kruskal_mst(g)</code></pre></div>
 
 <p>Yikes, what&rsquo;s happening here? Many parts of <em>LightGraphs.jl</em> use vertices computed
-from <code>vertices(g)</code>as indices for structures indexed by them. So if you remove
+from <code>vertices(g)</code> as indices for structures indexed by them. So if you remove
 vertex 4 in a 6-vertex graph, vertices will be <code>{1,2,3,5,6}</code>, and the rank
 algorithm will try to access the 6th rank, even though only 5 exist.</p>
 
@@ -784,12 +784,12 @@ interface more explicit. By keeping the two functions, we avoid having to use
 
 <p>I have corrected various functions following Pankaj&rsquo;s much needed
 <a href="https://github.com/matbesancon/VertexSafeGraphs.jl/pull/2" target="_blank">Pull Request</a>
-on the corresponding repository, thank!</p>
+on the corresponding repository, thanks!</p>
 
 <h2 id="edit-3">Edit 3</h2>
 
 <p>Seth Bromberger spotted an error in my assumptions,
-We use swap-and-pop is used for vertex removal, so the last
+Swap-and-pop is used for vertex removal, so the last
 vertex will take the place of the removed one in the re-labelling.</p>
 
     </div>

@@ -1428,7 +1428,7 @@ removed_ok &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span s
 &lt;span style=&#34;color:#a6e22e&#34;&gt;@test_throws&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BoundsError&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kruskal_mst(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Yikes, what&amp;rsquo;s happening here? Many parts of &lt;em&gt;LightGraphs.jl&lt;/em&gt; use vertices computed
-from &lt;code&gt;vertices(g)&lt;/code&gt;as indices for structures indexed by them. So if you remove
+from &lt;code&gt;vertices(g)&lt;/code&gt; as indices for structures indexed by them. So if you remove
 vertex 4 in a 6-vertex graph, vertices will be &lt;code&gt;{1,2,3,5,6}&lt;/code&gt;, and the rank
 algorithm will try to access the 6th rank, even though only 5 exist.&lt;/p&gt;
 
@@ -1483,12 +1483,12 @@ interface more explicit. By keeping the two functions, we avoid having to use
 
 &lt;p&gt;I have corrected various functions following Pankaj&amp;rsquo;s much needed
 &lt;a href=&#34;https://github.com/matbesancon/VertexSafeGraphs.jl/pull/2&#34; target=&#34;_blank&#34;&gt;Pull Request&lt;/a&gt;
-on the corresponding repository, thank!&lt;/p&gt;
+on the corresponding repository, thanks!&lt;/p&gt;
 
 &lt;h2 id=&#34;edit-3&#34;&gt;Edit 3&lt;/h2&gt;
 
 &lt;p&gt;Seth Bromberger spotted an error in my assumptions,
-We use swap-and-pop is used for vertex removal, so the last
+Swap-and-pop is used for vertex removal, so the last
 vertex will take the place of the removed one in the re-labelling.&lt;/p&gt;
 </description>
     </item>
@@ -5352,7 +5352,7 @@ And the initial conditions $u(0) = u₀$.&lt;/p&gt;
 &lt;p&gt;In Julia with DifferentialEquations, this becomes:
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;α &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.8&lt;/span&gt;
 β &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3.0&lt;/span&gt;
-diffeq &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;(du, u, p, t)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; diffeq(du, u, p, t)
     du[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; α &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]
     du[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; α &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; β &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]
     du[&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; β &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; u[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]
