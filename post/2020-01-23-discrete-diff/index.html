@@ -117,7 +117,7 @@
   
   <meta property="article:published_time" content="2020-01-23T00:00:00&#43;01:00">
   
-  <meta property="article:modified_time" content="2020-01-26T21:48:03&#43;01:00">
+  <meta property="article:modified_time" content="2020-01-26T23:28:06&#43;01:00">
   
 
   
@@ -430,7 +430,7 @@
 
 
 <meta content="2020-01-23 00:00:00 &#43;0100 CET" itemprop="datePublished">
-<meta content="2020-01-26 21:48:03 &#43;0100 CET" itemprop="dateModified">
+<meta content="2020-01-26 23:28:06 &#43;0100 CET" itemprop="dateModified">
 
 <div class="article-metadata">
 
@@ -651,7 +651,7 @@ of computing derivatives.</p>
 in the last decade with its used in ML, increasing the usability of the available
 libraries. It consists in getting an augmented information out of a function.</p>
 
-<p>If a function has a type signature <code>f: a -&gt; b</code>, the goal is, without modyfing
+<p>If a function has a type signature <code>f: a -&gt; b</code>, the goal is, without modifying
 the function, to compute a derivative, which is also a function, which to every
 point in the domain, yields a linear map from domain to co-domain <code>df: a -&gt; (a -o b)</code>,
 where <code>a -o b</code> denotes a linear map, regardless of underlying representation (matrix, function, &hellip;).
@@ -783,7 +783,7 @@ slack variable <code>z</code>.</p>
 @test MOI.get(model, MOI.ObjectiveValue()) ≈ 0.3
 </code></pre>
 
-<p>An equivalent JuMP version would look loke this:</p>
+<p>An equivalent JuMP version would look look this:</p>
 
 <pre><code class="language-julia">@testset&quot;&quot;
 matrix = [
@@ -813,7 +813,7 @@ mathematical formulation?</p>
 generic types, while <code>MathOptInterface</code> types are parameterized by the numeric type used.
 To be fair, maintaining type genericity on a project as large as JuMP
 is hard without making performance compromises. JuMP is not built of functions, but
-of a model object which contains a multable state of the problem being constructed,
+of a model object which contains a mutable state of the problem being constructed,
 and building an Algebraic Modelling Language without this incremental build of the
 model has not proved successful till now. One day, we may get a powerful declarative
 DSL for mathematical optimization, but it has not come yet.</p>
@@ -949,7 +949,7 @@ where the whole journey from 0 to a constraint solver is documented.</p>
 <ol>
 <li id="fn:1"><a href="http://conal.net/papers/essence-of-ad/" target="_blank">The simple essence of automatic differentiation</a>, Conal Elliott, Proceedings of the ACM on Programming Languages (ICFP), 2018
  <a class="footnote-return" href="#fnref:1"><sup>^</sup></a></li>
-<li id="fn:2">I believe a pure-Julia solver could be made as fast as a C/C++ solver, but developing solvers is an enormous amount of work and micro-optimizations, tests on industrial cases. The new <a href="https://highs.dev" target="_blank">HiGHS</a> solver however shows that one can get pretty good results by developping a linear solver from scratch with all modern techniques already baked in.
+<li id="fn:2">I believe a pure-Julia solver could be made as fast as a C/C++ solver, but developing solvers is an enormous amount of work and micro-optimizations, tests on industrial cases. The new <a href="https://highs.dev" target="_blank">HiGHS</a> solver however shows that one can get pretty good results by developing a linear solver from scratch with all modern techniques already baked in.
  <a class="footnote-return" href="#fnref:2"><sup>^</sup></a></li>
 </ol>
 </div>

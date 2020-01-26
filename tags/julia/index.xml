@@ -70,7 +70,7 @@ of computing derivatives.&lt;/p&gt;
 in the last decade with its used in ML, increasing the usability of the available
 libraries. It consists in getting an augmented information out of a function.&lt;/p&gt;
 
-&lt;p&gt;If a function has a type signature &lt;code&gt;f: a -&amp;gt; b&lt;/code&gt;, the goal is, without modyfing
+&lt;p&gt;If a function has a type signature &lt;code&gt;f: a -&amp;gt; b&lt;/code&gt;, the goal is, without modifying
 the function, to compute a derivative, which is also a function, which to every
 point in the domain, yields a linear map from domain to co-domain &lt;code&gt;df: a -&amp;gt; (a -o b)&lt;/code&gt;,
 where &lt;code&gt;a -o b&lt;/code&gt; denotes a linear map, regardless of underlying representation (matrix, function, &amp;hellip;).
@@ -202,7 +202,7 @@ slack variable &lt;code&gt;z&lt;/code&gt;.&lt;/p&gt;
 @test MOI.get(model, MOI.ObjectiveValue()) ≈ 0.3
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;An equivalent JuMP version would look loke this:&lt;/p&gt;
+&lt;p&gt;An equivalent JuMP version would look look this:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;@testset&amp;quot;&amp;quot;
 matrix = [
@@ -232,7 +232,7 @@ mathematical formulation?&lt;/p&gt;
 generic types, while &lt;code&gt;MathOptInterface&lt;/code&gt; types are parameterized by the numeric type used.
 To be fair, maintaining type genericity on a project as large as JuMP
 is hard without making performance compromises. JuMP is not built of functions, but
-of a model object which contains a multable state of the problem being constructed,
+of a model object which contains a mutable state of the problem being constructed,
 and building an Algebraic Modelling Language without this incremental build of the
 model has not proved successful till now. One day, we may get a powerful declarative
 DSL for mathematical optimization, but it has not come yet.&lt;/p&gt;
@@ -368,7 +368,7 @@ where the whole journey from 0 to a constraint solver is documented.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li id=&#34;fn:1&#34;&gt;&lt;a href=&#34;http://conal.net/papers/essence-of-ad/&#34; target=&#34;_blank&#34;&gt;The simple essence of automatic differentiation&lt;/a&gt;, Conal Elliott, Proceedings of the ACM on Programming Languages (ICFP), 2018
  &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:1&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li id=&#34;fn:2&#34;&gt;I believe a pure-Julia solver could be made as fast as a C/C++ solver, but developing solvers is an enormous amount of work and micro-optimizations, tests on industrial cases. The new &lt;a href=&#34;https://highs.dev&#34; target=&#34;_blank&#34;&gt;HiGHS&lt;/a&gt; solver however shows that one can get pretty good results by developping a linear solver from scratch with all modern techniques already baked in.
+&lt;li id=&#34;fn:2&#34;&gt;I believe a pure-Julia solver could be made as fast as a C/C++ solver, but developing solvers is an enormous amount of work and micro-optimizations, tests on industrial cases. The new &lt;a href=&#34;https://highs.dev&#34; target=&#34;_blank&#34;&gt;HiGHS&lt;/a&gt; solver however shows that one can get pretty good results by developing a linear solver from scratch with all modern techniques already baked in.
  &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:2&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
