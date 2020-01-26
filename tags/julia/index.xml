@@ -115,17 +115,20 @@ The differentiable function here is the objective value of such optimization
 problem, and the parameters we differentiate with respect to are the weights
 attached to each vertex $w_i$. We will denote it $f(w) = \max_x (\mathcal{P}_w)$.&lt;/p&gt;
 
-&lt;p&gt;If a vertex $i$ is not chosen in a solution, there are two cases:
-- the vertex has the same weight as at least one other, say $j$, such that
+&lt;p&gt;If a vertex $i$ is not chosen in a solution, there are two cases:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the vertex has the same weight as at least one other, say $j$, such that
 swapping $i$ and $j$ in the selected subset does not change the optimal value.
 of $\mathcal{P}$.
 In that case, there is a kink in the function, a discontinuity of the derivative,
 which may not be computed correctly by automatic differentiation.
 This is related to the phenomenon of degeneracy in the simplex algorithm,
-multiple variables could be chosen equivalently to enter the base.
-- there is no other vertex with the same weight, such that swapping the two
+multiple variables could be chosen equivalently to enter the base.&lt;/li&gt;
+&lt;li&gt;there is no other vertex with the same weight, such that swapping the two
 maintains the same objective value. In that case, the derivative is $0$,
-small enough variations of the weight does not change the solution nor the objective.&lt;/p&gt;
+small enough variations of the weight does not change the solution nor the objective.&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;If a vertex $i$ is chosen in a solution, then $x_i = 1$, and the corresponding
 partial derivative of the weight is $\frac{\partial f(w)}{\partial w_i} = 1$.&lt;/p&gt;
@@ -284,8 +287,9 @@ end
 
 &lt;p&gt;To understand how this derivative computation can work with just few
 function calls (proportional to the size of the input), one must dig
-a bit deeper in &lt;a href=&#34;CITE&#34; target=&#34;_blank&#34;&gt;Dual Numbers&lt;/a&gt;. I will shamelessly refer to my
-slides at LambdaLille.&lt;/p&gt;
+a bit deeper in &lt;a href=&#34;https://en.wikipedia.org/wiki/Dual_number&#34; target=&#34;_blank&#34;&gt;Dual Numbers&lt;/a&gt;.
+I will shamelessly refer to &lt;a href=&#34;https://matbesancon.github.io/slides/ad4dev#/12&#34; target=&#34;_blank&#34;&gt;my slides&lt;/a&gt;
+at the Lambda Lille meetup for an example implementation in Haskell.&lt;/p&gt;
 
 &lt;h1 id=&#34;why-not-reverse-mode&#34;&gt;Why not reverse-mode?&lt;/h1&gt;
 
@@ -355,8 +359,8 @@ The biggest highlights here are that:&lt;/p&gt;
 
 &lt;p&gt;Thanks a lot to &lt;a href=&#34;https://github.com/Wikunia/&#34; target=&#34;_blank&#34;&gt;Wikunia&lt;/a&gt;, first for developing ConstraintSolver.jl,
 without which none of this would have been possible, and for the open discussion on the multiple
-issues I posted. Don&amp;rsquo;t hesitate to check out his &lt;a href=&#34;https://opensourc.es/blog&#34; target=&#34;_blank&#34;&gt;blog&lt;/a&gt;, where the whole
-journey from 0 to a constraint solver is documented.&lt;/p&gt;
+issues I posted. Don&amp;rsquo;t hesitate to check out his &lt;a href=&#34;https://opensourc.es/blog/constraint-solver-1&#34; target=&#34;_blank&#34;&gt;blog&lt;/a&gt;,
+where the whole journey from 0 to a constraint solver is documented.&lt;/p&gt;
 &lt;div class=&#34;footnotes&#34;&gt;
 
 &lt;hr /&gt;
