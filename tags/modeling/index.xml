@@ -20,6 +20,8 @@
       <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
       <description>
 
+&lt;p&gt;&lt;a href=&#34;https://doi.org/10.5281/zenodo.3329389&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://zenodo.org/badge/DOI/10.5281/zenodo.3329389.svg&#34; alt=&#34;DOI&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
 &lt;p&gt;Integer optimization often feels weird (at least to me). Simple reformulations
 of a (mixed) integer optimization problem (MIP) can make it way easier to solve.
 We&amp;rsquo;re going to explore one well-known example of such integer problem in two
@@ -322,7 +324,7 @@ If you have any question/remarks, feel free to &lt;a href=&#34;http://twitter.co
 &lt;p&gt;Found this post useful for your work? The corresponding repository
 is available on &lt;a href=&#34;https://github.com/matbesancon/column_generation_jump&#34; target=&#34;_blank&#34;&gt;GitHub&lt;/a&gt;,
 consider citing it using the following DOI &lt;em&gt;10.5281/zenodo.3329389&lt;/em&gt;,
-the BibTeX entry is available on &lt;a href=&#34;https://zenodo.org/badge/latestdoi/130896714&#34; target=&#34;_blank&#34;&gt;Zenodo&lt;/a&gt;.&lt;/p&gt;
+the BibTeX entry is available on &lt;a href=&#34;https://doi.org/10.5281/zenodo.3329389&#34; target=&#34;_blank&#34;&gt;Zenodo&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;thanks&#34;&gt;Thanks&lt;/h2&gt;
 
