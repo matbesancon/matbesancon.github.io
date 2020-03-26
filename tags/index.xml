@@ -7,10 +7,28 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Thu, 23 Jan 2020 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 26 Mar 2020 00:00:00 +0100</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>academia</title>
+      <link>https://matbesancon.github.io/tags/academia/</link>
+      <pubDate>Thu, 26 Mar 2020 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/academia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>phd</title>
+      <link>https://matbesancon.github.io/tags/phd/</link>
+      <pubDate>Thu, 26 Mar 2020 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/phd/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>automatic-differentiation</title>
@@ -148,15 +166,6 @@
     </item>
     
     <item>
-      <title>academia</title>
-      <link>https://matbesancon.github.io/tags/academia/</link>
-      <pubDate>Mon, 04 Feb 2019 00:00:00 +0100</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/academia/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>engineering</title>
       <link>https://matbesancon.github.io/tags/engineering/</link>
       <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
@@ -207,15 +216,6 @@
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/tags/statistics/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>phd</title>
-      <link>https://matbesancon.github.io/tags/phd/</link>
-      <pubDate>Thu, 27 Sep 2018 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/phd/</guid>
       <description></description>
     </item>
     
