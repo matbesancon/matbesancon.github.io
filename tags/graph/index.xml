@@ -7,7 +7,7 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Sun, 07 Apr 2019 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 07 Apr 2019 00:00:00 +0100</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/graph/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Picking different names with integer optimization</title>
       <link>https://matbesancon.github.io/post/2019-04-07-name_distances/</link>
-      <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-07-name_distances/</guid>
       <description>
@@ -155,7 +155,7 @@ post, and to BYP for the feedback.&lt;/p&gt;
     <item>
       <title>Building our own graph type in Julia</title>
       <link>https://matbesancon.github.io/post/2018-08-17-abstract_graph/</link>
-      <pubDate>Fri, 17 Aug 2018 00:00:00 +0200</pubDate>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-08-17-abstract_graph/</guid>
       <description>
@@ -369,7 +369,7 @@ enough (how dense? No idea), it might be interesting to store entries as as
     <item>
       <title>Solving the group expenses headache with graphs</title>
       <link>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</link>
-      <pubDate>Mon, 15 Jan 2018 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
       <description>
@@ -675,7 +675,7 @@ Lightgraphs, 2017, &lt;a href=&#34;https://doi.org/10.5281/zenodo.889971&#34; ta
     <item>
       <title>JuliaGraphs contributions</title>
       <link>https://matbesancon.github.io/project/juliagraphs/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0100</pubDate>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/juliagraphs/</guid>
       <description>&lt;p&gt;Starting from a weird Kaggle &lt;a href=&#34;https://www.kaggle.com/c/santa-gift-matching&#34; target=&#34;_blank&#34;&gt;side-project&lt;/a&gt;

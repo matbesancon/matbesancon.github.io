@@ -7,7 +7,7 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Tue, 18 Dec 2018 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 18 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/julia-package/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>JuliaStats/Distributions.jl</title>
       <link>https://matbesancon.github.io/project/distributions/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/distributions/</guid>
       <description>&lt;p&gt;Contributions to the &lt;a href=&#34;https://juliastats.github.io&#34; target=&#34;_blank&#34;&gt;JuliaStats&lt;/a&gt; ecosystem,
@@ -28,7 +28,7 @@ and flexible interface.&lt;/p&gt;
     <item>
       <title>Mixed continuous-discrete distributions</title>
       <link>https://matbesancon.github.io/project/mixed_distributions/</link>
-      <pubDate>Tue, 04 Sep 2018 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 04 Sep 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/project/mixed_distributions/</guid>
       <description></description>
@@ -37,7 +37,7 @@ and flexible interface.&lt;/p&gt;
     <item>
       <title>JuliaGraphs contributions</title>
       <link>https://matbesancon.github.io/project/juliagraphs/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0100</pubDate>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/juliagraphs/</guid>
       <description>&lt;p&gt;Starting from a weird Kaggle &lt;a href=&#34;https://www.kaggle.com/c/santa-gift-matching&#34; target=&#34;_blank&#34;&gt;side-project&lt;/a&gt;
@@ -63,7 +63,7 @@ using any user-provided solver.&lt;/p&gt;
     <item>
       <title>WebFuncs</title>
       <link>https://matbesancon.github.io/project/webfuncs/</link>
-      <pubDate>Wed, 10 Jan 2018 00:00:00 +0100</pubDate>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/webfuncs/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/matbesancon/WebFuncs.jl&#34; target=&#34;_blank&#34;&gt;WebFuncs.jl&lt;/a&gt; is a project

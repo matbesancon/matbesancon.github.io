@@ -7,7 +7,7 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Thu, 26 Mar 2020 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 26 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/academia/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Coping with a confined PhD, a naive report</title>
       <link>https://matbesancon.github.io/post/2020-03-26-confined-phd/</link>
-      <pubDate>Thu, 26 Mar 2020 00:00:00 +0100</pubDate>
+      <pubDate>Thu, 26 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2020-03-26-confined-phd/</guid>
       <description>
@@ -23,14 +23,14 @@
 &lt;p&gt;One of the luxuries of a PhD in applied maths / computer science is the
 possibility to work from home. By possibility, I imply both the technical
 feasibility (my project does not require special equipment), and social
-acceptability (the labs I worked in were not enforcing presenteeism).&lt;/p&gt;
+acceptability (I never worked in labs enforcing presenteeism).&lt;/p&gt;
 
 &lt;p&gt;Of course, working from home or from my corner coffee shop once every other week
-as a break is very different from these exceptional circumstances. I must also
-highlight I do not have to take care of children or sick family members, which
-comes as a priority, big congrats to those who manage it. This post should not
+is very different from these exceptional circumstances.
+I should also highlight I do not have to take care of children or sick family members,
+which comes as a priority, big congrats to those who manage it. This post should not
 be seen as how things should be done, simply how I cope and as a list of ideas
-to pick up or ignore if you are in a similar situation. The context is also very
+to pick from if you are in a similar situation. The context is also very
 special for me as I just moved to the UK for an academic visit at the University
 of Edinburgh, I had just settled at a new city, flat and office when things
 started to escalate.&lt;/p&gt;
@@ -201,7 +201,7 @@ or preparation.&lt;/p&gt;
     <item>
       <title>A naive and incomplete guide to peer-review</title>
       <link>https://matbesancon.github.io/post/2019-02-04-article-review/</link>
-      <pubDate>Mon, 04 Feb 2019 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 04 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-02-04-article-review/</guid>
       <description>
@@ -388,7 +388,7 @@ Source for the cover image:
     <item>
       <title>A Bilevel Framework for Optimal Price-Setting of Time-and-Level-of-Use Tariffs</title>
       <link>https://matbesancon.github.io/project/tlou/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/tlou/</guid>
       <description>&lt;p&gt;The pre-print of the presented work can be found on &lt;a href=&#34;https://arxiv.org/abs/1809.00512&#34; target=&#34;_blank&#34;&gt;arXiv&lt;/a&gt;.
@@ -403,7 +403,7 @@ model Time-and-Level-of-Use tariffs.&lt;/p&gt;
     <item>
       <title>A year in PhD</title>
       <link>https://matbesancon.github.io/post/2018-09-27-year-in-phd/</link>
-      <pubDate>Thu, 27 Sep 2018 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-09-27-year-in-phd/</guid>
       <description>

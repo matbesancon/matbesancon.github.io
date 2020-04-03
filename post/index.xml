@@ -14,7 +14,7 @@
     <item>
       <title>Coping with a confined PhD, a naive report</title>
       <link>https://matbesancon.github.io/post/2020-03-26-confined-phd/</link>
-      <pubDate>Thu, 26 Mar 2020 00:00:00 +0100</pubDate>
+      <pubDate>Thu, 26 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2020-03-26-confined-phd/</guid>
       <description>
@@ -22,14 +22,14 @@
 &lt;p&gt;One of the luxuries of a PhD in applied maths / computer science is the
 possibility to work from home. By possibility, I imply both the technical
 feasibility (my project does not require special equipment), and social
-acceptability (the labs I worked in were not enforcing presenteeism).&lt;/p&gt;
+acceptability (I never worked in labs enforcing presenteeism).&lt;/p&gt;
 
 &lt;p&gt;Of course, working from home or from my corner coffee shop once every other week
-as a break is very different from these exceptional circumstances. I must also
-highlight I do not have to take care of children or sick family members, which
-comes as a priority, big congrats to those who manage it. This post should not
+is very different from these exceptional circumstances.
+I should also highlight I do not have to take care of children or sick family members,
+which comes as a priority, big congrats to those who manage it. This post should not
 be seen as how things should be done, simply how I cope and as a list of ideas
-to pick up or ignore if you are in a similar situation. The context is also very
+to pick from if you are in a similar situation. The context is also very
 special for me as I just moved to the UK for an academic visit at the University
 of Edinburgh, I had just settled at a new city, flat and office when things
 started to escalate.&lt;/p&gt;
@@ -200,7 +200,7 @@ or preparation.&lt;/p&gt;
     <item>
       <title>Differentiating the discrete: Automatic Differentiation meets Integer Optimization</title>
       <link>https://matbesancon.github.io/post/2020-01-23-discrete-diff/</link>
-      <pubDate>Thu, 23 Jan 2020 00:00:00 +0100</pubDate>
+      <pubDate>Thu, 23 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2020-01-23-discrete-diff/</guid>
       <description>
@@ -563,7 +563,7 @@ where the whole journey from 0 to a constraint solver is documented.&lt;/p&gt;
     <item>
       <title>Working with binary libraries for optimization in Julia</title>
       <link>https://matbesancon.github.io/post/2019-11-04-binary-julia/</link>
-      <pubDate>Mon, 04 Nov 2019 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 04 Nov 2019 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-11-04-binary-julia/</guid>
       <description>
@@ -848,7 +848,7 @@ artifacts, a post can be found
     <item>
       <title>Questions and answers from 4th graders</title>
       <link>https://matbesancon.github.io/post/2019-10-21-skype-a-scientist/</link>
-      <pubDate>Mon, 21 Oct 2019 00:00:00 +0200</pubDate>
+      <pubDate>Mon, 21 Oct 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-10-21-skype-a-scientist/</guid>
       <description>
@@ -1011,7 +1011,7 @@ previous company. I created some computer apps, one was a snake game
     <item>
       <title>Lessons learned on object constructors</title>
       <link>https://matbesancon.github.io/post/2019-09-23-constructors/</link>
-      <pubDate>Tue, 24 Sep 2019 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 24 Sep 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-09-23-constructors/</guid>
       <description>
@@ -1305,7 +1305,7 @@ on the subject was posted on Reddit (thanks Paul for pointing it out).&lt;/p&gt;
     <item>
       <title>Bridges as an extended dispatch system</title>
       <link>https://matbesancon.github.io/post/2019-09-12-bridging-indicator/</link>
-      <pubDate>Thu, 12 Sep 2019 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 12 Sep 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-09-12-bridging-indicator/</guid>
       <description>
@@ -2045,7 +2045,7 @@ vertex will take the place of the removed one in the re-labelling.&lt;/p&gt;
     <item>
       <title>A take on Benders decomposition in JuMP</title>
       <link>https://matbesancon.github.io/post/2019-05-08-simple-benders/</link>
-      <pubDate>Wed, 08 May 2019 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 08 May 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-05-08-simple-benders/</guid>
       <description>
@@ -2307,7 +2307,7 @@ don&amp;rsquo;t hesitate to react or ping me on &lt;a href=&#34;https://twitter.
     <item>
       <title>Variables are not values: types and expressions in mathematical optimization</title>
       <link>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</link>
-      <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
+      <pubDate>Mon, 29 Apr 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</guid>
       <description>
@@ -2620,7 +2620,7 @@ a bunch of equations, not at all about how to tackle these.&lt;/p&gt;
     <item>
       <title>Picking different names with integer optimization</title>
       <link>https://matbesancon.github.io/post/2019-04-07-name_distances/</link>
-      <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-04-07-name_distances/</guid>
       <description>
@@ -2760,7 +2760,7 @@ post, and to BYP for the feedback.&lt;/p&gt;
     <item>
       <title>Static lists in Julia</title>
       <link>https://matbesancon.github.io/post/2019-03-30-static-list/</link>
-      <pubDate>Sat, 30 Mar 2019 00:00:00 +0100</pubDate>
+      <pubDate>Sat, 30 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-03-30-static-list/</guid>
       <description>
@@ -3135,7 +3135,7 @@ experiment.&lt;/p&gt;
     <item>
       <title>Book review: the Entrepreneurial State</title>
       <link>https://matbesancon.github.io/post/2019-01-24-entrepreneurial-state-review/</link>
-      <pubDate>Mon, 18 Mar 2019 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 18 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-01-24-entrepreneurial-state-review/</guid>
       <description>
@@ -3264,7 +3264,7 @@ on my reading list.&lt;/p&gt;
     <item>
       <title>Multiple dispatch - an example for mathematical optimizers</title>
       <link>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</link>
-      <pubDate>Sun, 24 Feb 2019 00:00:00 +0100</pubDate>
+      <pubDate>Sun, 24 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-02-24-multiple-dispatch-optimizers/</guid>
       <description>
@@ -3585,7 +3585,7 @@ indicator constraints instead of big M, as documented in &lt;a href=&#34;http://
     <item>
       <title>A naive and incomplete guide to peer-review</title>
       <link>https://matbesancon.github.io/post/2019-02-04-article-review/</link>
-      <pubDate>Mon, 04 Feb 2019 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 04 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2019-02-04-article-review/</guid>
       <description>
@@ -3772,7 +3772,7 @@ Source for the cover image:
     <item>
       <title>Winter warm-up: toy models for heat exchangers</title>
       <link>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</link>
-      <pubDate>Thu, 27 Dec 2018 00:00:00 +0100</pubDate>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-12-27-heat-exchanger/</guid>
       <description>
@@ -4077,7 +4077,7 @@ universities and &lt;a href=&#34;https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9
     <item>
       <title>A year in PhD</title>
       <link>https://matbesancon.github.io/post/2018-09-27-year-in-phd/</link>
-      <pubDate>Thu, 27 Sep 2018 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-09-27-year-in-phd/</guid>
       <description>
@@ -4298,7 +4298,7 @@ to my situation, I&amp;rsquo;d be interested to know how it relates or not to yo
     <item>
       <title>Building our own graph type in Julia</title>
       <link>https://matbesancon.github.io/post/2018-08-17-abstract_graph/</link>
-      <pubDate>Fri, 17 Aug 2018 00:00:00 +0200</pubDate>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-08-17-abstract_graph/</guid>
       <description>
@@ -4512,7 +4512,7 @@ enough (how dense? No idea), it might be interesting to store entries as as
     <item>
       <title>The cutting stock problem: part 2, solving with column generation</title>
       <link>https://matbesancon.github.io/post/2018-05-25-colgen2/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 30 May 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-25-colgen2/</guid>
       <description>
@@ -4856,7 +4856,7 @@ contributed to its improvement!&lt;/p&gt;
     <item>
       <title>Tackling the cutting stock problem: part 1, problem exploration</title>
       <link>https://matbesancon.github.io/post/2018-05-23-colgen/</link>
-      <pubDate>Wed, 23 May 2018 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 23 May 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2018-05-23-colgen/</guid>
       <description>
@@ -5182,7 +5182,7 @@ details and explanations where needed.&lt;/p&gt;
     <item>
       <title>Solving the group expenses headache with graphs</title>
       <link>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</link>
-      <pubDate>Mon, 15 Jan 2018 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-09-11-graph-theory-expenses-management/</guid>
       <description>
@@ -5488,7 +5488,7 @@ Lightgraphs, 2017, &lt;a href=&#34;https://doi.org/10.5281/zenodo.889971&#34; ta
     <item>
       <title>DifferentialEquations.jl - part 2: decision from the model</title>
       <link>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</link>
-      <pubDate>Wed, 20 Dec 2017 00:00:00 +0100</pubDate>
+      <pubDate>Wed, 20 Dec 2017 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-20-diffeq-julia2/</guid>
       <description>
@@ -5824,7 +5824,7 @@ use Optim.jl for the second case (boxed multivariate optimization without explic
     <item>
       <title>Getting started with DifferentialEquations.jl</title>
       <link>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</link>
-      <pubDate>Thu, 14 Dec 2017 00:00:00 +0100</pubDate>
+      <pubDate>Thu, 14 Dec 2017 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-12-14-diffeq-julia/</guid>
       <description>
@@ -6108,7 +6108,7 @@ is also what makes an open-source project successful.&lt;/p&gt;
     <item>
       <title>Switching my work flow to Pomodoro for grad studies - part I: motivation  </title>
       <link>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</link>
-      <pubDate>Thu, 19 Oct 2017 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 19 Oct 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</guid>
       <description>
@@ -6250,7 +6250,7 @@ let me know!&lt;/p&gt;
     <item>
       <title>Moving my content creation to a home-made Hugo site</title>
       <link>https://matbesancon.github.io/post/2017-09-05-moving-content-hugo/</link>
-      <pubDate>Tue, 05 Sep 2017 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 05 Sep 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2017-09-05-moving-content-hugo/</guid>
       <description>
@@ -6331,7 +6331,7 @@ content to Medium, but not as the primary source.&lt;/p&gt;
     <item>
       <title>Company values: stop trying to dictate who you are</title>
       <link>https://matbesancon.github.io/post/2016-10-7-company-values/</link>
-      <pubDate>Fri, 07 Oct 2016 00:00:00 +0200</pubDate>
+      <pubDate>Fri, 07 Oct 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-10-7-company-values/</guid>
       <description>
@@ -6460,7 +6460,7 @@ competition, the market and the context.&lt;/p&gt;&lt;/li&gt;
     <item>
       <title>Functional and parallel PageRank implementation in Scala</title>
       <link>https://matbesancon.github.io/post/2016-09-13-page-rank/</link>
-      <pubDate>Tue, 13 Sep 2016 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-09-13-page-rank/</guid>
       <description>
@@ -6663,7 +6663,7 @@ why &lt;a href=&#34;http://spark.apache.org&#34; target=&#34;_blank&#34;&gt;Spar
     <item>
       <title>Back to startup life: thoughts after the first days</title>
       <link>https://matbesancon.github.io/post/2016-08-11-back-to-startup/</link>
-      <pubDate>Thu, 11 Aug 2016 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 11 Aug 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-08-11-back-to-startup/</guid>
       <description>
@@ -6812,7 +6812,7 @@ stay tuned!&lt;/p&gt;
     <item>
       <title>On startup weekends and getting things done</title>
       <link>https://matbesancon.github.io/post/2016-07-11-hackathon/</link>
-      <pubDate>Mon, 11 Jul 2016 00:00:00 +0200</pubDate>
+      <pubDate>Mon, 11 Jul 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-07-11-hackathon/</guid>
       <description>
@@ -6927,7 +6927,7 @@ learning experience.&lt;/p&gt;
     <item>
       <title>Bringing data science to engineers</title>
       <link>https://matbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</link>
-      <pubDate>Sat, 21 May 2016 00:00:00 +0200</pubDate>
+      <pubDate>Sat, 21 May 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</guid>
       <description>
@@ -7142,7 +7142,7 @@ scratch in an industrial context.&lt;/p&gt;
     <item>
       <title>A Pythonic data science project: Part III</title>
       <link>https://matbesancon.github.io/post/2016-01-13-fraud-detection3/</link>
-      <pubDate>Wed, 13 Jan 2016 00:00:00 +0100</pubDate>
+      <pubDate>Wed, 13 Jan 2016 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-13-fraud-detection3/</guid>
       <description>
@@ -7480,7 +7480,7 @@ and giving me some valuable feedback.&lt;/p&gt;
     <item>
       <title>A Pythonic data science project: Part II</title>
       <link>https://matbesancon.github.io/post/2016-01-12-fraud-detection2/</link>
-      <pubDate>Tue, 12 Jan 2016 00:00:00 +0100</pubDate>
+      <pubDate>Tue, 12 Jan 2016 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-12-fraud-detection2/</guid>
       <description>
@@ -7771,7 +7771,7 @@ part in an analysis-oriented data science project, and I hope to see you there.&
     <item>
       <title>A Pythonic data science project: Part I</title>
       <link>https://matbesancon.github.io/post/2016-01-11-fraud-detection/</link>
-      <pubDate>Mon, 11 Jan 2016 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 11 Jan 2016 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-11-fraud-detection/</guid>
       <description>

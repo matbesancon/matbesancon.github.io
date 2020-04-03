@@ -14,7 +14,7 @@
     <item>
       <title>LightGraphs, structure, abstractions and algorithms</title>
       <link>https://matbesancon.github.io/talk/optimization_nantes/</link>
-      <pubDate>Mon, 24 Jun 2019 00:00:00 +0200</pubDate>
+      <pubDate>Mon, 24 Jun 2019 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/talk/optimization_nantes/</guid>
       <description>&lt;p&gt;LightGraphs has become the central package for working with graphs in Julia,
@@ -29,7 +29,7 @@ develop our own specialized graph type as a user.&lt;/p&gt;
     <item>
       <title>Introduction to Julia and its ecosystems for optimization and modeling</title>
       <link>https://matbesancon.github.io/talk/julia_opt_workshop/</link>
-      <pubDate>Wed, 21 Nov 2018 00:00:00 +0100</pubDate>
+      <pubDate>Wed, 21 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/talk/julia_opt_workshop/</guid>
       <description>&lt;p&gt;We gave an overview of the Julia programming language for researchers in
@@ -48,7 +48,7 @@ Example use cases with linear algebra.&lt;/li&gt;
     <item>
       <title>Julia, programming model, type system and use cases</title>
       <link>https://matbesancon.github.io/talk/lillefp_julia/</link>
-      <pubDate>Thu, 20 Sep 2018 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 20 Sep 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/talk/lillefp_julia/</guid>
       <description>&lt;p&gt;Quick overview of the Julia programming language at the LilleFP
@@ -66,7 +66,7 @@ language.&lt;/p&gt;
     <item>
       <title>Graph interfaces, bespoke graphs for every occasion</title>
       <link>https://matbesancon.github.io/talk/juliacon18/</link>
-      <pubDate>Thu, 09 Aug 2018 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 09 Aug 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/talk/juliacon18/</guid>
       <description>&lt;p&gt;We presented the &lt;em&gt;LightGraphs.jl&lt;/em&gt; package with &lt;a href=&#34;https://twitter.com/fairbanksjp&#34; target=&#34;_blank&#34;&gt;James&lt;/a&gt; for anyone in need of a
@@ -85,7 +85,7 @@ ecosystem on this type for free.&lt;/p&gt;
     <item>
       <title>Intro to package development in Julia</title>
       <link>https://matbesancon.github.io/talk/julia_montreal/</link>
-      <pubDate>Thu, 08 Mar 2018 00:00:00 +0100</pubDate>
+      <pubDate>Thu, 08 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/talk/julia_montreal/</guid>
       <description>&lt;p&gt;A quick introduction to the why and how of package development in Julia for
@@ -97,7 +97,7 @@ MatFuncs.jl was live-coded and available &lt;a href=&#34;https://github.com/matb
     <item>
       <title>Golang in a multi-project, multi-platform team</title>
       <link>https://matbesancon.github.io/talk/golang_talk_lille/</link>
-      <pubDate>Thu, 06 Jul 2017 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 06 Jul 2017 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/talk/golang_talk_lille/</guid>
       <description>&lt;p&gt;This talk was part of a second meetup introducing Golang use cases
