@@ -3,6 +3,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://matbesancon.github.io/post/2020-05-09-volumes/</loc>
+    <lastmod>2020-05-09T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/julia/</loc>
+    <lastmod>2020-05-09T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/jump/</loc>
+    <lastmod>2020-05-09T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/optimization/</loc>
+    <lastmod>2020-05-09T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/</loc>
+    <lastmod>2020-05-09T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/</loc>
+    <lastmod>2020-05-09T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://matbesancon.github.io/tags/academia/</loc>
     <lastmod>2020-04-04T20:59:47+01:00</lastmod>
   </url>
@@ -14,16 +44,6 @@
   
   <url>
     <loc>https://matbesancon.github.io/tags/phd/</loc>
-    <lastmod>2020-04-04T20:59:47+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/</loc>
-    <lastmod>2020-04-04T20:59:47+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/</loc>
     <lastmod>2020-04-04T20:59:47+01:00</lastmod>
   </url>
   
@@ -40,21 +60,6 @@
   <url>
     <loc>https://matbesancon.github.io/tags/integer/</loc>
     <lastmod>2020-01-26T23:28:06+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/julia/</loc>
-    <lastmod>2020-02-10T12:13:23+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/jump/</loc>
-    <lastmod>2020-02-10T12:13:23+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/tags/optimization/</loc>
-    <lastmod>2020-02-10T12:13:23+01:00</lastmod>
   </url>
   
   <url>

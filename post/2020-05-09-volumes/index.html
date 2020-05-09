@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en-ca">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.4.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Mathieu Besançon">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Constrained optimization on a fundamental engineering problem
+">
+
+  
+  <link rel="alternate" hreflang="en-ca" href="https://matbesancon.github.io/post/2020-05-09-volumes/">
+
+  
+
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/monokai.min.css" crossorigin="anonymous" title="hl-light">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/monokai.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+      
+    
+
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,400italic,700|Roboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="https://matbesancon.github.io/post/2020-05-09-volumes/">
+
+  
+  
+  
+  
+    
+    
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@matbesancon">
+  <meta property="twitter:creator" content="@matbesancon">
+  
+  <meta property="og:site_name" content="μβ">
+  <meta property="og:url" content="https://matbesancon.github.io/post/2020-05-09-volumes/">
+  <meta property="og:title" content="Experiments on communicating vessels, constrained optimization and manifolds | μβ">
+  <meta property="og:description" content="Constrained optimization on a fundamental engineering problem
+"><meta property="og:image" content="https://matbesancon.github.io/img/icon-192.png">
+  <meta property="twitter:image" content="https://matbesancon.github.io/img/icon-192.png"><meta property="og:locale" content="en-ca">
+  
+  <meta property="article:published_time" content="2020-05-09T00:00:00&#43;01:00">
+  
+  <meta property="article:modified_time" content="2020-05-09T00:00:00&#43;01:00">
+  
+
+  
+
+
+  
+
+
+
+
+
+  <title>Experiments on communicating vessels, constrained optimization and manifolds | μβ</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">μβ</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>Home</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#talks"><span>Talks</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#experience"><span>Experience</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  <article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1 itemprop="name">Experiments on communicating vessels, constrained optimization and manifolds</h1>
+
+  
+
+  
+    
+
+
+
+<meta content="2020-05-09 00:00:00 &#43;0100 BST" itemprop="datePublished">
+<meta content="2020-05-09 00:00:00 &#43;0100 BST" itemprop="dateModified">
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    <time>2020-05-09</time>
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    14 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+
+  
+    
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://matbesancon.github.io/post/2020-05-09-volumes/&amp;text=Experiments%20on%20communicating%20vessels,%20constrained%20optimization%20and%20manifolds" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://matbesancon.github.io/post/2020-05-09-volumes/&amp;t=Experiments%20on%20communicating%20vessels,%20constrained%20optimization%20and%20manifolds" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Experiments%20on%20communicating%20vessels,%20constrained%20optimization%20and%20manifolds&amp;body=https://matbesancon.github.io/post/2020-05-09-volumes/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://matbesancon.github.io/post/2020-05-09-volumes/&amp;title=Experiments%20on%20communicating%20vessels,%20constrained%20optimization%20and%20manifolds" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=Experiments%20on%20communicating%20vessels,%20constrained%20optimization%20and%20manifolds%20https://matbesancon.github.io/post/2020-05-09-volumes/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://matbesancon.github.io/post/2020-05-09-volumes/&amp;title=Experiments%20on%20communicating%20vessels,%20constrained%20optimization%20and%20manifolds" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<p><h2>Table of Contents</h2>
+<nav id="TableOfContents">
+<ul>
+<li><a href="#communicating-vessels-and-optimization-formulation">Communicating vessels and optimization formulation</a></li>
+<li><a href="#vessel-equilibrium-as-an-optimization-problem">Vessel equilibrium as an optimization problem</a></li>
+<li><a href="#computing-a-direction">Computing a direction</a></li>
+<li><a href="#projecting-on-the-manifold">Projecting on the manifold</a></li>
+<li><a href="#putting-it-all-together">Putting it all together</a></li>
+<li><a href="#conclusion-and-perspective">Conclusion and perspective</a></li>
+<li><a href="#sources">Sources</a></li>
+</ul>
+</nav></p>
+
+<p>Fluid mechanics was one of my favourite topics in my Process Engineering program
+(some people will quit reading at this point and never talk to me again) so without surprise,
+I could not resist diving into this new <a href="https://sinews.siam.org/Details-Page/lagrange-multiplier-as-depth-or-pressure-2" target="_blank">blog post</a>
+on SIAM News caught my attention.
+This is the second time a post from Mark Levi caught my attention, the last was
+was on <a href="https://sinews.siam.org/Details-Page/a-near-perfect-heat-exchange" target="_blank">heat exchangers</a>,
+on which I wrote a <a href="https://matbesancon.github.io/post/2018-12-27-heat-exchanger/" target="_blank">blog post</a>, toying with parallel and counter-current heat exchangers.</p>
+
+<p>This new post from Mark Levi illustrates a key concept in constrained optimization: <em>Lagrange multipliers</em>
+and a nice interpretation in a problem of communicating vessels.</p>
+
+<h1 id="communicating-vessels-and-optimization-formulation">Communicating vessels and optimization formulation</h1>
+
+<p>Imagine $N$ vessels filled with water, all connected through a pipe at the bottom:
+If you are familiar with fluid mechanics, feel free to skip this section.</p>
+
+<p><img src="/img/posts/volumes/Communicating_vessels.png" alt="Communicating vessels" /><sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup></p>
+
+<p>If you are familiar with fluid mechanics, feel free to skip this section.
+The problem statement is, given initial levels of water $x_k$ in each $k-th$ vessel:</p>
+
+<ul>
+<li>how does the state evolve?</li>
+<li>what equilibrium, if any, is eventually reached?</li>
+</ul>
+
+<p>Otherwise, consider the weight of water creates pressure within it.
+The lower a point in the water, the higher the pressure, since there is more water above which exercises its weight.
+A difference in <strong>pressure</strong> between two points will create a motion of the water, until the pressure equalizes.
+Put differently, some fluid moves from the full part of the vessel (with more pressure) to empty parts (with less pressure)
+until the pressure equalizes.</p>
+
+<p><img src="/img/posts/volumes/motion.gif" alt="Communicating vessels" /><sup class="footnote-ref" id="fnref:2"><a href="#fn:2">2</a></sup></p>
+
+<p>Since the pressure at a point depends on the height of the fluid above this point,
+two points have equal pressure when the height of water above them is equal.
+This is a phenomenon we often experience, with a watering can for instance.</p>
+
+<h1 id="vessel-equilibrium-as-an-optimization-problem">Vessel equilibrium as an optimization problem</h1>
+
+<p>A system reaches an equilibrium at the minimum of its potential energy.
+Feel free to skip this part if you read the blog post by Mark Levi, we basically go over the problem formulation once again.
+An equilibrium state (where the state does not evolve anymore) can be found by
+solving the optimization problem minimizing the potential energy, subject to the
+respect of the laws of physics. These laws state two things:</p>
+
+<ul>
+<li>No fluid loss: the mass of liquid is preserved, and since we are working with an incompressible liquid, the total volume too is constant.</li>
+<li>No negative volume: the different vessels exchange water, their volume increasing or decreasing with time, but at no point can a vessel reach a negative volume.</li>
+</ul>
+
+<p>Each vessel $k$ will be described by a profile, an area as function of the height $f_k(x)$.
+We assume these functions $f_k$ are all continuous.
+The state at any point in time is the height in each vessel $x_k$.
+The total volume of water in the vessel is given by:
+$$V_k(x_k) = \int_0^{x_k} f_k(x) dx.$$</p>
+
+<p>The conservation of volume can be expressed as:</p>
+
+<p>$$V_{0} = \sum_{k=1}^N V_k(x_k) = \sum_{k=1}^N \int_0^{x_k} f_k(x) dx$$</p>
+
+<p>where $V_{0}$ is the initial total volume water.
+The nonnegativity of water volume in each vessel can be expressed as:
+$$\int_0^{x_k} f_k(x) dx \geq 0\,\,\, \forall k$$</p>
+
+<p>The area at any height $f_k(x)$ is positive or null, so this constraint
+can be simplified as:
+$$x_k \geq 0 \,\,\, \forall k$$</p>
+
+<p>The potential function, the objective minimized by the problem, is the last thing we miss.
+It consists of the total potential function of the water in the vessels, caused by gravity only.
+Each infinitesimal slice of water $dx$ exercises its weight, which is proportional to its volume
+$f_k(x) dx$ times height $x$. By integrating over a whole vessel $k$, this gives a potential of:
+$$ \int_0^{x_k} x f_k(x) M dx$$
+with M a constant of appropriate dimension. Since we are minimizing the sum of these functions,
+we will get rid of the constant (again, sorry for shocking physicists), yielding an objective:</p>
+
+<p>$$ F(x) = \sum_{k=1}^N \int_0^{x_k} x f_k(x)dx.$$</p>
+
+<p>To sum it all, the optimization problem finding an equilibrium is:</p>
+
+<p>$$
+\begin{align}
+\min_{x} &amp; \sum_{k=1}^N \int_0^{x_k} x f_k(x)dx \\\\<br />
+&amp; \text{subject to:} \\<br />
+&amp; G(x) = \sum_{k=1}^N \int_0^{x_k} f_k(x) dx - V_0 = 0\\\<br />
+&amp; x_k \geq 0 \,\,\, \forall k
+\end{align}
+$$</p>
+
+<p>If you read the blog post, you saw the best way to solve this problem is by
+relaxing the positive constraint, write the first-order Karush-Kuhn-Tucker (KKT) conditions:</p>
+
+<p>$$
+\begin{align}
+&amp; \nabla F(x) = \lambda \nabla G(x) &amp; \Leftrightarrow\\<br />
+&amp; x_k f_k(x) = \lambda f_k(x_k) &amp; \Leftrightarrow \\<br />
+&amp; x_k = \lambda \,\,\,\forall k
+\end{align}
+$$</p>
+
+<p>So the multiplier $\lambda$ ends up being the height of water across all vessels, the equations come back to the intuitive result.
+Let us implement $F$, $G$ and their gradients in Julia to reproduce this result numerically.
+We will use four vessels of various shapes:</p>
+
+<pre><code class="language-julia">import QuadGK
+
+const funcs = (
+    x -&gt; oneunit(x),
+    x -&gt; 2x,
+    x -&gt; 2 * sqrt(x),
+    x -&gt; 2 * x^2
+)
+
+const N = length(funcs)
+
+g(x) = sum(1:N) do k
+    QuadGK.quadgk(funcs[k], 0, x[k])[1]
+end
+
+f(x) = sum(1:N) do k
+    x[k] * QuadGK.quadgk(funcs[k], 0, x[k])[1]
+end
+</code></pre>
+
+<p><code>QuadGK.quadgk</code> from the <a href="https://github.com/JuliaMath/QuadGK.jl/" target="_blank">Gauss–Kronrod package</a>
+computes a numerical integral of a function on an interval.
+We are in an interesting case where the gradient of the functions are much easier to
+compute than the functions themselves, since they remove the integrals:</p>
+
+<pre><code class="language-julia">∇f(x) = [x[k] * funcs[k](x[k]) for k in 1:N]
+
+∇g(x) = [funcs[k](x[k]) for k in 1:N]
+</code></pre>
+
+<p>Let us pick a random starting point, such that all four vessels have the same height:</p>
+
+<pre><code>x0_height = rand()
+x0_uniform = [x0_height for _ in 1:N]
+
+∇f(x0_uniform) - x0_height * ∇g(x0_uniform)
+</code></pre>
+
+<p>and we obtain a vector of zeros as planned.</p>
+
+<p>The rest of this post will be about trying to find the same optimum
+<strong>without</strong> using the KKT trick, implementing an iterative algorithm solving the
+problem in a generic form.
+This will require several steps:</p>
+
+<ol>
+<li>From a given iterate, find a direction to follow;</li>
+<li>Ensure each iterate respects the constraints defined above (no thugs in physicstown);</li>
+<li>Converging to the feasible solution (which we know from Mark Levi&rsquo;s post, but no cheating);</li>
+<li>Defining stopping criteria.</li>
+</ol>
+
+<p>An interesting point on the structure of the problem,
+this is not a generic equality-constrained non-linear problem,
+the domain defined by $G(x) = 0$ is an Euclidean manifold, a smooth subspace
+of $\mathbb{R}^N$. Other than throwing fancy words, having this structure
+lets us use specific optimization methods which have been developed for manifolds.
+A <a href="https://github.com/JuliaManifolds" target="_blank">whole ecosystem</a> has been developed in Julia
+to model and solve optimization problems over manifolds.
+We will not be using it and will build our method from scratch, inefficient but
+preferred for unknown reasons, like your sourdough starter in lockdown.</p>
+
+<h1 id="computing-a-direction">Computing a direction</h1>
+
+<p>From a given solution, we need to be able to find a direction in which we can progress.
+Fair warning, this is the most &ldquo;optimization-heavy&rdquo; section.</p>
+
+<p>Let us start from a random point. To be sure you can reproduce all results,</p>
+
+<pre><code class="language-julia">Random.seed!(42)
+
+# 4 uniform random points between [0,2]
+x0 = 2 * rand(4) 
+V0 = g(x0)
+# 1.9273890036845946
+</code></pre>
+
+<p>In unconstrained optimization, the gradient provides us with information on the steepest
+ascent direction, by following the opposite direction, the function will decrease, at least locally.</p>
+
+<pre><code class="language-julia">xnew = x_i - γ * ∇f(xinit)
+</code></pre>
+
+<p>See this good <a href="http://www.juyang.co/numerical-optimization-in-machine-learning-iii-constrained-optimization/" target="_blank">blog post</a>
+by Ju Yang several really good illustrations to grasp an intuition.
+If we naively follow the descent direction minimizing $F$, we likely leave the
+manifold, the region where $G(x) = 0$.</p>
+
+<p>Think of the curve as the feasible region where we are supposed remain.
+$x_i$ is our current iterate and the direction points to the steepest descent of $F(x)$,
+i.e. $\nabla F(x)$.</p>
+
+<p><img src="/img/posts/volumes/manifold1.png" alt="Naive descent" /></p>
+
+<p>Moving in this direction will drive our iterates away from the feasible region,
+which is not desired. Instead, we will want to <strong>project</strong> this direction to follow
+the equality constraints, like the red direction:</p>
+
+<p><img src="/img/posts/volumes/manifold2.png" alt="Projected descent" /></p>
+
+<p>Of course, by following a fixed direction, the iterate ends up not on the curve, but not &ldquo;too far&rdquo;.
+More importantly, we will have ensured that the point has not been moved for nothing, which would
+be the case if we simply get away from the manifold.
+We are looking for a search direction $d$:</p>
+
+<ul>
+<li>which improves the objective function as much as possible: $\langle ∇F(x_i), d\rangle$ as low as possible</li>
+<li>of same amplitude (norm) as $∇F(x_i)$</li>
+<li>tangent to the manifold.</li>
+</ul>
+
+<p>For the last requirement, we need a direction in the tangent space to the manifold, so $\langle \nabla G(x_i), d\rangle = 0$,
+we end up with the following problem:</p>
+
+<p>$$
+\begin{align}
+\min_{d} &amp; \langle\nabla F(x_i), d \rangle \\<br />
+&amp; \text{subject to:} \\<br />
+&amp; \langle \nabla G(x_i), d\rangle = 0 \\<br />
+&amp; \|d\| \leq \|\nabla F(x_i)\|
+\end{align}
+$$</p>
+
+<p>If the objective value of this problem is strictly negative, we find a compatible direction
+which improves the objective, otherwise there is none, and we have a local optimum.
+The tangent space here is easy to express because we just consider one constraint,
+it gets much more complex with multiple or non-smooth equalities.
+The problem above is has a norm constraint, we can formulate it as a second-order
+cone problem (SOCP) with an additional variable:</p>
+
+<p>$$
+\begin{align}
+\min_{d, t} &amp; \langle\nabla F(x_i), d \rangle \\<br />
+&amp; \text{subject to:} \\<br />
+&amp; \langle \nabla G(x_i), d\rangle = 0 \\<br />
+&amp; t = |\nabla F(x_i)| \\<br />
+&amp; \|d\| \leq t
+\end{align}
+$$</p>
+
+<p>The second-order cone constraint is $\|d\| \leq t$.
+SOCPs can be solved efficiently to optimality, so this is good news.
+We will use <a href="https://github.com/JuliaOpt/JuMP.jl" target="_blank">JuMP</a> to express the problem
+and <a href="https://github.com/JuliaOpt/ECOS.jl" target="_blank">ECOS</a> as underlying solver.</p>
+
+<pre><code class="language-julia">using JuMP
+import ECOS
+
+function compute_direction(grad_f, grad_g)
+    N = length(grad_f)
+    m = Model(ECOS.Optimizer)
+    MOI.set(m, MOI.Silent(), true)
+    @variable(m, d[1:N])
+    @constraint(m, grad_g ⋅ d == 0)
+    @variable(m, t == norm(grad_f))
+    @constraint(m, [t;d] in SecondOrderCone())
+    @objective(m, Min, d ⋅ grad_f)
+    optimize!(m)
+    termination_status(m) == MOI.OPTIMAL || error(&quot;Something wrong?&quot;)
+    return JuMP.value.(d)
+end
+</code></pre>
+
+<p>If you don&rsquo;t know about JuMP, just assume this solves the problem above and returns the &ldquo;red&rdquo; direction
+from the diagram above.
+On the point <code>x0</code> defined above, the naive descent direction yields:</p>
+
+<pre><code class="language-julia">∇f(x0)
+# 4-element Array{Float64,1}:
+#  1.0663660320877226
+#  1.649139647696062
+#  0.013306072041938516
+#  0.08274729914625051
+</code></pre>
+
+<p>and the projected gradient:</p>
+
+<pre><code class="language-julia">d = compute_direction(∇f(x0), ∇g(x0))
+# 4-element Array{Float64,1}:
+#  -0.7980557152422237
+#  0.0054117074806136894
+#  1.66214850442488
+#  0.6812946467870831
+</code></pre>
+
+<p>Note that all elements in $∇f(x0)$ are positive, which makes sense from the intuition of the physics,
+the water in each vessel has a weight, thus exercising a pressure downwards.</p>
+
+<p>There is still one thing we forgot once the direction is found.
+Remember the positivity constraint $x_k \geq 0$?
+It ensures the solution found makes sense, and that fluid mechanics
+specialist won&rsquo;t laugh at the solutions computed.
+If one of the coordinates of the found point is negative,
+what we can do is maintain the direction, but reduce the step.
+Notice that one of our containers has an area of $2\sqrt{x}$,
+reaching $x=0$ could lead to odd behaviour,
+we will maintain the constraint <code>x_k \geq minval</code> with
+<code>minval</code> a small positive number.</p>
+
+<pre><code class="language-julia">function corrected_step(x, d, γ = 0.05; minval = 0.005)
+    res = x + γ * d
+    for k in eachindex(res)
+        if res[k] &lt; minval
+            γ = (minval - x[k]) / d[k]
+            res = x + γ * d
+        end
+    end
+    return res
+end
+</code></pre>
+
+<p>Note: in a general setting, a more appropriate method like the <a href="https://en.wikipedia.org/wiki/Active-set_method" target="_blank">active set method</a>
+would have handled inequality constraints in a cleaner way.
+In our case, if a height is close to 0, it will not stay there but
+&ldquo;bounce back&rdquo;, so keeping track of active sets is unnecessary.<br />
+So we now have an iterate, the <code>res</code> variable returned from <code>corrected_step</code>,
+which will always respect the positivity constraints and be improving the
+objective in general.</p>
+
+<h1 id="projecting-on-the-manifold">Projecting on the manifold</h1>
+
+<p>We know in which direction $d$ the next iterate must be searched and have found an adequate step size $\gamma$,
+but a straight line can never perfectly stick to a curved surface.
+So once the direction is found and a new iterate $x_i + \gamma d$ computed,
+we need to project this iterate on the manifold, i.e. find the solution to:</p>
+
+<p>$$
+\begin{align}
+\min_{x} &amp; dist(x, x_i + \gamma d) \\<br />
+&amp; \text{subject to:} \\<br />
+&amp; \nabla G(x) = 0
+\end{align}
+$$</p>
+
+<p>Sadly, this is where we need evaluations of $G(x)$, which is notably more expensive
+than its gradient. Evaluating $\nabla G(x_i + \gamma d)$ gives us either 0
+(the volume conservation holds), a positive or negative quantity (for a volume creation or destruction).
+We can shift all the vessel heights by a same scalar $\alpha$ until G(x_i + \gamma d + \alpha) = 0$.</p>
+
+<pre><code class="language-julia">function h(x)
+    function(α)
+        g(x .+ α) - V0
+    end
+end
+</code></pre>
+
+<pre><code class="language-julia">h(corrected_step(x0, d, 1.5))(-0.5)
+# 1.0821379579735244
+h(corrected_step(x0, d, 1.5))(-1.0)
+# -1.0689727809622327
+</code></pre>
+
+<p>The problem then becomes a root-finding problem on $h(x)(\alpha)$.
+Typical methods for solving a root-finding problems
+are Newton-type methods, bisections. We will use the
+<a href="https://github.com/JuliaMath/Roots.jl" target="_blank">Roots.jl</a> package, this post is already too
+long to implement one from scratch.</p>
+
+<pre><code class="language-julia"># computes the good alpha, starting from 0
+Roots.find_zero(h(corrected_step(x0, d, 1.5)), 0.0)
+# -0.7168922312579131
+
+g(corrected_step(x0, d, 1.5) .+ -0.7168922312579131) - V0 
+# -4.440892098500626e-16
+# good enough
+</code></pre>
+
+<h1 id="putting-it-all-together">Putting it all together</h1>
+
+<p>We now have all the ingredients to make this algorithm work:</p>
+
+<p>Compute a gradient, correct it for negative points, project it on the manifold with the SOCP,
+re-project the resulting point with root-finding on alpha.
+We will stop the algorithm either:</p>
+
+<ul>
+<li>if a number of iterations is reached (which is considered a failure since we did not converge)</li>
+<li>the norm of the projected gradient is almost zero and we would not move in a new iterate</li>
+
+<li><p>the distance between two successive iterates it low enough</p>
+
+<pre><code class="language-julia">function find_equilibrium(funcs, x0; mingradnorm=10e-5, maxiter = 1000, γ = 0.05, mindiff=10e-4)
+xs = [x0]
+niter = 0
+while niter &lt;= maxiter
+    x = xs[end] # last iterate
+    # compute projected direction
+    d = compute_direction(∇f(x), ∇g(x))
+    # keep new point in positive orthant
+    xpos = corrected_step(x, d, γ)
+    # project point on Manifold
+    α = Roots.find_zero(h(xpos), 0.0)
+    xnew = xpos .+ α
+    push!(xs, xnew)
+    niter += 1
+    if norm(d) &lt; mingradnorm
+        @info &quot;Min gradient condition reached&quot;
+        return xs
+    end
+    if norm(x - xnew) &lt; mindiff
+        @info &quot;Min difference condition reached&quot;
+        return xs
+    end
+end
+@info &quot;Max iterations reached without convergence&quot;
+return xs
+end
+</code></pre></li>
+</ul>
+
+<p>Giving it a try with a first rough idea of parameters:</p>
+
+<pre><code class="language-julia">xs = find_equilibrium(funcs, x0, γ = 0.005, maxiter = 5000)
+# Info: Max iterations reached without convergence
+</code></pre>
+
+<p>Bad sign already, let&rsquo;s check the iterates:</p>
+
+<pre><code class="language-julia">xs_pivot = map(1:4) do k
+    getindex.(xs, k)
+end
+
+plot(xs_pivot)
+xlims!(1, 200)
+</code></pre>
+
+<p><img src="/img/posts/volumes/plot_naive1.png" alt="Plot 1" /></p>
+
+<p>Let us zoom is:</p>
+
+<pre><code class="language-julia">plot(xs_pivot)
+xlims!(100, 120)
+ylims!(0.5, 0.8)
+</code></pre>
+
+<p><img src="/img/posts/volumes/plot_naive2.png" alt="Plot 1" /></p>
+
+<p>It converges nicely at the beginning, and then oscillates
+around the equilibrium without reading a satisfying convergence criterion.</p>
+
+<p>We can damp the step $\gamma$ by reducing it at each iteration,
+multiplying it by a damping rate in <code>(0,1)</code>.</p>
+
+<pre><code class="language-julia">function find_equilibrium_damp(funcs, x0; mingradnorm=10e-5, maxiter = 1000, γ = 0.05, mindiff=10e-5, damp_factor=0.95)
+    xs = [x0]
+    niter = 0
+    while niter &lt;= maxiter
+        x = xs[end] # last iterate
+        # compute projected direction
+        d = compute_direction(∇f(x), ∇g(x))
+        # keep new point in positive orthant
+        xpos = corrected_step(x, d, γ)
+        # project point on Manifold
+        α = Roots.find_zero(h(xpos), 0.0)
+        xnew = xpos .+ α
+        push!(xs, xnew)
+        niter += 1
+        if norm(d) &lt; mingradnorm
+            @info &quot;Min gradient condition reached&quot;
+            return xs
+        end
+        if norm(x - xnew) &lt; mindiff
+            @info &quot;Min difference condition reached&quot;
+            return xs
+        end
+        γ *= damp_factor
+    end
+    @info &quot;Max iterations reached without convergence&quot;
+    return xs
+end
+</code></pre>
+
+<p>Let us reuse the same parameters as before:</p>
+
+<pre><code class="language-julia">xs = find_equilibrium_damp(funcs, x0, γ = 0.5, maxiter = 5000)
+# Info: Min difference condition reached
+</code></pre>
+
+<p><img src="/img/posts/volumes/damp1.png" alt="Damp 1" /></p>
+
+<p>The result is even more oscillatory, but the result converges this time,
+with successive iterates being close enough.</p>
+
+<p>By tuning both the damping factor and step size a bit more,
+we reach a satisfying, smooth enough convergence:</p>
+
+<pre><code class="language-julia">xs = find_equilibrium_damp(funcs, x0, γ = 0.0122, maxiter = 5000, damp_factor = 0.9785)
+# Info: Min difference condition reached
+</code></pre>
+
+<p><img src="/img/posts/volumes/damp2.png" alt="Damp 1" /></p>
+
+<h1 id="conclusion-and-perspective">Conclusion and perspective</h1>
+
+<p>I wanted to add a section on the corresponding dynamical system, namely a
+differential algebraic equation (DAE) system, but this is clearly long enough,
+and I couldn&rsquo;t get anything to work.
+<em>TL;DR</em>: we modelled the equilibrium and developed a technique to find it, relying
+on local optimization tools. The problem structure allowed us to express the gradient
+and estimate projection steps using cheap enough methods, namely SOCP and root finding
+on a univariate function.</p>
+
+<p>Interesting thing to do on top of this:</p>
+
+<ul>
+<li>Leverage the toolbox already present in JuliaManifolds;</li>
+<li>Replace the first-order method used here with higher-order, which should come cheaply from the decomposability of both $F$ and $G$.</li>
+</ul>
+
+<p>The latter point should also lighten the requirements for hand-tuned step size and damping factor.</p>
+
+<h1 id="sources">Sources</h1>
+
+<p>Some ideas for this post came from a talk by <a href="https://github.com/antoine-levitt/" target="_blank">Antoine Levitt</a>
+at the Julia Paris meetup, where he presented some applications of optimization on manifolds for
+quantum physics (if I recall?).</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:1"><a href="https://upload.wikimedia.org/wikipedia/commons/d/dc/Communicating_vessels.png" target="_blank">Wikimedia</a>
+ <a class="footnote-return" href="#fnref:1"><sup>^</sup></a></li>
+<li id="fn:2"><a href="https://upload.wikimedia.org/wikipedia/commons/2/20/ANIMvasicomunicanti.gif" target="_blank">Wikimedia</a>
+ <a class="footnote-return" href="#fnref:2"><sup>^</sup></a></li>
+</ol>
+</div>
+
+    </div>
+
+    
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/julia/">julia</a>
+  
+  <a class="badge badge-light" href="/tags/optimization/">optimization</a>
+  
+  <a class="badge badge-light" href="/tags/jump/">jump</a>
+  
+</div>
+
+
+
+    
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  <div class="media author-card" itemscope itemtype="http://schema.org/Person">
+    
+      
+      <img class="portrait mr-3" src="/authors/admin/avatar_hu591aeda45a2f5e5db0f5b88ac2146875_34571_250x250_fill_q90_lanczos_center.jpg" itemprop="image" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title" itemprop="name"><a href="https://matbesancon.github.io/">Mathieu Besançon</a></h5>
+      <h6 class="card-subtitle">PhD candidate in mathematical optimization</h6>
+      <p class="card-text" itemprop="description">My research interests include bilevel optimization, demand response and pricing.</p>
+      <ul class="network-icon" aria-hidden="true">
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="/#contact" >
+              <i class="fas fa-envelope"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://twitter.com/matbesancon" target="_blank" rel="noopener">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://scholar.google.co.uk/citations?user=-xStCAIAAAAJ" target="_blank" rel="noopener">
+              <i class="ai ai-google-scholar"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://github.com/matbesancon" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://quora.com/profile/Mathieu-Besan%c3%a7on" target="_blank" rel="noopener">
+              <i class="fab fa-quora"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://orcid.org/0000-0002-6284-3033" target="_blank" rel="noopener">
+              <i class="ai ai-orcid"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://www.youtube.com/channel/UCVSd42nW_MqkbSXijgOvKwg" target="_blank" rel="noopener">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://linkedin.com/in/mbesancon" target="_blank" rel="noopener">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+
+      
+      
+      <div class="article-widget">
+        <div class="hr-light"></div>
+        <h3>Related</h3>
+        <ul>
+          
+          <li><a href="/post/2020-01-23-discrete-diff/">Differentiating the discrete: Automatic Differentiation meets Integer Optimization</a></li>
+          
+          <li><a href="/post/2019-09-12-bridging-indicator/">Bridges as an extended dispatch system</a></li>
+          
+          <li><a href="/post/2019-05-08-simple-benders/">A take on Benders decomposition in JuMP</a></li>
+          
+          <li><a href="/post/2019-04-14-optimization-function-evaluation/">Variables are not values: types and expressions in mathematical optimization</a></li>
+          
+          <li><a href="/post/2019-04-07-name_distances/">Picking different names with integer optimization</a></li>
+          
+        </ul>
+      </div>
+      
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+    <script src="/js/mathjax-config.js"></script>
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.0.0/mermaid.min.js" integrity="sha256-0w92bcB21IY5+rGI84MGj52jNfHNbXVeQLrZ0CGdjNY=" crossorigin="anonymous" title="mermaid"></script>
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/julia.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/scala.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/python.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/rust.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/go.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/shell.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/dockerfile.min.js"></script>
+        
+      
+
+      
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "results found",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.16bbb3750feb7244c9bc409a5a4fe678.js"></script>
+
+    
+
+
+
+
+
+
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    &copy; 2019 Mathieu Besançon &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" id="back_to_top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
