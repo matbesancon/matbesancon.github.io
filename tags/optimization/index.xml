@@ -156,22 +156,20 @@ compute than the functions themselves, since they remove the integrals:&lt;/p&gt
 ∇g(x) = [funcs[k](x[k]) for k in 1:N]
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Let us pick a random starting point, such that all four vessels have the same height:&lt;/p&gt;
+&lt;p&gt;If we pick a starting point, such that all four vessels have the same height:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;x0_height = rand()
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;x0_height = rand()
 x0_uniform = [x0_height for _ in 1:N]
-
-∇f(x0_uniform) - x0_height * ∇g(x0_uniform)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;and we obtain a vector of zeros as planned.
-With the vessel shape functions defined above, this looks
-roughly like this:&lt;/p&gt;
+&lt;p&gt;we can verify the first-order KKT conditions as expressed in Mark Levi&amp;rsquo;s post:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/volumes/initial_plot.png&#34; alt=&#34;start&#34; /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;∇f(x0_uniform) - x0_height * ∇g(x0_uniform)
+&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;(source code available in the bonus section).&lt;br /&gt;
-The rest of this post will be about trying to find the optimal height
+&lt;p&gt;and we obtain a vector of zeros as planned.&lt;/p&gt;
+
+&lt;p&gt;The rest of this post will be about trying to find the optimal height
 that is reached by this system, implementing an iterative algorithm solving the
 problem in a generic form.
 This will require several steps:&lt;/p&gt;
@@ -198,7 +196,7 @@ preferred for unknown reasons, like your sourdough starter in lockdown.&lt;/p&gt
 &lt;p&gt;From a given solution, we need to be able to find a direction in which we can progress.
 Fair warning, this is the most &amp;ldquo;optimization-heavy&amp;rdquo; section.&lt;/p&gt;
 
-&lt;p&gt;Let us start from a random point. To be sure you can reproduce all results,&lt;/p&gt;
+&lt;p&gt;Let us start from a random point. Use the same seed if you want to reproduce the results:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;Random.seed!(42)
 
@@ -207,6 +205,12 @@ x0 = 2 * rand(4)
 V0 = g(x0)
 # 1.9273890036845946
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;With the vessel shape functions defined above, this looks roughly like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/volumes/initial_plot.png&#34; alt=&#34;start&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(source code available in the bonus section).&lt;/p&gt;
 
 &lt;p&gt;In unconstrained optimization, the gradient provides us with information on the steepest
 ascent direction, by following the opposite direction, the function will decrease, at least locally.&lt;/p&gt;
@@ -364,7 +368,7 @@ we need to project this iterate on the manifold, i.e. find the solution to:&lt;/
 \begin{align}
 \min_{x}\,\, &amp;amp; dist(x, x_i + \gamma d) \\&lt;br /&gt;
 &amp;amp; \text{subject to:} \\&lt;br /&gt;
-&amp;amp; \nabla G(x) = 0
+&amp;amp; G(x) = 0
 \end{align}
 $$&lt;/p&gt;
 
@@ -480,9 +484,10 @@ plot(map(k -&amp;gt; getindex.(xs, k), 1:4))
 
 &lt;p&gt;I wanted to add a section on the corresponding dynamical system, namely a
 differential algebraic equation (DAE) system, but this is clearly long enough,
-and I couldn&amp;rsquo;t get anything to work.
-&lt;em&gt;TL;DR&lt;/em&gt;: we modelled the equilibrium and developed a technique to find it, relying
-on local optimization tools. The problem structure allowed us to express the gradient
+and I couldn&amp;rsquo;t get anything to work.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;TL;DR&lt;/em&gt;: the techniques to find the equilibrium rely on local optimization tools.
+The problem structure allowed us to express the gradient
 and estimate projection steps using cheap enough methods, namely SOCP and root finding
 on a univariate function.&lt;/p&gt;
 
@@ -515,7 +520,8 @@ this also made me spot an other error, and Ronny Bergmann for encouraging words 
 detailed feedback and discussion on different parts of the talk, from links with JuliaManifolds
 to incorrect terminology and improvement perspective.
 Thanks also to &lt;a href=&#34;https://twitter.com/ChrisRackauckas&#34; target=&#34;_blank&#34;&gt;Chris&lt;/a&gt; for the conversation on
-DAEs, for another post maybe.&lt;/p&gt;
+DAEs, for another post maybe.
+And as often, thanks Pierre-Yves for the infaillible proof-reading as usual.&lt;/p&gt;
 
 &lt;h1 id=&#34;bonus&#34;&gt;Bonus&lt;/h1&gt;
 

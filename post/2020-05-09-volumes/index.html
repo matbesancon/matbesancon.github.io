@@ -117,7 +117,7 @@
   
   <meta property="article:published_time" content="2020-05-09T00:00:00&#43;01:00">
   
-  <meta property="article:modified_time" content="2020-05-09T00:00:00&#43;01:00">
+  <meta property="article:modified_time" content="2020-05-10T14:11:40&#43;01:00">
   
 
   
@@ -430,7 +430,7 @@
 
 
 <meta content="2020-05-09 00:00:00 &#43;0100 BST" itemprop="datePublished">
-<meta content="2020-05-09 00:00:00 &#43;0100 BST" itemprop="dateModified">
+<meta content="2020-05-10 14:11:40 &#43;0100 BST" itemprop="dateModified">
 
 <div class="article-metadata">
 
@@ -442,8 +442,10 @@
     
     
       
+          Last updated on
+      
     
-    <time>2020-05-09</time>
+    <time>2020-05-10</time>
   </span>
   
 
@@ -726,22 +728,20 @@ compute than the functions themselves, since they remove the integrals:</p>
 ∇g(x) = [funcs[k](x[k]) for k in 1:N]
 </code></pre>
 
-<p>Let us pick a random starting point, such that all four vessels have the same height:</p>
+<p>If we pick a starting point, such that all four vessels have the same height:</p>
 
-<pre><code>x0_height = rand()
+<pre><code class="language-julia">x0_height = rand()
 x0_uniform = [x0_height for _ in 1:N]
-
-∇f(x0_uniform) - x0_height * ∇g(x0_uniform)
 </code></pre>
 
-<p>and we obtain a vector of zeros as planned.
-With the vessel shape functions defined above, this looks
-roughly like this:</p>
+<p>we can verify the first-order KKT conditions as expressed in Mark Levi&rsquo;s post:</p>
 
-<p><img src="/img/posts/volumes/initial_plot.png" alt="start" /></p>
+<pre><code class="language-julia">∇f(x0_uniform) - x0_height * ∇g(x0_uniform)
+</code></pre>
 
-<p>(source code available in the bonus section).<br />
-The rest of this post will be about trying to find the optimal height
+<p>and we obtain a vector of zeros as planned.</p>
+
+<p>The rest of this post will be about trying to find the optimal height
 that is reached by this system, implementing an iterative algorithm solving the
 problem in a generic form.
 This will require several steps:</p>
@@ -768,7 +768,7 @@ preferred for unknown reasons, like your sourdough starter in lockdown.</p>
 <p>From a given solution, we need to be able to find a direction in which we can progress.
 Fair warning, this is the most &ldquo;optimization-heavy&rdquo; section.</p>
 
-<p>Let us start from a random point. To be sure you can reproduce all results,</p>
+<p>Let us start from a random point. Use the same seed if you want to reproduce the results:</p>
 
 <pre><code class="language-julia">Random.seed!(42)
 
@@ -777,6 +777,12 @@ x0 = 2 * rand(4)
 V0 = g(x0)
 # 1.9273890036845946
 </code></pre>
+
+<p>With the vessel shape functions defined above, this looks roughly like this:</p>
+
+<p><img src="/img/posts/volumes/initial_plot.png" alt="start" /></p>
+
+<p>(source code available in the bonus section).</p>
 
 <p>In unconstrained optimization, the gradient provides us with information on the steepest
 ascent direction, by following the opposite direction, the function will decrease, at least locally.</p>
@@ -934,7 +940,7 @@ we need to project this iterate on the manifold, i.e. find the solution to:</p>
 \begin{align}
 \min_{x}\,\, &amp; dist(x, x_i + \gamma d) \\<br />
 &amp; \text{subject to:} \\<br />
-&amp; \nabla G(x) = 0
+&amp; G(x) = 0
 \end{align}
 $$</p>
 
@@ -1050,9 +1056,10 @@ plot(map(k -&gt; getindex.(xs, k), 1:4))
 
 <p>I wanted to add a section on the corresponding dynamical system, namely a
 differential algebraic equation (DAE) system, but this is clearly long enough,
-and I couldn&rsquo;t get anything to work.
-<em>TL;DR</em>: we modelled the equilibrium and developed a technique to find it, relying
-on local optimization tools. The problem structure allowed us to express the gradient
+and I couldn&rsquo;t get anything to work.</p>
+
+<p><em>TL;DR</em>: the techniques to find the equilibrium rely on local optimization tools.
+The problem structure allowed us to express the gradient
 and estimate projection steps using cheap enough methods, namely SOCP and root finding
 on a univariate function.</p>
 
@@ -1085,7 +1092,8 @@ this also made me spot an other error, and Ronny Bergmann for encouraging words 
 detailed feedback and discussion on different parts of the talk, from links with JuliaManifolds
 to incorrect terminology and improvement perspective.
 Thanks also to <a href="https://twitter.com/ChrisRackauckas" target="_blank">Chris</a> for the conversation on
-DAEs, for another post maybe.</p>
+DAEs, for another post maybe.
+And as often, thanks Pierre-Yves for the infaillible proof-reading as usual.</p>
 
 <h1 id="bonus">Bonus</h1>
 
