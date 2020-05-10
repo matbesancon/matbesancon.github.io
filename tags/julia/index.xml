@@ -513,7 +513,9 @@ and spotting errors quicker than I could type them, &lt;a href=&#34;https://gith
 for highlighting the SOCP approach was awfully overkill for a gradient projection,
 this also made me spot an other error, and Ronny Bergmann for encouraging words and
 detailed feedback and discussion on different parts of the talk, from links with JuliaManifolds
-to incorrect terminology and improvement perspective.&lt;/p&gt;
+to incorrect terminology and improvement perspective.
+Thanks also to &lt;a href=&#34;https://twitter.com/ChrisRackauckas&#34; target=&#34;_blank&#34;&gt;Chris&lt;/a&gt; for the conversation on
+DAEs, for another post maybe.&lt;/p&gt;
 
 &lt;h1 id=&#34;bonus&#34;&gt;Bonus&lt;/h1&gt;
 
