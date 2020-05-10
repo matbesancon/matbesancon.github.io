@@ -20,28 +20,27 @@
       <guid>https://matbesancon.github.io/post/2020-05-09-volumes/</guid>
       <description>
 
+&lt;p&gt;Image source &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
 &lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
 HAHAHUGOSHORTCODE-TOC0-HBHB&lt;/p&gt;
 
-&lt;p&gt;Fluid mechanics was one of my favourite topics in my Process Engineering program
+&lt;p&gt;Fluid mechanics was one of my favourite topics in the Process Engineering program I followed
 (some people will quit reading at this point and never talk to me again) so without surprise,
 I could not resist diving into this new &lt;a href=&#34;https://sinews.siam.org/Details-Page/lagrange-multiplier-as-depth-or-pressure-2&#34; target=&#34;_blank&#34;&gt;blog post&lt;/a&gt;
-on SIAM News caught my attention.
+on SIAM News.
 This is the second time a post from Mark Levi caught my attention, the last was
 was on &lt;a href=&#34;https://sinews.siam.org/Details-Page/a-near-perfect-heat-exchange&#34; target=&#34;_blank&#34;&gt;heat exchangers&lt;/a&gt;,
-on which I wrote a &lt;a href=&#34;https://matbesancon.github.io/post/2018-12-27-heat-exchanger/&#34; target=&#34;_blank&#34;&gt;blog post&lt;/a&gt;, toying with parallel and counter-current heat exchangers.&lt;/p&gt;
+on which I also wrote a &lt;a href=&#34;https://matbesancon.github.io/post/2018-12-27-heat-exchanger/&#34; target=&#34;_blank&#34;&gt;post&lt;/a&gt;, toying with parallel and counter-current heat exchangers.&lt;/p&gt;
 
 &lt;p&gt;This new post from Mark Levi illustrates a key concept in constrained optimization: &lt;em&gt;Lagrange multipliers&lt;/em&gt;
 and a nice interpretation in a problem of communicating vessels.&lt;/p&gt;
 
 &lt;h1 id=&#34;communicating-vessels-and-optimization-formulation&#34;&gt;Communicating vessels and optimization formulation&lt;/h1&gt;
 
-&lt;p&gt;Imagine $N$ vessels filled with water, all connected through a pipe at the bottom:
-If you are familiar with fluid mechanics, feel free to skip this section.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/volumes/Communicating_vessels.png&#34; alt=&#34;Communicating vessels&#34; /&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-
-&lt;p&gt;The problem statement is, given initial levels of water $x_k$ in each $k-th$ vessel:&lt;/p&gt;
+&lt;p&gt;If you are familiar with fluid mechanics, feel free to skip this section.
+Imagine $N$ vessels filled with water, all connected through a pipe at the bottom as shown on the top figure.
+The problem statement is, given initial levels of water $x_k$ in each $k-th$ vessel:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;how does the state evolve?&lt;/li&gt;
@@ -69,7 +68,7 @@ solving the optimization problem minimizing the potential energy, subject to the
 respect of the laws of physics. These laws state two things:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;No fluid loss: the mass of liquid is preserved, and since we are working with an incompressible liquid, the total volume too is constant.&lt;/li&gt;
+&lt;li&gt;No water loss: the mass of liquid is preserved, and since we are working with an incompressible liquid, the total volume too is constant.&lt;/li&gt;
 &lt;li&gt;No negative volume: the different vessels exchange water, their volume increasing or decreasing with time, but at no point can a vessel reach a negative volume.&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -165,10 +164,15 @@ x0_uniform = [x0_height for _ in 1:N]
 ∇f(x0_uniform) - x0_height * ∇g(x0_uniform)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;and we obtain a vector of zeros as planned.&lt;/p&gt;
+&lt;p&gt;and we obtain a vector of zeros as planned.
+With the vessel shape functions defined above, this looks
+roughly like this:&lt;/p&gt;
 
-&lt;p&gt;The rest of this post will be about trying to find the same optimum
-&lt;strong&gt;without&lt;/strong&gt; using the KKT trick, implementing an iterative algorithm solving the
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/volumes/initial_plot.png&#34; alt=&#34;start&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(source code available in the bonus section).&lt;br /&gt;
+The rest of this post will be about trying to find the optimal height
+that is reached by this system, implementing an iterative algorithm solving the
 problem in a generic form.
 This will require several steps:&lt;/p&gt;
 
@@ -181,7 +185,7 @@ This will require several steps:&lt;/p&gt;
 
 &lt;p&gt;An interesting point on the structure of the problem,
 this is not a generic equality-constrained non-linear problem,
-the domain defined by $G(x) = 0$ is an Euclidean manifold, a smooth subspace
+the domain defined by $G(x) = 0$ is a manifold defined, a smooth subspace
 of $\mathbb{R}^N$. Other than throwing fancy words, having this structure
 lets us use specific optimization methods which have been developed for manifolds.
 A &lt;a href=&#34;https://github.com/JuliaManifolds&#34; target=&#34;_blank&#34;&gt;whole ecosystem&lt;/a&gt; has been developed in Julia
@@ -233,55 +237,56 @@ be the case if we simply get away from the manifold.
 We are looking for a search direction $d$:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;which improves the objective function as much as possible: $\langle ∇F(x_i), d\rangle$ as low as possible&lt;/li&gt;
-&lt;li&gt;of same amplitude (norm) as $∇F(x_i)$&lt;/li&gt;
+&lt;li&gt;which improves the objective function as much as possible: $\langle ∇F(x_i), d\rangle$ as low as possible, or equivalently $\langle -∇F(x_i), d\rangle$ maximized;&lt;/li&gt;
 &lt;li&gt;tangent to the manifold.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;For the last requirement, we need a direction in the tangent space to the manifold, so $\langle \nabla G(x_i), d\rangle = 0$,
-we end up with the following problem:&lt;/p&gt;
+&lt;p&gt;For the last requirement,
+we need a direction in the tangent space to the manifold, so
+$\langle \nabla G(x_i), d\rangle = 0$, we end up requiring the
+vector rejection (the residual of a vector projection):&lt;/p&gt;
 
 &lt;p&gt;$$
 \begin{align}
-\min_{d} &amp;amp; \langle\nabla F(x_i), d \rangle \\&lt;br /&gt;
-&amp;amp; \text{subject to:} \\&lt;br /&gt;
-&amp;amp; \langle \nabla G(x_i), d\rangle = 0 \\&lt;br /&gt;
-&amp;amp; \|d\| \leq \|\nabla F(x_i)\|
+&amp;amp; d = -\nabla F(x_i) - \frac{-\nabla F(x_i) \cdot \nabla G(x_i)}{\|\nabla G(x_i)\|^2} \nabla G(x_i) \Leftrightarrow \\&lt;br /&gt;
+&amp;amp; d = \frac{\nabla F(x_i) \cdot \nabla G(x_i)}{\|\nabla G(x_i)\|^2} \nabla G(x_i) -\nabla F(x_i)
 \end{align}
 $$&lt;/p&gt;
 
-&lt;p&gt;If the objective value of this problem is strictly negative, we find a compatible direction
-which improves the objective, otherwise there is none, and we have a local optimum.
-The tangent space here is easy to express because we just consider one constraint,
-it gets much more complex with multiple or non-smooth equalities.
-The problem above is has a norm constraint, we can formulate it as a second-order
-cone problem (SOCP) with an additional variable:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;function compute_direction(grad_f, grad_g)
+    return -grad_f + grad_g * (grad_f ⋅ grad_g) / (grad_g ⋅ grad_g)
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note: in a first version of this post, the projection was implemented
+as a Second-Order Cone problem (SOCP) in JuMP, which is computationally more
+expensive, just the first thing I thought of. When you are used to hammers,
+all projections look like nails. For curiosity, you will find it below:&lt;/p&gt;
 
 &lt;p&gt;$$
 \begin{align}
 \min_{d, t} &amp;amp; \langle\nabla F(x_i), d \rangle \\&lt;br /&gt;
 &amp;amp; \text{subject to:} \\&lt;br /&gt;
 &amp;amp; \langle \nabla G(x_i), d\rangle = 0 \\&lt;br /&gt;
-&amp;amp; t = |\nabla F(x_i)| \\&lt;br /&gt;
+&amp;amp; t = 1 \\&lt;br /&gt;
 &amp;amp; \|d\| \leq t
 \end{align}
 $$&lt;/p&gt;
 
 &lt;p&gt;The second-order cone constraint is $\|d\| \leq t$.
-SOCPs can be solved efficiently to optimality, so this is good news.
-We will use &lt;a href=&#34;https://github.com/JuliaOpt/JuMP.jl&#34; target=&#34;_blank&#34;&gt;JuMP&lt;/a&gt; to express the problem
-and &lt;a href=&#34;https://github.com/JuliaOpt/ECOS.jl&#34; target=&#34;_blank&#34;&gt;ECOS&lt;/a&gt; as underlying solver.&lt;/p&gt;
+Note that the direction is restricted to have unit $l_2$-norm,
+unlike the vector rejection above.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;using JuMP
 import ECOS
 
-function compute_direction(grad_f, grad_g)
+function compute_direction_SOCP(grad_f, grad_g)
     N = length(grad_f)
     m = Model(ECOS.Optimizer)
     MOI.set(m, MOI.Silent(), true)
     @variable(m, d[1:N])
     @constraint(m, grad_g ⋅ d == 0)
-    @variable(m, t == norm(grad_f))
+    @variable(m, t == 1)
     @constraint(m, [t;d] in SecondOrderCone())
     @objective(m, Min, d ⋅ grad_f)
     optimize!(m)
@@ -290,9 +295,11 @@ function compute_direction(grad_f, grad_g)
 end
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;If you don&amp;rsquo;t know about JuMP, just assume this solves the problem above and returns the &amp;ldquo;red&amp;rdquo; direction
-from the diagram above.
-On the point &lt;code&gt;x0&lt;/code&gt; defined above, the naive descent direction yields:&lt;/p&gt;
+&lt;p&gt;Also in the first version of this post, I had set the norm of $d$
+to be equal to that of $\nabla F(x_i)$, which is a bad idea$^{TM}$.
+You will find in the bonus section the resulting descent.&lt;/p&gt;
+
+&lt;p&gt;On the point &lt;code&gt;x0&lt;/code&gt; defined above, the naive descent direction yields:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;∇f(x0)
 # 4-element Array{Float64,1}:
@@ -323,7 +330,7 @@ If one of the coordinates of the found point is negative,
 what we can do is maintain the direction, but reduce the step.
 Notice that one of our containers has an area of $2\sqrt{x}$,
 reaching $x=0$ could lead to odd behaviour,
-we will maintain the constraint &lt;code&gt;x_k \geq minval&lt;/code&gt; with
+we will maintain the constraint &lt;code&gt;x_k &amp;lt;= minval&lt;/code&gt; with
 &lt;code&gt;minval&lt;/code&gt; a small positive number.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;function corrected_step(x, d, γ = 0.05; minval = 0.005)
@@ -355,16 +362,16 @@ we need to project this iterate on the manifold, i.e. find the solution to:&lt;/
 
 &lt;p&gt;$$
 \begin{align}
-\min_{x} &amp;amp; dist(x, x_i + \gamma d) \\&lt;br /&gt;
+\min_{x}\,\, &amp;amp; dist(x, x_i + \gamma d) \\&lt;br /&gt;
 &amp;amp; \text{subject to:} \\&lt;br /&gt;
 &amp;amp; \nabla G(x) = 0
 \end{align}
 $$&lt;/p&gt;
 
 &lt;p&gt;Sadly, this is where we need evaluations of $G(x)$, which is notably more expensive
-than its gradient. Evaluating $\nabla G(x_i + \gamma d)$ gives us either 0
+than its gradient. Evaluating $G(x_i + \gamma d)$ gives us either 0
 (the volume conservation holds), a positive or negative quantity (for a volume creation or destruction).
-We can shift all the vessel heights by a same scalar $\alpha$ until G(x_i + \gamma d + \alpha) = 0$.&lt;/p&gt;
+We can shift all the vessel heights by a same scalar $\alpha$ until $G(x_i + \gamma d + \alpha) = 0$.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;function h(x)
     function(α)
@@ -374,9 +381,9 @@ end
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;h(corrected_step(x0, d, 1.5))(-0.5)
-# 1.0821379579735244
-h(corrected_step(x0, d, 1.5))(-1.0)
-# -1.0689727809622327
+# -1.4234221843048611
+h(corrected_step(x0, d, 1.5))(0.5)
+# 3.5464645750853023
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The problem then becomes a root-finding problem on $h(x)(\alpha)$.
@@ -386,12 +393,12 @@ are Newton-type methods, bisections. We will use the
 long to implement one from scratch.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;# computes the good alpha, starting from 0
-Roots.find_zero(h(corrected_step(x0, d, 1.5)), 0.0)
-# -0.7168922312579131
 
-g(corrected_step(x0, d, 1.5) .+ -0.7168922312579131) - V0 
-# -4.440892098500626e-16
-# good enough
+root = Roots.find_zero(h(corrected_step(x0, d, 1.5)), 0.0)
+# -0.07526921814981354
+
+g(corrected_step(x0, d, 1.5) .+ root) - V0 
+# 0.0
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h1 id=&#34;putting-it-all-together&#34;&gt;Putting it all together&lt;/h1&gt;
@@ -439,85 +446,35 @@ end
 
 &lt;p&gt;Giving it a try with a first rough idea of parameters:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;xs = find_equilibrium(funcs, x0, γ = 0.005, maxiter = 5000)
-# Info: Max iterations reached without convergence
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;xs = find_equilibrium(funcs, x0, γ = 0.005, maxiter = 5000, mindiff=10e-6)
+# Info: Min difference condition reached
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Bad sign already, let&amp;rsquo;s check the iterates:&lt;/p&gt;
+&lt;p&gt;We converged because the successive iterates were close enough,
+let us check the solution profile:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;xs_pivot = map(1:4) do k
     getindex.(xs, k)
 end
 
 plot(xs_pivot)
-xlims!(1, 200)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/volumes/plot_naive1.png&#34; alt=&#34;Plot 1&#34; /&gt;&lt;/p&gt;
 
+&lt;p&gt;Fair enough, still, 1400 iterates should not be necessary for a 4-dimensional problem.
+Since convergence seems find around the equilibrium point (the solution does not bounce around it),
+we can increase the step size, which was taken rather conservatively:&lt;/p&gt;
+
 &lt;p&gt;Let us zoom is:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;plot(xs_pivot)
-xlims!(100, 120)
-ylims!(0.5, 0.8)
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;xs = find_equilibrium(funcs, x0, γ = 0.05, maxiter = 5000, mindiff=10e-6)
+plot(map(k -&amp;gt; getindex.(xs, k), 1:4))
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We reduce the number of iterations to 192, while not hindering convergence.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/volumes/plot_naive2.png&#34; alt=&#34;Plot 1&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;It converges nicely at the beginning, and then oscillates
-around the equilibrium without reading a satisfying convergence criterion.&lt;/p&gt;
-
-&lt;p&gt;We can damp the step $\gamma$ by reducing it at each iteration,
-multiplying it by a damping rate in &lt;code&gt;(0,1)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;function find_equilibrium_damp(funcs, x0; mingradnorm=10e-5, maxiter = 1000, γ = 0.05, mindiff=10e-5, damp_factor=0.95)
-    xs = [x0]
-    niter = 0
-    while niter &amp;lt;= maxiter
-        x = xs[end] # last iterate
-        # compute projected direction
-        d = compute_direction(∇f(x), ∇g(x))
-        # keep new point in positive orthant
-        xpos = corrected_step(x, d, γ)
-        # project point on Manifold
-        α = Roots.find_zero(h(xpos), 0.0)
-        xnew = xpos .+ α
-        push!(xs, xnew)
-        niter += 1
-        if norm(d) &amp;lt; mingradnorm
-            @info &amp;quot;Min gradient condition reached&amp;quot;
-            return xs
-        end
-        if norm(x - xnew) &amp;lt; mindiff
-            @info &amp;quot;Min difference condition reached&amp;quot;
-            return xs
-        end
-        γ *= damp_factor
-    end
-    @info &amp;quot;Max iterations reached without convergence&amp;quot;
-    return xs
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Let us reuse the same parameters as before:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;xs = find_equilibrium_damp(funcs, x0, γ = 0.5, maxiter = 5000)
-# Info: Min difference condition reached
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/volumes/damp1.png&#34; alt=&#34;Damp 1&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The result is even more oscillatory, but the result converges this time,
-with successive iterates being close enough.&lt;/p&gt;
-
-&lt;p&gt;By tuning both the damping factor and step size a bit more,
-we reach a satisfying, smooth enough convergence:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;xs = find_equilibrium_damp(funcs, x0, γ = 0.0122, maxiter = 5000, damp_factor = 0.9785)
-# Info: Min difference condition reached
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/volumes/damp2.png&#34; alt=&#34;Damp 1&#34; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;conclusion-and-perspective&#34;&gt;Conclusion and perspective&lt;/h1&gt;
 
@@ -532,11 +489,98 @@ on a univariate function.&lt;/p&gt;
 &lt;p&gt;Interesting thing to do on top of this:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Leverage the toolbox already present in JuliaManifolds;&lt;/li&gt;
-&lt;li&gt;Replace the first-order method used here with higher-order, which should come cheaply from the decomposability of both $F$ and $G$.&lt;/li&gt;
+&lt;li&gt;Leverage the toolbox already present and coming in JuliaManifolds;&lt;/li&gt;
+&lt;li&gt;Replace the gradient-based method used here with a higher-order one such as quasi-Newton, L-BFGS, which should come cheaply from the decomposability of both $F$ and $G$.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;The latter point should also lighten the requirements for hand-tuned step size and damping factor.&lt;/p&gt;
+&lt;p&gt;For the first point in particular, the direction projection can be seen
+as a &lt;a href=&#34;https://juliamanifolds.github.io/Manifolds.jl/stable/interface.html#ManifoldsBase.retract-Tuple{Manifold,Any,Any}&#34; target=&#34;_blank&#34;&gt;retraction&lt;/a&gt; on the manifold.
+Thanks &lt;a href=&#34;https://ronnybergmann.net/&#34; target=&#34;_blank&#34;&gt;Ronny Bergmann&lt;/a&gt; for pointing it out!&lt;/p&gt;
+
+&lt;p&gt;A fixed step size worked out well in our case because the problem structure is smooth enough,
+a better way would be doing a line search in the direction of $d$.
+The &lt;a href=&#34;https://julianlsolvers.github.io/LineSearches.jl/latest/&#34; target=&#34;_blank&#34;&gt;LineSearches.jl&lt;/a&gt; package is readily available,
+one could directly plug one of the available methods in the &lt;code&gt;corrected_step&lt;/code&gt; function.&lt;/p&gt;
+
+&lt;p&gt;Finally, going back to the initial motivation of Mark Levi in the SIAM post,
+one can express the KKT conditions on a Manifold-constrained problem
+as developed in &lt;a href=&#34;https://arxiv.org/abs/1804.06214&#34; target=&#34;_blank&#34;&gt;this article&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;acknowledgment&#34;&gt;Acknowledgment&lt;/h1&gt;
+
+&lt;p&gt;Special thanks to &lt;a href=&#34;https://twitter.com/pierre_jacquel&#34; target=&#34;_blank&#34;&gt;Pierre&lt;/a&gt; for reading this post
+and spotting errors quicker than I could type them, &lt;a href=&#34;https://github.com/antoine-levitt/&#34; target=&#34;_blank&#34;&gt;Antoine Levitt&lt;/a&gt;
+for highlighting the SOCP approach was awfully overkill for a gradient projection,
+this also made me spot an other error, and Ronny Bergmann for encouraging words and
+detailed feedback and discussion on different parts of the talk, from links with JuliaManifolds
+to incorrect terminology and improvement perspective.&lt;/p&gt;
+
+&lt;h1 id=&#34;bonus&#34;&gt;Bonus&lt;/h1&gt;
+
+&lt;p&gt;What happens when the norm of the direction vector is proportional to $\nabla F(x_i)$
+instead of the projected vector (or constant)? Don&amp;rsquo;t reproduce at home:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/volumes/bump1.png&#34; alt=&#34;Oops1&#34; /&gt;
+&lt;img src=&#34;https://matbesancon.github.io/img/posts/volumes/bump2.png&#34; alt=&#34;Oops2&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As promised, the plot to represent the vessels with the initial level of filling:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;p = plot(xaxis=nothing, yaxis=nothing)
+xtop = 1.2
+xks = collect(0.0:0.01:xtop)
+center_points = (-4N:4N)
+for k in 1:N
+    center_point = center_points[4k]
+    rhs = [funcs[k](xki)/2 + center_point  for xki in xks]
+    lhs = [-funcs[k](xki)/2 + center_point  for xki in xks]
+    plot!(p, rhs, xks, color = &amp;quot;black&amp;quot;, label = &amp;quot;&amp;quot;)
+    plot!(p, lhs, xks, color = &amp;quot;black&amp;quot;, label = &amp;quot;&amp;quot;)
+    plot!(
+        p,
+        [-funcs[k](x0[k])/2 + center_point, funcs[k](x0[k])/2 + center_point],
+        [x0[k], x0[k]],
+        label = &amp;quot;&amp;quot;,
+        color = &amp;quot;blue&amp;quot;,
+        width = 3,
+    )
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The result is the plot presented in the introduction.
+A nice way to observe the evolution of the system is with this format directly:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;function plot_containers(x, xaxis=nothing, yaxis=nothing, iter = 100)
+    xtop = 1.2
+    xks = collect(0.0:0.01:xtop)
+    center_points = (-4N:4N)
+    for k in 1:N
+        center_point = center_points[4k]
+        rhs = [funcs[k](xki)/2 + center_point  for xki in xks]
+        lhs = [-funcs[k](xki)/2 + center_point  for xki in xks]
+        plot!(p, rhs, xks, color = &amp;quot;black&amp;quot;, label = &amp;quot;&amp;quot;)
+        plot!(p, lhs, xks, color = &amp;quot;black&amp;quot;, label = &amp;quot;&amp;quot;)
+        plot!(
+            p,
+            [-funcs[k](x[k])/2 + center_point, funcs[k](x[k])/2 + center_point],
+            [x[k], x[k]],
+            label = &amp;quot;&amp;quot;,
+            color = &amp;quot;blue&amp;quot;,
+            width = 3,
+            alpha = iter / 300,
+        )
+    end
+    p
+end
+
+p = plot(xaxis=nothing, yaxis=nothing)
+res = @gif for (iter, x) in enumerate(xs[1:20:end])
+    plot_containers(x, p, iter)
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The result is not the kind of art that some manage with plots, but cool enough to see what is happening:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/volumes/evolution.gif&#34; alt=&#34;GIF&#34; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;sources&#34;&gt;Sources&lt;/h1&gt;
 
