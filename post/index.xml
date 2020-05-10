@@ -40,8 +40,7 @@ If you are familiar with fluid mechanics, feel free to skip this section.&lt;/p&
 
 &lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/volumes/Communicating_vessels.png&#34; alt=&#34;Communicating vessels&#34; /&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
-&lt;p&gt;If you are familiar with fluid mechanics, feel free to skip this section.
-The problem statement is, given initial levels of water $x_k$ in each $k-th$ vessel:&lt;/p&gt;
+&lt;p&gt;The problem statement is, given initial levels of water $x_k$ in each $k-th$ vessel:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;how does the state evolve?&lt;/li&gt;
