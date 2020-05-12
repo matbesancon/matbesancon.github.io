@@ -454,7 +454,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    15 min read
+    16 min read
   </span>
   
 
@@ -601,7 +601,7 @@
 (some people will quit reading at this point and never talk to me again) so without surprise,
 I could not resist diving into this new <a href="https://sinews.siam.org/Details-Page/lagrange-multiplier-as-depth-or-pressure-2" target="_blank">blog post</a>
 on SIAM News.
-This is the second time a post from Mark Levi caught my attention, the last was
+This is the second time a post from Mark Levi caught my attention, the last
 was on <a href="https://sinews.siam.org/Details-Page/a-near-perfect-heat-exchange" target="_blank">heat exchangers</a>,
 on which I also wrote a <a href="https://matbesancon.github.io/post/2018-12-27-heat-exchanger/" target="_blank">post</a>, toying with parallel and counter-current heat exchangers.</p>
 
@@ -645,56 +645,58 @@ respect of the laws of physics. These laws state two things:</p>
 </ul>
 
 <p>Each vessel $k$ will be described by a profile, an area as function of the height $f_k(x)$.
-We assume these functions $f_k$ are all continuous.
+We assume that these functions $f_k$ are all continuous.
 The state at any point in time is the height in each vessel $x_k$.
 The total volume of water in the vessel is given by:
-$$V_k(x_k) = \int_0^{x_k} f_k(x) dx.$$</p>
+$$V_k(x_k) = \int_0^{x_k} f_k(h) dh.$$</p>
 
 <p>The conservation of volume can be expressed as:</p>
 
-<p>$$V_{0} = \sum_{k=1}^N V_k(x_k) = \sum_{k=1}^N \int_0^{x_k} f_k(x) dx$$</p>
+<p>$$V_{0} = \sum_{k=1}^N V_k(x_k) = \sum_{k=1}^N \int_0^{x_k} f_k(h) dh$$</p>
 
 <p>where $V_{0}$ is the initial total volume water.
 The nonnegativity of water volume in each vessel can be expressed as:
-$$\int_0^{x_k} f_k(x) dx \geq 0\,\,\, \forall k$$</p>
+$$\int_0^{x_k} f_k(h) dh \geq 0\,\,\, \forall k \in \{1..N\} $$</p>
 
 <p>The area at any height $f_k(x)$ is positive or null, so this constraint
 can be simplified as:
-$$x_k \geq 0 \,\,\, \forall k$$</p>
+$$x_k \geq 0 \,\,\, \forall k \in \{1..N\} $$</p>
 
 <p>The potential function, the objective minimized by the problem, is the last thing we miss.
 It consists of the total potential function of the water in the vessels, caused by gravity only.
-Each infinitesimal slice of water $dx$ exercises its weight, which is proportional to its volume
+Each infinitesimal slice of water from $x$ to $x + dx$ exercises its weight, which is proportional to its volume
 $f_k(x) dx$ times height $x$. By integrating over a whole vessel $k$, this gives a potential of:
-$$ \int_0^{x_k} x f_k(x) M dx$$
+$$ \int_0^{x_k} h f_k(h) M dh$$
 with M a constant of appropriate dimension. Since we are minimizing the sum of these functions,
-we will get rid of the constant (again, sorry for shocking physicists), yielding an objective:</p>
+we will get rid of the constant (sorry for shocking physicists), yielding an objective:</p>
 
-<p>$$ F(x) = \sum_{k=1}^N \int_0^{x_k} x f_k(x)dx.$$</p>
+<p>$$ F(x) = \sum_{k=1}^N \int_0^{x_k} h f_k(h)dh.$$</p>
 
 <p>To sum it all, the optimization problem finding an equilibrium is:</p>
 
 <p>$$
 \begin{align}
-\min_{x} &amp; \sum_{k=1}^N \int_0^{x_k} x f_k(x)dx \\\\<br />
+\min_{x} &amp; \sum_{k=1}^N \int_0^{x_k} h f_k(h)dh \\\\<br />
 &amp; \text{subject to:} \\<br />
-&amp; G(x) = \sum_{k=1}^N \int_0^{x_k} f_k(x) dx - V_0 = 0\\\<br />
-&amp; x_k \geq 0 \,\,\, \forall k
+&amp; G(x) = \sum_{k=1}^N \int_0^{x_k} f_k(h) dh - V_0 = 0\\\<br />
+&amp; x_k \geq 0 \,\,\, \forall k \in \{1..N\}
 \end{align}
 $$</p>
 
 <p>If you read the blog post, you saw the best way to solve this problem is by
-relaxing the positive constraint, write the first-order Karush-Kuhn-Tucker (KKT) conditions:</p>
+relaxing the positivity constraints and write the first-order Karush-Kuhn-Tucker (KKT) conditions:</p>
 
 <p>$$
 \begin{align}
 &amp; \nabla F(x) = \lambda \nabla G(x) &amp; \Leftrightarrow\\<br />
-&amp; x_k f_k(x) = \lambda f_k(x_k) &amp; \Leftrightarrow \\<br />
-&amp; x_k = \lambda \,\,\,\forall k
+&amp; x_k f_k(x_k) = \lambda f_k(x_k) \,\,\,\forall k \in \{1..N\} &amp; \Leftrightarrow \\<br />
+&amp; x_k = \lambda \,\,\,\forall k \in \{1..N\}
 \end{align}
 $$</p>
 
 <p>So the multiplier $\lambda$ ends up being the height of water across all vessels, the equations come back to the intuitive result.
+Between the second and third line, we implicitly eliminate the case $f_k(x_k) = 0$,
+which would be a section of the vessel of area 0.
 Let us implement $F$, $G$ and their gradients in Julia to reproduce this result numerically.
 We will use four vessels of various shapes:</p>
 
@@ -744,18 +746,18 @@ x0_uniform = [x0_height for _ in 1:N]
 <p>The rest of this post will be about trying to find the optimal height
 that is reached by this system, implementing an iterative algorithm solving the
 problem in a generic form.
-This will require several steps:</p>
+This will require several parts:</p>
 
 <ol>
 <li>From a given iterate, find a direction to follow;</li>
 <li>Ensure each iterate respects the constraints defined above (no thugs in physicstown);</li>
-<li>Converging to the feasible solution (which we know from Mark Levi&rsquo;s post, but no cheating);</li>
-<li>Defining stopping criteria.</li>
+<li>Converge to the feasible solution (which we know from Mark Levi&rsquo;s post, but no cheating);</li>
+<li>Define stopping criteria.</li>
 </ol>
 
 <p>An interesting point on the structure of the problem,
 this is not a generic equality-constrained non-linear problem,
-the domain defined by $G(x) = 0$ is a manifold defined, a smooth subspace
+the domain defined by $G(x) = 0$ is a manifold, which is a smooth subspace
 of $\mathbb{R}^N$. Other than throwing fancy words, having this structure
 lets us use specific optimization methods which have been developed for manifolds.
 A <a href="https://github.com/JuliaManifolds" target="_blank">whole ecosystem</a> has been developed in Julia
@@ -813,7 +815,7 @@ be the case if we simply get away from the manifold.
 We are looking for a search direction $d$:</p>
 
 <ul>
-<li>which improves the objective function as much as possible: $\langle ∇F(x_i), d\rangle$ as low as possible, or equivalently $\langle -∇F(x_i), d\rangle$ maximized;</li>
+<li>which improves the objective function as much as possible: $\langle ∇F(x_{i}), d\rangle$ as low as possible, or equivalently $\langle -∇F(x_i), d\rangle$ maximized;</li>
 <li>tangent to the manifold.</li>
 </ul>
 
@@ -1092,7 +1094,7 @@ this also made me spot an other error, and Ronny Bergmann for encouraging words 
 detailed feedback and discussion on different parts of the talk, from links with JuliaManifolds
 to incorrect terminology and improvement perspective.
 Thanks also to <a href="https://twitter.com/ChrisRackauckas" target="_blank">Chris</a> for the conversation on
-DAEs, for another post maybe.
+DAEs, for another post maybe, Odelin for the suggestion on the variable notations.
 And as often, thanks Pierre-Yves for the infaillible proof-reading as usual.</p>
 
 <h1 id="bonus">Bonus</h1>
