@@ -793,13 +793,13 @@ ascent direction, by following the opposite direction, the function will decreas
 </code></pre>
 
 <p>See this good <a href="http://www.juyang.co/numerical-optimization-in-machine-learning-iii-constrained-optimization/" target="_blank">blog post</a>
-by Ju Yang several really good illustrations to grasp an intuition.
+by Ju Yang several with really good illustrations to grasp an intuition.
 If we naively follow the descent direction minimizing $F$, we likely leave the
 manifold, the region where $G(x) = 0$.</p>
 
 <p>Think of the curve as the feasible region where we are supposed remain.
 $x_i$ is our current iterate and the direction points to the steepest descent of $F(x)$,
-i.e. $\nabla F(x)$.</p>
+i.e. $-\nabla F(x)$.</p>
 
 <p><img src="/img/posts/volumes/manifold1.png" alt="Naive descent" /></p>
 
@@ -903,7 +903,7 @@ the water in each vessel has a weight, thus exercising a pressure downwards.</p>
 <p>There is still one thing we forgot once the direction is found.
 Remember the positivity constraint $x_k \geq 0$?
 It ensures the solution found makes sense, and that fluid mechanics
-specialist won&rsquo;t laugh at the solutions computed.
+specialists won&rsquo;t laugh at the solutions computed.
 If one of the coordinates of the found point is negative,
 what we can do is maintain the direction, but reduce the step.
 Notice that one of our containers has an area of $2\sqrt{x}$,
@@ -965,7 +965,7 @@ h(corrected_step(x0, d, 1.5))(0.5)
 </code></pre>
 
 <p>The problem then becomes a root-finding problem on $h(x)(\alpha)$.
-Typical methods for solving a root-finding problems
+Typical methods for solving a root-finding problem
 are Newton-type methods, bisections. We will use the
 <a href="https://github.com/JuliaMath/Roots.jl" target="_blank">Roots.jl</a> package, this post is already too
 long to implement one from scratch.</p>
@@ -983,15 +983,15 @@ g(corrected_step(x0, d, 1.5) .+ root) - V0
 
 <p>We now have all the ingredients to make this algorithm work:</p>
 
-<p>Compute a gradient, correct it for negative points, project it on the manifold with the SOCP,
+<p>Compute a gradient, correct it for negative points, project it on the manifold (with the simple vector rejection or the SOCP),
 re-project the resulting point with root-finding on alpha.
 We will stop the algorithm either:</p>
 
 <ul>
-<li>if a number of iterations is reached (which is considered a failure since we did not converge)</li>
-<li>the norm of the projected gradient is almost zero and we would not move in a new iterate</li>
+<li>If a number of iterations is reached (which is considered a failure since we did not converge);</li>
+<li>The norm of the projected gradient is almost zero and we would not move to a new iterate;</li>
 
-<li><p>the distance between two successive iterates it low enough</p>
+<li><p>The distance between two successive iterates is low enough.</p>
 
 <pre><code class="language-julia">function find_equilibrium(funcs, x0; mingradnorm=10e-5, maxiter = 1000, γ = 0.05, mindiff=10e-4)
 xs = [x0]
@@ -1041,10 +1041,10 @@ plot(xs_pivot)
 <p><img src="/img/posts/volumes/plot_naive1.png" alt="Plot 1" /></p>
 
 <p>Fair enough, still, 1400 iterates should not be necessary for a 4-dimensional problem.
-Since convergence seems find around the equilibrium point (the solution does not bounce around it),
+Since convergence seems reached around the equilibrium point (the solution does not bounce around it),
 we can increase the step size, which was taken rather conservatively:</p>
 
-<p>Let us zoom is:</p>
+<p>Let us zoom in:</p>
 
 <pre><code class="language-julia">xs = find_equilibrium(funcs, x0, γ = 0.05, maxiter = 5000, mindiff=10e-6)
 plot(map(k -&gt; getindex.(xs, k), 1:4))
@@ -1062,8 +1062,8 @@ and I couldn&rsquo;t get anything to work.</p>
 
 <p><em>TL;DR</em>: the techniques to find the equilibrium rely on local optimization tools.
 The problem structure allowed us to express the gradient
-and estimate projection steps using cheap enough methods, namely SOCP and root finding
-on a univariate function.</p>
+and estimate projection steps using cheap enough methods, namely vector rejection
+and root finding on a univariate function.</p>
 
 <p>Interesting thing to do on top of this:</p>
 
