@@ -81,7 +81,7 @@ class Car { private Motor motor; public Car(Motor m) { this.">
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+  <link rel="stylesheet" href="/css/academic.min.5a7f437ee6610ca105be34ebf9701c04.css">
 
   
 
@@ -570,10 +570,7 @@ class Car { private Motor motor; public Car(Motor m) { this."><meta property="og
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<hr />
-
+      <hr>
 <p>Constructors are a basic building block of object-oriented programming (OOP).
 They expose ways to build specific types of objects consistently,
 using arbitrary rules to validate properties.
@@ -581,39 +578,35 @@ Still, constructors are odd beasts in the OOP world.
 In Java, this is usually the first case of function overloading that learning
 programmers meet, often without knowing the term. An overloaded constructor is
 shown in the following example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> Motor motor<span style="color:#f92672">;</span>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span> {
-    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">Motor</span> motor;
-
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span>(Motor <span style="color:#a6e22e">m</span>) {
-        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> m;
-    }
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span>() {
-        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Motor();
-    }
-}</code></pre></div>
-
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span><span style="color:#f92672">(</span>Motor m<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> m<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Motor<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
 <p>Scala and Kotlin, which are both languages on the Java Virtual Machine designed
 after and learning from Java, made the design choice of imposing a
 <strong>primary constructor</strong>, which all other constructors have to call.
 Constructors are weird beasts because they act partly as a function, partly as a
 method. Moreover, they expose a special use of <code>this</code> as a method call instead
 of being a pointer to the current object:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> Motor motor<span style="color:#f92672">;</span>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span> {
-    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">Motor</span> motor;
-
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span>(Motor <span style="color:#a6e22e">m</span>) {
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span><span style="color:#f92672">(</span>Motor m<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
         <span style="color:#75715e">// &#39;this&#39; as an object reference
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> m;
-    }
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span>(<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">power</span>) {
-        Motor <span style="color:#a6e22e">m</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Motor(power);
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">motor</span> <span style="color:#f92672">=</span> m<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Car</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> power<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        Motor m <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Motor<span style="color:#f92672">(</span>power<span style="color:#f92672">);</span>
         <span style="color:#75715e">// this as a method
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>(m);
-    }
-}</code></pre></div>
-
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">(</span>m<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
 <p>This has been in my experience confusing and harder to teach on my side because
 it forces the learner to get a grasp of many specific tricks at the same time.
 Another hard-to-grasp point is <code>this(motor)</code>, which has never been defined has
@@ -621,21 +614,17 @@ such. The definition it corresponds to is <code>Car(Motor m)</code>, the require
 load here is just unnecessary.
 This is why I appreciate Kotlin and Scala having made constructors more
 restrictive, removing the need for hand-wavy explanations for bad design.
-This great <a href="https://matklad.github.io/2019/07/16/perils-of-constructors.html" target="_blank">blog post</a>
+This great <a href="https://matklad.github.io/2019/07/16/perils-of-constructors.html">blog post</a>
 gives an overview of constructors in different mainstream languages and compare
 them with the trait-based system of Rust.</p>
-
 <h1 id="constructors-outside-class-based-oop">Constructors outside class-based OOP</h1>
-
-<p>I will focus here on <a href="https://docs.julialang.org/en/v1/manual/types/#Composite-Types-1" target="_blank">composite types</a>
-or <code>struct</code>. There is a whole section of the <a href="https://docs.julialang.org/en/v1/manual/constructors/" target="_blank">Julia docs</a>
+<p>I will focus here on <a href="https://docs.julialang.org/en/v1/manual/types/#Composite-Types-1">composite types</a>
+or <code>struct</code>. There is a whole section of the <a href="https://docs.julialang.org/en/v1/manual/constructors/">Julia docs</a>
 on constructors, but I would summarize things as:</p>
-
 <ol>
 <li>There is a primary constructor which must provide values for all fields.</li>
 <li>All other constructors are just functions, no magic is involved, and constructors are just multiple methods in the context of multiple dispatch.</li>
 </ol>
-
 <p>This way of building objects as simple structures holding data in different
 fields is not new, Kotlin and Scala have a similar pattern as we mentioned above.
 Languages like Rust and Go take a different path by having structures being
@@ -651,56 +640,45 @@ plain structures, initialized by providing all fields directly:
 }
 <span style="color:#75715e">// let m = Motor{power : 33};
 </span></code></pre></div></p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// go example
 </span><span style="color:#75715e"></span>
 <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Motor</span> <span style="color:#66d9ef">struct</span> {
 	<span style="color:#a6e22e">Power</span> <span style="color:#66d9ef">uint</span>
 }
 <span style="color:#f92672">//</span> <span style="color:#a6e22e">m</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Motor</span>{<span style="color:#ae81ff">33</span>}</code></pre></div>
-
 <p>Both languages have conventions for calling a standard constructing function,
 namely <code>fn new(args) -&gt; T</code> and <code>func NewT(args)</code> for Rust and Go respectively,
 but those are not special and remain a simple convention without additional
 language complexity.</p>
-
 <h1 id="two-lessons-learned">Two lessons learned</h1>
-
 <p>Two interesting Pull Requests are about to be merged in
-<a href="https://github.com/JuliaStats/Distributions.jl" target="_blank">Distributions.jl</a>,
+<a href="https://github.com/JuliaStats/Distributions.jl">Distributions.jl</a>,
 which is the main package for working with probability distributions in Julia.
 Both revolve around a revision of the work of constructors.
 I will use them to make a point which I believe generalizes well to other systems.
 No probability theory should be needed here, it is merely a motivating example.</p>
-
 <h2 id="lesson-1-product-distributions-and-constructor-promises">Lesson 1: product distributions and constructor promises</h2>
-
 <p>Given multiple random variables: $ X_{i}, i = 1..n $ we define a
-<strong>product distribution</strong> as the vector random variable built by stacking the
+**product distribution** as the vector random variable built by stacking the
 different $ X_i $:</p>
-
 <p>$$ X = [ X_i | i \in 1..n ] $$</p>
-
-<p>They arrived in Distributions.jl in <a href="https://github.com/JuliaStats/Distributions.jl/pull/722" target="_blank">this PR</a>
+<p>They arrived in Distributions.jl in <a href="https://github.com/JuliaStats/Distributions.jl/pull/722">this PR</a>
 if you are curious.
 One thing to be careful about is that the term &ldquo;product distribution&rdquo; does not
 correspond with the eponymous Wikipedia entry. What we refer to here is the
-<a href="https://en.wikipedia.org/wiki/Product_type" target="_blank">product type</a> in the sense of tuple
+<a href="https://en.wikipedia.org/wiki/Product_type">product type</a> in the sense of tuple
 construction and not the arithmetic product.
 <strong>EDIT</strong>: the correct corresponding Wikipedia entry is the one on
-<a href="https://en.wikipedia.org/wiki/Product_measure" target="_blank">Product measure</a>,
-thanks <a href="https://twitter.com/ChadScherrer" target="_blank">Chad</a> for pointing it out.
+<a href="https://en.wikipedia.org/wiki/Product_measure">Product measure</a>,
+thanks <a href="https://twitter.com/ChadScherrer">Chad</a> for pointing it out.
 One important property is that the entries of the product type are
 independent distributions, which helps a great deal deducing properties
 of the product distribution.</p>
-
 <p>An example product type could be the product of two univariate Gaussian
 distributions:</p>
-
 <p>$$ X_1 \sim \mathcal{N}(0, 1)$$
 $$ X_2 \sim \mathcal{N}(0, 2)$$
 $$ X = [X_1, X_2]$$</p>
-
 <p>The implementation of the <code>Product</code> type stores the vector of univariate
 distributions, sampling and computing the PDF/CDF is done on a per-entry basis.
 The corresponding code would look like this:
@@ -714,17 +692,14 @@ rand(p)
 
 <span style="color:#75715e"># compute PDF at (x1 = 0, x2 = 1)</span>
 pdf(p, [<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>])</code></pre></div></p>
-
 <p>One problem we have here is that we know some specialized, faster techniques
 can be used in specific cases. Our product here for example, is nothing more
 than a multivariate Gaussian distribution with independent components:
 $$ X \sim \mathcal{N}([0, 0], diag([1, 2]))$$
 with $diag(\cdot)$ constructing a diagonal matrix from a vector.</p>
-
 <p>Sampling and computing quantities of interest for such multivariate would be
 much faster by using a multivariate directly.
 Our new design can leverage multiple dispatch, and would look as follows:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> Product(distributions<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#f92672">&lt;:</span>Gaussian})
 	<span style="color:#75715e"># construct multivariate gaussian</span>
 <span style="color:#66d9ef">end</span>
@@ -736,7 +711,6 @@ Our new design can leverage multiple dispatch, and would look as follows:</p>
 <span style="color:#66d9ef">function</span> Product(distributions<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#f92672">&lt;:</span>UnivariateDistribution})
 	<span style="color:#75715e"># construct generic Product</span>
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>It is all fine and type-stable; if you don&rsquo;t know what it means, just think
 sound from a type perspective. One issue here though is that we break the
 promise of a constructor.
@@ -744,7 +718,6 @@ A constructor of <code>Product</code> is supposed to return a <code>Product</cod
 If you work in a language that uses algebraic data types for possible failures
 and absence as <code>Maybe/Either/Result/Option</code>, the constructor should return the
 type and not one of these.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> T
 	<span style="color:#75715e"># type fields</span>
 <span style="color:#66d9ef">end</span>
@@ -758,22 +731,18 @@ value <span style="color:#f92672">=</span> T(args)
 
 <span style="color:#75715e"># the following should always be true</span>
 typeof(value) <span style="color:#f92672">&lt;:</span> T</code></pre></div>
-
 <p>In our cases, a more efficient implementation cannot be returned from a
 constructor. This means the construction of our type must be left to another
 method which could return it or something else.
-In the case of product distributions, it was done in <a href="https://github.com/JuliaStats/Distributions.jl/pull/975" target="_blank">this PR</a>,
+In the case of product distributions, it was done in <a href="https://github.com/JuliaStats/Distributions.jl/pull/975">this PR</a>,
 adding the function <code>product_distribution</code> in Distributions.jl, which can have
 various methods returning a <code>Product</code> or something else.
 With this design, it is left possible for a distribution to define a special
 product type, while the default <code>Product</code> will work reasonably well.</p>
-
 <p>The lesson learned here is to be wary of exposing constructors when many paths
 are possible, and a dispatch system might be preferable. Constructors
 should always return the same type and are not ideal for a specialization system.</p>
-
 <h2 id="lesson-2-main-constructors-should-remain-lean">Lesson 2: main constructors should remain lean</h2>
-
 <p>Many constructors for probability distributions include a verification of the
 parameters. When constructing a uniform distribution $\mathcal{U}(a, b)$, one
 would want to verify that $a \leq b$. For a Gaussian distribution, one would
@@ -781,12 +750,10 @@ verify that the standard deviation is positive. These checks are fine, but have
 a runtime cost and may interrupt the construction of the object.
 There are many cases in which the parameters are guaranteed to be valid, two of
 them being:</p>
-
 <ol>
 <li>Constructing an object by copy.</li>
 <li>Constructing an object with default parameters.</li>
 </ol>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> T
 	<span style="color:#75715e"># fields</span>
 <span style="color:#66d9ef">end</span>
@@ -798,7 +765,6 @@ them being:</p>
 <span style="color:#66d9ef">function</span> T(t<span style="color:#f92672">::</span>T)
 	<span style="color:#75715e"># t is already constructed, and is therefore valid</span>
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>Throwing errors in a constructor is ill-advised, because again,
 the promise of a constructor is to construct the object.
 In languages where throwing is not advised, it means the constructor would
@@ -806,7 +772,6 @@ return a <code>Maybe{T} / Either{_, T}</code>, which again breaks the promise.
 The problem is that if checking is not the default, users are less likely to
 call the checking function. The solution found here is to use a keyword in
 all constructors:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> D{T <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">Real</span>} <span style="color:#f92672">&lt;:</span> Distribution
 	param<span style="color:#f92672">::</span>T
 <span style="color:#66d9ef">end</span>
@@ -817,11 +782,9 @@ all constructors:</p>
 	<span style="color:#66d9ef">end</span>
 	<span style="color:#66d9ef">return</span> D{T}(p)
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>The default is still to check the validity of parameters, but objects of type
 <code>D</code> can now be constructed with opt-out checking. Another way to do it is
 with multiple dispatch:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#e6db74">&#34;&#34;&#34;
 </span><span style="color:#e6db74">A flag structure to avoid checking arguments.
 </span><span style="color:#e6db74">&#34;&#34;&#34;</span>
@@ -841,19 +804,16 @@ with multiple dispatch:</p>
 <span style="color:#66d9ef">function</span> D(p<span style="color:#f92672">::</span>T, <span style="color:#f92672">::</span>NoArgCheck) where {T}
 	<span style="color:#66d9ef">return</span> D{T}(p)
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>In either cases, users can now take the responsibility of checking parameters
 themselves. In recent Julia version, the compiler optimization of boolean
 constants will make the two roughly equivalent.
 One general rule to highlight here for scientific programming work
 is that the constructor is a fixed cost imposed on all users, treat additional
 checks and operations carefully.</p>
-
 <p>If you found this post useful (or not) or want to react in some way, feel free
-to reach out on <a href="https://twitter.com/matbesancon" target="_blank">Twitter</a> and/or
-<a href="https://www.reddit.com/r/Julia/comments/d90m1e/lessons_learned_on_object_constructors/" target="_blank">Reddit</a>.</p>
-
-<p><strong>Edit</strong>: thanks Alec for spotting redundant code. Another <a href="https://gbracha.blogspot.com/2007/06/constructors-considered-harmful.html" target="_blank">blog post</a>
+to reach out on <a href="https://twitter.com/matbesancon">Twitter</a> and/or
+<a href="https://www.reddit.com/r/Julia/comments/d90m1e/lessons_learned_on_object_constructors/">Reddit</a>.</p>
+<p><strong>Edit</strong>: thanks Alec for spotting redundant code. Another <a href="https://gbracha.blogspot.com/2007/06/constructors-considered-harmful.html">blog post</a>
 on the subject was posted on Reddit (thanks Paul for pointing it out).</p>
 
     </div>
@@ -1206,7 +1166,7 @@ on the subject was posted on Reddit (thanks Paul for pointing it out).</p>
   
 
   <p class="powered-by">
-    &copy; 2019 Mathieu Besançon &middot; 
+    © 2019 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

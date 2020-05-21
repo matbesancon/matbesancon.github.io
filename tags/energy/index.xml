@@ -18,11 +18,10 @@
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/tlou/</guid>
-      <description>&lt;p&gt;The pre-print of the presented work can be found on &lt;a href=&#34;https://arxiv.org/abs/1809.00512&#34; target=&#34;_blank&#34;&gt;arXiv&lt;/a&gt;.
+      <description>&lt;p&gt;The pre-print of the presented work can be found on &lt;a href=&#34;https://arxiv.org/abs/1809.00512&#34;&gt;arXiv&lt;/a&gt;.
 The manuscript has also been submitted and should be published in the coming months.&lt;/p&gt;
-
 &lt;p&gt;An open-source Julia package has been released
-&lt;a href=&#34;https://github.com/matbesancon/TLOU.jl&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for other researchers to
+&lt;a href=&#34;https://github.com/matbesancon/TLOU.jl&#34;&gt;here&lt;/a&gt; for other researchers to
 model Time-and-Level-of-Use tariffs.&lt;/p&gt;
 </description>
     </item>

@@ -81,7 +81,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+  <link rel="stylesheet" href="/css/academic.min.5a7f437ee6610ca105be34ebf9701c04.css">
 
   
 
@@ -570,55 +570,41 @@
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<hr />
-
+      <hr>
 <p>I must admit I am not always the most talented at social events.
 One point I am especially bad at is <strong>remembering names</strong>, and it gets
 even harder when lots of people have similar or similar-sounding names.
 What if we could select a list of people with names as different from each
 other as possible?</p>
-
 <p>First some definitions, <em>different</em> here is meant with respect to the
-<a href="https://en.wikipedia.org/wiki/Hamming_distance" target="_blank">Hamming distance</a> of any two names.
+<a href="https://en.wikipedia.org/wiki/Hamming_distance">Hamming distance</a> of any two names.
 This is far from ideal since Ekaterina would be quite far from Katerina, but
 it will do the trick for now.</p>
-
 <h2 id="graph-based-mental-model">Graph-based mental model</h2>
-
 <p>This sounds like a problem representable as a complete graph.
 The names are the vertices, and the weight associated with each edge $(i,j)$
 is the distance between the names of the nodes. We want to take a subset
 of $k$ nodes, such that the sum of edge weights for the induced sub-graph
 is maximum. This is therefore a particular case of maximum (edge) weight clique
 problem over a complete graph, which has been investigated in [1, 2] among others.</p>
-
 <h2 id="a-mathematical-optimization-approach">A mathematical optimization approach</h2>
-
 <p>This model can be expressed in a pretty compact way:</p>
-
 <p>$$ \max_{x,y} \sum_{(i,j)\in E} c_{ij} \cdot y_{ij} $$
-subject to: $$ 2y_{ij} \leq x_i + x_j \,\, \forall (i,j) \in E$$
+subject to: $$ 2y_{ij} \leq x_i + x_j ,, \forall (i,j) \in E$$
 $$ \sum_{i} x_i \leq k $$
 $$x_i, y_{ij} \in \mathbb{B} $$</p>
-
-<p>The graph is complete and undirected, so the set of edges is:<br />
+<p>The graph is complete and undirected, so the set of edges is:<br>
 $ E = $ {$ (i,j) | i \in $ {$ 1..|V| $}$, j \in ${$ 1..i-1 $}}</p>
-
 <p>It&rsquo;s an integer problem with a quadratic number of variables and constraints.
 Some other formulations have been proposed, and there may be a specific structure
 to exploit given that we have a complete graph.
 For the moment though, this generic formulation will do.</p>
-
 <h2 id="a-julia-implementation">A Julia implementation</h2>
-
 <p>What we want is a function taking a collection of names and returning which
 are selected. The first thing to do is build this distance matrix.
 We will be using the
-<a href="https://github.com/matthieugomez/StringDistances.jl" target="_blank">StringDistances.jl</a>
+<a href="https://github.com/matthieugomez/StringDistances.jl">StringDistances.jl</a>
 package not to have to re-implement the Hamming distance.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> StringDistances
 
 hamming(s1, s2) <span style="color:#f92672">=</span> StringDistances<span style="color:#f92672">.</span>evaluate(StringDistances<span style="color:#f92672">.</span>Hamming(), s1, s2)
@@ -626,11 +612,9 @@ hamming(s1, s2) <span style="color:#f92672">=</span> StringDistances<span style=
 <span style="color:#66d9ef">function</span> build_dist(vstr, dist <span style="color:#f92672">=</span> hamming)
     <span style="color:#66d9ef">return</span> [dist(vstr[i], vstr[j]) <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> eachindex(vstr), j <span style="color:#66d9ef">in</span> eachindex(vstr)]
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>We keep the option to change the distance function with something else later.
 The optimization model can now be built, using the distance function and $k$,
 the maximum number of nodes to take.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span> JuMP
 <span style="color:#66d9ef">import</span> SCIP
 
@@ -644,62 +628,47 @@ the maximum number of nodes to take.</p>
     <span style="color:#a6e22e">@objective</span>(m, Max, sum(y[i,j] <span style="color:#f92672">*</span> dist[i,j] <span style="color:#66d9ef">for</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>n,j<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))
     <span style="color:#66d9ef">return</span> (m, x, y)
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>I&rsquo;m using SCIP as an integer solver to avoid proprietary software,
 feel free to switch it for your favourite one.
 Note that we don&rsquo;t optimize the model yet but simply build it.
 It is a useful pattern when working with JuMP, allowing users
 to inspect the build model or add constraints to it before starting the resolution.
 The last steps are straightforward:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">dist <span style="color:#f92672">=</span> build_dist(vstr)
 (m, x, y) <span style="color:#f92672">=</span> max_clique(dist, k)
 optimize!(m) <span style="color:#75715e"># solve the problem</span>
 
 <span style="color:#75715e"># get the subset of interest</span>
 diverse_names <span style="color:#f92672">=</span> [vstr[i] <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> eachindex(vstr) <span style="color:#66d9ef">if</span> JuMP<span style="color:#f92672">.</span>value(x[i]) ≈ <span style="color:#ae81ff">1.</span>]</code></pre></div>
-
 <p>And voilà.</p>
-
 <h2 id="trying-out-the-model">Trying out the model</h2>
-
 <p>I will use 50 real names taken from
-<a href="http://listofrandomnames.com" target="_blank">the list of random names</a> website, which you
+<a href="http://listofrandomnames.com">the list of random names</a> website, which you
 can find <a href="/text/names.txt">here</a>.
 The problem becomes large enough to be interesting, but reasonable enough for
 a decent laptop. If you want to invite 4 of these people and get the most
 different names, Christian, Elizbeth, Beulah and Wilhelmina are the ones you
 are looking for.</p>
-
 <h2 id="bonus-and-random-ideas">Bonus and random ideas</h2>
-
 <p>It is computationally too demanding for now, but it would be interesting
 to see how the total sum of distances evolves as you add more people.</p>
-
 <p>Also, we are using the sum of distances as an objective to maximize.
 One interesting alternative would be to maximize the smallest distance between
 any two nodes in the subset. This changes the model, since we need to encode
 the smallest distance using constraints. We will use an indicator constraint
 to represent this:</p>
-
 <p>$$\max_{x,y} d $$
 subject to:
-$$ y_{ij} \Rightarrow d \leq c_{ij} \,\, \forall (i,j) \in E$$
+$$ y_{ij} \Rightarrow d \leq c_{ij} ,, \forall (i,j) \in E$$
 $$ 2y_{ij} \leq x_i + x_j \forall (i,j) \in E $$
 $$ \sum_{(i,j) \in E} y_{ij} = k\cdot (k-1) $$</p>
-
 <p>Depending on the solver support, the indicator constraint can be modelled directly,
 with big M or SOS1 constraints. This remains harder than the initial model.</p>
-
 <p>Special thanks to Yuan for bringing out the discussion which led to this
 post, and to BYP for the feedback.</p>
-
-<hr />
-
+<hr>
 <h1 id="sources">Sources</h1>
-
 <p>[1] Alidaee, Bahram, et al. &ldquo;Solving the maximum edge weight clique problem via unconstrained quadratic  programming.&rdquo; European Journal of Operational Research 181.2 (2007): 592-597.</p>
-
 <p>[2] Park, Kyungchul, Kyungsik Lee, and Sungsoo Park. &ldquo;An extended formulation approach to the edge-weighted maximal clique problem.&rdquo; European Journal of Operational Research 95.3 (1996): 671-682.</p>
 
     </div>
@@ -1056,7 +1025,7 @@ post, and to BYP for the feedback.</p>
   
 
   <p class="powered-by">
-    &copy; 2019 Mathieu Besançon &middot; 
+    © 2019 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

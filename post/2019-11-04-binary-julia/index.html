@@ -81,7 +81,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+  <link rel="stylesheet" href="/css/academic.min.5a7f437ee6610ca105be34ebf9701c04.css">
 
   
 
@@ -570,155 +570,121 @@
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<p>Unlike other ecosystems in the scientific programming world, scientists
+      <p>Unlike other ecosystems in the scientific programming world, scientists
 and engineers working with Julia usually prefer a whole stack in Julia for many
 reasons. The compiler is doing way better when able to infer what
 is going on in a piece of code; when an error is thrown, the stack trace looks
 much nicer when only pure Julia code is involved, functions and types can be
 defined as generic as wanted without hard-coded container or number types for instance.</p>
-
 <p>Sometimes however, inter-operability with native code is needed to use some
 external native libraries. By that I mean natively built libraries
 (<code>*.so</code> files on Linux systems, <code>*.dylib</code> on OSX, <code>*.dll</code> on Windows).
 In this post, we will explore some tools to work with native libraries in Julia.
-In the last couple weeks, I tinkered a bit with the <a href="https://www.highs.dev" target="_blank">HiGHS</a>
+In the last couple weeks, I tinkered a bit with the <a href="https://www.highs.dev">HiGHS</a>
 solver developed at the University of Edinburgh, which I will use as an example
 throughout this post. It is still work in progress, but has nice promises as the
 next-generation linear optimization solver in the COIN-OR suite.</p>
-
 <h1 id="what-does-a-native-lib-look-like">What does a native lib look like?</h1>
-
-<p>Looking at the <a href="https://github.com/ERGO-Code/HiGHS/tree/a3160249c405f01b57bf27f3ff676058023122c6" target="_blank">repository</a>,
+<p>Looking at the <a href="https://github.com/ERGO-Code/HiGHS/tree/a3160249c405f01b57bf27f3ff676058023122c6">repository</a>,
 it is a pretty standard CMake-based C++ project producing both an executable and
 library which can be called through a C interface.
 The two initial components are:</p>
-
 <ol>
 <li>The source code producing the library, this can be written in any language producing native code (C, C++, Rust)</li>
 <li>The header file defining the C API to call the library from other programs.</li>
 </ol>
-
 <p>This interface is defined in a single header file <code>src/interfaces/highs_c_api.h</code>,
 header files may define a bunch of types (structs, unions, enums) but most
 importantly they define function <strong>prototypes</strong> looking like:</p>
-
-<pre><code class="language-c">int preprocess_variables(int* values, double offset, float coefficient);
-</code></pre>
-
-<p>When using the function from Julia, the call to the native library looks like
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">preprocess_variables</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> values, <span style="color:#66d9ef">double</span> offset, <span style="color:#66d9ef">float</span> coefficient);
+</code></pre></div><p>When using the function from Julia, the call to the native library looks like
 the following:</p>
-
-<pre><code class="language-julia">ccall(
-  (my_library_name, :preprocess_variables),
-  CInt, # return type
-  (Ptr{Cint}, Cdouble, Cfloat), # tuple of argument types
-  (pointer(my_array), 3.5, 4.5f) # tuple of arguments
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">ccall</span>(
+  (my_library_name, <span style="color:#f92672">:</span>preprocess_variables),
+  CInt, <span style="color:#75715e"># return type</span>
+  (<span style="color:#66d9ef">Ptr</span>{<span style="color:#66d9ef">Cint</span>}, <span style="color:#66d9ef">Cdouble</span>, <span style="color:#66d9ef">Cfloat</span>), <span style="color:#75715e"># tuple of argument types</span>
+  (pointer(my_array), <span style="color:#ae81ff">3.5</span>, <span style="color:#ae81ff">4.5</span>f) <span style="color:#75715e"># tuple of arguments</span>
 )
-</code></pre>
-
-<p>Let us dive in.</p>
-
+</code></pre></div><p>Let us dive in.</p>
 <h1 id="solution-1-build-and-link">Solution 1: build and link</h1>
-
 <p>For this approach, the first step is to build the HiGHS library and have the
 library available. Following the documentation, the instructions are:</p>
-
-<pre><code class="language-bash">cd HiGHS # where HiGHS is installed
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd HiGHS <span style="color:#75715e"># where HiGHS is installed</span>
 mkdir build
 cd build
-cmake .. # generate makefiles
-make # build everything here in the build directory
-</code></pre>
-
-<p>Like often with native packages, some dependencies might be implicitly assumed,
+cmake .. <span style="color:#75715e"># generate makefiles</span>
+make <span style="color:#75715e"># build everything here in the build directory</span>
+</code></pre></div><p>Like often with native packages, some dependencies might be implicitly assumed,
 here is a Dockerfile building the project on an alpine machine, you should be
 able to reproduce this with Docker installed.</p>
-
-<pre><code class="language-dockerfile">FROM alpine:3.7
-
-RUN apk add git cmake g++ gcc clang make
-WORKDIR /optpreprocess_variables
-RUN git clone https://github.com/ERGO-Code/HiGHS.git
-RUN mkdir -p HiGHS/build
-WORKDIR /opt/HiGHS/build
-RUN cmake .. &amp;&amp; make
-RUN make test
-RUN make install # optional
-</code></pre>
-
-<p>Now back to the Julia side, say we assume the library is available at a given
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:3.7</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk add git cmake g++ gcc clang make<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /optpreprocess_variables</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> git clone https://github.com/ERGO-Code/HiGHS.git<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p HiGHS/build<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /opt/HiGHS/build</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> cmake .. <span style="color:#f92672">&amp;&amp;</span> make<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> make test<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> make install <span style="color:#75715e"># optional</span><span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>Now back to the Julia side, say we assume the library is available at a given
 path, one can write the Julia functions corresponding to the interface. It is
 preferable not to expose error-prone C calls to the user. In the example of
 the <code>preprocess_variables</code> function defined above, a Julia wrapper would look
 like:</p>
-
-<pre><code class="language-julia">function preprocess_variables(my_array::Vector{Cint}, offset::Cdouble, coefficient::Cfloat)
-    result = ccall(
-        (:preprocess_variables, my_library_name),
-        Cint, (Ptr{Cint}, Cdouble, Cfloat),
-        (pointer(my_array), 3.5, 4.5f)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> preprocess_variables(my_array<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">Cint</span>}, offset<span style="color:#f92672">::</span><span style="color:#66d9ef">Cdouble</span>, coefficient<span style="color:#f92672">::</span><span style="color:#66d9ef">Cfloat</span>)
+    result <span style="color:#f92672">=</span> <span style="color:#66d9ef">ccall</span>(
+        (<span style="color:#f92672">:</span>preprocess_variables, my_library_name),
+        <span style="color:#66d9ef">Cint</span>, (<span style="color:#66d9ef">Ptr</span>{<span style="color:#66d9ef">Cint</span>}, <span style="color:#66d9ef">Cdouble</span>, <span style="color:#66d9ef">Cfloat</span>),
+        (pointer(my_array), <span style="color:#ae81ff">3.5</span>, <span style="color:#ae81ff">4.5</span>f)
     )
-    return result
-end
-</code></pre>
-
-<p>Once these wrapper functions are defined, users can convert their values to the
+    <span style="color:#66d9ef">return</span> result
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>Once these wrapper functions are defined, users can convert their values to the
 corresponding expected argument types and call them. The last thing needed is <code>my_library_name</code>,
 which must be the path to the library object. Hard-coding or assuming paths
 should be avoided, it makes software harder to install on some systems.
 One thing that can be done is asking the user to pass the library path as an
 environment variable:</p>
-
-<pre><code class="language-julia">ENV[&quot;HIGHS_DIR&quot;] # should contain the path to the HIGHS directory
-joinpath(ENV[&quot;HIGHS_DIR&quot;], &quot;build&quot;, &quot;lib&quot;, &quot;libhighs.so&quot;)
-</code></pre>
-
-<p>Doing this every time is however not convenient. Since library paths are not
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">ENV[<span style="color:#e6db74">&#34;HIGHS_DIR&#34;</span>] <span style="color:#75715e"># should contain the path to the HIGHS directory</span>
+joinpath(ENV[<span style="color:#e6db74">&#34;HIGHS_DIR&#34;</span>], <span style="color:#e6db74">&#34;build&#34;</span>, <span style="color:#e6db74">&#34;lib&#34;</span>, <span style="color:#e6db74">&#34;libhighs.so&#34;</span>)
+</code></pre></div><p>Doing this every time is however not convenient. Since library paths are not
 changing at every call, one can check for this path at the installation of the
 package. For this purpose, a file <code>deps/build.jl</code> can be added in every package
 and will be run at the installation of the package or when the <code>Pkg.build</code>
 command is called. A <code>build.jl</code> for our purpose could look like:</p>
-
-<pre><code class="language-julia">const highs_location = ENV[&quot;HIGHS_DIR&quot;]
-const libhighs = joinpath(highs_location, &quot;build&quot;, &quot;lib&quot;, &quot;libhighs.so&quot;)
-const depsfile = joinpath(@__DIR__, &quot;deps.jl&quot;)
-open(depsfile, &quot;w&quot;) do f
-    print(f, &quot;const libhighs = &quot;)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">const</span> highs_location <span style="color:#f92672">=</span> ENV[<span style="color:#e6db74">&#34;HIGHS_DIR&#34;</span>]
+<span style="color:#66d9ef">const</span> libhighs <span style="color:#f92672">=</span> joinpath(highs_location, <span style="color:#e6db74">&#34;build&#34;</span>, <span style="color:#e6db74">&#34;lib&#34;</span>, <span style="color:#e6db74">&#34;libhighs.so&#34;</span>)
+<span style="color:#66d9ef">const</span> depsfile <span style="color:#f92672">=</span> joinpath(<span style="color:#a6e22e">@__DIR__</span>, <span style="color:#e6db74">&#34;deps.jl&#34;</span>)
+open(depsfile, <span style="color:#e6db74">&#34;w&#34;</span>) <span style="color:#66d9ef">do</span> f
+    print(f, <span style="color:#e6db74">&#34;const libhighs = &#34;</span>)
     print(f, libhighs)
     println(f)
-end
-</code></pre>
-
-<p>The snippet above looks for the <em>libhighs.so</em> library, using the environment
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>The snippet above looks for the <em>libhighs.so</em> library, using the environment
 variable as location of the base directory of HiGHS. Placed in <code>build.jl</code>,
 the script will create a <code>deps.jl</code> file in the <code>deps</code> folder of the Julia
 package, and write <code>const libhighs = &quot;/my/path/to/highs/lib/libhighs.so&quot;</code>.
 This is more or less what happens with the
-<a href="https://github.com/SCIP-Interfaces/SCIP.jl" target="_blank">SCIP.jl wrapper</a> v0.9.
+<a href="https://github.com/SCIP-Interfaces/SCIP.jl">SCIP.jl wrapper</a> v0.9.
 Once the build step succeeds, one can add in the main module in <code>/src</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">module</span> HiGHS
 
-<pre><code class="language-julia">module HiGHS
-
-const deps_file = joinpath(dirname(@__FILE__),&quot;..&quot;,&quot;deps&quot;,&quot;deps.jl&quot;)
-if isfile(deps_file)
+<span style="color:#66d9ef">const</span> deps_file <span style="color:#f92672">=</span> joinpath(dirname(<span style="color:#a6e22e">@__FILE__</span>),<span style="color:#e6db74">&#34;..&#34;</span>,<span style="color:#e6db74">&#34;deps&#34;</span>,<span style="color:#e6db74">&#34;deps.jl&#34;</span>)
+<span style="color:#66d9ef">if</span> isfile(deps_file)
     include(deps_file)
-else
-    error(&quot;HiGHS not properly installed. Please run import Pkg; Pkg.build(\&quot;HiGHS\&quot;)&quot;)
-end
+<span style="color:#66d9ef">else</span>
+    error(<span style="color:#e6db74">&#34;HiGHS not properly installed. Please run import Pkg; Pkg.build(</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">HiGHS</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">)&#34;</span>)
+<span style="color:#66d9ef">end</span>
 
-# other things
+<span style="color:#75715e"># other things</span>
 
-end # module
-</code></pre>
-
-<p>The global constant <code>libhighs</code> can then be used for <em>ccall</em>.
+<span style="color:#66d9ef">end</span> <span style="color:#75715e"># module</span>
+</code></pre></div><p>The global constant <code>libhighs</code> can then be used for <em>ccall</em>.
 We now have a functional package wrapping a native library downloaded and
 built separately. Summing up what we have, the Julia wrapper package looks as
 follows:</p>
-
-<pre><code class="language-bash">$ tree
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tree
 .
 ├── Project.toml
 ├── README.md
@@ -730,44 +696,37 @@ follows:</p>
 │   └── HiGHS.jl
 └── test
     └── runtests.jl
-</code></pre>
-
-<p><code>deps/build.log</code> and <code>deps/deps.jl</code> are not committed in the repository but
+</code></pre></div><p><code>deps/build.log</code> and <code>deps/deps.jl</code> are not committed in the repository but
 generated when installing and/or building the Julia package.</p>
-
-<h1 id="lifting-maintainers-burden-generating-wrapper-functions-with-clang-jl">Lifting maintainers&rsquo; burden: generating wrapper functions with Clang.jl</h1>
-
+<h1 id="lifting-maintainers-burden-generating-wrapper-functions-with-clangjl">Lifting maintainers&rsquo; burden: generating wrapper functions with Clang.jl</h1>
 <p>One time-consuming task in the previous steps is going from the C header file
 describing the API to Julia functions wrapping the <em>ccall</em>. The task is mostly
-repetitive and can be automated using <a href="https://github.com/JuliaInterop/Clang.jl/" target="_blank">Clang.jl</a>.
+repetitive and can be automated using <a href="https://github.com/JuliaInterop/Clang.jl/">Clang.jl</a>.
 This package will generate the appropriate functions from a header file,
 a reduced example looks like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> Clang
 
-<pre><code class="language-julia">import Clang
+<span style="color:#75715e"># HIGHS_DIR = &#34;path/to/highs/dir&#34;</span>
+<span style="color:#66d9ef">const</span> header_file <span style="color:#f92672">=</span> joinpath(HIGHS_DIR, <span style="color:#e6db74">&#34;include&#34;</span>, <span style="color:#e6db74">&#34;interfaces&#34;</span>, <span style="color:#e6db74">&#34;highs_c_api.h&#34;</span>)
+<span style="color:#66d9ef">const</span> LIB_HEADERS <span style="color:#f92672">=</span> [header_file]
 
-# HIGHS_DIR = &quot;path/to/highs/dir&quot;
-const header_file = joinpath(HIGHS_DIR, &quot;include&quot;, &quot;interfaces&quot;, &quot;highs_c_api.h&quot;)
-const LIB_HEADERS = [header_file]
+<span style="color:#66d9ef">const</span> ctx <span style="color:#f92672">=</span> Clang<span style="color:#f92672">.</span>DefaultContext()
 
-const ctx = Clang.DefaultContext()
-
-Clang.parse_headers!(ctx, LIB_HEADERS,
-    includes=[Clang.CLANG_INCLUDE],
+Clang<span style="color:#f92672">.</span>parse_headers!(ctx, LIB_HEADERS,
+    includes<span style="color:#f92672">=</span>[Clang<span style="color:#f92672">.</span>CLANG_INCLUDE],
 )
 
-ctx.libname = &quot;libhighs&quot;
-ctx.options[&quot;is_function_strictly_typed&quot;] = true
-ctx.options[&quot;is_struct_mutable&quot;] = false
+ctx<span style="color:#f92672">.</span>libname <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;libhighs&#34;</span>
+ctx<span style="color:#f92672">.</span>options[<span style="color:#e6db74">&#34;is_function_strictly_typed&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+ctx<span style="color:#f92672">.</span>options[<span style="color:#e6db74">&#34;is_struct_mutable&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>
 
-const api_file = joinpath(@__DIR__, &quot;../src/wrapper&quot;, &quot;$(ctx.libname)_api.jl&quot;)
+<span style="color:#66d9ef">const</span> api_file <span style="color:#f92672">=</span> joinpath(<span style="color:#a6e22e">@__DIR__</span>, <span style="color:#e6db74">&#34;../src/wrapper&#34;</span>, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">$</span>(ctx<span style="color:#f92672">.</span>libname)<span style="color:#e6db74">_api.jl&#34;</span>)
 
-open(api_file, &quot;w&quot;) do f
-    # write each generated function
-    # ...
-end
-</code></pre>
-
-<p>This snippet can be placed in a <code>/gen</code> folder of the Julia wrapper package and
+open(api_file, <span style="color:#e6db74">&#34;w&#34;</span>) <span style="color:#66d9ef">do</span> f
+    <span style="color:#75715e"># write each generated function</span>
+    <span style="color:#75715e"># ...</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>This snippet can be placed in a <code>/gen</code> folder of the Julia wrapper package and
 writes to <code>src/wrapper</code> all the functions wrapping C calls.
 It is less error-prone compared to manually writing the Julia interface and can
 save a great deal of time when managing updates of the native library.
@@ -775,8 +734,7 @@ Again, the <em>SCIP.jl</em> wrapper uses this method and can be used as example.
 Since the wrapper generation has different requirements than the package itself,
 we can provide it a Project.toml.
 Our package structure now looks like this:</p>
-
-<pre><code class="language-bash">$ tree
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tree
 .
 ├── Project.toml
 ├── README.md
@@ -794,18 +752,14 @@ Our package structure now looks like this:</p>
 │       └── libhighs_common.jl
 └── test
     └── runtests.jl
-</code></pre>
-
-<h1 id="lifting-the-user-s-burden-binarybuilder-binaryprovider">Lifting the user&rsquo;s burden: BinaryBuilder &amp; BinaryProvider</h1>
-
+</code></pre></div><h1 id="lifting-the-users-burden-binarybuilder--binaryprovider">Lifting the user&rsquo;s burden: BinaryBuilder &amp; BinaryProvider</h1>
 <p>For non-open-source software, what we did up to here this is the best you can get:
 let users download and install the library, pass the path once at build time and
 partly generate the Julia wrapper for <em>ccall</em> through Clang.jl.
 For open-source libraries however, could we go a step further and do everything
 for the user when they install the Julia package?</p>
-
-<p>That&rsquo;s where <a href="https://github.com/JuliaPackaging/BinaryBuilder.jl" target="_blank">BinaryBuilder</a>
-and <a href="https://github.com/JuliaPackaging/BinaryProvider.jl" target="_blank">BinaryProvider</a> come in.
+<p>That&rsquo;s where <a href="https://github.com/JuliaPackaging/BinaryBuilder.jl">BinaryBuilder</a>
+and <a href="https://github.com/JuliaPackaging/BinaryProvider.jl">BinaryProvider</a> come in.
 See the Docker file above, BinaryBuilder uses the same technology and arcane
 tricks to cross-compile the binary artifacts (executables and libraries) natively.
 It does so by letting you install the library as you would on your own machine,
@@ -814,22 +768,18 @@ single Julia script <code>build_tarballs.jl</code> describing the commands run t
 the artifacts.
 This is placed in a repository with Continuous Integration support, which creates
 releases for all specified architectures, OS, compilers.
-You can see examples for the Clp solver <a href="https://github.com/JuliaOpt/ClpBuilder" target="_blank">here</a>
-and for HiGHS <a href="https://github.com/matbesancon/HiGHSBuilder/" target="_blank">there</a>.</p>
-
+You can see examples for the Clp solver <a href="https://github.com/JuliaOpt/ClpBuilder">here</a>
+and for HiGHS <a href="https://github.com/matbesancon/HiGHSBuilder/">there</a>.</p>
 <p>Back to the Julia package, we can now modify the <code>deps/build.jl</code> script to use
 BinaryProvider, fetching the binaries corresponding to the current system.
 Without knowing anything about what&rsquo;s going under the hood and how the library
 is built, users can simply perform <code>Pkg.add(&quot;ThePackage&quot;)</code> which will build
 automatically and explicitly specify when a given OS or architecture is not
 supported. Take a look at the modified
-<a href="https://github.com/matbesancon/HiGHS.jl/blob/569ca888e4feea83d00326c044ec0475fee008c5/deps/build.jl" target="_blank">build file</a> using BinaryProvider.</p>
-
+<a href="https://github.com/matbesancon/HiGHS.jl/blob/569ca888e4feea83d00326c044ec0475fee008c5/deps/build.jl">build file</a> using BinaryProvider.</p>
 <p>They don&rsquo;t need to guarantee that they have the same compiler, <em>make</em> and <em>cmake</em>
 version to have a repeatable &amp; smooth installation of the package.</p>
-
 <h1 id="wrapping-up">Wrapping up</h1>
-
 <p>The process from 0 to a fully ready Julia package built on top of a binary
 library is still not straightforward. Special appreciation goes to the
 BinaryBuilder developers and contributors who helped me figure out some tricky
@@ -837,15 +787,12 @@ bits. But the key take-away of this is that once the pipeline is built, updating
 the binary version or Julia wrapper is the same workflow one is used to with
 standard Julia packages. Keep building pure Julia software for all its benefits,
 but these tools I presented make it as great as possible to work with binaries.</p>
-
 <h2 id="edits">Edits</h2>
-
 <p>Some design work is in progress on the Pkg side to be able to reason with
 artifacts, a post can be found
-<a href="https://github.com/JuliaLang/www.julialang.org/blob/43f5244c36cc8ec6e1728c697cf5de652b41e8fd/blog/_posts/2019-08-01-artifacts.md" target="_blank">here</a>.</p>
-
-<p>Many thanks to <a href="https://github.com/staticfloat/" target="_blank">staticfloat</a> and
-<a href="https://github.com/giordano" target="_blank">giordano</a> for the feedback and additional information.</p>
+<a href="https://github.com/JuliaLang/www.julialang.org/blob/43f5244c36cc8ec6e1728c697cf5de652b41e8fd/blog/_posts/2019-08-01-artifacts.md">here</a>.</p>
+<p>Many thanks to <a href="https://github.com/staticfloat/">staticfloat</a> and
+<a href="https://github.com/giordano">giordano</a> for the feedback and additional information.</p>
 
     </div>
 
@@ -1188,7 +1135,7 @@ artifacts, a post can be found
   
 
   <p class="powered-by">
-    &copy; 2019 Mathieu Besançon &middot; 
+    © 2019 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

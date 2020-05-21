@@ -81,7 +81,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+  <link rel="stylesheet" href="/css/academic.min.5a7f437ee6610ca105be34ebf9701c04.css">
 
   
 
@@ -578,40 +578,29 @@
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<p>[1]</p>
-
+      <p>[1]</p>
 <p>Part II: Feature engineering</p>
-
-<hr />
-
+<hr>
 <h1 id="what-is-feature-engineering">What is feature engineering?</h1>
-
 <p>It could be describe as the transformation of raw data to produce
 a model input which will have better performance. The <em>features</em> are
 the new variables created in the process.
 It is often described as based on domain knowledge and more of an
 art than of a science. Therefore, it requires a great attention and
 a more &ldquo;manual&rdquo; process than the rest of data science projects.</p>
-
 <p>Feature engineering tends to be heavier when raw data are far from
 the expected input format of our learning models
 (images or text for instance). It can be noticed that some feature
 engineering was already performed on our data, since banknotes were
 registered as images taken from a digital camera, and we only received
 5 features for each image.</p>
-
 <h1 id="correlated-variables">Correlated variables</h1>
-
 <h2 id="simple-linear-and-polynomial-regression">Simple linear and polynomial regression</h2>
-
 <p>We noticed some strong dependencies between variables thanks to the
 scatter plot. Those can deter the performance and robustness of
 several machine learning models. Skewness and kurtosis seem to be
 somehow related. A regression line can be fitted with the skewness as
 explanatory variable:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a, b <span style="color:#f92672">=</span> stats<span style="color:#f92672">.</span>linregress(data0[<span style="color:#e6db74">&#34;skew&#34;</span>],data0[<span style="color:#e6db74">&#34;kurtosis&#34;</span>])[:<span style="color:#ae81ff">2</span>]
 plt<span style="color:#f92672">.</span>plot(data0[<span style="color:#e6db74">&#34;skew&#34;</span>],data0[<span style="color:#e6db74">&#34;kurtosis&#34;</span>],<span style="color:#e6db74">&#39;g+&#39;</span>)
 plt<span style="color:#f92672">.</span>plot(np<span style="color:#f92672">.</span>arange(<span style="color:#f92672">-</span><span style="color:#ae81ff">2.5</span>,<span style="color:#ae81ff">2.5</span>,<span style="color:#ae81ff">0.05</span>) ,b<span style="color:#f92672">+</span>a<span style="color:#f92672">*</span>np<span style="color:#f92672">.</span>arange(<span style="color:#f92672">-</span><span style="color:#ae81ff">2.5</span>,<span style="color:#ae81ff">2.5</span>,<span style="color:#ae81ff">0.05</span>),<span style="color:#e6db74">&#39;r&#39;</span>)
@@ -619,9 +608,7 @@ plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;Si
 plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;Skewness&#39;</span>)
 plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;Kurtosis&#39;</span>)
 plt<span style="color:#f92672">.</span>show()</code></pre></div>
-
-<p><img src="/img/posts/BankNotes/figures/linear_reg.png" alt="Linear regression" /></p>
-
+<p><img src="/img/posts/BankNotes/figures/linear_reg.png" alt="Linear regression"></p>
 <p>The following result highlights a lack in the model. The slope and intercept
 seem to be biased by a dense cluster of points with the skewness
 between 1 and 2. The points with a low skewness are under-represented in the
@@ -629,40 +616,32 @@ model and do not follow the trend of the regression line. A robust regression
 technique could correct this bias, but a polynomial regression is the most
 straight-forward method to capture a higher part of the variance here.
 The second-degree polynomial model can be written as:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">y_hat <span style="color:#f92672">=</span> a<span style="color:#f92672">*</span>np<span style="color:#f92672">.</span>square(x) <span style="color:#f92672">+</span> b<span style="color:#f92672">*</span>x <span style="color:#f92672">+</span> c</code></pre></div>
-
 <p>and its coefficients can be determined through the minimization of least-square
 error in numpy:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a, b, c <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>polyfit(data0[<span style="color:#e6db74">&#34;skew&#34;</span>],data0[<span style="color:#e6db74">&#34;kurtosis&#34;</span>],deg<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
 plt<span style="color:#f92672">.</span>plot(data0[<span style="color:#e6db74">&#34;skew&#34;</span>],data0[<span style="color:#e6db74">&#34;kurtosis&#34;</span>],<span style="color:#e6db74">&#39;+&#39;</span>)
 plt<span style="color:#f92672">.</span>plot(np<span style="color:#f92672">.</span>arange(<span style="color:#f92672">-</span><span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">15</span>,<span style="color:#f92672">.</span><span style="color:#ae81ff">5</span>),a<span style="color:#f92672">*</span>np<span style="color:#f92672">.</span>arange(<span style="color:#f92672">-</span><span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">15</span>,<span style="color:#f92672">.</span><span style="color:#ae81ff">5</span>) <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>arange(<span style="color:#f92672">-</span><span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">15</span>,<span style="color:#f92672">.</span><span style="color:#ae81ff">5</span>)<span style="color:#f92672">+</span>b<span style="color:#f92672">*</span>np<span style="color:#f92672">.</span>arange(<span style="color:#f92672">-</span><span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">15</span>,<span style="color:#f92672">.</span><span style="color:#ae81ff">5</span>)<span style="color:#f92672">+</span>c,<span style="color:#e6db74">&#39;r&#39;</span>)
 plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;2nd degree polynomial regression&#39;</span>)
 plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;Skewness&#39;</span>)
 plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;Kurtosis&#39;</span>)</code></pre></div>
-
-<div style ="text-align: center;" markdown="1">
-![Polynomial regression](/img/posts/BankNotes/figures/poly_reg.png)
-</div>
-
+<!-- raw HTML omitted -->
 <p>A polynomial regression yields a much better output with balanced residuals.
 The p-value for all coefficients is below the 1% confidence criterion.
 One strong drawback can however be noticed: the polynomial model predicts an
 increase in the kurtosis for skewness superior to 2, but there is no evidence
 for this statement in our data, so the model could lead to stronger errors.</p>
-
 <p>The regression does not capture all the variance (and does not explain all
 underlying phenomena) of the Kurtosis, so a transformed variable has to be kept,
 which should be independent from the skewness. The most obvious value is the
 residual of the polynomial regression we performed.</p>
-
 <p>We can can represent this residual versus the explanatory variable
-to be assured that:
-* The residuals are centered around 0
-* The variance of the residuals is approximately constant with the skewness
-* There are still patterns in the Kurtosis: the residuals are not just noise</p>
-
+to be assured that:</p>
+<ul>
+<li>The residuals are centered around 0</li>
+<li>The variance of the residuals is approximately constant with the skewness</li>
+<li>There are still patterns in the Kurtosis: the residuals are not just noise</li>
+</ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">p0 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>scatter(d0[<span style="color:#e6db74">&#39;skew&#39;</span>],c<span style="color:#f92672">+</span>b<span style="color:#f92672">*</span>d0[<span style="color:#e6db74">&#34;skew&#34;</span>] <span style="color:#f92672">+</span>a<span style="color:#f92672">*</span>d0[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">*</span> d0[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">-</span>d0[<span style="color:#e6db74">&#34;kurtosis&#34;</span>],c<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;b&#39;</span>,marker<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;+&#39;</span>,label<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0&#34;</span>)
 p0 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>scatter(d1[<span style="color:#e6db74">&#39;skew&#39;</span>],c<span style="color:#f92672">+</span>b<span style="color:#f92672">*</span>d1[<span style="color:#e6db74">&#34;skew&#34;</span>] <span style="color:#f92672">+</span>a<span style="color:#f92672">*</span>d1[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">*</span> d1[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">-</span>d1[<span style="color:#e6db74">&#34;kurtosis&#34;</span>],c<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>,marker<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;+&#39;</span>,label<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1&#34;</span>)
 plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;Explanatory variable vs Regression residuals&#39;</span>)
@@ -670,16 +649,10 @@ plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;S
 plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;Residuals&#39;</span>)
 plt<span style="color:#f92672">.</span>legend([<span style="color:#e6db74">&#34;0&#34;</span>,<span style="color:#e6db74">&#34;1&#34;</span>])
 plt<span style="color:#f92672">.</span>show()</code></pre></div>
-
-<div style="text-align: center;" markdown="1">
-![Residuals of the regression](/img/posts/BankNotes/figures/resid_reg.png)
-</div>
-
+<!-- raw HTML omitted -->
 <p>The data is now much more uncorrelated, so the feature of interest is the
 residual of the regression which will replace the kurtosis in the data.</p>
-
 <h2 id="class-dependent-regression">Class-dependent regression</h2>
-
 <p>We can try and repeat the same process for the entropy and skewness, which
 also seem to be related to each other.
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">p0 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>scatter(d0[<span style="color:#e6db74">&#39;skew&#39;</span>],c<span style="color:#f92672">+</span>b<span style="color:#f92672">*</span>d0[<span style="color:#e6db74">&#34;skew&#34;</span>] <span style="color:#f92672">+</span>a<span style="color:#f92672">*</span>d0[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">*</span> d0[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">-</span>d0[<span style="color:#e6db74">&#34;kurtosis&#34;</span>],c<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;b&#39;</span>,marker<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;+&#39;</span>,label<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0&#34;</span>)
@@ -696,11 +669,8 @@ plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#34;E
 plt<span style="color:#f92672">.</span>grid()
 plt<span style="color:#f92672">.</span>legend()
 plt<span style="color:#f92672">.</span>show()</code></pre></div></p>
-
-<p><img src="/img/posts/BankNotes/figures/skew_entropy.png" alt="Skewness-Entropy" /></p>
-
+<p><img src="/img/posts/BankNotes/figures/skew_entropy.png" alt="Skewness-Entropy"></p>
 <p>We can try can fit a 2nd-degree polynomial function:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">ft <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>polyfit(data0[<span style="color:#e6db74">&#34;skew&#34;</span>],data0[<span style="color:#e6db74">&#34;entropy&#34;</span>],deg<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
 plt<span style="color:#f92672">.</span>plot(d0[<span style="color:#e6db74">&#34;skew&#34;</span>],d0[<span style="color:#e6db74">&#34;entropy&#34;</span>],<span style="color:#e6db74">&#39;+&#39;</span>,label<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Class 0&#34;</span>)
 plt<span style="color:#f92672">.</span>plot(d1[<span style="color:#e6db74">&#34;skew&#34;</span>],d1[<span style="color:#e6db74">&#34;entropy&#34;</span>],<span style="color:#e6db74">&#39;r+&#39;</span>,label<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Class 1&#34;</span>)
@@ -713,14 +683,11 @@ plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#34;E
 plt<span style="color:#f92672">.</span>grid()
 plt<span style="color:#f92672">.</span>legend(loc<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bottom center&#34;</span>)
 plt<span style="color:#f92672">.</span>show()</code></pre></div>
-
-<p><img src="/img/posts/BankNotes/figures/fit1_entropy.png" alt="Polynomial regression on entropy" /></p>
-
+<p><img src="/img/posts/BankNotes/figures/fit1_entropy.png" alt="Polynomial regression on entropy"></p>
 <p>However, it seems that the model does not fit well our data and that the points
 are not equally distributed on both side of the curve. There is another
 pattern, which is class-dependent, so two polynomial curves should be fitted,
 one for each class:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">f0 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>polyfit(d0[<span style="color:#e6db74">&#34;skew&#34;</span>],d0[<span style="color:#e6db74">&#34;entropy&#34;</span>],deg<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
 x <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#f92672">-</span><span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">14</span>,<span style="color:#f92672">.</span><span style="color:#ae81ff">5</span>)
 f1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>polyfit(d1[<span style="color:#e6db74">&#34;skew&#34;</span>],d1[<span style="color:#e6db74">&#34;entropy&#34;</span>],deg<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
@@ -738,12 +705,9 @@ plt<span style="color:#f92672">.</span>grid()
 plt<span style="color:#f92672">.</span>legend(loc<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bottom center&#39;</span>)
 plt<span style="color:#f92672">.</span>savefig(<span style="color:#e6db74">&#34;class_depend.png&#34;</span>)
 plt<span style="color:#f92672">.</span>show()</code></pre></div>
-
-<p><img src="/img/posts/BankNotes/figures/class_depend.png" alt="Class-dependent polynomial regression" /></p>
-
+<p><img src="/img/posts/BankNotes/figures/class_depend.png" alt="Class-dependent polynomial regression"></p>
 <p>The model seems to capture more of the variance in our data, which we can
 confirm by plotting the residuals of the class-dependent regression.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">plt<span style="color:#f92672">.</span>plot(d0[<span style="color:#e6db74">&#34;skew&#34;</span>],f0[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">*</span> d0[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">*</span> d0[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">+</span>f0[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">*</span> d0[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">+</span>
         f0[<span style="color:#ae81ff">2</span>]<span style="color:#f92672">-</span>d0[<span style="color:#e6db74">&#34;entropy&#34;</span>],<span style="color:#e6db74">&#39;b+&#39;</span>,label<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Class 0&#34;</span>)
 plt<span style="color:#f92672">.</span>plot(d1[<span style="color:#e6db74">&#34;skew&#34;</span>],f1[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">*</span> d1[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">*</span> d1[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">+</span>f1[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">*</span> d1[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">+</span>
@@ -754,25 +718,20 @@ plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#34;S
 plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#34;Residuals&#34;</span>)
 plt<span style="color:#f92672">.</span>savefig(<span style="color:#e6db74">&#34;res_class_dep.png&#34;</span>)
 plt<span style="color:#f92672">.</span>show()</code></pre></div>
-
-<p><img src="/img/posts/BankNotes/figures/res_class_dep.png" alt="Residuals of the class-dependent polynomial regression" /></p>
-
+<p><img src="/img/posts/BankNotes/figures/res_class_dep.png" alt="Residuals of the class-dependent polynomial regression"></p>
 <p>We have a proper working model, with just one problem: <strong>we used
 the class to predict the entropy</strong> whereas our classification
 objective is to proceed the other way around. Since we noticed
 that each class follows a different curve, a difference between
 the distance to the first model and the distance to the second
 model, which will be noted &ldquo;d&rdquo;, can be computed as:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">d <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>abs(y <span style="color:#f92672">-</span> x<span style="color:#f92672">.</span>apply(f0)) <span style="color:#f92672">-</span> np<span style="color:#f92672">.</span>abs(y<span style="color:#f92672">-</span>x<span style="color:#f92672">.</span>apply(f1))</code></pre></div>
-
 <p>A positive &ldquo;d&rdquo; value indicates that the entropy of the observation
 is closer to the model fitted on the class 1, this seems to be a
 rather relevant indicator to use to build our models. However, this
 variable seems correlated to the skewness. The latter could have become
 unnecessary for our prediction, so we choose to eliminate it from
 the features and take the risk of an information loss.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">d <span style="color:#f92672">=</span> abs(data0[<span style="color:#e6db74">&#34;entropy&#34;</span>]<span style="color:#f92672">-</span>f0[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">*</span> data0[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">*</span> data0[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">-</span>f0[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">*</span> data0[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">-</span>f0[<span style="color:#ae81ff">2</span>])<span style="color:#f92672">-</span>\
     abs(data0[<span style="color:#e6db74">&#34;entropy&#34;</span>]<span style="color:#f92672">-</span>f1[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">*</span> data0[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">*</span> data0[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">-</span>f1[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">*</span> data0[<span style="color:#e6db74">&#34;skew&#34;</span>]<span style="color:#f92672">-</span>f1[<span style="color:#ae81ff">2</span>])
 
@@ -787,51 +746,41 @@ plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;d 
 plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#34;Skewness&#34;</span>)
 plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#34;d&#34;</span>)
 plt<span style="color:#f92672">.</span>show()</code></pre></div>
-
-<p><img src="/img/posts/BankNotes/figures/d_skew.png" alt="distance vs skewness for each class" /></p>
-
+<p><img src="/img/posts/BankNotes/figures/d_skew.png" alt="distance vs skewness for each class"></p>
 <h1 id="variable-scaling">Variable scaling</h1>
-
 <h2 id="common-scaling-techniques">Common scaling techniques</h2>
-
 <p>Very different spreads could be noticed among variables during the exploratory
 part. This can lead to a bias in the distance between two points. A possible
-solution to this is <strong>scaling</strong> or <strong>standardization</strong>.
-* <strong>Variance scaling</strong> of a variable is the division of each value by the
-variable standard deviation. The output is a variable with variance 1.</p>
-
+solution to this is <strong>scaling</strong> or <strong>standardization</strong>.</p>
 <ul>
-<li><strong>Min-Max standardization</strong> of a variable is the division of each value by
+<li>
+<p><strong>Variance scaling</strong> of a variable is the division of each value by the
+variable standard deviation. The output is a variable with variance 1.</p>
+</li>
+<li>
+<p><strong>Min-Max standardization</strong> of a variable is the division of each value by
 the difference between the maximum and minimum values. The outcome values
-are all contained in the interval [0,1].</li>
+are all contained in the interval [0,1].</p>
+</li>
 </ul>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x_stand <span style="color:#f92672">=</span> x<span style="color:#f92672">/</span>(x<span style="color:#f92672">.</span>max()<span style="color:#f92672">-</span>x<span style="color:#f92672">.</span>min())</code></pre></div>
-
 <p>Other standardization operations exist, but those are the
 most common because of the properties highlighted.</p>
-
 <h2 id="advantages-and-risks">Advantages and risks</h2>
-
 <p>Scaling variables may avoid the distance between data points
 to be over-influenced by high-variance variables, because
 the ability to classify the data points from a variable
 is usually not proportional to the variable variance.</p>
-
 <p>Furthermore, all people with notions in physics and calculus
 would find it awkward to compute a distance from heterogeneous
 variables (which would have different units and meaning).</p>
-
 <p>However, scaling might increase the weight of variables carrying mostly
 or only noise, to which the model would fit, increasing the error on
 new data.</p>
-
 <p>For this case, the second risk seems very low: all variables seem to
 carry information, which we could observe because of the low number of
 variables.</p>
-
 <h1 id="feature-engineering-pipeline">Feature engineering pipeline</h1>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a, b, c <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>polyfit(data0[<span style="color:#e6db74">&#34;skew&#34;</span>],data0[<span style="color:#e6db74">&#34;kurtosis&#34;</span>],deg<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
 
 data1 <span style="color:#f92672">=</span> data0<span style="color:#f92672">.</span>copy() <span style="color:#75715e"># copying the data</span>
@@ -850,16 +799,11 @@ data1[<span style="color:#e6db74">&#34;d&#34;</span>] <span style="color:#f92672
 data1 <span style="color:#f92672">=</span> data1<span style="color:#f92672">.</span>drop(<span style="color:#e6db74">&#34;skew&#34;</span>,<span style="color:#ae81ff">1</span>) <span style="color:#75715e"># removing skew</span>
 
 data1<span style="color:#f92672">.</span>iloc[:,:<span style="color:#ae81ff">4</span>] <span style="color:#f92672">=</span> data1<span style="color:#f92672">.</span>iloc[:,:<span style="color:#ae81ff">4</span>]<span style="color:#f92672">/</span>np<span style="color:#f92672">.</span>sqrt(np<span style="color:#f92672">.</span>var(data1<span style="color:#f92672">.</span>iloc[:,:<span style="color:#ae81ff">4</span>])) <span style="color:#75715e"># data normalization</span></code></pre></div>
-
 <p><code>data1</code> can now be used in the next step which will consist in the
 implementation of a basic machine learning algorithm. This is the key
 part in an analysis-oriented data science project, and I hope to see you there.</p>
-
-<hr />
-
-<p><font size="0.7">
-[1] Image source: Philipp Wagner: Machine Learning with OpenCV2
- </font></p>
+<hr>
+<!-- raw HTML omitted -->
 
     </div>
 
@@ -1203,7 +1147,7 @@ part in an analysis-oriented data science project, and I hope to see you there.<
   
 
   <p class="powered-by">
-    &copy; 2019 Mathieu Besançon &middot; 
+    © 2019 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

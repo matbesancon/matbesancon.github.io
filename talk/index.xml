@@ -34,13 +34,12 @@ develop our own specialized graph type as a user.&lt;/p&gt;
       <guid>https://matbesancon.github.io/talk/julia_opt_workshop/</guid>
       <description>&lt;p&gt;We gave an overview of the Julia programming language for researchers in
 optimization theory and practice. The talk was divided in four parts:&lt;/p&gt;
-
 &lt;ul&gt;
 &lt;li&gt;Introduction to the Julia language, key features and central mechanisms.
 Example use cases with linear algebra.&lt;/li&gt;
-&lt;li&gt;The &lt;a href=&#34;https://github.com/JuliaSmoothOptimizers&#34; target=&#34;_blank&#34;&gt;JuliaSmoothOptimizers&lt;/a&gt; ecosystem, organization &amp;amp; usage&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaGraphs&#34; target=&#34;_blank&#34;&gt;JuliaGraphs&lt;/a&gt; &amp;amp; the &lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphs.jl&#34; target=&#34;_blank&#34;&gt;LightGraphs&lt;/a&gt; package, features and structure&lt;/li&gt;
-&lt;li&gt;A quick tour of JuliaOpt &amp;amp; &lt;a href=&#34;https://github.com/juliaopt/jump.jl&#34; target=&#34;_blank&#34;&gt;JuMP&lt;/a&gt; for structured, constrained optimization&lt;/li&gt;
+&lt;li&gt;The &lt;a href=&#34;https://github.com/JuliaSmoothOptimizers&#34;&gt;JuliaSmoothOptimizers&lt;/a&gt; ecosystem, organization &amp;amp; usage&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaGraphs&#34;&gt;JuliaGraphs&lt;/a&gt; &amp;amp; the &lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphs.jl&#34;&gt;LightGraphs&lt;/a&gt; package, features and structure&lt;/li&gt;
+&lt;li&gt;A quick tour of JuliaOpt &amp;amp; &lt;a href=&#34;https://github.com/juliaopt/jump.jl&#34;&gt;JuMP&lt;/a&gt; for structured, constrained optimization&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>
@@ -55,7 +54,6 @@ Example use cases with linear algebra.&lt;/li&gt;
 meetup. Slides are in Franglish but should be understandable.
 The programming model was presented with a quick overview of parts
 of the type system and multiple dispatch mechanism.&lt;/p&gt;
-
 &lt;p&gt;It was really nice to be able to exchange with people coming from
 very different programming worlds and compare their approach,
 opinion and programming needs with some design choices of the
@@ -69,15 +67,12 @@ language.&lt;/p&gt;
       <pubDate>Thu, 09 Aug 2018 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/talk/juliacon18/</guid>
-      <description>&lt;p&gt;We presented the &lt;em&gt;LightGraphs.jl&lt;/em&gt; package with &lt;a href=&#34;https://twitter.com/fairbanksjp&#34; target=&#34;_blank&#34;&gt;James&lt;/a&gt; for anyone in need of a
+      <description>&lt;p&gt;We presented the &lt;em&gt;LightGraphs.jl&lt;/em&gt; package with &lt;a href=&#34;https://twitter.com/fairbanksjp&#34;&gt;James&lt;/a&gt; for anyone in need of a
 simple &amp;amp; extensible graph library in Julia, the core interface for abstract graphs and essential algorithms included.&lt;/p&gt;
-
 &lt;p&gt;Anyone can come up with their own graph type, and we show it by building the simplest graph type
 from an adjacency matrix, implementing the LightGraphs interface, and then re-using the whole
 ecosystem on this type for free.&lt;/p&gt;
-
-&lt;hr /&gt;
-
+&lt;hr&gt;
 &lt;p&gt;[1] Image source: Photo by Fancycrave on Unsplash&lt;/p&gt;
 </description>
     </item>
@@ -90,7 +85,7 @@ ecosystem on this type for free.&lt;/p&gt;
       <guid>https://matbesancon.github.io/talk/julia_montreal/</guid>
       <description>&lt;p&gt;A quick introduction to the why and how of package development in Julia for
 scientific computing, with two applications of custom arrays. One of them,
-MatFuncs.jl was live-coded and available &lt;a href=&#34;https://github.com/matbesancon/MatFuncs.jl&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+MatFuncs.jl was live-coded and available &lt;a href=&#34;https://github.com/matbesancon/MatFuncs.jl&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     
@@ -102,7 +97,7 @@ MatFuncs.jl was live-coded and available &lt;a href=&#34;https://github.com/matb
       <guid>https://matbesancon.github.io/talk/golang_talk_lille/</guid>
       <description>&lt;p&gt;This talk was part of a second meetup introducing Golang use cases
 to Lille tech community. The slides (in French) can be found
-&lt;a href=&#34;https://go-talks.appspot.com/github.com/matbesancon/golang-talk/talk.slide#1&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;https://go-talks.appspot.com/github.com/matbesancon/golang-talk/talk.slide#1&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     

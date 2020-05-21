@@ -18,8 +18,8 @@
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/distributions/</guid>
-      <description>&lt;p&gt;Contributions to the &lt;a href=&#34;https://juliastats.github.io&#34; target=&#34;_blank&#34;&gt;JuliaStats&lt;/a&gt; ecosystem,
-especially the &lt;a href=&#34;https://github.com/JuliaStats/Distributions.jl&#34; target=&#34;_blank&#34;&gt;Distributions.jl&lt;/a&gt;
+      <description>&lt;p&gt;Contributions to the &lt;a href=&#34;https://juliastats.github.io&#34;&gt;JuliaStats&lt;/a&gt; ecosystem,
+especially the &lt;a href=&#34;https://github.com/JuliaStats/Distributions.jl&#34;&gt;Distributions.jl&lt;/a&gt;
 package for modeling probability distributions in Julia using a minimal
 and flexible interface.&lt;/p&gt;
 </description>

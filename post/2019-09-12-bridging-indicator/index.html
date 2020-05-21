@@ -81,7 +81,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+  <link rel="stylesheet" href="/css/academic.min.5a7f437ee6610ca105be34ebf9701c04.css">
 
   
 
@@ -408,7 +408,7 @@
   <img src="/img/posts/bridges/bridge2.jpg" class="article-banner" itemprop="image" alt="">
   
 
-  <span class="article-header-caption">Photo by <a href="https://unsplash.com/@neptunian?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank"><u>Torsten Muller</u></a> on <a href="https://unsplash.com/s/photos/bridge?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank"><u>Unsplash</u></a></span>
+  <span class="article-header-caption">Photo by <a href="https://unsplash.com/@neptunian?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"><!-- raw HTML omitted -->Torsten Muller<!-- raw HTML omitted --></a> on <a href="https://unsplash.com/s/photos/bridge?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"><!-- raw HTML omitted -->Unsplash<!-- raw HTML omitted --></a></span>
 </div>
 
 
@@ -578,24 +578,20 @@
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<hr />
-
+      <hr>
 <p>The progress of mathematical optimization as a domain has been tightly
 coupled with the development and improvement of computational methods and
 their implementations as computer programs. As observed in the recent
-MIPLIB compilation <sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup>, the quantification of method performance in
+MIPLIB compilation <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, the quantification of method performance in
 optimization cannot really be split from the experimental settings, solver
 performance is far from a theoretical science.</p>
-
 <p>Different methods and implementations manipulate different data
 structures to represent the same optimization problem.
 Reformulating optimization models has often been the role and responsibility
 of the practitioner, transforming the application problem at hand to fit a
 standard form that a given solver accepts as input for a solution method.
 Interested readers may find work on formal representation of optimization
-problems as data structures by Liberti et al<sup class="footnote-ref" id="fnref:5"><a href="#fn:5">2</a></sup><sup class="footnote-ref" id="fnref:6"><a href="#fn:6">3</a></sup>.
+problems as data structures by Liberti et al<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.
 Mapping a user-facing representation of an object into a semantically
 equivalent internal representation is the role of compilers.
 For mathematical optimization specifically, <strong>Algebraic Modelling Languages</strong>
@@ -604,38 +600,16 @@ turning a user-specified code into data structures passed to solvers. Examples
 of such languages are JuMP, Pyomo, GAMS or AMPL; the first two being embedded in
 a host language (Julia and Python respectively), while the two last are
 stand-alone with their own compiler and runtime.</p>
-
-<p>We will focus in this post on <a href="https://github.com/JuliaOpt/MathOptInterface.jl" target="_blank">MathOptInterface.jl</a>
+<p>We will focus in this post on <a href="https://github.com/JuliaOpt/MathOptInterface.jl">MathOptInterface.jl</a>
 (<strong>MOI</strong>) which acts as a second layer of the compilation phase of an AML.
-The main direct user-facing language for this is <a href="https://github.com/JuliaOpt/JuMP.jl" target="_blank">JuMP</a>,
-which has already been covered in other resources<sup class="footnote-ref" id="fnref:2"><a href="#fn:2">4</a></sup><sup class="footnote-ref" id="fnref:3"><a href="#fn:3">5</a></sup>.
+The main direct user-facing language for this is <a href="https://github.com/JuliaOpt/JuMP.jl">JuMP</a>,
+which has already been covered in other resources<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>.
 When passed to MOI, the problem has been read from the user code but not
 reformulated yet. In compiler terms, MOI appears after the parsing phase:
 the user code has been recognized and transformed into corresponding internal
 structures.</p>
-
-<p><h2>Table of Contents</h2>
-<nav id="TableOfContents">
-<ul>
-<li><a href="#re-formulating-problems-using-multiple-dispatch">Re-formulating problems using multiple dispatch</a>
-<ul>
-<li><a href="#the-example-of-linear-constraints">The example of linear constraints</a></li>
-<li><a href="#unique-dispatch-and-multiple-solvers">Unique dispatch and multiple solvers</a></li>
-</ul></li>
-<li><a href="#the-bridge-system">The bridge system</a>
-<ul>
-<li><a href="#bridge-implementation">Bridge implementation</a></li>
-<li><a href="#problem-reformulation-heuristics">Problem reformulation heuristics</a></li>
-</ul></li>
-<li><a href="#perspective-conclusion">Perspective &amp; conclusion</a>
-<ul>
-<li><a href="#further-resources">Further resources</a></li>
-</ul></li>
-</ul>
-</nav></p>
-
+<!-- raw HTML omitted -->
 <h1 id="re-formulating-problems-using-multiple-dispatch">Re-formulating problems using multiple dispatch</h1>
-
 <p>Multiple dispatch is the specialization of code depending on the arity and type
 of arguments. When multiple definitions (methods) exist for a function, the types
 of the different arguments are used to determine which definition is compatible.
@@ -643,10 +617,9 @@ If several definitions are compatible, the most specific with respect to the
 position in the type hierarchy is selected. If several definitions are compatible
 without a total ordering by specificity, the method call is ambiguous, which raises an error.
 More information on the dispatch system in Julia can be found
-<a href="https://doi.org/10.1137/141000671" target="_blank">in the seminal article</a> and the recent talk on
-<a href="https://www.youtube.com/watch?v=kc9HwsxE1OY" target="_blank">multiple dispatch</a>.
+<a href="https://doi.org/10.1137/141000671">in the seminal article</a> and the recent talk on
+<a href="https://www.youtube.com/watch?v=kc9HwsxE1OY">multiple dispatch</a>.
 See the following examples for the basic syntax:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">f(x) <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span> <span style="color:#75715e"># same as f(x::Any) = 3</span>
 f(x<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>x
 
@@ -659,30 +632,23 @@ f(x, y) <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span
 <span style="color:#66d9ef">end</span>
 
 f(x<span style="color:#f92672">::</span>X) <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">*</span> x<span style="color:#f92672">.</span>value</code></pre></div>
-
 <p>In this section, we will consider the reformulation of problems
 using multiple dispatch. In a generic form, an optimization problem can be
 written as:</p>
-
-<p>$$\begin{align} \min_{x} \,\,&amp; f(x) \\ \text{s.t.}\\ &amp; F_i(x) \in S_i &amp; \forall i \end{align} $$</p>
-
+<p>$$\begin{align} \min_{x} ,,&amp; f(x) \\ \text{s.t.}\\ &amp; F_i(x) \in S_i &amp; \forall i \end{align} $$</p>
 <h2 id="the-example-of-linear-constraints">The example of linear constraints</h2>
-
 <p>We will build a reformulation system leveraging multiple dispatch.
 Assuming the user code is already parsed, the problem input can be represented
 as function-set pairs $(F_i, S_i)$. If we restrict this to individual linear
 constraints, all functions are of the form:
 $$ F_i(x) = a_i^T x $$</p>
-
 <p>The three types of sets are:</p>
-
 <ul>
 <li><code>LessThan(b)</code>: $ y \in S_i \Leftrightarrow y \leq b $</li>
 <li><code>GreaterThan(b)</code>: $ y \in S_i \Leftrightarrow y \geq b $</li>
 <li><code>EqualTo(b)</code>: $ y \in S_i \Leftrightarrow y = b $</li>
 </ul>
-
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">abstract</span> type ConstraintSet <span style="color:#66d9ef">end</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">abstract type</span> ConstraintSet <span style="color:#66d9ef">end</span>
 
 <span style="color:#66d9ef">struct</span> LessThan{T} <span style="color:#f92672">&lt;:</span> ConstraintSet
     b<span style="color:#f92672">::</span>T
@@ -696,18 +662,16 @@ $$ F_i(x) = a_i^T x $$</p>
     b<span style="color:#f92672">::</span>T
 <span style="color:#66d9ef">end</span>
 
-<span style="color:#66d9ef">abstract</span> type ScalarFunction <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">abstract type</span> ScalarFunction <span style="color:#66d9ef">end</span>
 
 <span style="color:#66d9ef">struct</span> ScalarAffineFunction{T} <span style="color:#f92672">&lt;:</span> ScalarFunction
     a<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{T}
     x<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{VariableIndex}
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>Now that the fundamental structures are there, let us think of a solver based
 on the simplex method, accepting only less-or-equal linear constraints.
 We will assume a <code>Model</code> type has been defined, which supports a function
 <code>add_constraint!(m::Model, f::F, s::S)</code>, which adds a constraint of type <code>F in S</code>.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> add_constraint!(m<span style="color:#f92672">::</span>Model, f<span style="color:#f92672">::</span>ScalarAffineFunction, s<span style="color:#f92672">::</span>LessThan)
     pass_to_solver(m<span style="color:#f92672">.</span>solver_pointer, f, s)
 <span style="color:#66d9ef">end</span>
@@ -728,45 +692,32 @@ We will assume a <code>Model</code> type has been defined, which supports a func
     add_constraint!(m, leq_function, leq_set)
     add_constraint!(m, geq_function, geq_set)
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>The dispatching rules of that program can be determined statically
 and define the sequence of method calls:</p>
-
 <pre><code>graph TD;
     E[EqualTo] --&gt; G[GreaterThan];
     E[EqualTo] --&gt; L[LessThan];
     G[GreaterThan] --&gt; L[LessThan];
     L[LessThan] --&gt; S[Solver];
-</code></pre>
-
-<p><img src="/img/posts/bridges/diagram1.svg" style="width:40%;"></p>
-
+</code></pre><!-- raw HTML omitted -->
 <p>At each call site, exactly one method is determined to be the appropriate
 one to use by the dispatch mechanism.</p>
-
 <h2 id="unique-dispatch-and-multiple-solvers">Unique dispatch and multiple solvers</h2>
-
 <p>Let us now consider that another solver is integrated into our dispatch-based
 optimization framework, but supporting only <code>GreaterThan</code> constraints.
 The new method call diagram is:</p>
-
 <pre><code>graph TD;
     E[EqualTo] --&gt; G[GreaterThan];
     E[EqualTo] --&gt; L[LessThan];
     L[LessThan] --&gt; G[GreaterThan];
     G[GreaterThan] --&gt; S[Solver];
-</code></pre>
-
-<p><img src="/img/posts/bridges/diagram2.svg" style="width:40%;"></p>
-
+</code></pre><!-- raw HTML omitted -->
 <p>Considering that we wish to define one reformulation graph for all solvers,
 two possibilities occur:</p>
-
 <ol>
 <li>Which path should be used is encoded in types.</li>
 <li>The method called from a given node depends on runtime parameters.</li>
 </ol>
-
 <p>The first option could appear more efficient, but as the number of nodes, arcs
 and solvers grow, compilation is rendered impossible, as one would have to
 recompute complete programs based on the addition of solvers or reformulations.
@@ -774,33 +725,25 @@ The second option requires tools other than dispatch, since this mechanism
 uses precisely the types to determine the method. It is to tackle this problem
 of reformulating problems in graph above that the bridge system was developed
 in MOI.</p>
-
 <h1 id="the-bridge-system">The bridge system</h1>
-
 <p>The bridge system emerged as a solution to tackle the rapidly-growing
 number of supported functions, sets and constraints as function-set pairs.
 A bridge is the instantiation in the reformulation system of an arc in
 the diagram presented above. It is defined by:</p>
-
 <ul>
 <li>The type of constraint it is replacing, represented by its function-set pair $(F_0, S_0)$.</li>
 <li>The type of constraints which must be supported for the reformulation, as a collection of function-set pairs $[(F_i, S_i)]$.</li>
 <li>The reformulation method itself which takes the initial constraint, creates the necessary variables and constraints and adds them to the model. In a Haskell-like notation, the declarative part of the bridge can be modelled with the following signature:
 $$ ([x_0], F_0, S_0) \rightarrow ([x_1], [(F_i,S_i)]) $$</li>
 </ul>
-
 <p>where $[x_0]$ is a collection of variables used by the initial constraint,
 $[x_1]$ is the collection of newly created variables, and the $(F_i,S_i)$ are the newly created constraints.</p>
-
 <h2 id="bridge-implementation">Bridge implementation</h2>
-
 <p>The bridge definition and most implementations live in the <code>MathOptInterface.Bridges</code> module.
 It consists of an abstract type <code>AbstractBridge</code> and some functions that bridges must implement.</p>
-
 <p>We will see the greatly reduced example of a bridge type <code>MyBridge</code> adding support for two types
 of constraints. The following code declares <em>what</em> the bridge does:</p>
-
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">abstract</span> type AbstractBridge <span style="color:#66d9ef">end</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">abstract type</span> AbstractBridge <span style="color:#66d9ef">end</span>
 
 <span style="color:#66d9ef">struct</span> MyBridge1 <span style="color:#f92672">&lt;:</span> AbstractBridge <span style="color:#66d9ef">end</span>
 
@@ -840,23 +783,16 @@ added_constraint_types(<span style="color:#f92672">::</span><span style="color:#
 added_constraint_types(<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{MyBridge2})
     <span style="color:#66d9ef">return</span> [(F3, S3)]
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>What these method implementations declare is the following structure:</p>
-
 <pre><code>graph LR;
     F1[F1 in S1] -- B1 --&gt; F33[F3 in S3];
     F1[F1 in S1] -- B1 --&gt; F34[F3 in S4];
     F2[F2 in S2] -- B2 --&gt; F33[F3 in S3];
-</code></pre>
-
-<p><img src="/img/posts/bridges/diagram3.svg" style="width:40%;"></p>
-
+</code></pre><!-- raw HTML omitted -->
 <p>Unlike dispatch, multiple possible bridges can be defined for a given constraint $F_1 \in S_1$.
 In optimization, this corresponds to multiple possible reformulations of a given constraint.</p>
-
 <p>Now that the bridges behaviour have been defined, their implementation have to be given,
 again in a trimmed version of the real MOI code:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> bridge_constraint(<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{MyBridge1}, model<span style="color:#f92672">::</span>MOI<span style="color:#f92672">.</span>ModelLike, f<span style="color:#f92672">::</span>F1, s<span style="color:#f92672">::</span>S1)
     (f3, s3) <span style="color:#f92672">=</span> transform_constraint_first_component(f, s)
     s4 <span style="color:#f92672">=</span> transform_constraint_second_set(f, s)
@@ -870,25 +806,19 @@ again in a trimmed version of the real MOI code:</p>
     new_constraint3 <span style="color:#f92672">=</span> MOI<span style="color:#f92672">.</span>add_constraint(model, f3, s3)
     <span style="color:#66d9ef">return</span> MyBridge2(new_constraint3)
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>Finally, the graph is for the moment split across different bridges.
-The multiple dispatch mechanism uses a <a href="https://pkg.julialang.org/docs/julia/THl1k/1.1.1/devdocs/functions.html" target="_blank">method table</a>,
+The multiple dispatch mechanism uses a <a href="https://pkg.julialang.org/docs/julia/THl1k/1.1.1/devdocs/functions.html">method table</a>,
 the bridge system uses a bridge optimizer which stores all bridges and
 thus contains the necessary information to convert a constraint to a supported form.</p>
-
 <h2 id="problem-reformulation-heuristics">Problem reformulation heuristics</h2>
-
 <p>A bridge optimizer takes a given problem, a solver and the set of bridges,
 all of which representable in a single hyper-graph, a graph with possibly
 multiple edges between two given nodes.</p>
-
-<p><img src="/img/posts/bridges/Problem1.svg" alt="" /></p>
-
+<p><img src="/img/posts/bridges/Problem1.svg" alt=""></p>
 <p>$P$ represents the initial problem, pointing to the constraints it contains.
 There is an edge from $C_i$ to $C_j$ for each bridge reformulating $C_i$
 using at least a $C_j$ constraint. A constraint $C_i$ points to $S$ if the solver
 natively supports the constraint.</p>
-
 <p>Some bridges require defining multiple new constraints. That is the case of $B_5$
 reformulating $C_6$ using $C_3$ and $C_4$. On the contrary, $C_3$ can be re-formulated
 either in $C_2$ using $B_2$ or in $C_4$ using $B_3$. In this setting, reformulating
@@ -898,40 +828,35 @@ problem-solver path. For instance, there will likely be no semi-definite cone
 constraint when the problem at hand is linear, and $S$ a simplex-based solver.
 Without reasoning on specific constraints, it is hard to picture which
 reformulation is efficient.</p>
-
 <p>The current bridging decision is based on a shortest-path heuristic.
 One bridge is considered a unit distance, and a shortest path from all
 user-facing constraints to all solver-compatible constraints is determined.
-More precisely, a <a href="https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm" target="_blank">Bellman-Ford</a>
+More precisely, a <a href="https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm">Bellman-Ford</a>
 type shortest path is used.</p>
-
-<h1 id="perspective-conclusion">Perspective &amp; conclusion</h1>
-
+<h1 id="perspective--conclusion">Perspective &amp; conclusion</h1>
 <p>MathOptInterface.jl may be one of the greatest strength of the JuMP ecosystem:
 setting the abstractions right allows the developers to integrate more exotic
 constraint types in a consistent manner.
 Optimization practitioners do not limit themselves to linear and
 mixed-integer problems, following improvements in performance and variety
-of solvers, the recent JuMP session at JuliaCon 2019<sup class="footnote-ref" id="fnref:4"><a href="#fn:4">6</a></sup> lays out the
+of solvers, the recent JuMP session at JuliaCon 2019<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup> lays out the
 motivation and structure of MOI, and recent
 developments it enabled.
 The type-based <code>Function in Set</code> structure keeps the underlying
 machinery familiar to both optimization scientists formulating problems in a close
 fashion and Julia programmers leveraging multiple dispatch.</p>
-
 <p>Transforming optimization problems using the bridge system is transparent,
 leaving the option for advanced users to pick which paths are chosen
 in the hypergraph. In the scenario where MOI was not performing these operations,
 the two options are:</p>
-
 <ul>
 <li><strong>Reformulations by the modelling language</strong>: this may mean a systematic
 overhead cost of using the user-facing modelling language, especially if the used
 reformulation is not ideal for a specific problem. This also creates a barrier for
 other modelling languages to emerge, since a great deal of work has gone in
 reformulations of the user-input. The two-layer structure of JuMP + MOI has enabled
-different languages such as <a href="https://github.com/tkoolen/Parametron.jl" target="_blank">Parametron.jl</a>
-or <a href="https://github.com/JuliaOpt/Convex.jl" target="_blank">Convex.jl</a> to emerge, sharing the same
+different languages such as <a href="https://github.com/tkoolen/Parametron.jl">Parametron.jl</a>
+or <a href="https://github.com/JuliaOpt/Convex.jl">Convex.jl</a> to emerge, sharing the same
 solver interfaces and middle infrastructure. The monolithic modelling environments
 historically dominant in mathematical optimization may explain to some extent why
 a large part of the optimization literature is working with solver APIs directly,
@@ -942,32 +867,33 @@ end-model is. This can lead to surprising behaviour when switching solvers
 or passing a different formulation of the same problem, without having access
 to what happens under the hood in a black-box proprietary solver.</li>
 </ul>
-
 <p>The MOI system thus helps present and future researchers to avoid the pitfalls
 of the <em>two-language problem</em> of mathematical optimization.</p>
-
 <h2 id="further-resources">Further resources</h2>
-
-<p>The diagrams were designed using <a href="https://mermaidjs.github.io" target="_blank">MermaidJS</a> &amp; <a href="https://draw.io" target="_blank">draw.io</a>.</p>
-<div class="footnotes">
-
-<hr />
-
+<p>The diagrams were designed using <a href="https://mermaidjs.github.io">MermaidJS</a> &amp; <a href="https://draw.io">draw.io</a>.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
 <ol>
-<li id="fn:1">MIPLIB 2017: Data-Driven Compilation of the 6th Mixed-Integer Programming Library, Gleixner, Ambros and Achterberg, Tobias and Christophel, Philipp and Lübbecke, Marco and Ralphs, Ted K and Hendel, Gregor and Gamrath, Gerald and Bastubbe, Michael and Berthold, Timo and Jarck, Kati and others, 2019.
- <a class="footnote-return" href="#fnref:1"><sup>^</sup></a></li>
-<li id="fn:5">Liberti, Leo. &ldquo;Reformulations in mathematical programming: Definitions and systematics.&rdquo; RAIRO-Operations Research 43.1 (2009): 55-85. <a href="http://www.numdam.org/article/RO_2009__43_1_55_0.pdf" target="_blank">Preprint</a>
- <a class="footnote-return" href="#fnref:5"><sup>^</sup></a></li>
-<li id="fn:6">Liberti, Leo and Cafieri, Sonia and Tarissan, Fabien, Reformulations in Mathematical Programming: A Computational Approach, <a href="https://doi.org/10.1007/978-3-642-01085-9_7" target="_blank">DOI</a>, <a href="https://www.lix.polytechnique.fr/~liberti/arschapter.pdf" target="_blank">Preprint</a>
- <a class="footnote-return" href="#fnref:6"><sup>^</sup></a></li>
-<li id="fn:2">JuMP initial paper <a href="https://doi.org/10.1137/15M1020575" target="_blank">https://doi.org/10.1137/15M1020575</a>
- <a class="footnote-return" href="#fnref:2"><sup>^</sup></a></li>
-<li id="fn:3">JuMP tutorial at JuliaCon2018: <a href="https://www.youtube.com/watch?v=7tzFRIiseJI" target="_blank">https://www.youtube.com/watch?v=7tzFRIiseJI</a>
- <a class="footnote-return" href="#fnref:3"><sup>^</sup></a></li>
-<li id="fn:4">MathOptInterface, JuMP extensions and MOI-based solvers at JuliaCon2019: <a href="https://www.youtube.com/watch?v=cTmqmPcroFo" target="_blank">https://www.youtube.com/watch?v=cTmqmPcroFo</a>
- <a class="footnote-return" href="#fnref:4"><sup>^</sup></a></li>
+<li id="fn:1" role="doc-endnote">
+<p>MIPLIB 2017: Data-Driven Compilation of the 6th Mixed-Integer Programming Library, Gleixner, Ambros and Achterberg, Tobias and Christophel, Philipp and Lübbecke, Marco and Ralphs, Ted K and Hendel, Gregor and Gamrath, Gerald and Bastubbe, Michael and Berthold, Timo and Jarck, Kati and others, 2019. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>Liberti, Leo. &ldquo;Reformulations in mathematical programming: Definitions and systematics.&rdquo; RAIRO-Operations Research 43.1 (2009): 55-85. <a href="http://www.numdam.org/article/RO_2009__43_1_55_0.pdf">Preprint</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p>Liberti, Leo and Cafieri, Sonia and Tarissan, Fabien, Reformulations in Mathematical Programming: A Computational Approach, <a href="https://doi.org/10.1007/978-3-642-01085-9_7">DOI</a>, <a href="https://www.lix.polytechnique.fr/~liberti/arschapter.pdf">Preprint</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p>JuMP initial paper <a href="https://doi.org/10.1137/15M1020575">https://doi.org/10.1137/15M1020575</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5" role="doc-endnote">
+<p>JuMP tutorial at JuliaCon2018: <a href="https://www.youtube.com/watch?v=7tzFRIiseJI">https://www.youtube.com/watch?v=7tzFRIiseJI</a> <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6" role="doc-endnote">
+<p>MathOptInterface, JuMP extensions and MOI-based solvers at JuliaCon2019: <a href="https://www.youtube.com/watch?v=cTmqmPcroFo">https://www.youtube.com/watch?v=cTmqmPcroFo</a> <a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
 </ol>
-</div>
+</section>
 
     </div>
 
@@ -1321,7 +1247,7 @@ of the <em>two-language problem</em> of mathematical optimization.</p>
   
 
   <p class="powered-by">
-    &copy; 2019 Mathieu Besançon &middot; 
+    © 2019 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

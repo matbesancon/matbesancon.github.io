@@ -81,7 +81,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+  <link rel="stylesheet" href="/css/academic.min.5a7f437ee6610ca105be34ebf9701c04.css">
 
   
 
@@ -578,59 +578,34 @@
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<p><h2>Table of Contents</h2>
-<nav id="TableOfContents">
-<ul>
-<li><a href="#automatic-differentiation">Automatic Differentiation</a>
-<ul>
-<li><a href="#automatic-differentiation-on-a-pure-julia-solver">Automatic differentiation on a pure-Julia solver</a></li>
-</ul></li>
-<li><a href="#example-problem-weighted-independent-set">Example problem: weighted independent set</a>
-<ul>
-<li><a href="#optimization-model-of-the-weighted-independent-set">Optimization model of the weighted independent set</a></li>
-<li><a href="#a-julia-implementation">A Julia implementation</a></li>
-</ul></li>
-<li><a href="#why-not-reverse-mode">Why not reverse-mode?</a>
-<ul>
-<li><a href="#giving-reverse-with-zygote-a-shot">Giving reverse with Zygote a shot</a></li>
-<li><a href="#how-could-this-be-improved">How could this be improved?</a></li>
-</ul></li>
-<li><a href="#conclusion-speculation-prospect">Conclusion, speculation, prospect</a>
-<ul>
-<li><a href="#special-mentions">Special mentions</a></li>
-</ul></li>
-</ul>
-</nav></p>
-
+      <!-- raw HTML omitted -->
 <p>In continuous convex optimization, duality is often the theoretical foundation for
 computing the sensibility of the optimal value of a problem to
 one of its parameters. In the non-linear domain, it is fairly standard to assume
 one can compute at any point of the domain the function $f(x)$ and gradient
 $\nabla f(x)$.</p>
-
-<p>What about discrete optimization?<br />
+<p>What about discrete optimization?<br>
 The first thought would be that differentiating
 the resolution of a discrete problem does not make sense, the information it yields
 since infinitesimal variations in the domain of the variables do not make sense.</p>
-
 <p>However, three cases come to mind for which asking for gradients makes perfect sense:</p>
-
 <ol>
-<li><p>In mixed-integer linear problems, some variables take continuous values.
+<li>
+<p>In mixed-integer linear problems, some variables take continuous values.
 All linear expressions are differentiable, and every constraint coefficient,
-right-hand-side and objective coefficient can have an attached partial derivative.</p></li>
-
-<li><p>Even in pure-integer problems, the objective value will be a continuous
+right-hand-side and objective coefficient can have an attached partial derivative.</p>
+</li>
+<li>
+<p>Even in pure-integer problems, the objective value will be a continuous
 function of the coefficients, possibly locally smooth, for which one can get
-the partial derivative associated with each weight.</p></li>
-
-<li><p>We might be interested in computing the derivative of <strong>some</strong> expression
+the partial derivative associated with each weight.</p>
+</li>
+<li>
+<p>We might be interested in computing the derivative of <strong>some</strong> expression
 of the variables with respect to some parameters, without this expression
-being the objective.</p></li>
+being the objective.</p>
+</li>
 </ol>
-
 <p>For these points, some duality-based techniques and reformulations can be used,
 sometimes very expensive when the input size grows.
 One common approach is to first
@@ -639,29 +614,23 @@ continuous part of the problem to compute the dual values associated with
 each constraint, and the reduced cost coefficients.
 This leads to solving a NP-hard problem, followed by a second solution from
 scratch of a linear optimization problem, still, it somehow works.</p>
-
 <p>More than just solving the model and computing results, one major use case
 is embarking the result of an optimization problem into another more complete
 program. The tricks developed above cannot be integrated with an automated way
 of computing derivatives.</p>
-
 <h1 id="automatic-differentiation">Automatic Differentiation</h1>
-
 <p>Automatic Differentiation is far from new, but has known a gain in attention
 in the last decade with its used in ML, increasing the usability of the available
 libraries. It consists in getting an augmented information out of a function.</p>
-
 <p>If a function has a type signature <code>f: a -&gt; b</code>, the goal is, without modifying
 the function, to compute a derivative, which is also a function, which to every
 point in the domain, yields a linear map from domain to co-domain <code>df: a -&gt; (a -o b)</code>,
 where <code>a -o b</code> denotes a linear map, regardless of underlying representation (matrix, function, &hellip;).
-See the talk and paper<sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup> for a type-based formalism of AD if you are ok with programming language formalism.</p>
-
+See the talk and paper<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> for a type-based formalism of AD if you are ok with programming language formalism.</p>
 <h2 id="automatic-differentiation-on-a-pure-julia-solver">Automatic differentiation on a pure-Julia solver</h2>
-
-<p><a href="https://github.com/Wikunia/ConstraintSolver.jl" target="_blank">ConstraintSolver.jl</a> is a recent
-project by <a href="https://github.com/Wikunia" target="_blank">Wikunia</a>. As the name indicates, it is a
-<a href="https://en.wikipedia.org/wiki/Constraint_programming" target="_blank">constraint programming</a>
+<p><a href="https://github.com/Wikunia/ConstraintSolver.jl">ConstraintSolver.jl</a> is a recent
+project by <a href="https://github.com/Wikunia">Wikunia</a>. As the name indicates, it is a
+<a href="https://en.wikipedia.org/wiki/Constraint_programming">constraint programming</a>
 solver, a more Computer-Science-flavoured approach to integer optimization.
 As a Julia solver, it can leverage both multiple dispatch and the type system
 to benefit from some features for free. One example of such
@@ -669,35 +638,27 @@ feature is automatic differentiation: if your function is generic enough
 (not relying on a specific implementation of number types, such as <code>Float64</code>),
 gradients with respect to some parameters can be computed by calling the function
 just once (forward-mode automatic differentiation).</p>
-
 <h1 id="example-problem-weighted-independent-set">Example problem: weighted independent set</h1>
-
 <p>Let us consider a classical problem in combinatorial optimization, given an undirected graph
 $G = (V, E)$, finding a subset of the vertices, such that no two vertices in the
 subset are connected by an edge, and that the total weight of the chosen vertices
 is maximized.</p>
-
 <h2 id="optimization-model-of-the-weighted-independent-set">Optimization model of the weighted independent set</h2>
-
 <p>Formulated as an optimization problem, it looks as follows:</p>
-
 <p>$$\begin{align}
-(\mathcal{P}): \max_{x} &amp; \sum_{i \in V} w_i x_i \\\<br />
-\text{s.t.} \\\<br />
-&amp; x_i + x_j \leq 1 \,\, \forall (i,j) \in E \\\<br />
+(\mathcal{P}): \max_{x} &amp; \sum_{i \in V} w_i x_i \\\\<br>
+\text{s.t.} \\\\<br>
+&amp; x_i + x_j \leq 1 \,\, \forall (i,j) \in E \\\\<br>
 &amp; x \in \mathbb{B}^{|V|}
 \end{align}
 $$</p>
-
 <p>Translated to English, this would be maximizing the weighted sum of picked
 vertices, which are decisions living in the $|V|$-th dimensional binary space,
 such that for each edge, no two vertices can be chosen.
 The differentiable function here is the objective value of such optimization
 problem, and the parameters we differentiate with respect to are the weights
 attached to each vertex $w_i$. We will denote it $f(w) = \max_x (\mathcal{P}_w)$.</p>
-
 <p>If a vertex $i$ is not chosen in a solution, there are two cases:</p>
-
 <ul>
 <li>the vertex has the same weight as at least one other, say $j$, such that
 swapping $i$ and $j$ in the selected subset does not change the optimal value.
@@ -710,105 +671,86 @@ multiple variables could be chosen equivalently to enter the base.</li>
 maintains the same objective value. In that case, the derivative is $0$,
 small enough variations of the weight does not change the solution nor the objective.</li>
 </ul>
-
 <p>If a vertex $i$ is chosen in a solution, then $x_i = 1$, and the corresponding
 partial derivative of the weight is $\frac{\partial f(w)}{\partial w_i} = 1$.</p>
-
 <h2 id="a-julia-implementation">A Julia implementation</h2>
-
 <p>We will import a few packages, mostly MathOptInterface.jl (MOI), the foundation for
 constrained optimization, the solver itself, the Test standard lib, and ForwardDiff.jl
 for automatic differentiation.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span> Test
+<span style="color:#66d9ef">import</span> ConstraintSolver
+<span style="color:#66d9ef">const</span> CS <span style="color:#f92672">=</span> ConstraintSolver
 
-<pre><code class="language-julia">using Test
-import ConstraintSolver
-const CS = ConstraintSolver
+<span style="color:#66d9ef">import</span> MathOptInterface
+<span style="color:#66d9ef">const</span> MOI <span style="color:#f92672">=</span> MathOptInterface
 
-import MathOptInterface
-const MOI = MathOptInterface
-
-import ForwardDiff
-</code></pre>
-
-<p>Let us first write an implementation for the max-weight independent set problem.
+<span style="color:#66d9ef">import</span> ForwardDiff
+</code></pre></div><p>Let us first write an implementation for the max-weight independent set problem.
 We will use a 4-vertex graph, looking as such:</p>
-
-<p><img src="/img/posts/diff_discrete/graph2.svg" alt="Weighted graph" /></p>
-
+<p><img src="/img/posts/diff_discrete/graph2.svg" alt="Weighted graph"></p>
 <p>The optimal answer here is to pick vertices 1 and 4 (in orange).</p>
-
-<pre><code class="language-julia">@testset &quot;Max independent set MOI&quot; begin
-    matrix = [
-        0 1 1 0
-        1 0 1 0
-        1 1 0 1
-        0 0 1 0
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#a6e22e">@testset</span> <span style="color:#e6db74">&#34;Max independent set MOI&#34;</span> <span style="color:#66d9ef">begin</span>
+    matrix <span style="color:#f92672">=</span> [
+        <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span>
     ]
-    model = CS.Optimizer()
-    x = [MOI.add_constrained_variable(model, MOI.ZeroOne()) for _ in 1:4]
-    for i in 1:4, j in 1:4
-        if matrix[i,j] == 1 &amp;&amp; i &lt; j
-            (z, _) = MOI.add_constrained_variable(model, MOI.GreaterThan(0.0))
-            MOI.add_constraint(model, z, MOI.Integer())
-            MOI.add_constraint(model, z, MOI.LessThan(1.0))
-            f = MOI.ScalarAffineFunction(
+    model <span style="color:#f92672">=</span> CS<span style="color:#f92672">.</span>Optimizer()
+    x <span style="color:#f92672">=</span> [MOI<span style="color:#f92672">.</span>add_constrained_variable(model, MOI<span style="color:#f92672">.</span>ZeroOne()) <span style="color:#66d9ef">for</span> _ <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>]
+    <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>, j <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>
+        <span style="color:#66d9ef">if</span> matrix[i,j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">&lt;</span> j
+            (z, _) <span style="color:#f92672">=</span> MOI<span style="color:#f92672">.</span>add_constrained_variable(model, MOI<span style="color:#f92672">.</span>GreaterThan(<span style="color:#ae81ff">0.0</span>))
+            MOI<span style="color:#f92672">.</span>add_constraint(model, z, MOI<span style="color:#f92672">.</span><span style="color:#66d9ef">Integer</span>())
+            MOI<span style="color:#f92672">.</span>add_constraint(model, z, MOI<span style="color:#f92672">.</span>LessThan(<span style="color:#ae81ff">1.0</span>))
+            f <span style="color:#f92672">=</span> MOI<span style="color:#f92672">.</span>ScalarAffineFunction(
                 [
-                    MOI.ScalarAffineTerm(1.0, x[i][1]),
-                    MOI.ScalarAffineTerm(1.0, x[j][1]),
-                    MOI.ScalarAffineTerm(1.0, z),
-                ], 0.0
+                    MOI<span style="color:#f92672">.</span>ScalarAffineTerm(<span style="color:#ae81ff">1.0</span>, x[i][<span style="color:#ae81ff">1</span>]),
+                    MOI<span style="color:#f92672">.</span>ScalarAffineTerm(<span style="color:#ae81ff">1.0</span>, x[j][<span style="color:#ae81ff">1</span>]),
+                    MOI<span style="color:#f92672">.</span>ScalarAffineTerm(<span style="color:#ae81ff">1.0</span>, z),
+                ], <span style="color:#ae81ff">0.0</span>
             )
-            MOI.add_constraint(model, f, MOI.EqualTo(1.0))
-        end
-    end
-    weights = [0.2, 0.1, 0.2, 0.1]
-    terms = [MOI.ScalarAffineTerm(weights[i], x[i][1]) for i in eachindex(x)]
-    objective = MOI.ScalarAffineFunction(terms, 0.0)
-    MOI.set(model, MOI.ObjectiveFunction{typeof(objective)}(), objective)
-    MOI.set(model, MOI.ObjectiveSense(), MOI.MAX_SENSE)
-    MOI.optimize!(model)
-    # add some tests
-end
-</code></pre>
-
-<p>Why the additional code with<code>(z, _) = MOI.add_constrained_variable(model, MOI.GreaterThan(0.0))</code>?
+            MOI<span style="color:#f92672">.</span>add_constraint(model, f, MOI<span style="color:#f92672">.</span>EqualTo(<span style="color:#ae81ff">1.0</span>))
+        <span style="color:#66d9ef">end</span>
+    <span style="color:#66d9ef">end</span>
+    weights <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.1</span>, <span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.1</span>]
+    terms <span style="color:#f92672">=</span> [MOI<span style="color:#f92672">.</span>ScalarAffineTerm(weights[i], x[i][<span style="color:#ae81ff">1</span>]) <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> eachindex(x)]
+    objective <span style="color:#f92672">=</span> MOI<span style="color:#f92672">.</span>ScalarAffineFunction(terms, <span style="color:#ae81ff">0.0</span>)
+    MOI<span style="color:#f92672">.</span>set(model, MOI<span style="color:#f92672">.</span>ObjectiveFunction{typeof(objective)}(), objective)
+    MOI<span style="color:#f92672">.</span>set(model, MOI<span style="color:#f92672">.</span>ObjectiveSense(), MOI<span style="color:#f92672">.</span>MAX_SENSE)
+    MOI<span style="color:#f92672">.</span>optimize!(model)
+    <span style="color:#75715e"># add some tests</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>Why the additional code with<code>(z, _) = MOI.add_constrained_variable(model, MOI.GreaterThan(0.0))</code>?
 <em>ConstraintSolver.jl</em> does not yet support constraints of the type <code>a x + b y &lt;= c</code>,
 but linear equality constraints are fine, so we can derive equivalent formulations by adding a
 slack variable <code>z</code>.</p>
-
 <p>For this problem, the tests could be on both the solution and objective value, as follows:</p>
-
-<pre><code class="language-julia">@test MOI.get(model, MOI.VariablePrimal(), x[4][1]) == 1
-@test MOI.get(model, MOI.VariablePrimal(), x[1][1]) == 1
-@test MOI.get(model, MOI.ObjectiveValue()) ≈ 0.3
-</code></pre>
-
-<p>An equivalent JuMP version would look look this:</p>
-
-<pre><code class="language-julia">@testset&quot;&quot;
-matrix = [
-    0 1 1 0
-    1 0 1 0
-    1 1 0 1
-    0 0 1 0
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#a6e22e">@test</span> MOI<span style="color:#f92672">.</span>get(model, MOI<span style="color:#f92672">.</span>VariablePrimal(), x[<span style="color:#ae81ff">4</span>][<span style="color:#ae81ff">1</span>]) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>
+<span style="color:#a6e22e">@test</span> MOI<span style="color:#f92672">.</span>get(model, MOI<span style="color:#f92672">.</span>VariablePrimal(), x[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">1</span>]) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>
+<span style="color:#a6e22e">@test</span> MOI<span style="color:#f92672">.</span>get(model, MOI<span style="color:#f92672">.</span>ObjectiveValue()) ≈ <span style="color:#ae81ff">0.3</span>
+</code></pre></div><p>An equivalent JuMP version would look look this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#a6e22e">@testset</span><span style="color:#e6db74">&#34;&#34;</span>
+matrix <span style="color:#f92672">=</span> [
+    <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span>
 ]
-m = Model(with_optimizer(CS.Optimizer))
-x = @variable(m, x[1:4], Bin)
-for i in 1:4, j in i+1:4
-    if matrix[i,j] == 1
-        zcomp = @variable(m)
-        JuMP.set_binary(zcomp)
-        @constraint(m, x[i] + x[j] + zcomp == 1)
-    end
-end
-w = [0.2, 0.1, 0.2, 0.1]
-@objective(m, Max, dot(w, x))
+m <span style="color:#f92672">=</span> Model(with_optimizer(CS<span style="color:#f92672">.</span>Optimizer))
+x <span style="color:#f92672">=</span> <span style="color:#a6e22e">@variable</span>(m, x[<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>], Bin)
+<span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>, j <span style="color:#66d9ef">in</span> i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>
+    <span style="color:#66d9ef">if</span> matrix[i,j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>
+        zcomp <span style="color:#f92672">=</span> <span style="color:#a6e22e">@variable</span>(m)
+        JuMP<span style="color:#f92672">.</span>set_binary(zcomp)
+        <span style="color:#a6e22e">@constraint</span>(m, x[i] <span style="color:#f92672">+</span> x[j] <span style="color:#f92672">+</span> zcomp <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+    <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+w <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.1</span>, <span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.1</span>]
+<span style="color:#a6e22e">@objective</span>(m, Max, dot(w, x))
 optimize!(m)
-</code></pre>
-
-<p>Why are we not using JuMP, which is much more concise and closer to the
+</code></pre></div><p>Why are we not using JuMP, which is much more concise and closer to the
 mathematical formulation?</p>
-
 <p>JuMP uses <code>Float64</code> for all value types, which means we do not get the benefit of
 generic types, while <code>MathOptInterface</code> types are parameterized by the numeric type used.
 To be fair, maintaining type genericity on a project as large as JuMP
@@ -817,63 +759,54 @@ of a model object which contains a mutable state of the problem being constructe
 and building an Algebraic Modelling Language without this incremental build of the
 model has not proved successful till now. One day, we may get a powerful declarative
 DSL for mathematical optimization, but it has not come yet.</p>
-
 <p>Back to our problem, we now have a way to compute the optimal value and solution.
 Let us implement our function $f(w)$:</p>
-
-<pre><code class="language-julia">
-function weighted_stable_set(w)
-    matrix = [
-        0 1 1 0
-        1 0 1 0
-        1 1 0 1
-        0 0 1 0
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">
+<span style="color:#66d9ef">function</span> weighted_stable_set(w)
+    matrix <span style="color:#f92672">=</span> [
+        <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span>
     ]
-    model = CS.Optimizer(solution_type = Real)
-    x = [MOI.add_constrained_variable(model, MOI.ZeroOne()) for _ in 1:4]
-    for i in 1:4, j in 1:4
-        if matrix[i,j] == 1 &amp;&amp; i &lt; j
-            (z, _) = MOI.add_constrained_variable(model, MOI.GreaterThan(0.0))
-            MOI.add_constraint(model, z, MOI.Integer())
-            MOI.add_constraint(model, z, MOI.LessThan(1.0))
-            f = MOI.ScalarAffineFunction(
+    model <span style="color:#f92672">=</span> CS<span style="color:#f92672">.</span>Optimizer(solution_type <span style="color:#f92672">=</span> <span style="color:#66d9ef">Real</span>)
+    x <span style="color:#f92672">=</span> [MOI<span style="color:#f92672">.</span>add_constrained_variable(model, MOI<span style="color:#f92672">.</span>ZeroOne()) <span style="color:#66d9ef">for</span> _ <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>]
+    <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>, j <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>
+        <span style="color:#66d9ef">if</span> matrix[i,j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">&lt;</span> j
+            (z, _) <span style="color:#f92672">=</span> MOI<span style="color:#f92672">.</span>add_constrained_variable(model, MOI<span style="color:#f92672">.</span>GreaterThan(<span style="color:#ae81ff">0.0</span>))
+            MOI<span style="color:#f92672">.</span>add_constraint(model, z, MOI<span style="color:#f92672">.</span><span style="color:#66d9ef">Integer</span>())
+            MOI<span style="color:#f92672">.</span>add_constraint(model, z, MOI<span style="color:#f92672">.</span>LessThan(<span style="color:#ae81ff">1.0</span>))
+            f <span style="color:#f92672">=</span> MOI<span style="color:#f92672">.</span>ScalarAffineFunction(
                 [
-                    MOI.ScalarAffineTerm(1.0, x[i][1]),
-                    MOI.ScalarAffineTerm(1.0, x[j][1]),
-                    MOI.ScalarAffineTerm(1.0, z),
-                ], 0.0
+                    MOI<span style="color:#f92672">.</span>ScalarAffineTerm(<span style="color:#ae81ff">1.0</span>, x[i][<span style="color:#ae81ff">1</span>]),
+                    MOI<span style="color:#f92672">.</span>ScalarAffineTerm(<span style="color:#ae81ff">1.0</span>, x[j][<span style="color:#ae81ff">1</span>]),
+                    MOI<span style="color:#f92672">.</span>ScalarAffineTerm(<span style="color:#ae81ff">1.0</span>, z),
+                ], <span style="color:#ae81ff">0.0</span>
             )
-            MOI.add_constraint(model, f, MOI.EqualTo(1.0))
-        end
-    end
-    terms = [MOI.ScalarAffineTerm(w[i], x[i][1]) for i in eachindex(x)]
-    objective = MOI.ScalarAffineFunction(terms, zero(eltype(w)))
-    MOI.set(model, MOI.ObjectiveFunction{typeof(objective)}(), objective)
-    MOI.set(model, MOI.ObjectiveSense(), MOI.MAX_SENSE)
-    MOI.optimize!(model)
-    return MOI.get(model, MOI.ObjectiveValue())
-end
-</code></pre>
-
-<p>We can now compute the gradient in one function call with ForwardDiff:</p>
-
-<pre><code class="language-julia">@testset &quot;Differentiating stable set&quot; begin
-    weights = [0.2, 0.1, 0.2, 0.1]
-    ∇w = ForwardDiff.gradient(weighted_stable_set, weights)
-    @test ∇w[1] ≈ 1
-    @test ∇w[4] ≈ 1
-    @test ∇w[2] ≈ ∇w[3] ≈ 0
-end
-</code></pre>
-
-<p>To understand how this derivative computation can work with just few
+            MOI<span style="color:#f92672">.</span>add_constraint(model, f, MOI<span style="color:#f92672">.</span>EqualTo(<span style="color:#ae81ff">1.0</span>))
+        <span style="color:#66d9ef">end</span>
+    <span style="color:#66d9ef">end</span>
+    terms <span style="color:#f92672">=</span> [MOI<span style="color:#f92672">.</span>ScalarAffineTerm(w[i], x[i][<span style="color:#ae81ff">1</span>]) <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> eachindex(x)]
+    objective <span style="color:#f92672">=</span> MOI<span style="color:#f92672">.</span>ScalarAffineFunction(terms, zero(eltype(w)))
+    MOI<span style="color:#f92672">.</span>set(model, MOI<span style="color:#f92672">.</span>ObjectiveFunction{typeof(objective)}(), objective)
+    MOI<span style="color:#f92672">.</span>set(model, MOI<span style="color:#f92672">.</span>ObjectiveSense(), MOI<span style="color:#f92672">.</span>MAX_SENSE)
+    MOI<span style="color:#f92672">.</span>optimize!(model)
+    <span style="color:#66d9ef">return</span> MOI<span style="color:#f92672">.</span>get(model, MOI<span style="color:#f92672">.</span>ObjectiveValue())
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>We can now compute the gradient in one function call with ForwardDiff:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#a6e22e">@testset</span> <span style="color:#e6db74">&#34;Differentiating stable set&#34;</span> <span style="color:#66d9ef">begin</span>
+    weights <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.1</span>, <span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.1</span>]
+    ∇w <span style="color:#f92672">=</span> ForwardDiff<span style="color:#f92672">.</span>gradient(weighted_stable_set, weights)
+    <span style="color:#a6e22e">@test</span> ∇w[<span style="color:#ae81ff">1</span>] ≈ <span style="color:#ae81ff">1</span>
+    <span style="color:#a6e22e">@test</span> ∇w[<span style="color:#ae81ff">4</span>] ≈ <span style="color:#ae81ff">1</span>
+    <span style="color:#a6e22e">@test</span> ∇w[<span style="color:#ae81ff">2</span>] ≈ ∇w[<span style="color:#ae81ff">3</span>] ≈ <span style="color:#ae81ff">0</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>To understand how this derivative computation can work with just few
 function calls (proportional to the size of the input), one must dig
-a bit deeper in <a href="https://en.wikipedia.org/wiki/Dual_number" target="_blank">Dual Numbers</a>.
-I will shamelessly refer to <a href="https://matbesancon.github.io/slides/ad4dev#/12" target="_blank">my slides</a>
+a bit deeper in <a href="https://en.wikipedia.org/wiki/Dual_number">Dual Numbers</a>.
+I will shamelessly refer to <a href="https://matbesancon.github.io/slides/ad4dev#/12">my slides</a>
 at the Lambda Lille meetup for an example implementation in Haskell.</p>
-
 <h1 id="why-not-reverse-mode">Why not reverse-mode?</h1>
-
 <p>I mentioned that the cost of computing the value &amp; derivatives is proportional
 to the size of the input, which can increase rapidly for real-world problems.
 This is specific to so-called <em>forward mode</em> automatic differentiation.
@@ -882,15 +815,13 @@ As a rule of thumb, forward-mode has less overhead, and is better when the
 dimension of the output far exceeds the dimension of the input, while
 reverse-mode is better when the dimension of the input exceeds the one
 of the output.</p>
-
 <h2 id="giving-reverse-with-zygote-a-shot">Giving reverse with Zygote a shot</h2>
-
 <p>Getting back to our question, the answer is rather down-to-earth,
 the reverse-mode I tried simply did not work there.
 Reverse-mode requires tracing the normal function call, building a
 &ldquo;tape&rdquo;, this means that it needs a representation of the function
 (as a graph or other).
-I gave <a href="https://github.com/FluxML/Zygote.jl" target="_blank">Zygote.jl</a>
+I gave <a href="https://github.com/FluxML/Zygote.jl">Zygote.jl</a>
 a try, which can be done by replacing <code>ForwardDiff.gradient(f,x)</code> with
 <code>Zygote.gradient(f, x)</code> in the snippet above.
 Building a representation of the function means <em>Zygote</em> must have a
@@ -900,22 +831,17 @@ this is still restricted to a subset of the Julia language
 built as a single expression). This subset still excludes throwing and
 handling exceptions, which is quite present in both ConstraintSolver.jl
 and MathOptInterface.</p>
-
 <p>I have not tried the other reverse tools for the sake of conciseness (and time),
-so feel free to check out <a href="https://github.com/invenia/Nabla.jl" target="_blank">Nabla.jl</a>,
-<a href="https://github.com/JuliaDiff/ReverseDiff.jl" target="_blank">ReverseDiff.jl</a>
-and <a href="https://github.com/FluxML/Tracker.jl" target="_blank">Tracker.jl</a>.</p>
-
+so feel free to check out <a href="https://github.com/invenia/Nabla.jl">Nabla.jl</a>,
+<a href="https://github.com/JuliaDiff/ReverseDiff.jl">ReverseDiff.jl</a>
+and <a href="https://github.com/FluxML/Tracker.jl">Tracker.jl</a>.</p>
 <h2 id="how-could-this-be-improved">How could this be improved?</h2>
-
 <p>A first solution could be to move the idiom of Julia from <code>throw/try/catch</code>
 to handling errors as values, using something like the <code>Result/Either</code> type
-in Scala / Haskell / Rust and <a href="https://github.com/iamed2/ResultTypes.jl" target="_blank">corresponding libraries</a>.</p>
-
+in Scala / Haskell / Rust and <a href="https://github.com/iamed2/ResultTypes.jl">corresponding libraries</a>.</p>
 <p>Another alternative, currently happening is to keep pushing Zygote to support
 more features from Julia, going in the direction of supporting differentiation
 of any program, as dynamic as it gets.</p>
-
 <p>One last option for the particular problem of exception handling would be
 to be able to opt-out of input validation, with some <code>@validate expr</code>,
 with <code>expr</code> potentially throwing or handling an error, and a <code>@nocheck</code>
@@ -923,36 +849,31 @@ or <code>@nothrows</code> macro in front of the function call, considering the f
 will remain on the happy path and not guaranteeing validity or error messages
 otherwise. This works exactly like the <code>@boundscheck</code>, <code>@inbounds</code> pair for
 index validation.</p>
-
 <h1 id="conclusion-speculation-prospect">Conclusion, speculation, prospect</h1>
-
 <p>This post is already too long so we&rsquo;ll stop there.
 The biggest highlights here are that:</p>
-
 <ul>
 <li>In discrete problems, we also have some continuous parts.</li>
 <li>Julia&rsquo;s type system allows AD to work almost out of the box in most cases.</li>
 <li>With JuMP and MOI, solving optimization problems is just another algorithmic building block in your Julia program, spitting out results, and derivatives if you make them.</li>
-<li>I believe that&rsquo;s why plugging in solvers developed in C/C++ is fine, but not always what we want. I would be ready to take a performance hit on the computation time of my algorithms to have some hackable, type-generic MILP solver in pure Julia.<sup class="footnote-ref" id="fnref:2"><a href="#fn:2">2</a></sup></li>
+<li>I believe that&rsquo;s why plugging in solvers developed in C/C++ is fine, but not always what we want. I would be ready to take a performance hit on the computation time of my algorithms to have some hackable, type-generic MILP solver in pure Julia.<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></li>
 </ul>
-
 <h2 id="special-mentions">Special mentions</h2>
-
-<p>Thanks a lot to <a href="https://github.com/Wikunia/" target="_blank">Wikunia</a>, first for developing ConstraintSolver.jl,
+<p>Thanks a lot to <a href="https://github.com/Wikunia/">Wikunia</a>, first for developing ConstraintSolver.jl,
 without which none of this would have been possible, and for the open discussion on the multiple
-issues I posted. Don&rsquo;t hesitate to check out his <a href="https://opensourc.es/blog/constraint-solver-1" target="_blank">blog</a>,
+issues I posted. Don&rsquo;t hesitate to check out his <a href="https://opensourc.es/blog/constraint-solver-1">blog</a>,
 where the whole journey from 0 to a constraint solver is documented.</p>
-<div class="footnotes">
-
-<hr />
-
+<section class="footnotes" role="doc-endnotes">
+<hr>
 <ol>
-<li id="fn:1"><a href="http://conal.net/papers/essence-of-ad/" target="_blank">The simple essence of automatic differentiation</a>, Conal Elliott, Proceedings of the ACM on Programming Languages (ICFP), 2018
- <a class="footnote-return" href="#fnref:1"><sup>^</sup></a></li>
-<li id="fn:2">I believe a pure-Julia solver could be made as fast as a C/C++ solver, but developing solvers is an enormous amount of work and micro-optimizations, tests on industrial cases. The new <a href="https://highs.dev" target="_blank">HiGHS</a> solver however shows that one can get pretty good results by developing a linear solver from scratch with all modern techniques already baked in.
- <a class="footnote-return" href="#fnref:2"><sup>^</sup></a></li>
+<li id="fn:1" role="doc-endnote">
+<p><a href="http://conal.net/papers/essence-of-ad/">The simple essence of automatic differentiation</a>, Conal Elliott, Proceedings of the ACM on Programming Languages (ICFP), 2018 <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>I believe a pure-Julia solver could be made as fast as a C/C++ solver, but developing solvers is an enormous amount of work and micro-optimizations, tests on industrial cases. The new <a href="https://highs.dev">HiGHS</a> solver however shows that one can get pretty good results by developing a linear solver from scratch with all modern techniques already baked in. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
 </ol>
-</div>
+</section>
 
     </div>
 
@@ -1308,7 +1229,7 @@ where the whole journey from 0 to a constraint solver is documented.</p>
   
 
   <p class="powered-by">
-    &copy; 2019 Mathieu Besançon &middot; 
+    © 2019 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

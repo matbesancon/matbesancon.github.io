@@ -17,11 +17,10 @@
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/tlou/</guid>
-      <description>&lt;p&gt;The pre-print of the presented work can be found on &lt;a href=&#34;https://arxiv.org/abs/1809.00512&#34; target=&#34;_blank&#34;&gt;arXiv&lt;/a&gt;.
+      <description>&lt;p&gt;The pre-print of the presented work can be found on &lt;a href=&#34;https://arxiv.org/abs/1809.00512&#34;&gt;arXiv&lt;/a&gt;.
 The manuscript has also been submitted and should be published in the coming months.&lt;/p&gt;
-
 &lt;p&gt;An open-source Julia package has been released
-&lt;a href=&#34;https://github.com/matbesancon/TLOU.jl&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for other researchers to
+&lt;a href=&#34;https://github.com/matbesancon/TLOU.jl&#34;&gt;here&lt;/a&gt; for other researchers to
 model Time-and-Level-of-Use tariffs.&lt;/p&gt;
 </description>
     </item>
@@ -32,8 +31,8 @@ model Time-and-Level-of-Use tariffs.&lt;/p&gt;
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/distributions/</guid>
-      <description>&lt;p&gt;Contributions to the &lt;a href=&#34;https://juliastats.github.io&#34; target=&#34;_blank&#34;&gt;JuliaStats&lt;/a&gt; ecosystem,
-especially the &lt;a href=&#34;https://github.com/JuliaStats/Distributions.jl&#34; target=&#34;_blank&#34;&gt;Distributions.jl&lt;/a&gt;
+      <description>&lt;p&gt;Contributions to the &lt;a href=&#34;https://juliastats.github.io&#34;&gt;JuliaStats&lt;/a&gt; ecosystem,
+especially the &lt;a href=&#34;https://github.com/JuliaStats/Distributions.jl&#34;&gt;Distributions.jl&lt;/a&gt;
 package for modeling probability distributions in Julia using a minimal
 and flexible interface.&lt;/p&gt;
 </description>
@@ -63,22 +62,19 @@ and flexible interface.&lt;/p&gt;
       <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/juliagraphs/</guid>
-      <description>&lt;p&gt;Starting from a weird Kaggle &lt;a href=&#34;https://www.kaggle.com/c/santa-gift-matching&#34; target=&#34;_blank&#34;&gt;side-project&lt;/a&gt;
-during the Chrismas holidays, I gradually got involved in the &lt;a href=&#34;https://juliagraphs.github.io/&#34; target=&#34;_blank&#34;&gt;JuliaGraphs&lt;/a&gt;
+      <description>&lt;p&gt;Starting from a weird Kaggle &lt;a href=&#34;https://www.kaggle.com/c/santa-gift-matching&#34;&gt;side-project&lt;/a&gt;
+during the Chrismas holidays, I gradually got involved in the &lt;a href=&#34;https://juliagraphs.github.io/&#34;&gt;JuliaGraphs&lt;/a&gt;
 ecosystem. After some discussion on the Julia Slack &lt;em&gt;#graphs&lt;/em&gt; channel,
 I went from reporting a simple feature I needed to helping with the
 re-organization by splitting out two packages:&lt;/p&gt;
-
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsMatching.jl&#34; target=&#34;_blank&#34;&gt;LightGraphsMatching.jl&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsFlows.jl&#34; target=&#34;_blank&#34;&gt;LightGraphsFlows.jl&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsMatching.jl&#34;&gt;LightGraphsMatching.jl&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsFlows.jl&#34;&gt;LightGraphsFlows.jl&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-
 &lt;p&gt;I also implemented the
-&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsFlows.jl/blob/master/src/mincost.jl&#34; target=&#34;_blank&#34;&gt;min-cost flow problem&lt;/a&gt;
+&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsFlows.jl/blob/master/src/mincost.jl&#34;&gt;min-cost flow problem&lt;/a&gt;
 formulated as a linear optimization problem formulated using MathProgBase.jl,
 using any user-provided solver.&lt;/p&gt;
-
 &lt;p&gt;Many thanks to the whole JuliaGraphs team for their trust, support and advice.&lt;/p&gt;
 </description>
     </item>
@@ -89,15 +85,13 @@ using any user-provided solver.&lt;/p&gt;
       <pubDate>Wed, 10 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://matbesancon.github.io/project/webfuncs/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/matbesancon/WebFuncs.jl&#34; target=&#34;_blank&#34;&gt;WebFuncs.jl&lt;/a&gt; is a project
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/matbesancon/WebFuncs.jl&#34;&gt;WebFuncs.jl&lt;/a&gt; is a project
 testing the Julia language out of its natural scope.
 Having played quite a bit with Go and Python, I wanted to see if
 the Julia ecosystem had tools for HTTP handling.&lt;/p&gt;
-
 &lt;p&gt;The inspiration of a simple-to-use function server came from the
-&lt;a href=&#34;https://github.com/metrue/fx&#34; target=&#34;_blank&#34;&gt;fx project&lt;/a&gt;. Define your function, the
+&lt;a href=&#34;https://github.com/metrue/fx&#34;&gt;fx project&lt;/a&gt;. Define your function, the
 package throws it as a server for you.&lt;/p&gt;
-
 &lt;p&gt;The package has been accepted on the Julia package repository and can be fetched
 using &lt;code&gt;Pkg.add(&amp;quot;WebFuncs&amp;quot;)&lt;/code&gt;.&lt;/p&gt;
 </description>

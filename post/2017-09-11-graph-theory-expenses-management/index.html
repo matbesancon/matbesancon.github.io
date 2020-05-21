@@ -81,7 +81,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+  <link rel="stylesheet" href="/css/academic.min.5a7f437ee6610ca105be34ebf9701c04.css">
 
   
 
@@ -578,83 +578,44 @@
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<p>With the end-of-year celebrations, we all had some expenses to manage,
+      <p>With the end-of-year celebrations, we all had some expenses to manage,
 some of them shared with friends, and we all have this eternal problem
 of splitting them fairly.</p>
-
 <blockquote>
 <p><em>Les bons comptes font les bons amis.</em>
 French wisdom</p>
 </blockquote>
-
-<p>Applications like <a href="https://tricount.com/" target="_blank">Tricount</a> or
-<a href="https://www.splitwise.com/" target="_blank">Splitwise</a> became famous precisely by
+<p>Applications like <a href="https://tricount.com/">Tricount</a> or
+<a href="https://www.splitwise.com/">Splitwise</a> became famous precisely by
 solving this problem for you: just enter the expenses one by one, with who
 owes whom and you&rsquo;ll get the simplest transactions to balance the amounts at
 the end.</p>
-
 <p>In this post, we&rsquo;ll model the expense balancing problem from a graph
 perspective and see how to come up with a solution using Julia and the
 JuliaGraphs ecosystem [1].</p>
-
-<div class="alert alert-note">
-  <div>
-    We will use the awesome GraphCoin as a currency in this post, noted GPHC to
-be sure no one feels hurt.
-  </div>
-</div>
-
-<p><h2>Table of Contents</h2>
-<nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#the-expenses-model">The expenses model</a></li>
-<li><a href="#reducing-expenses">Reducing expenses</a></li>
-<li><a href="#breaking-strongly-connected-components">Breaking strongly connected components</a></li>
-<li><a href="#expenses-as-a-flow-problem">Expenses as a flow problem</a>
-<ul>
-<li><a href="#computing-net-owed-amount-per-user">Computing net owed amount per user</a></li>
-<li><a href="#building-the-graph-and-the-corresponding-flow-problem">Building the graph and the corresponding flow problem</a></li>
-<li><a href="#solving-the-flow-problem">Solving the flow problem</a></li>
-<li><a href="#trying-out-our-solution">Trying out our solution</a></li>
-</ul></li>
-<li><a href="#conclusion-perspective-and-note-on-gphc">Conclusion, perspective and note on GPHC</a></li>
-</ul></li>
-</ul>
-</nav></p>
-
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
 <h2 id="the-expenses-model">The expenses model</h2>
-
 <p>Say that we have $n$ users involved in the expenses. An expense
 $\delta$ is defined by an amount spent $\sigma$, the user who paid the
 expense $p$ and a non-empty set of users who are accountable for
 this expense $a$.</p>
-
 <blockquote>
 <p>$\delta = (\sigma, p, a)$</p>
 </blockquote>
-
 <p>The total of all expenses $\Sigma$ can be though of as: for any two users $u_i$ and $u_j$,
 the total amount that $u_i$ spent for $u_j$. So the expenses are a vector of
 triplets <em>(paid by, paid for, amount)</em>.</p>
-
 <p>As an example, if I went out for
 pizza with Joe and paid 8GPHC for the two of us, the expense is modeled as:</p>
-
 <blockquote>
 <p>$\delta = (\sigma: 8GPHC, p: Mathieu, a: [Mathieu, Joe])$.</p>
 </blockquote>
-
 <p>Now considering I don&rsquo;t keep track of money I owe myself, the sum of all expenses
 is the vector composed of one triplet:</p>
-
 <blockquote>
 <p>$\Sigma = [(Mathieu, Joe, \frac{8}{2} = 4)]$</p>
 </blockquote>
-
 <p>In Julia, the expense information can be translated to a structure:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">const</span> User <span style="color:#f92672">=</span> <span style="color:#66d9ef">Int</span>
 <span style="color:#66d9ef">const</span> GraphCoin <span style="color:#f92672">=</span> <span style="color:#66d9ef">Float16</span>
@@ -663,9 +624,7 @@ is the vector composed of one triplet:</p>
     amount<span style="color:#f92672">::</span>GraphCoin
     users<span style="color:#f92672">::</span><span style="color:#66d9ef">Set</span>{User}
 <span style="color:#66d9ef">end</span></code></pre></div></p>
-
 <h2 id="reducing-expenses">Reducing expenses</h2>
-
 <p>Now that we have a full representation of the expenses,
 the purpose of balancing is to find a vector of transactions which cancels out
 the expenses. A naive approach would be to use the transposed expense matrix
@@ -674,9 +633,7 @@ then $u_j$ paying back that exact amount to $u_i$ will solve the problem.
 So we need in the worst case as many transactions after the trip as
 $|u| \cdot (|u| - 1)$. For 5 users, that&rsquo;s already 20 transactions,
 how can we improve it?</p>
-
 <h2 id="breaking-strongly-connected-components">Breaking strongly connected components</h2>
-
 <p>Suppose that I paid the pizza slice to Joe for 4GPHC, but he bought me an ice
 cream for 2GPHC the day after. In the naive models, we would have two
 transactions after the trip: he give me 4GPHC and I would give him 2GPHC. That
@@ -685,33 +642,26 @@ owes me and what I owe him. For any pair of users, there should only be
 at most one transaction from the most in debt to the other, this result in the
 worst case of $\frac{|u| \cdot (|u| - 1)}{2}$ transactions, so 10 transactions
 for 5 people.</p>
-
 <p>Now imagine I still paid 4GPHC for Joe, who paid 2GPHC for Marie, who paid 4GPHC
 for me. In graph terminology, this is called a
-<em><a href="https://en.wikipedia.org/wiki/Strongly_connected_component" target="_blank">strongly connected component</a></em>.
+<em><a href="https://en.wikipedia.org/wiki/Strongly_connected_component">strongly connected component</a></em>.
 The point here is that transactions will flow from one user to the next one,
 and back to the first.</p>
-
 <p>If there is a cycle, we can find the minimal due sum within it. In our 3-people
 case, it is 2GPHC. That&rsquo;s the amount which is just moving from hand to hand and
 back at the origin: it can be forgotten. This yields a new net debt:
 I paid 2GPHC for Joe, Marie paid 2GPHC for me. We reduced the number of
 transactions and the amount due thanks to this cycle reduction.</p>
-
 <h2 id="expenses-as-a-flow-problem">Expenses as a flow problem</h2>
-
 <p>To simplify the problem, we can notice we don&rsquo;t actually care about who paid
 whom for what, a fair reimbursement plan only requires two conditions:</p>
-
 <ol>
 <li>All people who are owed some money are given at least that amount</li>
 <li>People who owe money don&rsquo;t pay more than the net amount they ought to pay</li>
 </ol>
-
 <p>We can define a directed flow network with users split in two sets of vertices,
 depending on whether they owe or are owed money. We call these two sets $V_1$
 and $V_2$ respectively.</p>
-
 <ul>
 <li>There is an edge from any node of $V_1$ to any node of $V_2$.</li>
 <li>We define a <em>source</em> noted $s$ connected to all vertices in $V_1$, the edge
@@ -720,15 +670,11 @@ from $s$ to any node of $V_1$ has a capacity equal to what they owe.</li>
 infinite capacity and a demand (the minimal flow that has to pass through) equal
 to what they are owed.</li>
 </ul>
-
 <p>With this model, GraphCoins will flow from user owing money to users who are
-owed money, see <a href="https://en.wikipedia.org/wiki/Maximum_flow_problem" target="_blank">Wikipedia description of the flow problem</a>.</p>
-
+owed money, see <a href="https://en.wikipedia.org/wiki/Maximum_flow_problem">Wikipedia description of the flow problem</a>.</p>
 <h3 id="computing-net-owed-amount-per-user">Computing net owed amount per user</h3>
-
 <p>Given a vector of expenses, we should be able to build the matrix holding what
 is owed in net from a user to another:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#e6db74">&#34;&#34;&#34;
 </span><span style="color:#e6db74">Builds the matrix of net owed GraphCoins
 </span><span style="color:#e6db74">&#34;&#34;&#34;</span>
@@ -755,7 +701,6 @@ is owed in net from a user to another:</p>
     <span style="color:#66d9ef">end</span>
     <span style="color:#66d9ef">return</span> net_owing
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>From that matrix, we should determine the net amount any user owes or is owed:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#e6db74">&#34;&#34;&#34;
 </span><span style="color:#e6db74">    What is owed to a given user (negative if user owes money)
@@ -763,30 +708,22 @@ is owed in net from a user to another:</p>
 <span style="color:#66d9ef">function</span> net_owed_user(net_owing<span style="color:#f92672">::</span><span style="color:#66d9ef">Matrix</span>{GraphCoin})
     <span style="color:#66d9ef">return</span> (sum(net_owing,<span style="color:#ae81ff">1</span>)<span style="color:#f92672">&#39;</span> <span style="color:#f92672">-</span> sum(net_owing,<span style="color:#ae81ff">2</span>))[<span style="color:#f92672">:</span>,<span style="color:#ae81ff">1</span>]
 <span style="color:#66d9ef">end</span></code></pre></div></p>
-
 <p>The <code>sum</code> function used with <code>1</code> or <code>2</code> sums a matrix over its rows, columns
 respectively. This computes a difference between what a user is owed and what
 they owe.</p>
-
 <h3 id="building-the-graph-and-the-corresponding-flow-problem">Building the graph and the corresponding flow problem</h3>
-
 <p>A flow problem is determined by the directed graph (nodes and directed edges),
 the minimal flow for any edge, a maximal flow or capacity for any edge and a
 cost of having a certain flow going through each edge.</p>
-
 <p>First, we need to import LightGraphs, the core package of the JuliaGraph
 ecosystem containing essential types.</p>
-
-<pre><code class="language-julia">import LightGraphs; const lg = LightGraphs
-</code></pre>
-
-<blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> LightGraphs; <span style="color:#66d9ef">const</span> lg <span style="color:#f92672">=</span> LightGraphs
+</code></pre></div><blockquote>
 <p>Note that I use explicit package import (not <code>using</code>), an habit I
 kept from using Python and that I consider more readable than importing
 the whole package into the namespace. <code>lg</code> has become my usual name for the
 LightGraphs package.</p>
 </blockquote>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> build_graph(net_owing<span style="color:#f92672">::</span><span style="color:#66d9ef">Matrix</span>{GraphCoin})
     nusers <span style="color:#f92672">=</span> size(net_owing,<span style="color:#ae81ff">1</span>)
     g <span style="color:#f92672">=</span> lg<span style="color:#f92672">.</span>DiGraph(nusers <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>)
@@ -813,85 +750,62 @@ LightGraphs package.</p>
     <span style="color:#66d9ef">end</span>
     (g, capacity, demand)
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>This function builds our graph structure and all data we need attached.</p>
-
 <h3 id="solving-the-flow-problem">Solving the flow problem</h3>
-
 <p>Now that the components are set, we can solve the problem using another
 component of the JuliaGraphs ecosystem specialized for flow problems:</p>
-
 <pre><code>using LightGraphsFlows: mincost_flow
 using Clp: ClpSolver
-</code></pre>
-
-<p>We also need a Linear Programming solver to pass to the flow solver, all we
+</code></pre><p>We also need a Linear Programming solver to pass to the flow solver, all we
 have to do is bundle the pieces together:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> solve_expense(expenses<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{Expense}, nusers<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>)
     (g, capacity, demand) <span style="color:#f92672">=</span> build_graph(compute_net_owing(expenses, nusers))
     flow <span style="color:#f92672">=</span> mincost_flow(g, capacity, demand, ones(nusers<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>,nusers<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>), ClpSolver(), nusers<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, nusers<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>)
     <span style="color:#66d9ef">return</span> flow[<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#66d9ef">end</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#66d9ef">end</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>We truncate the <code>flow</code> matrix because we are only interested in what users
 are paying each other, not in the flows from and to the source and sink.</p>
-
 <h3 id="trying-out-our-solution">Trying out our solution</h3>
-
 <p>Now that all functions are set, we can use it on any expense problem:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">expenses <span style="color:#f92672">=</span> [
     Expense(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">10</span>, <span style="color:#66d9ef">Set</span>([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>])),
     Expense(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">24</span>, <span style="color:#66d9ef">Set</span>([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>])),
     Expense(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">10</span>, <span style="color:#66d9ef">Set</span>([<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>]))
 ]
 solve_expense(expenses, <span style="color:#ae81ff">3</span>)</code></pre></div>
-
 <pre><code>3×3 Array{Float64,2}:
   0.0  0.0  0.0
  18.0  0.0  0.0
   3.0  0.0  0.0
-</code></pre>
-
-<p>In the result, each row pays to each column and voilà! Our three users don&rsquo;t
+</code></pre><p>In the result, each row pays to each column and voilà! Our three users don&rsquo;t
 have to feel the tension of unpaid debts anymore.</p>
-
 <h2 id="conclusion-perspective-and-note-on-gphc">Conclusion, perspective and note on GPHC</h2>
-
 <p>We managed to model our specific problem using <em>LightGraphs.jl</em> and the
 associated flow package pretty easily. I have to admit being biased since
 I contributed to the JuliaGraphs ecosystem, if your impression is different
 or if you have some feedback, don&rsquo;t hesitate to file an issue on the
-<a href="https://github.com/JuliaGraphs" target="_blank">corresponding package</a>, some awesome people
+<a href="https://github.com/JuliaGraphs">corresponding package</a>, some awesome people
 will help you figure things out as they helped me.</p>
-
 <p>There is one thing we ignored in our model, it&rsquo;s the number of transactions
 realized. Using this as an objective turns the problem into a
-<a href="https://en.wikipedia.org/wiki/Integer_programming#Variants" target="_blank">Mixed-Integer Linear Programming</a> one,
+<a href="https://en.wikipedia.org/wiki/Integer_programming#Variants">Mixed-Integer Linear Programming</a> one,
 which are much harder to solve and cannot use simple flow techniques. However,
 I still haven&rsquo;t found a case where our simple approach does not yield the
 smallest number of transactions.</p>
-
 <p>Final word: I started the idea of this article long before the crypto-madness
 (September actually), when currencies where still considered as boring,
 nerdy or both, sorry about following the (late) hype. I even changed
 GraphCoin symbol to GPHC because I found another one with which my initial
 name conflicted.</p>
-
 <p>If you have questions or remarks on LightGraphs, LightGraphsFlows, the article
-or anything related, don&rsquo;t hesitate to <a href="http://twitter.com/matbesancon" target="_blank">ping me</a>!</p>
-
-<p>Edits:<br />
-Special thanks to <a href="http://www.bromberger.com/" target="_blank">Seth Bromberger</a> for the review.</p>
-
-<hr />
-
+or anything related, don&rsquo;t hesitate to <a href="http://twitter.com/matbesancon">ping me</a>!</p>
+<p>Edits:<br>
+Special thanks to <a href="http://www.bromberger.com/">Seth Bromberger</a> for the review.</p>
+<hr>
 <p>The cover image was created using
-<a href="https://github.com/JuliaGraphs/GraphPlot.jl" target="_blank">GraphPlot.jl</a>.</p>
-
+<a href="https://github.com/JuliaGraphs/GraphPlot.jl">GraphPlot.jl</a>.</p>
 <p>[1] James Fairbanks Seth Bromberger and other contributors. Juliagraphs/LightGraphs.jl:
-Lightgraphs, 2017, <a href="https://doi.org/10.5281/zenodo.889971" target="_blank">https://doi.org/10.5281/zenodo.889971</a>. DOI: 10.5281/zenodo.889971</p>
+Lightgraphs, 2017, <a href="https://doi.org/10.5281/zenodo.889971">https://doi.org/10.5281/zenodo.889971</a>. DOI: 10.5281/zenodo.889971</p>
 
     </div>
 
@@ -1237,7 +1151,7 @@ Lightgraphs, 2017, <a href="https://doi.org/10.5281/zenodo.889971" target="_blan
   
 
   <p class="powered-by">
-    &copy; 2019 Mathieu Besançon &middot; 
+    © 2019 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

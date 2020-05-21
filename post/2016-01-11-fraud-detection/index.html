@@ -82,7 +82,7 @@ Learning by doing: detecting fraud on bank notes using Python in 3 steps.
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+  <link rel="stylesheet" href="/css/academic.min.5a7f437ee6610ca105be34ebf9701c04.css">
 
   
 
@@ -580,65 +580,52 @@ Learning by doing: detecting fraud on bank notes using Python in 3 steps.
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<h2 id="a-complete-predictive-modeling-project-in-python">A complete predictive modeling project in Python</h2>
-
+      <h2 id="a-complete-predictive-modeling-project-in-python">A complete predictive modeling project in Python</h2>
 <p>Part I: Preprocessing and exploratory analysis</p>
-
 <p>One of the amazing things with data science is the ability to tackle
 complex problems involving hidden parallel phenomena interacting with each
 other, just from the data they produce.</p>
-
 <p>As an example, we will use data extracted from images of forged and genuine
 banknotes. The distinction between the two categories would be thought to
 require a deep domain expertise, which limits the ability to check
 more than a few banknotes at a time. An automated and trustable test would
 be of interest for many businesses, governments and organizations.</p>
-
 <p>Starting from the data provided by H. Dörsken and
 Volker Lohweg, from the University of Applied Science of Ostwestfalen-Lippe,
 Germany on the
-<a href="https://archive.ics.uci.edu/ml/datasets/banknote+authentication" target="_blank">UCI Machine Learning Repository</a>,
+<a href="https://archive.ics.uci.edu/ml/datasets/banknote+authentication">UCI Machine Learning Repository</a>,
 we will follow key steps of a data science project to build a performant, yet
 scalable classifier.</p>
-
 <p>The dataset was built by applying a wavelet
 transform on images of banknotes to extract 4 features:</p>
-
 <ul>
-<li><p>Variance, skewness, kurtosis of the wavelet transform (respectively second,
-third and fourth moment of the distribution).</p></li>
-
-<li><p>Entropy of the image, which can be interpreted as the amount of information
-or randomness (which is represented by how different adjacent pixels are).</p></li>
+<li>
+<p>Variance, skewness, kurtosis of the wavelet transform (respectively second,
+third and fourth moment of the distribution).</p>
+</li>
+<li>
+<p>Entropy of the image, which can be interpreted as the amount of information
+or randomness (which is represented by how different adjacent pixels are).</p>
+</li>
 </ul>
-
-<p>You can find further information on Wavelet on <a href="https://en.wikipedia.org/wiki/Wavelet_transform" target="_blank">Wikipedia</a>
-or ask <a href="https://www.quora.com/In-an-intuitive-explanation-what-is-a-wavelet-transform-and-how-does-it-work-in-an-image" target="_blank">Quora</a>.
+<p>You can find further information on Wavelet on <a href="https://en.wikipedia.org/wiki/Wavelet_transform">Wikipedia</a>
+or ask <a href="https://www.quora.com/In-an-intuitive-explanation-what-is-a-wavelet-transform-and-how-does-it-work-in-an-image">Quora</a>.
 An explanation of entropy as meant in the image processing context can
-be found <a href="http://www.astro.cornell.edu/research/projects/compression/entropy.html" target="_blank">here</a>.</p>
-
+be found <a href="http://www.astro.cornell.edu/research/projects/compression/entropy.html">here</a>.</p>
 <p>To get a better understanding of the way the algorithms works,
 the full model will be built from scratch or almost (not using a machine
 learning library like scikit-learn on Python or caret on R).</p>
-
 <p>Basic statistic notions (variance, linear regression) and some basic python
 knowledge is recommended to follow through the three articles.</p>
-
 <h2 id="programming-choices-and-libraries">Programming choices and libraries</h2>
-
 <h3 id="language-and-environment">Language and environment</h3>
-
 <p>Python, which is a great
 compromise between practicality (with handy data format and manipulation)
 and scalability (much easier to implement for large scale, automated
 computation than R, Octave or Matlab). More precisely, Python 3.5.1 with
 the Anaconda distribution 2.4.0, I personally use the Spyder environment
 but feel free to keep your favorite tools.</p>
-
 <h3 id="libraries">Libraries</h3>
-
 <ul>
 <li>Collections (built-in) for occurrence counting</li>
 <li>numpy 1.10.1, providing key data format, mathematical manipulation techniques.</li>
@@ -648,10 +635,8 @@ but feel free to keep your favorite tools.</p>
 <li>ggplot 0.6.8, which I think is a much improved way to visualize data</li>
 <li>urllib3 to parse the data directly from the repository (no manual download)</li>
 </ul>
-
 <p>So our first lines of code (once you placed your data in the proper repository)
 should look like this:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
 <span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
 <span style="color:#f92672">import</span> ggplot
@@ -660,28 +645,23 @@ should look like this:</p>
 <span style="color:#f92672">import</span> scipy.spatial.distance
 <span style="color:#f92672">from</span> collections <span style="color:#f92672">import</span> Counter
 <span style="color:#f92672">import</span> urllib3</code></pre></div>
-
 <h3 id="source-files">Source files</h3>
-
 <p>The source files will be available on the corresponding Github repository.
-These include:
-* preprocess.py to load the data and libraries
-* exploratory.py for preliminary visualization
-* feature_eng.py where the data will be transformed to boost the model performance
-* model_GLM.py where we define key functions and build our model
-* model.py where we will visualize characteristics of the model</p>
-
+These include:</p>
+<ul>
+<li>preprocess.py to load the data and libraries</li>
+<li>exploratory.py for preliminary visualization</li>
+<li>feature_eng.py where the data will be transformed to boost the model performance</li>
+<li>model_GLM.py where we define key functions and build our model</li>
+<li>model.py where we will visualize characteristics of the model</li>
+</ul>
 <h1 id="dataset-overview-and-exploratory-analysis">Dataset overview and exploratory analysis</h1>
-
 <p>Understanding intuitive phenomena in the data and test its underlying structure
 are the objectives for this first (usually long) phase of a data science
 project, especially if you were not involved in the data collection process.</p>
-
 <h2 id="data-parsing">Data parsing</h2>
-
 <p>Instead of manually downloading the data and placing it in our project
 repository, we will download using the <em>urllib3</em> library.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://archive.ics.uci.edu/ml/machine-learning-databases/00267/data_banknote_authentication.txt&#34;</span>
 http <span style="color:#f92672">=</span> urllib3<span style="color:#f92672">.</span>PoolManager()
 r <span style="color:#f92672">=</span> http<span style="color:#f92672">.</span>request(<span style="color:#e6db74">&#39;GET&#39;</span>,url)
@@ -690,14 +670,10 @@ r <span style="color:#f92672">=</span> http<span style="color:#f92672">.</span>r
 r<span style="color:#f92672">.</span>release_conn()
 data0 <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#34;data_banknote_authentication.txt&#34;</span>,
   names<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;vari&#34;</span>,<span style="color:#e6db74">&#34;skew&#34;</span>,<span style="color:#e6db74">&#34;kurtosis&#34;</span>,<span style="color:#e6db74">&#34;entropy&#34;</span>,<span style="color:#e6db74">&#34;class&#34;</span>])</code></pre></div>
-
 <h2 id="key-statistics-and-overview">Key statistics and overview</h2>
-
 <p>Since the data were loaded using pandas, key methods of the DataFrame
 object can be used to find some key information in the data.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data0<span style="color:#f92672">.</span>describe()</code></pre></div>
-
 <table>
 <thead>
 <tr>
@@ -709,7 +685,6 @@ object can be used to find some key information in the data.</p>
 <th align="center">class</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td align="center">count</td>
@@ -719,7 +694,6 @@ object can be used to find some key information in the data.</p>
 <td align="center">1372.000000</td>
 <td align="center">1372.000000</td>
 </tr>
-
 <tr>
 <td align="center">mean</td>
 <td align="center">0.433735</td>
@@ -728,7 +702,6 @@ object can be used to find some key information in the data.</p>
 <td align="center">-1.191657</td>
 <td align="center">0.444606</td>
 </tr>
-
 <tr>
 <td align="center">std</td>
 <td align="center">2.842763</td>
@@ -737,7 +710,6 @@ object can be used to find some key information in the data.</p>
 <td align="center">2.101013</td>
 <td align="center">0.497103</td>
 </tr>
-
 <tr>
 <td align="center">min</td>
 <td align="center">-7.042100</td>
@@ -746,7 +718,6 @@ object can be used to find some key information in the data.</p>
 <td align="center">-8.548200</td>
 <td align="center">0.000000</td>
 </tr>
-
 <tr>
 <td align="center">25%</td>
 <td align="center">-1.773000</td>
@@ -755,7 +726,6 @@ object can be used to find some key information in the data.</p>
 <td align="center">-2.413450</td>
 <td align="center">0.000000</td>
 </tr>
-
 <tr>
 <td align="center">50%</td>
 <td align="center">0.496180</td>
@@ -764,7 +734,6 @@ object can be used to find some key information in the data.</p>
 <td align="center">-0.586650</td>
 <td align="center">0.000000</td>
 </tr>
-
 <tr>
 <td align="center">75%</td>
 <td align="center">2.821475</td>
@@ -773,7 +742,6 @@ object can be used to find some key information in the data.</p>
 <td align="center">0.394810</td>
 <td align="center">1.000000</td>
 </tr>
-
 <tr>
 <td align="center">max</td>
 <td align="center">6.824800</td>
@@ -784,25 +752,20 @@ object can be used to find some key information in the data.</p>
 </tr>
 </tbody>
 </table>
-
 <p>Negative values can be noticed in the variance and entropy, whereas it is
 theoretically impossible, so it can be deduced that some preprocessing
 operations were already performed.</p>
-
 <p>We are trying to detect forged banknotes thanks to the extracted features.
 The dataset contains 1372 observations, including 610 forged banknotes, so
 roughly 45%. The two classes are balanced in the data, which might be relevant
 for some algorithms. Indeed, a higher proportion of a category in the
 characteristic of interest (here whether the banknote is genuine or not) yields
 a higher <strong>prior probability</strong> for that outcome in Bayesian reasoning.</p>
-
 <h2 id="kernel-density-estimation-for-each-variable-by-class">Kernel Density Estimation for each variable by class</h2>
-
 <p>KDE are powerful tools to understand how 1-dimensional data are distributed.
 The estimate can also be split by class to find differences in the
 distributions. Using ggplot and the pandas <code>groupby</code> method, the
 plots can be generated and saved as such:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> v <span style="color:#f92672">in</span> data0<span style="color:#f92672">.</span>columns[:<span style="color:#ae81ff">4</span>]:
 ggplot<span style="color:#f92672">.</span>ggsave(
   ggplot<span style="color:#f92672">.</span>ggplot(ggplot<span style="color:#f92672">.</span>aes(x<span style="color:#f92672">=</span>v, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;class&#39;</span>),data<span style="color:#f92672">=</span>data0)<span style="color:#f92672">+</span>
@@ -810,88 +773,66 @@ ggplot<span style="color:#f92672">.</span>ggsave(
   ggplot<span style="color:#f92672">.</span>geom_point(ggplot<span style="color:#f92672">.</span>aes(y<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>),alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.2</span>)<span style="color:#f92672">+</span>
   ggplot<span style="color:#f92672">.</span>labs(title<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;KDE &#39;</span><span style="color:#f92672">+</span>v,x<span style="color:#f92672">=</span>v,y<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;KDE&#34;</span>),
   <span style="color:#e6db74">&#39;KDE_&#39;</span><span style="color:#f92672">+</span>v<span style="color:#f92672">+</span><span style="color:#e6db74">&#39;.png&#39;</span>,width<span style="color:#f92672">=</span><span style="color:#ae81ff">18</span>,height<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)</code></pre></div>
-
-<p><img src="/img/posts/BankNotes/figures/KDE_entropy.png" alt="" />
-<img src="/img/posts/BankNotes/figures/KDE_Vari.png" alt="" />
-<img src="/img/posts/BankNotes/figures/KDE_skew.png" alt="" />
-<img src="/img/posts/BankNotes/figures/KDE_kurtosis.png" alt="" /></p>
-
+<p><img src="/img/posts/BankNotes/figures/KDE_entropy.png" alt="">
+<img src="/img/posts/BankNotes/figures/KDE_Vari.png" alt="">
+<img src="/img/posts/BankNotes/figures/KDE_skew.png" alt="">
+<img src="/img/posts/BankNotes/figures/KDE_kurtosis.png" alt=""></p>
 <p>Using this first simple visualization technique, we can deduce that the
 variance may be much more efficient to separate the two banknotes
 categories than the Kurtosis.</p>
-
 <h2 id="visualizing-variable-combinations-with-scatter-plots">Visualizing variable combinations with scatter plots</h2>
-
 <p>We generate a color list using for-comprehension:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">col <span style="color:#f92672">=</span> list(<span style="color:#e6db74">&#39;r&#39;</span> <span style="color:#66d9ef">if</span> i<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> data0[<span style="color:#e6db74">&#34;class&#34;</span>])
 pd<span style="color:#f92672">.</span>tools<span style="color:#f92672">.</span>plotting<span style="color:#f92672">.</span>scatter_matrix(data0<span style="color:#f92672">.</span>ix[:,:<span style="color:#ae81ff">4</span>],figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">3</span>),
 color<span style="color:#f92672">=</span>col,diagonal<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;kde&#39;</span>)</code></pre></div>
-
-<p><img src="/img/posts/BankNotes/figures/scatter_matrix.png" alt="Scatter matrix: red dots represent the class &quot;1&quot;" /></p>
-
+<p><img src="/img/posts/BankNotes/figures/scatter_matrix.png" alt="Scatter matrix: red dots represent the class &ldquo;1&rdquo;"></p>
 <p>A scatter plot is the most straight-forward way to understand intuitive and
 obvious patterns in the data. It is especially efficient when the number of
 variables and classes is limited, such as our data set. It allows us to
 understand class-dependent, non-linear relationships between variables.</p>
-
 <p>This is much more efficient than a simple statistic, such as the correlation
 coefficient which would not have found the skewness and entropy to be related.
 From these rather strong relationships between variables, we now know that
 some techniques based on independent features might not be efficient here.</p>
-
 <h2 id="testing-a-distribution-with-quantile-quantile-plots">Testing a distribution with Quantile-Quantile plots</h2>
-
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Subsetting the data by class</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Subsetting the data by class</span>
 d0 <span style="color:#f92672">=</span> data0[data0[<span style="color:#e6db74">&#34;class&#34;</span>]<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>]
 d1 <span style="color:#f92672">=</span> data0[data0[<span style="color:#e6db74">&#34;class&#34;</span>]<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>]
 
-<span style="color:#75715e"># For each variable</span>
+<span style="color:#75715e"># For each variable</span>
 <span style="color:#66d9ef">for</span> v <span style="color:#f92672">in</span> data0<span style="color:#f92672">.</span>columns[:<span style="color:#ae81ff">4</span>]:
-<span style="color:#75715e">#set the figure size</span>
+<span style="color:#75715e">#set the figure size</span>
 plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">9</span>,<span style="color:#ae81ff">4</span>))
-<span style="color:#75715e"># define two subplots</span>
+<span style="color:#75715e"># define two subplots</span>
 ax1 <span style="color:#f92672">=</span>  plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">121</span>)
-<span style="color:#75715e"># compute the quantile-quantile plot with normal distribution</span>
+<span style="color:#75715e"># compute the quantile-quantile plot with normal distribution</span>
 stats<span style="color:#f92672">.</span>probplot(d0[v],dist<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;norm&#39;</span>,plot<span style="color:#f92672">=</span>plt)
-<span style="color:#75715e"># add title</span>
+<span style="color:#75715e"># add title</span>
 plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;Normal QQ-plot &#34;</span><span style="color:#f92672">+</span>v <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; - Class 0&#34;</span>)
 ax2 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">122</span>)
 stats<span style="color:#f92672">.</span>probplot(d1[v],dist<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;norm&#39;</span>,plot<span style="color:#f92672">=</span>plt)
 plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;Normal QQ-plot &#34;</span><span style="color:#f92672">+</span>v <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; - Class 1&#34;</span>)
 plt<span style="color:#f92672">.</span>savefig(<span style="color:#e6db74">&#34;qqplot_&#34;</span><span style="color:#f92672">+</span>v<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;.png&#34;</span>,width<span style="color:#f92672">=</span><span style="color:#ae81ff">700</span>,height<span style="color:#f92672">=</span><span style="color:#ae81ff">250</span>)
 plt<span style="color:#f92672">.</span>show()</code></pre></div>
-
-<p><img src="/img/posts/BankNotes/figures/qqplot_entropy.png" alt="QQplot entropy" />
-<img src="/img/posts/BankNotes/figures/qqplot_skew.png" alt="QQplot skewness" />
-<img src="/img/posts/BankNotes/figures/qqplot_vari.png" alt="QQplot variance" />
-<img src="/img/posts/BankNotes/figures/qqplot_kurtosis.png" alt="QQplot kurtosis" /></p>
-
+<p><img src="/img/posts/BankNotes/figures/qqplot_entropy.png" alt="QQplot entropy">
+<img src="/img/posts/BankNotes/figures/qqplot_skew.png" alt="QQplot skewness">
+<img src="/img/posts/BankNotes/figures/qqplot_vari.png" alt="QQplot variance">
+<img src="/img/posts/BankNotes/figures/qqplot_kurtosis.png" alt="QQplot kurtosis"></p>
 <p>Even though some variables are quite far from normally distributed, the
 hypothesis would be acceptable for some model-based learning algorithms using
 properties of Gaussian variables.</p>
-
 <h2 id="non-parametric-distribution-with-boxplots">Non-parametric distribution with boxplots</h2>
-
 <p>Boxplots represent the data using 25th, 50th and 75th percentiles which can be
 more robust than mean and variance. The pandas library offers a quick method
 and plotting tool to represent boxplots for each class and variable. It
 highlights the differences in the spread of the data.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data0<span style="color:#f92672">.</span>groupby(<span style="color:#e6db74">&#34;class&#34;</span>)<span style="color:#f92672">.</span>boxplot(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">9</span>,<span style="color:#ae81ff">5</span>))</code></pre></div>
-
-<p><img src="/static/img/posts/BankNotes/figures/Boxplot.png" alt="Boxplot representation" /></p>
-
+<p><img src="/static/img/posts/BankNotes/figures/Boxplot.png" alt="Boxplot representation"></p>
 <p>This will be useful in the next part, when the data will be transformed to
 enhance the performance and robustness of predictive models.</p>
-
 <p>So see you in the next part for feature engineering!</p>
-
-<hr />
-
-<p><font size="0.7">
-[1] Image source: ik1pmr.com
-</font></p>
+<hr>
+<!-- raw HTML omitted -->
 
     </div>
 
@@ -1225,7 +1166,7 @@ enhance the performance and robustness of predictive models.</p>
   
 
   <p class="powered-by">
-    &copy; 2019 Mathieu Besançon &middot; 
+    © 2019 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

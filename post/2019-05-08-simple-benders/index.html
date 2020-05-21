@@ -81,7 +81,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+  <link rel="stylesheet" href="/css/academic.min.5a7f437ee6610ca105be34ebf9701c04.css">
 
   
 
@@ -446,7 +446,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    8 min read
+    7 min read
   </span>
   
 
@@ -570,41 +570,20 @@
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<p>Last Friday was a great seminar of the Combinatorial Optimization group in
+      <p>Last Friday was a great seminar of the Combinatorial Optimization group in
 Paris, celebrating the 85th birthday of Jack Edmonds, one of the founding
 researchers of combinatorial optimization, with the notable Blossom matching algorithm.
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">.<a href="https://twitter.com/SoniaVanier?ref_src=twsrc%5Etfw">@SoniaVanier</a> opened the workshop and organized a great party at Sorbonne for Jack Edmonds. I had a great honor to be one of the speakers at this event <a href="https://twitter.com/hashtag/orms?src=hash&amp;ref_src=twsrc%5Etfw">#orms</a> <a href="https://t.co/oHwKvg43Zm">pic.twitter.com/oHwKvg43Zm</a></p>&mdash; Ivana Ljubic (@ILjubic) <a href="https://twitter.com/ILjubic/status/1124375711194722304?ref_src=twsrc%5Etfw">May 3, 2019</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </p>
-
 <p>Laurence Wolsey and Ivana Ljubic were both giving talks on applications and
 developments in Benders decompositions. It also made me want to refresh my
 knowledge of the subject and play a bit with a simple implementation.</p>
-
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Laurence Wolsey talks about Benders decomposition at the Jack Edmonds birthday workshop at Sorbonne <a href="https://twitter.com/hashtag/orms?src=hash&amp;ref_src=twsrc%5Etfw">#orms</a> <a href="https://t.co/K8hjdqKmwQ">pic.twitter.com/K8hjdqKmwQ</a></p>&mdash; Ivana Ljubic (@ILjubic) <a href="https://twitter.com/ILjubic/status/1124327078625722368?ref_src=twsrc%5Etfw">May 3, 2019</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-
-<p><h2>Table of Contents</h2>
-<nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#high-level-idea">High-level idea</a></li>
-<li><a href="#digging-into-the-structure">Digging into the structure</a></li>
-<li><a href="#a-jump-implementation">A JuMP implementation</a>
-<ul>
-<li><a href="#defining-and-solving-dual-sub-problems">Defining and solving dual sub-problems</a></li>
-<li><a href="#iterating-on-the-master-problem">Iterating on the master problem</a></li>
-</ul></li>
-</ul></li>
-</ul>
-</nav></p>
-
+<!-- raw HTML omitted -->
 <h2 id="high-level-idea">High-level idea</h2>
-
 <p>Problem decompositions are used on large-scale optimization problems with a
 particular structure. The decomposition turns a compact, hard-to-solve
 formulation into an easier one but of great size. In the case of Benders,
@@ -614,68 +593,54 @@ costly. Furthermore, in general, only a small fraction of these constraints will
 active in a final solution, the associated algorithm is to generate them incrementally,
 re-solve the problem with the new constraint until no relevant constraint can
 be found anymore.</p>
-
 <p>We can establish a more general pattern of on-the-fly addition of
 information to an optimization problem, which entails two components:</p>
-
 <ol>
 <li>An incrementally-built problem, called <strong>Restricted Master Problem</strong> (RMP) in decomposition.</li>
 <li>An <strong>oracle</strong> or <strong>sub-problem</strong>, taking the problem state and building the new required structure (here a new constraint).</li>
 </ol>
-
 <p>Sounds familiar? Benders can be seen as the &ldquo;dual twin&rdquo; of the Dantzig-Wolfe
-decomposition I had played with in a <a href="https://matbesancon.github.io/post/2018-05-25-colgen2/" target="_blank">previous post</a>.</p>
-
+decomposition I had played with in a <a href="https://matbesancon.github.io/post/2018-05-25-colgen2/">previous post</a>.</p>
 <h2 id="digging-into-the-structure">Digging into the structure</h2>
-
 <p>Now that we have a general idea of the problem at hand, let&rsquo;s see the specifics.
 Consider a problem such as:
 $$ \min_{x,y} f(y) + c^T x $$
 s.t. $$ G(y) \in \mathcal{S}$$
-     $$ A x + D y \geq b $$
-     $$ x \in \mathbb{R}^{n_1}_{+}, y \in \mathcal{Y} $$</p>
-
+$$ A x + D y \geq b $$
+$$ x \in \mathbb{R}^{n_1}_{+}, y \in \mathcal{Y} $$</p>
 <p>We will not consider the constraints specific to $y$ (the first row) nor the
 $y$-component of the objective. The key assumption of Benders is that if the $y$
 are fixed, the problem on the $x$ variables is fast to solve.
 Lots of heuristics use this idea of &ldquo;fix-and-optimize&rdquo; to avoid incorporating
 the &ldquo;hard&rdquo; variables in the problem, Benders leverages several properties to
 bring the idea to exact methods (exact in the sense of proven optimality).</p>
-
 <p>Taking the problem above, we can simplify the structure by abstracting away
 (i.e. projecting out) the $x$ part:
 $$ \min_{y} f(y) + \phi(y) $$
 s.t. $$ G(y) \in \mathcal{S}$$
-     $$ y \in \mathcal{Y} $$</p>
-
+$$ y \in \mathcal{Y} $$</p>
 <p>Where:
 $$ \phi(y) = \min_{x} \{c^T x, Ax \geq b - Dy, x \geq 0 \} $$</p>
-
-<p>$\phi(y)$ is a non-smooth function, with $\, dom\ \phi \,$ the feasible domain
+<p>$\phi(y)$ is a non-smooth function, with $, dom\ \phi ,$ the feasible domain
 of the problem. If you are familiar with bilevel optimization, this could
 remind you of the <em>optimal value function</em> used to describe lower-level problems.
 We will call $SP$ the sub-problem defined in the function $\phi$.</p>
-
 <p>The essence of Benders is to start from an outer-approximation (overly optimistic)
 by replacing $\phi$ with a variable $\eta$ which might be higher than the min value,
 and then add cuts which progressively constrain the problem.
 The initial outer-approximation is:</p>
-
 <p>$$ \min_{y,\eta} f(y) + \eta $$
 s.t. $$ G(y) \in \mathcal{S}$$
-     $$ y \in \mathcal{Y} $$</p>
-
+$$ y \in \mathcal{Y} $$</p>
 <p>Of course since $\eta$ is unconstrained, the problem will start unbounded.
 What are valid cuts for this? Let us define the dual of the sub-problem $SP$,
 which we will name $DSP$:
 $$ \max_{\alpha} (b - Dy)^T \alpha  $$
 s.t. $$ A^T \alpha \leq c $$
-     $$ \alpha \geq 0 $$</p>
-
+$$ \alpha \geq 0 $$</p>
 <p>Given that $\eta \geq min SP$, by duality, $\eta \geq max DSP$.
 Furthermore, by strong duality of linear problems, if $\eta = \min \max_{y} DSP$,
 it is exactly equal to the minimum of $\phi(y)$ and yields the optimal solution.</p>
-
 <p>One thing to note about the feasible domain of $DSP$, it does not depend on
 the value of $y$. This means $z$ feasible for all values of the dual is
 equivalent to being feasible for all extreme points and rays of the dual
@@ -683,38 +648,29 @@ polyhedron. Each of these can yield a new cut to add to the relaxed problem.
 For the sake of conciseness, I will not go into details on the case when
 the sub-problem is not feasible for a $y$ solution. Briefly, this is equivalent
 to the dual being unbounded, it thus defines an extreme ray which must be cut
-out. For more details, you can check <a href="http://www.iems.ucf.edu/qzheng/grpmbr/seminar/Yuping_Intro_to_BendersDecomp.pdf" target="_blank">these lecture notes</a>.</p>
-
+out. For more details, you can check <a href="http://www.iems.ucf.edu/qzheng/grpmbr/seminar/Yuping_Intro_to_BendersDecomp.pdf">these lecture notes</a>.</p>
 <h2 id="a-jump-implementation">A JuMP implementation</h2>
-
-<p>We will define a simple implementation using <a href="http://www.juliaopt.org/JuMP.jl/stable/" target="_blank">JuMP</a>,
+<p>We will define a simple implementation using <a href="http://www.juliaopt.org/JuMP.jl/stable/">JuMP</a>,
 a generic optimization modeling library on top of Julia, usable with various
 solvers. Since the master and sub-problem resolutions are completely independent,
 they can be solved in separated software components, even with different solvers.
-To highlight this, we will use <a href="https://github.com/SCIP-Interfaces/SCIP.jl" target="_blank">SCIP</a>
-to solve the master problem and COIN-OR&rsquo;s <a href="https://github.com/juliaopt/Clp.jl" target="_blank">Clp</a>
+To highlight this, we will use <a href="https://github.com/SCIP-Interfaces/SCIP.jl">SCIP</a>
+to solve the master problem and COIN-OR&rsquo;s <a href="https://github.com/juliaopt/Clp.jl">Clp</a>
 to solve the sub-problem.</p>
-
 <p>We can start by importing the required packages:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span> JuMP
 <span style="color:#66d9ef">import</span> SCIP
 <span style="color:#66d9ef">import</span> Clp
 <span style="color:#66d9ef">using</span> LinearAlgebra<span style="color:#f92672">:</span> dot</code></pre></div>
-
 <h3 id="defining-and-solving-dual-sub-problems">Defining and solving dual sub-problems</h3>
-
 <p>Let us store static sub-problem data in a structure:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> SubProblemData
     b<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">Float64</span>}
     D<span style="color:#f92672">::</span><span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}
     A<span style="color:#f92672">::</span><span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}
     c<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">Float64</span>}
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>And the dual sub-problem is entirely contained in another structure:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">struct</span> DualSubProblem
     data<span style="color:#f92672">::</span>SubProblemData
     α<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{VariableRef}
@@ -726,14 +682,12 @@ to solve the sub-problem.</p>
     <span style="color:#a6e22e">@constraint</span>(m, dot(d<span style="color:#f92672">.</span>A, α) <span style="color:#f92672">.&lt;=</span> d<span style="color:#f92672">.</span>c)
     <span style="color:#66d9ef">return</span> DualSubProblem(d, α, m)
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>The <code>DualSubProblem</code> is constructed from the static data and a JuMP model.
 We mentioned that the feasible space of the sub-problem is independent of the
 value of $y$, thus we can add the constraint right away. Only to optimize it
 do we require the $\hat{y}$ value, which is used to set the objective.
 We can then either return a feasibility cut or optimality cut depending on
 the solution status of the dual sub-problem:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> JuMP<span style="color:#f92672">.</span>optimize!(sp<span style="color:#f92672">::</span>DualSubProblem, yh)
     obj <span style="color:#f92672">=</span> sp<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>b <span style="color:#f92672">.-</span> sp<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>D <span style="color:#f92672">*</span> yh
     <span style="color:#a6e22e">@objective</span>(sp<span style="color:#f92672">.</span>m, Max, dot(obj, sp<span style="color:#f92672">.</span>α))
@@ -748,20 +702,18 @@ the solution status of the dual sub-problem:</p>
         error(<span style="color:#e6db74">&#34;DualSubProblem error: status </span><span style="color:#e6db74">$status</span><span style="color:#e6db74">&#34;</span>)
     <span style="color:#66d9ef">end</span>
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <h3 id="iterating-on-the-master-problem">Iterating on the master problem</h3>
-
 <p>The main part of the resolution holds here in three steps.</p>
-
 <ol>
 <li>Initialize a master problem with variables $(y,\eta)$</li>
 <li>Optimize and pass the $\hat{y}$ value to the sub-problem.</li>
 <li>Get back a dual value $\alpha$ from the dual sub-problem</li>
 <li>Is the constraint generated by the $\alpha$ value already respected?</li>
+</ol>
+<ul>
 <li>If yes, the solution is optimal.</li>
 <li>If no, add the corresponding cut to the master problem, return to 2.</li>
-</ol>
-
+</ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> benders_optimize!(m<span style="color:#f92672">::</span>Model, y<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{VariableRef}, sd<span style="color:#f92672">::</span>SubProblemData, sp_optimizer, f<span style="color:#f92672">::</span><span style="color:#66d9ef">Union</span>{<span style="color:#66d9ef">Function</span>,<span style="color:#66d9ef">Type</span>}; eta_bound<span style="color:#f92672">::</span><span style="color:#66d9ef">Real</span> <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1000.0</span>)
     subproblem <span style="color:#f92672">=</span> Model(with_optimizer(sp_optimizer))
     dsp <span style="color:#f92672">=</span> DualSubProblem(sd, subproblem)
@@ -796,19 +748,15 @@ the solution status of the dual sub-problem:</p>
     <span style="color:#66d9ef">end</span>
     <span style="color:#66d9ef">return</span> (m, y, cuts, nopt_cons, nfeas_cons)
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>Note that we pass the function an already-built model with variable $y$ defined.
 This allows for a prior flexible definition of constraints of the type:
 $$y \in \mathcal{Y}$$
 $$G(y) \in \mathcal{S}$$</p>
-
 <p>Also, we return the $\alpha$ values found by the sub-problems and the number of
 cuts of each type. Finally, one &ldquo;hack&rdquo; I&rsquo;m using is to give an arbitrary lower
 bound on the $\eta$ value, making it (almost) sure to have a bounded initial
 problem and thus a defined initial solution $y$.</p>
-
 <p>We will re-use the small example from the lecture notes above:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> test_data()
     c <span style="color:#f92672">=</span> [<span style="color:#ae81ff">2.</span>, <span style="color:#ae81ff">3.</span>]
     A <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span>;<span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
@@ -825,17 +773,14 @@ m <span style="color:#f92672">=</span> Model(with_optimizer(SCIP<span style="col
 <span style="color:#a6e22e">@variable</span>(m, y[j<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)
 <span style="color:#75715e"># solve and voilà</span>
 (m, y, cuts, nopt_cons, nfeas_cons) <span style="color:#f92672">=</span> SimpleBenders<span style="color:#f92672">.</span>benders_optimize!(m, y, data, () <span style="color:#f92672">-&gt;</span> Clp<span style="color:#f92672">.</span>Optimizer(LogLevel <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>), f)</code></pre></div>
-
 <p>The full code is available on
-<a href="https://github.com/matbesancon/SimpleBenders.jl" target="_blank">Github</a>, run it, modify it
+<a href="https://github.com/matbesancon/SimpleBenders.jl">Github</a>, run it, modify it
 and don&rsquo;t hesitate to submit pull requests and issues, I&rsquo;m sure there are :)</p>
-
 <p>Benders is a central pillar for various problems in optimization, research is
 still very active to bring it to non-linear convex or non-convex sub-problems
 where duality cannot be used. If you liked this post or have questions,
-don&rsquo;t hesitate to react or ping me on <a href="https://twitter.com/matbesancon" target="_blank">Twitter</a>.</p>
-
-<hr />
+don&rsquo;t hesitate to react or ping me on <a href="https://twitter.com/matbesancon">Twitter</a>.</p>
+<hr>
 
     </div>
 
@@ -1189,7 +1134,7 @@ don&rsquo;t hesitate to react or ping me on <a href="https://twitter.com/matbesa
   
 
   <p class="powered-by">
-    &copy; 2019 Mathieu Besançon &middot; 
+    © 2019 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

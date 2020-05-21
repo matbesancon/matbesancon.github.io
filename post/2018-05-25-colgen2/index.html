@@ -81,7 +81,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+  <link rel="stylesheet" href="/css/academic.min.5a7f437ee6610ca105be34ebf9701c04.css">
 
   
 
@@ -578,26 +578,18 @@
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<hr />
-
-<p><a href="https://doi.org/10.5281/zenodo.3329389" target="_blank"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3329389.svg" alt="DOI" /></a></p>
-
-<p>In the <a href="/post/2018-05-23-colgen/" target="_blank">previous post</a>,
+      <hr>
+<p><a href="https://doi.org/10.5281/zenodo.3329389"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3329389.svg" alt="DOI"></a></p>
+<p>In the <a href="/post/2018-05-23-colgen/">previous post</a>,
 we explored a well-known integer optimization situation
 in manufacturing, the cutting stock problem. After some details on the
 decisions, constraints and objectives, we implemented a naive model in JuMP.</p>
-
 <p>One key thing to notice is the explosion of number of variables and constraints
 and the fact that relaxed solutions (without constraining variables to be
 integers) are very far from actual feasible solutions.</p>
-
 <p>We will now use an other way of formulating the problem, using a problem
 decomposition and an associated solution method (column generation).</p>
-
 <h2 id="re-stating-the-cutting-stock-problem">Re-stating the cutting stock problem</h2>
-
 <p>Remember we used two decisions: $Y_i$ stating if the big roll $i$ is
 used and $X_{ij}$ expressing the number of cuts $j$ made in the roll $i$.
 To minimize the number of rolls, it makes sense to put as many small cuts
@@ -605,79 +597,57 @@ as possible on a big roll. We could therefore identify <em>saturating patterns</
 that is, a combination of small cuts fitting on a big roll, such that no
 additional cut can be placed, and then find the smallest combination of the
 pattern satisfying the demand.</p>
-
 <p>One problem remains: it is impossible to compute, or even to store in memory all
 patterns, their number is exponentially big with the number of cuts, so we will
 try to find the best patterns and re-solve the problem, using the fact that not
 all possible patterns will be necessary.</p>
-
 <p>This is exactly what the Dantzig-Wolfe decomposition does, it splits the problem
 into a <strong>Master Problem MP</strong> and a <strong>sub-problem SP</strong>.</p>
-
 <ul>
 <li>The Master Problem, provided a set of patterns, will find the best combination
 satisfying the demand.</li>
 <li>The sub-problem, given an &ldquo;importance&rdquo; of each cut provided by the master
 problem, will find the best cuts to put on a new pattern.</li>
 </ul>
-
 <p>This is an iterative process, we can start with some naive patterns we can think
 of, compute an initial solution for the master problem, which will be feasible
 but not optimal, move on to the sub-problem to try to find a new pattern
 (or column in the optimization jargon, hence the term of column generation).</p>
-
 <p>How do we define the &ldquo;importance&rdquo; of a cut $j$? The value of the <em>dual variable</em>
 associated with this constraint will tell us that. This is not a lecture in
 duality theory, math-eager readers can check out further documentation on the
 cutting stock problem and duality in linear optimization.</p>
-
 <p>Moreover, we are going to add one element to our model: excess cuts can be sold
 at a price $P_j$, so that we can optimize by minimizing the net cost (production
 cost of the big rolls minus the revenue from excess cuts).</p>
-
 <h2 id="new-formulation">New formulation</h2>
-
 <p>Again, we are going to formulate first possible decisions and
 then constraints on these decisions for the new version of the problem.</p>
-
 <h3 id="decisions">Decisions</h3>
-
 <p>At the master problem level, given a pattern $p$, the decision will be
 $\theta_p$ (theta, yes Greek letters are awesome), the number of big rolls which
 will be used with this pattern. $\theta_p$ is a positive integer.</p>
-
 <p>The decision at the sub-problem level will be to find how many of each cut $j$
 to fit onto one big roll, $a_j$.</p>
-
 <p>For a pattern $p$, the number of times a cut $j$ appears is given by $a_{jp}$.</p>
-
 <h3 id="constraints">Constraints</h3>
-
 <p>The big roll size constraint is kept in the sub-problem, a pattern built
 has to respect this constraint:
 $$ \sum_j a_{j} \cdot W_j \leq L $$</p>
-
 <p>The demand $D_j$ is met with all rolls of each pattern so it is kept at the master
 level. The number of cuts of type $j$ produced is the sum of the number of this
 cut on each patterns times the number of the pattern in a solution:</p>
-
 <p>$$ NumCuts_j = \sum_p a_{jp} \cdot \theta_p \geq D_j$$</p>
-
 <h3 id="objective-formulation">Objective formulation</h3>
-
 <p>At the master problem, we minimize the number of rolls, which is simply:
 $$ \sum_{p} \theta_p $$</p>
-
 <p>At the sub-problem, we are trying to maximize the gain associated with the need
 for the demand + the residual price of the cuts. If we can find a worth using
 producing compared to its production cost, it is added.</p>
-
 <h2 id="implementation">Implementation</h2>
-
 <p>As before, we will formulate the master and sub-problem using Julia with JuMP.
 Again, we use the Clp and Cbc open-source solvers.
 We read the problem data (prices, sizes, demand) from a JSON file.</p>
-
 <pre><code>using JuMP
 using Cbc: CbcSolver
 using Clp: ClpSolver
@@ -694,15 +664,10 @@ const prices = Float64.(res[&quot;prices&quot;])
 const widths = Float64.(res[&quot;widths&quot;])
 const demand = Float64.(res[&quot;demand&quot;])
 const nwidths = length(prices)
-</code></pre>
-
-<p><code>cost</code> is the production cost of a big roll.</p>
-
+</code></pre><p><code>cost</code> is the production cost of a big roll.</p>
 <h3 id="sub-problem">Sub-problem</h3>
-
 <p>The subproblem is a function taking reduced costs of each cut and maximizing
 the utility of the pattern it creates:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#e6db74">&#34;&#34;&#34;
 </span><span style="color:#e6db74">    subproblem tries to find the best feasible pattern
 </span><span style="color:#e6db74">    maximizing reduced cost and respecting max roll width
@@ -717,15 +682,12 @@ the utility of the pattern it creates:</p>
     solve(submodel)
     <span style="color:#66d9ef">return</span> round<span style="color:#f92672">.</span>(<span style="color:#66d9ef">Int</span>,getvalue(xs)), round(<span style="color:#66d9ef">Int</span>,getobjectivevalue(submodel))
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <h3 id="initial-master-problem">Initial master problem</h3>
-
 <p>We saw that the master problem finds a solution and then requires a new pattern
 from the sub-problem. This is therefore preferable to start from an initial
 feasible, otherwise we fall into a special case we&rsquo;re not discussing here.
 One initial solution would be to build one pattern per cut, with as many cuts as
 we can, which is $floor(L/w_j)$.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> init_master(maxwidth, widths, rollcost, demand, prices)
     n <span style="color:#f92672">=</span> length(widths)
     ncols <span style="color:#f92672">=</span> length(widths)
@@ -744,10 +706,8 @@ we can, which is $floor(L/w_j)$.</p>
     <span style="color:#66d9ef">end</span>
     <span style="color:#66d9ef">return</span> (m, getvalue(θ), demand_satisfaction, patterns)
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>We can compute the reduced costs from the dual values associated with the
 demand and the prices of cuts</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#75715e"># getting the model and values</span>
 (m, θ, demand_satisfaction, patterns) <span style="color:#f92672">=</span> init_master(maxwidth, widths, cost, demand, prices);
 
@@ -756,12 +716,9 @@ reduced_costs <span style="color:#f92672">=</span> getdual(demand_satisfaction)<
 
 <span style="color:#75715e"># ask sub-problem for new pattern</span>
 newcol, newobj <span style="color:#f92672">=</span> subproblem(reduced_costs, widths, maxwidth)</code></pre></div>
-
 <h3 id="putting-it-all-together">Putting it all together</h3>
-
 <p>We can now build a column generation function putting all elements together and
 performing the main iteration:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> column_generation(maxwidth, widths, rollcost, demand, prices; maxcols <span style="color:#f92672">=</span> <span style="color:#ae81ff">5000</span>)
     (m, θ, demand_satisfaction, patterns) <span style="color:#f92672">=</span> init_master(maxwidth, widths, rollcost, demand, prices)
     ncols <span style="color:#f92672">=</span> nwidths
@@ -788,10 +745,8 @@ performing the main iteration:</p>
     <span style="color:#66d9ef">end</span>
     <span style="color:#66d9ef">return</span> (<span style="color:#f92672">:</span>NotFound, patterns, <span style="color:#f92672">:</span>NoVariable)
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>We&rsquo;ve printed information along the computation to see what&rsquo;s going on more
 clearly, now launching it:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">status, patterns, θ <span style="color:#f92672">=</span> column_generation(maxwidth, widths, cost, demand, prices, maxcols <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>);
 New reduced cost<span style="color:#f92672">:</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">443.18181818181824</span>
 New reduced cost<span style="color:#f92672">:</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">375.0</span>
@@ -821,7 +776,6 @@ New reduced cost<span style="color:#f92672">:</span> <span style="color:#f92672"
 New reduced cost<span style="color:#f92672">:</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">8.837209302325732</span>
 New reduced cost<span style="color:#f92672">:</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">6.060606060606119</span>
 New reduced cost<span style="color:#f92672">:</span> <span style="color:#ae81ff">0.0</span></code></pre></div>
-
 <p>While the cost of a new pattern is negative, we can add it to the master and
 keep running. This seems to make sense. Now, one thing to note, we have not
 yet specified the <strong>integrality</strong> constraints, meaning that we don&rsquo;t have integer
@@ -832,13 +786,11 @@ number of patterns. We can see that on the $\theta$ variable:
 <span style="color:#ae81ff">46.88</span>, <span style="color:#ae81ff">19.0</span>, <span style="color:#ae81ff">1.88</span>, <span style="color:#ae81ff">16.42</span>]
 println(sum(θ))
 <span style="color:#ae81ff">446.1000000000001</span></code></pre></div></p>
-
 <p>We saw in the last post that the problem without integrality constraints is
 a relaxation and therefore, can only yield a better result. This means that we
 cannot have an integer solution using 446 big rolls or less, the minimum will
 be 447 rolls. Let&rsquo;s solve the problem with the same patterns, but adding the
 integrality:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#75715e"># compute initial integer solution:</span>
 <span style="color:#75715e"># take worse case from linear solution, round up</span>
 intial_integer <span style="color:#f92672">=</span> ceil<span style="color:#f92672">.</span>(<span style="color:#66d9ef">Int</span>,θ);
@@ -857,24 +809,18 @@ intial_integer <span style="color:#f92672">=</span> ceil<span style="color:#f926
     status <span style="color:#f92672">=</span> solve(m)
     <span style="color:#66d9ef">return</span> (status, round<span style="color:#f92672">.</span>(<span style="color:#66d9ef">Int</span>,(getvalue(θ))))
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>Let&rsquo;s see what the results look like:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">status, θ_final <span style="color:#f92672">=</span> branched_model(patterns, demand, cost, prices; initial_point <span style="color:#f92672">=</span> intial_integer)
 println(status)
 <span style="color:#f92672">:</span>Optimal
 println(sum(θ_final))
 <span style="color:#ae81ff">447</span></code></pre></div>
-
 <p>Given that we cannot do better than 447, we know we have the optimal
 number of rolls.</p>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>After seeing what a mess integer problems can be in the first part, we used a
 powerful technique called Dantzig-Wolfe decomposition, splitting the problem into
 master and sub-problem, each handling a subset of the constraints.</p>
-
 <p>Column generation is a technique making this decomposition usable in practice,
 by adding only one or few columns (patterns) at each iteration, we avoid
 an exponentially growing number of variables. The fact that JuMP is built as
@@ -884,21 +830,16 @@ are built around declarative features and get messy very quickly when
 introducing some logic (like column generation iterations). Developers
 could relate this technique to lazy value computation: we know all values are
 there, but we just compute them whenever needed.</p>
-
 <p>Hope you enjoyed reading this second post on the cutting stock problem. A
 Jupyter notebook summing up all code snippets can be found at
-<a href="https://github.com/matbesancon/column_generation_jump" target="_blank">this repository</a>,
-feel free to <a href="http://twitter.com/matbesancon" target="_blank">ping me</a> for feedback.</p>
-
+<a href="https://github.com/matbesancon/column_generation_jump">this repository</a>,
+feel free to <a href="http://twitter.com/matbesancon">ping me</a> for feedback.</p>
 <h2 id="code-and-citation">Code and citation</h2>
-
 <p>Found this post useful for your work? The corresponding repository
-is available on <a href="https://github.com/matbesancon/column_generation_jump" target="_blank">GitHub</a>,
+is available on <a href="https://github.com/matbesancon/column_generation_jump">GitHub</a>,
 consider citing it using the following DOI <em>10.5281/zenodo.3329389</em>,
-the BibTeX entry is available on <a href="https://doi.org/10.5281/zenodo.3329389" target="_blank">Zenodo</a>.</p>
-
+the BibTeX entry is available on <a href="https://doi.org/10.5281/zenodo.3329389">Zenodo</a>.</p>
 <h3 id="note-on-performance">Note on performance</h3>
-
 <p>The column generation approach we just saw scales well to huge problems, but
 this particular implementation can feel a bit slow at first. One recommended
 thing is to do in such case is &ldquo;warm-starting&rdquo; the solver: give it a good
@@ -906,13 +847,10 @@ initial solution to start from. Since we built both the master and subproblem
 as stateless functions, the model is being re-built from scratch each time.
 The advantage is that any solver can be used, since some of them don&rsquo;t support
 warm starts.</p>
-
 <p>Thanks to Aristide for his very sharp ideas and views on this article which
 contributed to its improvement!</p>
-
-<hr />
-
-<p>Image source: <a href="https://www.flickr.com/photos/30478819@N08/38272827564" target="_blank">https://www.flickr.com/photos/30478819@N08/38272827564</a></p>
+<hr>
+<p>Image source: <a href="https://www.flickr.com/photos/30478819@N08/38272827564">https://www.flickr.com/photos/30478819@N08/38272827564</a></p>
 
     </div>
 
@@ -1264,7 +1202,7 @@ contributed to its improvement!</p>
   
 
   <p class="powered-by">
-    &copy; 2019 Mathieu Besançon &middot; 
+    © 2019 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

@@ -81,7 +81,7 @@ LightGraphs.jl offers a set of abstractions, types and algorithms to get started
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+  <link rel="stylesheet" href="/css/academic.min.5a7f437ee6610ca105be34ebf9701c04.css">
 
   
 
@@ -572,15 +572,12 @@ LightGraphs.jl offers a set of abstractions, types and algorithms to get started
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<p>In various graph-related algorithms, a graph is modified through successive
+      <p>In various graph-related algorithms, a graph is modified through successive
 operations, merging, creating and deleting vertices. That&rsquo;s the case for the
-<a href="https://en.wikipedia.org/wiki/Blossom_algorithm" target="_blank">Blossom algorithm</a> finding a
+<a href="https://en.wikipedia.org/wiki/Blossom_algorithm">Blossom algorithm</a> finding a
 best matching in a graph and using contractions of nodes.
 In such cases, it can be useful to remove only the vertex being contracted,
 and maintain the number of all other vertices.</p>
-
 <p><em>LightGraphs.jl</em> offers a set of abstractions, types and algorithms to get started
 with graphs. The claim of the abstraction is simple: whatever the underlying
 structure representing your graph, if it implements the <code>AbstractGraph</code> interface,
@@ -591,11 +588,8 @@ meaning vertices are just the integers from 1 to the length of the list.
 This means that in a graph with 6 vertices, deleting vertex 4 will re-label vertex 6
 as 4. Hopefully, the interface should allow us to build a graph type on top of another graph,
 re-implementing only vertex removal.</p>
-
 <h2 id="a-simple-vertex-safe-implementation">A simple vertex-safe implementation</h2>
-
 <p>First things first, we will build it as a struct, using LightGraphs:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> LightGraphs
 <span style="color:#66d9ef">const</span> LG <span style="color:#f92672">=</span> LightGraphs
 
@@ -607,18 +601,14 @@ re-implementing only vertex removal.</p>
 
 VSafeGraph(g<span style="color:#f92672">::</span>G) where {G<span style="color:#f92672">&lt;:</span>LG<span style="color:#f92672">.</span>AbstractGraph} <span style="color:#f92672">=</span> VSafeGraph(g, <span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">Int</span>}())
 VSafeGraph(nv<span style="color:#f92672">::</span><span style="color:#66d9ef">Integer</span>) <span style="color:#f92672">=</span> VSafeGraph(LG<span style="color:#f92672">.</span>SimpleGraph(nv))</code></pre></div>
-
 <p>We added simple default constructors for convenience. The structure holds two
 elements:</p>
-
 <ul>
 <li>An inner abstract graph <code>g</code></li>
 <li>A list of vertices already deleted: <code>deleted_vertices</code>.</li>
 </ul>
-
 <p>The interface can now be implemented for our type, starting with the trivial
 parts:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">LG<span style="color:#f92672">.</span>edges(g<span style="color:#f92672">::</span>VSafeGraph) <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>edges(g<span style="color:#f92672">.</span>g)
 LG<span style="color:#f92672">.</span>edgetype(g<span style="color:#f92672">::</span>VSafeGraph) <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>edgetype(g<span style="color:#f92672">.</span>g)
 
@@ -640,12 +630,10 @@ LG<span style="color:#f92672">.</span>add_vertex!(g<span style="color:#f92672">:
 LG<span style="color:#f92672">.</span>rem_edge!(g<span style="color:#f92672">::</span>VSafeGraph, v1, v2) <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>rem_edge!(g<span style="color:#f92672">.</span>g, v1, v2)
 
 Base<span style="color:#f92672">.</span>copy(g<span style="color:#f92672">::</span>VSafeGraph) <span style="color:#f92672">=</span> VSafeGraph(copy(g<span style="color:#f92672">.</span>g), copy(g<span style="color:#f92672">.</span>deleteed_vertices))</code></pre></div>
-
 <p>For most of these, we only re-call the method on the inner graph type.
 Only for <code>LG.nv</code>, which computes the number of vertices in the inner graph,
 minus the number of vertices in our removed list. Now the tricky parts,
 adding an edge and removing a vertex, which require a bit more verifications:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> LG<span style="color:#f92672">.</span>add_edge!(g<span style="color:#f92672">::</span>VSafeGraph, v1, v2)
     <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>LG<span style="color:#f92672">.</span>has_vertex(g, v1) <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>LG<span style="color:#f92672">.</span>has_vertex(g, v2)
         <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
@@ -666,15 +654,11 @@ adding an edge and removing a vertex, which require a bit more verifications:</p
     push!(g<span style="color:#f92672">.</span>deleted_vertices, v1)
     <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>Instead of removing the vertex <code>v1</code> from the inner graph, the function removes
 all edges pointing to and from <code>v1</code>, and then adds it to the removed list.</p>
-
 <h2 id="specific-and-generic-tests">Specific and generic tests</h2>
-
 <p>So far so good, we can add some basic tests to check our type behaves as
 expected:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#a6e22e">@testset</span> <span style="color:#e6db74">&#34;Graph construction and basic interface&#34;</span> <span style="color:#66d9ef">begin</span>
     nv <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>
     g1 <span style="color:#f92672">=</span> VSafeGraph(nv)
@@ -714,11 +698,9 @@ expected:</p>
         <span style="color:#a6e22e">@test</span> LG<span style="color:#f92672">.</span>ne(inner) <span style="color:#f92672">==</span> LG<span style="color:#f92672">.</span>ne(g)
     <span style="color:#66d9ef">end</span>
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>So far so good. Now, with the promise of generic graphs and the AbstractGraph
 interface, we should be able to use <strong>any</strong> algorithm in <em>LightGraphs.jl</em>,
 let us try to compute a page rank and a Kruskal minimum spanning tree:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">nv <span style="color:#f92672">=</span> <span style="color:#ae81ff">45</span>
 inner <span style="color:#f92672">=</span> LG<span style="color:#f92672">.</span>CompleteGraph(nv)
 g <span style="color:#f92672">=</span> VSafeGraph(inner)
@@ -727,14 +709,11 @@ removed_ok <span style="color:#f92672">=</span> LG<span style="color:#f92672">.<
 <span style="color:#75715e"># LG broken here</span>
 <span style="color:#a6e22e">@test_throws</span> <span style="color:#66d9ef">BoundsError</span> LG<span style="color:#f92672">.</span>pagerank(g)
 <span style="color:#a6e22e">@test_throws</span> <span style="color:#66d9ef">BoundsError</span> LG<span style="color:#f92672">.</span>kruskal_mst(g)</code></pre></div>
-
 <p>Yikes, what&rsquo;s happening here? Many parts of <em>LightGraphs.jl</em> use vertices computed
 from <code>vertices(g)</code> as indices for structures indexed by them. So if you remove
 vertex 4 in a 6-vertex graph, vertices will be <code>{1,2,3,5,6}</code>, and the rank
 algorithm will try to access the 6th rank, even though only 5 exist.</p>
-
 <h2 id="fixes-and-proposal">Fixes and proposal</h2>
-
 <p>It would be too bad to throw the interface altogether, but we need to do
 something for the broken behaviour. The underlying assumption here is that
 vertices behave like indices for anything vertex-related.
@@ -742,18 +721,15 @@ So the way we implement this interface for <code>VSafeGraph</code> is correct, b
 implicit contract is not, the way it is used in algorithms such as pagerank
 and Kruskal leak the underlying implementation for <code>SimpleGraph</code>:
 a contiguous list of integers from 1 to the number of vertices.
-It reminds me of this <a href="https://youtu.be/MdTTt5v-HWQ?t=692" target="_blank">great talk</a>
+It reminds me of this <a href="https://youtu.be/MdTTt5v-HWQ?t=692">great talk</a>
 on paying attention to the contract of an interface in Go, the type is telling
 you what to expect in and out, but not how it is supposed or will be used.</p>
-
 <p>The first fix is to make <code>vertices</code> return <code>1:nv(g)</code> for VSafeGraph, but if you
 think about it, it means it needs to do such with any graph type, which means
 the <code>vertices</code> function is redundant with other functions of the interface and
 should not be mandatory. The other option is to fix breaking code to really
 use the interface signalled and documented and not the leaked implementation.</p>
-
 <p>We still have some good news though:</p>
-
 <ul>
 <li>Changing the code here is strictly non-breaking, since we would just remove
 the assumption that vertices are indices.</li>
@@ -764,30 +740,22 @@ trait associated with the fact that a graph is directed or not, there could also
 be a <code>HasContiguousVertices</code> trait signalling whether this assumption is validated
 for a type.</li>
 </ul>
-
 <h2 id="edit-refined-proposal">Edit: refined proposal</h2>
-
 <p>Following some discussions with fellow <em>LightGraphs.jl</em> developers and users, a
 softer transition could be:</p>
-
 <ol>
 <li>Add the functions <code>vertex_indices(g)</code> and <code>vertex_values(g)</code> to the interface, <code>vertex_values</code> could default to <code>vertex_indices</code>, which could itself default on <code>1:nv(g)</code>.</li>
 <li>Deprecate <code>vertices(g)</code>, with a fallback to <code>vertex_indices</code>.</li>
 <li>Replace all calls to <code>vertex</code> with either <code>vertex_indices</code> or <code>vertex_values</code> depending on which makes sense for the use case.</li>
 </ol>
-
 <p>This change is non-breaking and only deprecating <code>vertices</code>, making the
 interface more explicit. By keeping the two functions, we avoid having to use
 <code>enumerate(vertices_values(g))</code> every time we need indices.</p>
-
 <h2 id="edit-2-corrections-to-the-functions">Edit 2: Corrections to the functions</h2>
-
 <p>I have corrected various functions following Pankaj&rsquo;s much needed
-<a href="https://github.com/matbesancon/VertexSafeGraphs.jl/pull/2" target="_blank">Pull Request</a>
+<a href="https://github.com/matbesancon/VertexSafeGraphs.jl/pull/2">Pull Request</a>
 on the corresponding repository, thanks!</p>
-
 <h2 id="edit-3">Edit 3</h2>
-
 <p>Seth Bromberger spotted an error in my assumptions,
 Swap-and-pop is used for vertex removal, so the last
 vertex will take the place of the removed one in the re-labelling.</p>
@@ -1137,7 +1105,7 @@ vertex will take the place of the removed one in the re-labelling.</p>
   
 
   <p class="powered-by">
-    &copy; 2019 Mathieu Besançon &middot; 
+    © 2019 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

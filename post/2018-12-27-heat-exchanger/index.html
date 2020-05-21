@@ -81,7 +81,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+  <link rel="stylesheet" href="/css/academic.min.5a7f437ee6610ca105be34ebf9701c04.css">
 
   
 
@@ -578,13 +578,10 @@
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<p>Enjoying the calm of the frozen eastern French countryside for the last week of 2018,
+      <p>Enjoying the calm of the frozen eastern French countryside for the last week of 2018,
 I was struck by nostalgia while reading a SIAM news article [1] on a
 near-reversible heat exchange between two flows and decided to dust off my
 thermodynamics books (especially [2]).</p>
-
 <p>Research in mathematical optimization was not the
 obvious path I was on a couple years ago. The joint bachelor-master&rsquo;s program
 I followed in France was in process engineering, a discipline crossing
@@ -592,12 +589,10 @@ transfer phenomena (heat exchange, fluid mechanics, thermodynamics), control,
 knowledge of the matter transformations at hand
 (chemical, biochemical, nuclear reactions) and industrial engineering
 (see note at the end of this page).</p>
-
 <p><strong>Hypotheses</strong> Throughout the article, we will use a set of flow hypotheses
 which build up the core of our model for heat exchange.
 These can seem odd but are pretty common in process engineering and
 realistic in many applications.</p>
-
 <ol>
 <li>The two flows advance in successive &ldquo;layers&rdquo;.</li>
 <li>Each layer has a homogeneous temperature; we therefore ignore boundary layer effects.</li>
@@ -607,31 +602,24 @@ is that the temperature difference between fluids is significantly higher than b
 the fluid heat exchange.</li>
 <li>The fluid and wall properties are constant with temperature.</li>
 </ol>
-
 <h2 id="starting-simple-parallel-flow-heat-exchange">Starting simple: parallel flow heat exchange</h2>
-
 <p>In this model, both flows enter the exchanger on the same side, one at a
 hot temperature, the other at a cold temperature. Heat is exchanged along the
 exchanger wall, proportional at any point to the difference in temperature
 between the two fluids. We therefore study the evolution of two variables
 $u_1(x)$ and $u_2(x)$ in an interval $x \in [0,L]$ with $L$ the length of
 the exchanger.</p>
-
 <p>In any layer $[x, x + \delta x]$, the heat exchange is equal to:
 $$\delta \dot{Q} = h \cdot (u_2(x) - u_1(x)) \cdot \delta x$$
 with $h$ a coefficient depending on the wall heat exchange properties.</p>
-
 <p>Moreover, the variation in internal energy of the hot flow is equal to
 $\delta \dot{Q}$ and is also expressed as:</p>
-
 <p>$$ c_2 \cdot \dot{m}_2 \cdot (u_2(x+\delta x) - u_2(x)) $$
 $c_2$ is the calorific capacity of the hot flow and  $\dot{m}_2$ its
 mass flow rate. The you can check that the given expression is a power.
 The same expressions apply to the cold flow.
 Let us first assume the following:</p>
-
 <p>$$c_2 \cdot \dot{m}_2 = c_1 \cdot \dot{m}_1$$</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> DifferentialEquations
 <span style="color:#66d9ef">const</span> DiffEq <span style="color:#f92672">=</span> DifferentialEquations
 <span style="color:#66d9ef">using</span> Plots
@@ -654,16 +642,11 @@ Let us first assume the following:</p>
 <span style="color:#66d9ef">end</span>
 
 plot(parallel_solution([<span style="color:#ae81ff">0.0</span>,<span style="color:#ae81ff">100.0</span>], <span style="color:#ae81ff">50.0</span>, (<span style="color:#ae81ff">0.05</span>)))</code></pre></div>
-
 <p>$$ u_1(x) = T_{eq} \cdot (1 - e^{-h\cdot x}) $$
 $$ u_2(x) = (100 - T_{eq}) \cdot e^{-h\cdot x} + T_{eq} $$</p>
-
 <p>With $T_{eq}$ the limit temperature, trivially 50°C with equal flows.</p>
-
 <p>(Full disclaimer: I&rsquo;m a bit rusty and had to double-check for errors)</p>
-
-<p><img src="/img/posts/heatex/parallel.svg"></p>
-
+<!-- raw HTML omitted -->
 <p>This model is pretty simple, its performance is however low from
 a practical perspective. First on the purpose itself, we can compute for two
 fluids the equilibrium temperature. This temperature can be adjusted
@@ -673,7 +656,6 @@ mass flow $\dot{m}_2$ tends to $\infty$ as the targeted temperature tends to
 $u_2(L)$, and this is independent of the performance of the heat exchanger
 itself, represented by the coefficient $h$. Here is the extended model using
 the flow rate ratio to adjust the temperature profiles:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> DifferentialEquations
 <span style="color:#66d9ef">const</span> DiffEq <span style="color:#f92672">=</span> DifferentialEquations
 
@@ -702,45 +684,31 @@ the flow rate ratio to adjust the temperature profiles:</p>
     title!(<span style="color:#e6db74">&#34;Parallel flow with ratio </span><span style="color:#e6db74">$r</span><span style="color:#e6db74">&#34;</span>)
     savefig(<span style="color:#e6db74">&#34;parallel_ratio_</span><span style="color:#e6db74">$</span>(idx)<span style="color:#e6db74">.pdf&#34;</span>)
 <span style="color:#66d9ef">end</span></code></pre></div>
-
-<p><img src="/img/posts/heatex/parallel_ratio_1.svg">
-<img src="/img/posts/heatex/parallel_ratio_2.svg">
-<img src="/img/posts/heatex/parallel_ratio_3.svg">
-<img src="/img/posts/heatex/parallel_ratio_4.svg"></p>
-
+<!-- raw HTML omitted -->
 <p>This model has an analytical closed-form solution given by:
 $$ T_{eq} = \frac{100\cdot \dot{m}_2}{\dot{m}_1 + \dot{m}_2} = 100\cdot\frac{r}{1+r} $$
 $$ u_1(x) = T_{eq} \cdot (1 - e^{-h\cdot x}) $$
 $$ u_2(x) = (100 - T_{eq}) \cdot e^{-h\cdot x \cdot r} + T_{eq} $$</p>
-
 <h2 id="opposite-flow-model">Opposite flow model</h2>
-
 <p>This model is trickier because we don&rsquo;t consider the dynamics of the system
 along one dimension anymore. The two fluids flowing in opposite directions
 are two interdependent systems. We won&rsquo;t go through the analytical solution
 but use a similar discretization as in article [1].</p>
-
 <p>This model takes $n$ discrete cells, each considered at a given temperature.
 Two cells of the cold and hot flows are considered to have exchanged heat
 after crossing.</p>
-
-<p><img src="/img/posts/heatex/counterflow.png">
-[3]</p>
-
+<!-- raw HTML omitted -->
 <p>Applying the energy conservation principle, the gain of internal energy
 between cell $k$ and $k+1$ for the cold flow is equal to the loss of
 internal energy of the hot flow from cell $k+1$ to cell $k$. These differences
 come from heat exchanged, expressed as:</p>
-
 <p>$$\dot{Q}_k = h \cdot \Delta x \cdot (u_{2,k+1} - u_{1,k}) $$
 $$\dot{Q}_k = \dot{m}_1 \cdot c_1 \cdot (u_{1,k+1} - u_{1,k}) $$
 $$\dot{Q}_k = \dot{m}_2 \cdot c_2 \cdot (u_{2,k+1} - u_{2,k}) $$</p>
-
 <p>Watch out the sense of the last equation since the heat exchange is
 a loss for the hot flow. Again we use the simplifying assumption of
 equality of the quantities:
 $$ \dot{m}_i \cdot c_i $$</p>
-
 <p>Our model only depends on the number of discretization steps $n$
 and transfer coefficient $h$.
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> discrete_crossing(n, h; itermax <span style="color:#f92672">=</span> <span style="color:#ae81ff">50000</span>)
@@ -759,7 +727,6 @@ and transfer coefficient $h$.
     <span style="color:#66d9ef">end</span>
     (u1,u2)
 <span style="color:#66d9ef">end</span></code></pre></div></p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">const</span> (a1, a2) <span style="color:#f92672">=</span> discrete_crossing(<span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">0.1</span>)
 <span style="color:#66d9ef">const</span> x0 <span style="color:#f92672">=</span> range(<span style="color:#ae81ff">0.0</span>, length <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>, stop <span style="color:#f92672">=</span> L)
 
@@ -771,15 +738,12 @@ plot!(p, x0, a2[<span style="color:#66d9ef">end</span>,<span style="color:#f9267
     plot!(p, x0, a2[iter,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u2 </span><span style="color:#e6db74">$</span>(iter)<span style="color:#e6db74">&#34;</span>)
 <span style="color:#66d9ef">end</span>
 xlabel!(<span style="color:#e6db74">&#34;x (m)&#34;</span>)</code></pre></div>
-
 <p>We can observe the convergence of the solution at different iterations:
-<img src="/img/posts/heatex/cross.svg"></p>
-
+<!-- raw HTML omitted --></p>
 <p>After convergence, we observe a parallel temperature profiles along the
 exchanger, the difference between the two flows at any point being reduced
 to $\epsilon$ mentioned in article [1]. The two differences between our model
 and theirs are:</p>
-
 <ul>
 <li>The discretization grid is slightly different since we consider the exchange
 to happen between cell $k$ and cell $k+1$ at the node between them, while they
@@ -788,11 +752,9 @@ consider an exchange between $k-1$ and $k+1$ at cell $k$.</li>
 while we consider a heat exchange limited by the temperature difference
 (the two flows do not reach identical temperatures but tend towards it).</li>
 </ul>
-
 <p>Finally we can change the ratio:
 $$\frac{\dot{m}_1\cdot c_1}{\dot{m}_2\cdot c_2}$$ for the counterflow model
 as we did in the parallel case.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> discrete_crossing(n, h, ratio; itermax <span style="color:#f92672">=</span> <span style="color:#ae81ff">50000</span>)
     u1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}(undef, itermax, n)
     u2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}(undef, itermax, n)
@@ -809,11 +771,9 @@ as we did in the parallel case.</p>
     <span style="color:#66d9ef">end</span>
     (u1,u2)
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p><em>Julia tip</em>: note that we do not define a new function for this but
 create a <strong>method</strong> for the function <code>discrete_crossing</code> defined above
 with a new signature <code>(n, h, ratio)</code>.</p>
-
 <p>We can plot the result:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">const</span> x0 <span style="color:#f92672">=</span> range(<span style="color:#ae81ff">0.0</span>, length <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>, stop <span style="color:#f92672">=</span> L)
 p <span style="color:#f92672">=</span> plot(x0, a1[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u1 ratio 1.0&#34;</span>, legend <span style="color:#f92672">=</span> <span style="color:#f92672">:</span>bottomright)
@@ -825,14 +785,10 @@ plot!(p, x0, a2[<span style="color:#66d9ef">end</span>,<span style="color:#f9267
     plot!(p, x0, r2[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u2 ratio </span><span style="color:#e6db74">$</span>(ratio)<span style="color:#e6db74">&#34;</span>)
 <span style="color:#66d9ef">end</span>
 xlabel!(<span style="color:#e6db74">&#34;x (m)&#34;</span>)</code></pre></div></p>
-
-<p><img src="/img/posts/heatex/ratio_variation.svg"></p>
-
+<!-- raw HTML omitted -->
 <h2 id="conclusion">Conclusion</h2>
-
 <p>To keep this post short, we will not show the influence of all parameters.
 Some key effects to consider:</p>
-
 <ul>
 <li>Increasing $h$ increases the gap between the flow temperatures</li>
 <li>Increasing the number of steps does not change the result for a step size
@@ -842,36 +798,25 @@ small enough</li>
 (and thus minimizes the entropy). This very low entropy creation is a positive
 sign for engineers from a thermodynamics point of view: we are not &ldquo;degrading&rdquo;
 the &ldquo;quality&rdquo; of available energy to perform this heat exchange or in other
-terms, we are not destroying <a href="https://en.wikipedia.org/wiki/Exergy" target="_blank">exergy</a>.</li>
+terms, we are not destroying <a href="https://en.wikipedia.org/wiki/Exergy">exergy</a>.</li>
 </ul>
-
-<p>Feel free to reach out on <a href="https://twitter.com/matbesancon" target="_blank">Twitter</a>
+<p>Feel free to reach out on <a href="https://twitter.com/matbesancon">Twitter</a>
 or via email if you have comments or questions, I&rsquo;d be glad to take both.</p>
-
-<hr />
-
+<hr>
 <p><em>Note on process engineering</em>
 The term is gaining more traction in English, and should replace
 chemical engineering in higher education to acknowledge the diversity of
 application fields, greater than the chemical industry alone.
 The German equivalent <em>Verfahrenstechnik</em> has been used for decades and
 <em>Génie des Procédés</em> is now considered a norm in most French-speaking
-universities and <a href="https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_Fran%C3%A7aise_de_G%C3%A9nie_des_Proc%C3%A9d%C3%A9s" target="_blank">consortia</a>.</p>
-
-<hr />
-
+universities and <a href="https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_Fran%C3%A7aise_de_G%C3%A9nie_des_Proc%C3%A9d%C3%A9s">consortia</a>.</p>
+<hr>
 <p>Edit: thanks BYP for the sharp-as-ever proofreading</p>
-
-<hr />
-
+<hr>
 <p>Sources:</p>
-
 <p>[1] Levi M. A Near-perfect Heat Exchange. SIAM news. 2018 Dec;51(10):4.</p>
-
 <p>[2] Borel L, Favrat D. Thermodynamique et énergétique. PPUR presses polytechniques; 2nd edition, 2011.</p>
-
-<hr />
-
+<hr>
 <p>Image sources:
 [3] Geogebra</p>
 
@@ -1223,7 +1168,7 @@ universities and <a href="https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_Fran%C
   
 
   <p class="powered-by">
-    &copy; 2019 Mathieu Besançon &middot; 
+    © 2019 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

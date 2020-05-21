@@ -81,7 +81,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+  <link rel="stylesheet" href="/css/academic.min.5a7f437ee6610ca105be34ebf9701c04.css">
 
   
 
@@ -578,41 +578,31 @@
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<hr />
-
-<p>This is an adapted post on the talk we gave with <a href="https://twitter.com/fairbanksjp" target="_blank">James</a>
+      <hr>
+<p>This is an adapted post on the talk we gave with <a href="https://twitter.com/fairbanksjp">James</a>
 at JuliaCon 2018 in London. You can see the
-<a href="https://matbesancon.github.io/graph_interfaces_juliacon18" target="_blank">original slides</a>,
+<a href="https://matbesancon.github.io/graph_interfaces_juliacon18">original slides</a>,
 the video still requires a bit of post-processing.</p>
-
-<p>Last week <a href="http://juliacon.org" target="_blank">JuliaCon</a> in London was a great and very condensed experience.
-The two talks on <a href="https://github.com/JuliaGraphs/LightGraphs.jl" target="_blank">LightGraphs.jl</a>
+<p>Last week <a href="http://juliacon.org">JuliaCon</a> in London was a great and very condensed experience.
+The two talks on <a href="https://github.com/JuliaGraphs/LightGraphs.jl">LightGraphs.jl</a>
 received a lot of positive feedback and more than that, we saw
 how people are using the library for a variety of use cases which is a great
 signal for the work on the JuliaGraphs ecosystem
-(see the <a href="https://matbesancon.github.io/graph_interfaces_juliacon18/ecosystem.html#/" target="_blank">lightning talk</a>).</p>
-
+(see the <a href="https://matbesancon.github.io/graph_interfaces_juliacon18/ecosystem.html#/">lightning talk</a>).</p>
 <p>I wanted to re-build the same graph for people who prefer a post version to
 my clumsy live explanations on a laptop not handling dual-screen well
 (those who prefer the latter are invited to see the live-stream of the talk).</p>
-
 <h2 id="why-abstractions">Why abstractions?</h2>
-
 <p>The LightGraphs library is built to contain as few elements as possible to get
 anyone going with graphs. This includes:</p>
-
 <ul>
 <li>The interface a graph type has to comply with to be used</li>
 <li>Essential algorithms implemented by any graph respecting that interface</li>
 <li>A simple, battery-included implementation based on adjacency lists</li>
 </ul>
-
 <p>The thing is, if you design an abstraction which in fact has just one
 implementation, you&rsquo;re doing abstraction wrong. This talks was also a
 reality-check for LightGraphs, are we as composable, extensible as we promised?</p>
-
 <p>The reason for abstraction is also that <strong>minimalism has its price</strong>.
 The package was designed as the least amount of complexity required to get
 graphs working. When people started to use it, obviously they needed more
@@ -620,39 +610,29 @@ features, some of which they could code themselves, some other required
 extensions built within LightGraphs. By getting the core abstractions right,
 you guarantee people will be able to use it and to build on top with minimal
 friction, while keeping it simple to read and contribute to.</p>
-
 <h2 id="our-matrix-graph-type">Our matrix graph type</h2>
-
 <p>Let&rsquo;s recall that a graph is a collection of <em>nodes</em> and a collection of
 <em>edges</em> between these nodes. To keep it simple, for a graph of $n$ edges,
 we will consider they are numbered from 1 to n. An edge connects a node $i$
 to a node $j$, therefore all the information of a graph can be kept as an
 <em>adjacency matrix</em> $M_{ij}$ of size $n \times n$:</p>
-
 <p>$$M_{ij} = \begin{cases} 1, &amp; \mbox{if edge (i $\rightarrow$ j) exists} \\ 0 &amp; \mbox{otherwise}\end{cases}$$</p>
-
 <p>We don&rsquo;t know what the use cases for our type will be, and therefore,
 we will parametrize the graph type over the matrix type:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> LightGraphs; <span style="color:#66d9ef">const</span> lg <span style="color:#f92672">=</span> LightGraphs
 <span style="color:#66d9ef">mutable</span> <span style="color:#66d9ef">struct</span> MatrixDiGraph{MT <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">AbstractMatrix</span>{<span style="color:#66d9ef">Bool</span>}} <span style="color:#f92672">&lt;:</span> lg<span style="color:#f92672">.</span>AbstractGraph{<span style="color:#66d9ef">Int</span>}
   matrix<span style="color:#f92672">::</span>MT
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>The edges are simply mapping an entry (i,j) to a boolean (whether there is an
 edge from i to j). Even though creating a graph type that can be directed
 or undirected depending on the situation is possible, we are creating a type
 that will be directed by default.</p>
-
 <h2 id="implementing-the-core-interface">Implementing the core interface</h2>
-
 <p>We can now implement the core LightGraphs interface for this type, starting
 with methods defined over the type itself, of the form <code>function(g::MyType)</code></p>
-
 <p>I&rsquo;m not going to re-define each function here, their meaning can be found
 by checking the help in a Julia REPL: <code>?LightGraphs.vertices</code> or on the
-<a href="http://juliagraphs.github.io/LightGraphs.jl/stable/types.html#AbstractGraph-Type-1" target="_blank">documentation page</a>.</p>
-
+<a href="http://juliagraphs.github.io/LightGraphs.jl/stable/types.html#AbstractGraph-Type-1">documentation page</a>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">lg<span style="color:#f92672">.</span>is_directed(<span style="color:#f92672">::</span>MatrixDiGraph) <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
 lg<span style="color:#f92672">.</span>edgetype(<span style="color:#f92672">::</span>MatrixDiGraph) <span style="color:#f92672">=</span> lg<span style="color:#f92672">.</span>SimpleGraphs<span style="color:#f92672">.</span>SimpleEdge{<span style="color:#66d9ef">Int</span>}
 lg<span style="color:#f92672">.</span>ne(g<span style="color:#f92672">::</span>MatrixDiGraph) <span style="color:#f92672">=</span> sum(g<span style="color:#f92672">.</span>m)
@@ -664,33 +644,26 @@ lg<span style="color:#f92672">.</span>vertices(g<span style="color:#f92672">::</
     n <span style="color:#f92672">=</span> lg<span style="color:#f92672">.</span>nv(g)
     <span style="color:#66d9ef">return</span> (lg<span style="color:#f92672">.</span>SimpleGraphs<span style="color:#f92672">.</span>SimpleEdge(i,j) <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>n <span style="color:#66d9ef">for</span> j <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>n <span style="color:#66d9ef">if</span> g<span style="color:#f92672">.</span>m[i,j])
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>Note the last function <code>edges</code>, for which the documentation specifies that we
 need to return an <strong>iterator</strong> over edges. We don&rsquo;t need to collect the comprehension
 in a Vector, returning a lazy generator.</p>
-
 <p>Some operations have to be defined on both the graph and a node, of the form
 <code>function(g::MyType, node)</code>.
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">lg<span style="color:#f92672">.</span>outneighbors(g<span style="color:#f92672">::</span>MatrixDiGraph, node) <span style="color:#f92672">=</span> [v <span style="color:#66d9ef">for</span> v <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>lg<span style="color:#f92672">.</span>nv(g) <span style="color:#66d9ef">if</span> g<span style="color:#f92672">.</span>m[node, v]]
 lg<span style="color:#f92672">.</span>inneighbors(g<span style="color:#f92672">::</span>MatrixDiGraph, node) <span style="color:#f92672">=</span> [v <span style="color:#66d9ef">for</span> v <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>lg<span style="color:#f92672">.</span>nv(g) <span style="color:#66d9ef">if</span> g<span style="color:#f92672">.</span>m[v, node]]
 lg<span style="color:#f92672">.</span>has_vertex(g<span style="color:#f92672">::</span>MatrixDiGraph, v<span style="color:#f92672">::</span><span style="color:#66d9ef">Integer</span>) <span style="color:#f92672">=</span> v <span style="color:#f92672">&lt;=</span> lg<span style="color:#f92672">.</span>nv(g) <span style="color:#f92672">&amp;&amp;</span> v <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span></code></pre></div></p>
-
 <p>Out <code>MatrixDiGraph</code> type is pretty straight-forward to work with and all
 required methods are easy to relate to the way information is stored in the
 adjacency matrix.</p>
-
 <p>The last step is implementing methods on both the graph and an edge of the
 form <code>function(g::MatrixDiGraph,e)</code>. The only one we need here is:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">lg<span style="color:#f92672">.</span>has_edge(g<span style="color:#f92672">::</span>MatrixDiGraph,i,j) <span style="color:#f92672">=</span> g<span style="color:#f92672">.</span>m[i,j]</code></pre></div></p>
-
 <h2 id="optional-mutability">Optional mutability</h2>
-
 <p>Mutating methods were removed from the core interace some time ago,
 as they are not required to describe a graph-like behavior.
 The general behavior for operations mutating a graph is to return whether
 the operation succeded. They consist in adding or removing elements from
 either the edges or nodes.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> LightGraphs<span style="color:#f92672">:</span> rem_edge!, rem_vertex!, add_edge!, add_vertex!
 
 <span style="color:#66d9ef">function</span> add_edge!(g<span style="color:#f92672">::</span>MatrixDiGraph, e)
@@ -715,30 +688,22 @@ either the edges or nodes.</p>
     g<span style="color:#f92672">.</span>m <span style="color:#f92672">=</span> m
     <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <h2 id="testing-our-graph-type-on-real-data">Testing our graph type on real data</h2>
-
 <p>We will use the graph type to compute the PageRank of</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">import</span> SNAPDatasets
 data <span style="color:#f92672">=</span> SNAPDatasets<span style="color:#f92672">.</span>loadsnap(<span style="color:#f92672">:</span>ego_twitter_d)
 twitter_graph <span style="color:#f92672">=</span> MatrixDiGraph(lg<span style="color:#f92672">.</span>adjacency_matrix(data)[<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>]<span style="color:#f92672">.==</span><span style="color:#ae81ff">1</span>);
 ranks <span style="color:#f92672">=</span> lg<span style="color:#f92672">.</span>pagerank(twitter_graph)</code></pre></div>
-
 <p>Note the broadcast check <code>.==1</code>, <code>adjacency_matrix</code> is specified to yield a
 matrix of <code>Int</code>, so we use this to cast the entries to boolean values.</p>
-
 <p>I took only the first 10 nodes of the graph, but feel free to do the same with
 500, 1000 or more nodes, depending on what your machine can stand  🙈</p>
-
 <h2 id="overloading-non-mandatory-functions">Overloading non-mandatory functions</h2>
-
 <p>Some methods are already implemented for free by implementing the core interface.
 That does not mean it should be kept as-is in every case. Depending on your
 graph type, some functions might have smarter implementations, let&rsquo;s see one
 example. What <code>MatrixDiGraph</code> is already an <code>adjacency_matrix</code>, so we know
 there should be no computation required to return it (it&rsquo;s almost a no-op).</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span> BenchmarkTools<span style="color:#f92672">:</span> <span style="color:#a6e22e">@btime</span>
 
 <span style="color:#a6e22e">@btime</span> adjacency_matrix(bigger_twitter)
@@ -746,42 +711,33 @@ println(<span style="color:#e6db74">&#34;why did that take so long?&#34;</span>)
 lg<span style="color:#f92672">.</span>adjacency_matrix(g<span style="color:#f92672">::</span>MatrixDiGraph) <span style="color:#f92672">=</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">.</span>(g<span style="color:#f92672">.</span>m)
 <span style="color:#a6e22e">@btime</span> A <span style="color:#f92672">=</span> lg<span style="color:#f92672">.</span>adjacency_matrix(bigger_twitter)
 println(<span style="color:#e6db74">&#34;that&#39;s better.&#34;</span>)</code></pre></div>
-
 <p>This should yield roughly:</p>
-
 <pre><code>13.077 ms (5222 allocations: 682.03 KiB)
 why did that take so long?
 82.077 μs (6 allocations: 201.77 KiB)
 that's better.
-</code></pre>
-
-<p>You can fall down to a no-op by storing the matrix entries as <code>Int</code> directly,
+</code></pre><p>You can fall down to a no-op by storing the matrix entries as <code>Int</code> directly,
 but the type ends up being a bit heavier in memory, your type, your trade-off.</p>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>We&rsquo;ve implemented a graph type suited to our need in a couple lines of Julia,
 guided by the <code>LightGraphs</code> interface specifying <strong>how</strong> to think about our
 graph instead of getting in the way of <strong>what</strong> to store. A lighter version
-of this post can be read as <a href="https://matbesancon.github.io/graph_interfaces_juliacon18/" target="_blank">slides</a>.</p>
-
-<p>As usual, ping me on <a href="https://twitter.com/matbesancon" target="_blank">Twitter</a> for any
+of this post can be read as <a href="https://matbesancon.github.io/graph_interfaces_juliacon18/">slides</a>.</p>
+<p>As usual, ping me on <a href="https://twitter.com/matbesancon">Twitter</a> for any
 question or comment.</p>
-
 <h2 id="bonus">Bonus</h2>
-
 <p>If you read this and want to try building your own graph type, here are two
 implementations you can try out, put them out in a public repo and show them off
-afterwards:
-1. We created a type just for directed graphs, why bothering so much? You can create your own type which can be directed or not,
+afterwards:</p>
+<ol>
+<li>We created a type just for directed graphs, why bothering so much? You can create your own type which can be directed or not,
 either by storing the information in the <code>struct</code> or by parametrizing the type
-and getting the compiler to do the work for you.
-2. We store the entries as an <code>AbstractMatrix{Bool}</code>, if your graph is dense
+and getting the compiler to do the work for you.</li>
+<li>We store the entries as an <code>AbstractMatrix{Bool}</code>, if your graph is dense
 enough (how dense? No idea), it might be interesting to store entries as as
-<code>BitArray</code>.</p>
-
-<hr />
-
+<code>BitArray</code>.</li>
+</ol>
+<hr>
 <p>Image source: GraphPlot.jl</p>
 
     </div>
@@ -1136,7 +1092,7 @@ enough (how dense? No idea), it might be interesting to store entries as as
   
 
   <p class="powered-by">
-    &copy; 2019 Mathieu Besançon &middot; 
+    © 2019 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

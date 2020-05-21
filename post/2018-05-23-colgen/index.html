@@ -81,7 +81,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.3bc694af15fd1e4ff7262e7dd46f11a8.css">
+  <link rel="stylesheet" href="/css/academic.min.5a7f437ee6610ca105be34ebf9701c04.css">
 
   
 
@@ -578,22 +578,16 @@
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
-
-<p><a href="https://doi.org/10.5281/zenodo.3329389" target="_blank"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3329389.svg" alt="DOI" /></a></p>
-
+      <p><a href="https://doi.org/10.5281/zenodo.3329389"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3329389.svg" alt="DOI"></a></p>
 <p>Integer optimization often feels weird (at least to me). Simple reformulations
 of a (mixed) integer optimization problem (MIP) can make it way easier to solve.
 We&rsquo;re going to explore one well-known example of such integer problem in two
 blog posts. This first part introduces the problem and develops a naive solution.
 We&rsquo;re going to see why it&rsquo;s complex to solve and why this formulation does not
 scale.</p>
-
 <p>In a second post, we will see a reformulation of the problem which makes it
 easier to solve and scales to bigger instances.</p>
-
 <h2 id="integer-optimization-reminder">Integer optimization reminder</h2>
-
 <p>An optimization problem takes three components: decisions variables $x$, a set of
 constraints telling you if a decision is feasible or not and a cost function
 $c(x)$ giving a total cost of a decision. Optimization is a domain of applied
@@ -604,85 +598,63 @@ values ${0,1}$. Think of problems involving number of units produced
 for a good, yes/no decisions, etc&hellip; If a problem has lots of variables, naive
 enumerations of feasible solutions becomes impossible: even problems with 50
 variables can make your average laptop crash.</p>
-
 <h2 id="the-cutting-stock-problem">The cutting stock problem</h2>
-
 <p>The problem is not new and has been given quite some thoughts because of its
 different industrial applications, it has been one of the first applications of
 the column generation method we are going to use. The key elements of the problems
 are: given some large rolls (metal, paper or other), we need to cut smaller
 portions of given lengths to satisfy a demand for the different small lengths.
-Find <a href="https://en.wikipedia.org/wiki/Cutting_stock_problem" target="_blank">more details here</a>.
+Find <a href="https://en.wikipedia.org/wiki/Cutting_stock_problem">more details here</a>.
 A small instance might be: given rolls of size $100cm$, we want to cut at least
 7 rolls of size $12cm$ and 9 rolls of size $29cm$. The objective is to minimize
 the number of big rolls to satisfy this demand.</p>
-
 <p>How do we formulate this mathematically?</p>
-
 <h3 id="decisions">Decisions</h3>
-
 <p>$Y_i$ is a binary decision indicating if we use the big roll number $i$. $X_{ij}$ is an integer
 giving the number of times we cut a small roll $j$ in the big roll $i$.</p>
-
 <h3 id="constraints">Constraints</h3>
-
 <p>$Y$ are binary variables, $X$ are integer. Now the less trivial constraints:</p>
-
 <ul>
 <li><strong>Demand satisfaction constraint</strong>: the sum over all $i$ big rolls of the cut $j$
 has to satisfy the demand for that cut:
 $$\sum_{i} X_{ij} \geq D_j $$</li>
 </ul>
-
 <p>For the two-cut example with the demand of $7 \times 12cm$ and $9 \times 29cm$,
 let&rsquo;s suppose we have 10 big rolls $i \in {1&hellip;10}$, the demand for the first
 12cm cut is 7 cuts, the number of cuts of this size produced is:
 $$ \sum_i X_{i1} =  X_{1,1} + X_{2,1} + &hellip; + X_{10,1}$$</p>
-
 <p>This total must at least match the demand, so:
 $$ X_{1,1} + X_{2,1} + &hellip; + X_{10,1} \geq 7 $$</p>
-
 <ul>
 <li><strong>Roll size constraint</strong>: if a roll $i$ is used, we cannot fit more width
 onto it than its total width:
 $$\sum_{j} X_{ij} \cdot W_j \leq L \cdot Y_i $$</li>
 </ul>
-
 <p>For the two-cut example with the demand of $7 \times 12cm$ and $9 \times 29cm$,
 let&rsquo;s suppose we have one roll $i$:</p>
-
 <ul>
 <li>If $Y_i = 0$, the roll size constraint becomes:</li>
 </ul>
-
 <p>$$ \sum_{j} X_{ij} \cdot W_j = 12 \cdot X_{i1} + 29 \cdot X_{i2} \leq 0 $$</p>
-
 <p>The only feasible solution for this roll $i$ is ($X_{i1} = 0,X_{i2} = 0$).</p>
-
 <ul>
 <li>If $Y_i = 1$, the roll size constraint becomes:
 $$ 12 \cdot X_{i1} + 29 \cdot X_{i2} \leq 100 $$</li>
 </ul>
-
 <p>Which means we can fit as many cuts as the roll size allows for.</p>
-
 <h2 id="a-first-naive-implementation">A first naive implementation</h2>
-
 <p>Let&rsquo;s first import the necessary packages: we&rsquo;re using JuMP as a modeling
 tool, which is an optimization-specific language embedded in Julia
 (compare it to AMPL, GAMS, Pyomo, PuLP).
 As I consider it an embedded language, I&rsquo;ll do a full import into my namespace
 with <code>using</code> (unlike what I usually do with packages). We also use <code>Cbc</code>,
 an open-source solver for integer problems from the Coin-OR suite.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span> JuMP
 <span style="color:#66d9ef">using</span> Cbc<span style="color:#f92672">:</span> CbcSolver</code></pre></div>
-
 <p>We can define our optimization problem within a function taking the parameters
 of the cutting stock problem, namely a <code>maxwidth</code> of the big rolls, scalar
 assuming all of them have the same width, a <code>widths</code> vector, one element for
 each cut size $j$ and a <code>demand</code> vector, again, one for each cut size.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">function</span> cutting_stock_model(maxwidth, widths, demand, N <span style="color:#f92672">=</span> sum(demand))
     <span style="color:#75715e"># Define the JuMP model</span>
     m <span style="color:#f92672">=</span> Model(solver <span style="color:#f92672">=</span> CbcSolver())
@@ -700,19 +672,16 @@ each cut size $j$ and a <code>demand</code> vector, again, one for each cut size
     <span style="color:#75715e"># return the model formulation to solve later</span>
     <span style="color:#66d9ef">return</span> m
 <span style="color:#66d9ef">end</span></code></pre></div>
-
 <p>Here $N$ has to be an upper bound on the number of big rolls to use, otherwise
 the problem will be infeasible (not enough big rolls to find a solution
 satisfying the demand). An initial naive value for this could be the total
 demand, after all one small cut per roll can be considered a worst-case solution.</p>
-
 <p>Note that we don&rsquo;t call <code>solve</code> on the model yet, the function simply builds the
 model, this will help us see how it evolves with various entry parameters.
 In Julia REPL, or by using the <code>@show</code> macro, we can have more details on the
 model. Using <code>println(m)</code> instead of <code>@show</code> will build a mathematical
 formulation of the model in a LateX-like style, which can be valuable to
 ensure your implementation matches the initial formulation.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">julia<span style="color:#f92672">&gt;</span> println(cutting_stock_model(<span style="color:#ae81ff">100</span>, [<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">10</span>], [<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>]))
 Min Y[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> Y[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">+</span> Y[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">+</span> Y[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">+</span> Y[<span style="color:#ae81ff">5</span>] <span style="color:#f92672">+</span> Y[<span style="color:#ae81ff">6</span>] <span style="color:#f92672">+</span> Y[<span style="color:#ae81ff">7</span>]
 Subject to
@@ -727,7 +696,6 @@ Subject to
  <span style="color:#ae81ff">12</span> X[<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">10</span> X[<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">2</span>] <span style="color:#f92672">-</span> <span style="color:#ae81ff">100</span> Y[<span style="color:#ae81ff">7</span>] <span style="color:#f92672">≤</span> <span style="color:#ae81ff">0</span>
  Y[i] <span style="color:#f92672">∈</span> {<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>} ∀ i <span style="color:#f92672">∈</span> {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,…,<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">7</span>}
  X[i,j], integer, ∀ i <span style="color:#f92672">∈</span> {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,…,<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">7</span>}, j <span style="color:#f92672">∈</span> {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>}</code></pre></div>
-
 <p>Let&rsquo;s see what the model looks like for different instances:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">julia<span style="color:#f92672">&gt;</span> cutting_stock_model(<span style="color:#ae81ff">100</span>, [<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">10</span>], [<span style="color:#ae81ff">85</span>,<span style="color:#ae81ff">97</span>], <span style="color:#ae81ff">200</span>)
 (Minimization problem with<span style="color:#f92672">:</span>
@@ -752,18 +720,14 @@ julia<span style="color:#f92672">&gt;</span> cutting_stock_model(<span style="co
 Solver is CbcMathProg,
 X[i,j], integer, ∀ i <span style="color:#f92672">∈</span> {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,…,<span style="color:#ae81ff">499</span>,<span style="color:#ae81ff">500</span>}, j <span style="color:#f92672">∈</span> {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,…,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">6</span>},
 Y[i] <span style="color:#f92672">∈</span> {<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>} ∀ i <span style="color:#f92672">∈</span> {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,…,<span style="color:#ae81ff">499</span>,<span style="color:#ae81ff">500</span>})</code></pre></div></p>
-
 <p>We see the number of variables and constraints explode as we add more possible
 cut sizes. More precisely:</p>
-
 <ul>
 <li>Number of variables: $ size(X) + size(Y) = Nrolls \cdot Ncuts + Nrolls $</li>
 <li>Number of constraints: $ size(DemandConstr) + size(WidthConstr) = Ncuts + Nrolls$</li>
 </ul>
-
 <p>Without going into details on the solving process, two things make the problem
 difficult to solve:</p>
-
 <ol>
 <li>Symmetry: if we place cuts on a roll $Y_1$ and leave another $Y_2$ unused,
 the resulting solution is concretely the same as using $Y_2$ and leaving $Y_1$
@@ -774,7 +738,6 @@ restricting the problem to find the best integer solution. If the relaxed
 version of the problem yields solutions far away from an integer one, the solver
 will have more work to get there.</li>
 </ol>
-
 <p>Difficulty (1) is pretty intuitive, but we could get some insight on (2).
 Let&rsquo;s define our relaxed problem. We&rsquo;re going to use the <code>Clp</code> solver, which
 will solve the same problem, but without the <code>Int</code> restriction for $X$
@@ -788,9 +751,7 @@ nor the <code>Bin</code> restriction for $Y$:
    <span style="color:#a6e22e">@objective</span>(m, Min, sum(Y[i] <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>N))
    <span style="color:#66d9ef">return</span> (m,Y,X)
 <span style="color:#66d9ef">end</span></code></pre></div></p>
-
 <p>Let&rsquo;s see the results:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">julia<span style="color:#f92672">&gt;</span> res <span style="color:#f92672">=</span> [(i,getvalue(Y[i])) <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>N <span style="color:#66d9ef">if</span> getvalue(Y[i]) ≉ <span style="color:#ae81ff">0</span>]
 <span style="color:#ae81ff">33</span><span style="color:#f92672">-</span>element <span style="color:#66d9ef">Array</span>{<span style="color:#66d9ef">Tuple</span>{<span style="color:#66d9ef">Int64</span>,<span style="color:#66d9ef">Float64</span>},<span style="color:#ae81ff">1</span>}<span style="color:#f92672">:</span>
  (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1.0</span>)
@@ -863,38 +824,28 @@ julia<span style="color:#f92672">&gt;</span> [getvalue(X)[i,<span style="color:#
  [<span style="color:#ae81ff">5.8</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.216</span>]
  [<span style="color:#ae81ff">7.2</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.144</span>]
  [<span style="color:#ae81ff">8.0</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.16</span>]</code></pre></div>
-
 <p>We notice the $Y$ variables are overall pretty saturated and almost integer,
 but the $X$ variables are highly fractional: the linear cuts are divided such
 that they fit perfectly the big rolls. This will make the variable hard to
 get to an integer solution.</p>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>This was a quick intro to the cutting stock problem to get a grasp of its
 structure and difficulty, the goal was not to get too technical and keep a
 broad target audience.</p>
-
 <p>Hope you enjoyed it, if that&rsquo;s the case, I&rsquo;ll see you on the next article,
 we&rsquo;ll implement a <em>column generation</em> algorithm from scratch to solve it.
-If you have any question/remarks, feel free to <a href="http://twitter.com/matbesancon/" target="_blank">get in touch</a>.</p>
-
+If you have any question/remarks, feel free to <a href="http://twitter.com/matbesancon/">get in touch</a>.</p>
 <h2 id="code-and-citation">Code and citation</h2>
-
 <p>Found this post useful for your work? The corresponding repository
-is available on <a href="https://github.com/matbesancon/column_generation_jump" target="_blank">GitHub</a>,
+is available on <a href="https://github.com/matbesancon/column_generation_jump">GitHub</a>,
 consider citing it using the following DOI <em>10.5281/zenodo.3329389</em>,
-the BibTeX entry is available on <a href="https://doi.org/10.5281/zenodo.3329389" target="_blank">Zenodo</a>.</p>
-
+the BibTeX entry is available on <a href="https://doi.org/10.5281/zenodo.3329389">Zenodo</a>.</p>
 <h2 id="thanks">Thanks</h2>
-
-<p>Special thanks to <a href="https://github.com/SohamTamba" target="_blank">Soham</a> and Aristide
+<p>Special thanks to <a href="https://github.com/SohamTamba">Soham</a> and Aristide
 for their feedback, these helped me a great deal simplify the structure and add
 details and explanations where needed.</p>
-
-<hr />
-
-<p>Image source: <a href="https://www.flickr.com/photos/30478819@N08/38272827564" target="_blank">https://www.flickr.com/photos/30478819@N08/38272827564</a></p>
+<hr>
+<p>Image source: <a href="https://www.flickr.com/photos/30478819@N08/38272827564">https://www.flickr.com/photos/30478819@N08/38272827564</a></p>
 
     </div>
 
@@ -1246,7 +1197,7 @@ details and explanations where needed.</p>
   
 
   <p class="powered-by">
-    &copy; 2019 Mathieu Besançon &middot; 
+    © 2019 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
