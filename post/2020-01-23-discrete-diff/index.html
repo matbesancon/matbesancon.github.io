@@ -730,8 +730,7 @@ slack variable <code>z</code>.</p>
 <span style="color:#a6e22e">@test</span> MOI<span style="color:#f92672">.</span>get(model, MOI<span style="color:#f92672">.</span>VariablePrimal(), x[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">1</span>]) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>
 <span style="color:#a6e22e">@test</span> MOI<span style="color:#f92672">.</span>get(model, MOI<span style="color:#f92672">.</span>ObjectiveValue()) ≈ <span style="color:#ae81ff">0.3</span>
 </code></pre></div><p>An equivalent JuMP version would look look this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#a6e22e">@testset</span><span style="color:#e6db74">&#34;&#34;</span>
-matrix <span style="color:#f92672">=</span> [
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">matrix <span style="color:#f92672">=</span> [
     <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span>
     <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span>
     <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span>
