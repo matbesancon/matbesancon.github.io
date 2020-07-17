@@ -7,7 +7,7 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 13 Jan 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 13 Jan 2016 00:00:00 +0100</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/classification/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>A Pythonic data science project: Part III</title>
       <link>https://matbesancon.github.io/post/2016-01-13-fraud-detection3/</link>
-      <pubDate>Wed, 13 Jan 2016 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 13 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-13-fraud-detection3/</guid>
       <description>&lt;p&gt;[1]&lt;/p&gt;
@@ -283,7 +283,7 @@ and giving me some valuable feedback.&lt;/p&gt;
     <item>
       <title>A Pythonic data science project: Part II</title>
       <link>https://matbesancon.github.io/post/2016-01-12-fraud-detection2/</link>
-      <pubDate>Tue, 12 Jan 2016 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 12 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-12-fraud-detection2/</guid>
       <description>&lt;p&gt;[1]&lt;/p&gt;
@@ -518,7 +518,7 @@ part in an analysis-oriented data science project, and I hope to see you there.&
     <item>
       <title>A Pythonic data science project: Part I</title>
       <link>https://matbesancon.github.io/post/2016-01-11-fraud-detection/</link>
-      <pubDate>Mon, 11 Jan 2016 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 11 Jan 2016 00:00:00 +0100</pubDate>
       
       <guid>https://matbesancon.github.io/post/2016-01-11-fraud-detection/</guid>
       <description>&lt;h2 id=&#34;a-complete-predictive-modeling-project-in-python&#34;&gt;A complete predictive modeling project in Python&lt;/h2&gt;
