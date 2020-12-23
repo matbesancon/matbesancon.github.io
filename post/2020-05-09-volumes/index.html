@@ -454,7 +454,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    15 min read
+    16 min read
   </span>
   
 
@@ -579,7 +579,21 @@
 
     <div class="article-style" itemprop="articleBody">
       <p>Image source <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
-<!-- raw HTML omitted -->
+<h2>Table of Contents</h2>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#communicating-vessels-and-optimization-formulation">Communicating vessels and optimization formulation</a></li>
+    <li><a href="#vessel-equilibrium-as-an-optimization-problem">Vessel equilibrium as an optimization problem</a></li>
+    <li><a href="#computing-a-direction">Computing a direction</a></li>
+    <li><a href="#projecting-on-the-manifold">Projecting on the manifold</a></li>
+    <li><a href="#putting-it-all-together">Putting it all together</a></li>
+    <li><a href="#conclusion-and-perspective">Conclusion and perspective</a></li>
+    <li><a href="#acknowledgment">Acknowledgment</a></li>
+    <li><a href="#bonus">Bonus</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ul>
+</nav>
+
 <p>Fluid mechanics was one of my favourite topics in the Process Engineering program I followed
 (some people will quit reading at this point and never talk to me again) so without surprise,
 I could not resist diving into this new <a href="https://sinews.siam.org/Details-Page/lagrange-multiplier-as-depth-or-pressure-2">blog post</a>
@@ -717,7 +731,7 @@ Fair warning, this is the most &ldquo;optimization-heavy&rdquo; section.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">Random<span style="color:#f92672">.</span>seed!(<span style="color:#ae81ff">42</span>)
 
 <span style="color:#75715e"># 4 uniform random points between [0,2]</span>
-x0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> rand(<span style="color:#ae81ff">4</span>) 
+x0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> rand(<span style="color:#ae81ff">4</span>)
 V0 <span style="color:#f92672">=</span> g(x0)
 <span style="color:#75715e"># 1.9273890036845946</span>
 </code></pre></div><p>With the vessel shape functions defined above, this looks roughly like this:</p>
@@ -844,7 +858,7 @@ So once the direction is found and a new iterate $x_i + \gamma d$ computed,
 we need to project this iterate on the manifold, i.e. find the solution to:</p>
 <p>$$
 \begin{align}
-\min_{x},, &amp; dist(x, x_i + \gamma d) \\\<br>
+\min_{x}\,\, &amp; dist(x, x_i + \gamma d) \\\<br>
 &amp; \text{subject to:} \\\<br>
 &amp; G(x) = 0
 \end{align}
@@ -872,7 +886,7 @@ long to implement one from scratch.</p>
 root <span style="color:#f92672">=</span> Roots<span style="color:#f92672">.</span>find_zero(h(corrected_step(x0, d, <span style="color:#ae81ff">1.5</span>)), <span style="color:#ae81ff">0.0</span>)
 <span style="color:#75715e"># -0.07526921814981354</span>
 
-g(corrected_step(x0, d, <span style="color:#ae81ff">1.5</span>) <span style="color:#f92672">.+</span> root) <span style="color:#f92672">-</span> V0 
+g(corrected_step(x0, d, <span style="color:#ae81ff">1.5</span>) <span style="color:#f92672">.+</span> root) <span style="color:#f92672">-</span> V0
 <span style="color:#75715e"># 0.0</span>
 </code></pre></div><h1 id="putting-it-all-together">Putting it all together</h1>
 <p>We now have all the ingredients to make this algorithm work:</p>
@@ -1384,7 +1398,7 @@ quantum physics (if I recall?).</p>
   
 
   <p class="powered-by">
-    © 2019 Mathieu Besançon &middot; 
+    © 2020 Mathieu Besançon &middot; 
 
     Powered by the
     <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
