@@ -336,9 +336,9 @@ be propagated from user choices, and how?&lt;/p&gt;
 &lt;a href=&#34;https://github.com/jump-dev/MathOptInterface.jl/pull/1023&#34;&gt;longest discussions&lt;/a&gt;
 in the MOI repository.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Fairly straightforward[&amp;hellip;]
-Optimistic me, beginning of the PR, February 2020&lt;/p&gt;
+&lt;p&gt;Fairly straightforward[&amp;hellip;]&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;Optimistic me, beginning of the PR, February 2020&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;A more meaningful query for solvers is, given a value $v$, what is the
 &lt;strong&gt;distance&lt;/strong&gt; from $v$ to the set $\mathcal{S}$:&lt;/p&gt;
 &lt;p&gt;$$
@@ -356,7 +356,8 @@ In terms of implementation, the signature is roughly:&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;Aside:&lt;/em&gt;
 this is an example where multiple dispatch brings great value to the design:
 the implementation of &lt;code&gt;distance_to_set&lt;/code&gt; depends on both the value type &lt;code&gt;V&lt;/code&gt;
-and the type of set &lt;code&gt;S&lt;/code&gt;. See why it&amp;rsquo;s useful [in the Bonus](# Bonus)&lt;/p&gt;
+and the type of set &lt;code&gt;S&lt;/code&gt;. See why it&amp;rsquo;s useful in the
+&lt;a href=&#34;# Bonus&#34; title=&#34;&#34;&gt;Bonus section&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;If $\mathcal{S}$ was a generic set, computing this distance would be as hard as
 solving an optimization problem with constraints $v \in \mathcal{S}$ but
 since we are dealing with structured optimization, many particular sets have

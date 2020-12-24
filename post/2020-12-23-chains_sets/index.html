@@ -118,7 +118,7 @@
   
   <meta property="article:published_time" content="2020-12-23T00:00:00&#43;01:00">
   
-  <meta property="article:modified_time" content="2020-12-23T00:00:00&#43;01:00">
+  <meta property="article:modified_time" content="2020-12-24T18:52:33&#43;01:00">
   
 
   
@@ -422,7 +422,7 @@
 
 
 <meta content="2020-12-23 00:00:00 &#43;0100 CET" itemprop="datePublished">
-<meta content="2020-12-23 00:00:00 &#43;0100 CET" itemprop="dateModified">
+<meta content="2020-12-24 18:52:33 &#43;0100 CET" itemprop="dateModified">
 
 <div class="article-metadata">
 
@@ -434,8 +434,10 @@
     
     
       
+          Last updated on
+      
     
-    <time>2020-12-23</time>
+    <time>2020-12-24</time>
   </span>
   
 
@@ -619,9 +621,9 @@ be propagated from user choices, and how?</p>
 <a href="https://github.com/jump-dev/MathOptInterface.jl/pull/1023">longest discussions</a>
 in the MOI repository.</p>
 <blockquote>
-<p>Fairly straightforward[&hellip;]
-Optimistic me, beginning of the PR, February 2020</p>
+<p>Fairly straightforward[&hellip;]</p>
 </blockquote>
+<p><em>Optimistic me, beginning of the PR, February 2020</em></p>
 <p>A more meaningful query for solvers is, given a value $v$, what is the
 <strong>distance</strong> from $v$ to the set $\mathcal{S}$:</p>
 <p>$$
@@ -639,7 +641,8 @@ In terms of implementation, the signature is roughly:</p>
 </code></pre></div><p><em>Aside:</em>
 this is an example where multiple dispatch brings great value to the design:
 the implementation of <code>distance_to_set</code> depends on both the value type <code>V</code>
-and the type of set <code>S</code>. See why it&rsquo;s useful [in the Bonus](# Bonus)</p>
+and the type of set <code>S</code>. See why it&rsquo;s useful in the
+<a href="# Bonus" title="">Bonus section</a>.</p>
 <p>If $\mathcal{S}$ was a generic set, computing this distance would be as hard as
 solving an optimization problem with constraints $v \in \mathcal{S}$ but
 since we are dealing with structured optimization, many particular sets have
