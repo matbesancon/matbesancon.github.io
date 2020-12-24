@@ -7,10 +7,192 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; {year} Mathieu Besançon</copyright>
-    <lastBuildDate>Thu, 23 Jan 2020 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 23 Dec 2020 00:00:00 +0100</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/automatic-differentiation/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Sets, chains and rules - part I</title>
+      <link>https://matbesancon.github.io/post/2020-12-23-chains_sets/</link>
+      <pubDate>Wed, 23 Dec 2020 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2020-12-23-chains_sets/</guid>
+      <description>&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;#mathoptinterface-and-the-motivation&#34;&gt;MathOptInterface and the motivation&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#examples&#34;&gt;Examples&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#set-projections&#34;&gt;Set projections&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#extensible-distances&#34;&gt;Extensible distances&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#bonus&#34;&gt;Bonus&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;p&gt;In this post, I will develop the process through which the
+&lt;a href=&#34;https://github.com/matbesancon/MathOptSetDistances.jl&#34;&gt;MathOptSetDistances.jl&lt;/a&gt;
+package has been created and evolved. In the second one, I will go over the differentiation part.&lt;/p&gt;
+&lt;h1 id=&#34;mathoptinterface-and-the-motivation&#34;&gt;MathOptInterface and the motivation&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://jump.dev/MathOptInterface.jl/dev/&#34;&gt;MathOptInterface.jl&lt;/a&gt; or MOI
+for short is a Julia package to unify &lt;em&gt;structured constrained&lt;/em&gt; optimization problems.
+The abstract representation of problems MOI addresses is as follows:&lt;/p&gt;
+&lt;p&gt;$$
+\begin{align}
+\min_{x}\,\, &amp;amp; F(x) \\\\&lt;br&gt;
+\text{s.t.}\,\, &amp;amp; G_k(x) \in \mathcal{S}_k \,\, \forall k \\\\&lt;br&gt;
+&amp;amp; x \in \mathcal{X}.
+\end{align}
+$$&lt;/p&gt;
+&lt;p&gt;$\mathcal{X}$ is the domain of the decision variables,
+$F$ is the objective function, mapping values of the variables to the real line.
+The constrained aspect comes from the constraints $G_k(x) \in \mathcal{S}_k$,
+some mappings of the variables $G_k$ have to belong to a certain set $\mathcal{S}_k$.
+See this &lt;a href=&#34;https://arxiv.org/abs/2002.03447&#34;&gt;recent paper&lt;/a&gt; on MOI for more information
+on this representation.&lt;/p&gt;
+&lt;p&gt;The &lt;strong&gt;structured&lt;/strong&gt; aspect comes from the fact that a specific form of $F$, $G$
+and $\mathcal{S}$ is known in advance by the modeller. In other words, MOI
+does not deal with arbitrary unknown functions or black-box sets.
+For such cases, other tools are more adapted.&lt;/p&gt;
+&lt;p&gt;From a given problem in this representation, two operations can be of interest
+within a solution algorithm or from a user perspective:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Given a value for $x$, evaluating a function $F(x)$ or $G(x)$,&lt;/li&gt;
+&lt;li&gt;Given a value $v$ in the co-domain of $G_k$, asserting whether $v \in S_k$.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The first point is addressed by the function &lt;code&gt;eval_variables&lt;/code&gt; in the &lt;code&gt;MOI.Utilities&lt;/code&gt; submodule
+(&lt;a href=&#34;https://jump.dev/MathOptInterface.jl/v0.9/apireference/#MathOptInterface.Utilities.eval_variables&#34;&gt;documentation&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;The second point appears as simple (or at least it did to me) but is trickier.
+What tolerance should be set?
+Most solvers include a numerical tolerance on constraint violations, should this
+be propagated from user choices, and how?&lt;/p&gt;
+&lt;p&gt;The deceivingly simple feature ended up opening one of the
+&lt;a href=&#34;https://github.com/jump-dev/MathOptInterface.jl/pull/1023&#34;&gt;longest discussions&lt;/a&gt;
+in the MOI repository.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Fairly straightforward[&amp;hellip;]
+Optimistic me, beginning of the PR, February 2020&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;A more meaningful query for solvers is, given a value $v$, what is the
+&lt;strong&gt;distance&lt;/strong&gt; from $v$ to the set $\mathcal{S}$:&lt;/p&gt;
+&lt;p&gt;$$
+\begin{align}
+(\text{δ(v, s)})\,\,\min_{v_p}\,\, &amp;amp; \text{dist}(v_p, v) \\\\&lt;br&gt;
+\text{s.t.}\,\, &amp;amp; v_p \in \mathcal{S} \\\\&lt;br&gt;
+&amp;amp; v \in \mathcal{V}.
+\end{align}
+$$&lt;/p&gt;
+&lt;p&gt;The optimal value of the problem above noted $δ(v, s)$ depends on the
+notion of the distance taken between two values in the domain $\mathcal{V}$,
+noted $dist(\cdot,\cdot)$ here.
+In terms of implementation, the signature is roughly:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;distance_to_set(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;V, s&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;S) &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;Aside:&lt;/em&gt;
+this is an example where multiple dispatch brings great value to the design:
+the implementation of &lt;code&gt;distance_to_set&lt;/code&gt; depends on both the value type &lt;code&gt;V&lt;/code&gt;
+and the type of set &lt;code&gt;S&lt;/code&gt;. See why it&amp;rsquo;s useful [in the Bonus](# Bonus)&lt;/p&gt;
+&lt;p&gt;If $\mathcal{S}$ was a generic set, computing this distance would be as hard as
+solving an optimization problem with constraints $v \in \mathcal{S}$ but
+since we are dealing with structured optimization, many particular sets have
+closed-form solutions for the problem above.&lt;/p&gt;
+&lt;h1 id=&#34;examples&#34;&gt;Examples&lt;/h1&gt;
+&lt;p&gt;$\|\cdot\|$ will denote the $l_2-$norm if not specified.&lt;/p&gt;
+&lt;p&gt;The distance computation problem defined by the following data:&lt;/p&gt;
+&lt;p&gt;$$
+\begin{align}
+&amp;amp; v \in \mathcal{V} = \mathbb{R}^n,\\&lt;br&gt;
+&amp;amp; \mathcal{S} = \mathbb{Z}^n,\\&lt;br&gt;
+&amp;amp; dist(a, b) = \|a - b\|
+\end{align}
+$$&lt;/p&gt;
+&lt;p&gt;consists of rounding element-wise to the closest integer.&lt;/p&gt;
+&lt;p&gt;The following data:&lt;/p&gt;
+&lt;p&gt;$$
+\begin{align}
+&amp;amp; v \in \mathcal{V} = \mathbb{R}^n,\\&lt;br&gt;
+&amp;amp; \mathcal{S} = \mathbb{R}^n_+,\\&lt;br&gt;
+&amp;amp; dist(a, b) = \|a - b\|
+\end{align}
+$$&lt;/p&gt;
+&lt;p&gt;find the closest point in the positive orthant, with a result:&lt;/p&gt;
+&lt;p&gt;$$
+v_{p}\left[i\right] = \text{max}(v\left[i\right], 0) \,\, \forall i \in \{1..n\}.
+$$&lt;/p&gt;
+&lt;h1 id=&#34;set-projections&#34;&gt;Set projections&lt;/h1&gt;
+&lt;p&gt;The distance from a point to a set tells us how far a given candidate is from
+respecting a constraint. But for many algorithms, the quantity of interest is
+the projection itself:&lt;/p&gt;
+&lt;p&gt;$$
+\Pi_{\mathcal{S}}(v) \equiv \text{arg}\min_v \delta(v, \mathcal{S}).
+$$&lt;/p&gt;
+&lt;p&gt;Like the optimal distance, the best projection onto a set can often be defined
+in closed form i.e. without using generic optimization methods.&lt;/p&gt;
+&lt;p&gt;We also keep the convention that the projection of a point already in the set is
+always itself:
+$$
+δ(v, \mathcal{S}) = 0 \,\, \Leftrightarrow \,\, v \in \mathcal{S} \,\, \Leftrightarrow \,\, \Pi_{\mathcal{S}}(v) = v.
+$$&lt;/p&gt;
+&lt;p&gt;The interesting thing about projections is that once obtained, a distance
+can be computed easily, although only computing the distance can be slightly
+more efficient, since we do not need to allocate the projected point.&lt;/p&gt;
+&lt;h1 id=&#34;extensible-distances&#34;&gt;Extensible distances&lt;/h1&gt;
+&lt;p&gt;Imagine a set defined using two functions:
+$$
+\begin{align}
+\mathcal{S} = \{v \in \mathcal{V}\,|\, f(v) \leq 0, g(v)\leq 0 \}.
+\end{align}
+$$&lt;/p&gt;
+&lt;p&gt;The distance must be evaluated with respect to two values:
+$$
+(max(f(v), 0), max(g(v), 0)).
+$$&lt;/p&gt;
+&lt;p&gt;Here, the choice boils down to a norm, but hard-coding it seems harsh and rigid for users.
+Even if we plan correctly and add most norms people would expect, someone will
+end up with new exotic problems on &lt;a href=&#34;https://github.com/blegat/SetProg.jl&#34;&gt;sets&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/jump-dev/ComplexOptInterface.jl&#34;&gt;complex numbers&lt;/a&gt; or function spaces.&lt;/p&gt;
+&lt;p&gt;The solution that came up after discussions is adding a type to dispatch on,
+specifying the notion of distance used:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; distance_to_set(d&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;D, v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;V, s&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;S)
+        where {D &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; AbstractDistance, V, S &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AbstractSet}
+    &lt;span style=&#34;color:#75715e&#34;&gt;# ...&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;which can for instance encode a p-norm or anything else.
+In many cases, there is no ambiguity, and the package defines &lt;code&gt;DefaultDistance()&lt;/code&gt;
+exactly for this.&lt;/p&gt;
+&lt;h1 id=&#34;bonus&#34;&gt;Bonus&lt;/h1&gt;
+&lt;p&gt;If you are coming from a class-based object-oriented background, a common
+design choice is to define a &lt;code&gt;Set&lt;/code&gt; abstract class with a method &lt;code&gt;project_on_set(v::V)&lt;/code&gt; to implement.
+This would work for most situations, since a set often implies a domain &lt;code&gt;V&lt;/code&gt;.
+What about the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Projecting onto the reals (no-op)&lt;/span&gt;
+project_on_set(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{T}, s&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Reals) where {T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;}
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# Projecting onto the reals (actual work)&lt;/span&gt;
+project_on_set(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{T}, s&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;Reals) where {T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Complex&lt;/span&gt;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Which &amp;ldquo;class&amp;rdquo; should own the implementation in that case?
+From what I observed, libraries end up with either an enumeration:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; typeof(v) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;Reals}
+    &lt;span style=&#34;color:#75715e&#34;&gt;# ...&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;elseif&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# ...&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;or when the number of possible domains is expected to be low, with several methods:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# in the set class Reals&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; project_real(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{T}) where {T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; project_complex(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{T}) where {T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Complex&lt;/span&gt;}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; project_scalar(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;T) where {T &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Real&lt;/span&gt;}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As a last remark, one may wonder why would one define trivial sets as the &lt;code&gt;MOI.Reals&lt;/code&gt;
+or the &lt;code&gt;MOI.Zeros&lt;/code&gt;. A good example where this is needed is the polyhedral cone:
+$$
+A x = 0
+$$
+with $x$ a vector. This makes more sense to define $Ax$ as the function and&lt;br&gt;
+&lt;code&gt;MOI.Zeros&lt;/code&gt; as the set.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Differentiating the discrete: Automatic Differentiation meets Integer Optimization</title>
