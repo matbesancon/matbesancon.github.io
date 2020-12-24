@@ -7,10 +7,278 @@
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-ca</language>
     <copyright>&amp;copy; {year} Mathieu Besançon</copyright>
-    <lastBuildDate>Wed, 23 Dec 2020 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 24 Dec 2020 00:00:00 +0100</lastBuildDate>
     
 	    <atom:link href="https://matbesancon.github.io/tags/julia/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Sets, chains and rules - part II</title>
+      <link>https://matbesancon.github.io/post/2020-12-24-chains_sets2/</link>
+      <pubDate>Thu, 24 Dec 2020 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2020-12-24-chains_sets2/</guid>
+      <description>&lt;p&gt;In a previous post, I detailed some of the features of
+&lt;a href=&#34;https://github.com/matbesancon/MathOptSetDistances.jl&#34;&gt;MathOptSetDistances.jl&lt;/a&gt;
+and the evolution of the idea behind it. This is part II focusing on derivatives.&lt;/p&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;#meet-chainrulesjl&#34;&gt;Meet ChainRules.jl&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#projection-derivative&#34;&gt;Projection derivative&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#example-on-the-nonnegative-orthant&#34;&gt;Example on the nonnegative orthant&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#forward-rule&#34;&gt;Forward rule&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#reverse-rules&#34;&gt;Reverse rules&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#notes&#34;&gt;Notes&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;p&gt;The most interesting part of the packages is the projection onto a set.
+For some applications, what we need is not only the projection but also the
+&lt;strong&gt;derivative&lt;/strong&gt; of this projection.&lt;/p&gt;
+&lt;p&gt;One answer here would be to let Automatic Differentiation (AD) do the work.
+However:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Just like there are closed-form expressions for the projection, many sets admit closed-form projection derivatives that can be computed cheaply,&lt;/li&gt;
+&lt;li&gt;Some projections may require to perform steps impossible or expensive with AD, as a root-finding procedure&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; or an eigendecomposition&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;;&lt;/li&gt;
+&lt;li&gt;Some functions might make calls into deeper water. JuMP for instance supports a lot of optimization solvers implemented in C and called as shared libraries. AD will not propagate through these calls.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For these reasons, AD systems often let users implement some derivatives themselves,
+but as a library developer, I do not want to depend on a full AD package
+(and force downstream users to do so).&lt;/p&gt;
+&lt;h1 id=&#34;meet-chainrulesjl&#34;&gt;Meet ChainRules.jl&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/JuliaDiff/ChainRules.jl&#34;&gt;ChainRules.jl&lt;/a&gt; is a Julia package
+addressing exactly the issue mentioned above: it defines a set of primitives
+to talk about derivatives in Julia.
+Library developers can implement custom derivatives for their own functions and types.
+Finally, AD library developers can leverage ChainRules.jl to obtain derivatives
+from functions when available, and otherwise use AD mechanisms to obtain them from
+more elementary functions.&lt;/p&gt;
+&lt;p&gt;The logic and motivation is explained in more details in &lt;a href=&#34;https://www.youtube.com/watch?v=B4NfkkkJ7rs&#34;&gt;Lyndon&amp;rsquo;s talk&lt;/a&gt;
+at JuliaCon 2020 and the package &lt;a href=&#34;https://www.juliadiff.org/ChainRulesCore.jl/stable/&#34;&gt;documentation&lt;/a&gt;
+which is very instructive on AD in general.&lt;/p&gt;
+&lt;h1 id=&#34;projection-derivative&#34;&gt;Projection derivative&lt;/h1&gt;
+&lt;p&gt;We are interested in computing
+$D\Pi_{\mathcal{S}}(v)$, the derivative of the projection with respect to the
+initial point. As a refresher, if $\Pi_s(\cdot)$ is a function from $V$ onto itself,
+and if $V$ then the derivative $D\Pi$ maps a point in $V$ onto a linear map
+from the *tangent space* of $V$ onto itself.
+The tangent space of $V$ is roughly speaking the space where differences of
+values in $V$ live. If $V$ corresponds to real numbers, then the tangent space
+will also be real numbers, but if $V$ is a space of time/dates, then the tangent
+space is a duration/time period. See here&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; for more references.
+Again, roughly speaking, this linear map takes perturbations of the input $\Delta v$
+and maps them to perturbation of the projected point $\Delta v_p$.&lt;/p&gt;
+&lt;p&gt;As an example warm-up:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$S$ is the whole domain of $v$ $\Rightarrow$ the projection is $v$ itself, $D\Pi_{\mathcal{S}}(v)$ is the identity operator.&lt;/li&gt;
+&lt;li&gt;$S$ is $\{0\}^n$ $\Rightarrow$ the projection is always $\{0\}^n$, $D\Pi_{\mathcal{S}}(v)$ maps every $Δv$ to a zero vector: perturbations in the input do not change the output.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;$D\Pi_{\mathcal{S}}(v)$ is a linear map from $\mathcal{V}$ to $\mathcal{V}$.
+If $v \in \mathbb{R}^n$, it can be represented as a
+$n\times n$ matrix.
+There are several ways of representing linear maps, see the &lt;a href=&#34;https://github.com/JuliaSmoothOptimizers/LinearOperators.jl&#34;&gt;LinearOperators.jl&lt;/a&gt;
+package for some insight. Two approaches (for now) are implemented for set distances:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Matrix approach&lt;/strong&gt;: given $v \in \mathbb{R}^n$, return the linear operator as an $n\times n$ matrix.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Forward mode&lt;/strong&gt;: given $v$ and a direction $\Delta v$, provide the directional derivative $D\Pi_{\mathcal{S}}(v) \Delta v$.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Reverse mode&lt;/strong&gt;: given $v$, provide a closure corresponding to the adjoint of the derivative.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;(1) has been implemented by &lt;a href=&#34;https://github.com/AKS1996&#34;&gt;Akshay&lt;/a&gt; for many sets
+during his GSoC this summer, along with the projections themselves.&lt;/p&gt;
+&lt;p&gt;(1) corresponds to computing the derivative eagerly as a full matrix, thus
+paying storage and computation cost upfront. The advantage is the simplicity for standard vectors,
+take &lt;code&gt;v, s&lt;/code&gt;, build and return the matrix.
+(2) is the building block for forward-mode differentiation:
+given a point $v$ and an input perturbation $\Delta v$, compute the output perturbation.
+(3) corresponds to a building block for reverse-mode differentiation.
+An aspect of the matrix approach is that it works well for 1-D arrays
+but gets complex quite quickly for other structures, including multi-argument
+functions or matrices. Concatenating everything into a vector is too rigid.&lt;/p&gt;
+&lt;h1 id=&#34;example-on-the-nonnegative-orthant&#34;&gt;Example on the nonnegative orthant&lt;/h1&gt;
+&lt;p&gt;The nonnegative orthant cone is the set $\mathbb{R}^n_+$; it is represented in MOI
+as &lt;code&gt;MOI.Nonnegatives(n)&lt;/code&gt; with &lt;code&gt;n&lt;/code&gt; the dimension.
+The projection is simple because it can be done elementwise:
+$$
+(\Pi_S(v))_i = max(v_i, 0) \,\,\forall i.
+$$&lt;/p&gt;
+&lt;p&gt;In other terms, any non-diagonal term of the gradient matrix is 0 for any $v$.
+Here is a visualization made with haste for $n=2$ using the very promising &lt;a href=&#34;https://github.com/Wikunia/Javis.jl&#34;&gt;Javis.jl&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://matbesancon.github.io/img/posts/projections/projection.gif&#34; alt=&#34;Projection&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The red circle is a vector in the plane and the blue square its projection.&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;The Julia implementation follows the same idea, here in a simplified version:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; projection_on_set(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{T}, s&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Nonnegatives) where {T}
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; max&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;(v, zero(T))
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For each component $i \in 1..n$, there are two cases to compute its derivative, either
+the constraint is active or not.&lt;/p&gt;
+&lt;p&gt;$$
+\begin{align}
+v_i &amp;lt; 0 &amp;amp; \Rightarrow \frac{\partial \Pi_i}{\partial v_i}(v) = 0\\&lt;br&gt;
+v_i &amp;gt; 0 &amp;amp; \Rightarrow \frac{\partial \Pi_i}{\partial v_i}(v) = 1.
+\end{align}
+$$&lt;/p&gt;
+&lt;p&gt;The projection is not differentiable on points where one of the components is 0.
+The convention usually taken is to return any quantity on such point
+(to the best of my knowledge, no system guarantees a subgradient).
+The Julia implementation holds on two lines:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; projection_gradient_on_set(v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{T}, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Nonnegatives) where {T}
+    y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (sign&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;(v) &lt;span style=&#34;color:#f92672&#34;&gt;.+&lt;/span&gt; one(T)) &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; LinearAlgebra&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Diagonal&lt;/span&gt;(y)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;First the diagonal of the matrix is computed using broadcasting and the sign function.
+Then a &lt;code&gt;LinearAlgebra.Diagonal&lt;/code&gt; matrix is constructed. This matrix type is sparsity-aware,
+in the sense that it encodes the information of having only non-zero entries on
+the diagonal. We save on space, using $O(n)$ memory instead of $O(n^2)$ for a
+full matrix, and can benefit from specialized methods down the line.&lt;/p&gt;
+&lt;p&gt;We implemented the matrix approach from scratch. Even though we materialize the
+derivative as a diagonal matrix, it still costs storage, which will become a
+burden when we compose this projection with other functions and compute derivatives
+on the composition.&lt;/p&gt;
+&lt;h1 id=&#34;forward-rule&#34;&gt;Forward rule&lt;/h1&gt;
+&lt;p&gt;For a function &lt;code&gt;f&lt;/code&gt;, value &lt;code&gt;v&lt;/code&gt; and tangent &lt;code&gt;Δv&lt;/code&gt;, the forward rule, or &lt;code&gt;frule&lt;/code&gt;
+in ChainRules.jl does two things at once:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Compute the function value &lt;code&gt;y = f(v)&lt;/code&gt;,&lt;/li&gt;
+&lt;li&gt;Compute the directional derivative &lt;code&gt;∂y = Df(v) Δv&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The motivation for computing the two values at once is detailed in the
+&lt;a href=&#34;https://www.juliadiff.org/ChainRulesCore.jl/v0.9/#frule-and-rrule&#34;&gt;documentation&lt;/a&gt;.
+Quite often, computing the derivative will require computing &lt;code&gt;f(v)&lt;/code&gt; itself
+so it is likely to be interesting to return it anyway instead of forcing the user
+to call the function again.&lt;/p&gt;
+&lt;p&gt;The exact signature of &lt;code&gt;ChainRulesCore.frule&lt;/code&gt; involves some details we want to
+ignore for now, but the essence is as follows:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; frule((Δself, v&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;), &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;typeof(f), v&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;; kwargs&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;)
+    &lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; y, ∂y
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;∂Y&lt;/code&gt; is the directional derivative using the direction &lt;code&gt;Δx&lt;/code&gt;. Note here the variadic
+&lt;code&gt;Δx&lt;/code&gt; and &lt;code&gt;x&lt;/code&gt;, since we do not want to impose a rigid, single-argument structure
+to functions. The &lt;code&gt;Δself&lt;/code&gt; argument is out of scope for this post but you can read
+on its use &lt;a href=&#34;https://www.juliadiff.org/ChainRulesCore.jl/v0.9/#Self-derivative-%CE%94self,-self,-self,-%E1%B9%A1elf-etc&#34;&gt;in the docs&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For our set projection, it may look like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; ChainRulesCore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;frule(
+        (_, Δv, _),
+        &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;typeof(projection_on_set),
+        v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{T}, s&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Nonnegatives) where {T}
+    vproj &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; projection_on_set(v, s)
+    ∂vproj &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Δv &lt;span style=&#34;color:#f92672&#34;&gt;.*&lt;/span&gt; (v &lt;span style=&#34;color:#f92672&#34;&gt;.&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; vproj, ∂vproj
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The last computation line leverages broadcast to express elementwise the
+multiplication of &lt;code&gt;Δv&lt;/code&gt; with the indicator of &lt;code&gt;v[i]&lt;/code&gt; being nonnegative.
+The important thing to note here is that we never build the derivative as a data
+structure. Instead, we implement it as a function. An equivalent using our
+&lt;code&gt;projection_gradient_on_set&lt;/code&gt; would be:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; projection_directional_derivative(v, Δv, s)
+    vproj &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; projection_on_set(v, s)
+    DΠ &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; projection_gradient_on_set(v, s)
+    ∂vproj &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; DΠ &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; Δv
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; vproj, ∂vproj
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Notice the additional allocation and matrix-vector product.&lt;/p&gt;
+&lt;h1 id=&#34;reverse-rules&#34;&gt;Reverse rules&lt;/h1&gt;
+&lt;p&gt;The forward mode is fairly intuitive, the backward mode less so.
+The motivation for using it, and the reason it is the favoured one for several
+important fields using AD, is that it can differentiate a composition of functions
+with only matrix-vector products, instead of requiring matrix-matrix products.
+What it computed is, given a perturbation in the output (or &lt;em&gt;seed&lt;/em&gt;), provide the
+corresponding perturbation in the input.
+There are great resources online which will explain it in better terms than I could
+so we will leave it at that.&lt;/p&gt;
+&lt;p&gt;Looking at the &lt;code&gt;rrule&lt;/code&gt; signature from ChainRules.jl:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function rrule(::typeof(f), x...; kwargs...)
+    y = f(x...)
+    function pullback_f(Δy)
+        # implement the pullback here
+        return ∂self, ∂x
+    end
+    return y, pullback_f
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is a bit denser. &lt;code&gt;rrule&lt;/code&gt; takes the function as input and its arguments.
+So far so good. It returns two things, the value &lt;code&gt;y&lt;/code&gt; of the function, similalry to &lt;code&gt;frule&lt;/code&gt;
+and a &lt;em&gt;pullback&lt;/em&gt;. This term comes from differential geometry and in the context
+of AD, is also referred to as a backpropagator. Again, the ChainRules
+&lt;a href=&#34;https://www.juliadiff.org/ChainRulesCore.jl/dev/#The-propagators:-pushforward-and-pullback&#34;&gt;docs&lt;/a&gt;
+got your back with great explanations.&lt;/p&gt;
+&lt;p&gt;It also corresponds to the Jacobian-transpose vector product if you prefer the term.
+In the body of &lt;code&gt;pullback_f&lt;/code&gt;, we compute the variation of the output with respect to each input.
+If we give the pullback a 1 or 1-like as input, we compute the gradient,
+the partial derivative of &lt;code&gt;f&lt;/code&gt; with respect to each input &lt;code&gt;x[i]&lt;/code&gt; evaluated at the
+point &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Here is the result for our positive orthant (again, simplified for conciseness):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; ChainRulesCore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rrule(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;typeof(projection_on_set), v, s&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;MOI&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Nonnegatives)
+    vproj &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; projection_on_set(v, s)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; pullback(Δvproj)
+        n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; length(v)
+        v̄ &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; zeros(eltype(Δvproj), n)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;n
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; vproj[i] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; v[i]
+                v̄[i] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Δvproj[i]
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (ChainRulesCore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;NO_FIELDS, v̄, ChainRulesCore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;DoesNotExist())
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (vproj, pullback)
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The first step is computing the projection, here we do not bother with saving
+for loops and just call the projection function.
+For each index &lt;code&gt;i&lt;/code&gt; of the vector, if the i-th projection component is equal to
+the i-th initial point, $v_i$ is in the positive orthant and variations of
+the output are directly equal to variations of the input. Otherwise,
+this means the non-negativity constraint is tight, the projection lies on
+the boundary &lt;code&gt;vproj[i] = 0&lt;/code&gt;, and output variations are not propagated to the input
+since the partial derivative is zero.&lt;/p&gt;
+&lt;p&gt;We see here that a tuple of 3 elements is returned. The first corresponds to
+&lt;code&gt;∂self&lt;/code&gt;, out of the scope for this package. The second is the interesting one,
+&lt;code&gt;v̄&lt;/code&gt;, the derivative with respect to the input point.
+The last one &lt;code&gt;ChainRulesCore.DoesNotExist()&lt;/code&gt; indicates that there is no derivative
+with respect to the last argument of &lt;code&gt;projection_on_set&lt;/code&gt;, namely the set &lt;code&gt;s&lt;/code&gt;.
+This makes sense because there is nothing to differentiate in the set.&lt;/p&gt;
+&lt;p&gt;An interesting point to notice is that the implementation, not the types defines the derivatives.
+A non-trivial example would be a floating-point argument &lt;code&gt;p&lt;/code&gt; only used to extract
+the sign bit. This means it would &lt;strong&gt;not&lt;/strong&gt; have a notion of local perturbation.
+The type (a floating-point) would be interpreted as differentiable.
+To my understanding, &lt;a href=&#34;https://github.com/tensorflow/swift/&#34;&gt;Swift for Tensorflow&lt;/a&gt; uses
+a type-first approach, where types indicate what field gets differentiated.&lt;/p&gt;
+&lt;p&gt;If you imagine using this in practice, in an AD library for instance,
+one would first call &lt;code&gt;rrule&lt;/code&gt; forward, computing primal values and collecting the
+successive pullbacks. Once we arrive at the end of our chain of functions,
+we could backpropagate from $\Delta Y_{final} = 1$, walking our way back to
+the primary input parameters.&lt;/p&gt;
+&lt;h1 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;This post comes after a few weeks of work on &lt;a href=&#34;https://github.com/matbesancon/MathOptSetDistances.jl&#34;&gt;MathOptSetDistances.jl&lt;/a&gt;,
+the package with the actual implementation of the presented features.
+There is still a lot to learn and do on the topic, including solutions to more
+projections and derivatives thereof, but also interesting things to build upon.
+Defining derivatives and projections is after all a foundation for greater things to
+happen.&lt;/p&gt;
+&lt;h1 id=&#34;notes&#34;&gt;Notes&lt;/h1&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;See H. Friberg&amp;rsquo;s talk on exponential cone projection in Mosek at &lt;a href=&#34;https://docs.mosek.com/slides/2018/ismp2018/ismp-friberg.pdf&#34;&gt;ISMP 2018&lt;/a&gt; &lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;An example case for the projection onto the Positive Semidefinite cone &lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;If like me you haven&amp;rsquo;t spent much time lying around differential geometry books,
+the &lt;a href=&#34;https://www.juliadiff.org/ChainRulesCore.jl/dev/#Differentials&#34;&gt;ChainRules.jl&lt;/a&gt;
+documentation has a great developer-oriented explanation.
+For more visual explanations, Keno Fischer had a recent talk on
+&lt;a href=&#34;https://www.youtube.com/watch?v=mQnSRfseu0c&#34;&gt;the topic&lt;/a&gt;. &lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;See the source code &lt;a href=&#34;https://gist.github.com/matbesancon/80aa961e5c01fa6c426426083c684d84&#34;&gt;here&lt;/a&gt;. &lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</description>
+    </item>
     
     <item>
       <title>Sets, chains and rules - part I</title>
@@ -24,7 +292,7 @@
     &lt;li&gt;&lt;a href=&#34;#mathoptinterface-and-the-motivation&#34;&gt;MathOptInterface and the motivation&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href=&#34;#examples&#34;&gt;Examples&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href=&#34;#set-projections&#34;&gt;Set projections&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&#34;#extensible-distances&#34;&gt;Extensible distances&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#user-defined-distance-notions&#34;&gt;User-defined distance notions&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href=&#34;#bonus&#34;&gt;Bonus&lt;/a&gt;&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/nav&gt;
@@ -134,7 +402,7 @@ $$&lt;/p&gt;
 &lt;p&gt;The interesting thing about projections is that once obtained, a distance
 can be computed easily, although only computing the distance can be slightly
 more efficient, since we do not need to allocate the projected point.&lt;/p&gt;
-&lt;h1 id=&#34;extensible-distances&#34;&gt;Extensible distances&lt;/h1&gt;
+&lt;h1 id=&#34;user-defined-distance-notions&#34;&gt;User-defined distance notions&lt;/h1&gt;
 &lt;p&gt;Imagine a set defined using two functions:
 $$
 \begin{align}
