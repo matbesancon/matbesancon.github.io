@@ -345,8 +345,7 @@ in the MOI repository.&lt;/p&gt;
 &lt;p&gt;$$
 \begin{align}
 (\text{δ(v, s)})\,\,\min_{v_p}\,\, &amp;amp; \text{dist}(v_p, v) \\\\&lt;br&gt;
-\text{s.t.}\,\, &amp;amp; v_p \in \mathcal{S} \\\\&lt;br&gt;
-&amp;amp; v \in \mathcal{V}.
+\text{s.t.}\,\, &amp;amp; v_p \in \mathcal{S}.
 \end{align}
 $$&lt;/p&gt;
 &lt;p&gt;The optimal value of the problem above noted $δ(v, s)$ depends on the
@@ -391,7 +390,7 @@ $$&lt;/p&gt;
 respecting a constraint. But for many algorithms, the quantity of interest is
 the projection itself:&lt;/p&gt;
 &lt;p&gt;$$
-\Pi_{\mathcal{S}}(v) \equiv \text{arg}\min_v \delta(v, \mathcal{S}).
+\Pi_{\mathcal{S}}(v) \equiv \text{arg} \min_{v_p \in \mathcal{S}}  \text{dist}(v, v_p).
 $$&lt;/p&gt;
 &lt;p&gt;Like the optimal distance, the best projection onto a set can often be defined
 in closed form i.e. without using generic optimization methods.&lt;/p&gt;
