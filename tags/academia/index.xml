@@ -242,7 +242,7 @@ I read it through without interruptions (no phone, no open browser, no music
 or music without lyrics), taking notes on the side on all things that cross
 my mind.
 Notes are of different types: small mistakes, remarkable points, key information
-and the &amp;ldquo;interrogation queue&amp;rdquo;. This queue is inspired by developers&amp;rsquo; code review
+and the &amp;ldquo;interrogation queue&amp;rdquo;. This queue is inspired by developers&#39; code review
 and the most advanced metric found for it:
 &lt;img src=&#34;https://matbesancon.github.io/img/posts/peer_review/wtfm.jpg&#34; alt=&#34;&#34;&gt;
 An element is added in the queue when something is missing for my
@@ -258,7 +258,7 @@ the paper for its ease of understanding:&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;The second point is easy to solve, just recommend introducing the concept
 before the place in the text where the interrogation appeared.
-The first point will require more work on the authors&amp;rsquo; side
+The first point will require more work on the authors&#39; side
 to displace all explanations before the introduction of the concept/symbol,
 reducing the overall cognitive load at any moment for the reader.&lt;/p&gt;
 &lt;h2 id=&#34;thematic-read--writing-the-recommendations&#34;&gt;Thematic read &amp;amp; writing the recommendations&lt;/h2&gt;
@@ -418,7 +418,7 @@ Sounds familiar? Yes I&amp;rsquo;m looking at the Wikipedia
 &lt;a href=&#34;https://en.wikipedia.org/wiki/Venture_capital&#34;&gt;page on Venture Capital&lt;/a&gt;.
 Let&amp;rsquo;s dig deeper: thesis directors invest this time, money and energy in
 areas they are familiar with, they have worked in and/or have mentored other
-people on. This sounds like the VC firms&amp;rsquo; investment theses.
+people on. This sounds like the VC firms&#39; investment theses.
 Read &lt;a href=&#34;https://a16z.com/2016/08/20/why-software-is-eating-the-world/&#34;&gt;these&lt;/a&gt;
 &lt;a href=&#34;https://hackernoon.com/the-birth-of-a-venture-capital-investment-thesis-afd2903ae12&#34;&gt;two&lt;/a&gt;
 articles to see a more proper definition and examples of investment theses
@@ -469,7 +469,7 @@ One example of this is research software.
 &lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
 
 If you can, watch
-&lt;a href=&#34;https://twitter.com/walkingrandomly&#34;&gt;Mike Croucher&lt;/a&gt;&amp;lsquo;s excellent
+&lt;a href=&#34;https://twitter.com/walkingrandomly&#34;&gt;Mike Croucher&lt;/a&gt;&amp;rsquo;s excellent
 &lt;a href=&#34;https://www.youtube.com/watch?v=8ZSaAM8hhJ4&#34;&gt;talk&lt;/a&gt; at JuliaCon 2018 for more
 depth on the subject.&lt;/p&gt;
 &lt;p&gt;The consequence of ignoring software as a valuable result of research is

@@ -94,15 +94,6 @@
     </item>
     
     <item>
-      <title>graph</title>
-      <link>https://matbesancon.github.io/tags/graph/</link>
-      <pubDate>Thu, 12 Sep 2019 00:00:00 +0200</pubDate>
-      
-      <guid>https://matbesancon.github.io/tags/graph/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>graphs</title>
       <link>https://matbesancon.github.io/tags/graphs/</link>
       <pubDate>Thu, 12 Sep 2019 00:00:00 +0200</pubDate>
@@ -144,6 +135,15 @@
       <pubDate>Mon, 29 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>https://matbesancon.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>graph</title>
+      <link>https://matbesancon.github.io/tags/graph/</link>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/tags/graph/</guid>
       <description></description>
     </item>
     

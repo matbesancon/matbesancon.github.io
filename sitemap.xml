@@ -33,6 +33,11 @@
   </url>
   
   <url>
+    <loc>https://matbesancon.github.io/</loc>
+    <lastmod>2020-12-25T11:38:34+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://matbesancon.github.io/post/2020-12-23-chains_sets/</loc>
     <lastmod>2020-12-25T11:38:34+01:00</lastmod>
   </url>
@@ -98,11 +103,6 @@
   </url>
   
   <url>
-    <loc>https://matbesancon.github.io/tags/graph/</loc>
-    <lastmod>2020-01-06T16:40:51+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://matbesancon.github.io/tags/graphs/</loc>
     <lastmod>2020-01-06T16:40:51+01:00</lastmod>
   </url>
@@ -150,6 +150,11 @@
   <url>
     <loc>https://matbesancon.github.io/post/2019-04-14-optimization-function-evaluation/</loc>
     <lastmod>2019-05-09T14:12:49+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://matbesancon.github.io/tags/graph/</loc>
+    <lastmod>2019-05-08T17:19:05+02:00</lastmod>
   </url>
   
   <url>
@@ -472,11 +477,6 @@
   
   <url>
     <loc>https://matbesancon.github.io/talk/</loc>
-    <lastmod>2019-05-08T21:45:13+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://matbesancon.github.io/</loc>
     <lastmod>2019-05-08T21:45:13+02:00</lastmod>
   </url>
   

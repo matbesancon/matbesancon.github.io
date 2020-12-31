@@ -1532,7 +1532,7 @@ follows:&lt;/p&gt;
     └── runtests.jl
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;deps/build.log&lt;/code&gt; and &lt;code&gt;deps/deps.jl&lt;/code&gt; are not committed in the repository but
 generated when installing and/or building the Julia package.&lt;/p&gt;
-&lt;h1 id=&#34;lifting-maintainers-burden-generating-wrapper-functions-with-clangjl&#34;&gt;Lifting maintainers&amp;rsquo; burden: generating wrapper functions with Clang.jl&lt;/h1&gt;
+&lt;h1 id=&#34;lifting-maintainers-burden-generating-wrapper-functions-with-clangjl&#34;&gt;Lifting maintainers&#39; burden: generating wrapper functions with Clang.jl&lt;/h1&gt;
 &lt;p&gt;One time-consuming task in the previous steps is going from the C header file
 describing the API to Julia functions wrapping the &lt;em&gt;ccall&lt;/em&gt;. The task is mostly
 repetitive and can be automated using &lt;a href=&#34;https://github.com/JuliaInterop/Clang.jl/&#34;&gt;Clang.jl&lt;/a&gt;.
@@ -1823,7 +1823,8 @@ plain structures, initialized by providing all fields directly:
 &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Motor&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
 	&lt;span style=&#34;color:#a6e22e&#34;&gt;Power&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;uint&lt;/span&gt;
 }
-&lt;span style=&#34;color:#f92672&#34;&gt;//&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;m&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Motor&lt;/span&gt;{&lt;span style=&#34;color:#ae81ff&#34;&gt;33&lt;/span&gt;}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;// m := Motor{33}
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Both languages have conventions for calling a standard constructing function,
 namely &lt;code&gt;fn new(args) -&amp;gt; T&lt;/code&gt; and &lt;code&gt;func NewT(args)&lt;/code&gt; for Rust and Go respectively,
 but those are not special and remain a simple convention without additional
@@ -3570,7 +3571,7 @@ envious ones who didn&amp;rsquo;t have the courage to take the risky path.&lt;/p
 &lt;p&gt;To add some context, the first edition of the book was out in 2013. If I
 try to remember the ambient perception, tech was not yet the evil eating the
 world, building a startup was still freaking your parents out
-(at least if you lived in France), Bitcoin was still nerds&amp;rsquo; or drugs money.
+(at least if you lived in France), Bitcoin was still nerds&#39; or drugs money.
 And Apple was still in the general opinion the cool company building slick products.
 A chapter of the book is specifically dedicated to the company and how it has
 been helped by the US federal and state governments at various stages and for
@@ -3889,7 +3890,7 @@ Feel free to reach out any way you prefer, &lt;a href=&#34;https://twitter.com/m
 &lt;p&gt;Edit 2: Thanks Mathieu Tanneau for pointing out the alternative solution of
 indicator constraints instead of big M, as documented in &lt;a href=&#34;http://www.gurobi.com/documentation/7.5/refman/constraints.html&#34;&gt;Gurobi&lt;/a&gt;, &lt;a href=&#34;https://www.ibm.com/support/knowledgecenter/SSSA5P_12.8.0/ilog.odms.cplex.help/CPLEX/UsrMan/topics/discr_optim/indicator_constr/01_indicators_title_synopsis.html&#34;&gt;CPLEX&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Edit 3: For more info on big M constraints and underlying issues, you can read
-&lt;a href=&#34;https://twitter.com/thserra&#34;&gt;Thiago Serra&lt;/a&gt;&amp;lsquo;s &lt;a href=&#34;https://thiagoserra.com/2017/06/15/big-m-good-in-practice-bad-in-theory-and-ugly-numerically/&#34;&gt;post&lt;/a&gt;, which includes nice visualizations of the problem space.&lt;/p&gt;
+&lt;a href=&#34;https://twitter.com/thserra&#34;&gt;Thiago Serra&lt;/a&gt;&amp;rsquo;s &lt;a href=&#34;https://thiagoserra.com/2017/06/15/big-m-good-in-practice-bad-in-theory-and-ugly-numerically/&#34;&gt;post&lt;/a&gt;, which includes nice visualizations of the problem space.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;Sources:&lt;/p&gt;
 &lt;p&gt;[1] Henrik Carøe Bylling&amp;rsquo;s thesis, KU, &lt;a href=&#34;http://web.math.ku.dk/noter/filer/phd19hb.pdf&#34;&gt;http://web.math.ku.dk/noter/filer/phd19hb.pdf&lt;/a&gt;&lt;/p&gt;
@@ -3971,7 +3972,7 @@ I read it through without interruptions (no phone, no open browser, no music
 or music without lyrics), taking notes on the side on all things that cross
 my mind.
 Notes are of different types: small mistakes, remarkable points, key information
-and the &amp;ldquo;interrogation queue&amp;rdquo;. This queue is inspired by developers&amp;rsquo; code review
+and the &amp;ldquo;interrogation queue&amp;rdquo;. This queue is inspired by developers&#39; code review
 and the most advanced metric found for it:
 &lt;img src=&#34;https://matbesancon.github.io/img/posts/peer_review/wtfm.jpg&#34; alt=&#34;&#34;&gt;
 An element is added in the queue when something is missing for my
@@ -3987,7 +3988,7 @@ the paper for its ease of understanding:&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;The second point is easy to solve, just recommend introducing the concept
 before the place in the text where the interrogation appeared.
-The first point will require more work on the authors&amp;rsquo; side
+The first point will require more work on the authors&#39; side
 to displace all explanations before the introduction of the concept/symbol,
 reducing the overall cognitive load at any moment for the reader.&lt;/p&gt;
 &lt;h2 id=&#34;thematic-read--writing-the-recommendations&#34;&gt;Thematic read &amp;amp; writing the recommendations&lt;/h2&gt;
@@ -4383,7 +4384,7 @@ Sounds familiar? Yes I&amp;rsquo;m looking at the Wikipedia
 &lt;a href=&#34;https://en.wikipedia.org/wiki/Venture_capital&#34;&gt;page on Venture Capital&lt;/a&gt;.
 Let&amp;rsquo;s dig deeper: thesis directors invest this time, money and energy in
 areas they are familiar with, they have worked in and/or have mentored other
-people on. This sounds like the VC firms&amp;rsquo; investment theses.
+people on. This sounds like the VC firms&#39; investment theses.
 Read &lt;a href=&#34;https://a16z.com/2016/08/20/why-software-is-eating-the-world/&#34;&gt;these&lt;/a&gt;
 &lt;a href=&#34;https://hackernoon.com/the-birth-of-a-venture-capital-investment-thesis-afd2903ae12&#34;&gt;two&lt;/a&gt;
 articles to see a more proper definition and examples of investment theses
@@ -4434,7 +4435,7 @@ One example of this is research software.
 &lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
 
 If you can, watch
-&lt;a href=&#34;https://twitter.com/walkingrandomly&#34;&gt;Mike Croucher&lt;/a&gt;&amp;lsquo;s excellent
+&lt;a href=&#34;https://twitter.com/walkingrandomly&#34;&gt;Mike Croucher&lt;/a&gt;&amp;rsquo;s excellent
 &lt;a href=&#34;https://www.youtube.com/watch?v=8ZSaAM8hhJ4&#34;&gt;talk&lt;/a&gt; at JuliaCon 2018 for more
 depth on the subject.&lt;/p&gt;
 &lt;p&gt;The consequence of ignoring software as a valuable result of research is
@@ -5944,7 +5945,7 @@ is also what makes an open-source project successful.&lt;/p&gt;
       <guid>https://matbesancon.github.io/post/2017-10-19-tomate-cli/</guid>
       <description>&lt;p&gt;The start of my journey as a PhD student last September was a big step, but
 also an opportunity to review and improve my working habits. My day time
-had to be used properly, both for results&amp;rsquo; sake and to be able to keep
+had to be used properly, both for results&#39; sake and to be able to keep
 a balanced life.&lt;/p&gt;
 &lt;p&gt;I had been introduced to the &lt;a href=&#34;https://en.wikipedia.org/wiki/Pomodoro_Technique&#34;&gt;Pomodoro technique&lt;/a&gt;
 at Equisense (thanks &lt;a href=&#34;https://twitter.com/CamilleSaute&#34;&gt;Camille&lt;/a&gt;!) but
@@ -6154,11 +6155,11 @@ startup culture is still not familiar to a significant part of the population
 or like Germany where pragmatism is king in both what you do and how you
 communicate it.
 Traditional organizations have always had a simple deal on the recruitment side:
-lend me your skills and I&amp;rsquo;ll pay you decently. On the clients&amp;rsquo; side, the
+lend me your skills and I&amp;rsquo;ll pay you decently. On the clients&#39; side, the
 &amp;ldquo;values&amp;rdquo; displayed were traditionally associated with product differentiation
 (&amp;ldquo;at XYZ, our obsession is to bring the best product to [insert target] at
 unbeatable prices&amp;rdquo;).
-The shareholders&amp;rsquo; side did not even need big words, a couple KPIs from the last
+The shareholders&#39; side did not even need big words, a couple KPIs from the last
 quarter would do. As &lt;a href=&#34;https://medium.com/@Nicolas_Colin&#34;&gt;Nicolas Colin&lt;/a&gt; phrases
 in several Medium posts, keeping what is being said to each of these
 stakeholders completely separated is not possible anymore in the digital age.
@@ -6453,7 +6454,7 @@ horses wellness and of a passion for horse-riding.&lt;/strong&gt;&lt;/p&gt;
 home, (the Kickstarter campaign, new partnerships, features of the product
 getting out of the ground one by one&amp;hellip;), the most impressive achievement was
 being joined by so many diverse profiles while building a working environment
-at the image of their horse-riders&amp;rsquo; mindset.&lt;/p&gt;
+at the image of their horse-riders&#39; mindset.&lt;/p&gt;
 &lt;p&gt;The founders already had this care and passion in their DNA, they just
 succeeded in transforming it into a full culture and transmitting it into an
 obsession within the team.&lt;/p&gt;
@@ -7392,78 +7393,78 @@ object can be used to find some key information in the data.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align=&#34;center&#34;&gt;&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;vari&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;skew&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;kurtosis&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;entropy&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;class&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;vari&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;skew&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;kurtosis&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;entropy&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;class&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;count&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1372.000000&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;count&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1372.000000&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1372.000000&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1372.000000&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1372.000000&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1372.000000&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;mean&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.433735&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1.922353&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1.397627&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-1.191657&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.444606&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;mean&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.433735&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.922353&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.397627&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-1.191657&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.444606&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;std&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;2.842763&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;5.869047&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;4.310030&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;2.101013&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.497103&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;std&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2.842763&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;5.869047&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;4.310030&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2.101013&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.497103&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;min&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-7.042100&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-13.773100&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-5.286100&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-8.548200&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.000000&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;min&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-7.042100&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-13.773100&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-5.286100&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-8.548200&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.000000&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;25%&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-1.773000&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-1.708200&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-1.574975&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-2.413450&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.000000&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;25%&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-1.773000&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-1.708200&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-1.574975&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-2.413450&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.000000&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;50%&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.496180&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;2.319650&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.616630&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-0.586650&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.000000&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;50%&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.496180&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2.319650&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.616630&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-0.586650&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.000000&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;75%&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;2.821475&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;6.814625&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;3.179250&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0.394810&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1.000000&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;75%&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2.821475&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6.814625&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;3.179250&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.394810&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.000000&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;max&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;6.824800&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;12.951600&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;17.927400&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;2.449500&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1.000000&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;max&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6.824800&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;12.951600&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;17.927400&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2.449500&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.000000&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;

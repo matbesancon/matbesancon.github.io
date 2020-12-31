@@ -93,7 +93,8 @@ plain structures, initialized by providing all fields directly:
 &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Motor&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
 	&lt;span style=&#34;color:#a6e22e&#34;&gt;Power&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;uint&lt;/span&gt;
 }
-&lt;span style=&#34;color:#f92672&#34;&gt;//&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;m&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Motor&lt;/span&gt;{&lt;span style=&#34;color:#ae81ff&#34;&gt;33&lt;/span&gt;}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;// m := Motor{33}
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Both languages have conventions for calling a standard constructing function,
 namely &lt;code&gt;fn new(args) -&amp;gt; T&lt;/code&gt; and &lt;code&gt;func NewT(args)&lt;/code&gt; for Rust and Go respectively,
 but those are not special and remain a simple convention without additional

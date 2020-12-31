@@ -1378,7 +1378,7 @@ follows:&lt;/p&gt;
     └── runtests.jl
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;deps/build.log&lt;/code&gt; and &lt;code&gt;deps/deps.jl&lt;/code&gt; are not committed in the repository but
 generated when installing and/or building the Julia package.&lt;/p&gt;
-&lt;h1 id=&#34;lifting-maintainers-burden-generating-wrapper-functions-with-clangjl&#34;&gt;Lifting maintainers&amp;rsquo; burden: generating wrapper functions with Clang.jl&lt;/h1&gt;
+&lt;h1 id=&#34;lifting-maintainers-burden-generating-wrapper-functions-with-clangjl&#34;&gt;Lifting maintainers&#39; burden: generating wrapper functions with Clang.jl&lt;/h1&gt;
 &lt;p&gt;One time-consuming task in the previous steps is going from the C header file
 describing the API to Julia functions wrapping the &lt;em&gt;ccall&lt;/em&gt;. The task is mostly
 repetitive and can be automated using &lt;a href=&#34;https://github.com/JuliaInterop/Clang.jl/&#34;&gt;Clang.jl&lt;/a&gt;.
@@ -1557,7 +1557,8 @@ plain structures, initialized by providing all fields directly:
 &lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Motor&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
 	&lt;span style=&#34;color:#a6e22e&#34;&gt;Power&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;uint&lt;/span&gt;
 }
-&lt;span style=&#34;color:#f92672&#34;&gt;//&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;m&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Motor&lt;/span&gt;{&lt;span style=&#34;color:#ae81ff&#34;&gt;33&lt;/span&gt;}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;// m := Motor{33}
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Both languages have conventions for calling a standard constructing function,
 namely &lt;code&gt;fn new(args) -&amp;gt; T&lt;/code&gt; and &lt;code&gt;func NewT(args)&lt;/code&gt; for Rust and Go respectively,
 but those are not special and remain a simple convention without additional
@@ -3516,7 +3517,7 @@ Feel free to reach out any way you prefer, &lt;a href=&#34;https://twitter.com/m
 &lt;p&gt;Edit 2: Thanks Mathieu Tanneau for pointing out the alternative solution of
 indicator constraints instead of big M, as documented in &lt;a href=&#34;http://www.gurobi.com/documentation/7.5/refman/constraints.html&#34;&gt;Gurobi&lt;/a&gt;, &lt;a href=&#34;https://www.ibm.com/support/knowledgecenter/SSSA5P_12.8.0/ilog.odms.cplex.help/CPLEX/UsrMan/topics/discr_optim/indicator_constr/01_indicators_title_synopsis.html&#34;&gt;CPLEX&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Edit 3: For more info on big M constraints and underlying issues, you can read
-&lt;a href=&#34;https://twitter.com/thserra&#34;&gt;Thiago Serra&lt;/a&gt;&amp;lsquo;s &lt;a href=&#34;https://thiagoserra.com/2017/06/15/big-m-good-in-practice-bad-in-theory-and-ugly-numerically/&#34;&gt;post&lt;/a&gt;, which includes nice visualizations of the problem space.&lt;/p&gt;
+&lt;a href=&#34;https://twitter.com/thserra&#34;&gt;Thiago Serra&lt;/a&gt;&amp;rsquo;s &lt;a href=&#34;https://thiagoserra.com/2017/06/15/big-m-good-in-practice-bad-in-theory-and-ugly-numerically/&#34;&gt;post&lt;/a&gt;, which includes nice visualizations of the problem space.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;Sources:&lt;/p&gt;
 &lt;p&gt;[1] Henrik Carøe Bylling&amp;rsquo;s thesis, KU, &lt;a href=&#34;http://web.math.ku.dk/noter/filer/phd19hb.pdf&#34;&gt;http://web.math.ku.dk/noter/filer/phd19hb.pdf&lt;/a&gt;&lt;/p&gt;
