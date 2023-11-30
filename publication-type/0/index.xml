@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>0 | μβ</title>
+    <link>https://matbesancon.xyz/publication-type/0/</link>
+      <atom:link href="https://matbesancon.xyz/publication-type/0/index.xml" rel="self" type="application/rss+xml" />
+    <description>0</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 01 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://matbesancon.xyz/media/icon_hu734b3f773d66f7a68c6f81b686e5966b_1180_512x512_fill_lanczos_center_3.png</url>
+      <title>0</title>
+      <link>https://matbesancon.xyz/publication-type/0/</link>
+    </image>
+    
+    <item>
+      <title>How Many Clues To Give? A Bilevel Formulation For The Minimum Sudoku Clue Problem</title>
+      <link>https://matbesancon.xyz/publication/preprint/tjusila-2023-clues/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/tjusila-2023-clues/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
+<!-- Last Published: November 30, 2023 --><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+
+  
+  
+    
+    <script src="/js/mathjax-config.js"></script>
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.047268c6dd09ad74ba54a0ba71837064.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.be1e734c86be5b4f1c94d71028ea7cbf.css" />
+
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/libs/chroma/github-light.min.css" title="hl-light" media="print" onload="this.media='all'" >
+    <link rel="stylesheet" href="/css/libs/chroma/dracula.min.css" title="hl-dark" media="print" onload="this.media='all'" disabled>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+  <meta name="author" content="Mathieu Besançon" />
+
+
+
+
+
+  
+
+<meta name="description" content="Graph theory and Julia to solve the boring aspect of having friends
+" />
+
+
+
+<link rel="alternate" hreflang="en-us" href="https://matbesancon.xyz/post/2017-09-11-graph-theory-expenses-management/" />
+<link rel="canonical" href="https://matbesancon.xyz/post/2017-09-11-graph-theory-expenses-management/" />
+
+
+
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+
+
+<link rel="icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_32x32_fill_lanczos_center_3.png" />
+<link rel="apple-touch-icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_180x180_fill_lanczos_center_3.png" />
+
+<meta name="theme-color" content="#1565c0" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<meta property="twitter:card" content="summary" />
+
+  <meta property="twitter:site" content="@matbesancon" />
+  <meta property="twitter:creator" content="@matbesancon" />
+<meta property="twitter:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" />
+<meta property="og:site_name" content="μβ" />
+<meta property="og:url" content="https://matbesancon.xyz/post/2017-09-11-graph-theory-expenses-management/" />
+<meta property="og:title" content="Solving the group expenses headache with graphs | μβ" />
+<meta property="og:description" content="Graph theory and Julia to solve the boring aspect of having friends
+" /><meta property="og:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+
+  
+    <meta
+      property="article:published_time"
+      content="2018-01-15T00:00:00&#43;00:00"
+    />
+  
+  
+    <meta property="article:modified_time" content="2023-10-24T18:49:06&#43;02:00">
+  
+
+
+
+
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://matbesancon.xyz/post/2017-09-11-graph-theory-expenses-management/"
+  },
+  "headline": "Solving the group expenses headache with graphs",
+  
+  "datePublished": "2018-01-15T00:00:00Z",
+  "dateModified": "2023-10-24T18:49:06+02:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Mathieu Besançon"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "μβ",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "Graph theory and Julia to solve the boring aspect of having friends\n"
+}
+</script>
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+  
+
+  
+
+
+  
+  <title>Solving the group expenses headache with graphs | μβ</title>
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="5dd7446f6cc4ddd5c173d6d1f089ef04" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header header--fixed">
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container-xl">
+
+      
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+      
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      
+      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+        
+        <ul class="navbar-nav d-md-inline-flex">
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#about"><span>Home</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#experience"><span>Experience</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#publications"><span>Publications</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#posts"><span>Posts</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#workwithme"><span>Work with me</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#contact"><span>Contact</span></a>
+          </li>
+
+          
+          
+
+        
+
+          
+        </ul>
+      </div>
+
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+        
+        
+          
+        
+
+        
+        
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+        
+        
+        <li class="nav-item dropdown theme-dropdown">
+          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item js-set-theme-light">
+              <span>Light</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-dark">
+              <span>Dark</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-auto">
+              <span>Automatic</span>
+            </a>
+          </div>
+        </li>
+        
+
+        
+        
+
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+
+  </div>
+
+  <div class="page-body">
+    
+    
+    
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+<div class="article-header">
+  
+  
+    <img src="/img/posts/expense/graphviz.png" class="article-banner" alt="">
+  
+
+  
+</div>
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Solving the group expenses headache with graphs</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    2023-10-24
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    8 min read
+  </span>
+  
+
+  
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <p>With the end-of-year celebrations, we all had some expenses to manage,
+some of them shared with friends, and we all have this eternal problem
+of splitting them fairly.</p>
+<blockquote>
+<p><em>Les bons comptes font les bons amis.</em>
+French wisdom</p>
+</blockquote>
+<p>Applications like <a href="https://tricount.com/" target="_blank" rel="noopener">Tricount</a> or
+<a href="https://www.splitwise.com/" target="_blank" rel="noopener">Splitwise</a> became famous precisely by
+solving this problem for you: just enter the expenses one by one, with who
+owes whom and you&rsquo;ll get the simplest transactions to balance the amounts at
+the end.</p>
+<p>In this post, we&rsquo;ll model the expense balancing problem from a graph
+perspective and see how to come up with a solution using Julia and the
+JuliaGraphs ecosystem [1].</p>
+<!-- raw HTML omitted -->
+
+
+<details class="toc-inpage d-print-none  " open>
+  <summary class="font-weight-bold">Table of Contents</summary>
+  <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#the-expenses-model">The expenses model</a></li>
+        <li><a href="#reducing-expenses">Reducing expenses</a></li>
+        <li><a href="#breaking-strongly-connected-components">Breaking strongly connected components</a></li>
+        <li><a href="#expenses-as-a-flow-problem">Expenses as a flow problem</a></li>
+        <li><a href="#conclusion-perspective-and-note-on-gphc">Conclusion, perspective and note on GPHC</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+</details>
+
+<h2 id="the-expenses-model">The expenses model</h2>
+<p>Say that we have $n$ users involved in the expenses. An expense
+$\delta$ is defined by an amount spent $\sigma$, the user who paid the
+expense $p$ and a non-empty set of users who are accountable for
+this expense $a$.</p>
+<blockquote>
+<p>$\delta = (\sigma, p, a)$</p>
+</blockquote>
+<p>The total of all expenses $\Sigma$ can be though of as: for any two users $u_i$ and $u_j$,
+the total amount that $u_i$ spent for $u_j$. So the expenses are a vector of
+triplets <em>(paid by, paid for, amount)</em>.</p>
+<p>As an example, if I went out for
+pizza with Joe and paid 8GPHC for the two of us, the expense is modeled as:</p>
+<blockquote>
+<p>$\delta = (\sigma: 8GPHC, p: Mathieu, a: [Mathieu, Joe])$.</p>
+</blockquote>
+<p>Now considering I don&rsquo;t keep track of money I owe myself, the sum of all expenses
+is the vector composed of one triplet:</p>
+<blockquote>
+<p>$\Sigma = [(Mathieu, Joe, \frac{8}{2} = 4)]$</p>
+</blockquote>
+<p>In Julia, the expense information can be translated to a structure:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> User <span style="color:#f92672">=</span> <span style="color:#66d9ef">Int</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> GraphCoin <span style="color:#f92672">=</span> <span style="color:#66d9ef">Float16</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Expense</span>
+</span></span><span style="display:flex;"><span>    payer<span style="color:#f92672">::</span><span style="color:#66d9ef">User</span>
+</span></span><span style="display:flex;"><span>    amount<span style="color:#f92672">::</span><span style="color:#66d9ef">GraphCoin</span>
+</span></span><span style="display:flex;"><span>    users<span style="color:#f92672">::</span><span style="color:#66d9ef">Set</span>{<span style="color:#66d9ef">User</span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div></p>
+<h2 id="reducing-expenses">Reducing expenses</h2>
+<p>Now that we have a full representation of the expenses,
+the purpose of balancing is to find a vector of transactions which cancels out
+the expenses. A naive approach would be to use the transposed expense matrix
+as a transaction matrix. If $u_i$ paid $\Sigma_{i,j}$ for $u_j$,
+then $u_j$ paying back that exact amount to $u_i$ will solve the problem.
+So we need in the worst case as many transactions after the trip as
+$|u| \cdot (|u| - 1)$. For 5 users, that&rsquo;s already 20 transactions,
+how can we improve it?</p>
+<h2 id="breaking-strongly-connected-components">Breaking strongly connected components</h2>
+<p>Suppose that I paid the pizza slice to Joe for 4GPHC, but he bought me an ice
+cream for 2GPHC the day after. In the naive models, we would have two
+transactions after the trip: he give me 4GPHC and I would give him 2GPHC. That
+does not make any sense, he should simply pay the difference between what he
+owes me and what I owe him. For any pair of users, there should only be
+at most one transaction from the most in debt to the other, this result in the
+worst case of $\frac{|u| \cdot (|u| - 1)}{2}$ transactions, so 10 transactions
+for 5 people.</p>
+<p>Now imagine I still paid 4GPHC for Joe, who paid 2GPHC for Marie, who paid 4GPHC
+for me. In graph terminology, this is called a
+<em><a href="https://en.wikipedia.org/wiki/Strongly_connected_component" target="_blank" rel="noopener">strongly connected component</a></em>.
+The point here is that transactions will flow from one user to the next one,
+and back to the first.</p>
+<p>If there is a cycle, we can find the minimal due sum within it. In our 3-people
+case, it is 2GPHC. That&rsquo;s the amount which is just moving from hand to hand and
+back at the origin: it can be forgotten. This yields a new net debt:
+I paid 2GPHC for Joe, Marie paid 2GPHC for me. We reduced the number of
+transactions and the amount due thanks to this cycle reduction.</p>
+<h2 id="expenses-as-a-flow-problem">Expenses as a flow problem</h2>
+<p>To simplify the problem, we can notice we don&rsquo;t actually care about who paid
+whom for what, a fair reimbursement plan only requires two conditions:</p>
+<ol>
+<li>All people who are owed some money are given at least that amount</li>
+<li>People who owe money don&rsquo;t pay more than the net amount they ought to pay</li>
+</ol>
+<p>We can define a directed flow network with users split in two sets of vertices,
+depending on whether they owe or are owed money. We call these two sets $V_1$
+and $V_2$ respectively.</p>
+<ul>
+<li>There is an edge from any node of $V_1$ to any node of $V_2$.</li>
+<li>We define a <em>source</em> noted $s$ connected to all vertices in $V_1$, the edge
+from $s$ to any node of $V_1$ has a capacity equal to what they owe.</li>
+<li>We define a <em>sink</em> noted $t$ to which all vertices in $V_2$ connect, with
+infinite capacity and a demand (the minimal flow that has to pass through) equal
+to what they are owed.</li>
+</ul>
+<p>With this model, GraphCoins will flow from user owing money to users who are
+owed money, see <a href="https://en.wikipedia.org/wiki/Maximum_flow_problem" target="_blank" rel="noopener">Wikipedia description of the flow problem</a>.</p>
+<h3 id="computing-net-owed-amount-per-user">Computing net owed amount per user</h3>
+<p>Given a vector of expenses, we should be able to build the matrix holding what
+is owed in net from a user to another:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Builds the matrix of net owed GraphCoins
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> compute_net_owing(expenses<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">Expense</span>}, nusers<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>)
+</span></span><span style="display:flex;"><span>    owing_matrix <span style="color:#f92672">=</span> zeros(GraphCoin, nusers, nusers)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># row owes to column</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> expense <span style="color:#66d9ef">in</span> expenses
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> user <span style="color:#66d9ef">in</span> expense<span style="color:#f92672">.</span>users
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> user <span style="color:#f92672">!=</span> expense<span style="color:#f92672">.</span>payer
+</span></span><span style="display:flex;"><span>                owing_matrix[user,expense<span style="color:#f92672">.</span>payer] <span style="color:#f92672">+=</span> expense<span style="color:#f92672">.</span>amount <span style="color:#f92672">/</span> length(expense<span style="color:#f92672">.</span>users)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># compute net owed amount</span>
+</span></span><span style="display:flex;"><span>    net_owing <span style="color:#f92672">=</span> zeros(GraphCoin, nusers, nusers)    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>nusers<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> j <span style="color:#66d9ef">in</span> i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>nusers
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> owing_matrix[i,j] <span style="color:#f92672">&gt;</span> owing_matrix[j,i]
+</span></span><span style="display:flex;"><span>                net_owing[i,j] <span style="color:#f92672">=</span> owing_matrix[i,j] <span style="color:#f92672">-</span> owing_matrix[j,i]
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elseif</span> owing_matrix[i,j] <span style="color:#f92672">&lt;</span> owing_matrix[j,i]
+</span></span><span style="display:flex;"><span>                net_owing[j,i] <span style="color:#f92672">=</span> owing_matrix[j,i] <span style="color:#f92672">-</span> owing_matrix[i,j]
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> net_owing
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>From that matrix, we should determine the net amount any user owes or is owed:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    What is owed to a given user (negative if user owes money)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> net_owed_user(net_owing<span style="color:#f92672">::</span><span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">GraphCoin</span>})
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (sum(net_owing,<span style="color:#ae81ff">1</span>)<span style="color:#f92672">&#39;</span> <span style="color:#f92672">-</span> sum(net_owing,<span style="color:#ae81ff">2</span>))[<span style="color:#f92672">:</span>,<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div></p>
+<p>The <code>sum</code> function used with <code>1</code> or <code>2</code> sums a matrix over its rows, columns
+respectively. This computes a difference between what a user is owed and what
+they owe.</p>
+<h3 id="building-the-graph-and-the-corresponding-flow-problem">Building the graph and the corresponding flow problem</h3>
+<p>A flow problem is determined by the directed graph (nodes and directed edges),
+the minimal flow for any edge, a maximal flow or capacity for any edge and a
+cost of having a certain flow going through each edge.</p>
+<p>First, we need to import LightGraphs, the core package of the JuliaGraph
+ecosystem containing essential types.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> LightGraphs; <span style="color:#66d9ef">const</span> lg <span style="color:#f92672">=</span> LightGraphs
+</span></span></code></pre></div><blockquote>
+<p>Note that I use explicit package import (not <code>using</code>), an habit I
+kept from using Python and that I consider more readable than importing
+the whole package into the namespace. <code>lg</code> has become my usual name for the
+LightGraphs package.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> build_graph(net_owing<span style="color:#f92672">::</span><span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">GraphCoin</span>})
+</span></span><span style="display:flex;"><span>    nusers <span style="color:#f92672">=</span> size(net_owing,<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    g <span style="color:#f92672">=</span> lg<span style="color:#f92672">.</span>DiGraph(nusers <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>    source <span style="color:#f92672">=</span> nusers <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    sink <span style="color:#f92672">=</span> nusers <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    net_user <span style="color:#f92672">=</span> net_owed_user(net_owing)
+</span></span><span style="display:flex;"><span>    v1 <span style="color:#f92672">=</span> [idx <span style="color:#66d9ef">for</span> idx <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>nusers <span style="color:#66d9ef">if</span> net_user[idx] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>    v2 <span style="color:#f92672">=</span> [idx <span style="color:#66d9ef">for</span> idx <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>nusers <span style="color:#66d9ef">if</span> net_user[idx] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>    capacity <span style="color:#f92672">=</span> zeros(GraphCoin, nusers<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>,nusers<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>    demand <span style="color:#f92672">=</span> zeros(GraphCoin, nusers<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>,nusers<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>    maxcap <span style="color:#f92672">=</span> sum(net_owing)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> u1 <span style="color:#66d9ef">in</span> v1
+</span></span><span style="display:flex;"><span>        lg<span style="color:#f92672">.</span>add_edge!(g,source,u1)
+</span></span><span style="display:flex;"><span>        capacity[source,u1] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>net_user[u1]
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> u2 <span style="color:#66d9ef">in</span> v2
+</span></span><span style="display:flex;"><span>            lg<span style="color:#f92672">.</span>add_edge!(g,u1,u2)
+</span></span><span style="display:flex;"><span>            capacity[u1,u2] <span style="color:#f92672">=</span> maxcap
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> u2 <span style="color:#66d9ef">in</span> v2
+</span></span><span style="display:flex;"><span>        lg<span style="color:#f92672">.</span>add_edge!(g,u2,sink)
+</span></span><span style="display:flex;"><span>        capacity[u2,sink] <span style="color:#f92672">=</span> maxcap
+</span></span><span style="display:flex;"><span>        demand[u2,sink] <span style="color:#f92672">=</span> net_user[u2]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    (g, capacity, demand)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>This function builds our graph structure and all data we need attached.</p>
+<h3 id="solving-the-flow-problem">Solving the flow problem</h3>
+<p>Now that the components are set, we can solve the problem using another
+component of the JuliaGraphs ecosystem specialized for flow problems:</p>
+<pre tabindex="0"><code>using LightGraphsFlows: mincost_flow
+using Clp: ClpSolver
+</code></pre><p>We also need a Linear Programming solver to pass to the flow solver, all we
+have to do is bundle the pieces together:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> solve_expense(expenses<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">Expense</span>}, nusers<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>)
+</span></span><span style="display:flex;"><span>    (g, capacity, demand) <span style="color:#f92672">=</span> build_graph(compute_net_owing(expenses, nusers))
+</span></span><span style="display:flex;"><span>    flow <span style="color:#f92672">=</span> mincost_flow(g, capacity, demand, ones(nusers<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>,nusers<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>), ClpSolver(), nusers<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, nusers<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> flow[<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#66d9ef">end</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#66d9ef">end</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>We truncate the <code>flow</code> matrix because we are only interested in what users
+are paying each other, not in the flows from and to the source and sink.</p>
+<h3 id="trying-out-our-solution">Trying out our solution</h3>
+<p>Now that all functions are set, we can use it on any expense problem:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>expenses <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    Expense(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">10</span>, <span style="color:#66d9ef">Set</span>([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>])),
+</span></span><span style="display:flex;"><span>    Expense(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">24</span>, <span style="color:#66d9ef">Set</span>([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>])),
+</span></span><span style="display:flex;"><span>    Expense(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">10</span>, <span style="color:#66d9ef">Set</span>([<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>]))
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>solve_expense(expenses, <span style="color:#ae81ff">3</span>)</span></span></code></pre></div>
+<pre tabindex="0"><code>3×3 Array{Float64,2}:
+  0.0  0.0  0.0
+ 18.0  0.0  0.0
+  3.0  0.0  0.0
+</code></pre><p>In the result, each row pays to each column and voilà! Our three users don&rsquo;t
+have to feel the tension of unpaid debts anymore.</p>
+<h2 id="conclusion-perspective-and-note-on-gphc">Conclusion, perspective and note on GPHC</h2>
+<p>We managed to model our specific problem using <em>LightGraphs.jl</em> and the
+associated flow package pretty easily. I have to admit being biased since
+I contributed to the JuliaGraphs ecosystem, if your impression is different
+or if you have some feedback, don&rsquo;t hesitate to file an issue on the
+<a href="https://github.com/JuliaGraphs" target="_blank" rel="noopener">corresponding package</a>, some awesome people
+will help you figure things out as they helped me.</p>
+<p>There is one thing we ignored in our model, it&rsquo;s the number of transactions
+realized. Using this as an objective turns the problem into a
+<a href="https://en.wikipedia.org/wiki/Integer_programming#Variants" target="_blank" rel="noopener">Mixed-Integer Linear Programming</a> one,
+which are much harder to solve and cannot use simple flow techniques. However,
+I still haven&rsquo;t found a case where our simple approach does not yield the
+smallest number of transactions.</p>
+<p>Final word: I started the idea of this article long before the crypto-madness
+(September actually), when currencies where still considered as boring,
+nerdy or both, sorry about following the (late) hype. I even changed
+GraphCoin symbol to GPHC because I found another one with which my initial
+name conflicted.</p>
+<p>If you have questions or remarks on LightGraphs, LightGraphsFlows, the article
+or anything related, don&rsquo;t hesitate to <a href="http://twitter.com/matbesancon" target="_blank" rel="noopener">ping me</a>!</p>
+<p>Edits:<br>
+Special thanks to <a href="http://www.bromberger.com/" target="_blank" rel="noopener">Seth Bromberger</a> for the review.</p>
+<hr>
+<p>The cover image was created using
+<a href="https://github.com/JuliaGraphs/GraphPlot.jl" target="_blank" rel="noopener">GraphPlot.jl</a>.</p>
+<p>[1] James Fairbanks Seth Bromberger and other contributors. Juliagraphs/LightGraphs.jl:
+Lightgraphs, 2017, <a href="https://doi.org/10.5281/zenodo.889971" target="_blank" rel="noopener">https://doi.org/10.5281/zenodo.889971</a>. DOI: 10.5281/zenodo.889971</p>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/graph/">graph</a>
+  
+  <a class="badge badge-light" href="/tag/julia/">julia</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2017-09-11-graph-theory-expenses-management%2F&amp;text=Solving&#43;the&#43;group&#43;expenses&#43;headache&#43;with&#43;graphs" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2017-09-11-graph-theory-expenses-management%2F&amp;t=Solving&#43;the&#43;group&#43;expenses&#43;headache&#43;with&#43;graphs" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a href="mailto:?subject=Solving%20the%20group%20expenses%20headache%20with%20graphs&amp;body=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2017-09-11-graph-theory-expenses-management%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2017-09-11-graph-theory-expenses-management%2F&amp;title=Solving&#43;the&#43;group&#43;expenses&#43;headache&#43;with&#43;graphs" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Solving&#43;the&#43;group&#43;expenses&#43;headache&#43;with&#43;graphs%20https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2017-09-11-graph-theory-expenses-management%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2017-09-11-graph-theory-expenses-management%2F&amp;title=Solving&#43;the&#43;group&#43;expenses&#43;headache&#43;with&#43;graphs" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://matbesancon.xyz/"><img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu717a6920346f3d435e65e27c2a66c1ed_48773_270x270_fill_q75_lanczos_center.jpg" alt="Mathieu Besançon"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://matbesancon.xyz/">Mathieu Besançon</a></h5>
+      <h6 class="card-subtitle">Researcher in mathematical optimization</h6>
+      <p class="card-text">Mathematical optimization, scientific programming and related.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=-xStCAIAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://orcid.org/0000-0002-6284-3033" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.youtube.com/channel/UCVSd42nW_MqkbSXijgOvKwg" target="_blank" rel="noopener">
+        <i class="fab fa-youtube"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/mbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    © 2023 Mathieu Besançon.
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+    <p class="powered-by">
+    Published with Hugo and Wowchemy.
+   </p>
+
+
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+
+
+<script src="/js/vendor-bundle.min.938a3a7554cd9f6602290411f64d2617.js"></script>
+
+
+
+
+  
+
+  
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script id="search-hit-fuse-template" type="text/x-template">
+    <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+    </div>
+  </script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+<script id="page-data" type="application/json">{"use_headroom":true}</script>
+
+
+
+  <script src="/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<script src="/en/js/wowchemy.min.2945731fa88332cb0ec33cf47d29879f.js"></script>
+
+
+
+
+
+
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <pre><code></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

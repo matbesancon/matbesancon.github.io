@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
+<!-- Last Published: November 30, 2023 --><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.047268c6dd09ad74ba54a0ba71837064.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.be1e734c86be5b4f1c94d71028ea7cbf.css" />
+
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/libs/chroma/github-light.min.css" title="hl-light" media="print" onload="this.media='all'" >
+    <link rel="stylesheet" href="/css/libs/chroma/dracula.min.css" title="hl-dark" media="print" onload="this.media='all'" disabled>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+  <meta name="author" content="Mathieu Besançon" />
+
+
+
+
+
+  
+
+<meta name="description" content="Thoughts as an engineer-by-training evolving towards data skills in a
+manufacturing context.
+" />
+
+
+
+<link rel="alternate" hreflang="en-us" href="https://matbesancon.xyz/post/2016-05-21-bringing-data-science-engineers/" />
+<link rel="canonical" href="https://matbesancon.xyz/post/2016-05-21-bringing-data-science-engineers/" />
+
+
+
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+
+
+<link rel="icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_32x32_fill_lanczos_center_3.png" />
+<link rel="apple-touch-icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_180x180_fill_lanczos_center_3.png" />
+
+<meta name="theme-color" content="#1565c0" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<meta property="twitter:card" content="summary" />
+
+  <meta property="twitter:site" content="@matbesancon" />
+  <meta property="twitter:creator" content="@matbesancon" />
+<meta property="twitter:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" />
+<meta property="og:site_name" content="μβ" />
+<meta property="og:url" content="https://matbesancon.xyz/post/2016-05-21-bringing-data-science-engineers/" />
+<meta property="og:title" content="Bringing data science to engineers | μβ" />
+<meta property="og:description" content="Thoughts as an engineer-by-training evolving towards data skills in a
+manufacturing context.
+" /><meta property="og:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+
+  
+    <meta
+      property="article:published_time"
+      content="2016-05-21T00:00:00&#43;00:00"
+    />
+  
+  
+    <meta property="article:modified_time" content="2019-05-09T14:12:49&#43;02:00">
+  
+
+
+
+
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://matbesancon.xyz/post/2016-05-21-bringing-data-science-engineers/"
+  },
+  "headline": "Bringing data science to engineers",
+  
+  "datePublished": "2016-05-21T00:00:00Z",
+  "dateModified": "2019-05-09T14:12:49+02:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Mathieu Besançon"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "μβ",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "Thoughts as an engineer-by-training evolving towards data skills in a\nmanufacturing context.\n"
+}
+</script>
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+  
+
+  
+
+
+  
+  <title>Bringing data science to engineers | μβ</title>
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="3ad58ffddbed1f414f5b67f43a86ec22" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header header--fixed">
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container-xl">
+
+      
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+      
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      
+      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+        
+        <ul class="navbar-nav d-md-inline-flex">
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#about"><span>Home</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#experience"><span>Experience</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#publications"><span>Publications</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#posts"><span>Posts</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#workwithme"><span>Work with me</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#contact"><span>Contact</span></a>
+          </li>
+
+          
+          
+
+        
+
+          
+        </ul>
+      </div>
+
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+        
+        
+          
+        
+
+        
+        
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+        
+        
+        <li class="nav-item dropdown theme-dropdown">
+          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item js-set-theme-light">
+              <span>Light</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-dark">
+              <span>Dark</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-auto">
+              <span>Automatic</span>
+            </a>
+          </div>
+        </li>
+        
+
+        
+        
+
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+
+  </div>
+
+  <div class="page-body">
+    
+    
+    
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Bringing data science to engineers</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    2019-05-09
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    8 min read
+  </span>
+  
+
+  
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <p>The goal of this article is to present couple challenges waiting the industrial
+data scientist or industrial data science teams, the deep reasons I believe are
+the root of this inertia, based on my experience (in both data science and
+engineering projects) and exchanges with engineers and data scientists. The
+last part introduces some suggestions to make the collaboration richer for
+both sides.</p>
+<h2 id="why-isnt-data-science-already-everywhere-in-engineering">Why isn&rsquo;t data science already everywhere in engineering?</h2>
+<p>It is surprising that this transition hasn&rsquo;t been so spontaneous. Indeed, one
+could think that engineers, belonging to the &ldquo;STEM family&rdquo; (people studying or
+working in fields related to Science, Technology, Engineering and Mathematics)
+would easily embrace the concepts and methods of data science and moreover be
+able to identify the potential gains, savings and improvements to carry out
+complex projects in a more effective manner.</p>
+<h3 id="silo-thinking-in-stem">Silo thinking in STEM</h3>
+<p>That&rsquo;s not the case, most engineers I&rsquo;ve been discussing and working with never
+considered these techniques as relevant to their current tasks. So why so
+little enthusiasm? A recurrent problem I noticed is the silo thinking of
+disciplines created by strong and early specializations, along with natural
+distaste and reduction of unknown fields.</p>
+<h3 id="were-not-google-deal-with-it">We&rsquo;re not Google, deal with it</h3>
+<p>So when someone will first pitch machine learning to an engineer, I would often
+observe reactions of &ldquo;it&rsquo;s not relevant to my field/work/issues&rdquo; because they
+don&rsquo;t consider being in a &ldquo;tech&rdquo; industry. This is the same reaction type
+observed in companies facing digital disruption (see the excellent article of
+Nicolas Colin
+<a href="http://www.thefamily.co/hot-news/the-five-stages-of-denial" target="_blank" rel="noopener">here</a>).</p>
+<p>As a personal example, as I was talking to a production manager about the
+impact advanced predictive analytics could have on machine reliability and
+availability, she advanced the &ldquo;non-tech&rdquo; argument, to which I answered with
+examples of traditional manufacturing companies already using these techniques,
+including General Electric for turbine monitoring (what they refer to as the
+Industrial Internet). His last point was &ldquo;Well sure but&hellip; we&rsquo;re not GE&rdquo;, which
+I understood as &ldquo;I&rsquo;m not able to learn from nor to work in that field totally
+out of my comfort zone&rdquo;. Although, her discomfort with the methods involved is
+easily understandable since it requires key concepts in mathematics, statistics
+and algorithm thinking which would often be considered as theory unusable in
+their &ldquo;real life&rdquo;.</p>
+<h3 id="my-subject-is-so-complex">My subject is so complex</h3>
+<p>The other reaction one would observe is linked to an interesting thinking
+process: People always tend to reduce the breadth of subjects they don&rsquo;t know,
+and to emphasize (not to say oversize) the width and complexity of their own
+domain. I recently read a &ldquo;conversation hack&rdquo; to make a conversation pleasant
+to someone, in three steps:</p>
+<ol>
+<li>Ask them what they do for a living</li>
+<li>Ask them some more details about how they manage things</li>
+<li>Look impressed, add &ldquo;Wow, that sounds very complex&rdquo;</li>
+</ol>
+<p>People don&rsquo;t feel at ease with the introduction of quantitative, rational
+methods and analytics for decision-making in their daily work because this
+implies that a rather &ldquo;simple&rdquo; model can generate better decisions than them.
+It revives this old phobia of losing their job to a machine.</p>
+<h3 id="but-still-why-particularly-engineers">But still&hellip; why particularly engineers?</h3>
+<p>We didn&rsquo;t address this question yet, and it still sounds counter-intuitive,
+given our first statements. From my personal experience studying and working
+with both junior and senior engineers, and relatively to business or social
+science background, there is a stronger will to &ldquo;master the model&rdquo; and
+understand most key aspects of the system they work on.</p>
+<p>Bank managers, marketing leaders or finance analysts totally feel comfortable
+with the use of data base systems and business intelligence tools, even
+statistical analyses or predictive modeling tools they can perfectly leverage,
+but not often understand on the technical parts. They would just need to be
+able to read, use and trust the results. Engineers, on the other hand don&rsquo;t
+feel legitimate when using tools they don&rsquo;t master they feel the need of
+understanding and controlling what&rsquo;s going on under the hood.</p>
+<p>There is a common vision of the engineers in several cultures, they are the
+handy people, able to answer most of your questions, master all techniques from
+nuclear power generation to bio-technologies. They are all supposed to be Tony
+Stark (or Elon Musk in a more realistic way). So their secret fear is not about
+being afraid of getting their job &ldquo;automated&rdquo; but more about a situation where
+they cannot handle their system anymore because a part of the decisions taken
+is not under their control anymore.</p>
+<h2 id="what-to-do-about-it">What to do about it?</h2>
+<h3 id="what-data-science-can-bring-to-their-organization">What data science can bring to their organization</h3>
+<p>Proving the utility of data science is the easy part, the process is actually
+almost identical to bringing data science to any other industry. The potential
+users should be shown what pain points this new field would address in their
+business, how similar businesses have already applied machine learning to
+their issues, and how the processes should be adapted to these projects.</p>
+<h3 id="how-it-actually-works">How it actually works</h3>
+<p>Empowering the engineers through explanations of the key concepts might be
+seemingly pointless and time-consuming, but helps them accepting the
+techniques involved as a part of the &ldquo;internal model&rdquo; secretly hidden in each
+engineer&rsquo;s mind and used to think about their system and make decisions upon
+it.</p>
+<p>Most engineers are usually used to (at least) basic algorithm structures. So
+using it to make them understand the thinking pattern behind machine learning
+may help them to understand the mechanisms and feel at ease with reapplying
+it. Once you&rsquo;ve covered the fundamentals, a modeling skill should be
+developed. Indeed, being able to model a problem as a data science project
+will give a pretty straightforward beginning (especially on variable
+selections or feature engineering).</p>
+<p>Basic linear regression (and in general other curve fitting methods) have
+already been seen for experimental purposes in most engineering fields. If one
+has only time to explain key concepts, I would give the following order:</p>
+<ol>
+<li>Classification principles, example of classification trees.</li>
+<li>Regression techniques (if not already known). Simple and multivariate linear regression, polynomial regression.</li>
+<li>Unsupervised learning, example of k-means clustering.</li>
+<li>Overfitting, cross-validation concept and techniques.</li>
+<li>Ensemble learning, example of random forests.</li>
+</ol>
+<p>With clear but complete explanations of regression, classification and
+unsupervised learning, along with a previous knowledge of regression
+techniques, most engineers will be able to identify opportunities to get
+deeper insights into the phenomena they investigate or to build robust
+predictions through machine learning, which is the basic goal to break the
+barriers we discussed. The 4th and 5th topics are a bonus allowing them to
+understand what techniques data scientists would use, they would not need them
+for opportunity identification but to extend their &ldquo;internal model&rdquo;, which can
+only be beneficial.</p>
+<h3 id="key-examples">Key examples</h3>
+<p>These examples are taken from diverse projects, challenges and data sets
+including some personal ones. Each case study is addressed to specific targets.</p>
+<ul>
+<li>Process, Energy and Chemical Engineers</li>
+</ul>
+<p>I studied once the Combined Cycle Power Plant dataset which can be found on
+the UCI dataset repository here. Using machine learning allowed the research
+group not to work on the basis of restrictive hypotheses on the thermodynamic
+behavior of the gas or steam, nor on the heat exchange and fluid mechanics
+phenomena involved (e.g. pressure drop in the pipes due to phase change). The
+predictions based on data are a totally new way to combine formal model-based
+approaches (including process optimization) and operational realities (the
+good old &ldquo;gut feeling&rdquo; experienced staff will tell you about).</p>
+<ul>
+<li>Biomedical Engineers</li>
+</ul>
+<p>This also includes all high-level medical professions. Well-known applications
+were found in several fields, including pattern recognition from medical
+images and data, disease risk estimations from patient background
+information.</p>
+<p>Predictive modeling systems will be a decisive disruption in physicist work,
+they replace the human decision-making process, based on few variables and on
+a biased and relative experience with the risk-based optimal decision backed
+by millions of data points.</p>
+<ul>
+<li>Industrial, Manufacturing and Quality Engineers</li>
+</ul>
+<p>Those case studies are inspired by my personal experience and the solutions
+offered by several software development companies.</p>
+<p>The first one is the application of classification trees to replace rules
+defining the quality of a product (first, second class or discarded for
+instance). Using proper data mining tools allows the production manager to
+define the relative &ldquo;cost&rdquo; of false positives (good products declared as not
+salable, which induces all the manufacturing costs without the revenue) and
+false negatives (non-conform products sent to be sold, which induces a risk of
+complaint, on operation product default, image issues or recall campaigns).</p>
+<p>The second example is combining time-series analysis and multi-variable
+regression techniques to give risk estimations on the process stability and
+trends. I observed several software solution providers to whom the transition
+from statistics to predictive modeling was a simple and obvious evolution.</p>
+<p>Bringing machine learning to engineers is a challenge and must be considered
+as a promising step for both data science and engineering. Formal modeling
+approaches and experimental considerations will eventually be able to be
+conciliated. Data science will gain a significant support and become an
+accelerator for the development of new techniques.</p>
+<p>You&rsquo;re an engineer, a data scientist? Have you ever experienced collaborating
+with engineers on data science applications? Did you encounter some
+difficulties specific to working with engineers? Please get in touch for
+further discussion on these topics.</p>
+<p>Now that we have discussed what data science could bring to engineers, a
+second article may come to explain how to build a predictive model from
+scratch in an industrial context.</p>
+<p>Special thanks to Robert, Benoit and Florian for their feedback on the article.</p>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/data-science/">data-science</a>
+  
+  <a class="badge badge-light" href="/tag/engineering/">engineering</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2016-05-21-bringing-data-science-engineers%2F&amp;text=Bringing&#43;data&#43;science&#43;to&#43;engineers" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2016-05-21-bringing-data-science-engineers%2F&amp;t=Bringing&#43;data&#43;science&#43;to&#43;engineers" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a href="mailto:?subject=Bringing%20data%20science%20to%20engineers&amp;body=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2016-05-21-bringing-data-science-engineers%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2016-05-21-bringing-data-science-engineers%2F&amp;title=Bringing&#43;data&#43;science&#43;to&#43;engineers" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Bringing&#43;data&#43;science&#43;to&#43;engineers%20https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2016-05-21-bringing-data-science-engineers%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2016-05-21-bringing-data-science-engineers%2F&amp;title=Bringing&#43;data&#43;science&#43;to&#43;engineers" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://matbesancon.xyz/"><img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu717a6920346f3d435e65e27c2a66c1ed_48773_270x270_fill_q75_lanczos_center.jpg" alt="Mathieu Besançon"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://matbesancon.xyz/">Mathieu Besançon</a></h5>
+      <h6 class="card-subtitle">Researcher in mathematical optimization</h6>
+      <p class="card-text">Mathematical optimization, scientific programming and related.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=-xStCAIAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://orcid.org/0000-0002-6284-3033" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.youtube.com/channel/UCVSd42nW_MqkbSXijgOvKwg" target="_blank" rel="noopener">
+        <i class="fab fa-youtube"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/mbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    © 2023 Mathieu Besançon.
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+    <p class="powered-by">
+    Published with Hugo and Wowchemy.
+   </p>
+
+
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+
+
+<script src="/js/vendor-bundle.min.938a3a7554cd9f6602290411f64d2617.js"></script>
+
+
+
+
+  
+
+  
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script id="search-hit-fuse-template" type="text/x-template">
+    <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+    </div>
+  </script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+<script id="page-data" type="application/json">{"use_headroom":true}</script>
+
+
+
+  <script src="/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<script src="/en/js/wowchemy.min.2945731fa88332cb0ec33cf47d29879f.js"></script>
+
+
+
+
+
+
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <pre><code></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

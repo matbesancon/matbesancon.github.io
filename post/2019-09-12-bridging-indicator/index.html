@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
+<!-- Last Published: November 30, 2023 --><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+
+  
+  
+    
+    <script src="/js/mathjax-config.js"></script>
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.047268c6dd09ad74ba54a0ba71837064.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.be1e734c86be5b4f1c94d71028ea7cbf.css" />
+
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/libs/chroma/github-light.min.css" title="hl-light" media="print" onload="this.media='all'" >
+    <link rel="stylesheet" href="/css/libs/chroma/dracula.min.css" title="hl-dark" media="print" onload="this.media='all'" disabled>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+  <meta name="author" content="Mathieu Besançon" />
+
+
+
+
+
+  
+
+<meta name="description" content="Compiling mathematical optimization problems in a multiple-dispatch context.
+" />
+
+
+
+<link rel="alternate" hreflang="en-us" href="https://matbesancon.xyz/post/2019-09-12-bridging-indicator/" />
+<link rel="canonical" href="https://matbesancon.xyz/post/2019-09-12-bridging-indicator/" />
+
+
+
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+
+
+<link rel="icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_32x32_fill_lanczos_center_3.png" />
+<link rel="apple-touch-icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_180x180_fill_lanczos_center_3.png" />
+
+<meta name="theme-color" content="#1565c0" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<meta property="twitter:card" content="summary" />
+
+  <meta property="twitter:site" content="@matbesancon" />
+  <meta property="twitter:creator" content="@matbesancon" />
+<meta property="twitter:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" />
+<meta property="og:site_name" content="μβ" />
+<meta property="og:url" content="https://matbesancon.xyz/post/2019-09-12-bridging-indicator/" />
+<meta property="og:title" content="Bridges as an extended dispatch system | μβ" />
+<meta property="og:description" content="Compiling mathematical optimization problems in a multiple-dispatch context.
+" /><meta property="og:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+
+  
+    <meta
+      property="article:published_time"
+      content="2019-09-12T00:00:00&#43;00:00"
+    />
+  
+  
+    <meta property="article:modified_time" content="2023-10-24T18:49:06&#43;02:00">
+  
+
+
+
+
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://matbesancon.xyz/post/2019-09-12-bridging-indicator/"
+  },
+  "headline": "Bridges as an extended dispatch system",
+  
+  "datePublished": "2019-09-12T00:00:00Z",
+  "dateModified": "2023-10-24T18:49:06+02:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Mathieu Besançon"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "μβ",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "Compiling mathematical optimization problems in a multiple-dispatch context.\n"
+}
+</script>
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+  
+
+  
+
+
+  
+  <title>Bridges as an extended dispatch system | μβ</title>
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="406fa142b0191f91da7f2b94f9ed344c" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header header--fixed">
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container-xl">
+
+      
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+      
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      
+      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+        
+        <ul class="navbar-nav d-md-inline-flex">
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#about"><span>Home</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#experience"><span>Experience</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#publications"><span>Publications</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#posts"><span>Posts</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#workwithme"><span>Work with me</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#contact"><span>Contact</span></a>
+          </li>
+
+          
+          
+
+        
+
+          
+        </ul>
+      </div>
+
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+        
+        
+          
+        
+
+        
+        
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+        
+        
+        <li class="nav-item dropdown theme-dropdown">
+          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item js-set-theme-light">
+              <span>Light</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-dark">
+              <span>Dark</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-auto">
+              <span>Automatic</span>
+            </a>
+          </div>
+        </li>
+        
+
+        
+        
+
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+
+  </div>
+
+  <div class="page-body">
+    
+    
+    
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+<div class="article-header">
+  
+  
+    <img src="/img/posts/bridges/bridge2.jpg" class="article-banner" alt="Photo by [Torsten Muller](https://unsplash.com/@neptunian?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText) on [Unsplash](https://unsplash.com/s/photos/bridge?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText)">
+  
+
+  <span class="article-header-caption">Photo by <a href="https://unsplash.com/@neptunian?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank" rel="noopener"><!-- raw HTML omitted -->Torsten Muller<!-- raw HTML omitted --></a> on <a href="https://unsplash.com/s/photos/bridge?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank" rel="noopener"><!-- raw HTML omitted -->Unsplash<!-- raw HTML omitted --></a></span>
+</div>
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Bridges as an extended dispatch system</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    2023-10-24
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    10 min read
+  </span>
+  
+
+  
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <hr>
+<p>The progress of mathematical optimization as a domain has been tightly
+coupled with the development and improvement of computational methods and
+their implementations as computer programs. As observed in the recent
+MIPLIB compilation <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, the quantification of method performance in
+optimization cannot really be split from the experimental settings, solver
+performance is far from a theoretical science.</p>
+<p>Different methods and implementations manipulate different data
+structures to represent the same optimization problem.
+Reformulating optimization models has often been the role and responsibility
+of the practitioner, transforming the application problem at hand to fit a
+standard form that a given solver accepts as input for a solution method.
+Interested readers may find work on formal representation of optimization
+problems as data structures by Liberti et al<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.
+Mapping a user-facing representation of an object into a semantically
+equivalent internal representation is the role of compilers.
+For mathematical optimization specifically, <strong>Algebraic Modelling Languages</strong>
+(AML) are domain-specific languages (and often an associated compiler and runtime)
+turning a user-specified code into data structures passed to solvers. Examples
+of such languages are JuMP, Pyomo, GAMS or AMPL; the first two being embedded in
+a host language (Julia and Python respectively), while the two last are
+stand-alone with their own compiler and runtime.</p>
+<p>We will focus in this post on <a href="https://github.com/JuliaOpt/MathOptInterface.jl" target="_blank" rel="noopener">MathOptInterface.jl</a>
+(<strong>MOI</strong>) which acts as a second layer of the compilation phase of an AML.
+The main direct user-facing language for this is <a href="https://github.com/JuliaOpt/JuMP.jl" target="_blank" rel="noopener">JuMP</a>,
+which has already been covered in other resources<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup><sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>.
+When passed to MOI, the problem has been read from the user code but not
+reformulated yet. In compiler terms, MOI appears after the parsing phase:
+the user code has been recognized and transformed into corresponding internal
+structures.</p>
+
+
+<details class="toc-inpage d-print-none  " open>
+  <summary class="font-weight-bold">Table of Contents</summary>
+  <nav id="TableOfContents">
+  <ol>
+    <li><a href="#re-formulating-problems-using-multiple-dispatch">Re-formulating problems using multiple dispatch</a>
+      <ol>
+        <li><a href="#the-example-of-linear-constraints">The example of linear constraints</a></li>
+        <li><a href="#unique-dispatch-and-multiple-solvers">Unique dispatch and multiple solvers</a></li>
+      </ol>
+    </li>
+    <li><a href="#the-bridge-system">The bridge system</a>
+      <ol>
+        <li><a href="#bridge-implementation">Bridge implementation</a></li>
+        <li><a href="#problem-reformulation-heuristics">Problem reformulation heuristics</a></li>
+      </ol>
+    </li>
+    <li><a href="#perspective--conclusion">Perspective &amp; conclusion</a>
+      <ol>
+        <li><a href="#further-resources">Further resources</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+</details>
+
+<h1 id="re-formulating-problems-using-multiple-dispatch">Re-formulating problems using multiple dispatch</h1>
+<p>Multiple dispatch is the specialization of code depending on the arity and type
+of arguments. When multiple definitions (methods) exist for a function, the types
+of the different arguments are used to determine which definition is compatible.
+If several definitions are compatible, the most specific with respect to the
+position in the type hierarchy is selected. If several definitions are compatible
+without a total ordering by specificity, the method call is ambiguous, which raises an error.
+More information on the dispatch system in Julia can be found
+<a href="https://doi.org/10.1137/141000671" target="_blank" rel="noopener">in the seminal article</a> and the recent talk on
+<a href="https://www.youtube.com/watch?v=kc9HwsxE1OY" target="_blank" rel="noopener">multiple dispatch</a>.
+See the following examples for the basic syntax:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>f(x) <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span> <span style="color:#75715e"># same as f(x::Any) = 3</span>
+</span></span><span style="display:flex;"><span>f(x<span style="color:#f92672">::</span><span style="color:#66d9ef">Int</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>x
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># dispatch on arity</span>
+</span></span><span style="display:flex;"><span>f(x, y) <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># defining and dispatching on a custom type</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">X</span>
+</span></span><span style="display:flex;"><span>  value<span style="color:#f92672">::</span><span style="color:#66d9ef">Float64</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>f(x<span style="color:#f92672">::</span><span style="color:#66d9ef">X</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">*</span> x<span style="color:#f92672">.</span>value</span></span></code></pre></div>
+<p>In this section, we will consider the reformulation of problems
+using multiple dispatch. In a generic form, an optimization problem can be
+written as:</p>
+<p>$$\begin{align} \min_{x} ,,&amp; f(x) \\ \text{s.t.}\\ &amp; F_i(x) \in S_i &amp; \forall i \end{align} $$</p>
+<h2 id="the-example-of-linear-constraints">The example of linear constraints</h2>
+<p>We will build a reformulation system leveraging multiple dispatch.
+Assuming the user code is already parsed, the problem input can be represented
+as function-set pairs $(F_i, S_i)$. If we restrict this to individual linear
+constraints, all functions are of the form:
+$$ F_i(x) = a_i^T x $$</p>
+<p>The three types of sets are:</p>
+<ul>
+<li><code>LessThan(b)</code>: $ y \in S_i \Leftrightarrow y \leq b $</li>
+<li><code>GreaterThan(b)</code>: $ y \in S_i \Leftrightarrow y \geq b $</li>
+<li><code>EqualTo(b)</code>: $ y \in S_i \Leftrightarrow y = b $</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">abstract type</span> <span style="color:#66d9ef">ConstraintSet</span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">LessThan</span>{<span style="color:#66d9ef">T</span>} <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">ConstraintSet</span>
+</span></span><span style="display:flex;"><span>    b<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">GreaterThan</span>{<span style="color:#66d9ef">T</span>} <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">ConstraintSet</span>
+</span></span><span style="display:flex;"><span>    b<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">EqualTo</span>{<span style="color:#66d9ef">T</span>} <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">ConstraintSet</span>
+</span></span><span style="display:flex;"><span>    b<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">abstract type</span> <span style="color:#66d9ef">ScalarFunction</span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">ScalarAffineFunction</span>{<span style="color:#66d9ef">T</span>} <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">ScalarFunction</span>
+</span></span><span style="display:flex;"><span>    a<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">T</span>}
+</span></span><span style="display:flex;"><span>    x<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">VariableIndex</span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>Now that the fundamental structures are there, let us think of a solver based
+on the simplex method, accepting only less-or-equal linear constraints.
+We will assume a <code>Model</code> type has been defined, which supports a function
+<code>add_constraint!(m::Model, f::F, s::S)</code>, which adds a constraint of type <code>F in S</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> add_constraint!(m<span style="color:#f92672">::</span><span style="color:#66d9ef">Model</span>, f<span style="color:#f92672">::</span><span style="color:#66d9ef">ScalarAffineFunction</span>, s<span style="color:#f92672">::</span><span style="color:#66d9ef">LessThan</span>)
+</span></span><span style="display:flex;"><span>    pass_to_solver(m<span style="color:#f92672">.</span>solver_pointer, f, s)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> add_constraint!(m<span style="color:#f92672">::</span><span style="color:#66d9ef">Model</span>, f<span style="color:#f92672">::</span><span style="color:#66d9ef">ScalarAffineFunction</span>{<span style="color:#66d9ef">T</span>}, s<span style="color:#f92672">::</span><span style="color:#66d9ef">GreaterThan</span>{<span style="color:#66d9ef">T</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># a^T x &gt;= b &lt;=&gt; -a^T x &lt;= b</span>
+</span></span><span style="display:flex;"><span>    leq_set <span style="color:#f92672">=</span> <span style="color:#66d9ef">LessThan</span>{<span style="color:#66d9ef">T</span>}(<span style="color:#f92672">-</span>s<span style="color:#f92672">.</span>b)
+</span></span><span style="display:flex;"><span>    leq_function <span style="color:#f92672">=</span> ScalarAffineFunction(<span style="color:#f92672">-</span>f<span style="color:#f92672">.</span>a, f<span style="color:#f92672">.</span>x)
+</span></span><span style="display:flex;"><span>    add_constraint!(m, leq_function, leq_set)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> add_constraint!(m<span style="color:#f92672">::</span><span style="color:#66d9ef">Model</span>, f<span style="color:#f92672">::</span><span style="color:#66d9ef">ScalarAffineFunction</span>, s<span style="color:#f92672">::</span><span style="color:#66d9ef">EqualTo</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># a^T x == b &lt;=&gt; a^T x &lt;= b &amp;&amp; a^T x &gt;= b</span>
+</span></span><span style="display:flex;"><span>    leq_set <span style="color:#f92672">=</span> LessThan(s<span style="color:#f92672">.</span>b)
+</span></span><span style="display:flex;"><span>    geq_set <span style="color:#f92672">=</span> LessThan(s<span style="color:#f92672">.</span>b)
+</span></span><span style="display:flex;"><span>    leq_function <span style="color:#f92672">=</span> copy(f)
+</span></span><span style="display:flex;"><span>    geq_function <span style="color:#f92672">=</span> copy(f)
+</span></span><span style="display:flex;"><span>    add_constraint!(m, leq_function, leq_set)
+</span></span><span style="display:flex;"><span>    add_constraint!(m, geq_function, geq_set)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>The dispatching rules of that program can be determined statically
+and define the sequence of method calls:</p>
+<pre tabindex="0"><code>graph TD;
+    E[EqualTo] --&gt; G[GreaterThan];
+    E[EqualTo] --&gt; L[LessThan];
+    G[GreaterThan] --&gt; L[LessThan];
+    L[LessThan] --&gt; S[Solver];
+</code></pre><!-- raw HTML omitted -->
+<p>At each call site, exactly one method is determined to be the appropriate
+one to use by the dispatch mechanism.</p>
+<h2 id="unique-dispatch-and-multiple-solvers">Unique dispatch and multiple solvers</h2>
+<p>Let us now consider that another solver is integrated into our dispatch-based
+optimization framework, but supporting only <code>GreaterThan</code> constraints.
+The new method call diagram is:</p>
+<pre tabindex="0"><code>graph TD;
+    E[EqualTo] --&gt; G[GreaterThan];
+    E[EqualTo] --&gt; L[LessThan];
+    L[LessThan] --&gt; G[GreaterThan];
+    G[GreaterThan] --&gt; S[Solver];
+</code></pre><!-- raw HTML omitted -->
+<p>Considering that we wish to define one reformulation graph for all solvers,
+two possibilities occur:</p>
+<ol>
+<li>Which path should be used is encoded in types.</li>
+<li>The method called from a given node depends on runtime parameters.</li>
+</ol>
+<p>The first option could appear more efficient, but as the number of nodes, arcs
+and solvers grow, compilation is rendered impossible, as one would have to
+recompute complete programs based on the addition of solvers or reformulations.
+The second option requires tools other than dispatch, since this mechanism
+uses precisely the types to determine the method. It is to tackle this problem
+of reformulating problems in graph above that the bridge system was developed
+in MOI.</p>
+<h1 id="the-bridge-system">The bridge system</h1>
+<p>The bridge system emerged as a solution to tackle the rapidly-growing
+number of supported functions, sets and constraints as function-set pairs.
+A bridge is the instantiation in the reformulation system of an arc in
+the diagram presented above. It is defined by:</p>
+<ul>
+<li>The type of constraint it is replacing, represented by its function-set pair $(F_0, S_0)$.</li>
+<li>The type of constraints which must be supported for the reformulation, as a collection of function-set pairs $[(F_i, S_i)]$.</li>
+<li>The reformulation method itself which takes the initial constraint, creates the necessary variables and constraints and adds them to the model. In a Haskell-like notation, the declarative part of the bridge can be modelled with the following signature:
+$$ ([x_0], F_0, S_0) \rightarrow ([x_1], [(F_i,S_i)]) $$</li>
+</ul>
+<p>where $[x_0]$ is a collection of variables used by the initial constraint,
+$[x_1]$ is the collection of newly created variables, and the $(F_i,S_i)$ are the newly created constraints.</p>
+<h2 id="bridge-implementation">Bridge implementation</h2>
+<p>The bridge definition and most implementations live in the <code>MathOptInterface.Bridges</code> module.
+It consists of an abstract type <code>AbstractBridge</code> and some functions that bridges must implement.</p>
+<p>We will see the greatly reduced example of a bridge type <code>MyBridge</code> adding support for two types
+of constraints. The following code declares <em>what</em> the bridge does:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">abstract type</span> <span style="color:#66d9ef">AbstractBridge</span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">MyBridge1</span> <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">AbstractBridge</span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">MyBridge2</span> <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">AbstractBridge</span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">By default, bridges do not support a constraint `F-in-S`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> MOI<span style="color:#f92672">.</span>supports_constraint(<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">AbstractBridge</span>}, <span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">F</span>}, <span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">S</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">F</span>, <span style="color:#66d9ef">S</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> false
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">MyBridge1 supports `F1 in S1`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> MOI<span style="color:#f92672">.</span>supports_constraint(<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">MyBridge1</span>}, <span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">F1</span>}, <span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">S1</span>})
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> true
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">MyBridge2 supports `F2 in S2`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> MOI<span style="color:#f92672">.</span>supports_constraint(<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">MyBridge2</span>{<span style="color:#66d9ef">F2</span>,<span style="color:#66d9ef">S2</span>}}, <span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">F2</span>}, <span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">S2</span>})
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> true
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Bridging a `F1 in S1` with `MyBridge1` requires creating constraints of type `F3 in S3` and `F3 in S4`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>added_constraint_types(<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">MyBridge1</span>})
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> [(F3, S3), (F3, S4)]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Bridging a `F2 in S2` with `MyBridge2` requires creating constraints of type `F3 in S3`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>added_constraint_types(<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">MyBridge2</span>})
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> [(F3, S3)]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>What these method implementations declare is the following structure:</p>
+<pre tabindex="0"><code>graph LR;
+    F1[F1 in S1] -- B1 --&gt; F33[F3 in S3];
+    F1[F1 in S1] -- B1 --&gt; F34[F3 in S4];
+    F2[F2 in S2] -- B2 --&gt; F33[F3 in S3];
+</code></pre><!-- raw HTML omitted -->
+<p>Unlike dispatch, multiple possible bridges can be defined for a given constraint $F_1 \in S_1$.
+In optimization, this corresponds to multiple possible reformulations of a given constraint.</p>
+<p>Now that the bridges behaviour have been defined, their implementation have to be given,
+again in a trimmed version of the real MOI code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> bridge_constraint(<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">MyBridge1</span>}, model<span style="color:#f92672">::</span><span style="color:#66d9ef">MOI</span><span style="color:#f92672">.</span>ModelLike, f<span style="color:#f92672">::</span><span style="color:#66d9ef">F1</span>, s<span style="color:#f92672">::</span><span style="color:#66d9ef">S1</span>)
+</span></span><span style="display:flex;"><span>    (f3, s3) <span style="color:#f92672">=</span> transform_constraint_first_component(f, s)
+</span></span><span style="display:flex;"><span>    s4 <span style="color:#f92672">=</span> transform_constraint_second_set(f, s)
+</span></span><span style="display:flex;"><span>    new_constraint3 <span style="color:#f92672">=</span> MOI<span style="color:#f92672">.</span>add_constraint(model, f3, s3)
+</span></span><span style="display:flex;"><span>    new_constraint4 <span style="color:#f92672">=</span> MOI<span style="color:#f92672">.</span>add_constraint(model, f3, s4)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> MyBridge1(new_constraint3, new_constraint4)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> bridge_constraint(<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">MyBridge2</span>}, model<span style="color:#f92672">::</span><span style="color:#66d9ef">MOI</span><span style="color:#f92672">.</span>ModelLike, f<span style="color:#f92672">::</span><span style="color:#66d9ef">F2</span>, s<span style="color:#f92672">::</span><span style="color:#66d9ef">S2</span>)
+</span></span><span style="display:flex;"><span>    (f3, s3) <span style="color:#f92672">=</span> transform_constraint_first_component(f, s)
+</span></span><span style="display:flex;"><span>    new_constraint3 <span style="color:#f92672">=</span> MOI<span style="color:#f92672">.</span>add_constraint(model, f3, s3)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> MyBridge2(new_constraint3)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>Finally, the graph is for the moment split across different bridges.
+The multiple dispatch mechanism uses a <a href="https://pkg.julialang.org/docs/julia/THl1k/1.1.1/devdocs/functions.html" target="_blank" rel="noopener">method table</a>,
+the bridge system uses a bridge optimizer which stores all bridges and
+thus contains the necessary information to convert a constraint to a supported form.</p>
+<h2 id="problem-reformulation-heuristics">Problem reformulation heuristics</h2>
+<p>A bridge optimizer takes a given problem, a solver and the set of bridges,
+all of which representable in a single hyper-graph, a graph with possibly
+multiple edges between two given nodes.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/bridges/Problem1.svg" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>$P$ represents the initial problem, pointing to the constraints it contains.
+There is an edge from $C_i$ to $C_j$ for each bridge reformulating $C_i$
+using at least a $C_j$ constraint. A constraint $C_i$ points to $S$ if the solver
+natively supports the constraint.</p>
+<p>Some bridges require defining multiple new constraints. That is the case of $B_5$
+reformulating $C_6$ using $C_3$ and $C_4$. On the contrary, $C_3$ can be re-formulated
+either in $C_2$ using $B_2$ or in $C_4$ using $B_3$. In this setting, reformulating
+it in $C_2$ is appropriate, but may change depending on the solver.
+A potential large number of bridges could be introduced without being on any
+problem-solver path. For instance, there will likely be no semi-definite cone
+constraint when the problem at hand is linear, and $S$ a simplex-based solver.
+Without reasoning on specific constraints, it is hard to picture which
+reformulation is efficient.</p>
+<p>The current bridging decision is based on a shortest-path heuristic.
+One bridge is considered a unit distance, and a shortest path from all
+user-facing constraints to all solver-compatible constraints is determined.
+More precisely, a <a href="https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm" target="_blank" rel="noopener">Bellman-Ford</a>
+type shortest path is used.</p>
+<h1 id="perspective--conclusion">Perspective &amp; conclusion</h1>
+<p>MathOptInterface.jl may be one of the greatest strength of the JuMP ecosystem:
+setting the abstractions right allows the developers to integrate more exotic
+constraint types in a consistent manner.
+Optimization practitioners do not limit themselves to linear and
+mixed-integer problems, following improvements in performance and variety
+of solvers, the recent JuMP session at JuliaCon 2019<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup> lays out the
+motivation and structure of MOI, and recent
+developments it enabled.
+The type-based <code>Function in Set</code> structure keeps the underlying
+machinery familiar to both optimization scientists formulating problems in a close
+fashion and Julia programmers leveraging multiple dispatch.</p>
+<p>Transforming optimization problems using the bridge system is transparent,
+leaving the option for advanced users to pick which paths are chosen
+in the hypergraph. In the scenario where MOI was not performing these operations,
+the two options are:</p>
+<ul>
+<li><strong>Reformulations by the modelling language</strong>: this may mean a systematic
+overhead cost of using the user-facing modelling language, especially if the used
+reformulation is not ideal for a specific problem. This also creates a barrier for
+other modelling languages to emerge, since a great deal of work has gone in
+reformulations of the user-input. The two-layer structure of JuMP + MOI has enabled
+different languages such as <a href="https://github.com/tkoolen/Parametron.jl" target="_blank" rel="noopener">Parametron.jl</a>
+or <a href="https://github.com/JuliaOpt/Convex.jl" target="_blank" rel="noopener">Convex.jl</a> to emerge, sharing the same
+solver interfaces and middle infrastructure. The monolithic modelling environments
+historically dominant in mathematical optimization may explain to some extent why
+a large part of the optimization literature is working with solver APIs directly,
+thus loosing any ability to switch solver later.</li>
+<li><strong>Reformulations by the solver</strong>: this is currently done for a lot of constraints,
+without always being transparent on which reformulation is applied and what the
+end-model is. This can lead to surprising behaviour when switching solvers
+or passing a different formulation of the same problem, without having access
+to what happens under the hood in a black-box proprietary solver.</li>
+</ul>
+<p>The MOI system thus helps present and future researchers to avoid the pitfalls
+of the <em>two-language problem</em> of mathematical optimization.</p>
+<h2 id="further-resources">Further resources</h2>
+<p>The diagrams were designed using <a href="https://mermaidjs.github.io" target="_blank" rel="noopener">MermaidJS</a> &amp; <a href="https://draw.io" target="_blank" rel="noopener">draw.io</a>.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>MIPLIB 2017: Data-Driven Compilation of the 6th Mixed-Integer Programming Library, Gleixner, Ambros and Achterberg, Tobias and Christophel, Philipp and Lübbecke, Marco and Ralphs, Ted K and Hendel, Gregor and Gamrath, Gerald and Bastubbe, Michael and Berthold, Timo and Jarck, Kati and others, 2019.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Liberti, Leo. &ldquo;Reformulations in mathematical programming: Definitions and systematics.&rdquo; RAIRO-Operations Research 43.1 (2009): 55-85. <a href="http://www.numdam.org/article/RO_2009__43_1_55_0.pdf" target="_blank" rel="noopener">Preprint</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Liberti, Leo and Cafieri, Sonia and Tarissan, Fabien, Reformulations in Mathematical Programming: A Computational Approach, <a href="https://doi.org/10.1007/978-3-642-01085-9_7" target="_blank" rel="noopener">DOI</a>, <a href="https://www.lix.polytechnique.fr/~liberti/arschapter.pdf" target="_blank" rel="noopener">Preprint</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>JuMP initial paper <a href="https://doi.org/10.1137/15M1020575" target="_blank" rel="noopener">https://doi.org/10.1137/15M1020575</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>JuMP tutorial at JuliaCon2018: <a href="https://www.youtube.com/watch?v=7tzFRIiseJI" target="_blank" rel="noopener">https://www.youtube.com/watch?v=7tzFRIiseJI</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>MathOptInterface, JuMP extensions and MOI-based solvers at JuliaCon2019: <a href="https://www.youtube.com/watch?v=cTmqmPcroFo" target="_blank" rel="noopener">https://www.youtube.com/watch?v=cTmqmPcroFo</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/julia/">julia</a>
+  
+  <a class="badge badge-light" href="/tag/jump/">jump</a>
+  
+  <a class="badge badge-light" href="/tag/optimization/">optimization</a>
+  
+  <a class="badge badge-light" href="/tag/graphs/">graphs</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-09-12-bridging-indicator%2F&amp;text=Bridges&#43;as&#43;an&#43;extended&#43;dispatch&#43;system" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-09-12-bridging-indicator%2F&amp;t=Bridges&#43;as&#43;an&#43;extended&#43;dispatch&#43;system" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a href="mailto:?subject=Bridges%20as%20an%20extended%20dispatch%20system&amp;body=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-09-12-bridging-indicator%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-09-12-bridging-indicator%2F&amp;title=Bridges&#43;as&#43;an&#43;extended&#43;dispatch&#43;system" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Bridges&#43;as&#43;an&#43;extended&#43;dispatch&#43;system%20https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-09-12-bridging-indicator%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-09-12-bridging-indicator%2F&amp;title=Bridges&#43;as&#43;an&#43;extended&#43;dispatch&#43;system" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://matbesancon.xyz/"><img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu717a6920346f3d435e65e27c2a66c1ed_48773_270x270_fill_q75_lanczos_center.jpg" alt="Mathieu Besançon"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://matbesancon.xyz/">Mathieu Besançon</a></h5>
+      <h6 class="card-subtitle">Researcher in mathematical optimization</h6>
+      <p class="card-text">Mathematical optimization, scientific programming and related.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=-xStCAIAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://orcid.org/0000-0002-6284-3033" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.youtube.com/channel/UCVSd42nW_MqkbSXijgOvKwg" target="_blank" rel="noopener">
+        <i class="fab fa-youtube"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/mbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    © 2023 Mathieu Besançon.
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+    <p class="powered-by">
+    Published with Hugo and Wowchemy.
+   </p>
+
+
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+
+
+<script src="/js/vendor-bundle.min.938a3a7554cd9f6602290411f64d2617.js"></script>
+
+
+
+
+  
+
+  
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script id="search-hit-fuse-template" type="text/x-template">
+    <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+    </div>
+  </script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+<script id="page-data" type="application/json">{"use_headroom":true}</script>
+
+
+
+  <script src="/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<script src="/en/js/wowchemy.min.2945731fa88332cb0ec33cf47d29879f.js"></script>
+
+
+
+
+
+
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <pre><code></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

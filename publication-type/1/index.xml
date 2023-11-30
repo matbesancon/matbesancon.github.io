@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>1 | μβ</title>
+    <link>https://matbesancon.xyz/publication-type/1/</link>
+      <atom:link href="https://matbesancon.xyz/publication-type/1/index.xml" rel="self" type="application/rss+xml" />
+    <description>1</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 01 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png</url>
+      <title>1</title>
+      <link>https://matbesancon.xyz/publication-type/1/</link>
+    </image>
+    
+    <item>
+      <title>Cutting plane selection with analytic centers and multiregression</title>
+      <link>https://matbesancon.xyz/publication/conference/turner-2023-cutting/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/turner-2023-cutting/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Interpretable Neural Networks with Frank-Wolfe: Sparse Relevance Maps and Relevance Orderings</title>
+      <link>https://matbesancon.xyz/publication/conference/macdonald-2021-interpretable/</link>
+      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/macdonald-2021-interpretable/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Simple steps are all you need: Frank-Wolfe and generalized self-concordant functions</title>
+      <link>https://matbesancon.xyz/publication/conference/carderera-2021-simple/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/carderera-2021-simple/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>A Bilevel Framework for Optimal Price-Setting of Time-and-Level-of-Use Tariffs</title>
+      <link>https://matbesancon.xyz/publication/conference/besancon-2018/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/besancon-2018/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

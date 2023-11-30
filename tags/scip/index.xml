@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>scip on μβ</title>
+    <link>https://matbesancon.xyz/tags/scip/</link>
+    <description>Recent content in scip on μβ</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
+    <language>en-ca</language>
+    <copyright>&amp;copy; {year} Mathieu Besançon</copyright>
+    <lastBuildDate>Mon, 03 Oct 2022 00:00:00 +0000</lastBuildDate>
+    
+	    <atom:link href="https://matbesancon.xyz/tags/scip/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>SCIP plugins and the cut selection interface</title>
+      <link>https://matbesancon.xyz/post/2022-10-03-cutselection/</link>
+      <pubDate>Mon, 03 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.xyz/post/2022-10-03-cutselection/</guid>
+      <description>&lt;p&gt;This is a short post on the cut selection mechanism in the mixed-integer optimization solver
+SCIP and things I used for its implementation in the &lt;a href=&#34;https://github.com/scipopt/SCIP.jl&#34;&gt;SCIP.jl&lt;/a&gt; Julia wrapper.
+You can check out the corresponding &lt;a href=&#34;https://github.com/scipopt/SCIP.jl/pull/245&#34;&gt;pull request&lt;/a&gt; for completeness.&lt;/p&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;#callbacks&#34;&gt;Callbacks?&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#scip-plugins&#34;&gt;SCIP plugins&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#cut-selection&#34;&gt;Cut selection&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#cut-selector-interface&#34;&gt;Cut selector interface&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#some-c-julia-magic&#34;&gt;Some C-Julia magic&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;h1 id=&#34;callbacks&#34;&gt;Callbacks?&lt;/h1&gt;
+&lt;p&gt;The space of mixed-integer optimization solvers is mostly divided between
+commercial, closed-source solvers and academic solvers open in source code.
+In the second cluster, &lt;a href=&#34;https://scipopt.org&#34;&gt;SCIP&lt;/a&gt; stands out for the tunability of the solving
+process, like all solvers through some parameters but more importantly through &lt;em&gt;callbacks&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Callbacks are functions that are passed to a solver (or another function more generally) by the user
+with an expected behavior.
+Conceptually, they are the most elementary building block for &lt;em&gt;Inversion of Control&lt;/em&gt;, letting the user
+define part of the behaviour of the solver through their own code and not only through fixed parameters.&lt;/p&gt;
+&lt;p&gt;A basic callback system implemented in many solvers is a printing or logging callback,
+the user function is called at every iteration of a solving process with some iteration-specific information to print or log,
+here is a Julia example with gradient descent:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; my_solver(x0&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;}, gradient_function&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Function&lt;/span&gt;, callback&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Function&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;terminated
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; gradient_function(x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        stepsize &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; compute_stepsize(x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        callback(x, g, stepsize)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; gamma &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; g
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        terminated &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; x
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In this example, the callback is not expected to modify the solving process but contains all the information
+about the current state and can record or print data.&lt;/p&gt;
+&lt;p&gt;The C version of it would be something like:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;stdbool.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// defining the function types
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;void&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;Gradient)(&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; gradient , &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;void&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;Callback)(&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; gradient , &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x, &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; stepsize);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;my_solver&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x, Gradient gradient_function, Callback callback) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; gradient &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;initialize_gradient&lt;/span&gt;(x);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;double&lt;/span&gt; stepsize;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; terminated &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; false;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;terminated) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;gradient_function&lt;/span&gt;(gradient, x);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        stepsize &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;compute_stepsize&lt;/span&gt;(gradient, x);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;callback&lt;/span&gt;(x, gradient, stepsize);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;update_iterate&lt;/span&gt;(x, gradient, stepsize);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        terminated &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ...;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;scip-plugins&#34;&gt;SCIP plugins&lt;/h1&gt;
+&lt;p&gt;SCIP plugins are generic interfaces for certain components of the solver such as cutting plane generators
+(also called separators), heuristics, lazy constraints.
+Think of plugins as a bundle of functions that have a grouped logic. Compared to callbacks,
+they are another level in Inversion of Control often referred to as &lt;em&gt;Dependency Injection&lt;/em&gt;.
+Since C does not have a native mechanism for such a concept (think C++ abstract classes, Haskell data classes, Rust traits, Java interfaces, Scala traits),
+the SCIP developers just cooked up their own with macros for the sugar of an interface.&lt;/p&gt;
+&lt;p&gt;SCIP plugins are listed on the page for &lt;a href=&#34;https://www.scipopt.org/doc/html/HOWTOADD.php&#34;&gt;how to add them&lt;/a&gt;.&lt;/p&gt;
+&lt;h1 id=&#34;cut-selection&#34;&gt;Cut selection&lt;/h1&gt;
+&lt;p&gt;A cut is a linear inequality $\alpha^T x \leq \beta$ such that:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;at least one optimal solution remains feasible with that cut (in general, cuts will not remove optimal solutions),&lt;/li&gt;
+&lt;li&gt;a part of the feasible region of the convex relaxation is cut off (otherwise, the cut is trivial and useless).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In SCIP 8, a cut selector plugin was added, see the description in &lt;a href=&#34;https://arxiv.org/abs/2112.08872&#34;&gt;the SCIP 8 release report&lt;/a&gt;.
+It was originally motivated by &lt;a href=&#34;https://arxiv.org/abs/2202.10962&#34;&gt;this paper&lt;/a&gt; including a subset of the SCIP 8 authors
+on adaptive cut selection, showing that a fixed selection rule could perform poorly.&lt;/p&gt;
+&lt;p&gt;There is ongoing research on cut selection at ZIB and other places, having seen that smarter rules do make a difference.&lt;/p&gt;
+&lt;p&gt;The selection problem can be stated as follows: given a set of previously generated cuts (some might be locally valid at the current node only),
+which ones should be added to the linear relaxation before continuing the branching process?&lt;/p&gt;
+&lt;p&gt;Instinctively, a cut should be added only if it improves the current relaxation. If the current linear programming relaxation solution
+is not cut off by a cut, that cut is probably not relevant at the moment, even though it might cut off another part of the polytope.
+Example of criteria currently used to determine whether a cut should be added are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;efficacy: how far is the current LP relaxation from the new hyperplane,&lt;/li&gt;
+&lt;li&gt;sparsity: how many non-zeros coefficients does the cut have&lt;/li&gt;
+&lt;li&gt;orthogonality (to other constraints), a cut that is parallel to another cut means that one of them is redundant.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Instead of trying to come up with fixed metrics and a fixed rule, the cut selector allows users to define their own rule
+by examining all cuts and the current state of the solver.&lt;/p&gt;
+&lt;h1 id=&#34;cut-selector-interface&#34;&gt;Cut selector interface&lt;/h1&gt;
+&lt;p&gt;I will focus here on the Julia interface, some parts are very similar to what would be implemented
+by a C or C++ user, except for memory management that is done automatically here.&lt;/p&gt;
+&lt;p&gt;The cut selector interface is pretty simple, it consists on the Julia side of&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;a structure that needs to be a subtype of &lt;code&gt;AbstractCutSelector&lt;/code&gt;,&lt;/li&gt;
+&lt;li&gt;one key function that has to be implemented.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The low-level cut selection function that SCIP expects has the following signature,
+I will give the Julia version but the C one is strictly identical:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; select_cut_lowlevel(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    scip&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cutsel_&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_CUTSEL&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cuts_&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_ROW&lt;/span&gt;}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ncuts&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Cint&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    forced_cuts_&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_ROW&lt;/span&gt;}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nforced_cuts&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Cint&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    root_&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_Bool&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    maxnslectedcuts&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Cint&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nselectedcuts_&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Cint&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    result_&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_RESULT&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_RETCODE&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The function takes a pointer to the SCIP model, the pointer to our cut selection plugin that
+is stored within SCIP, a vector of cuts (passed as a pointer and a length),
+a vector of &lt;strong&gt;forced&lt;/strong&gt; cuts, that is, cuts that will be added to the linear relaxation independently of the
+cut selection procedure, whether we are at the root node of the branch-and-bound tree and what is the maximum number of cuts
+we are allowed to accept.&lt;/p&gt;
+&lt;p&gt;Forced cuts are interesting to have because they let us avoid adding redundant cuts.
+This function is expected to sort the array of cuts by putting the selected cuts first
+and updating the value of &lt;code&gt;nselectedcuts_&lt;/code&gt; and &lt;code&gt;result_&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This interface is quite low-level from a Julia perspective, and passing all arguments C-style is cumbersome.
+The SCIP.jl wrapper thus lets users define their selector with a single function to implement:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; select_cuts(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cutsel&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractCutSelector&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    scip&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cuts&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_ROW&lt;/span&gt;}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    forced_cuts&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_ROW&lt;/span&gt;}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    root&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Bool&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    maxnslectedcuts&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Integer&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    )
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This function returns the output values in a tuple &lt;code&gt;(retcode, nselectedcuts, result)&lt;/code&gt;
+instead of passing them as arguments and lets the user manipulate vectors instead of raw pointers.
+The raw function can be passed to C, but the user only see the idiomatic Julia one.
+On each of the &lt;code&gt;Ptr{SCIP_ROW}&lt;/code&gt;, the user can call any of the C functions, all SCIP C functions are available in
+the &lt;code&gt;SCIP.LibSCIP&lt;/code&gt; submodule. They can compute for instance parallelism between rows, get the number of non-zeros,
+or get the coefficients $\alpha$, left and right-hand side (rows are two-sided in SCIP) and compute quantities of interest themselves.&lt;/p&gt;
+&lt;p&gt;Here is the complete example for a cut selector that never selects any cut:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# the struct needs to be mutable here&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;mutable struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;PickySelector&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AbstractCutSelector
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; SCIP&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;select_cuts(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        cutsel&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PickySelector&lt;/span&gt;, scip, cuts&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_ROW&lt;/span&gt;}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        forced_cuts&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_ROW&lt;/span&gt;}}, root&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Bool&lt;/span&gt;, maxnslectedcuts&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Integer&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    )
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# return code, number of cuts, status&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (SCIP&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;SCIP_OKAY, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, SCIP&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;SCIP_SUCCESS)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We have now defined a cut selector that implements the interface but SCIP does not know about it yet.
+In the Julia interface, we added a wrapper function that takes care of the plumbing parts:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cutselector &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; PickySelector()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;o &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; SCIP&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Optimizer()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;SCIP&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;include_cutsel(o, cutselector)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;some-c-julia-magic&#34;&gt;Some C-Julia magic&lt;/h1&gt;
+&lt;p&gt;The simplicity of the interface is enabled by some nice-to-have features.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;@cfunction&lt;/code&gt; lets us take a Julia function that is compatible with C, that is,
+it can accept arguments that are compatible with the C type system, and produces a function pointer for it.
+In our case, a function pointer is precisely what we need to pass to SCIP.
+But to create a C function pointer, we need the full concrete type declared ahead of time,
+&lt;code&gt;@cfunction&lt;/code&gt; thus takes the return type and a tuple of the argument types to create the pointer:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;func_pointer &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@cfunction&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    select_cut_lowlevel,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    SCIP_RETCODE,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_&lt;/span&gt;}, &lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_CUTSEL&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_ROW&lt;/span&gt;}}, &lt;span style=&#34;color:#66d9ef&#34;&gt;Cint&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_ROW&lt;/span&gt;}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;Cint&lt;/span&gt;, SCIP_Bool, &lt;span style=&#34;color:#66d9ef&#34;&gt;Cint&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Cint&lt;/span&gt;}, &lt;span style=&#34;color:#66d9ef&#34;&gt;Ptr&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;SCIP_RESULT&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The other nice-to-have feature here is wrapping a Julia Vector around a raw data pointer without copying data,
+remember that in the low-level interface, cuts are passed as a pointer and a number of elements
+&lt;code&gt;(cuts::Ptr{Ptr{SCIP_ROW}}, ncuts::Cint)&lt;/code&gt;.
+We can wrap a &lt;code&gt;Vector&lt;/code&gt; around it directly:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cut_vector &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; unsafe_wrap(&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;, cuts, ncuts)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A very useful use case for this is shown in the test, one can get the cut vector, and then sort them in-place
+with a custom criterion:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sort!(cut_vector, by&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;my_selection_criterion)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This will sort the elements in-place, thus modifying the array passed as a double pointer.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Pruning the expression tree with recursive value identification</title>
+      <link>https://matbesancon.xyz/post/2022-04-29-expression-trees/</link>
+      <pubDate>Fri, 29 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.xyz/post/2022-04-29-expression-trees/</guid>
+      <description>&lt;p&gt;Today was the release of &lt;a href=&#34;https://github.com/scipopt/SCIP.jl&#34;&gt;SCIP.jl&lt;/a&gt; v0.11, the first release switching to SCIP 8.
+The major change in this (massive) release was the rewrite of the nonlinear optimization part, using a so-called expression framework.
+The rewrite of the wrapper had some fairly tedious parts, debugging C shared libraries is quickly a mess with cryptic error messages.
+But the nonlinear rewrite gave me the opportunity to tweak the way Julia expressions are passed to SCIP in a minor way.&lt;/p&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;#scip-expressions&#34;&gt;SCIP expressions&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#the-julia-wrapper-initial-framework&#34;&gt;The Julia wrapper initial framework&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#a-lazified-expression-declaration&#34;&gt;A lazified expression declaration&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;h1 id=&#34;scip-expressions&#34;&gt;SCIP expressions&lt;/h1&gt;
+&lt;p&gt;I will not go in depth into the new expression framework and will instead reference &lt;a href=&#34;https://scipopt.org/workshop2020/slides/minlp.pdf&#34;&gt;these slides&lt;/a&gt;
+but more importantly &lt;a href=&#34;https://arxiv.org/abs/2112.08872&#34;&gt;the SCIP 8 release report&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The key part is that in a nonlinear expression, each operand is defined as an &lt;em&gt;expression handler&lt;/em&gt;, and new ones can be introduced by users.
+Several specialized constraint types or &lt;em&gt;constraint handlers&lt;/em&gt; in SCIP terminology were also removed, using the expression framework with
+a generic nonlinear constraint instead.&lt;/p&gt;
+&lt;h1 id=&#34;the-julia-wrapper-initial-framework&#34;&gt;The Julia wrapper initial framework&lt;/h1&gt;
+&lt;p&gt;As a Lisp-inspired language, (some would even a Lisp dialect),
+Julia is a homoiconic language: valid Julia code can always be represented and stored in a primitive data structure.
+In this case, the tree-like structure is &lt;code&gt;Expr&lt;/code&gt; with fields &lt;code&gt;head&lt;/code&gt; and &lt;code&gt;args&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; expr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; expr&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;head
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;call
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; expr&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;args
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;element &lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Any&lt;/span&gt;}&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;:+&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; x)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The SCIP.jl wrapper recursively destructures the Julia expression and builds up corresponding SCIP
+expressions, a SCIP data structure defined either as a leaf (a simple value or a variable)
+or as an operand and a number of subexpressions.
+This is done through a &lt;code&gt;push_expr!&lt;/code&gt; function which either:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Creates and returns a single variable expression if the expression is a variable&lt;/li&gt;
+&lt;li&gt;Creates and returns a single value expression if the expression is a constant&lt;/li&gt;
+&lt;li&gt;If the expression is a function &lt;code&gt;f(arg1, arg2...)&lt;/code&gt;, calls &lt;code&gt;push_expr!&lt;/code&gt; on all arguments, and then creates and returns the SCIP expression corresponding to &lt;code&gt;f&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;One part remains problematic, imagine an expression like &lt;code&gt;3 * exp(x) + 0.5 * f(4.3)&lt;/code&gt;, where &lt;code&gt;f&lt;/code&gt;
+is not a primitive supported by SCIP. It should not have to be indeed, because that part of the expression
+could be evaluated at expression compile-time. But if one is walking down the expression sub-parts,
+there was no way to know that a given part is a pure value, the expression-constructing procedure would
+first create a SCIP expression for 4.3 and then try to find a function for &lt;code&gt;f&lt;/code&gt; to apply with this expression
+pointer as argument. This was the use case initially reported in &lt;a href=&#34;https://github.com/scipopt/SCIP.jl/issues/166&#34;&gt;this issue&lt;/a&gt;
+at a time when SCIP did not support trigonometric functions yet.&lt;/p&gt;
+&lt;p&gt;Another motivation for solving this issue is on the computational and memory burden.
+Imagine your expression is now &lt;code&gt;3 * exp(x) + 0.1 * cos(0.1) + 0.2 * cos(0.2) + ... + 100.0 * cos(100.0)&lt;/code&gt;.
+This will require producing 2 * 1000 expressions for a constant, declared, allocated and passed down to SCIP.
+The solver will then likely preprocess all constant expressions to reduce them down, so it ends up being a lot of
+work done on one end to undo immediately on the other.&lt;/p&gt;
+&lt;h1 id=&#34;a-lazified-expression-declaration&#34;&gt;A lazified expression declaration&lt;/h1&gt;
+&lt;p&gt;Make &lt;code&gt;push_expr!&lt;/code&gt; return two values &lt;code&gt;(scip_expr, pure_value)&lt;/code&gt;, with the second being a Boolean for whether the expression is a pure value or not.
+At any leaf computing &lt;code&gt;f(arg1, arg2...)&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If the expression of all arguments are &lt;code&gt;pure_value&lt;/code&gt;, do &lt;strong&gt;not&lt;/strong&gt; compute the expression and just return a null pointer, &lt;code&gt;pure_value&lt;/code&gt; is true for this expression.&lt;/p&gt;
+&lt;p&gt;If at least one of the arguments is not a &lt;code&gt;pure_value&lt;/code&gt;, we need to compute the actual expression. None of the &lt;code&gt;pure_value&lt;/code&gt; arguments were declared as SCIP expressions yet, we create a leaf value expression for them with &lt;code&gt;Meta.eval(arg_i)&lt;/code&gt;. The non-pure value arguments already have a correct corresponding SCIP expression pointer. &lt;code&gt;pure_value&lt;/code&gt; is false for this expression.&lt;/p&gt;
+&lt;p&gt;Note here that we are traversing some sub-expressions twice, once when walking down the tree and once more hidden with &lt;code&gt;Meta.eval(arg_i)&lt;/code&gt; which computes the value for said expression, where we delegate the expression value computation to Julia. An alternative would be to return a triplet from every &lt;code&gt;push_expr!&lt;/code&gt; call &lt;code&gt;(expr_pointer, pure_value, val)&lt;/code&gt; and evaluate at
+each &lt;code&gt;pure_value&lt;/code&gt; node the value of &lt;code&gt;f(args...)&lt;/code&gt;, with the value of the arguments already computed. This would however complexity the code in the wrapper with no advantage of the runtime,
+the expression evaluation is not a bottleneck for expressions that can realistically be tackled by a global optimization solver like SCIP.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

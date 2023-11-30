@@ -1,0 +1,2092 @@
+<!DOCTYPE html>
+<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
+<!-- Last Published: November 30, 2023 --><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+
+  
+  
+    
+    <script src="/js/mathjax-config.js"></script>
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.047268c6dd09ad74ba54a0ba71837064.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.be1e734c86be5b4f1c94d71028ea7cbf.css" />
+
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/libs/chroma/github-light.min.css" title="hl-light" media="print" onload="this.media='all'" >
+    <link rel="stylesheet" href="/css/libs/chroma/dracula.min.css" title="hl-dark" media="print" onload="this.media='all'" disabled>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+  <meta name="author" content="Mathieu Besançon" />
+
+
+
+
+
+  
+
+<meta name="description" content="Constrained optimization on a fundamental engineering problem
+" />
+
+
+
+<link rel="alternate" hreflang="en-us" href="https://matbesancon.xyz/post/2020-05-09-volumes/" />
+<link rel="canonical" href="https://matbesancon.xyz/post/2020-05-09-volumes/" />
+
+
+
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+
+
+<link rel="icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_32x32_fill_lanczos_center_3.png" />
+<link rel="apple-touch-icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_180x180_fill_lanczos_center_3.png" />
+
+<meta name="theme-color" content="#1565c0" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<meta property="twitter:card" content="summary" />
+
+  <meta property="twitter:site" content="@matbesancon" />
+  <meta property="twitter:creator" content="@matbesancon" />
+<meta property="twitter:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" />
+<meta property="og:site_name" content="μβ" />
+<meta property="og:url" content="https://matbesancon.xyz/post/2020-05-09-volumes/" />
+<meta property="og:title" content="Experiments on communicating vessels, constrained optimization and manifolds | μβ" />
+<meta property="og:description" content="Constrained optimization on a fundamental engineering problem
+" /><meta property="og:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+
+  
+    <meta
+      property="article:published_time"
+      content="2020-05-09T00:00:00&#43;00:00"
+    />
+  
+  
+    <meta property="article:modified_time" content="2023-10-21T13:42:14&#43;02:00">
+  
+
+
+
+
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://matbesancon.xyz/post/2020-05-09-volumes/"
+  },
+  "headline": "Experiments on communicating vessels, constrained optimization and manifolds",
+  
+  "datePublished": "2020-05-09T00:00:00Z",
+  "dateModified": "2023-10-21T13:42:14+02:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Mathieu Besançon"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "μβ",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "Constrained optimization on a fundamental engineering problem\n"
+}
+</script>
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+  
+
+  
+
+
+  
+  <title>Experiments on communicating vessels, constrained optimization and manifolds | μβ</title>
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="5aca70310fd50348c5b4968275471fcb" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header header--fixed">
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container-xl">
+
+      
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+      
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      
+      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+        
+        <ul class="navbar-nav d-md-inline-flex">
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#about"><span>Home</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#experience"><span>Experience</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#publications"><span>Publications</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#posts"><span>Posts</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#workwithme"><span>Work with me</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#contact"><span>Contact</span></a>
+          </li>
+
+          
+          
+
+        
+
+          
+        </ul>
+      </div>
+
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+        
+        
+          
+        
+
+        
+        
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+        
+        
+        <li class="nav-item dropdown theme-dropdown">
+          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item js-set-theme-light">
+              <span>Light</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-dark">
+              <span>Dark</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-auto">
+              <span>Automatic</span>
+            </a>
+          </div>
+        </li>
+        
+
+        
+        
+
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+
+  </div>
+
+  <div class="page-body">
+    
+    
+    
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Experiments on communicating vessels, constrained optimization and manifolds</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    2023-10-21
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    16 min read
+  </span>
+  
+
+  
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/volumes/Communicating_vessels.png" alt="" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>Image source <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+
+
+<details class="toc-inpage d-print-none  " open>
+  <summary class="font-weight-bold">Table of Contents</summary>
+  <nav id="TableOfContents">
+  <ol>
+    <li><a href="#communicating-vessels-and-optimization-formulation">Communicating vessels and optimization formulation</a></li>
+    <li><a href="#vessel-equilibrium-as-an-optimization-problem">Vessel equilibrium as an optimization problem</a></li>
+    <li><a href="#computing-a-direction">Computing a direction</a></li>
+    <li><a href="#projecting-on-the-manifold">Projecting on the manifold</a></li>
+    <li><a href="#putting-it-all-together">Putting it all together</a></li>
+    <li><a href="#conclusion-and-perspective">Conclusion and perspective</a></li>
+    <li><a href="#acknowledgment">Acknowledgment</a></li>
+    <li><a href="#bonus">Bonus</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+</nav>
+</details>
+
+<p>Fluid mechanics was one of my favourite topics in the Process Engineering program I followed
+(some people will quit reading at this point and never talk to me again) so without surprise,
+I could not resist diving into this new <a href="https://sinews.siam.org/Details-Page/lagrange-multiplier-as-depth-or-pressure-2" target="_blank" rel="noopener">blog post</a>
+on SIAM News.
+This is the second time a post from Mark Levi caught my attention, the last
+was on <a href="https://sinews.siam.org/Details-Page/a-near-perfect-heat-exchange" target="_blank" rel="noopener">heat exchangers</a>,
+on which I also wrote a <a href="https://matbesancon.xyz/post/2018-12-27-heat-exchanger/" target="_blank" rel="noopener">post</a>, toying with parallel and counter-current heat exchangers.</p>
+<p>This new post from Mark Levi illustrates a key concept in constrained optimization: <em>Lagrange multipliers</em>
+and a nice interpretation in a problem of communicating vessels.</p>
+<h1 id="communicating-vessels-and-optimization-formulation">Communicating vessels and optimization formulation</h1>
+<p>If you are familiar with fluid mechanics, feel free to skip this section.
+Imagine $N$ vessels filled with water, all connected through a pipe at the bottom as shown on the top figure.
+The problem statement is, given initial levels of water $x_k$ in each $k-th$ vessel:</p>
+<ul>
+<li>how does the state evolve?</li>
+<li>what equilibrium, if any, is eventually reached?</li>
+</ul>
+<p>Otherwise, consider the weight of water creates pressure within it.
+The lower a point in the water, the higher the pressure, since there is more water above which exercises its weight.
+A difference in <strong>pressure</strong> between two points will create a motion of the water, until the pressure equalizes.
+Put differently, some fluid moves from the full part of the vessel (with more pressure) to empty parts (with less pressure)
+until the pressure equalizes.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/volumes/motion.gif" alt="Communicating vessels" loading="lazy" data-zoomable /></div>
+  </div></figure>
+<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>Since the pressure at a point depends on the height of the fluid above this point,
+two points have equal pressure when the height of water above them is equal.
+This is a phenomenon we often experience, with a watering can for instance.</p>
+<h1 id="vessel-equilibrium-as-an-optimization-problem">Vessel equilibrium as an optimization problem</h1>
+<p>A system reaches an equilibrium at the minimum of its potential energy.
+Feel free to skip this part if you read the blog post by Mark Levi, we basically go over the problem formulation once again.
+An equilibrium state (where the state does not evolve anymore) can be found by
+solving the optimization problem minimizing the potential energy, subject to the
+respect of the laws of physics. These laws state two things:</p>
+<ul>
+<li>No water loss: the mass of liquid is preserved, and since we are working with an incompressible liquid, the total volume too is constant.</li>
+<li>No negative volume: the different vessels exchange water, their volume increasing or decreasing with time, but at no point can a vessel reach a negative volume.</li>
+</ul>
+<p>Each vessel $k$ will be described by a profile, an area as function of the height $f_k(x)$.
+We assume that these functions $f_k$ are all continuous.
+The state at any point in time is the height in each vessel $x_k$.
+The total volume of water in the vessel is given by:
+$$V_k(x_k) = \int_0^{x_k} f_k(h) dh.$$</p>
+<p>The conservation of volume can be expressed as:</p>
+<p>$$V_{0} = \sum_{k=1}^N V_k(x_k) = \sum_{k=1}^N \int_0^{x_k} f_k(h) dh$$</p>
+<p>where $V_{0}$ is the initial total volume water.
+The nonnegativity of water volume in each vessel can be expressed as:
+$$\int_0^{x_k} f_k(h) dh \geq 0,,, \forall k \in \{1..N\} $$</p>
+<p>The area at any height $f_k(x)$ is positive or null, so this constraint
+can be simplified as:
+$$x_k \geq 0 ,,, \forall k \in \{1..N\} $$</p>
+<p>The potential function, the objective minimized by the problem, is the last thing we miss.
+It consists of the total potential function of the water in the vessels, caused by gravity only.
+Each infinitesimal slice of water from $x$ to $x + dx$ exercises its weight, which is proportional to its volume
+$f_k(x) dx$ times height $x$. By integrating over a whole vessel $k$, this gives a potential of:
+$$ \int_0^{x_k} h f_k(h) M dh$$
+with M a constant of appropriate dimension. Since we are minimizing the sum of these functions,
+we will get rid of the constant (sorry for shocking physicists), yielding an objective:</p>
+<p>$$ F(x) = \sum_{k=1}^N \int_0^{x_k} h f_k(h)dh.$$</p>
+<p>To sum it all, the optimization problem finding an equilibrium is:</p>
+<p>$$
+\begin{align}
+\min_{x} &amp; \sum_{k=1}^N \int_0^{x_k} h f_k(h)dh \\\\<br>
+&amp; \text{subject to:} \\\
+&amp; G(x) = \sum_{k=1}^N \int_0^{x_k} f_k(h) dh - V_0 = 0\\\\
+&amp; x_k \geq 0 ,,, \forall k \in \{1..N\}
+\end{align}
+$$</p>
+<p>If you read the blog post, you saw the best way to solve this problem is by
+relaxing the positivity constraints and write the first-order Karush-Kuhn-Tucker (KKT) conditions:</p>
+<p>$$
+\begin{align}
+&amp; \nabla F(x) = \lambda \nabla G(x) &amp; \Leftrightarrow\\\
+&amp; x_k f_k(x_k) = \lambda f_k(x_k) ,,,\forall k \in \{1..N\} &amp; \Leftrightarrow \\\
+&amp; x_k = \lambda ,,,\forall k \in \{1..N\}
+\end{align}
+$$</p>
+<p>So the multiplier $\lambda$ ends up being the height of water across all vessels, the equations come back to the intuitive result.
+Between the second and third line, we implicitly eliminate the case $f_k(x_k) = 0$,
+which would be a section of the vessel of area 0.
+Let us implement $F$, $G$ and their gradients in Julia to reproduce this result numerically.
+We will use four vessels of various shapes:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> QuadGK
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> funcs <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">-&gt;</span> oneunit(x),
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">2</span>x,
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> sqrt(x),
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> x<span style="color:#f92672">^</span><span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> N <span style="color:#f92672">=</span> length(funcs)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>g(x) <span style="color:#f92672">=</span> sum(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>N) <span style="color:#66d9ef">do</span> k
+</span></span><span style="display:flex;"><span>    QuadGK<span style="color:#f92672">.</span>quadgk(funcs[k], <span style="color:#ae81ff">0</span>, x[k])[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>f(x) <span style="color:#f92672">=</span> sum(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>N) <span style="color:#66d9ef">do</span> k
+</span></span><span style="display:flex;"><span>    x[k] <span style="color:#f92672">*</span> QuadGK<span style="color:#f92672">.</span>quadgk(funcs[k], <span style="color:#ae81ff">0</span>, x[k])[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p><code>QuadGK.quadgk</code> from the <a href="https://github.com/JuliaMath/QuadGK.jl/" target="_blank" rel="noopener">Gauss–Kronrod package</a>
+computes a numerical integral of a function on an interval.
+We are in an interesting case where the gradient of the functions are much easier to
+compute than the functions themselves, since they remove the integrals:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>∇f(x) <span style="color:#f92672">=</span> [x[k] <span style="color:#f92672">*</span> funcs[k](x[k]) <span style="color:#66d9ef">for</span> k <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>N]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>∇g(x) <span style="color:#f92672">=</span> [funcs[k](x[k]) <span style="color:#66d9ef">for</span> k <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>N]
+</span></span></code></pre></div><p>If we pick a starting point, such that all four vessels have the same height:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>x0_height <span style="color:#f92672">=</span> rand()
+</span></span><span style="display:flex;"><span>x0_uniform <span style="color:#f92672">=</span> [x0_height <span style="color:#66d9ef">for</span> _ <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>N]
+</span></span></code></pre></div><p>we can verify the first-order KKT conditions as expressed in Mark Levi&rsquo;s post:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>∇f(x0_uniform) <span style="color:#f92672">-</span> x0_height <span style="color:#f92672">*</span> ∇g(x0_uniform)
+</span></span></code></pre></div><p>and we obtain a vector of zeros as planned.</p>
+<p>The rest of this post will be about trying to find the optimal height
+that is reached by this system, implementing an iterative algorithm solving the
+problem in a generic form.
+This will require several parts:</p>
+<ol>
+<li>From a given iterate, find a direction to follow;</li>
+<li>Ensure each iterate respects the constraints defined above (no thugs in physicstown);</li>
+<li>Converge to the feasible solution (which we know from Mark Levi&rsquo;s post, but no cheating);</li>
+<li>Define stopping criteria.</li>
+</ol>
+<p>An interesting point on the structure of the problem,
+this is not a generic equality-constrained non-linear problem,
+the domain defined by $G(x) = 0$ is a manifold, which is a smooth subspace
+of $\mathbb{R}^N$. Other than throwing fancy words, having this structure
+lets us use specific optimization methods which have been developed for manifolds.
+A <a href="https://github.com/JuliaManifolds" target="_blank" rel="noopener">whole ecosystem</a> has been developed in Julia
+to model and solve optimization problems over manifolds.
+We will not be using it and will build our method from scratch, inefficient but
+preferred for unknown reasons, like your sourdough starter in lockdown.</p>
+<h1 id="computing-a-direction">Computing a direction</h1>
+<p>From a given solution, we need to be able to find a direction in which we can progress.
+Fair warning, this is the most &ldquo;optimization-heavy&rdquo; section.</p>
+<p>Let us start from a random point. Use the same seed if you want to reproduce the results:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>Random<span style="color:#f92672">.</span>seed!(<span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4 uniform random points between [0,2]</span>
+</span></span><span style="display:flex;"><span>x0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> rand(<span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>V0 <span style="color:#f92672">=</span> g(x0)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1.9273890036845946</span>
+</span></span></code></pre></div><p>With the vessel shape functions defined above, this looks roughly like this:</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/volumes/initial_plot.png" alt="start" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>(source code available in the bonus section).</p>
+<p>In unconstrained optimization, the gradient provides us with information on the steepest
+ascent direction, by following the opposite direction, the function will decrease, at least locally.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>xnew <span style="color:#f92672">=</span> x_i <span style="color:#f92672">-</span> γ <span style="color:#f92672">*</span> ∇f(xinit)
+</span></span></code></pre></div><p>See this good <a href="http://www.juyang.co/numerical-optimization-in-machine-learning-iii-constrained-optimization/" target="_blank" rel="noopener">blog post</a>
+by Ju Yang several with really good illustrations to grasp an intuition.
+If we naively follow the descent direction minimizing $F$, we likely leave the
+manifold, the region where $G(x) = 0$.</p>
+<p>Think of the curve as the feasible region where we are supposed remain.
+$x_i$ is our current iterate and the direction points to the steepest descent of $F(x)$,
+i.e. $-\nabla F(x)$.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/volumes/manifold1.png" alt="Naive descent" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>Moving in this direction will drive our iterates away from the feasible region,
+which is not desired. Instead, we will want to <strong>project</strong> this direction to follow
+the equality constraints, like the red direction:</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/volumes/manifold2.png" alt="Projected descent" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>Of course, by following a fixed direction, the iterate ends up not on the curve, but not &ldquo;too far&rdquo;.
+More importantly, we will have ensured that the point has not been moved for nothing, which would
+be the case if we simply get away from the manifold.
+We are looking for a search direction $d$:</p>
+<ul>
+<li>which improves the objective function as much as possible: $\langle ∇F(x_{i}), d\rangle$ as low as possible, or equivalently $\langle -∇F(x_i), d\rangle$ maximized;</li>
+<li>tangent to the manifold.</li>
+</ul>
+<p>For the last requirement,
+we need a direction in the tangent space to the manifold, so
+$\langle \nabla G(x_i), d\rangle = 0$, we end up requiring the
+vector rejection (the residual of a vector projection):</p>
+<p>$$
+\begin{align}
+&amp; d = -\nabla F(x_i) - \frac{-\nabla F(x_i) \cdot \nabla G(x_i)}{\|\nabla G(x_i)\|^2} \nabla G(x_i) \Leftrightarrow \\\
+&amp; d = \frac{\nabla F(x_i) \cdot \nabla G(x_i)}{\|\nabla G(x_i)\|^2} \nabla G(x_i) -\nabla F(x_i)
+\end{align}
+$$</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> compute_direction(grad_f, grad_g)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>grad_f <span style="color:#f92672">+</span> grad_g <span style="color:#f92672">*</span> (grad_f <span style="color:#f92672">⋅</span> grad_g) <span style="color:#f92672">/</span> (grad_g <span style="color:#f92672">⋅</span> grad_g)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>Note: in a first version of this post, the projection was implemented
+as a Second-Order Cone problem (SOCP) in JuMP, which is computationally more
+expensive, just the first thing I thought of. When you are used to hammers,
+all projections look like nails. For curiosity, you will find it below:</p>
+<p>$$
+\begin{align}
+\min_{d, t} &amp; \langle\nabla F(x_i), d \rangle \\\
+&amp; \text{subject to:} \\\
+&amp; \langle \nabla G(x_i), d\rangle = 0 \\\
+&amp; t = 1 \\\
+&amp; \|d\| \leq t
+\end{align}
+$$</p>
+<p>The second-order cone constraint is $\|d\| \leq t$.
+Note that the direction is restricted to have unit $l_2$-norm,
+unlike the vector rejection above.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">using</span> JuMP
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> ECOS
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> compute_direction_SOCP(grad_f, grad_g)
+</span></span><span style="display:flex;"><span>    N <span style="color:#f92672">=</span> length(grad_f)
+</span></span><span style="display:flex;"><span>    m <span style="color:#f92672">=</span> Model(ECOS<span style="color:#f92672">.</span>Optimizer)
+</span></span><span style="display:flex;"><span>    MOI<span style="color:#f92672">.</span>set(m, MOI<span style="color:#f92672">.</span>Silent(), true)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@variable</span>(m, d[<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>N])
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@constraint</span>(m, grad_g <span style="color:#f92672">⋅</span> d <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@variable</span>(m, t <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@constraint</span>(m, [t;d] <span style="color:#66d9ef">in</span> SecondOrderCone())
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@objective</span>(m, Min, d <span style="color:#f92672">⋅</span> grad_f)
+</span></span><span style="display:flex;"><span>    optimize!(m)
+</span></span><span style="display:flex;"><span>    termination_status(m) <span style="color:#f92672">==</span> MOI<span style="color:#f92672">.</span>OPTIMAL <span style="color:#f92672">||</span> error(<span style="color:#e6db74">&#34;Something wrong?&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> JuMP<span style="color:#f92672">.</span>value<span style="color:#f92672">.</span>(d)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>Also in the first version of this post, I had set the norm of $d$
+to be equal to that of $\nabla F(x_i)$, which is a bad idea$^{TM}$.
+You will find in the bonus section the resulting descent.</p>
+<p>On the point <code>x0</code> defined above, the naive descent direction yields:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>∇f(x0)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4-element Array{Float64,1}:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  1.0663660320877226</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  1.649139647696062</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  0.013306072041938516</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  0.08274729914625051</span>
+</span></span></code></pre></div><p>and the projected gradient:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>d <span style="color:#f92672">=</span> compute_direction(∇f(x0), ∇g(x0))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4-element Array{Float64,1}:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  -0.7980557152422237</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  0.0054117074806136894</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  1.66214850442488</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  0.6812946467870831</span>
+</span></span></code></pre></div><p>Note that all elements in $∇f(x0)$ are positive, which makes sense from the intuition of the physics,
+the water in each vessel has a weight, thus exercising a pressure downwards.</p>
+<p>There is still one thing we forgot once the direction is found.
+Remember the positivity constraint $x_k \geq 0$?
+It ensures the solution found makes sense, and that fluid mechanics
+specialists won&rsquo;t laugh at the solutions computed.
+If one of the coordinates of the found point is negative,
+what we can do is maintain the direction, but reduce the step.
+Notice that one of our containers has an area of $2\sqrt{x}$,
+reaching $x=0$ could lead to odd behaviour,
+we will maintain the constraint <code>x_k &lt;= minval</code> with
+<code>minval</code> a small positive number.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> corrected_step(x, d, γ <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.05</span>; minval <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.005</span>)
+</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> x <span style="color:#f92672">+</span> γ <span style="color:#f92672">*</span> d
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> k <span style="color:#66d9ef">in</span> eachindex(res)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> res[k] <span style="color:#f92672">&lt;</span> minval
+</span></span><span style="display:flex;"><span>            γ <span style="color:#f92672">=</span> (minval <span style="color:#f92672">-</span> x[k]) <span style="color:#f92672">/</span> d[k]
+</span></span><span style="display:flex;"><span>            res <span style="color:#f92672">=</span> x <span style="color:#f92672">+</span> γ <span style="color:#f92672">*</span> d
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>Note: in a general setting, a more appropriate method like the <a href="https://en.wikipedia.org/wiki/Active-set_method" target="_blank" rel="noopener">active set method</a>
+would have handled inequality constraints in a cleaner way.
+In our case, if a height is close to 0, it will not stay there but
+&ldquo;bounce back&rdquo;, so keeping track of active sets is unnecessary.<br>
+So we now have an iterate, the <code>res</code> variable returned from <code>corrected_step</code>,
+which will always respect the positivity constraints and be improving the
+objective in general.</p>
+<h1 id="projecting-on-the-manifold">Projecting on the manifold</h1>
+<p>We know in which direction $d$ the next iterate must be searched and have found an adequate step size $\gamma$,
+but a straight line can never perfectly stick to a curved surface.
+So once the direction is found and a new iterate $x_i + \gamma d$ computed,
+we need to project this iterate on the manifold, i.e. find the solution to:</p>
+<p>$$
+\begin{align}
+\min_{x}\,\, &amp; dist(x, x_i + \gamma d) \\\
+&amp; \text{subject to:} \\\
+&amp; G(x) = 0
+\end{align}
+$$</p>
+<p>Sadly, this is where we need evaluations of $G(x)$, which is notably more expensive
+than its gradient. Evaluating $G(x_i + \gamma d)$ gives us either 0
+(the volume conservation holds), a positive or negative quantity (for a volume creation or destruction).
+We can shift all the vessel heights by a same scalar $\alpha$ until $G(x_i + \gamma d + \alpha) = 0$.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> h(x)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span>(α)
+</span></span><span style="display:flex;"><span>        g(x <span style="color:#f92672">.+</span> α) <span style="color:#f92672">-</span> V0
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>h(corrected_step(x0, d, <span style="color:#ae81ff">1.5</span>))(<span style="color:#f92672">-</span><span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -1.4234221843048611</span>
+</span></span><span style="display:flex;"><span>h(corrected_step(x0, d, <span style="color:#ae81ff">1.5</span>))(<span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3.5464645750853023</span>
+</span></span></code></pre></div><p>The problem then becomes a root-finding problem on $h(x)(\alpha)$.
+Typical methods for solving a root-finding problem
+are Newton-type methods, bisections. We will use the
+<a href="https://github.com/JuliaMath/Roots.jl" target="_blank" rel="noopener">Roots.jl</a> package, this post is already too
+long to implement one from scratch.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#75715e"># computes the good alpha, starting from 0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>root <span style="color:#f92672">=</span> Roots<span style="color:#f92672">.</span>find_zero(h(corrected_step(x0, d, <span style="color:#ae81ff">1.5</span>)), <span style="color:#ae81ff">0.0</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -0.07526921814981354</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>g(corrected_step(x0, d, <span style="color:#ae81ff">1.5</span>) <span style="color:#f92672">.+</span> root) <span style="color:#f92672">-</span> V0
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 0.0</span>
+</span></span></code></pre></div><h1 id="putting-it-all-together">Putting it all together</h1>
+<p>We now have all the ingredients to make this algorithm work:</p>
+<p>Compute a gradient, correct it for negative points, project it on the manifold (with the simple vector rejection or the SOCP),
+re-project the resulting point with root-finding on alpha.
+We will stop the algorithm either:</p>
+<ul>
+<li>If a number of iterations is reached (which is considered a failure since we did not converge);</li>
+<li>The norm of the projected gradient is almost zero and we would not move to a new iterate;</li>
+<li>The distance between two successive iterates is low enough.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> find_equilibrium(funcs, x0; mingradnorm<span style="color:#f92672">=</span><span style="color:#ae81ff">10e-5</span>, maxiter <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>, γ <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.05</span>, mindiff<span style="color:#f92672">=</span><span style="color:#ae81ff">10e-4</span>)
+</span></span><span style="display:flex;"><span>    xs <span style="color:#f92672">=</span> [x0]
+</span></span><span style="display:flex;"><span>    niter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> niter <span style="color:#f92672">&lt;=</span> maxiter
+</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> xs[<span style="color:#66d9ef">end</span>] <span style="color:#75715e"># last iterate</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># compute projected direction</span>
+</span></span><span style="display:flex;"><span>        d <span style="color:#f92672">=</span> compute_direction(∇f(x), ∇g(x))
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># keep new point in positive orthant</span>
+</span></span><span style="display:flex;"><span>        xpos <span style="color:#f92672">=</span> corrected_step(x, d, γ)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># project point on Manifold</span>
+</span></span><span style="display:flex;"><span>        α <span style="color:#f92672">=</span> Roots<span style="color:#f92672">.</span>find_zero(h(xpos), <span style="color:#ae81ff">0.0</span>)
+</span></span><span style="display:flex;"><span>        xnew <span style="color:#f92672">=</span> xpos <span style="color:#f92672">.+</span> α
+</span></span><span style="display:flex;"><span>        push!(xs, xnew)
+</span></span><span style="display:flex;"><span>        niter <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> norm(d) <span style="color:#f92672">&lt;</span> mingradnorm
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@info</span> <span style="color:#e6db74">&#34;Min gradient condition reached&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> xs
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> norm(x <span style="color:#f92672">-</span> xnew) <span style="color:#f92672">&lt;</span> mindiff
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@info</span> <span style="color:#e6db74">&#34;Min difference condition reached&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> xs
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@info</span> <span style="color:#e6db74">&#34;Max iterations reached without convergence&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> xs
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>Giving it a try with a first rough idea of parameters:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>xs <span style="color:#f92672">=</span> find_equilibrium(funcs, x0, γ <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.005</span>, maxiter <span style="color:#f92672">=</span> <span style="color:#ae81ff">5000</span>, mindiff<span style="color:#f92672">=</span><span style="color:#ae81ff">10e-6</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Info: Min difference condition reached</span>
+</span></span></code></pre></div><p>We converged because the successive iterates were close enough,
+let us check the solution profile:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>xs_pivot <span style="color:#f92672">=</span> map(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>) <span style="color:#66d9ef">do</span> k
+</span></span><span style="display:flex;"><span>    getindex<span style="color:#f92672">.</span>(xs, k)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plot(xs_pivot)
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/volumes/plot_naive1.png" alt="Plot 1" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>Fair enough, still, 1400 iterates should not be necessary for a 4-dimensional problem.
+Since convergence seems reached around the equilibrium point (the solution does not bounce around it),
+we can increase the step size, which was taken rather conservatively:</p>
+<p>Let us zoom in:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>xs <span style="color:#f92672">=</span> find_equilibrium(funcs, x0, γ <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.05</span>, maxiter <span style="color:#f92672">=</span> <span style="color:#ae81ff">5000</span>, mindiff<span style="color:#f92672">=</span><span style="color:#ae81ff">10e-6</span>)
+</span></span><span style="display:flex;"><span>plot(map(k <span style="color:#f92672">-&gt;</span> getindex<span style="color:#f92672">.</span>(xs, k), <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>))
+</span></span></code></pre></div><p>We reduce the number of iterations to 192, while not hindering convergence.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/volumes/plot_naive2.png" alt="Plot 1" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<h1 id="conclusion-and-perspective">Conclusion and perspective</h1>
+<p>I wanted to add a section on the corresponding dynamical system, namely a
+differential algebraic equation (DAE) system, but this is clearly long enough,
+and I couldn&rsquo;t get anything to work.</p>
+<p><em>TL;DR</em>: the techniques to find the equilibrium rely on local optimization tools.
+The problem structure allowed us to express the gradient
+and estimate projection steps using cheap enough methods, namely vector rejection
+and root finding on a univariate function.</p>
+<p>Interesting thing to do on top of this:</p>
+<ul>
+<li>Leverage the toolbox already present and coming in JuliaManifolds;</li>
+<li>Replace the gradient-based method used here with a higher-order one such as quasi-Newton, L-BFGS, which should come cheaply from the decomposability of both $F$ and $G$.</li>
+</ul>
+<p>For the first point in particular, the direction projection can be seen
+as a <a href="https://juliamanifolds.github.io/Manifolds.jl/stable/interface.html#ManifoldsBase.retract-Tuple%7bManifold,Any,Any%7d" target="_blank" rel="noopener">retraction</a> on the manifold.
+Thanks <a href="https://ronnybergmann.net/" target="_blank" rel="noopener">Ronny Bergmann</a> for pointing it out!</p>
+<p>A fixed step size worked out well in our case because the problem structure is smooth enough,
+a better way would be doing a line search in the direction of $d$.
+The <a href="https://julianlsolvers.github.io/LineSearches.jl/latest/" target="_blank" rel="noopener">LineSearches.jl</a> package is readily available,
+one could directly plug one of the available methods in the <code>corrected_step</code> function.</p>
+<p>Finally, going back to the initial motivation of Mark Levi in the SIAM post,
+one can express the KKT conditions on a Manifold-constrained problem
+as developed in <a href="https://arxiv.org/abs/1804.06214" target="_blank" rel="noopener">this article</a>.</p>
+<h1 id="acknowledgment">Acknowledgment</h1>
+<p>Special thanks to <a href="https://twitter.com/pierre_jacquel" target="_blank" rel="noopener">Pierre</a> for reading this post
+and spotting errors quicker than I could type them, <a href="https://github.com/antoine-levitt/" target="_blank" rel="noopener">Antoine Levitt</a>
+for highlighting the SOCP approach was awfully overkill for a gradient projection,
+this also made me spot an other error, and Ronny Bergmann for encouraging words and
+detailed feedback and discussion on different parts of the talk, from links with JuliaManifolds
+to incorrect terminology and improvement perspective.
+Thanks also to <a href="https://twitter.com/ChrisRackauckas" target="_blank" rel="noopener">Chris</a> for the conversation on
+DAEs, for another post maybe, Odelin for the suggestion on the variable notations.
+And as often, thanks Pierre-Yves for the infaillible proof-reading as usual.</p>
+<h1 id="bonus">Bonus</h1>
+<p>What happens when the norm of the direction vector is proportional to $\nabla F(x_i)$
+instead of the projected vector (or constant)? Don&rsquo;t reproduce at home:</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/volumes/bump1.png" alt="Oops1" loading="lazy" data-zoomable /></div>
+  </div></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/volumes/bump2.png" alt="Oops2" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>As promised, the plot to represent the vessels with the initial level of filling:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>p <span style="color:#f92672">=</span> plot(xaxis<span style="color:#f92672">=</span>nothing, yaxis<span style="color:#f92672">=</span>nothing)
+</span></span><span style="display:flex;"><span>xtop <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.2</span>
+</span></span><span style="display:flex;"><span>xks <span style="color:#f92672">=</span> collect(<span style="color:#ae81ff">0.0</span><span style="color:#f92672">:</span><span style="color:#ae81ff">0.01</span><span style="color:#f92672">:</span>xtop)
+</span></span><span style="display:flex;"><span>center_points <span style="color:#f92672">=</span> (<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>N<span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>N)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> k <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>N
+</span></span><span style="display:flex;"><span>    center_point <span style="color:#f92672">=</span> center_points[<span style="color:#ae81ff">4</span>k]
+</span></span><span style="display:flex;"><span>    rhs <span style="color:#f92672">=</span> [funcs[k](xki)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> center_point  <span style="color:#66d9ef">for</span> xki <span style="color:#66d9ef">in</span> xks]
+</span></span><span style="display:flex;"><span>    lhs <span style="color:#f92672">=</span> [<span style="color:#f92672">-</span>funcs[k](xki)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> center_point  <span style="color:#66d9ef">for</span> xki <span style="color:#66d9ef">in</span> xks]
+</span></span><span style="display:flex;"><span>    plot!(p, rhs, xks, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>    plot!(p, lhs, xks, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>    plot!(
+</span></span><span style="display:flex;"><span>        p,
+</span></span><span style="display:flex;"><span>        [<span style="color:#f92672">-</span>funcs[k](x0[k])<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> center_point, funcs[k](x0[k])<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> center_point],
+</span></span><span style="display:flex;"><span>        [x0[k], x0[k]],
+</span></span><span style="display:flex;"><span>        label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>        color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;blue&#34;</span>,
+</span></span><span style="display:flex;"><span>        width <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>,
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>The result is the plot presented in the introduction.
+A nice way to observe the evolution of the system is with this format directly:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> plot_containers(x, xaxis<span style="color:#f92672">=</span>nothing, yaxis<span style="color:#f92672">=</span>nothing, iter <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>)
+</span></span><span style="display:flex;"><span>    xtop <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.2</span>
+</span></span><span style="display:flex;"><span>    xks <span style="color:#f92672">=</span> collect(<span style="color:#ae81ff">0.0</span><span style="color:#f92672">:</span><span style="color:#ae81ff">0.01</span><span style="color:#f92672">:</span>xtop)
+</span></span><span style="display:flex;"><span>    center_points <span style="color:#f92672">=</span> (<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>N<span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>N)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> k <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>N
+</span></span><span style="display:flex;"><span>        center_point <span style="color:#f92672">=</span> center_points[<span style="color:#ae81ff">4</span>k]
+</span></span><span style="display:flex;"><span>        rhs <span style="color:#f92672">=</span> [funcs[k](xki)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> center_point  <span style="color:#66d9ef">for</span> xki <span style="color:#66d9ef">in</span> xks]
+</span></span><span style="display:flex;"><span>        lhs <span style="color:#f92672">=</span> [<span style="color:#f92672">-</span>funcs[k](xki)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> center_point  <span style="color:#66d9ef">for</span> xki <span style="color:#66d9ef">in</span> xks]
+</span></span><span style="display:flex;"><span>        plot!(p, rhs, xks, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>        plot!(p, lhs, xks, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>        plot!(
+</span></span><span style="display:flex;"><span>            p,
+</span></span><span style="display:flex;"><span>            [<span style="color:#f92672">-</span>funcs[k](x[k])<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> center_point, funcs[k](x[k])<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> center_point],
+</span></span><span style="display:flex;"><span>            [x[k], x[k]],
+</span></span><span style="display:flex;"><span>            label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>            color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;blue&#34;</span>,
+</span></span><span style="display:flex;"><span>            width <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>,
+</span></span><span style="display:flex;"><span>            alpha <span style="color:#f92672">=</span> iter <span style="color:#f92672">/</span> <span style="color:#ae81ff">300</span>,
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    p
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> plot(xaxis<span style="color:#f92672">=</span>nothing, yaxis<span style="color:#f92672">=</span>nothing)
+</span></span><span style="display:flex;"><span>res <span style="color:#f92672">=</span> <span style="color:#a6e22e">@gif</span> <span style="color:#66d9ef">for</span> (iter, x) <span style="color:#66d9ef">in</span> enumerate(xs[<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">20</span><span style="color:#f92672">:</span><span style="color:#66d9ef">end</span>])
+</span></span><span style="display:flex;"><span>    plot_containers(x, p, iter)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>The result is not the kind of art that some manage with plots, but cool enough to see what is happening:</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/volumes/evolution.gif" alt="GIF" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<h1 id="sources">Sources</h1>
+<p>Some ideas for this post came from a talk by <a href="https://github.com/antoine-levitt/" target="_blank" rel="noopener">Antoine Levitt</a>
+at the Julia Paris meetup, where he presented some applications of optimization on manifolds for
+quantum physics (if I recall?).</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://upload.wikimedia.org/wikipedia/commons/d/dc/Communicating_vessels.png" target="_blank" rel="noopener">Wikimedia</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://upload.wikimedia.org/wikipedia/commons/2/20/ANIMvasicomunicanti.gif" target="_blank" rel="noopener">Wikimedia</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/julia/">julia</a>
+  
+  <a class="badge badge-light" href="/tag/optimization/">optimization</a>
+  
+  <a class="badge badge-light" href="/tag/jump/">jump</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2020-05-09-volumes%2F&amp;text=Experiments&#43;on&#43;communicating&#43;vessels%2C&#43;constrained&#43;optimization&#43;and&#43;manifolds" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2020-05-09-volumes%2F&amp;t=Experiments&#43;on&#43;communicating&#43;vessels%2C&#43;constrained&#43;optimization&#43;and&#43;manifolds" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a href="mailto:?subject=Experiments%20on%20communicating%20vessels%2C%20constrained%20optimization%20and%20manifolds&amp;body=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2020-05-09-volumes%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2020-05-09-volumes%2F&amp;title=Experiments&#43;on&#43;communicating&#43;vessels%2C&#43;constrained&#43;optimization&#43;and&#43;manifolds" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Experiments&#43;on&#43;communicating&#43;vessels%2C&#43;constrained&#43;optimization&#43;and&#43;manifolds%20https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2020-05-09-volumes%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2020-05-09-volumes%2F&amp;title=Experiments&#43;on&#43;communicating&#43;vessels%2C&#43;constrained&#43;optimization&#43;and&#43;manifolds" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://matbesancon.xyz/"><img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu717a6920346f3d435e65e27c2a66c1ed_48773_270x270_fill_q75_lanczos_center.jpg" alt="Mathieu Besançon"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://matbesancon.xyz/">Mathieu Besançon</a></h5>
+      <h6 class="card-subtitle">Researcher in mathematical optimization</h6>
+      <p class="card-text">Mathematical optimization, scientific programming and related.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=-xStCAIAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://orcid.org/0000-0002-6284-3033" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.youtube.com/channel/UCVSd42nW_MqkbSXijgOvKwg" target="_blank" rel="noopener">
+        <i class="fab fa-youtube"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/mbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    © 2023 Mathieu Besançon.
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+    <p class="powered-by">
+    Published with Hugo and Wowchemy.
+   </p>
+
+
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+
+
+<script src="/js/vendor-bundle.min.938a3a7554cd9f6602290411f64d2617.js"></script>
+
+
+
+
+  
+
+  
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script id="search-hit-fuse-template" type="text/x-template">
+    <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+    </div>
+  </script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+<script id="page-data" type="application/json">{"use_headroom":true}</script>
+
+
+
+  <script src="/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<script src="/en/js/wowchemy.min.2945731fa88332cb0ec33cf47d29879f.js"></script>
+
+
+
+
+
+
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <pre><code></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

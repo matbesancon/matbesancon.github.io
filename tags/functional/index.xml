@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>functional on μβ</title>
+    <link>https://matbesancon.xyz/tags/functional/</link>
+    <description>Recent content in functional on μβ</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
+    <language>en-ca</language>
+    <copyright>&amp;copy; {year} Mathieu Besançon</copyright>
+    <lastBuildDate>Mon, 29 Apr 2019 00:00:00 +0000</lastBuildDate>
+    
+	    <atom:link href="https://matbesancon.xyz/tags/functional/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Variables are not values: types and expressions in mathematical optimization</title>
+      <link>https://matbesancon.xyz/post/2019-04-14-optimization-function-evaluation/</link>
+      <pubDate>Mon, 29 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.xyz/post/2019-04-14-optimization-function-evaluation/</guid>
+      <description>&lt;p&gt;This week, I came across Richard Oberdieck&amp;rsquo;s &lt;a href=&#34;https://github.com/RichardOberdieck/optimization-blog/blob/master/Why%20&#39;evaluate&#39;%20is%20the%20feature%20I%20am%20missing%20the%20most%20from%20commercial%20MIP%20solvers.ipynb&#34;&gt;post&lt;/a&gt;,
+&amp;ldquo;Why &amp;rsquo;evaluate&amp;rsquo; is the feature I am missing the most from commercial MIP solvers&amp;rdquo;.
+It would indeed be practical to have for the reasons listed by the author, but
+some barriers stand to have it as it is expressed in the snippets presented.&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h1 id=&#34;initial-problem-statement&#34;&gt;Initial problem statement&lt;/h1&gt;
+&lt;p&gt;The author first tests the optimization of a non-linear function through scipy
+as such:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;func &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;lambda&lt;/span&gt; x: np&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cos(&lt;span style=&#34;color:#ae81ff&#34;&gt;14.5&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.3&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; (x &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0.2&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;func(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;# 25.001603108415402&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;So far so good, we are defining a scalar function, passing it a scalar value
+at which it evaluates and returns the value, which is what it is
+supposed to do.&lt;/p&gt;
+&lt;p&gt;Now the real gripe comes when moving on to developing against a black box
+solver (often commercial, closed-source), commonly used for linear,
+mixed-integer problems:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; xpress &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; xp
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Define the model and variables&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Model &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; xp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;problem()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; xp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;var(lb&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, ub&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Model&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;addVariable(x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Define the objective and solve&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;test_objective &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;x
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Model&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;setObjective(test_objective)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Model&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;solve()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# test_objective(5) does not work&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;One first problem to notice here is that &lt;code&gt;test_objective&lt;/code&gt;
+is at best an expression, not a function, meaning it does
+not depend on an input argument but on decision variables declared globally.
+That is one point why it cannot be called.&lt;/p&gt;
+&lt;p&gt;Now, the rest of this article will be some thoughts on how optimization problems
+could be structured and represented in a programming language.&lt;/p&gt;
+&lt;p&gt;One hack that could be used is being able to set the values of &lt;code&gt;x&lt;/code&gt;, but this
+needs to be done at the global level:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; xp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;var(lb&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, ub&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Model&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;addVariable(x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Define the objective&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;test_objective &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;x
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# evaluates test_objective with the set value of x&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;xp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;evaluale(test_objective)&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;Having to use the global scope, with an action on one
+object (the variable &lt;code&gt;x&lt;/code&gt;) modifying another
+(the &lt;code&gt;test_objective&lt;/code&gt; expression) is called a side-effect and quickly makes
+things confusing as your program grows in complexity. You have to contain the
+state in some way and keep track. Keeping track of value changes is
+more or less fine, but the hardest part is keeping track
+of value definitions. Consider the following example:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; xp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;var(lb&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, ub&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Model&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;addVariable(x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; xp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;var(lb&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, ub&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Model&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;addVariable(y)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Define the objective and solve&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;test_objective &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;x &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;y
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;xp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;evaluale(test_objective) &lt;span style=&#34;color:#75715e&#34;&gt;# no variable set, what should this return?&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;xp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;evaluale(test_objective) &lt;span style=&#34;color:#75715e&#34;&gt;# y is not set, what should this return?&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;h1 id=&#34;a-terminology-problem&#34;&gt;A terminology problem&lt;/h1&gt;
+&lt;p&gt;We are touching a more fundamental problem here, &lt;strong&gt;variables are not values&lt;/strong&gt;
+and cannot be considered as such. Merging the term &amp;ldquo;variable&amp;rdquo; for variables
+of your Python/Julia/other program with the decision variables from an
+optimization problem creates a great confusion.
+Just like variables, the term function is confusing here:
+most optimization techniques exploit the problem structure,
+think linear, disciplined convex, semi-definite; anything beyond non-linear
+differentiable or black-box optimization will use the specific structure
+in a specialized algorithm.
+If standard functions from your programming language are used, no structure
+can be leveraged by the solver, which only sees a function pointer it can pass
+values to. So working with mathematical optimization forces you to re-think
+what you call &amp;ldquo;variables&amp;rdquo; and what you call &amp;ldquo;functions&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;There is something we can do for the function part, which is defining
+arithmetic rules over variables and expressions, which is for instance what
+the JuMP modelling framework does:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; JuMP
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Model()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@variable&lt;/span&gt;(m, x1 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@variable&lt;/span&gt;(m, x2 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# random affine function&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;f(a, b) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; π &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;a &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;b
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;f(x1, x2) &lt;span style=&#34;color:#75715e&#34;&gt;# returns a JuMP.GenericAffExpr{Float64,VariableRef}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@variable&lt;/span&gt;(m, y)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;f(x1, x2) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; y  &lt;span style=&#34;color:#75715e&#34;&gt;# also builds a JuMP.GenericAffExpr{Float64,VariableRef}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;This works especially well with affine functions because composing affine
+expressions builds other affine expressions but gets more complex any time
+other types of constraints are added. For some great resource on types and
+functions for mathematical optimization, watch Prof. Madeleine Udell&amp;rsquo;s
+&lt;a href=&#34;https://www.youtube.com/watch?v=skLGTYs5kAk&#34;&gt;talk&lt;/a&gt; at JuliaCon17 (the Julia
+syntax is from a pre-1.0 version, it may look funny).&lt;/p&gt;
+&lt;h1 id=&#34;encoding-possibilities-as-sum-types&#34;&gt;Encoding possibilities as sum-types&lt;/h1&gt;
+&lt;p&gt;Getting back to evaluation, to make this work, you need to know what
+&lt;strong&gt;values&lt;/strong&gt; variables hold. What if the model hasn&amp;rsquo;t been optimized yet?
+You could take:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A numerical approach and return &lt;code&gt;NaN&lt;/code&gt; (floating point value for Not-A-Number)&lt;/li&gt;
+&lt;li&gt;An imperative approach and throw an error when we evaluate an expression without values set or the model optimized&lt;/li&gt;
+&lt;li&gt;A typed functional approach and describe the possibility of presence/absence of a value through types&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The first approach was JuMP 0.18 and prior, the second is JuMP 0.19 and onward,
+the third is the one of interest to us, if we want to describe what is happening
+through types.&lt;/p&gt;
+&lt;p&gt;If you show these three options to a developer used to statically-typed
+functional programming, they would tell you that the first option coming to mind
+is an &lt;em&gt;option&lt;/em&gt;, a type which can be either some value or nothing.
+In the case of an optimization model, it would be some numerical value
+if we have a value to return (that is, we optimized the model and found a
+solution).
+The problem is, there are many reasons for which you may have or not a value.
+What you could do in that case is get more advanced information from your model.
+This is the approach &lt;code&gt;JuMP&lt;/code&gt; is taking with a bunch of model attributes you
+can query at any time, see the &lt;a href=&#34;http://www.juliaopt.org/JuMP.jl/stable/solutions/&#34;&gt;documentation&lt;/a&gt;
+for things you can query at any time.&lt;/p&gt;
+&lt;p&gt;The problem is that querying information on the status of the problem (solved,
+unsolved, impossible to solve&amp;hellip;) and getting values attached to variables can
+be unrelated.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Model()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@variable&lt;/span&gt;(m, x &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@variable&lt;/span&gt;(m, y &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# getting status: nothing because not optimized&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;termination_status(m)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# OPTIMIZE_NOT_CALLED::TerminationStatusCode = 0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;primal_status(m) &lt;span style=&#34;color:#75715e&#34;&gt;# NO_SOLUTION::ResultStatusCode = 0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;JuMP&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;value(x) &lt;span style=&#34;color:#75715e&#34;&gt;# ERROR: NoOptimizer()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# woops, we forgot that we hadn&amp;#39;t optimized yet&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;This is indeed because &lt;code&gt;x&lt;/code&gt; does not exist by itself, there is
+a &amp;ldquo;magic bridge&amp;rdquo; between the variable &lt;code&gt;x&lt;/code&gt; and the model &lt;code&gt;m&lt;/code&gt;.
+The computer science term for this &amp;ldquo;magic bridge&amp;rdquo; is a
+&lt;strong&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Side_effect_(computer_science)&#34;&gt;side-effect&lt;/a&gt;&lt;/strong&gt;,
+the same kind as mentioned earlier when we set the value of a variable at the
+global scope. Again, they are fine at a small scale but are often the parts
+making a program confusing. Every time I&amp;rsquo;m reviewing some code by researchers
+starting out, the first thing I encourage them to do is to create self-contained
+bits of code within functions and remove mutable global state.&lt;/p&gt;
+&lt;h1 id=&#34;a-typed-solution-for-describing-mathematical-problems&#34;&gt;A typed solution for describing mathematical problems&lt;/h1&gt;
+&lt;p&gt;We stated that the variables and model are bound together. In that case, let
+us not split them but describe them as one thing and since this one thing
+accepts different possible states, we will use
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Tagged_union&#34;&gt;tagged unions&lt;/a&gt;, which you can
+think of as C enumerations with associated values. Other synonyms for this
+construct are sum types (as in OCaml and Haskell).&lt;/p&gt;
+&lt;p&gt;We can think of the solution process of an optimization problem at a high level
+as a function:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;solve(Model(Variables, Constraints, Objective)) -&amp;gt; OptimizationResult
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Where &lt;code&gt;OptimizationResult&lt;/code&gt; is a sum type:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;OptimizationResult = Infeasible(info) | Unbounded(info) | Optimal(info) | NearOptimal(info) ...
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this case, everything can stay immutable, expressions including objective
+and constraints are only used to build the model in input, they can be
+evaluated at any points and just describe some expressions of variables.
+The &lt;strong&gt;value&lt;/strong&gt; of the variables resulting from the optimization are on
+available in cases where it makes sense. If the results are stored in the
+solution info structure, we can query values where it makes sense only,
+here in the &lt;code&gt;Optimal&lt;/code&gt; and &lt;code&gt;NearOptimal&lt;/code&gt; cases, with a syntax like:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;match OptimizationResult {
+    Optimal(info) -&amp;gt; value(info, x) # or info.value(x)
+    Infeasible(info) -&amp;gt; ...
+    Unbounded(info)  -&amp;gt; ...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Internally, info would keep an association from variables to corresponding
+values. No more confusion on what binding of your computer program represents
+what symbolic variable of your problem.&lt;/p&gt;
+&lt;p&gt;So why would we keep using these bindings associated with variables, if they
+have never been independent from the problem in the first place? The obvious
+reason that comes to mind is practical syntax, we can write expressions in
+a quasi-mathematical way (here in JuMP):
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@expression&lt;/span&gt;(m, &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;x &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;x&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;y)&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;While if variables were attached to the model, the required syntax would be
+in the flavour of:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@expression&lt;/span&gt;(m, &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;m[&lt;span style=&#34;color:#e6db74&#34;&gt;:x&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;m[&lt;span style=&#34;color:#e6db74&#34;&gt;:x&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;m[&lt;span style=&#34;color:#e6db74&#34;&gt;:y&lt;/span&gt;])&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;Which quickly becomes hard to read. Can we do better?&lt;/p&gt;
+&lt;h1 id=&#34;stealing-a-solution-elsewhere&#34;&gt;Stealing a solution elsewhere&lt;/h1&gt;
+&lt;p&gt;I stumbled upon an interesting solution to such problem while reading the
+documentation for various probabilistic programming languages built on top
+of Julia. Here is one example from &lt;a href=&#34;http://turing.ml/docs/get-started&#34;&gt;Turing.jl&lt;/a&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@model&lt;/span&gt; gdemo(x, y) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  s &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; InverseGamma(&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  m &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; Normal(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,sqrt(s))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  x &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; Normal(m, sqrt(s))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  y &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; Normal(m, sqrt(s))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# sample from the model using an algorithm&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;chn &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; sample(gdemo(&lt;span style=&#34;color:#ae81ff&#34;&gt;1.5&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;), HMC(&lt;span style=&#34;color:#ae81ff&#34;&gt;1000&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0.1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s just one step away from imagining the same for optimization:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@optim_model&lt;/span&gt; linmodel(a, b) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  x[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; y &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  z &lt;span style=&#34;color:#f92672&#34;&gt;∈&lt;/span&gt; 𝔹
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  cons1&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; y &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;z
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  cons2&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; y &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Min x
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;result &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; optimize(linmodel)&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;Naming the constraints would be necessary to retrieve associated dual values.
+Retrieving values associated with variables could be done in an associative
+structure (think a dictionary/hash map). This structure removes any confusion as
+to what belongs where in an optimization model. The variables &lt;code&gt;x, y, z&lt;/code&gt; are
+indeed defined within a given model and explicitly &lt;strong&gt;belong&lt;/strong&gt; to it.&lt;/p&gt;
+&lt;p&gt;Why are interfaces not built this way? Warning, speculative opinions below:&lt;/p&gt;
+&lt;p&gt;One reason is the ubiquity of C &amp;amp; C++ in optimization.
+The vast majority of commonly used solvers is built
+in either of these, supporting limited programming constructs and based on
+passing pointers around to change the values pointed to. Because the solvers are
+built like this, interfaces follow the same constructions. Once a dominant
+number of interfaces are identical, building something widely different is a
+disadvantage with a steeper learning curve.&lt;/p&gt;
+&lt;p&gt;Another more nuanced reason is that declarative software is hard to get right.
+One often has to build everything upfront, here in the &lt;code&gt;@optim_model&lt;/code&gt; block.
+Getting meaningful errors is much harder, and debugging optimization models
+is already a tricky business.&lt;/p&gt;
+&lt;p&gt;Lastly, lots of algorithms are based on incremental modifications of models
+(think column and row generation), or combinations with other bricks. This
+requires some &amp;ldquo;hackability&amp;rdquo; of the model. If one looks at Algebraic Modelling
+Languages, everything seems to fall apart once you try to implement
+decompositions. Usually it involves a completely different syntax for the
+decomposition scheme (the imperative part) and for the model declaration
+(the declarative part).&lt;/p&gt;
+&lt;p&gt;So overall, even though side-effects are a central part of the barrier to
+the expression of mathematical optimization in a mathematical, type-based
+declarative way, they are needed because of the legacy of solvers and some
+algorithms which become hairy to express without it.&lt;/p&gt;
+&lt;h1 id=&#34;further-resources&#34;&gt;Further resources&lt;/h1&gt;
+&lt;p&gt;As pointed above, Prof. Madeleine Udell&amp;rsquo;s &lt;a href=&#34;https://www.youtube.com/watch?v=skLGTYs5kAk&#34;&gt;talk&lt;/a&gt;
+gives some great perspectives on leveraging types for expressive optimization
+modelling. For the brave and avid readers, this
+&lt;a href=&#34;https://www.cs.cmu.edu/~rwh/theses/agarwal.pdf&#34;&gt;PhD thesis&lt;/a&gt; tackles
+the semantics of a formal language for optimization problems.
+If you have further resources on the subject, please reach out.&lt;/p&gt;
+&lt;p&gt;Thanks Richard for the initial post and the following discussion which led to
+this post. For shorter and nicely written posts on optimization, go read his
+&lt;a href=&#34;https://github.com/RichardOberdieck/optimization-blog&#34;&gt;blog&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: I try never to use the terms &amp;ldquo;mathematical programming&amp;rdquo; and
+&amp;ldquo;mathematical program&amp;rdquo; which are respectively synonyms for
+&amp;ldquo;mathematical optimization&amp;rdquo; and &amp;ldquo;mathematical optimization problem&amp;rdquo; respectively.
+We can see why in this post: this kind of context where the term &amp;ldquo;program&amp;rdquo;
+could refer to a computer program or a mathematical problem becomes very
+confusing. We are in 2019 and the term &amp;ldquo;program&amp;rdquo; is now universally understood
+as a computer program. Moreover, &amp;ldquo;mathematical programming&amp;rdquo; merely refers to
+a problem specification, it is very confusing to say that
+&amp;ldquo;linear/semi-definite/convex programming&amp;rdquo; is merely meant as putting together
+a bunch of equations, not at all about how to tackle these.&lt;/p&gt;
+&lt;hr&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Functional and parallel PageRank implementation in Scala</title>
+      <link>https://matbesancon.xyz/post/2016-09-13-page-rank/</link>
+      <pubDate>Tue, 13 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.xyz/post/2016-09-13-page-rank/</guid>
+      <description>&lt;p&gt;When I &lt;a href=&#34;https://matbesancon.xyz/posts/2016-08-11-back-to-startup/&#34;&gt;came back to Equisense&lt;/a&gt;,
+I was surprised and intrigued by many things. But there was one element of the
+job in particular I had not planned: coming back to low level and embedded
+programming from higher abstractions I was used to. No OS, no
+libraries, no smooth write-and-test work-flow, just brutal and bare metal.
+I clearly needed to blow some steam off with something closer to what I
+usually do (or did), a data-driven and functional project using nice techs.&lt;/p&gt;
+&lt;h2 id=&#34;why-yet-another-pagerank&#34;&gt;Why yet another PageRank?&lt;/h2&gt;
+&lt;p&gt;The time came to find a new side project and I was just finishing the lectures
+of &lt;a href=&#34;https://www.coursera.org/learn/parprog1&#34;&gt;Parallel Programming&lt;/a&gt;, which I
+recommend if you&amp;rsquo;re already at ease with Scala and its environment (IDEs, SBT).
+I wanted to apply the concepts on a project built from scratch. One day,
+while neglectfully scrolling through another blog post showing the basic
+concepts of the PageRank computation, I thought this would make a &amp;ldquo;okay&amp;rdquo; project.
+But wait, interesting elements here:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The model behind the PageRank computation is a &lt;a href=&#34;https://en.wikipedia.org/wiki/Markov_chain&#34;&gt;Markov Chain&lt;/a&gt;,
+with which I have been working a lot with at Siemens.&lt;/li&gt;
+&lt;li&gt;Iterating until stability of the ranks is basically a linear flow, easily
+performed by &lt;a href=&#34;https://en.wikipedia.org/wiki/Tail_call&#34;&gt;tail call recursion&lt;/a&gt;
+which is optimized to avoid stack-overflowing the JVM by behaving like a &lt;code&gt;while&lt;/code&gt; loop.&lt;/li&gt;
+&lt;li&gt;Computing the rank of each site is independent of the other computations,
+parallelizing the tasks is a piece of cake&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So we&amp;rsquo;re all set up for a purely functional and parallel PageRank.&lt;/p&gt;
+&lt;h2 id=&#34;the-pagerank-model&#34;&gt;The PageRank model&lt;/h2&gt;
+&lt;p&gt;We&amp;rsquo;re gonna go through the basic implementation of the algorithm. What
+fascinates me is the two-sided view of the algorithm: the intuitive version can
+be explained to a 5-year-old (or to your boss) while the maths behind it
+relies on the interpretation of matrix eigenvalues and on a computation of the
+stationary distribution of the Markov model.&lt;/p&gt;
+&lt;h3 id=&#34;the-intuitive-version&#34;&gt;The intuitive version&lt;/h3&gt;
+&lt;p&gt;Imagine you&amp;rsquo;re surfing on the web like any productive Sunday evening. On a
+given page, there is an equal probability to click on any link present on the
+page. There is also a probability that you get tired of the current series of
+pages and randomly go back to any page of the network.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s try to visualize the two extremes of this &amp;ldquo;random switch&amp;rdquo; usually called
+&lt;em&gt;damping factor&lt;/em&gt; &lt;code&gt;d&lt;/code&gt;. If we set &lt;code&gt;d=0&lt;/code&gt;, the transition to any page is equally
+probable, since the surfer will always switch to choosing a page at random.
+This means that the links going out of the page they&amp;rsquo;re currently on don&amp;rsquo;t
+influence the probability distribution of the next page.&lt;/p&gt;
+&lt;p&gt;On the other end of the spectrum if the damping factor &lt;code&gt;d=1&lt;/code&gt;, the surfer will
+always look for its next page in the outgoing links of her current page
+(this raises an issue for pages without any links). An usual value for the
+factor is &lt;code&gt;d=0.85&lt;/code&gt;which keeps the probability of long sequences of related pages
+likely to happen, but allows for random switch.&lt;/p&gt;
+&lt;h3 id=&#34;key-elements-of-the-algorithm&#34;&gt;Key elements of the algorithm&lt;/h3&gt;
+&lt;p&gt;The algorithm uses the matrix of links: an entry &lt;code&gt;(i,j)&lt;/code&gt; is 1 if there is a
+link on the page &lt;code&gt;j&lt;/code&gt; to the page &lt;code&gt;i&lt;/code&gt; and 0 otherwise (note that this notation
+is opposite to the common convention for Markov transition matrices, where the
+line is the origin state and the column the destination). The other element is
+a rank vector which is updated until a convergence criterion is met.&lt;/p&gt;
+&lt;h3 id=&#34;types-of-the-different-structures&#34;&gt;Types of the different structures&lt;/h3&gt;
+&lt;p&gt;Since we want to be able to perform some computations in parallel, most
+functions will manipulate Scala&amp;rsquo;s &lt;em&gt;Generic&lt;/em&gt; data structures. Let&amp;rsquo;s start with
+the link matrix. It is a sparse structure: instead of representing all
+entries of the matrix in a vector of vectors, just non-empty elements and
+there corresponding column and line indexes are stored.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// defining a dense matrix of Ints as a sequence of sequence
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;DenseMatrix&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// SparseMatrix: tuple (line, column, value)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SparseMatrix&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)]&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;However, the values of our link matrix only contains zeros and ones, so the
+entries present in the structure all have one as value, so we just need to keep
+rows and columns:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LinkMat&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)]&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The ranks are stored in a simple generic float sequence:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;R&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We also need a few utility functions. &lt;code&gt;sumElements&lt;/code&gt; takes the matrix, the rank
+vector and an integer to find all links for which the outgoing page is &lt;code&gt;j&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; sumElements&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;R&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;],&lt;/span&gt; A&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LinkMat&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; j&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Float&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// sums all PageRanks / number of links for a column j
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; totalLinks &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; A&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;filter&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;tup &lt;span style=&#34;color:#66d9ef&#34;&gt;=&amp;gt;&lt;/span&gt; tup&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_2 &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; j&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;totalLinks&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;isEmpty&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;error&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;No link in the page &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; at sumElements&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    R&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;j&lt;span style=&#34;color:#f92672&#34;&gt;)/&lt;/span&gt;totalLinks&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;size
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt; This implementation of the function is not purely functional since
+an imperative system error is raised if no index i is found. A better solution
+here would have been to wrap the value in an &lt;code&gt;Option[Float]&lt;/code&gt;, return &lt;code&gt;None&lt;/code&gt; if no
+index has been found and &lt;code&gt;Some(x)&lt;/code&gt; in case of success.&lt;/p&gt;
+&lt;p&gt;We also need to find all pages pointing to a given page i. This might be a
+bit compact, but keep in mind that the matrix is simply a pair of page indexes.
+So we find all pages where the first element is i (the page the link is going
+to), that&amp;rsquo;s the filter part. We then take the second element of the tuple, so
+all indexes pointing to i, thanks to a map.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; findConnected&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;i&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; A&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LinkMat&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  A&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;filter&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;_&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_1&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;map&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;_&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_2&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;toSeq&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Note that the result is returned as a normal sequence (not the generic version
+allowing for parallel computation). It&amp;rsquo;s not a big deal since the resulting
+sequence is always manageable compared to the whole graph we are manipulating.&lt;/p&gt;
+&lt;p&gt;Now, we stated that the algorithm recurses on the rank of all pages until
+stability, which is something we define through a &lt;code&gt;converged&lt;/code&gt; function. We
+simply use a squared difference between two different versions of the rank to
+determine if they are acceptably close and yield a boolean.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; converged&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;r1&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;],&lt;/span&gt; r2&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;],&lt;/span&gt; eps&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Boolean&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; totSquare&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Float&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; r1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;zip&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;r2&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;map&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;p&lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;(&lt;/span&gt;p&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_1&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;p&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_2&lt;span style=&#34;color:#f92672&#34;&gt;)*(&lt;/span&gt;p&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_1&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;p&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_2&lt;span style=&#34;color:#f92672&#34;&gt;)).&lt;/span&gt;sum
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  sqrt&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;totSquare&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;r1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;size&lt;span style=&#34;color:#f92672&#34;&gt;)&amp;lt;=&lt;/span&gt;eps
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now that everything is set, the master piece becomes a piece of cake.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@tailrec&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; compRank&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;R&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;],&lt;/span&gt; A&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LinkMat&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                      damp&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; eps&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                      niter&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                      niterMax&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10000&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; rankIndex&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; until R&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;size
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; rightRank&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;GenSeq&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Float&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; rankIndex map&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;i&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; connected &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; findConnected&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;A&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    connected&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;map&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;j&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt; sumElements&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;R&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; A&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; j&lt;span style=&#34;color:#f92672&#34;&gt;)}.&lt;/span&gt;sum
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; newRank &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; rightRank map &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;damp&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;_&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;damp&lt;span style=&#34;color:#f92672&#34;&gt;)/&lt;/span&gt;R&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;size&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;converged&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;newRank&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;R&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;eps&lt;span style=&#34;color:#f92672&#34;&gt;))&lt;/span&gt; newRank
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;niter&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt;niterMax&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    println&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Max iteration reached&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    newRank
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; compRank&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;newRank&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;A&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;damp&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;eps&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;niter&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;niterMax&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We first compute the right term of the new rank formula &lt;code&gt;rightRank&lt;/code&gt; and plug it
+in &lt;code&gt;newRank&lt;/code&gt;. The two vectors can be passed to &lt;code&gt;compare&lt;/code&gt; to determine if
+&lt;code&gt;newRank&lt;/code&gt; can be returned as a final result or if further recursion is needed.
+A recursion counter also avoids waiting too long for a result and warns in case
+of maximum recursion reached by printing to the standard output.
+Once again, a more functional way would have been to wrap the result in a
+&lt;code&gt;Try&lt;/code&gt; monad (no panic, we&amp;rsquo;re NOT going to go through monads, we&amp;rsquo;ve lost enough
+people with this).&lt;/p&gt;
+&lt;p&gt;You&amp;rsquo;ve surely noticed the &lt;code&gt;@tailrec&lt;/code&gt; tag highlighting that this function is not
+going to blow the stack up.&lt;/p&gt;
+&lt;h2 id=&#34;result-on-a-study-case&#34;&gt;Result on a study case&lt;/h2&gt;
+&lt;h3 id=&#34;the-enron-email-dataset&#34;&gt;The Enron email dataset&lt;/h3&gt;
+&lt;p&gt;While surfing in a semi-random way to find a cool dataset for the application,
+I found the &lt;a href=&#34;https://snap.stanford.edu&#34;&gt;SNAP&lt;/a&gt; project
+from Stanford on which the
+&lt;a href=&#34;https://snap.stanford.edu/data/email-Enron.html&#34;&gt;Enron emails data&lt;/a&gt;
+are presented and to be downloaded. If you look at the
+&lt;a href=&#34;https://github.com/matbesancon/PageRank&#34;&gt;Github repo&lt;/a&gt; for this project, I simply
+removed the header from the txt file to make the parsing tasks easier.&lt;/p&gt;
+&lt;h3 id=&#34;results&#34;&gt;Results&lt;/h3&gt;
+&lt;p&gt;As many phenomena dealing with &lt;a href=&#34;https://en.wikipedia.org/wiki/Pareto_principle&#34;&gt;concentration of resources&lt;/a&gt;,
+the distribution of ranks follows a Pareto distribution, which can be
+visualized on a log-log scale. I used Python with numpy and matplotlib, finding
+the current Scala libraries still to cumbersome for this simple task. Here is
+the result:
+&lt;img src=&#34;https://matbesancon.xyz/img/posts/pageRank/rankDist.png&#34; alt=&#34;Resulting log-rank&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;a-conclusion-on-the-functionalimperative-debate&#34;&gt;A conclusion on the functional/imperative debate&lt;/h2&gt;
+&lt;p&gt;If some of you clone and try to run the project (you&amp;rsquo;ll just need sbt for that).
+Some people could argue that the runtime is too long for what it does (whatever
+too long means), and that an imperative solution with a mutable rank on which
+we loop until convergence. And I suppose they are right, but parallel
+imperative is objectively a pain to work with. &lt;strong&gt;Tell the architecture what you
+want, not what to do and it will compute it for you, whatever its
+configuration is&lt;/strong&gt;, from your laptop to several clusters. That&amp;rsquo;s a key reason
+why &lt;a href=&#34;http://spark.apache.org&#34;&gt;Spark&lt;/a&gt; is functional for instance.&lt;/p&gt;
+&lt;hr&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

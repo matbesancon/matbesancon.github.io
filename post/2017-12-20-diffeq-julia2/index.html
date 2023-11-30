@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
+<!-- Last Published: November 30, 2023 --><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+
+  
+  
+    
+    <script src="/js/mathjax-config.js"></script>
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.047268c6dd09ad74ba54a0ba71837064.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.be1e734c86be5b4f1c94d71028ea7cbf.css" />
+
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/libs/chroma/github-light.min.css" title="hl-light" media="print" onload="this.media='all'" >
+    <link rel="stylesheet" href="/css/libs/chroma/dracula.min.css" title="hl-dark" media="print" onload="this.media='all'" disabled>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+  <meta name="author" content="Mathieu Besançon" />
+
+
+
+
+
+  
+
+<meta name="description" content="Now that we&#39;ve built a model, let&#39;s use it to make the best decision
+" />
+
+
+
+<link rel="alternate" hreflang="en-us" href="https://matbesancon.xyz/post/2017-12-20-diffeq-julia2/" />
+<link rel="canonical" href="https://matbesancon.xyz/post/2017-12-20-diffeq-julia2/" />
+
+
+
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+
+
+<link rel="icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_32x32_fill_lanczos_center_3.png" />
+<link rel="apple-touch-icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_180x180_fill_lanczos_center_3.png" />
+
+<meta name="theme-color" content="#1565c0" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<meta property="twitter:card" content="summary" />
+
+  <meta property="twitter:site" content="@matbesancon" />
+  <meta property="twitter:creator" content="@matbesancon" />
+<meta property="twitter:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" />
+<meta property="og:site_name" content="μβ" />
+<meta property="og:url" content="https://matbesancon.xyz/post/2017-12-20-diffeq-julia2/" />
+<meta property="og:title" content="DifferentialEquations.jl - part 2: decision from the model | μβ" />
+<meta property="og:description" content="Now that we&#39;ve built a model, let&#39;s use it to make the best decision
+" /><meta property="og:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+
+  
+    <meta
+      property="article:published_time"
+      content="2017-12-20T00:00:00&#43;00:00"
+    />
+  
+  
+    <meta property="article:modified_time" content="2023-10-21T13:42:14&#43;02:00">
+  
+
+
+
+
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://matbesancon.xyz/post/2017-12-20-diffeq-julia2/"
+  },
+  "headline": "DifferentialEquations.jl - part 2: decision from the model",
+  
+  "datePublished": "2017-12-20T00:00:00Z",
+  "dateModified": "2023-10-21T13:42:14+02:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Mathieu Besançon"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "μβ",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "Now that we've built a model, let's use it to make the best decision\n"
+}
+</script>
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+  
+
+  
+
+
+  
+  <title>DifferentialEquations.jl - part 2: decision from the model | μβ</title>
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="0bb6cb3812eac858d8ee997b6b289fc4" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header header--fixed">
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container-xl">
+
+      
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+      
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      
+      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+        
+        <ul class="navbar-nav d-md-inline-flex">
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#about"><span>Home</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#experience"><span>Experience</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#publications"><span>Publications</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#posts"><span>Posts</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#workwithme"><span>Work with me</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#contact"><span>Contact</span></a>
+          </li>
+
+          
+          
+
+        
+
+          
+        </ul>
+      </div>
+
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+        
+        
+          
+        
+
+        
+        
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+        
+        
+        <li class="nav-item dropdown theme-dropdown">
+          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item js-set-theme-light">
+              <span>Light</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-dark">
+              <span>Dark</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-auto">
+              <span>Automatic</span>
+            </a>
+          </div>
+        </li>
+        
+
+        
+        
+
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+
+  </div>
+
+  <div class="page-body">
+    
+    
+    
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+<div class="article-header">
+  
+  
+    <img src="/img/posts/DiffEq/Lorenz.svg" class="article-banner" alt="">
+  
+
+  
+</div>
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>DifferentialEquations.jl - part 2: decision from the model</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    2023-10-21
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    9 min read
+  </span>
+  
+
+  
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <p>In the <a href="/post/2017-12-14-diffeq-julia">last article</a>, we explored different modeling options for a
+three-component systems which could represent the dynamics of a chemical
+reaction or a disease propagation in a population. Building on top of this
+model, we will formulate a desirable outcome and find a decision which
+maximizes this outcome.</p>
+<blockquote>
+<p>In addition to the packages imported in the last post,
+we will also use <a href="https://github.com/robertfeldt/BlackBoxOptim.jl" target="_blank" rel="noopener">BlackBoxOptim.jl</a>:</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> DifferentialEquations
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> DiffEq <span style="color:#f92672">=</span> DifferentialEquations
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> Plots
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> Optim</span></span></code></pre></div>
+<h2 id="the-model">The model</h2>
+<p>The same chemical system with three components, A, B and R will be used:
+$$A + B → 2B$$  $$B → R$$</p>
+<p>The reactor where the reaction occurs must remain active for one minute.
+Let&rsquo;s imagine that $B$ is our valuable component while $R$ is a waste.
+We want to maximize the quantity of $B$ present within the system after one
+minute, that&rsquo;s the objective function. For that purpose, we can choose to add
+a certain quantity of new $A$ within the reactor at any point.
+$$t_{inject} ∈ [0,t_{final}]$$.</p>
+<h2 id="implementing-the-injection">Implementing the injection</h2>
+<p>There is one major feature of DifferentialEquations.jl we haven&rsquo;t explored yet:
+the <a href="http://docs.juliadiffeq.org/latest/features/callback_functions.html" target="_blank" rel="noopener">event handling system</a>.
+This allows for the system state to change at a particular point in time,
+depending on conditions on the time, state, etc&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#75715e"># defining the problem</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> α <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> β <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.0</span>
+</span></span><span style="display:flex;"><span>diffeq <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(du, u, p, t)
+</span></span><span style="display:flex;"><span>    du[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span> α <span style="color:#f92672">*</span> u[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> u[<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>    du[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> α <span style="color:#f92672">*</span> u[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> u[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">-</span> β <span style="color:#f92672">*</span> u[<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>    du[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">=</span> β <span style="color:#f92672">*</span> u[<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>u0 <span style="color:#f92672">=</span> [<span style="color:#ae81ff">49.0</span>;<span style="color:#ae81ff">1.0</span>;<span style="color:#ae81ff">0.0</span>]
+</span></span><span style="display:flex;"><span>tspan <span style="color:#f92672">=</span> (<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>)
+</span></span><span style="display:flex;"><span>prob <span style="color:#f92672">=</span> DiffEq<span style="color:#f92672">.</span>ODEProblem(diffeq, u0, tspan)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> A_inj <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>inject_new <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(t0)
+</span></span><span style="display:flex;"><span>    condition(u, t, integrator) <span style="color:#f92672">=</span> t0 <span style="color:#f92672">-</span> t
+</span></span><span style="display:flex;"><span>    affect! <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(integrator)
+</span></span><span style="display:flex;"><span>        integrator<span style="color:#f92672">.</span>u[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> integrator<span style="color:#f92672">.</span>u[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> A_inj
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    callback <span style="color:#f92672">=</span> DiffEq<span style="color:#f92672">.</span>ContinuousCallback(condition, affect!)
+</span></span><span style="display:flex;"><span>    sol <span style="color:#f92672">=</span> DiffEq<span style="color:#f92672">.</span>solve(prob, callback<span style="color:#f92672">=</span>callback)
+</span></span><span style="display:flex;"><span>    sol
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># trying it out with an injection at t=0.4</span>
+</span></span><span style="display:flex;"><span>sol <span style="color:#f92672">=</span> inject_new(<span style="color:#ae81ff">0.4</span>)
+</span></span><span style="display:flex;"><span>Plots<span style="color:#f92672">.</span>plot(sol)</span></span></code></pre></div>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/DiffEq/inject.png" alt="Injection simulation" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>The <code>ContinuousCallback</code> construct is the central element here, it takes as
+information:</p>
+<ul>
+<li>When to trigger the event, implemented as the <code>condition</code> function. It triggers
+when this function reaches 0, which is here the case when $t = t_0$.</li>
+<li>What to do with the state at that moment. The state is encapsulated within
+the <em>integrator</em> variable. In our case, we add 30 units to the concentration in <em>A</em>.</li>
+</ul>
+<p>As we can see on the plot, a discontinuity appears on the concentration in A
+at the injection time, the concentration in B restarts increasing.</p>
+<h2 id="finding-the-optimal-injection-time-visual-approach">Finding the optimal injection time: visual approach</h2>
+<p>From the previously built function, we can get the whole solution with a given
+injection time, and from that the final state of the system.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>tinj_span <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.05</span><span style="color:#f92672">:</span><span style="color:#ae81ff">0.005</span><span style="color:#f92672">:</span><span style="color:#ae81ff">0.95</span>
+</span></span><span style="display:flex;"><span>final_b <span style="color:#f92672">=</span> [inject_new(tinj)<span style="color:#f92672">.</span>u[<span style="color:#66d9ef">end</span>][<span style="color:#ae81ff">2</span>] <span style="color:#66d9ef">for</span> tinj <span style="color:#66d9ef">in</span> tinj_span]
+</span></span><span style="display:flex;"><span>Plots<span style="color:#f92672">.</span>plot(tinj_span, final_b)</span></span></code></pre></div>
+<p>Using a plain for comprehension, we fetch the solution of the simulation for
+the callback built with each $t_{inject}$.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/DiffEq/optimal_inject.png" alt="Quantity of B" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>Injecting $A$ too soon lets too much time for the created $B$ to turn into $R$,
+but injecting it too late does not let enough time for $B$ to be produced from
+the injected $A$. The optimum seems to be around ≈ 0.82,</p>
+<h2 id="finding-the-optimum-using-optimjl">Finding the optimum using Optim.jl</h2>
+<p>The package requires an objective function which takes a vector as input.
+In our case, the decision is modeled as a single variable (the injection time),
+<strong>it&rsquo;s crucial to make the objective use a vector nonetheless</strong>, otherwise
+calling the solver will just explode with cryptic errors.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>compute_finalb <span style="color:#f92672">=</span> tinj <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">*</span> inject_new(tinj[<span style="color:#ae81ff">1</span>])<span style="color:#f92672">.</span>u[<span style="color:#66d9ef">end</span>][<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>Optim<span style="color:#f92672">.</span>optimize(compute_finalb, <span style="color:#ae81ff">0.1</span>, <span style="color:#ae81ff">0.9</span>)</span></span></code></pre></div>
+<p>We get a detailed result of the optimization including the method and iterations:</p>
+<pre tabindex="0"><code>* Algorithm: Brent&#39;s Method
+* Search Interval: [0.100000, 0.900000]
+* Minimizer: 8.355578e-01
+* Minimum: -2.403937e+01
+* Iterations: 13
+* Convergence: max(|x - x_upper|, |x - x_lower|) &lt;= 2*(1.5e-08*|x|+2.2e-16): true
+* Objective Function Calls: 14
+</code></pre><p>The function <code>inject_new</code> we defined above returns the complete solution
+of the simulation, we get the state matrix <code>u</code>, from which we extract the
+final state <code>u[end]</code>, and then the second component, the concentration in
+B: <code>u[end][2]</code>. The optimization algorithm minimizes the objective, while we want
+to maximize the final concentration of B, hence the -1 multiplier used for<br>
+<code>compute_finalb</code>.</p>
+<blockquote>
+<p>We can use the Optim.jl package because our function is twice differentiable,
+the best improvement direction is easy to compute.</p>
+</blockquote>
+<h2 id="extending-the-model">Extending the model</h2>
+<p>The decision over one variable was pretty straightforward. We are going to
+extend it by changing how the $A$ component is added at $t_{inject}$.
+Instead of being completely dissolved, a part of the component will keep being
+poured in after $t_{inject}$. So the decision will be composed of two variables:</p>
+<ul>
+<li>The time of the beginning of the injection</li>
+<li>The part of $A$ to inject directly and the part to inject in a
+continuous fashion. We will note the fraction injected directly $\delta$.</li>
+</ul>
+<p>Given a fixed available quantity $A₀$ and a fraction to inject directly $\delta$,
+the concentration in A is increased of $\delta \cdot A₀$ at time $t_{inject}$,
+after which the rate of change of the concentration in A is increased by a
+constant amount, until the total amount of A injected (directly and over time)
+is equal to the planned quantity.</p>
+<p>We need a new variable in the state of the system, $u_4(t)$, which stands
+for the input flow of A being active or not.</p>
+<ul>
+<li>$u(t) = 0$ if $t &lt; t_{inject}$</li>
+<li>$u(t) = 0$ if the total flow of A which has been injected is equal to the planned quantity</li>
+<li>$u(t) = \dot{A}\ $ otherwise, with $\dot{A}\ $ the rate at which A is being poured.</li>
+</ul>
+<h2 id="new-julia-equations">New Julia equations</h2>
+<p>We already built the key components in the previous sections. This time we need
+two events:</p>
+<ul>
+<li>A is directly injected at $t_{inject}$, and then starts being poured at constant rate</li>
+<li>A stops being poured when the total quantity has been used</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> inj_quantity <span style="color:#f92672">=</span> <span style="color:#ae81ff">30.0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> inj_rate <span style="color:#f92672">=</span> <span style="color:#ae81ff">40.0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>diffeq_extended <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(du, u, p, t)
+</span></span><span style="display:flex;"><span>    du[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span> α <span style="color:#f92672">*</span> u[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> u[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">+</span> u[<span style="color:#ae81ff">4</span>]
+</span></span><span style="display:flex;"><span>    du[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> α <span style="color:#f92672">*</span> u[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> u[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">-</span> β <span style="color:#f92672">*</span> u[<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>    du[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">=</span> β <span style="color:#f92672">*</span> u[<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>    du[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>u0 <span style="color:#f92672">=</span> [<span style="color:#ae81ff">49.0</span>;<span style="color:#ae81ff">1.0</span>;<span style="color:#ae81ff">0.0</span>;<span style="color:#ae81ff">0.0</span>]
+</span></span><span style="display:flex;"><span>tspan <span style="color:#f92672">=</span> (<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>)
+</span></span><span style="display:flex;"><span>prob <span style="color:#f92672">=</span> DiffEq<span style="color:#f92672">.</span>ODEProblem(diffeq_extended, u0, tspan)</span></span></code></pre></div>
+<p>We wrap the solution building process into a function taking the starting time
+and the fraction being directly injected as parameters:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>inject_progressive <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(t0, direct_frac)
+</span></span><span style="display:flex;"><span>    condition_start(u, t, integrator) <span style="color:#f92672">=</span> t0 <span style="color:#f92672">-</span> t
+</span></span><span style="display:flex;"><span>    affect_start! <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(integrator)
+</span></span><span style="display:flex;"><span>        integrator<span style="color:#f92672">.</span>u[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> integrator<span style="color:#f92672">.</span>u[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> inj_quantity <span style="color:#f92672">*</span> direct_frac
+</span></span><span style="display:flex;"><span>        integrator<span style="color:#f92672">.</span>u[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">=</span> inj_rate
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    callback_start <span style="color:#f92672">=</span> DiffEq<span style="color:#f92672">.</span>ContinuousCallback(
+</span></span><span style="display:flex;"><span>        condition_start, affect_start!, save_positions<span style="color:#f92672">=</span>(true, true)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    condition_end(u, t, integrator) <span style="color:#f92672">=</span> (t <span style="color:#f92672">-</span> t0) <span style="color:#f92672">*</span> inj_rate <span style="color:#f92672">-</span> inj_quantity <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> direct_frac)
+</span></span><span style="display:flex;"><span>    affect_end! <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(integrator)
+</span></span><span style="display:flex;"><span>        integrator<span style="color:#f92672">.</span>u[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    callback_end <span style="color:#f92672">=</span> DiffEq<span style="color:#f92672">.</span>ContinuousCallback(condition_end, affect_end!, save_positions<span style="color:#f92672">=</span>(true, true))
+</span></span><span style="display:flex;"><span>    sol <span style="color:#f92672">=</span> DiffEq<span style="color:#f92672">.</span>solve(prob, callback<span style="color:#f92672">=</span>DiffEq<span style="color:#f92672">.</span>CallbackSet(callback_start, callback_end), dtmax<span style="color:#f92672">=</span><span style="color:#ae81ff">0.005</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Plots<span style="color:#f92672">.</span>plot(inject_progressive(<span style="color:#ae81ff">0.6</span>,<span style="color:#ae81ff">0.6</span>))</span></span></code></pre></div>
+<p>We can notice <code>callback_start</code> being identical to the model we previously built,
+while <code>condition_end</code> corresponds to the time when the total injected
+quantity reaches <code>inj_quantity</code>. The first events activates $u_4$ and sets it
+to the nominal flow, while the second callback resets it to 0.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/DiffEq/const_rate.png" alt="Constant rate" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>Optim.jl can be re-used to determine the optimal decision:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>objective <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(x)
+</span></span><span style="display:flex;"><span>    sol <span style="color:#f92672">=</span> inject_progressive(x[<span style="color:#ae81ff">1</span>], x[<span style="color:#ae81ff">2</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span>sol<span style="color:#f92672">.</span>u[<span style="color:#66d9ef">end</span>][<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># wrapped objective function and starting point</span>
+</span></span><span style="display:flex;"><span>x0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span><span style="color:#f92672">*</span>ones(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>wrapped_obj <span style="color:#f92672">=</span> Optim<span style="color:#f92672">.</span>OnceDifferentiable(objective, x0)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># call optimize with box algorithm</span>
+</span></span><span style="display:flex;"><span>Optim<span style="color:#f92672">.</span>optimize(wrapped_obj, x0, [<span style="color:#ae81ff">0.1</span>,<span style="color:#ae81ff">0.0</span>], [<span style="color:#ae81ff">1.0</span>,<span style="color:#ae81ff">1.0</span>], Optim<span style="color:#f92672">.</span>Fminbox())</span></span></code></pre></div>
+<p>The result details are:</p>
+<pre tabindex="0"><code>* Algorithm: Fminbox with Conjugate Gradient
+* Starting Point: [0.5,0.5]
+* Minimizer: [0.8355419400368459,0.9999654432422779]
+* Minimum: -2.404040e+01
+* Iterations: 4
+* Convergence: true
+  * |x - x&#39;| ≤ 1.0e-32: false
+    |x - x&#39;| = 3.43e-04
+  * |f(x) - f(x&#39;)| ≤ 1.0e-32 |f(x)|: true
+    |f(x) - f(x&#39;)| = -6.85e-11 |f(x)|
+  * |g(x)| ≤ 1.0e-08: false
+    |g(x)| = 9.05e-08
+  * Stopped by an increasing objective: true
+  * Reached Maximum Number of Iterations: false
+* Objective Calls: 125
+* Gradient Calls: 79
+</code></pre><p>We wrap our function in a <code>Optim.OnceDifferentiable</code> to provide Optim with the
+information that the function is differentiable, even though we don&rsquo;t provide a
+gradient, it can be computed by automatic differentiation or finite differences.</p>
+<p>The optimal solution corresponds to a complete direct injection
+($\delta \approx 1$) with $t_{inject}^{opt}$ identical to the previous model.
+This means pouring the A component in a continuous fashion does not allow to
+produce more $B$ at the end of the minute.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We could still built on top of this model to keep refining it, taking more
+phenomena into account (what if the reactions produce heat and are sensitive
+to temperature?). The structures describing models built with
+DifferentialEquations.jl are transparent and easy to use for further manipulations.</p>
+<p>One point on which I place expectations is some additional interoperability
+between DifferentialEquations.jl and <a href="https://github.com/JuliaOpt/JuMP.jl" target="_blank" rel="noopener">JuMP</a>,
+a Julia meta-package for optimization. Some great work was already performed to
+combine the two systems, one use case that has been described is the parameter
+identification problem (given the evolution of concentration in the system,
+identify the α and β parameters).</p>
+<p>But given that the function I built from a parameter was a black box
+(without an explicit formula, not a gradient), I had to use BlackBoxOptim,
+which is amazingly straightforward, but feels a bit overkill for smooth
+functions as presented here. Maybe there is a different way to build the
+objective function, using parametrized functions for instance, which could
+make it transparent to optimization solvers.</p>
+<p>If somebody has info on that last point or feedback, additional info you&rsquo;d like
+to share regarding this post, hit me on <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">Twitter</a>.
+Thanks for reading!</p>
+<hr>
+<h2 id="edits-and-improvements">Edits and improvements</h2>
+<p>2018-01-31:<br>
+I updated this post to adapt to the new DifferentialEquations.jl
+interface. I also used Optim.jl for the two cases without BlackBoxOptim.jl,
+which is very nice but not necessary for differentiable functions.</p>
+<p>Special thanks to <a href="https://github.com/pkofod" target="_blank" rel="noopener">Patrick</a> for his quick response
+and help with <code>Optim.jl</code>.</p>
+<hr>
+<p>2017-12-20:<br>
+Of course, BlackBoxOptim.jl was not the most appropriate algorithm as
+predicted. <a href="https://twitter.com/pkofod" target="_blank" rel="noopener">Patrick</a> and <a href="https://twitter.com/ChrisRackauckas" target="_blank" rel="noopener">Chris</a>
+gave me some hints in <a href="https://twitter.com/matbesancon/status/943662063074906112" target="_blank" rel="noopener">this thread</a>
+and I gave <a href="https://github.com/JuliaNLSolvers/Optim.jl" target="_blank" rel="noopener">Optim.jl</a> a try.</p>
+<p>This package has a range of algorithms to choose from depending on the
+structure of the function and the knowledge of its gradient and Hessian.
+The goal is continuous optimization, (as opposed to BlackBoxOptim.jl which supports
+more exotic search spaces).</p>
+<p>Finding the optimum $t_{inject}$ of the first problem is pretty simple:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> Optim
+</span></span><span style="display:flex;"><span>Optim<span style="color:#f92672">.</span>optimize(compute_finalb, <span style="color:#ae81ff">0.1</span>, <span style="color:#ae81ff">0.9</span>)</span></span></code></pre></div></p>
+<p>This yields the following information:</p>
+<pre tabindex="0"><code>Results of Optimization Algorithm
+ * Algorithm: Brent&#39;s Method
+ * Search Interval: [0.100000, 0.900000]
+ * Minimizer: 8.355891e-01
+ * Minimum: -2.403824e+01
+ * Iterations: 13
+ * Convergence: max(|x - x_upper|, |x - x_lower|) &lt;= 2*(1.5e-08*|x|+2.2e-16): true
+ * Objective Function Calls: 14
+</code></pre><p>14 calls to the objective function, pretty neat compared to the hundreds of
+BlackBoxOptim. We also confirm the optimum of <code>0.8355891</code>. Not yet sure we could
+use Optim.jl for the second case (boxed multivariate optimization without explicit gradient).</p>
+<hr>
+<!-- raw HTML omitted -->
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/julia/">julia</a>
+  
+  <a class="badge badge-light" href="/tag/modeling/">modeling</a>
+  
+  <a class="badge badge-light" href="/tag/numerical-techniques/">numerical-techniques</a>
+  
+  <a class="badge badge-light" href="/tag/applied-math/">applied-math</a>
+  
+  <a class="badge badge-light" href="/tag/optimization/">optimization</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2017-12-20-diffeq-julia2%2F&amp;text=DifferentialEquations.jl&#43;-&#43;part&#43;2%3A&#43;decision&#43;from&#43;the&#43;model" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2017-12-20-diffeq-julia2%2F&amp;t=DifferentialEquations.jl&#43;-&#43;part&#43;2%3A&#43;decision&#43;from&#43;the&#43;model" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a href="mailto:?subject=DifferentialEquations.jl%20-%20part%202%3A%20decision%20from%20the%20model&amp;body=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2017-12-20-diffeq-julia2%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2017-12-20-diffeq-julia2%2F&amp;title=DifferentialEquations.jl&#43;-&#43;part&#43;2%3A&#43;decision&#43;from&#43;the&#43;model" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=DifferentialEquations.jl&#43;-&#43;part&#43;2%3A&#43;decision&#43;from&#43;the&#43;model%20https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2017-12-20-diffeq-julia2%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2017-12-20-diffeq-julia2%2F&amp;title=DifferentialEquations.jl&#43;-&#43;part&#43;2%3A&#43;decision&#43;from&#43;the&#43;model" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://matbesancon.xyz/"><img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu717a6920346f3d435e65e27c2a66c1ed_48773_270x270_fill_q75_lanczos_center.jpg" alt="Mathieu Besançon"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://matbesancon.xyz/">Mathieu Besançon</a></h5>
+      <h6 class="card-subtitle">Researcher in mathematical optimization</h6>
+      <p class="card-text">Mathematical optimization, scientific programming and related.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=-xStCAIAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://orcid.org/0000-0002-6284-3033" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.youtube.com/channel/UCVSd42nW_MqkbSXijgOvKwg" target="_blank" rel="noopener">
+        <i class="fab fa-youtube"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/mbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    © 2023 Mathieu Besançon.
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+    <p class="powered-by">
+    Published with Hugo and Wowchemy.
+   </p>
+
+
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+
+
+<script src="/js/vendor-bundle.min.938a3a7554cd9f6602290411f64d2617.js"></script>
+
+
+
+
+  
+
+  
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script id="search-hit-fuse-template" type="text/x-template">
+    <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+    </div>
+  </script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+<script id="page-data" type="application/json">{"use_headroom":true}</script>
+
+
+
+  <script src="/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<script src="/en/js/wowchemy.min.2945731fa88332cb0ec33cf47d29879f.js"></script>
+
+
+
+
+
+
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <pre><code></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

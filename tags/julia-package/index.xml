@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>julia-package on μβ</title>
+    <link>https://matbesancon.github.io/tags/julia-package/</link>
+    <description>Recent content in julia-package on μβ</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
+    <language>en-ca</language>
+    <copyright>&amp;copy; {year} Mathieu Besançon</copyright>
+    <lastBuildDate>Tue, 18 Dec 2018 00:00:00 +0100</lastBuildDate>
+    
+	    <atom:link href="https://matbesancon.github.io/tags/julia-package/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>JuliaStats/Distributions.jl</title>
+      <link>https://matbesancon.github.io/project/distributions/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/project/distributions/</guid>
+      <description>&lt;p&gt;Contributions to the &lt;a href=&#34;https://juliastats.github.io&#34;&gt;JuliaStats&lt;/a&gt; ecosystem,
+especially the &lt;a href=&#34;https://github.com/JuliaStats/Distributions.jl&#34;&gt;Distributions.jl&lt;/a&gt;
+package for modeling probability distributions in Julia using a minimal
+and flexible interface.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Mixed continuous-discrete distributions</title>
+      <link>https://matbesancon.github.io/project/mixed_distributions/</link>
+      <pubDate>Tue, 04 Sep 2018 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/project/mixed_distributions/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>JuliaGraphs contributions</title>
+      <link>https://matbesancon.github.io/project/juliagraphs/</link>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/project/juliagraphs/</guid>
+      <description>&lt;p&gt;Starting from a weird Kaggle &lt;a href=&#34;https://www.kaggle.com/c/santa-gift-matching&#34;&gt;side-project&lt;/a&gt;
+during the Chrismas holidays, I gradually got involved in the &lt;a href=&#34;https://juliagraphs.github.io/&#34;&gt;JuliaGraphs&lt;/a&gt;
+ecosystem. After some discussion on the Julia Slack &lt;em&gt;#graphs&lt;/em&gt; channel,
+I went from reporting a simple feature I needed to helping with the
+re-organization by splitting out two packages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsMatching.jl&#34;&gt;LightGraphsMatching.jl&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsFlows.jl&#34;&gt;LightGraphsFlows.jl&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I also implemented the
+&lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphsFlows.jl/blob/master/src/mincost.jl&#34;&gt;min-cost flow problem&lt;/a&gt;
+formulated as a linear optimization problem formulated using MathProgBase.jl,
+using any user-provided solver.&lt;/p&gt;
+&lt;p&gt;Many thanks to the whole JuliaGraphs team for their trust, support and advice.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>WebFuncs</title>
+      <link>https://matbesancon.github.io/project/webfuncs/</link>
+      <pubDate>Wed, 10 Jan 2018 00:00:00 +0100</pubDate>
+      
+      <guid>https://matbesancon.github.io/project/webfuncs/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/matbesancon/WebFuncs.jl&#34;&gt;WebFuncs.jl&lt;/a&gt; is a project
+testing the Julia language out of its natural scope.
+Having played quite a bit with Go and Python, I wanted to see if
+the Julia ecosystem had tools for HTTP handling.&lt;/p&gt;
+&lt;p&gt;The inspiration of a simple-to-use function server came from the
+&lt;a href=&#34;https://github.com/metrue/fx&#34;&gt;fx project&lt;/a&gt;. Define your function, the
+package throws it as a server for you.&lt;/p&gt;
+&lt;p&gt;The package has been accepted on the Julia package repository and can be fetched
+using &lt;code&gt;Pkg.add(&amp;quot;WebFuncs&amp;quot;)&lt;/code&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

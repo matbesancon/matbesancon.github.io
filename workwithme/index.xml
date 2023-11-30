@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Work with me | μβ</title>
+    <link>https://matbesancon.xyz/workwithme/</link>
+      <atom:link href="https://matbesancon.xyz/workwithme/index.xml" rel="self" type="application/rss+xml" />
+    <description>Work with me</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language>
+    <image>
+      <url>https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png</url>
+      <title>Work with me</title>
+      <link>https://matbesancon.xyz/workwithme/</link>
+    </image>
+    
+  </channel>
+</rss>

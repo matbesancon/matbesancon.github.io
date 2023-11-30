@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
+<!-- Last Published: November 30, 2023 --><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+
+  
+  
+    
+    <script src="/js/mathjax-config.js"></script>
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.047268c6dd09ad74ba54a0ba71837064.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.be1e734c86be5b4f1c94d71028ea7cbf.css" />
+
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/libs/chroma/github-light.min.css" title="hl-light" media="print" onload="this.media='all'" >
+    <link rel="stylesheet" href="/css/libs/chroma/dracula.min.css" title="hl-dark" media="print" onload="this.media='all'" disabled>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+  <meta name="author" content="Mathieu Besançon" />
+
+
+
+
+
+  
+
+<meta name="description" content="Cracking Benders decomposition, one cut at a time.
+" />
+
+
+
+<link rel="alternate" hreflang="en-us" href="https://matbesancon.xyz/post/2019-05-08-simple-benders/" />
+<link rel="canonical" href="https://matbesancon.xyz/post/2019-05-08-simple-benders/" />
+
+
+
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+
+
+<link rel="icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_32x32_fill_lanczos_center_3.png" />
+<link rel="apple-touch-icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_180x180_fill_lanczos_center_3.png" />
+
+<meta name="theme-color" content="#1565c0" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<meta property="twitter:card" content="summary" />
+
+  <meta property="twitter:site" content="@matbesancon" />
+  <meta property="twitter:creator" content="@matbesancon" />
+<meta property="twitter:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" />
+<meta property="og:site_name" content="μβ" />
+<meta property="og:url" content="https://matbesancon.xyz/post/2019-05-08-simple-benders/" />
+<meta property="og:title" content="A take on Benders decomposition in JuMP | μβ" />
+<meta property="og:description" content="Cracking Benders decomposition, one cut at a time.
+" /><meta property="og:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+
+  
+    <meta
+      property="article:published_time"
+      content="2019-05-08T00:00:00&#43;00:00"
+    />
+  
+  
+    <meta property="article:modified_time" content="2023-10-24T18:49:06&#43;02:00">
+  
+
+
+
+
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://matbesancon.xyz/post/2019-05-08-simple-benders/"
+  },
+  "headline": "A take on Benders decomposition in JuMP",
+  
+  "datePublished": "2019-05-08T00:00:00Z",
+  "dateModified": "2023-10-24T18:49:06+02:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Mathieu Besançon"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "μβ",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "Cracking Benders decomposition, one cut at a time.\n"
+}
+</script>
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+  
+
+  
+
+
+  
+  <title>A take on Benders decomposition in JuMP | μβ</title>
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="ae82b16499db373e4a45c725fcd1b8b9" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header header--fixed">
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container-xl">
+
+      
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+      
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      
+      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+        
+        <ul class="navbar-nav d-md-inline-flex">
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#about"><span>Home</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#experience"><span>Experience</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#publications"><span>Publications</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#posts"><span>Posts</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#workwithme"><span>Work with me</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#contact"><span>Contact</span></a>
+          </li>
+
+          
+          
+
+        
+
+          
+        </ul>
+      </div>
+
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+        
+        
+          
+        
+
+        
+        
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+        
+        
+        <li class="nav-item dropdown theme-dropdown">
+          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item js-set-theme-light">
+              <span>Light</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-dark">
+              <span>Dark</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-auto">
+              <span>Automatic</span>
+            </a>
+          </div>
+        </li>
+        
+
+        
+        
+
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+
+  </div>
+
+  <div class="page-body">
+    
+    
+    
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>A take on Benders decomposition in JuMP</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    2023-10-24
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    8 min read
+  </span>
+  
+
+  
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <p>Last Friday was a great seminar of the Combinatorial Optimization group in
+Paris, celebrating the 85th birthday of Jack Edmonds, one of the founding
+researchers of combinatorial optimization, with the notable Blossom matching algorithm.
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">.<a href="https://twitter.com/SoniaVanier?ref_src=twsrc%5Etfw">@SoniaVanier</a> opened the workshop and organized a great party at Sorbonne for Jack Edmonds. I had a great honor to be one of the speakers at this event <a href="https://twitter.com/hashtag/orms?src=hash&amp;ref_src=twsrc%5Etfw">#orms</a> <a href="https://t.co/oHwKvg43Zm">pic.twitter.com/oHwKvg43Zm</a></p>&mdash; Ivana Ljubic (@ILjubic) <a href="https://twitter.com/ILjubic/status/1124375711194722304?ref_src=twsrc%5Etfw">May 3, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+</p>
+<p>Laurence Wolsey and Ivana Ljubic were both giving talks on applications and
+developments in Benders decompositions. It also made me want to refresh my
+knowledge of the subject and play a bit with a simple implementation.</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Laurence Wolsey talks about Benders decomposition at the Jack Edmonds birthday workshop at Sorbonne <a href="https://twitter.com/hashtag/orms?src=hash&amp;ref_src=twsrc%5Etfw">#orms</a> <a href="https://t.co/K8hjdqKmwQ">pic.twitter.com/K8hjdqKmwQ</a></p>&mdash; Ivana Ljubic (@ILjubic) <a href="https://twitter.com/ILjubic/status/1124327078625722368?ref_src=twsrc%5Etfw">May 3, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+
+<details class="toc-inpage d-print-none  " open>
+  <summary class="font-weight-bold">Table of Contents</summary>
+  <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#high-level-idea">High-level idea</a></li>
+        <li><a href="#digging-into-the-structure">Digging into the structure</a></li>
+        <li><a href="#a-jump-implementation">A JuMP implementation</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+</details>
+
+<h2 id="high-level-idea">High-level idea</h2>
+<p>Problem decompositions are used on large-scale optimization problems with a
+particular structure. The decomposition turns a compact, hard-to-solve
+formulation into an easier one but of great size. In the case of Benders,
+great size means a number of constraints growing exponentially
+with the size of the input problem. Adding all constraints upfront would be too
+costly. Furthermore, in general, only a small fraction of these constraints will be
+active in a final solution, the associated algorithm is to generate them incrementally,
+re-solve the problem with the new constraint until no relevant constraint can
+be found anymore.</p>
+<p>We can establish a more general pattern of on-the-fly addition of
+information to an optimization problem, which entails two components:</p>
+<ol>
+<li>An incrementally-built problem, called <strong>Restricted Master Problem</strong> (RMP) in decomposition.</li>
+<li>An <strong>oracle</strong> or <strong>sub-problem</strong>, taking the problem state and building the new required structure (here a new constraint).</li>
+</ol>
+<p>Sounds familiar? Benders can be seen as the &ldquo;dual twin&rdquo; of the Dantzig-Wolfe
+decomposition I had played with in a <a href="https://matbesancon.xyz/post/2018-05-25-colgen2/">previous post</a>.</p>
+<h2 id="digging-into-the-structure">Digging into the structure</h2>
+<p>Now that we have a general idea of the problem at hand, let&rsquo;s see the specifics.
+Consider a problem such as:
+$$ \min_{x,y} f(y) + c^\top x $$
+s.t. $$ G(y) \in \mathcal{S}$$
+$$ A x + D y \geq b $$
+$$ x \in \mathbb{R}^{n_1}_{+}, y \in \mathcal{Y} $$</p>
+<p>We will not consider the constraints specific to $y$ (the first row) nor the
+$y$-component of the objective. The key assumption of Benders is that if the $y$
+are fixed, the problem on the $x$ variables is fast to solve.
+Lots of heuristics use this idea of &ldquo;fix-and-optimize&rdquo; to avoid incorporating
+the &ldquo;hard&rdquo; variables in the problem, Benders leverages several properties to
+bring the idea to exact methods (exact in the sense of proven optimality).</p>
+<p>Taking the problem above, we can simplify the structure by abstracting away
+(i.e. projecting out) the $x$ part:
+$$ \min_{y} f(y) + \phi(y) $$
+s.t. $$ G(y) \in \mathcal{S}$$
+$$ y \in \mathcal{Y} $$</p>
+<p>Where:
+$$ \phi(y) = \min_{x} \{c^\top x, Ax \geq b - Dy, x \geq 0 \} $$</p>
+<p>$\phi(y)$ is a non-smooth function, with $, dom\ \phi ,$ the feasible domain
+of the problem. If you are familiar with bilevel optimization, this could
+remind you of the <em>optimal value function</em> used to describe lower-level problems.
+We will call $SP$ the sub-problem defined in the function $\phi$.</p>
+<p>The essence of Benders is to start from an outer-approximation (overly optimistic)
+by replacing $\phi$ with a variable $\eta$ which might be lower than the true min value,
+and then add cuts which progressively constrain the problem.
+The initial outer-approximation is:</p>
+<p>$$ \min_{y,\eta} f(y) + \eta $$
+s.t. $$ G(y) \in \mathcal{S}$$
+$$ y \in \mathcal{Y} $$</p>
+<p>Of course since $\eta$ is unconstrained, the problem will start unbounded.
+What are valid cuts for this? Let us define the dual of the sub-problem $SP$,
+which we will name $DSP$:
+$$ \max_{\alpha} (b - Dy)^\top \alpha  $$
+s.t. $$ A^\top \alpha \leq c $$
+$$ \alpha \geq 0 $$</p>
+<p>Given that $\eta \geq min SP$, by duality, $\eta \geq max DSP$.
+Furthermore, by strong duality of linear problems, if $\eta = \min \max_{y} DSP$,
+it is exactly equal to the minimum of $\phi(y)$ and yields the optimal solution.</p>
+<p>One thing to note about the feasible domain of $DSP$, it does not depend on
+the value of $y$. This means $z$ feasible for all values of the dual is
+equivalent to being feasible for all extreme points and rays of the dual
+polyhedron. Each of these can yield a new cut to add to the relaxed problem.
+For the sake of conciseness, I will not go into details on the case when
+the sub-problem is not feasible for a $y$ solution. Briefly, this is equivalent
+to the dual being unbounded, it thus defines an extreme ray which must be cut
+out. For more details, you can check <a href="http://www.iems.ucf.edu/qzheng/grpmbr/seminar/Yuping_Intro_to_BendersDecomp.pdf" target="_blank" rel="noopener">these lecture notes</a>.</p>
+<h2 id="a-jump-implementation">A JuMP implementation</h2>
+<p>We will define a simple implementation using <a href="http://www.juliaopt.org/JuMP.jl/stable/" target="_blank" rel="noopener">JuMP</a>,
+a generic optimization modeling library on top of Julia, usable with various
+solvers. Since the master and sub-problem resolutions are completely independent,
+they can be solved in separated software components, even with different solvers.
+To highlight this, we will use <a href="https://github.com/SCIP-Interfaces/SCIP.jl" target="_blank" rel="noopener">SCIP</a>
+to solve the master problem and COIN-OR&rsquo;s <a href="https://github.com/juliaopt/Clp.jl" target="_blank" rel="noopener">Clp</a>
+to solve the sub-problem.</p>
+<p>We can start by importing the required packages:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">using</span> JuMP
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> SCIP
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> Clp
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> LinearAlgebra<span style="color:#f92672">:</span> dot</span></span></code></pre></div>
+<h3 id="defining-and-solving-dual-sub-problems">Defining and solving dual sub-problems</h3>
+<p>Let us store static sub-problem data in a structure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">SubProblemData</span>
+</span></span><span style="display:flex;"><span>    b<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">Float64</span>}
+</span></span><span style="display:flex;"><span>    D<span style="color:#f92672">::</span><span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}
+</span></span><span style="display:flex;"><span>    A<span style="color:#f92672">::</span><span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}
+</span></span><span style="display:flex;"><span>    c<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">Float64</span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>And the dual sub-problem is entirely contained in another structure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">DualSubProblem</span>
+</span></span><span style="display:flex;"><span>    data<span style="color:#f92672">::</span><span style="color:#66d9ef">SubProblemData</span>
+</span></span><span style="display:flex;"><span>    α<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">VariableRef</span>}
+</span></span><span style="display:flex;"><span>    m<span style="color:#f92672">::</span><span style="color:#66d9ef">Model</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> DualSubProblem(d<span style="color:#f92672">::</span><span style="color:#66d9ef">SubProblemData</span>, m<span style="color:#f92672">::</span><span style="color:#66d9ef">Model</span>)
+</span></span><span style="display:flex;"><span>    α <span style="color:#f92672">=</span> <span style="color:#a6e22e">@variable</span>(m, α[i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>size(d<span style="color:#f92672">.</span>A, <span style="color:#ae81ff">1</span>)] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@constraint</span>(m, dot(d<span style="color:#f92672">.</span>A, α) <span style="color:#f92672">.&lt;=</span> d<span style="color:#f92672">.</span>c)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> DualSubProblem(d, α, m)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>The <code>DualSubProblem</code> is constructed from the static data and a JuMP model.
+We mentioned that the feasible space of the sub-problem is independent of the
+value of $y$, thus we can add the constraint right away. Only to optimize it
+do we require the $\hat{y}$ value, which is used to set the objective.
+We can then either return a feasibility cut or optimality cut depending on
+the solution status of the dual sub-problem:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> JuMP<span style="color:#f92672">.</span>optimize!(sp<span style="color:#f92672">::</span><span style="color:#66d9ef">DualSubProblem</span>, yh)
+</span></span><span style="display:flex;"><span>    obj <span style="color:#f92672">=</span> sp<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>b <span style="color:#f92672">.-</span> sp<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>D <span style="color:#f92672">*</span> yh
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@objective</span>(sp<span style="color:#f92672">.</span>m, Max, dot(obj, sp<span style="color:#f92672">.</span>α))
+</span></span><span style="display:flex;"><span>    optimize!(sp<span style="color:#f92672">.</span>m)
+</span></span><span style="display:flex;"><span>    st <span style="color:#f92672">=</span> termination_status(sp<span style="color:#f92672">.</span>m)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> st <span style="color:#f92672">==</span> MOI<span style="color:#f92672">.</span>OPTIMAL
+</span></span><span style="display:flex;"><span>        α <span style="color:#f92672">=</span> JuMP<span style="color:#f92672">.</span>value<span style="color:#f92672">.</span>(sp<span style="color:#f92672">.</span>α)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (<span style="color:#e6db74">:OptimalityCut</span>, α)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elseif</span> st <span style="color:#f92672">==</span> MOI<span style="color:#f92672">.</span>DUAL_INFEASIBLE
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (<span style="color:#e6db74">:FeasibilityCut</span>, α)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        error(<span style="color:#e6db74">&#34;DualSubProblem error: status </span><span style="color:#e6db74">$status</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<h3 id="iterating-on-the-master-problem">Iterating on the master problem</h3>
+<p>The main part of the resolution holds here in three steps.</p>
+<ol>
+<li>Initialize a master problem with variables $(y,\eta)$</li>
+<li>Optimize and pass the $\hat{y}$ value to the sub-problem.</li>
+<li>Get back a dual value $\alpha$ from the dual sub-problem</li>
+<li>Is the constraint generated by the $\alpha$ value already respected?</li>
+</ol>
+<ul>
+<li>If yes, the solution is optimal.</li>
+<li>If no, add the corresponding cut to the master problem, return to 2.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> benders_optimize!(
+</span></span><span style="display:flex;"><span>        m<span style="color:#f92672">::</span><span style="color:#66d9ef">Model</span>, y<span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">VariableRef</span>},
+</span></span><span style="display:flex;"><span>        sd<span style="color:#f92672">::</span><span style="color:#66d9ef">SubProblemData</span>, sp_optimizer, f<span style="color:#f92672">::</span><span style="color:#66d9ef">Union</span>{<span style="color:#66d9ef">Function</span>,<span style="color:#66d9ef">Type</span>};
+</span></span><span style="display:flex;"><span>        eta_bound<span style="color:#f92672">::</span><span style="color:#66d9ef">Real</span> <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1000.0</span>,
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    subproblem <span style="color:#f92672">=</span> Model(with_optimizer(sp_optimizer))
+</span></span><span style="display:flex;"><span>    dsp <span style="color:#f92672">=</span> DualSubProblem(sd, subproblem)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@variable</span>(m, η <span style="color:#f92672">&gt;=</span> eta_bound)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@objective</span>(m, Min, f(y) <span style="color:#f92672">+</span> η)
+</span></span><span style="display:flex;"><span>    optimize!(m)
+</span></span><span style="display:flex;"><span>    st <span style="color:#f92672">=</span> MOI<span style="color:#f92672">.</span>get(m, MOI<span style="color:#f92672">.</span>TerminationStatus())
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># restricted master has a solution or is unbounded</span>
+</span></span><span style="display:flex;"><span>    nopt_cons, nfeas_cons <span style="color:#f92672">=</span> (<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@info</span> <span style="color:#e6db74">&#34;Initial status </span><span style="color:#e6db74">$st</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    cuts <span style="color:#f92672">=</span> <span style="color:#66d9ef">Tuple</span>{<span style="color:#66d9ef">Symbol</span>, <span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">Float64</span>}}[]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (st <span style="color:#f92672">==</span> MOI<span style="color:#f92672">.</span>DUAL_INFEASIBLE) <span style="color:#f92672">||</span> (st <span style="color:#f92672">==</span> MOI<span style="color:#f92672">.</span>OPTIMAL)
+</span></span><span style="display:flex;"><span>        optimize!(m)
+</span></span><span style="display:flex;"><span>        st <span style="color:#f92672">=</span> MOI<span style="color:#f92672">.</span>get(m, MOI<span style="color:#f92672">.</span>TerminationStatus())
+</span></span><span style="display:flex;"><span>        ŷ <span style="color:#f92672">=</span> JuMP<span style="color:#f92672">.</span>value<span style="color:#f92672">.</span>(y)
+</span></span><span style="display:flex;"><span>        η0 <span style="color:#f92672">=</span> JuMP<span style="color:#f92672">.</span>value(η)
+</span></span><span style="display:flex;"><span>        (res, α) <span style="color:#f92672">=</span> optimize!(dsp, ŷ)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> res <span style="color:#f92672">==</span> <span style="color:#e6db74">:OptimalityCut</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@info</span> <span style="color:#e6db74">&#34;Optimality cut found&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> η0 <span style="color:#f92672">≥</span> dot(α, (dsp<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>b <span style="color:#f92672">-</span> dsp<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>D <span style="color:#f92672">*</span> ŷ))
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>                nopt_cons <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">@constraint</span>(m, η <span style="color:#f92672">≥</span> dot(α, (dsp<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>b <span style="color:#f92672">-</span> dsp<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>D <span style="color:#f92672">*</span> y)))
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@info</span> <span style="color:#e6db74">&#34;Feasibility cut found&#34;</span>
+</span></span><span style="display:flex;"><span>            nfeas_cons <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@constraint</span>(m, <span style="color:#ae81ff">0</span> <span style="color:#f92672">≥</span> dot(α, (dsp<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>b <span style="color:#f92672">-</span> dsp<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>D <span style="color:#f92672">*</span> y)))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>        push!(cuts, (res, α))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (m, y, cuts, nopt_cons, nfeas_cons)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>Note that we pass the function an already-built model with variable $y$ defined.
+This allows for a prior flexible definition of constraints of the type:
+$$y \in \mathcal{Y}$$
+$$G(y) \in \mathcal{S}$$</p>
+<p>Also, we return the $\alpha$ values found by the sub-problems and the number of
+cuts of each type. Finally, one &ldquo;hack&rdquo; I&rsquo;m using is to give an arbitrary lower
+bound on the $\eta$ value, making it (almost) sure to have a bounded initial
+problem and thus a defined initial solution $y$.</p>
+<p>We will re-use the small example from the lecture notes above:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> test_data()
+</span></span><span style="display:flex;"><span>    c <span style="color:#f92672">=</span> [<span style="color:#ae81ff">2.</span>, <span style="color:#ae81ff">3.</span>]
+</span></span><span style="display:flex;"><span>    A <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span>;<span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>    D <span style="color:#f92672">=</span> zeros(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>) <span style="color:#f92672">.+</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">=</span> [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> SimpleBenders<span style="color:#f92672">.</span>SubProblemData(b, D, A, c)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> test_data()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># objective function on y</span>
+</span></span><span style="display:flex;"><span>f(v) <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>v[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># initialize the problem</span>
+</span></span><span style="display:flex;"><span>m <span style="color:#f92672">=</span> Model(with_optimizer(SCIP<span style="color:#f92672">.</span>Optimizer))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@variable</span>(m, y[j<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># solve and voilà</span>
+</span></span><span style="display:flex;"><span>(m, y, cuts, nopt_cons, nfeas_cons) <span style="color:#f92672">=</span> SimpleBenders<span style="color:#f92672">.</span>benders_optimize!(
+</span></span><span style="display:flex;"><span>    m, y, data, () <span style="color:#f92672">-&gt;</span> Clp<span style="color:#f92672">.</span>Optimizer(LogLevel <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>), f,
+</span></span><span style="display:flex;"><span>)</span></span></code></pre></div>
+<p>The full code is available on
+<a href="https://github.com/matbesancon/SimpleBenders.jl" target="_blank" rel="noopener">Github</a>, run it, modify it
+and don&rsquo;t hesitate to submit pull requests and issues, I&rsquo;m sure there are :)</p>
+<p>Benders is a central pillar for various problems in optimization, research is
+still very active to bring it to non-linear convex or non-convex sub-problems
+where duality cannot be used. If you liked this post or have questions,
+don&rsquo;t hesitate to react or ping me on <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">Twitter</a>.</p>
+<hr>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/optimization/">optimization</a>
+  
+  <a class="badge badge-light" href="/tag/jump/">jump</a>
+  
+  <a class="badge badge-light" href="/tag/integer-optimization/">integer-optimization</a>
+  
+  <a class="badge badge-light" href="/tag/julia/">julia</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-05-08-simple-benders%2F&amp;text=A&#43;take&#43;on&#43;Benders&#43;decomposition&#43;in&#43;JuMP" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-05-08-simple-benders%2F&amp;t=A&#43;take&#43;on&#43;Benders&#43;decomposition&#43;in&#43;JuMP" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a href="mailto:?subject=A%20take%20on%20Benders%20decomposition%20in%20JuMP&amp;body=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-05-08-simple-benders%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-05-08-simple-benders%2F&amp;title=A&#43;take&#43;on&#43;Benders&#43;decomposition&#43;in&#43;JuMP" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=A&#43;take&#43;on&#43;Benders&#43;decomposition&#43;in&#43;JuMP%20https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-05-08-simple-benders%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-05-08-simple-benders%2F&amp;title=A&#43;take&#43;on&#43;Benders&#43;decomposition&#43;in&#43;JuMP" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://matbesancon.xyz/"><img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu717a6920346f3d435e65e27c2a66c1ed_48773_270x270_fill_q75_lanczos_center.jpg" alt="Mathieu Besançon"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://matbesancon.xyz/">Mathieu Besançon</a></h5>
+      <h6 class="card-subtitle">Researcher in mathematical optimization</h6>
+      <p class="card-text">Mathematical optimization, scientific programming and related.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=-xStCAIAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://orcid.org/0000-0002-6284-3033" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.youtube.com/channel/UCVSd42nW_MqkbSXijgOvKwg" target="_blank" rel="noopener">
+        <i class="fab fa-youtube"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/mbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    © 2023 Mathieu Besançon.
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+    <p class="powered-by">
+    Published with Hugo and Wowchemy.
+   </p>
+
+
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+
+
+<script src="/js/vendor-bundle.min.938a3a7554cd9f6602290411f64d2617.js"></script>
+
+
+
+
+  
+
+  
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script id="search-hit-fuse-template" type="text/x-template">
+    <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+    </div>
+  </script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+<script id="page-data" type="application/json">{"use_headroom":true}</script>
+
+
+
+  <script src="/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<script src="/en/js/wowchemy.min.2945731fa88332cb0ec33cf47d29879f.js"></script>
+
+
+
+
+
+
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <pre><code></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

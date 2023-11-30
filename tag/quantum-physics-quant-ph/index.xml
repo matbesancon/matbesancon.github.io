@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Quantum Physics (quant-ph) | μβ</title>
+    <link>https://matbesancon.xyz/tag/quantum-physics-quant-ph/</link>
+      <atom:link href="https://matbesancon.xyz/tag/quantum-physics-quant-ph/index.xml" rel="self" type="application/rss+xml" />
+    <description>Quantum Physics (quant-ph)</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 01 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://matbesancon.xyz/media/icon_hu734b3f773d66f7a68c6f81b686e5966b_1180_512x512_fill_lanczos_center_3.png</url>
+      <title>Quantum Physics (quant-ph)</title>
+      <link>https://matbesancon.xyz/tag/quantum-physics-quant-ph/</link>
+    </image>
+    
+    <item>
+      <title>Improved local models and new Bell inequalities via Frank-Wolfe algorithms</title>
+      <link>https://matbesancon.xyz/publication/preprint/quantum/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/quantum/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

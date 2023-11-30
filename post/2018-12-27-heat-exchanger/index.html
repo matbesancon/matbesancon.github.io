@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
+<!-- Last Published: November 30, 2023 --><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+
+  
+  
+    
+    <script src="/js/mathjax-config.js"></script>
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.047268c6dd09ad74ba54a0ba71837064.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.be1e734c86be5b4f1c94d71028ea7cbf.css" />
+
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/libs/chroma/github-light.min.css" title="hl-light" media="print" onload="this.media='all'" >
+    <link rel="stylesheet" href="/css/libs/chroma/dracula.min.css" title="hl-dark" media="print" onload="this.media='all'" disabled>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+  <meta name="author" content="Mathieu Besançon" />
+
+
+
+
+
+  
+
+<meta name="description" content="
+" />
+
+
+
+<link rel="alternate" hreflang="en-us" href="https://matbesancon.xyz/post/2018-12-27-heat-exchanger/" />
+<link rel="canonical" href="https://matbesancon.xyz/post/2018-12-27-heat-exchanger/" />
+
+
+
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+
+
+<link rel="icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_32x32_fill_lanczos_center_3.png" />
+<link rel="apple-touch-icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_180x180_fill_lanczos_center_3.png" />
+
+<meta name="theme-color" content="#1565c0" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<meta property="twitter:card" content="summary" />
+
+  <meta property="twitter:site" content="@matbesancon" />
+  <meta property="twitter:creator" content="@matbesancon" />
+<meta property="twitter:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" />
+<meta property="og:site_name" content="μβ" />
+<meta property="og:url" content="https://matbesancon.xyz/post/2018-12-27-heat-exchanger/" />
+<meta property="og:title" content="Winter warm-up: toy models for heat exchangers | μβ" />
+<meta property="og:description" content="
+" /><meta property="og:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+
+  
+    <meta
+      property="article:published_time"
+      content="2018-12-27T00:00:00&#43;00:00"
+    />
+  
+  
+    <meta property="article:modified_time" content="2023-10-21T13:42:14&#43;02:00">
+  
+
+
+
+
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://matbesancon.xyz/post/2018-12-27-heat-exchanger/"
+  },
+  "headline": "Winter warm-up: toy models for heat exchangers",
+  
+  "datePublished": "2018-12-27T00:00:00Z",
+  "dateModified": "2023-10-21T13:42:14+02:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Mathieu Besançon"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "μβ",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "\n"
+}
+</script>
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+  
+
+  
+
+
+  
+  <title>Winter warm-up: toy models for heat exchangers | μβ</title>
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="ca4d982c3fd583c60e36f0709b8f6687" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header header--fixed">
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container-xl">
+
+      
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+      
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      
+      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+        
+        <ul class="navbar-nav d-md-inline-flex">
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#about"><span>Home</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#experience"><span>Experience</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#publications"><span>Publications</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#posts"><span>Posts</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#workwithme"><span>Work with me</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#contact"><span>Contact</span></a>
+          </li>
+
+          
+          
+
+        
+
+          
+        </ul>
+      </div>
+
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+        
+        
+          
+        
+
+        
+        
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+        
+        
+        <li class="nav-item dropdown theme-dropdown">
+          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item js-set-theme-light">
+              <span>Light</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-dark">
+              <span>Dark</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-auto">
+              <span>Automatic</span>
+            </a>
+          </div>
+        </li>
+        
+
+        
+        
+
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+
+  </div>
+
+  <div class="page-body">
+    
+    
+    
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+<div class="article-header">
+  
+  
+    <img src="/img/posts/heatex/frozen_land.jpg" class="article-banner" alt="">
+  
+
+  
+</div>
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Winter warm-up: toy models for heat exchangers</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    2023-10-21
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    8 min read
+  </span>
+  
+
+  
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <p>Enjoying the calm of the frozen eastern French countryside for the last week of 2018,
+I was struck by nostalgia while reading a SIAM news article [1] on a
+near-reversible heat exchange between two flows and decided to dust off my
+thermodynamics books (especially [2]).</p>
+<p>Research in mathematical optimization was not the
+obvious path I was on a couple years ago. The joint bachelor-master&rsquo;s program
+I followed in France was in process engineering, a discipline crossing
+transfer phenomena (heat exchange, fluid mechanics, thermodynamics), control,
+knowledge of the matter transformations at hand
+(chemical, biochemical, nuclear reactions) and industrial engineering
+(see note at the end of this page).</p>
+<p><strong>Hypotheses</strong> Throughout the article, we will use a set of flow hypotheses
+which build up the core of our model for heat exchange.
+These can seem odd but are pretty common in process engineering and
+realistic in many applications.</p>
+<ol>
+<li>The two flows advance in successive &ldquo;layers&rdquo;.</li>
+<li>Each layer has a homogeneous temperature; we therefore ignore boundary layer effects.</li>
+<li>Successive layers do not exchange matter nor heat. The rationale behind this
+is that the temperature difference between fluids is significantly higher than between layers.</li>
+<li>Pressure losses in the exchanger does not release a significant heat compared to
+the fluid heat exchange.</li>
+<li>The fluid and wall properties are constant with temperature.</li>
+</ol>
+<h2 id="starting-simple-parallel-flow-heat-exchange">Starting simple: parallel flow heat exchange</h2>
+<p>In this model, both flows enter the exchanger on the same side, one at a
+hot temperature, the other at a cold temperature. Heat is exchanged along the
+exchanger wall, proportional at any point to the difference in temperature
+between the two fluids. We therefore study the evolution of two variables
+$u_1(x)$ and $u_2(x)$ in an interval $x \in [0,L]$ with $L$ the length of
+the exchanger.</p>
+<p>In any layer $[x, x + \delta x]$, the heat exchange is equal to:
+$$\delta \dot{Q} = h \cdot (u_2(x) - u_1(x)) \cdot \delta x$$
+with $h$ a coefficient depending on the wall heat exchange properties.</p>
+<p>Moreover, the variation in internal energy of the hot flow is equal to
+$\delta \dot{Q}$ and is also expressed as:</p>
+<p>$$ c_2 \cdot \dot{m}_2 \cdot (u_2(x+\delta x) - u_2(x)) $$
+$c_2$ is the calorific capacity of the hot flow and  $\dot{m}_2$ its
+mass flow rate. The you can check that the given expression is a power.
+The same expressions apply to the cold flow.
+Let us first assume the following:</p>
+<p>$$c_2 \cdot \dot{m}_2 = c_1 \cdot \dot{m}_1$$</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> DifferentialEquations
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> DiffEq <span style="color:#f92672">=</span> DifferentialEquations
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> Plots
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> parallel_exchanger(du,u,p,x)
+</span></span><span style="display:flex;"><span>    h <span style="color:#f92672">=</span> p[<span style="color:#ae81ff">1</span>] <span style="color:#75715e"># heat exchange coefficient</span>
+</span></span><span style="display:flex;"><span>    Q <span style="color:#f92672">=</span> h <span style="color:#f92672">*</span> (u[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>u[<span style="color:#ae81ff">2</span>])
+</span></span><span style="display:flex;"><span>    du[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>Q
+</span></span><span style="display:flex;"><span>    du[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> Q
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> parallel_solution(L, p)
+</span></span><span style="display:flex;"><span>    problem <span style="color:#f92672">=</span> DiffEq<span style="color:#f92672">.</span>ODEProblem(
+</span></span><span style="display:flex;"><span>      parallel_exchanger, <span style="color:#75715e"># function describing the dynamics of the system</span>
+</span></span><span style="display:flex;"><span>      u₀,                 <span style="color:#75715e"># initial conditions u0</span>
+</span></span><span style="display:flex;"><span>      (<span style="color:#ae81ff">0.</span>, L),            <span style="color:#75715e"># region overwhich the solution is built, x ∈ [0,L]</span>
+</span></span><span style="display:flex;"><span>      p,                  <span style="color:#75715e"># parameters, here the aggregated transfer constant h</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> DiffEq<span style="color:#f92672">.</span>solve(problem, DiffEq<span style="color:#f92672">.</span>Tsit5())
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plot(parallel_solution([<span style="color:#ae81ff">0.0</span>,<span style="color:#ae81ff">100.0</span>], <span style="color:#ae81ff">50.0</span>, (<span style="color:#ae81ff">0.05</span>)))</span></span></code></pre></div>
+<p>$$ u_1(x) = T_{eq} \cdot (1 - e^{-h\cdot x}) $$
+$$ u_2(x) = (100 - T_{eq}) \cdot e^{-h\cdot x} + T_{eq} $$</p>
+<p>With $T_{eq}$ the limit temperature, trivially 50°C with equal flows.</p>
+<p>(Full disclaimer: I&rsquo;m a bit rusty and had to double-check for errors)</p>
+<!-- raw HTML omitted -->
+<p>This model is pretty simple, its performance is however low from
+a practical perspective. First on the purpose itself, we can compute for two
+fluids the equilibrium temperature. This temperature can be adjusted
+by the ratio of two mass flow rates but will remain a weighted average.
+Suppose the goal of the exchange is to heat the cold fluid, the necessary
+mass flow $\dot{m}_2$ tends to $\infty$ as the targeted temperature tends to
+$u_2(L)$, and this is independent of the performance of the heat exchanger
+itself, represented by the coefficient $h$. Here is the extended model using
+the flow rate ratio to adjust the temperature profiles:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> DifferentialEquations
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> DiffEq <span style="color:#f92672">=</span> DifferentialEquations
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> ratio_exchanger(du,u,p,x)
+</span></span><span style="display:flex;"><span>    h <span style="color:#f92672">=</span> p[<span style="color:#ae81ff">1</span>] <span style="color:#75715e"># heat exchange coefficient</span>
+</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> p[<span style="color:#ae81ff">2</span>] <span style="color:#75715e"># ratio of mass flow rate 2 / mass flow rate 1</span>
+</span></span><span style="display:flex;"><span>    Q <span style="color:#f92672">=</span> h <span style="color:#f92672">*</span> (u[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>u[<span style="color:#ae81ff">2</span>])
+</span></span><span style="display:flex;"><span>    du[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>Q
+</span></span><span style="display:flex;"><span>    du[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> Q <span style="color:#f92672">/</span> r
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> ratio_solution(u₀, L, p)
+</span></span><span style="display:flex;"><span>    problem <span style="color:#f92672">=</span> DiffEq<span style="color:#f92672">.</span>ODEProblem(
+</span></span><span style="display:flex;"><span>      ratio_exchanger, <span style="color:#75715e"># function describing the dynamics of the system</span>
+</span></span><span style="display:flex;"><span>      u₀,              <span style="color:#75715e"># initial conditions u0</span>
+</span></span><span style="display:flex;"><span>      (<span style="color:#ae81ff">0.</span>, L),         <span style="color:#75715e"># region overwhich the solution is built, x ∈ [0,L]</span>
+</span></span><span style="display:flex;"><span>      p,               <span style="color:#75715e"># parameters, here the aggregated transfer constant h</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> DiffEq<span style="color:#f92672">.</span>solve(problem, DiffEq<span style="color:#f92672">.</span>Tsit5())
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (idx,r) <span style="color:#66d9ef">in</span> enumerate((<span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">5.0</span>, <span style="color:#ae81ff">10.0</span>, <span style="color:#ae81ff">500.0</span>))
+</span></span><span style="display:flex;"><span>    plot(ratio_solution([<span style="color:#ae81ff">0.0</span>,<span style="color:#ae81ff">100.0</span>], <span style="color:#ae81ff">50.0</span>, (<span style="color:#ae81ff">0.05</span>, r)))
+</span></span><span style="display:flex;"><span>    xlabel!(<span style="color:#e6db74">&#34;x (m)&#34;</span>)
+</span></span><span style="display:flex;"><span>    ylabel!(<span style="color:#e6db74">&#34;T °C&#34;</span>)
+</span></span><span style="display:flex;"><span>    title!(<span style="color:#e6db74">&#34;Parallel flow with ratio </span><span style="color:#e6db74">$r</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    savefig(<span style="color:#e6db74">&#34;parallel_ratio_</span><span style="color:#e6db74">$</span>(idx)<span style="color:#e6db74">.pdf&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<!-- raw HTML omitted -->
+<p>This model has an analytical closed-form solution given by:
+$$ T_{eq} = \frac{100\cdot \dot{m}_2}{\dot{m}_1 + \dot{m}_2} = 100\cdot\frac{r}{1+r} $$
+$$ u_1(x) = T_{eq} \cdot (1 - e^{-h\cdot x}) $$
+$$ u_2(x) = (100 - T_{eq}) \cdot e^{-h\cdot x \cdot r} + T_{eq} $$</p>
+<h2 id="opposite-flow-model">Opposite flow model</h2>
+<p>This model is trickier because we don&rsquo;t consider the dynamics of the system
+along one dimension anymore. The two fluids flowing in opposite directions
+are two interdependent systems. We won&rsquo;t go through the analytical solution
+but use a similar discretization as in article [1].</p>
+<p>This model takes $n$ discrete cells, each considered at a given temperature.
+Two cells of the cold and hot flows are considered to have exchanged heat
+after crossing.</p>
+<!-- raw HTML omitted -->
+<p>Applying the energy conservation principle, the gain of internal energy
+between cell $k$ and $k+1$ for the cold flow is equal to the loss of
+internal energy of the hot flow from cell $k+1$ to cell $k$. These differences
+come from heat exchanged, expressed as:</p>
+<p>$$\dot{Q}_k = h \cdot \Delta x \cdot (u_{2,k+1} - u_{1,k}) $$
+$$\dot{Q}_k = \dot{m}_1 \cdot c_1 \cdot (u_{1,k+1} - u_{1,k}) $$
+$$\dot{Q}_k = \dot{m}_2 \cdot c_2 \cdot (u_{2,k+1} - u_{2,k}) $$</p>
+<p>Watch out the sense of the last equation since the heat exchange is
+a loss for the hot flow. Again we use the simplifying assumption of
+equality of the quantities:
+$$ \dot{m}_i \cdot c_i $$</p>
+<p>Our model only depends on the number of discretization steps $n$
+and transfer coefficient $h$.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> discrete_crossing(n, h; itermax <span style="color:#f92672">=</span> <span style="color:#ae81ff">50000</span>)
+</span></span><span style="display:flex;"><span>    u1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}(undef, itermax, n)
+</span></span><span style="display:flex;"><span>    u2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}(undef, itermax, n)
+</span></span><span style="display:flex;"><span>    u1[<span style="color:#f92672">:</span>,<span style="color:#ae81ff">1</span>] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">0.0</span>
+</span></span><span style="display:flex;"><span>    u1[<span style="color:#ae81ff">1</span>,<span style="color:#f92672">:</span>] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">0.0</span>
+</span></span><span style="display:flex;"><span>    u2[<span style="color:#f92672">:</span>,n] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">100.0</span>
+</span></span><span style="display:flex;"><span>    u2[<span style="color:#ae81ff">1</span>,<span style="color:#f92672">:</span>] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">100.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> iter <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">:</span>itermax
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> k <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            δq <span style="color:#f92672">=</span> h <span style="color:#f92672">*</span> (u2[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> u1[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k]) <span style="color:#f92672">*</span> (<span style="color:#ae81ff">50.0</span><span style="color:#f92672">/</span>n)
+</span></span><span style="display:flex;"><span>            u2[iter, k]   <span style="color:#f92672">=</span> u2[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> δq
+</span></span><span style="display:flex;"><span>            u1[iter, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> u1[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k]   <span style="color:#f92672">+</span> δq
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    (u1,u2)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (a1, a2) <span style="color:#f92672">=</span> discrete_crossing(<span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">0.1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> x0 <span style="color:#f92672">=</span> range(<span style="color:#ae81ff">0.0</span>, length <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>, stop <span style="color:#f92672">=</span> L)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> plot(x0, a1[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u1 final&#34;</span>, legend <span style="color:#f92672">=</span> <span style="color:#e6db74">:topleft</span>)
+</span></span><span style="display:flex;"><span>plot!(p, x0, a2[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u2 final&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> iter <span style="color:#66d9ef">in</span> (<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">500</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> p
+</span></span><span style="display:flex;"><span>    plot!(p, x0, a1[iter,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u1 </span><span style="color:#e6db74">$</span>(iter)<span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    plot!(p, x0, a2[iter,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u2 </span><span style="color:#e6db74">$</span>(iter)<span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>xlabel!(<span style="color:#e6db74">&#34;x (m)&#34;</span>)</span></span></code></pre></div>
+<p>We can observe the convergence of the solution at different iterations:
+<!-- raw HTML omitted --></p>
+<p>After convergence, we observe a parallel temperature profiles along the
+exchanger, the difference between the two flows at any point being reduced
+to $\epsilon$ mentioned in article [1]. The two differences between our model
+and theirs are:</p>
+<ul>
+<li>The discretization grid is slightly different since we consider the exchange
+to happen between cell $k$ and cell $k+1$ at the node between them, while they
+consider an exchange between $k-1$ and $k+1$ at cell $k$.</li>
+<li>They consider two flow unit which just crossed reach the same temperature,
+while we consider a heat exchange limited by the temperature difference
+(the two flows do not reach identical temperatures but tend towards it).</li>
+</ul>
+<p>Finally we can change the ratio:
+$$\frac{\dot{m}_1\cdot c_1}{\dot{m}_2\cdot c_2}$$ for the counterflow model
+as we did in the parallel case.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> discrete_crossing(n, h, ratio; itermax <span style="color:#f92672">=</span> <span style="color:#ae81ff">50000</span>)
+</span></span><span style="display:flex;"><span>    u1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}(undef, itermax, n)
+</span></span><span style="display:flex;"><span>    u2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>}(undef, itermax, n)
+</span></span><span style="display:flex;"><span>    u1[<span style="color:#f92672">:</span>,<span style="color:#ae81ff">1</span>] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">0.0</span>
+</span></span><span style="display:flex;"><span>    u1[<span style="color:#ae81ff">1</span>,<span style="color:#f92672">:</span>] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">0.0</span>
+</span></span><span style="display:flex;"><span>    u2[<span style="color:#f92672">:</span>,n] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">100.0</span>
+</span></span><span style="display:flex;"><span>    u2[<span style="color:#ae81ff">1</span>,<span style="color:#f92672">:</span>] <span style="color:#f92672">.=</span> <span style="color:#ae81ff">100.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> iter <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">:</span>itermax
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> k <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            δq <span style="color:#f92672">=</span> h <span style="color:#f92672">*</span> (u2[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> u1[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k]) <span style="color:#f92672">*</span> <span style="color:#ae81ff">50.0</span> <span style="color:#f92672">/</span> n
+</span></span><span style="display:flex;"><span>            u2[iter, k]   <span style="color:#f92672">=</span> u2[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> δq <span style="color:#f92672">*</span> ratio
+</span></span><span style="display:flex;"><span>            u1[iter, k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> u1[iter<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, k]   <span style="color:#f92672">+</span> δq
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    (u1,u2)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p><em>Julia tip</em>: note that we do not define a new function for this but
+create a <strong>method</strong> for the function <code>discrete_crossing</code> defined above
+with a new signature <code>(n, h, ratio)</code>.</p>
+<p>We can plot the result:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> x0 <span style="color:#f92672">=</span> range(<span style="color:#ae81ff">0.0</span>, length <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>, stop <span style="color:#f92672">=</span> L)
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> plot(x0, a1[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u1 ratio 1.0&#34;</span>, legend <span style="color:#f92672">=</span> <span style="color:#e6db74">:bottomright</span>)
+</span></span><span style="display:flex;"><span>plot!(p, x0, a2[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u2 ratio 1.0&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> ratio <span style="color:#66d9ef">in</span> (<span style="color:#ae81ff">0.1</span>,<span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> p
+</span></span><span style="display:flex;"><span>    (r1, r2) <span style="color:#f92672">=</span> discrete_crossing(<span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">0.1</span>, ratio)
+</span></span><span style="display:flex;"><span>    plot!(p, x0, r1[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u1 ratio </span><span style="color:#e6db74">$</span>(ratio)<span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    plot!(p, x0, r2[<span style="color:#66d9ef">end</span>,<span style="color:#f92672">:</span>], label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u2 ratio </span><span style="color:#e6db74">$</span>(ratio)<span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>xlabel!(<span style="color:#e6db74">&#34;x (m)&#34;</span>)</span></span></code></pre></div></p>
+<!-- raw HTML omitted -->
+<h2 id="conclusion">Conclusion</h2>
+<p>To keep this post short, we will not show the influence of all parameters.
+Some key effects to consider:</p>
+<ul>
+<li>Increasing $h$ increases the gap between the flow temperatures</li>
+<li>Increasing the number of steps does not change the result for a step size
+small enough</li>
+<li>Increasing the exchanger length reduces the gap</li>
+<li>A ratio of 1 minimizes the temperature difference at every point
+(and thus minimizes the entropy). This very low entropy creation is a positive
+sign for engineers from a thermodynamics point of view: we are not &ldquo;degrading&rdquo;
+the &ldquo;quality&rdquo; of available energy to perform this heat exchange or in other
+terms, we are not destroying <a href="https://en.wikipedia.org/wiki/Exergy" target="_blank" rel="noopener">exergy</a>.</li>
+</ul>
+<p>Feel free to reach out on <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">Twitter</a>
+or via email if you have comments or questions, I&rsquo;d be glad to take both.</p>
+<hr>
+<p><em>Note on process engineering</em>
+The term is gaining more traction in English, and should replace
+chemical engineering in higher education to acknowledge the diversity of
+application fields, greater than the chemical industry alone.
+The German equivalent <em>Verfahrenstechnik</em> has been used for decades and
+<em>Génie des Procédés</em> is now considered a norm in most French-speaking
+universities and <a href="https://en.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_Fran%C3%A7aise_de_G%C3%A9nie_des_Proc%C3%A9d%C3%A9s" target="_blank" rel="noopener">consortia</a>.</p>
+<hr>
+<p>Edit: thanks BYP for the sharp-as-ever proofreading</p>
+<hr>
+<p>Sources:</p>
+<p>[1] Levi M. A Near-perfect Heat Exchange. SIAM news. 2018 Dec;51(10):4.</p>
+<p>[2] Borel L, Favrat D. Thermodynamique et énergétique. PPUR presses polytechniques; 2nd edition, 2011.</p>
+<hr>
+<p>Image sources:
+[3] Geogebra</p>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/engineering/">engineering</a>
+  
+  <a class="badge badge-light" href="/tag/julia/">julia</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2018-12-27-heat-exchanger%2F&amp;text=Winter&#43;warm-up%3A&#43;toy&#43;models&#43;for&#43;heat&#43;exchangers" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2018-12-27-heat-exchanger%2F&amp;t=Winter&#43;warm-up%3A&#43;toy&#43;models&#43;for&#43;heat&#43;exchangers" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a href="mailto:?subject=Winter%20warm-up%3A%20toy%20models%20for%20heat%20exchangers&amp;body=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2018-12-27-heat-exchanger%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2018-12-27-heat-exchanger%2F&amp;title=Winter&#43;warm-up%3A&#43;toy&#43;models&#43;for&#43;heat&#43;exchangers" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Winter&#43;warm-up%3A&#43;toy&#43;models&#43;for&#43;heat&#43;exchangers%20https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2018-12-27-heat-exchanger%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2018-12-27-heat-exchanger%2F&amp;title=Winter&#43;warm-up%3A&#43;toy&#43;models&#43;for&#43;heat&#43;exchangers" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://matbesancon.xyz/"><img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu717a6920346f3d435e65e27c2a66c1ed_48773_270x270_fill_q75_lanczos_center.jpg" alt="Mathieu Besançon"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://matbesancon.xyz/">Mathieu Besançon</a></h5>
+      <h6 class="card-subtitle">Researcher in mathematical optimization</h6>
+      <p class="card-text">Mathematical optimization, scientific programming and related.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=-xStCAIAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://orcid.org/0000-0002-6284-3033" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.youtube.com/channel/UCVSd42nW_MqkbSXijgOvKwg" target="_blank" rel="noopener">
+        <i class="fab fa-youtube"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/mbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    © 2023 Mathieu Besançon.
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+    <p class="powered-by">
+    Published with Hugo and Wowchemy.
+   </p>
+
+
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+
+
+<script src="/js/vendor-bundle.min.938a3a7554cd9f6602290411f64d2617.js"></script>
+
+
+
+
+  
+
+  
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script id="search-hit-fuse-template" type="text/x-template">
+    <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+    </div>
+  </script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+<script id="page-data" type="application/json">{"use_headroom":true}</script>
+
+
+
+  <script src="/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<script src="/en/js/wowchemy.min.2945731fa88332cb0ec33cf47d29879f.js"></script>
+
+
+
+
+
+
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <pre><code></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

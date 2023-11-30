@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>career | μβ</title>
+    <link>https://matbesancon.xyz/tag/career/</link>
+      <atom:link href="https://matbesancon.xyz/tag/career/index.xml" rel="self" type="application/rss+xml" />
+    <description>career</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sat, 21 Oct 2023 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png</url>
+      <title>career</title>
+      <link>https://matbesancon.xyz/tag/career/</link>
+    </image>
+    
+    <item>
+      <title>I am joining Inria Grenoble in 2024 as a researcher</title>
+      <link>https://matbesancon.xyz/post/2023-10-crcn-inria/</link>
+      <pubDate>Sat, 21 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2023-10-crcn-inria/</guid>
+      <description>&lt;p&gt;In January 2024, I will be joining &lt;a href=&#34;https://www.inria.fr/en/inria-centre-university-grenoble-alpes&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Inria Grenoble&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;
+as an Associate Researcher (my home-brewed translation of &lt;em&gt;Chargé de Recherche&lt;/em&gt;) in the &lt;a href=&#34;https://team.inria.fr/polaris/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;POLARIS&lt;/a&gt; team
+and wanted to make a quick note about it after exchanging about several points and clearing out confusions from several people.&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;h1 id=&#34;what-is-inria-and-that-position&#34;&gt;What is Inria, and that position?&lt;/h1&gt;
+&lt;p&gt;Inria is a fairly large institution in size and scope.
+Broadly speaking, research topics vary across domains in computer science and (mostly applied) mathematics.
+The institution also places an emphasis on technology transfer and impact beyond one&amp;rsquo;s research domain.
+Some projects you may have heard of that started at Inria include the &lt;a href=&#34;https://ocaml.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;OCaml&lt;/a&gt; programming language and
+the &lt;a href=&#34;https://scikit-learn.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;scikit-learn&lt;/a&gt; library.&lt;/p&gt;
+&lt;h2 id=&#34;the-position&#34;&gt;The position&lt;/h2&gt;
+&lt;p&gt;As a rough projection if you are in the German system, think of this position as a W{1/2} permanent position at a Max-Planck Institute (as a researcher without teaching duties).
+Unlike Max-Planck, Inria has centers within university campuses with research groups that are mostly (always?) composed of permanent and temporary researchers and staff from research institutes (Inria, CNRS) and surrounding universities / grandes écoles.&lt;/p&gt;
+&lt;p&gt;One can make a parallel between the career steps as a researcher at Inria and CNRS and the ones at a university:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Inria&lt;/th&gt;
+&lt;th&gt;University&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Chargé de Recherche (CR) / Associate Researcher&lt;/td&gt;
+&lt;td&gt;Maître de Conférences (MCF) / Associate Professor&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Directeur de Recherche (DR) / Senior Researcher&lt;/td&gt;
+&lt;td&gt;Professeur des Universités (PU) / Full Professor&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;I translated DR as Senior Researcher and not Research Director, which would be the most obvious translation, because unlike what the title implies, Research Directors do &lt;em&gt;not&lt;/em&gt; necessarily have management-heavy positions and conduct their researcher at a smaller scale.
+This is different from a principal investigator (PI) position involving having one&amp;rsquo;s own group (more on that in the next section).&lt;/p&gt;
+&lt;p&gt;One thing to note on the type of position is that this is a public servant position, with a salary range regulated at the national level.
+Being hired at a national level also means it can be easier for instance, to move to other Inria centers, which wouldn&amp;rsquo;t be the case with contracts tied to the local university.&lt;/p&gt;
+&lt;p&gt;Finally, Inria opened in the last years a second type of permanent Junior position, &lt;a href=&#34;https://www.inria.fr/en/inria-starting-faculty-position-isfp&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Inria Starting Faculty Positions&lt;/a&gt; to recruit at the same level as CR but with different hiring, working and promotion conditions.&lt;/p&gt;
+&lt;h2 id=&#34;the-project-team-organization&#34;&gt;The project-team organization&lt;/h2&gt;
+&lt;p&gt;One specificity of Inria is its organization in project-teams (&lt;em&gt;équipes-projet&lt;/em&gt;),
+a group of tenured researchers and faculty at different levels of seniority organized together towards a specific goal or set of research questions.
+Project-teams can vary in size, from about 4 to 15 tenured researchers and faculty (numbers from the top of my head and empirical evidence, there might be examples stretching this bound).
+Think of it as blending a static organization (research departments and divisions in other places) with the temporary nature of a research project.
+A project-team can be reconducted to continue in similar or extended research directions, but is not expected to be set in stone.
+Project-teams are created, terminated, merged, split as researchers within them feel the need to reorganize the way they work.&lt;/p&gt;
+&lt;p&gt;Another key aspects, highlighted from the beginning of the excellent &lt;a href=&#34;https://www.inria.fr/sites/default/files/2021-01/CE_guide-applicant-CRCN.pdf&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Advice Booklet for Inria Applicants&lt;/a&gt;, is that they are not &amp;ldquo;research chairs&amp;rdquo; or &amp;ldquo;groups&amp;rdquo; from the German or US models that would be centered around one
+senior Principal Investigator hiring and being in charge for everyone according to their vision.
+Multiple members are permanent researchers, collaborate and hire their Ph.D. students, postdocs, students, or engineers, and choose to collaborate within the team in various ways.&lt;/p&gt;
+&lt;h2 id=&#34;how-does-one-get-that-position&#34;&gt;How does one get that position?&lt;/h2&gt;
+&lt;p&gt;This question could fill a whole series of blog posts and I will not delve into too much detail.
+As an interesting fact to understand, the hiring process is a national competition regulated by a standardized open call with a fixed number of places per Inria center. Most applicants provide a research proposal with a heavy emphasis on its integration within one of the team-projects.
+I&amp;rsquo;ll refer to the &lt;a href=&#34;https://www.inria.fr/sites/default/files/2021-01/CE_guide-applicant-CRCN.pdf&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Guide for Inria Applicants&lt;/a&gt; again for a more complete overview.&lt;/p&gt;
+&lt;p&gt;A last point on the matter, I would consider that &amp;ldquo;just applying&amp;rdquo; to these positions when they open is nearly impossible: contact the teams &lt;strong&gt;beforehand&lt;/strong&gt;,
+several months before the call for applications. I am highly indebted to the people from different groups who went out of their way to give me thorough reviews and critics on the application, the audition presentation and my research statements.&lt;/p&gt;
+&lt;h1 id=&#34;coming-steps-in-the-near-future-settling-and-building&#34;&gt;Coming steps in the near future: settling and building&lt;/h1&gt;
+&lt;p&gt;The first obvious thing on my side will be to manage to move all the random items I accumulated in Berlin to Grenoble, and then move myself there and somehow settle.
+I am still &amp;ldquo;amazed&amp;rdquo; at the sole quantity of books that I collected here and already filled a huge bag.&lt;/p&gt;
+&lt;p&gt;More interestingly, I will continue working on my core research topics in methods for mixed-integer and convex constrained optimization.&lt;br&gt;
+&lt;strong&gt;I will start to look for motivated students&lt;/strong&gt; to start working on various topics in computational optimization both on nonlinear and mixed-integer aspects.
+If you like a blend of theory, algorithms, and programming (Julia, C, Rust, C++ as primary targets) on cutting-edge software,
+feel free to reach out. I will try to put out a list of potential projects to provide a good representation of possible activities.&lt;/p&gt;
+&lt;p&gt;I will also continue to work with people at the Zuse Institute on the whole bag of current topics we have ongoing and regularly come to Berlin.
+If you want to talk in person, just ask in advance to be sure I&amp;rsquo;m around, knocking on my office door will probably not suffice anymore.
+We will for instance merrily continue to push the methods in convex mixed-integer optimization within the &lt;a href=&#34;https://mathplus.de/research-2/application-areas/aa3-networks/aa3-15/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;MATH+ project&lt;/a&gt; that started this year, continue working on algorithms within &lt;a href=&#34;https://www.scipopt.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;SCIP&lt;/a&gt;
+and first-order methods for constrained optimization.&lt;/p&gt;
+&lt;p&gt;On the prospective side, I am looking forward to starting discussions and then collaborations within the vibrant Grenoble ecosystem.
+From combinatorics to quantum information and proximal methods, topics adjacent and connected to mine are not lacking, both on methodological interfaces and application areas.
+Working on the research proposal for the application had the benefit of making me explore in depth the activities of the people in my project-team, the LIG laboratory, Inria and other Grenoble institutions, and build connections with my mid-term research interests.&lt;/p&gt;
+&lt;p&gt;Rethinking about this whole year (we are in October, I started preparing applications in December last year), I&amp;rsquo;m pretty hyped about what is to come, also blended with a much more latent relaxed mindset. Getting a permanent position that would let me prioritize on the activities I like and find important had been one of the major things &amp;ldquo;running in the background&amp;rdquo; for a while, and it lifted the curtain on the possible paths to choose from.
+Rethinking of the alternatives, I do think that the &lt;em&gt;position-then-scaling&lt;/em&gt; approach of that system is more sustainable than the scaling-then-position
+(getting growing management, funding and teaching responsibilities &lt;strong&gt;before&lt;/strong&gt; as a proof that one is worthy of a faculty position).&lt;/p&gt;
+&lt;hr&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;The actual full name is Inria Center at the Université Grenoble Alpes. And the second geographical affiliation is the &lt;a href=&#34;https://www.liglab.fr/en&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Grenoble Informatics Laboratory&lt;/a&gt;.&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;Banner source: Wikipedia. 2023. &amp;ldquo;Grenoble.&amp;rdquo; Wikimedia Foundation. Last modified July 1, 2023.&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>6 months on the other side: life as a postdoc</title>
+      <link>https://matbesancon.xyz/post/2021-07-14-6months-postdoc/</link>
+      <pubDate>Wed, 14 Jul 2021 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2021-07-14-6months-postdoc/</guid>
+      <description>
+
+&lt;details class=&#34;toc-inpage d-print-none  &#34; open&gt;
+  &lt;summary class=&#34;font-weight-bold&#34;&gt;Table of Contents&lt;/summary&gt;
+  &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&#34;#position-of-postdocs-and-phds-in-labs&#34;&gt;Position of postdocs and PhDs in labs&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#a-quick-perspective-on-a-postdoc-career&#34;&gt;A quick perspective on a postdoc career&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+&lt;/details&gt;
+
+&lt;p&gt;In January 2021, I joined the &lt;a href=&#34;https://www.zib.de/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Zuse Institute&lt;/a&gt; as a postdoctoral researcher.
+After six months, most of which were in home office or remote, I wanted to put down a couple of simple observations.&lt;/p&gt;
+&lt;h1 id=&#34;position-of-postdocs-and-phds-in-labs&#34;&gt;Position of postdocs and PhDs in labs&lt;/h1&gt;
+&lt;p&gt;The completion of a PhD is tied to carrying out a full well-scoped research project with a high degree of autonomy.
+The well-scoped aspect depends on the country and domain one works in.
+Stopping the work on a project requires defining another one and does not go lightly.
+The doctoral experience is about making your work revolve around a research project for which the PhD candidate has a high degree of ownership. Collaborations are mostly about bringing other people around this project, and
+the research one conducts is also their status to some extend.&lt;/p&gt;
+&lt;p&gt;A postdoc can conduct a single or multiple research projects which can be evolved, paused, or regrouped without changing one&amp;rsquo;s status.
+A project can also be continued while the person&amp;rsquo;s status changes (for example switching to another position).
+In my case, research as a postdoc is massively parallelized compared to what my PhD was (probably too much so).
+This implies accepting not to be the main actor on every aspect of each of these projects.
+It also meant playing wider on research domains and accepting not to enjoy the same level of depth,
+thus often asking &amp;ldquo;why does this work&amp;rdquo; or &amp;ldquo;where is this coming from&amp;rdquo; instead of
+silently taking notes and then spending a solid day looking up references.&lt;/p&gt;
+&lt;p&gt;In some sense, a PhD can look like a planet with its surrounding moons and transient asteroids.
+Its motion is explained in a larger system but it is in itself the center of some activity.
+In contrast, day-to-day work as a postdoc is akin to making your way in an N-body dynamics problem.
+There is still some individual focus around larger spheres, but there can be multiple centers driving motion.&lt;/p&gt;
+&lt;p&gt;These observations are very situational: not all postdocs have to or choose to wrestle with multiple research projects upfront.
+Some funding requires more or less one&amp;rsquo;s full time and attention, without the expectation to complete other projects or paper simultaneously.&lt;/p&gt;
+&lt;h1 id=&#34;a-quick-perspective-on-a-postdoc-career&#34;&gt;A quick perspective on a postdoc career&lt;/h1&gt;
+&lt;p&gt;I&amp;rsquo;ll wrap up this post on a more personal note.
+Pursuing a career as a postdoc is not an obvious choice, nor is it a neutral one.&lt;/p&gt;
+&lt;p&gt;I applied for doctoral programs for the experience of the PhD in itself, not as a
+gate to something else like an academic career.
+I started without strong priors on whether I wanted to pursue a career in academia, public research,
+an industrial job or getting back to an entrepreneurial environment.
+As time went on, I realized I did enjoy not only the activity of a researcher but also the environment, or at least a part of it significant enough.
+This does not mean the environment is great in all aspects, it means the set of tradeoffs it implies were ones that correspond well to my expectations.
+This is why I would consider it as not a neutral choice.&lt;/p&gt;
+&lt;p&gt;Some people get away with starting a PhD in places they know or have links with.
+This was my case as I had lived and had connections in both cities where my PhD was planned.
+However, it&amp;rsquo;s often not a path one can follow that easily for a postdoc (at least in STEM)
+as researchers are expected to move to other labs and institutions.&lt;/p&gt;
+&lt;p&gt;Personal relations were hard to maintain during the beginning of the pandemic but were at least
+equally hard to maintain regardless of one&amp;rsquo;s location.
+Being people&amp;rsquo;s remote relation when things are opening up is a more complex position to keep these bonds
+and staying on the other side of locked borders weighed more on some of my relationships than I could have anticipated.
+In this sense is a career path which can structurally pull you away from things and people that matter
+not an obvious choice.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Back to startup life: thoughts after the first days</title>
+      <link>https://matbesancon.xyz/post/2016-08-11-back-to-startup/</link>
+      <pubDate>Thu, 11 Aug 2016 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2016-08-11-back-to-startup/</guid>
+      <description>&lt;p&gt;In politics, a government&amp;rsquo;s first decisions and actions are often reviewed and
+assessed after the famous first 100 days. According to &lt;a href=&#34;https://en.wikipedia.org/wiki/First_hundred_days&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Wikipedia&lt;/a&gt;,
+the term was coined by F. Roosevelt himself. I wanted to throw the first
+thoughts on my comeback at Equisense, on culture and operations and the difference
+between the two stages.&lt;/p&gt;
+&lt;h2 id=&#34;startups-are-in-a-continuous-headlong-rush&#34;&gt;Startups are in a continuous headlong rush&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;ll not wait the 100 days to write this post, because in a startup things move
+faster, so why wait another month? At the same time you have to remain focused
+for a lot longer than three months or the consequences to expect are worse than
+skeptical articles or plunging opinion polls. Nobody could judge actions or
+decisions drawn after a year in business based on one or even three months.&lt;/p&gt;
+&lt;p&gt;And this adrenalined marathon does not (or should not) stop with a first product
+release, or worse with a nice fund-raising round. This stops with the company
+running out of business or the market saying &amp;ldquo;I love you, let&amp;rsquo;s stay forever
+until death do us apart&amp;rdquo;.&lt;/p&gt;
+&lt;h2 id=&#34;an-early-insight-before-the-long-break&#34;&gt;An early insight before the long break&lt;/h2&gt;
+&lt;p&gt;I had already worked with the team in June, July and August 2015 during their
+three-founders-and-laptops stage. The focus was on first studies of acceleration
+signals and feasibility of some features given technological and product choices.
+Those first graphs and explanations thrown on a small Tex reports
+were later improved and re-written by the team as it designed
+&lt;a href=&#34;http://www.equisense.com/en/product.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Motion&lt;/a&gt;. After these few months,
+I left the startup for Montréal, where I spent my last semester as a student,
+after which I carried out my Master project in Germany. When came the time to
+think about what came next, we were still in contact with Camille, Idriss and
+Benoit and the conversation shifted to how the project had evolved and the
+thousand cool things coming in the next months and could become a &amp;ldquo;real job&amp;rdquo;
+this time. After a couple more one-to-one, a few visits in Lille and a hackathon,
+I was officially back on the adventure.&lt;/p&gt;
+&lt;h2 id=&#34;getting-back-and-the-baby-is-all-grown-up&#34;&gt;Getting back and the baby is all grown up!&lt;/h2&gt;
+&lt;p&gt;In the meantime, Equisense launched a successful Kickstarter, reinforcing the
+feeling that horse-riders value what the product can bring to their experience.
+The company moved from its first office in Compiègne Innovation Center to
+the impressive Euratechnologies center in Lille.&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/100Days/euratechnologies.jpg&#34; alt=&#34;Euratechnologies&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+
+[1]&lt;/p&gt;
+&lt;p&gt;More than this, the team also got bigger to face the challenges of this new
+stage. The goal is no longer to hack horses acceleration signals until something
+comes out of it, but to build a reliable and intuitive product from the
+scientific findings and technological pieces brought together.&lt;/p&gt;
+&lt;p&gt;Really getting on the market requires a deeper bond with horse-riders
+and as much feedback as possible. The new team embodies these changes: a
+diversity of mindsets, experiences and backgrounds to handle all upcoming
+challenges with the same care for clients. The hacker spirit isn&amp;rsquo;t gone in
+this new version of the company, but it isn&amp;rsquo;t the major pillar of the culture
+anymore. A culture is hard to put into words, but I&amp;rsquo;d say this
+second face of our Janus startup is a combination of a &lt;strong&gt;genuine care for
+horses wellness and of a passion for horse-riding.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/100Days/newteam.png&#34; alt=&#34;The new team&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+
+[2]&lt;/p&gt;
+&lt;p&gt;The fact is that while I was admiring their external successes from my Canadian
+home, (the Kickstarter campaign, new partnerships, features of the product
+getting out of the ground one by one&amp;hellip;), the most impressive achievement was
+being joined by so many diverse profiles while building a working environment
+at the image of their horse-riders&amp;rsquo; mindset.&lt;/p&gt;
+&lt;p&gt;The founders already had this care and passion in their DNA, they just
+succeeded in transforming it into a full culture and transmitting it into an
+obsession within the team.&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/100Days/camille.png&#34; alt=&#34;Camille&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/100Days/benoit.png&#34; alt=&#34;Benoit&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/100Days/idriss.png&#34; alt=&#34;Idriss&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;[2]&lt;/p&gt;
+&lt;h2 id=&#34;where-are-we-in-the-lifetime-from-a-clumsy-foal-to-the-great-stallion&#34;&gt;Where are we in the lifetime? From a clumsy foal to the great stallion&lt;/h2&gt;
+&lt;p&gt;Other than the culture, the operations changed from the clumsy foal learning to
+stay up on its hoofs to the stallion swiftly jumping and anticipating all
+obstacles.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/100Days/foal.jpg&#34; alt=&#34;foal&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+
+[3]&lt;/p&gt;
+&lt;p&gt;The seed stage is about using all assets that are or can easily
+be at your disposal to run tests and confirm hypotheses. Unlike lots of web
+startups, uncertainty does not come only from the market, but also from
+the technological bricks: &lt;strong&gt;hardware is today where the web was about ten years
+ago&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Moving forwards meant iterating while building knowledge on both fields of
+uncertainty. This meant at the same time assessing if some measured signals
+could detect a jump during a training session, and if the customers actually
+had an interest in the feature. Working for nothing can be frustrating, but
+ignoring something horse-riders want would have been much worse!&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/100Days/cso_fontainebleau.jpg&#34; alt=&#34;grown-up champ&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+
+[5]&lt;/p&gt;
+&lt;p&gt;In the new phase, uncertainty radically changed. In the first stage,
+we saw how it was caused by a lack of knowledge on both the
+technology and the market. Of course the knowledge the team has on
+these topics is still not complete, but
+&lt;strong&gt;is enough to make intelligent decisions and move on&lt;/strong&gt;. However, a
+new source of uncertainty has replaced the two previous:&lt;/p&gt;
+&lt;p&gt;Organization and processes are obvious when 4 people are working
+together on several issues. They become fuzzy and chaotic when several
+teams are working at high speed without being able to check on each
+other all day long.&lt;/p&gt;
+&lt;p&gt;The key issue is the company&amp;rsquo;s speed to deliver
+without letting any randomness in the result. Equisense&amp;rsquo;s customers
+are horse-riders willing to improve their experience, care and
+efficiency, not hackers accepting a buggy beta with promising
+features as long as the product has an API in their favorite language!&lt;/p&gt;
+&lt;p&gt;Equisense changed a lot during my absence to evolve into one of the new
+major phenomena in its industry. If I had to describe how it operates
+now, I guess I&amp;rsquo;d highlight &lt;strong&gt;the focus, the acceleration and the
+deterministic, well-defined outcome of a still random and flexible organization&lt;/strong&gt;.
+(hope my data science buddies will tolerate the paradox of the last one).&lt;/p&gt;
+&lt;p&gt;The coming months promise to be thrilling with the shipping of the first Motion
+sensors, the R&amp;amp;D on improved features, new products and whatever else comes
+out of the blue. Even though I&amp;rsquo;m still getting used to working with horses (photos
+to come), I&amp;rsquo;m without a doubt excited to have rejoined these crazy riders, so
+stay tuned!&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Image sources:
+[1] &lt;a href=&#34;http://www.lesechos.fr/politique-societe/regions/0203756306258-nord-pas-de-calais-a-lille-nait-la-silicon-valley-du-numerique-1043082.php&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Les Echos: Nord - Pas-de-Calais : A Lille naît la « Silicon Valley » du numérique&lt;/a&gt;
+[2] &lt;a href=&#34;www.equisense.com&#34;&gt;Equisense website&lt;/a&gt;
+[3] &lt;a href=&#34;http://www.eco121.fr/equisense-ouvre-la-voie-du-cheval-connecte/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://www.eco121.fr/equisense-ouvre-la-voie-du-cheval-connecte/&lt;/a&gt;
+[4] [5] Wikimedia&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

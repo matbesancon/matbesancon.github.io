@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
+<!-- Last Published: November 30, 2023 --><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+
+  
+  
+    
+    <script src="/js/mathjax-config.js"></script>
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.047268c6dd09ad74ba54a0ba71837064.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.be1e734c86be5b4f1c94d71028ea7cbf.css" />
+
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/libs/chroma/github-light.min.css" title="hl-light" media="print" onload="this.media='all'" >
+    <link rel="stylesheet" href="/css/libs/chroma/dracula.min.css" title="hl-dark" media="print" onload="this.media='all'" disabled>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+  <meta name="author" content="Mathieu Besançon" />
+
+
+
+
+
+  
+
+<meta name="description" content="Differentiating set projections.
+" />
+
+
+
+<link rel="alternate" hreflang="en-us" href="https://matbesancon.xyz/post/2020-12-24-chains_sets2/" />
+<link rel="canonical" href="https://matbesancon.xyz/post/2020-12-24-chains_sets2/" />
+
+
+
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+
+
+<link rel="icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_32x32_fill_lanczos_center_3.png" />
+<link rel="apple-touch-icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_180x180_fill_lanczos_center_3.png" />
+
+<meta name="theme-color" content="#1565c0" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<meta property="twitter:card" content="summary" />
+
+  <meta property="twitter:site" content="@matbesancon" />
+  <meta property="twitter:creator" content="@matbesancon" />
+<meta property="twitter:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" />
+<meta property="og:site_name" content="μβ" />
+<meta property="og:url" content="https://matbesancon.xyz/post/2020-12-24-chains_sets2/" />
+<meta property="og:title" content="Sets, chains and rules - part II | μβ" />
+<meta property="og:description" content="Differentiating set projections.
+" /><meta property="og:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+
+  
+    <meta
+      property="article:published_time"
+      content="2020-12-24T00:00:00&#43;00:00"
+    />
+  
+  
+    <meta property="article:modified_time" content="2022-04-29T18:42:31&#43;02:00">
+  
+
+
+
+
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://matbesancon.xyz/post/2020-12-24-chains_sets2/"
+  },
+  "headline": "Sets, chains and rules - part II",
+  
+  "datePublished": "2020-12-24T00:00:00Z",
+  "dateModified": "2022-04-29T18:42:31+02:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Mathieu Besançon"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "μβ",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "Differentiating set projections.\n"
+}
+</script>
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+  
+
+  
+
+
+  
+  <title>Sets, chains and rules - part II | μβ</title>
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="af1fca7a2fd7b549324bff047bfbad7d" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header header--fixed">
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container-xl">
+
+      
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+      
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      
+      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+        
+        <ul class="navbar-nav d-md-inline-flex">
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#about"><span>Home</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#experience"><span>Experience</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#publications"><span>Publications</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#posts"><span>Posts</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#workwithme"><span>Work with me</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#contact"><span>Contact</span></a>
+          </li>
+
+          
+          
+
+        
+
+          
+        </ul>
+      </div>
+
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+        
+        
+          
+        
+
+        
+        
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+        
+        
+        <li class="nav-item dropdown theme-dropdown">
+          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item js-set-theme-light">
+              <span>Light</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-dark">
+              <span>Dark</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-auto">
+              <span>Automatic</span>
+            </a>
+          </div>
+        </li>
+        
+
+        
+        
+
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+
+  </div>
+
+  <div class="page-body">
+    
+    
+    
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Sets, chains and rules - part II</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    2022-04-29
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    10 min read
+  </span>
+  
+
+  
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <p>In a previous post, I detailed some of the features of
+<a href="https://github.com/matbesancon/MathOptSetDistances.jl" target="_blank" rel="noopener">MathOptSetDistances.jl</a>
+and the evolution of the idea behind it. This is part II focusing on derivatives.</p>
+
+
+<details class="toc-inpage d-print-none  " open>
+  <summary class="font-weight-bold">Table of Contents</summary>
+  <nav id="TableOfContents">
+  <ol>
+    <li><a href="#meet-chainrulesjl">Meet ChainRules.jl</a></li>
+    <li><a href="#projection-derivative">Projection derivative</a></li>
+    <li><a href="#example-on-the-nonnegative-orthant">Example on the nonnegative orthant</a></li>
+    <li><a href="#forward-rule">Forward rule</a></li>
+    <li><a href="#reverse-rules">Reverse rules</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#notes">Notes</a></li>
+  </ol>
+</nav>
+</details>
+
+<p>The most interesting part of the packages is the projection onto a set.
+For some applications, what we need is not only the projection but also the
+<strong>derivative</strong> of this projection.</p>
+<p>One answer here would be to let Automatic Differentiation (AD) do the work.
+However:</p>
+<ul>
+<li>Just like there are closed-form expressions for the projection, many sets admit closed-form projection derivatives that can be computed cheaply,</li>
+<li>Some projections may require to perform steps impossible or expensive with AD, as a root-finding procedure<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> or an eigendecomposition<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>;</li>
+<li>Some functions might make calls into deeper water. JuMP for instance supports a lot of optimization solvers implemented in C and called as shared libraries. AD will not propagate through these calls.</li>
+</ul>
+<p>For these reasons, AD systems often let users implement some derivatives themselves,
+but as a library developer, I do not want to depend on a full AD package
+(and force downstream users to do so).</p>
+<h1 id="meet-chainrulesjl">Meet ChainRules.jl</h1>
+<p><a href="https://github.com/JuliaDiff/ChainRules.jl" target="_blank" rel="noopener">ChainRules.jl</a> is a Julia package
+addressing exactly the issue mentioned above: it defines a set of primitives
+to talk about derivatives in Julia.
+Library developers can implement custom derivatives for their own functions and types.
+Finally, AD library developers can leverage ChainRules.jl to obtain derivatives
+from functions when available, and otherwise use AD mechanisms to obtain them from
+more elementary functions.</p>
+<p>The logic and motivation is explained in more details in <a href="https://www.youtube.com/watch?v=B4NfkkkJ7rs" target="_blank" rel="noopener">Frame&rsquo;s talk</a>
+at JuliaCon 2020 and the package <a href="https://www.juliadiff.org/ChainRulesCore.jl/stable/" target="_blank" rel="noopener">documentation</a>
+which is very instructive on AD in general.</p>
+<h1 id="projection-derivative">Projection derivative</h1>
+<p>We are interested in computing
+$D\Pi_{\mathcal{S}}(v)$, the derivative of the projection with respect to the
+initial point. As a refresher, if $\Pi_s(\cdot)$ is a function from $V$ onto itself,
+and if $V$ then the derivative $D\Pi$ maps a point in $V$ onto a linear map
+from the <em>tangent space</em> of $V$ onto itself.
+The tangent space of $V$ is roughly speaking the space where differences of
+values in $V$ live. If $V$ corresponds to real numbers, then the tangent space
+will also be real numbers, but if $V$ is a space of time/dates, then the tangent
+space is a duration/time period. See here<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> for more references.
+Again, roughly speaking, this linear map takes perturbations of the input $\Delta v$
+and maps them to perturbation of the projected point $\Delta v_p$.</p>
+<p>As an example warm-up:</p>
+<ul>
+<li>$S$ is the whole domain of $v$ $\Rightarrow$ the projection is $v$ itself, $D\Pi_{\mathcal{S}}(v)$ is the identity operator.</li>
+<li>$S$ is $\{0\}^n$ $\Rightarrow$ the projection is always $\{0\}^n$, $D\Pi_{\mathcal{S}}(v)$ maps every $Δv$ to a zero vector: perturbations in the input do not change the output.</li>
+</ul>
+<p>$D\Pi_{\mathcal{S}}(v)$ is a linear map from $\mathcal{V}$ to $\mathcal{V}$.
+If $v \in \mathbb{R}^n$, it can be represented as a
+$n\times n$ matrix.
+There are several ways of representing linear maps, see the <a href="https://github.com/JuliaSmoothOptimizers/LinearOperators.jl" target="_blank" rel="noopener">LinearOperators.jl</a>
+package for some insight. Two approaches (for now) are implemented for set distances:</p>
+<ol>
+<li><strong>Matrix approach</strong>: given $v \in \mathbb{R}^n$, return the linear operator as an $n\times n$ matrix.</li>
+<li><strong>Forward mode</strong>: given $v$ and a direction $\Delta v$, provide the directional derivative $D\Pi_{\mathcal{S}}(v) \Delta v$.</li>
+<li><strong>Reverse mode</strong>: given $v$, provide a closure corresponding to the adjoint of the derivative.</li>
+</ol>
+<p>(1) has been implemented by <a href="https://github.com/AKS1996" target="_blank" rel="noopener">Akshay</a> for many sets
+during his GSoC this summer, along with the projections themselves.</p>
+<p>(1) corresponds to computing the derivative eagerly as a full matrix, thus
+paying storage and computation cost upfront. The advantage is the simplicity for standard vectors,
+take <code>v, s</code>, build and return the matrix.
+(2) is the building block for forward-mode differentiation:
+given a point $v$ and an input perturbation $\Delta v$, compute the output perturbation.
+(3) corresponds to a building block for reverse-mode differentiation.
+An aspect of the matrix approach is that it works well for 1-D arrays
+but gets complex quite quickly for other structures, including multi-argument
+functions or matrices. Concatenating everything into a vector is too rigid.</p>
+<h1 id="example-on-the-nonnegative-orthant">Example on the nonnegative orthant</h1>
+<p>The nonnegative orthant cone is the set $\mathbb{R}^n_+$; it is represented in MOI
+as <code>MOI.Nonnegatives(n)</code> with <code>n</code> the dimension.
+The projection is simple because it can be done elementwise:
+$$
+(\Pi_S(v))_i = max(v_i, 0) \,\,\forall i.
+$$</p>
+<p>In other terms, any non-diagonal term of the gradient matrix is 0 for any $v$.
+Here is a visualization made with haste for $n=2$ using the very promising <a href="https://github.com/Wikunia/Javis.jl" target="_blank" rel="noopener">Javis.jl</a>:</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/projections/projection.gif" alt="Projection" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>The red circle is a vector in the plane and the blue square its projection.<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<p>The Julia implementation follows the same idea, here in a simplified version:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> projection_on_set(v<span style="color:#f92672">::</span><span style="color:#66d9ef">AbstractVector</span>{<span style="color:#66d9ef">T</span>}, s<span style="color:#f92672">::</span><span style="color:#66d9ef">MOI</span><span style="color:#f92672">.</span>Nonnegatives) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> max<span style="color:#f92672">.</span>(v, zero(T))
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>For each component $i \in 1..n$, there are two cases to compute its derivative, either
+the constraint is active or not.</p>
+<p>$$
+\begin{align}
+v_i &lt; 0 &amp; \Rightarrow \frac{\partial \Pi_i}{\partial v_i}(v) = 0\\
+v_i &gt; 0 &amp; \Rightarrow \frac{\partial \Pi_i}{\partial v_i}(v) = 1.
+\end{align}
+$$</p>
+<p>The projection is not differentiable on points where one of the components is 0.
+The convention usually taken is to return any quantity on such point
+(to the best of my knowledge, no system guarantees a subgradient).
+The Julia implementation holds on two lines:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> projection_gradient_on_set(v<span style="color:#f92672">::</span><span style="color:#66d9ef">AbstractVector</span>{<span style="color:#66d9ef">T</span>}, <span style="color:#f92672">::</span><span style="color:#66d9ef">MOI</span><span style="color:#f92672">.</span>Nonnegatives) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>}
+</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> (sign<span style="color:#f92672">.</span>(v) <span style="color:#f92672">.+</span> one(T)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> LinearAlgebra<span style="color:#f92672">.</span>Diagonal(y)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>First the diagonal of the matrix is computed using broadcasting and the sign function.
+Then a <code>LinearAlgebra.Diagonal</code> matrix is constructed. This matrix type is sparsity-aware,
+in the sense that it encodes the information of having only non-zero entries on
+the diagonal. We save on space, using $O(n)$ memory instead of $O(n^2)$ for a
+full matrix, and can benefit from specialized methods down the line.</p>
+<p>We implemented the matrix approach from scratch. Even though we materialize the
+derivative as a diagonal matrix, it still costs storage, which will become a
+burden when we compose this projection with other functions and compute derivatives
+on the composition.</p>
+<h1 id="forward-rule">Forward rule</h1>
+<p>For a function <code>f</code>, value <code>v</code> and tangent <code>Δv</code>, the forward rule, or <code>frule</code>
+in ChainRules.jl does two things at once:</p>
+<ol>
+<li>Compute the function value <code>y = f(v)</code>,</li>
+<li>Compute the directional derivative <code>∂y = Df(v) Δv</code>.</li>
+</ol>
+<p>The motivation for computing the two values at once is detailed in the
+<a href="https://www.juliadiff.org/ChainRulesCore.jl/v0.9/#frule-and-rrule" target="_blank" rel="noopener">documentation</a>.
+Quite often, computing the derivative will require computing <code>f(v)</code> itself
+so it is likely to be interesting to return it anyway instead of forcing the user
+to call the function again.</p>
+<p>The exact signature of <code>ChainRulesCore.frule</code> involves some details we want to
+ignore for now, but the essence is as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> frule((Δself, v<span style="color:#f92672">...</span>), <span style="color:#f92672">::</span>typeof(f), v<span style="color:#f92672">...</span>; kwargs<span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> y, ∂y
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p><code>∂Y</code> is the directional derivative using the direction <code>Δx</code>. Note here the variadic
+<code>Δx</code> and <code>x</code>, since we do not want to impose a rigid, single-argument structure
+to functions. The <code>Δself</code> argument is out of scope for this post but you can read
+on its use <a href="https://www.juliadiff.org/ChainRulesCore.jl/v0.9/#Self-derivative-%ce%94self,-self,-self,-%e1%b9%a1elf-etc" target="_blank" rel="noopener">in the docs</a>.</p>
+<p>For our set projection, it may look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> ChainRulesCore<span style="color:#f92672">.</span>frule(
+</span></span><span style="display:flex;"><span>        (_, Δv, _),
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">::</span>typeof(projection_on_set),
+</span></span><span style="display:flex;"><span>        v<span style="color:#f92672">::</span><span style="color:#66d9ef">AbstractVector</span>{<span style="color:#66d9ef">T</span>}, s<span style="color:#f92672">::</span><span style="color:#66d9ef">MOI</span><span style="color:#f92672">.</span>Nonnegatives) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>}
+</span></span><span style="display:flex;"><span>    vproj <span style="color:#f92672">=</span> projection_on_set(v, s)
+</span></span><span style="display:flex;"><span>    ∂vproj <span style="color:#f92672">=</span> Δv <span style="color:#f92672">.*</span> (v <span style="color:#f92672">.&gt;=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> vproj, ∂vproj
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>The last computation line leverages broadcast to express elementwise the
+multiplication of <code>Δv</code> with the indicator of <code>v[i]</code> being nonnegative.
+The important thing to note here is that we never build the derivative as a data
+structure. Instead, we implement it as a function. An equivalent using our
+<code>projection_gradient_on_set</code> would be:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> projection_directional_derivative(v, Δv, s)
+</span></span><span style="display:flex;"><span>    vproj <span style="color:#f92672">=</span> projection_on_set(v, s)
+</span></span><span style="display:flex;"><span>    DΠ <span style="color:#f92672">=</span> projection_gradient_on_set(v, s)
+</span></span><span style="display:flex;"><span>    ∂vproj <span style="color:#f92672">=</span> DΠ <span style="color:#f92672">*</span> Δv
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> vproj, ∂vproj
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>Notice the additional allocation and matrix-vector product.</p>
+<h1 id="reverse-rules">Reverse rules</h1>
+<p>The forward mode is fairly intuitive, the backward mode less so.
+The motivation for using it, and the reason it is the favoured one for several
+important fields using AD, is that it can differentiate a composition of functions
+with only matrix-vector products, instead of requiring matrix-matrix products.
+What it computed is, given a perturbation in the output (or <em>seed</em>), provide the
+corresponding perturbation in the input.
+There are great resources online which will explain it in better terms than I could
+so we will leave it at that.</p>
+<p>Looking at the <code>rrule</code> signature from ChainRules.jl:</p>
+<pre tabindex="0"><code>function rrule(::typeof(f), x...; kwargs...)
+    y = f(x...)
+    function pullback_f(Δy)
+        # implement the pullback here
+        return ∂self, ∂x
+    end
+    return y, pullback_f
+end
+</code></pre><p>This is a bit denser. <code>rrule</code> takes the function as input and its arguments.
+So far so good. It returns two things, the value <code>y</code> of the function, similalry to <code>frule</code>
+and a <em>pullback</em>. This term comes from differential geometry and in the context
+of AD, is also referred to as a backpropagator. Again, the ChainRules
+<a href="https://www.juliadiff.org/ChainRulesCore.jl/dev/#The-propagators:-pushforward-and-pullback" target="_blank" rel="noopener">docs</a>
+got your back with great explanations.</p>
+<p>It also corresponds to the Jacobian-transpose vector product if you prefer the term.
+In the body of <code>pullback_f</code>, we compute the variation of the output with respect to each input.
+If we give the pullback a 1 or 1-like as input, we compute the gradient,
+the partial derivative of <code>f</code> with respect to each input <code>x[i]</code> evaluated at the
+point <code>x</code>.</p>
+<p>Here is the result for our positive orthant (again, simplified for conciseness):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> ChainRulesCore<span style="color:#f92672">.</span>rrule(<span style="color:#f92672">::</span>typeof(projection_on_set), v, s<span style="color:#f92672">::</span><span style="color:#66d9ef">MOI</span><span style="color:#f92672">.</span>Nonnegatives)
+</span></span><span style="display:flex;"><span>    vproj <span style="color:#f92672">=</span> projection_on_set(v, s)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> pullback(Δvproj)
+</span></span><span style="display:flex;"><span>        n <span style="color:#f92672">=</span> length(v)
+</span></span><span style="display:flex;"><span>        v̄ <span style="color:#f92672">=</span> zeros(eltype(Δvproj), n)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>n
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> vproj[i] <span style="color:#f92672">==</span> v[i]
+</span></span><span style="display:flex;"><span>                v̄[i] <span style="color:#f92672">=</span> Δvproj[i]
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (ChainRulesCore<span style="color:#f92672">.</span>NO_FIELDS, v̄, ChainRulesCore<span style="color:#f92672">.</span>DoesNotExist())
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (vproj, pullback)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>The first step is computing the projection, here we do not bother with saving
+for loops and just call the projection function.
+For each index <code>i</code> of the vector, if the i-th projection component is equal to
+the i-th initial point, $v_i$ is in the positive orthant and variations of
+the output are directly equal to variations of the input. Otherwise,
+this means the non-negativity constraint is tight, the projection lies on
+the boundary <code>vproj[i] = 0</code>, and output variations are not propagated to the input
+since the partial derivative is zero.</p>
+<p>We see here that a tuple of 3 elements is returned. The first corresponds to
+<code>∂self</code>, out of the scope for this package. The second is the interesting one,
+<code>v̄</code>, the derivative with respect to the input point.
+The last one <code>ChainRulesCore.DoesNotExist()</code> indicates that there is no derivative
+with respect to the last argument of <code>projection_on_set</code>, namely the set <code>s</code>.
+This makes sense because there is nothing to differentiate in the set.</p>
+<p>An interesting point to notice is that the implementation, not the types defines the derivatives.
+A non-trivial example would be a floating-point argument <code>p</code> only used to extract
+the sign bit. This means it would <strong>not</strong> have a notion of local perturbation.
+The type (a floating-point) would be interpreted as differentiable.
+To my understanding, <a href="https://github.com/tensorflow/swift/" target="_blank" rel="noopener">Swift for Tensorflow</a> uses
+a type-first approach, where types indicate what field gets differentiated.</p>
+<p>If you imagine using this in practice, in an AD library for instance,
+one would first call <code>rrule</code> forward, computing primal values and collecting the
+successive pullbacks. Once we arrive at the end of our chain of functions,
+we could backpropagate from $\Delta Y_{final} = 1$, walking our way back to
+the primary input parameters.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>This post comes after a few weeks of work on <a href="https://github.com/matbesancon/MathOptSetDistances.jl" target="_blank" rel="noopener">MathOptSetDistances.jl</a>,
+the package with the actual implementation of the presented features.
+There is still a lot to learn and do on the topic, including solutions to more
+projections and derivatives thereof, but also interesting things to build upon.
+Defining derivatives and projections is after all a foundation for greater things to
+happen.</p>
+<h1 id="notes">Notes</h1>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>See H. Friberg&rsquo;s talk on exponential cone projection in Mosek at <a href="https://docs.mosek.com/slides/2018/ismp2018/ismp-friberg.pdf" target="_blank" rel="noopener">ISMP 2018</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>An example case for the projection onto the Positive Semidefinite cone&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>If like me you haven&rsquo;t spent much time lying around differential geometry books,
+the <a href="https://www.juliadiff.org/ChainRulesCore.jl/dev/#Differentials" target="_blank" rel="noopener">ChainRules.jl</a>
+documentation has a great developer-oriented explanation.
+For more visual explanations, Keno Fischer had a recent talk on
+<a href="https://www.youtube.com/watch?v=mQnSRfseu0c" target="_blank" rel="noopener">the topic</a>.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>See the source code <a href="https://gist.github.com/matbesancon/80aa961e5c01fa6c426426083c684d84" target="_blank" rel="noopener">here</a>.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/julia/">julia</a>
+  
+  <a class="badge badge-light" href="/tag/optimization/">optimization</a>
+  
+  <a class="badge badge-light" href="/tag/jump/">jump</a>
+  
+  <a class="badge badge-light" href="/tag/automatic-differentiation/">automatic-differentiation</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2020-12-24-chains_sets2%2F&amp;text=Sets%2C&#43;chains&#43;and&#43;rules&#43;-&#43;part&#43;II" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2020-12-24-chains_sets2%2F&amp;t=Sets%2C&#43;chains&#43;and&#43;rules&#43;-&#43;part&#43;II" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a href="mailto:?subject=Sets%2C%20chains%20and%20rules%20-%20part%20II&amp;body=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2020-12-24-chains_sets2%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2020-12-24-chains_sets2%2F&amp;title=Sets%2C&#43;chains&#43;and&#43;rules&#43;-&#43;part&#43;II" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Sets%2C&#43;chains&#43;and&#43;rules&#43;-&#43;part&#43;II%20https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2020-12-24-chains_sets2%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2020-12-24-chains_sets2%2F&amp;title=Sets%2C&#43;chains&#43;and&#43;rules&#43;-&#43;part&#43;II" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://matbesancon.xyz/"><img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu717a6920346f3d435e65e27c2a66c1ed_48773_270x270_fill_q75_lanczos_center.jpg" alt="Mathieu Besançon"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://matbesancon.xyz/">Mathieu Besançon</a></h5>
+      <h6 class="card-subtitle">Researcher in mathematical optimization</h6>
+      <p class="card-text">Mathematical optimization, scientific programming and related.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=-xStCAIAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://orcid.org/0000-0002-6284-3033" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.youtube.com/channel/UCVSd42nW_MqkbSXijgOvKwg" target="_blank" rel="noopener">
+        <i class="fab fa-youtube"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/mbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    © 2023 Mathieu Besançon.
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+    <p class="powered-by">
+    Published with Hugo and Wowchemy.
+   </p>
+
+
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+
+
+<script src="/js/vendor-bundle.min.938a3a7554cd9f6602290411f64d2617.js"></script>
+
+
+
+
+  
+
+  
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script id="search-hit-fuse-template" type="text/x-template">
+    <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+    </div>
+  </script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+<script id="page-data" type="application/json">{"use_headroom":true}</script>
+
+
+
+  <script src="/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<script src="/en/js/wowchemy.min.2945731fa88332cb0ec33cf47d29879f.js"></script>
+
+
+
+
+
+
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <pre><code></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

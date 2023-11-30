@@ -1,0 +1,763 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>phd | μβ</title>
+    <link>https://matbesancon.xyz/tag/phd/</link>
+      <atom:link href="https://matbesancon.xyz/tag/phd/index.xml" rel="self" type="application/rss+xml" />
+    <description>phd</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 30 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png</url>
+      <title>phd</title>
+      <link>https://matbesancon.xyz/tag/phd/</link>
+    </image>
+    
+    <item>
+      <title>Graduate Winter/Summer Schools in Optimization - 2023</title>
+      <link>https://matbesancon.xyz/post/2023-01-schools23/</link>
+      <pubDate>Mon, 30 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2023-01-schools23/</guid>
+      <description>&lt;p&gt;This post collects a partial list of winter and summer schools for 2023/2024, directly inspired by
+&lt;a href=&#34;https://thiagoserra.com/2020/01/19/summer-2020-schools-on-algorithms-data-science-machine-learning-networks-optimization-transportation-and-other-relevant-topics-in-operations-research/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;the ones compiled by Thiago Serra&lt;/a&gt;.&lt;/p&gt;
+
+
+&lt;details class=&#34;toc-inpage d-print-none  &#34; open&gt;
+  &lt;summary class=&#34;font-weight-bold&#34;&gt;Table of Contents&lt;/summary&gt;
+  &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&#34;#winter-2023&#34;&gt;Winter 2023&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#summer-2023&#34;&gt;Summer 2023&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#autumn-2023&#34;&gt;Autumn 2023&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#winter-2024&#34;&gt;Winter 2024&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+&lt;/details&gt;
+
+&lt;h1 id=&#34;winter-2023&#34;&gt;Winter 2023&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Winter School of &lt;a href=&#34;https://ss.amsi.org.au/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;AMSI&lt;/a&gt;, 9th January, Melbourne, Australia&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;summer-2023&#34;&gt;Summer 2023&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Spring School on &lt;a href=&#34;https://epit2023.sciencesconf.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Complexity&lt;/a&gt;, 12th June, Oléron, France&lt;/li&gt;
+&lt;li&gt;Summer School on &lt;a href=&#34;https://ssaad2023.sciencesconf.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Automatic Algorithm Design 2023&lt;/a&gt;, 12th June, Villeneuve d&amp;rsquo;Ascq, France&lt;/li&gt;
+&lt;li&gt;Summer School of &lt;a href=&#34;https://www.numta.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;NUMERICAL COMPUTATIONS: THEORY AND ALGORITHMS&lt;/a&gt;, 14th June, Calabria, Italy&lt;/li&gt;
+&lt;li&gt;Summer School of &lt;a href=&#34;https://optimization.discovery.wisc.edu/ipco-2023-madison/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;IPCO&lt;/a&gt;, 19th June, Madison, Wisconsin, US&lt;/li&gt;
+&lt;li&gt;Summer School of &lt;a href=&#34;https://www.fernuni-hagen.de/produktion-logistik/forschung/veranstaltungen/PhD_Summer_School.shtml&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;PhD Summer School on Sustainable Supply Chains&lt;/a&gt;, 29th June, Hagen, Germany&lt;/li&gt;
+&lt;li&gt;Gene Golub SIAM Summer School on &lt;a href=&#34;https://wordpress.lehigh.edu/siamquantum&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Quantum Computing and Optimization&lt;/a&gt; , 30th July, Lehigh, PA, US&lt;/li&gt;
+&lt;li&gt;Summer School of &lt;a href=&#34;https://school.a4cp.org/summer2023/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Machine Learning for Constraint Programming&lt;/a&gt; 10th July, Leuven, Belgium&lt;/li&gt;
+&lt;li&gt;Summer School of the &lt;a href=&#34;https://www.bilevelconference2023.org/summer-school&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Bilevel Optimization&lt;/a&gt; conference, 8th August, Southampton, UK&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;autumn-2023&#34;&gt;Autumn 2023&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Autumn School on Constrained Optimization in Machine Learning, ALOP, University of Trier&lt;/li&gt;
+&lt;li&gt;Autumn School of &lt;a href=&#34;https://www.natcor.ac.uk/courses/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;NATCOR&lt;/a&gt; on Combinatorial Optimization, 11th September, University of Southampton, UK&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If I missed your favourite school for 2023 and first quarter 2024, open a pull request and modify &lt;a href=&#34;https://github.com/matbesancon/hugo-site/blob/master/content/post/2023-01-schools23.markdown&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;this file&lt;/a&gt;.
+Thanks to Mark Turner and Joao Dionisio for pointing out some of these!&lt;/p&gt;
+&lt;h1 id=&#34;winter-2024&#34;&gt;Winter 2024&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Winter School on &lt;a href=&#34;https://netopt2024.campus.ciencias.ulisboa.pt/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Network Optimization&lt;/a&gt;, Estoril, Portugal&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bringing a PhD to the finishing line</title>
+      <link>https://matbesancon.xyz/post/2021-04-02-phdone/</link>
+      <pubDate>Fri, 02 Apr 2021 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2021-04-02-phdone/</guid>
+      <description>
+
+&lt;details class=&#34;toc-inpage d-print-none  &#34; open&gt;
+  &lt;summary class=&#34;font-weight-bold&#34;&gt;Table of Contents&lt;/summary&gt;
+  &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&#34;#plan-organize-prioritize-ruthlessly&#34;&gt;Plan, organize, prioritize ruthlessly&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#mind-the-change-blindness-on-your-research&#34;&gt;Mind the change blindness on your research&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#thesis-ownership&#34;&gt;Thesis ownership&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+&lt;/details&gt;
+
+&lt;p&gt;Last December, I defended my doctoral dissertation and finished the last steps towards the completion of my double PhD.
+I am only writing about it now because the experience left me drained but also extremely busy
+with things I had been putting off for a while.
+Now that a quarter of 2021 has vanished before me, we get to the point where putting it off for longer means forgetting about it.
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;und&#34; dir=&#34;ltr&#34;&gt;▓▓▓▓░░░░░░░░░░░ 25%&lt;/p&gt;&amp;mdash; Year Progress (@year_progress) &lt;a href=&#34;https://twitter.com/year_progress/status/1377863380095107072?ref_src=twsrc%5Etfw&#34;&gt;April 2, 2021&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+&lt;/p&gt;
+&lt;p&gt;The major reasons for not doing this earlier are banality and messiness. Banality because many have written great pieces about
+different stages of the PhD process, even better when written by people from awarding institutions
+who see cohorts succeed and fail every year.
+Still, I believe there are few angles that I would have liked to see stressed more and earlier, for me or others.
+Messiness because several thoughts had been in the back of my mind, discussed with others, and were still looming around without much structure.&lt;/p&gt;
+&lt;p&gt;The end of a PhD is notoriously hard and you are mostly fighting against yourself, the excitement from the beginning
+is gone and any trick could be taken to smoothen this. Here are some things that worked not only well,
+but more than I would have expected.&lt;/p&gt;
+&lt;h1 id=&#34;plan-organize-prioritize-ruthlessly&#34;&gt;Plan, organize, prioritize ruthlessly&lt;/h1&gt;
+&lt;p&gt;This is a general line of advice for the whole doctoral journey, even more important for the end.
+The finishing process by the French institutions jointly awarding my degree was ridiculously complex with many steps
+involving back-and-forth with multiple documents and actors.
+I would have loved to illustrate this with the diagram for the procedure at my institution
+but that might be needlessly targeting them.&lt;/p&gt;
+&lt;p&gt;With such a mess, it is easy to lose focus of the scientific part and waste your time on paperwork.
+Remember this needs to be done but is low-priority. Do it when you are low on energy and focus, when you are
+tired or finish a work sprint, do not waste the valuable hours of your day on papers. Check the hard deadlines,
+is it in quite some time? Put it in a calendar and forget about it until you have time or no choice.&lt;/p&gt;
+&lt;p&gt;My point here is: &lt;strong&gt;no PhD&lt;/strong&gt; is awarded for being good at filling the paperwork and it should not be on the top of your mind.&lt;/p&gt;
+&lt;p&gt;We were notoriously joking in the French research team about the time it took me to get properly enrolled in the first year.
+It could have been faster if I had spent more time and attention on it, in that case, go several
+times to the graduate administration offices. In retrospect, considering it low-priority and
+focusing on research before working the admin into my schedule was perfectly fine and let me focus
+on research much faster.&lt;/p&gt;
+&lt;p&gt;Towards the end, prioritizing means constantly asking &amp;ldquo;Can I put this off until after my defence / my dissertation hand-out?&amp;rdquo;.
+If not, can you squeeze it in a time frame where it is not penalizing your research? If yes, put it in a
+calendar and forget about it. Don&amp;rsquo;t hesitate to consider this approach even for personal stuff you consider or know represents
+efforts. Seeing family, looking for a place for your next position, etc.&lt;/p&gt;
+&lt;p&gt;The last sprint is fairly stressful, being ruthless on your priorities helps not being too hard on yourself.
+Setting reasonable short-term objectives is a great way to make progress. One of the most productive decisions
+I took was accepting to go on vacation in southern France for a week with friends. I had writing hours set
+every day (rarely more than two) and activities the rest of the time. I probably got at least as much done as
+I would have had stuck in my apartment.&lt;/p&gt;
+&lt;h1 id=&#34;mind-the-change-blindness-on-your-research&#34;&gt;Mind the change blindness on your research&lt;/h1&gt;
+&lt;p&gt;I will refer throughout this post to the introduction, context, literature review and conclusion of the dissertation
+as the &lt;strong&gt;outer parts&lt;/strong&gt; and the core contribution chapters as the &lt;strong&gt;inner parts&lt;/strong&gt; of the thesis.&lt;/p&gt;
+&lt;p&gt;While writing the outer parts of your dissertation, mind the change blindness, this perception &amp;ldquo;bug&amp;rdquo;
+that lets us unaware of things that changed throughout a period.
+In this case, you have become an expert on your research topic, despite what the imposter syndrome might be saying.
+This also implies that you always have a mental picture of facts and ideas related to your research that have
+become part of your everyday work.
+The reader does not have the same years of work on the research topic, even if they are in your domain.
+Highlight the contributions, more than you would have in an informal chat. Do not hesitate to write something
+down in the outer parts even if it seems obvious. For readers who have not looked at the problem, show why it
+is interesting. In some cultures, boasting about your results or achievements is quickly frowned upon;
+in the dissertation though, resist the urge to minimize them. It is not unscientific to highlight that your work is
+new, important, or opening new lines of research.&lt;/p&gt;
+&lt;p&gt;The feeling I often had when writing the outer parts of the dissertation is that my point was redundant with
+what was already in other places of the thesis, specifically in the inner parts.
+But when reading the introduction, I will expect to get some understanding of the domain, its challenges and
+open questions, how others have addressed questions similar to those of the thesis.
+It is normal to have some redundancy with the explanation of a core contribution two or three chapters down the line.
+In the conclusion, I do not want (just) the rehashed summary of each chapter of the inner parts
+but would love to see a more critical view of the angle that has been taken on the research question, openings
+on connected areas, how it could have been from a different perspective.&lt;/p&gt;
+&lt;p&gt;To give a rough idea of how I spent my last months, I handed out the manuscript at the end of September.
+Starting in May and for most of the summer, I focused on the outer parts, thinking about how to structure and articulate
+the introduction and literature review. The core concern that made me rework things several times was to make
+these outer parts accessible and interesting for readers outside my immediate domain, or even outside research but
+still with the appropriate technical background.&lt;/p&gt;
+&lt;p&gt;A personal opinion &amp;amp; side-note: scientific outreach and communication is great, but a thesis is not the best place
+for it, it just brings conflicting objectives and additional efforts, not every piece should be targeting any untrained reader.&lt;/p&gt;
+&lt;h1 id=&#34;thesis-ownership&#34;&gt;Thesis ownership&lt;/h1&gt;
+&lt;p&gt;The last line of advice I will give is on owning your results and doctoral work.
+I already had some thoughts on this &lt;a href=&#34;https://matbesancon.xyz/post/2018-09-27-year-in-phd/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;after one year into the PhD&lt;/a&gt;.
+Ownership of one&amp;rsquo;s PhD topic may be the single most important factor for enjoying your doctoral research
+and essential to turn into a great researcher in the long run.
+Reading this post from some places, this thought may seem oddly obvious.
+However, while exchanging with many doctoral candidates and reading the tone of some advisors,
+I saw there is a strong conception, especially in France, that:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;the PhD candidate is working &lt;strong&gt;for&lt;/strong&gt; the advisor and that the PhD will follow;&lt;/li&gt;
+&lt;li&gt;the advisor is responsible for the scientific choices taken.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The second point goes for the better and worse aspects, and would come with reactions as &amp;ldquo;what was the advisor thinking&amp;rdquo;
+whenever some researchers see something they don&amp;rsquo;t agree with in some work done by a PhD candidate, as if the person
+could not also be held responsible for their actions.
+But because it implies it is the responsibility of the advisor to define and adjust the research direction,
+such a line of thought is preventing PhD candidates to take ownership of their topic and research.&lt;/p&gt;
+&lt;p&gt;This issue is tricky because it brings the connected subject of how PhDs are funded.
+Although I love discussing it, I thought for a while about whether to write about it.
+Because of the way PhDs are funded in some domains, the doctoral candidate is sometimes
+considered as the person recruited to fill a particular role in the lab.
+This does not help gain autonomy and a sense of ownership.
+And because the funding process is determined by the institution or nationally, there isn&amp;rsquo;t much
+advisors or candidates can do. What both can though is shifting the perspective on work ownership.
+Regardless of how autonomous you felt during the PhD, the last sprint is the time to step it up.
+It will be your name on the dissertation, associated with everything from abstract to appendix and on the defence slides;
+it is your work and research profile being evaluated.
+This means you should be absolutely comfortable with everything in there and be able to take credit and
+blame for it, considering your advisors out of the equations during the defence.
+If they still need to help you by then, something went wrong along the way.
+Ownership of the decision is especially important and tricky for PhDs
+carried out with(in) industrial research partners (CIFRE in France or similar programs).
+Not all decisions on the investigation may be yours but you will need to justify them scientifically
+in front of examiners if they are in your doctoral work.&lt;/p&gt;
+&lt;p&gt;I will finish with a last random fact on ownership.&lt;/p&gt;
+&lt;p&gt;A 1st-year PhD student recently told a group of other PhDs about an email from their advisor,
+where they harshly explained that it is up to the student to reach out when they struggle,
+have questions or need a meeting, also suggesting that if the advisors asked
+the student for a meeting, that would be a &amp;ldquo;we need to talk&amp;rdquo; situation.
+The tone of the email was fairly brutal, arguing the student had no clue on
+how research works, who had which responsibility.&lt;/p&gt;
+&lt;p&gt;A few opinions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The tone of the email was plain wrong. I cannot use direct quotes to protect the PhD student, but being overly harsh on your subordinates to convey ideas just shows poor self-control (and this was in written form).&lt;/li&gt;
+&lt;li&gt;The 1st year PhD student not knowing about the way academia works should be obvious, even more for someone
+who has advising experience. The advisor should have realized when writing this email that this shows at best their failure
+at onboarding the student in academia and explain its &lt;strong&gt;very&lt;/strong&gt; unspoken rules.&lt;/li&gt;
+&lt;li&gt;This last point is where I diverged from the opinion of others who heard the student&amp;rsquo;s story: despite poor form and failed mentoring,
+the advisor is right in essence and the message they gave is best given early and explicitly as they did than figured out (or not)
+by the student much later in the process. This is even more the case in Corona times where 1st-year students have never
+been exposed to the research environment as it used to exist.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As I wrote before, the advisor is not a boss as you would think of in a company,
+a closer metaphor would be an investor in time, lab resources, funding and reputation.
+This model is not perfect but better aligned with productive research relationships
+than the subordinate model I&amp;rsquo;ve often seen in some circles.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Header photo credit:&lt;br&gt;
+Richard Dykes on Unsplash&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Coping with a confined PhD, a naive report</title>
+      <link>https://matbesancon.xyz/post/2020-03-26-confined-phd/</link>
+      <pubDate>Thu, 26 Mar 2020 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2020-03-26-confined-phd/</guid>
+      <description>&lt;p&gt;One of the luxuries of a PhD in applied maths / computer science is the
+possibility to work from home. By possibility, I imply both the technical
+feasibility (my project does not require special equipment), and social
+acceptability (I never worked in labs enforcing presenteeism).&lt;/p&gt;
+&lt;p&gt;Of course, working from home or from my usual corner coffee shop once every other week
+is very different from these exceptional circumstances.
+I should also highlight I do not have to take care of children or sick family members,
+which comes as a priority, big congrats to those who manage it. This post should not
+be seen as how things should be done, simply how I cope and as a list of ideas
+to pick from if you are in a similar situation. The context is also very
+special for me as I just moved to the UK for an academic visit at the University
+of Edinburgh, I had just settled at a new city, flat and office when things
+started to escalate.&lt;/p&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;🎉🏴󠁧󠁢󠁳󠁣󠁴󠁿&lt;br&gt;With an apartment found and tickets bought, this is now official, I&amp;#39;ll be in Edinburgh in March &amp;amp; April for an academic visit at @UoEMaths ERGO&lt;/p&gt;&amp;mdash; Mathieu Besançon (@matbesancon) &lt;a href=&#34;https://twitter.com/matbesancon/status/1231514372729688064?ref_src=twsrc%5Etfw&#34;&gt;February 23, 2020&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;I decided to stay in Edinburgh instead of coming back to France because the trip
+itself would be irresponsible, travelling through the UK, sleeping in London and
+then crossing the border with continental Europe, but also because I was settled
+in comfortably enough to spend the rough months of the epidemic here.
+However, this meant adjusting in different ways.&lt;/p&gt;
+
+
+&lt;details class=&#34;toc-inpage d-print-none  &#34; open&gt;
+  &lt;summary class=&#34;font-weight-bold&#34;&gt;Table of Contents&lt;/summary&gt;
+  &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&#34;#overall-routine&#34;&gt;Overall routine&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#social-media-and-work-breaks&#34;&gt;Social media and work breaks&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#broadening-work-activities&#34;&gt;Broadening work activities&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#setup-and-spacial-separation&#34;&gt;Setup and spacial separation&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#virtual-conferences-and-social-aspects&#34;&gt;Virtual conferences and social aspects&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#keeping-your-locals-afloat&#34;&gt;Keeping your locals afloat&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#we-got-this&#34;&gt;We got this&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+&lt;/details&gt;
+
+&lt;h1 id=&#34;overall-routine&#34;&gt;Overall routine&lt;/h1&gt;
+&lt;p&gt;Being in Europe with many friends &amp;amp; contacts in North America, I used the
+circumstances to slightly shift my day, waking up between 8.30 and 9.15, and
+going to bed a bit later, sharing more hours of the day with them. This would
+normally be more complicated with things to attend to where I am, but allow me
+to attend European late morning and afternoon remote events, North-American
+morning and early-afternoon events. I take a quick breakfast in the kitchen
+(no hot drink), make a batch of tea or coffee to keep while at my desk. I use
+the morning to catch up on emails, work on research, writing code and prose
+(with breaks, see below). I do not go back to eat while not hungry, and not before 1.30PM.
+The afternoon is a blend of research work and semi-work-related activities.
+I usually have figured out something to cook by the end of the day, depending on
+how much I estimate this will take I start late-afternoon or early evening.
+Depending on the mood and tasks, I work a bit after dinner, before closing all
+work tabs and windows (yes, all) to switch to leisure time, including films,
+calling people, etc. I keep at least one hour at the end of the day for reading,
+these days fiction (the Poppy War, the Alienist and Death in the East at the moment),
+and only in paper versions, since I don&amp;rsquo;t have a reader and I get enough screen
+time in the day.&lt;/p&gt;
+&lt;h1 id=&#34;social-media-and-work-breaks&#34;&gt;Social media and work breaks&lt;/h1&gt;
+&lt;p&gt;First things first, these things suck up your time and attention the rest of the
+year, now they also build up your anxiety like never before. I&amp;rsquo;m not telling you
+to resist (I don&amp;rsquo;t), just to separate the time where you work from the social
+media time in small blocks; &lt;a href=&#34;https://en.wikipedia.org/wiki/Pomodoro_Technique&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;pomodoro&lt;/a&gt;
+is your friend there. With this setting, being distracted is okay, when you
+suddenly find yourself on non-work related things, just stop the work timer,
+take your break, and restart it when you are ready to restart.
+My breaks vary between 5 and 30 minutes, either texting friends, reading
+non-work news articles, scrolling or playing mines:
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Well how is YOUR discovery of gravity going? &lt;a href=&#34;https://t.co/Q8jaDPq6Tg&#34;&gt;pic.twitter.com/Q8jaDPq6Tg&lt;/a&gt;&lt;/p&gt;&amp;mdash; Mathieu Besançon (@matbesancon) &lt;a href=&#34;https://twitter.com/matbesancon/status/1243125633800114177?ref_src=twsrc%5Etfw&#34;&gt;March 26, 2020&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+&lt;/p&gt;
+&lt;p&gt;The rest of the time, I close distracting browser tabs (including emails) and
+toss my phone out of reach.&lt;/p&gt;
+&lt;h1 id=&#34;broadening-work-activities&#34;&gt;Broadening work activities&lt;/h1&gt;
+&lt;p&gt;Staying focused on work is clearly harder; one way to cope with it is to broaden
+work activities and even if it does not serve you in the short term, consider it
+work, no need to drown in guilt. My semi-work activities include open-source software,
+reading papers and books in my domain but not directly relevant to my research,
+following MOOCs, even on some things I assume I already know to see a different
+perspective. You may have noticed lots of university seminars are maintained
+in an online format. Since you do not need to run to the building on the other
+side of the campus, it can be a good opportunity to spend 45 minutes on other
+topics for your general scientific culture.&lt;/p&gt;
+&lt;h1 id=&#34;setup-and-spacial-separation&#34;&gt;Setup and spacial separation&lt;/h1&gt;
+&lt;p&gt;This section is to take with a pinch of salt, it assumes some financial comfort
+and a big enough flat. Early in the epidemic when it felt like we were going for
+gradual home isolation, I started setting up my office in a way that felt good,
+not for two hours in the evening any more, but for 8+ hours in the day.&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/office.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;First, the second monitor.
+I don&amp;rsquo;t think more than two active screens is necessary, but it may vary with
+activities, beware of excessive multi-tasking though.
+The only new thing I invested in is a keyboard,
+which I had not brought to the UK. It&amp;rsquo;s a &lt;a href=&#34;https://www.drevo.net/product/keyboard/gramr&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DREVO Gramr&lt;/a&gt;
+mechanical keyboard with brown switches, reasonably priced and with a nice-enough
+touch. It also gave me the opportunity to finally re-switch to qwerty layout and stick to it.
+The biggest point for me of having an external keyboard is improving my posture.
+My screens are further away and higher thanks to few books, allowing me to keep
+my back straighter and relax my eyes.
+Working with a laptop alone is nice for few hours in a coffee shop or on a couch,
+but terrible for your eyes, arms, hands and back, &lt;strong&gt;forget the lap of laptop&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;The spatial separation is fairly simple: work remains at my desk, I keep the
+living room for eating, drinks, films, chatting with my flatmate. If you have an
+office space to separate it from your bedroom, even better. This is also why I
+cannot blame Parisians leaving the capital for family houses, the lifestyle is
+not adapted to actually living in your $15m^2$ flat.&lt;/p&gt;
+&lt;h1 id=&#34;virtual-conferences-and-social-aspects&#34;&gt;Virtual conferences and social aspects&lt;/h1&gt;
+&lt;p&gt;There was a discussion on the remote thesis during the epidemic on the
+&lt;a href=&#34;https://www.grandlabo.com/sos-telethese-continuer-sa-these-en-plein-confinement-coronavirus/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Grand Labo&lt;/a&gt; (in French).
+Among different subjects, I chose to speak of something which may appear very
+privileged (and is to some extent), which is the impact of cancelled academic
+events (conferences, workshops, seminars), especially on young academics, in
+which I include everyone being evaluated on their work now for a future position
+or promotion (master&amp;rsquo;s, PhDs, postdoctoral researchers, professors subject to
+the tenure clock).&lt;/p&gt;
+&lt;p&gt;The summary of the discussion is that scientific aspects of
+the events can be emulated though online seminars, but the networking aspects
+are much harder. The reason young academics are more heavily impacted is because
+we are the ones looking for contacts for what we will do afterwards, and both
+discovering and getting in touch with those contacts depends on such events.
+I do not have a perfect solution for this, and I&amp;rsquo;m not sure there is.&lt;/p&gt;
+&lt;h1 id=&#34;keeping-your-locals-afloat&#34;&gt;Keeping your locals afloat&lt;/h1&gt;
+&lt;p&gt;Again this section is to take relatively to what you can afford. If you are not
+financially comfortable (and this is a post for PhDs so it might very well be the
+case, feel free to pick the pieces you want). One thing that will happen with
+everything shut down is that businesses and service workers that depend on a local
+activity will suffer. For tech workers, here is a great thread, although
+US-centric so some of the consequences will be hopefully nuanced in your country:&lt;/p&gt;
+&lt;p&gt;&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;The US govt has failed to contain this outbreak&lt;br&gt;&lt;br&gt;It&amp;#39;s now up to us, as individuals, to protect and support our communities&lt;br&gt;&lt;br&gt;Techies and other financially privileged people, this thread is for YOU:&lt;/p&gt;&amp;mdash; bletchley punk (@alicegoldfuss) &lt;a href=&#34;https://twitter.com/alicegoldfuss/status/1239621791145807882?ref_src=twsrc%5Etfw&#34;&gt;March 16, 2020&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Restaurants&lt;br&gt;&lt;br&gt;- Find out if your local faves are providing sick leave and pay for their workers. Shame them into doing it.&lt;br&gt;- Order delivery to keep people paid&lt;br&gt;- Have delivery drops in your lobby or stoop for their protection&lt;br&gt;- TIP DIGITALLY don&amp;#39;t make them touch your grubby cash&lt;/p&gt;&amp;mdash; bletchley punk (@alicegoldfuss) &lt;a href=&#34;https://twitter.com/alicegoldfuss/status/1239622445578907648?ref_src=twsrc%5Etfw&#34;&gt;March 16, 2020&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+&lt;/p&gt;
+&lt;p&gt;The key point of this thread is your local restaurant, bar, pub. You do not want
+it closed and replaced by a chain (I assume?), and you do not want the employees
+that made it a great place without a job in these times where finding a new one
+will be hard. Check if they do delivery and / or take-away, at least allow yourself
+one treat a week, plus for special occasions
+(article submitted, came back from review, published, accepted, pushed as preprint).
+Contact them to know if they kept their staff, favour the ones who did.
+If they offer vouchers to use when they re-open, take some, otherwise suggest
+them so. This also goes for corner coffee &amp;amp; tea shop, they may still do take-away
+and need you now. I am trying to do so in Edinburgh, on the recommendations of my
+flatmates, friends and locals on &lt;a href=&#34;https://reddit.com/r/Edinburgh/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Reddit&lt;/a&gt;,
+while I hope others do the same in my neighbourhood in Lille.&lt;/p&gt;
+&lt;h1 id=&#34;we-got-this&#34;&gt;We got this&lt;/h1&gt;
+&lt;p&gt;One thing that was highlighted in the PhD panel with the Grand Labo was the
+overwhelming guilt, which is always latent in academia and comes out even stronger
+in these times. Keep in mind this is some never-seen event, re-writing much of
+how we live, work and socialize. Some parts are crisis measures that will gradually
+fade away, but some aspects will remain after the shock. Even coping at our best
+does not make the situation remotely &amp;ldquo;fine&amp;rdquo; for many of us, but we got this.&lt;/p&gt;
+&lt;p&gt;If you want more and better tips on working from home for tech workers in the epidemic time,
+&lt;a href=&#34;https://blog.alicegoldfuss.com/work-in-the-time-of-corona/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;this post&lt;/a&gt;, from the
+same author as the restaurant recommendations above, is worth it.
+If you read French, feel free to also check this thread:&lt;/p&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;fr&#34; dir=&#34;ltr&#34;&gt;[THREAD DOCTORAT]&lt;br&gt;Bonjour à tous, comme la plupart des doctorants du territoires nous avons été encouragés à faire du télétravail à partir de lundi, puis en quelques heures aujourd’hui la situation s’est dégradée. Nous ne pouvons plus accéder à nos laboratoire ,à nos manips, rien&lt;/p&gt;&amp;mdash; Dr. Mathilde 👩🏼‍💻 (@BienDansMaThese) &lt;a href=&#34;https://twitter.com/BienDansMaThese/status/1239347768562499586?ref_src=twsrc%5Etfw&#34;&gt;March 16, 2020&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;where Mathilde documents the progress and of setting up a workflow and new
+habits in these bizarre times, that fell on academia in France with little warning
+or preparation.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>A year in PhD</title>
+      <link>https://matbesancon.xyz/post/2018-09-27-year-in-phd/</link>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2018-09-27-year-in-phd/</guid>
+      <description>&lt;hr&gt;
+&lt;p&gt;So, it&amp;rsquo;s been a bit more than a year since I took a flight to Montréal to
+start a PhD on mathematical optimization &amp;amp; game theory for smart grids.&lt;/p&gt;
+&lt;p&gt;After the rush of summer conferences, and my return to France
+for a part of my PhD at INRIA Lille, it is a good time to take a step back
+and think of what has been going on and what is coming next. I&amp;rsquo;ll also answer
+some common questions I had in a more thoughtful way than I can in a
+bar conversation/family dinner. Maybe this can also help other PhD students seeing
+we are not in the same boat, but they all still look alike.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TL;DR&lt;/strong&gt;: a PhD is not studies in the sense you think, and it&amp;rsquo;s not a job either,
+these mental models will not help much.&lt;/p&gt;
+&lt;h2 id=&#34;so-when-are-you-going-to-finish&#34;&gt;So, when are you going to finish?&lt;/h2&gt;
+&lt;p&gt;I don&amp;rsquo;t know, when are you going to finish your job? It doesn&amp;rsquo;t look
+like it&amp;rsquo;s been moving that much recently. Or when will this company
+you&amp;rsquo;re building be &amp;ldquo;finished&amp;rdquo;?&lt;/p&gt;
+&lt;p&gt;These questions are similar, really. A research subject is rarely isolated,
+don&amp;rsquo;t see this as emptying a 4-year bowl of soup. It&amp;rsquo;s more like picking
+berries: you grab one, then the next, which is close enough, oh and this one
+is nice, but a bit further, I&amp;rsquo;ll have to stretch my arm a bit more to reach it.&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/phd-year/blueberries.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+[1]&lt;/p&gt;
+&lt;p&gt;I had some interesting discussions in Montréal about when and how to know
+you should bring your PhD to a conclusion. And the answer should always be
+that it depends what your objectives are, if you want to include this last
+project in the PhD. So no, I don&amp;rsquo;t know when I will finish, because if every
+step was predictable in terms of duration and success, it would not be a PhD or
+even research, what I do know is that I don&amp;rsquo;t want to block interesting projects
+or leave only half-explored research trails because &amp;ldquo;3 years is plenty&amp;rdquo;.&lt;/p&gt;
+&lt;h2 id=&#34;it-must-feel-weird-getting-back-to-university&#34;&gt;It must feel weird, getting back to university&lt;/h2&gt;
+&lt;p&gt;It does, but not how you imagine. I was previously at
+&lt;a href=&#34;https://matbesancon.xyz/post/2016-08-11-back-to-startup/&#34;&gt;a startup&lt;/a&gt; for a while.
+What I was used to is a great autonomy in execution. What the
+PhD is about is adding self-determination of the objectives,
+expected results, and means. It does not mean I&amp;rsquo;m working alone
+while I was in a team before, it means the degree of ownership
+of successes and failures is much higher, try to picture the
+three following sentences in a conversation:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&amp;ldquo;I was at a startup before, it failed and I moved on to XYZ.&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;I started a PhD but didn&amp;rsquo;t get through, then moved on to XYZ.&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;I built a company, it failed, now I&amp;rsquo;m working on XYZ.&amp;rdquo;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;It depends on the relationship to failure the person has in front of
+you, but for those I know, (1) is just an external cause, while (2)
+and (3) are personal failures, that&amp;rsquo;s ownership.&lt;/p&gt;
+&lt;p&gt;The biggest conclusion I made roughly after 6 months in is that a
+single-founder startup is one of the closest mental models to keep
+during the PhD, which explains several things, like inability to
+explain exactly what you do to your family and friends, imposter
+syndrome or procrastination.&lt;/p&gt;
+&lt;h2 id=&#34;so-you-get-paid-enough-to-buy-noodles&#34;&gt;So you get paid enough to buy noodles?&lt;/h2&gt;
+&lt;p&gt;Yes, I&amp;rsquo;m living quite well thanks, I can even afford fancying
+my noodles, but let&amp;rsquo;s dig deeper on the matter of €/$/£.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: my PhD is between applied maths &amp;amp; computer science, I know
+all majors are not that financially comfortable.&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/phd-year/noodles.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+[2]&lt;/p&gt;
+&lt;p&gt;I also know it&amp;rsquo;s considered rude to talk about money in some cultures,
+including France, especially if you&amp;rsquo;re not complaining; so yes, I&amp;rsquo;ll
+be rude.&lt;/p&gt;
+&lt;p&gt;When I&amp;rsquo;m in France, I&amp;rsquo;m paid slightly less than some engineers with the same
+level of qualification. The difference is higher if I&amp;rsquo;m comparing to what
+I would have had on Data Science, applied maths and software development
+positions. The difference between what I would earn and the scholarship
+is higher in Canada. Still, like I said, I can live without watching
+my bank account towards the end of the month.&lt;/p&gt;
+&lt;p&gt;The biggest danger of getting money monthly is thinking of it as a salary,
+meaning you&amp;rsquo;re thinking of the PhD as a job, meaning you&amp;rsquo;re thinking of
+yourself as an employee. On the paper, the money I get in France is a salary
+from my research institute, but one should keep in mind this is only on paper,
+the danger is to get the wrong mindset: &lt;strong&gt;think of yourself as a single person
+carrying a project, not an employee&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;People often argue that they have a research director, who is de facto their boss.
+I don&amp;rsquo;t think this is the case, directors choose project proposals and people
+to carry them out (the order of this choice varies). They choose to invest
+time, effort and money from their structure into this person+project pair,
+without dictating to the letter what the outcomes of the projects are.
+Their retribution for this exchange is a partial ownership in the outcomes
+of the project (publications, conferences, software).
+Sounds familiar? Yes I&amp;rsquo;m looking at the Wikipedia
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Venture_capital&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;page on Venture Capital&lt;/a&gt;.
+Let&amp;rsquo;s dig deeper: thesis directors invest this time, money and energy in
+areas they are familiar with, they have worked in and/or have mentored other
+people on. This sounds like the VC firms&amp;rsquo; investment theses.
+Read &lt;a href=&#34;https://a16z.com/2016/08/20/why-software-is-eating-the-world/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;these&lt;/a&gt;
+&lt;a href=&#34;https://hackernoon.com/the-birth-of-a-venture-capital-investment-thesis-afd2903ae12&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;two&lt;/a&gt;
+articles to see a more proper definition and examples of investment theses
+but I hope you&amp;rsquo;ll get my point: PhDs are not R&amp;amp;D employees and directors are
+not &amp;ldquo;bosses&amp;rdquo;. If you have friends familiar with how startups work, this should
+be fine to explain. If you&amp;rsquo;re talking to people who have been employees their
+whole life in traditional structures, I have not yet found a clear and simple
+way to explain the situation in a casual conversation, let me know if you have
+something.&lt;/p&gt;
+&lt;h2 id=&#34;so-back-to-being-a-student-heh&#34;&gt;So, back to being a student heh?&lt;/h2&gt;
+&lt;p&gt;This image is much easier to correct. On the paper this is true,
+a PhD has a student status, even when working close with/in
+companies like in Germany, Denmark or France CIFRE theses.
+Some people will ask this genuinely because they still picture their
+undergraduate years and think you&amp;rsquo;re back to this.
+So, it&amp;rsquo;s true, I&amp;rsquo;m taking courses, mostly because I find them
+interesting and keeping learning things is a bit of a &lt;em&gt;raison d&amp;rsquo;être&lt;/em&gt;.
+But I was also doing so while working, using online courses platform like
+&lt;a href=&#34;https://www.coursera.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Coursera&lt;/a&gt; or
+&lt;a href=&#34;https://www.fun-mooc.fr/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;France Université Numérique&lt;/a&gt;, going to meetups,
+reading and writing blog posts. So the thing that changed is maybe the part
+of my time dedicated to learning which got higher than when employed.&lt;/p&gt;
+&lt;p&gt;Now about the second category of people asking this question, yeah those one.
+In general, the points discussed above are enough as an explanation,
+but if the tone is really about trolling, which can happen, reverse the question:
+&lt;em&gt;&amp;ldquo;Yeah I&amp;rsquo;m a student, I&amp;rsquo;m learning stuff every day. Wait you&amp;rsquo;re not?
+Exactly the stagnation I don&amp;rsquo;t want in my life.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Is it mean? Maybe, but the point is not to &amp;ldquo;win&amp;rdquo; a conversation, it&amp;rsquo;s about
+shutting down the perpetration of imposter syndrome, own the uniqueness of
+your status, both the good and the bad bits. None should be made feel inferior
+because they didn&amp;rsquo;t take the conventional, safe and socially accepted path of
+the 9-17 workday.&lt;/p&gt;
+&lt;h2 id=&#34;re-thinking-my-values--priorities&#34;&gt;Re-thinking my values &amp;amp; priorities&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;ve written about values &lt;a href=&#34;https://matbesancon.xyz/post/2016-10-7-company-values/&#34;&gt;two years ago&lt;/a&gt;
+in the context of a company trying to define who they are.
+This is a complex topic, about discovering and understanding what the
+group prioritizes collectively.&lt;/p&gt;
+&lt;p&gt;As the owner of your project and of your time and resources, it&amp;rsquo;s up to you to define
+what is important. This begins with what is measured for success. Coming to academia
+from another &lt;em&gt;milieu&lt;/em&gt;, I was not used to the process of publishing in peer-reviewed
+journals. First position I&amp;rsquo;ll take and try to maintain: &lt;strong&gt;the measures of academic
+success are broken, or at least imperfect&lt;/strong&gt; (reach out to future-me if I change my mind).
+One example of this is research software.
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Paraphrasing &lt;a href=&#34;https://twitter.com/mgymrek?ref_src=twsrc%5Etfw&#34;&gt;@mgymrek&lt;/a&gt;:&lt;br&gt;&lt;br&gt;Your paper is cited outside of your field in one semi-related paragraph: *counts towards your career progression*&lt;br&gt;&lt;br&gt;Your academic software package has 100 stars on GitHub: *counts for nothing*&lt;br&gt;&lt;br&gt;Something is wrong here 😐 &lt;a href=&#34;https://twitter.com/hashtag/jsm2018?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#jsm2018&lt;/a&gt;&lt;/p&gt;&amp;mdash; Sean Kross, PhD (@seankross) &lt;a href=&#34;https://twitter.com/seankross/status/1024059834654588929?ref_src=twsrc%5Etfw&#34;&gt;July 30, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Had my &amp;quot;software is part of the research process&amp;quot; argument with an academic who wanted to use software to generate results but didn&amp;#39;t want to &amp;quot;concentrate on it too much&amp;quot;. I should start counting how many times I go through this and throw a party when I get to a million.&lt;/p&gt;&amp;mdash; Simon Hettrick (@sjh5000) &lt;a href=&#34;https://twitter.com/sjh5000/status/1043112943372644353?ref_src=twsrc%5Etfw&#34;&gt;September 21, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+If you can, watch
+&lt;a href=&#34;https://twitter.com/walkingrandomly&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Mike Croucher&lt;/a&gt;&amp;rsquo;s excellent
+&lt;a href=&#34;https://www.youtube.com/watch?v=8ZSaAM8hhJ4&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;talk&lt;/a&gt; at JuliaCon 2018 for more
+depth on the subject.&lt;/p&gt;
+&lt;p&gt;The consequence of ignoring software as a valuable result of research is
+pretty straight-forward: proprietary software all over.
+It&amp;rsquo;s changing in scientific computing, statistics and other fields with
+the rise of Julia, R, Python. My domain, mathematical optimization, is
+still behind with dominant solvers (the software doing the actual work)
+and lots of &lt;a href=&#34;https://en.wikipedia.org/wiki/Algebraic_modeling_language&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Algebraic Modeling Languages&lt;/a&gt;
+(the front-end to interact with the solver) being proprietary.
+The last part is &lt;a href=&#34;https://numfocus.org/project/jump&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;changing&lt;/a&gt;,
+the first one is still tough.
+My point is that people behind software you&amp;rsquo;re
+using everyday contribute way more to the success of your PhD than this
+obscure paper you cite because the review committee asked you to.
+If your university is giving thousands in commercial licenses and
+millions in access to paper, maybe you should make them donate both time
+and money to the &lt;a href=&#34;https://www.flipcause.com/secure/cause_pdetails/MjM2OA==&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;tools&lt;/a&gt;
+you&amp;rsquo;re using. Yes all of &lt;a href=&#34;https://donate.wikimedia.org/wiki/WMFJA1/en/US&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;them&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I have been involved in the Julia community, especially within the
+&lt;a href=&#34;http://github.com/JuliaGraphs/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;JuliaGraphs&lt;/a&gt; and
+&lt;a href=&#34;http://github.com/JuliaStats/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;JuliaStats&lt;/a&gt; ecosystems, mostly because these
+are subjects I understand (at least a bit) and/or used.
+Key take-away:&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;Reporting issues you have and contributing to improve the documentation
+is as valuable as writing code.&lt;/p&gt;
+&lt;h2 id=&#34;so-its-been-a-year&#34;&gt;So&amp;hellip; it&amp;rsquo;s been a year&lt;/h2&gt;
+&lt;p&gt;And I&amp;rsquo;m still learning (understand making mistakes, getting stuck, etc),
+one of the reasons I had to learn more is not coming from a background
+in maths, nor from a research-oriented degree.&lt;/p&gt;
+&lt;p&gt;Reach out any way you prefer, &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Twitter&lt;/a&gt;,
+&lt;a href=&#34;https://matbesancon.xyz/#contact&#34;&gt;email&lt;/a&gt;. Of course some things I&amp;rsquo;ve written are related
+to my situation, I&amp;rsquo;d be interested to know how it relates or not to yours.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Image sources:&lt;br&gt;
+[1] &lt;a href=&#34;https://pxhere.com/en/photo/571187&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://pxhere.com/en/photo/571187&lt;/a&gt;&lt;br&gt;
+[2] &lt;a href=&#34;https://pixabay.com/en/noodles-thailand-food-thai-2693009/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://pixabay.com/en/noodles-thailand-food-thai-2693009/&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Switching my work flow to Pomodoro for grad studies - part I: motivation  </title>
+      <link>https://matbesancon.xyz/post/2017-10-19-tomate-cli/</link>
+      <pubDate>Thu, 19 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2017-10-19-tomate-cli/</guid>
+      <description>&lt;p&gt;The start of my journey as a PhD student last September was a big step, but
+also an opportunity to review and improve my working habits. My day time
+had to be used properly, both for results&amp;rsquo; sake and to be able to keep
+a balanced life.&lt;/p&gt;
+&lt;p&gt;I had been introduced to the &lt;a href=&#34;https://en.wikipedia.org/wiki/Pomodoro_Technique&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Pomodoro technique&lt;/a&gt;
+at Equisense (thanks &lt;a href=&#34;https://twitter.com/CamilleSaute&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Camille&lt;/a&gt;!) but
+remained skeptical as for its potential value within my work
+flow at the time.&lt;/p&gt;
+&lt;p&gt;To make it short, the technique consists in the following steps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Decide what task should be worked on.&lt;/li&gt;
+&lt;li&gt;Allocate a given time to work (around 25 minutes)&lt;/li&gt;
+&lt;li&gt;Set a timer and get to work&lt;/li&gt;
+&lt;li&gt;When the time is up, make a short pause (~5 minutes), then repeat&lt;/li&gt;
+&lt;li&gt;After 4 work sprints, take a longer break (~15-30 minutes)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;what-was-wrong-with-that&#34;&gt;What was wrong with that?&lt;/h2&gt;
+&lt;p&gt;The development, test and operation phases were generally self-determining
+and lead to sprints from 20 to 120 minutes (that length isn&amp;rsquo;t surprising
+for some tasks and when highly focused). These were also often
+interrupted by team interactions (required concertation with members
+of the tech and product team, backend-specific collaborative
+problem-solving, &amp;hellip;). The main point was that
+&lt;strong&gt;there are enough spontaneous interruptions of the work flow, no need to introduce an additional artificial one&lt;/strong&gt;.
+As I look back, I still think this was a valid reason
+not to use this technique.&lt;/p&gt;
+&lt;h2 id=&#34;what-has-changed&#34;&gt;What has changed?&lt;/h2&gt;
+&lt;p&gt;Time management as a grad student has to be un- and re-learned:
+rules are different, criteria for success change and so on.&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/tomate/phd_time.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Time management seen by PhD comics [2]&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;problem-structure-programming-at-a-startup-vs-applied-math&#34;&gt;Problem structure: programming at a startup vs. applied math&lt;/h3&gt;
+&lt;p&gt;In my case, the major part of the workload switched from an
+implementation-heavy to a modeling-heavy context. As such,
+the work phases tend to be longer and with an heavier
+cognitive load. I am not saying that programming is
+easier, but I&amp;rsquo;m pretty sure mathematics almost always
+requires to keep more information in mind while working
+on a problem. Another opinion is that the part of
+instinct to find a path towards a solution is higher
+in mathematics.&lt;/p&gt;
+&lt;p&gt;While programming, there are some key techniques that
+reduce the number of possible sources to a problem:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Getting information on the state of the program at a given point (logging, debugging, printing to &lt;code&gt;stdout&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Testing the behavior of an isolated piece of the program with given input&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These techniques also work for scientific computing of course, but are
+harder to apply to both modeling and symbolic calculus, the different
+pieces of the problem have to be combined to find special structures
+which allow for a resolution. More solutions also tend to come
+while NOT looking at mathematical problem than for programming
+problems, where solutions come either in front of the code or when
+voluntarily thinking of the problem.&lt;/p&gt;
+&lt;h3 id=&#34;team-dependent-work-vs-figure-it-out-for-yourself&#34;&gt;Team-dependent work vs. figure it out for yourself&lt;/h3&gt;
+&lt;p&gt;Most startups obviously value team work, it is one of the
+group skills that differentiate companies building great
+things from the ones stuck in an eternal early stage.
+This was even more true at Equisense where collaboration
+and product development were both very synchronous by
+modern standards. It had cons but ease two things:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Speed of product development&lt;/strong&gt;. Lots of team under-estimate post-development coordination, the last meters of the sprint to have a feature ready&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Programming by constraints&lt;/strong&gt;. Because of fast interactions between the people responsible for the different components, constraints from each one is quickly communicated and the modeling process is defined accounting for them right away.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now in research, especially in applied mathematics, the work is
+mostly independent, synchronization happens when working
+on a joined project for instance. This means that all the
+interruptions that were happening throughout the day are
+now gone!
+&lt;strong&gt;Nothing would stop you from working day and night without a break&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Two key results of this change of work style are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Work sprints are not naturally bound anymore, obviously with decreasing efficiency&lt;/li&gt;
+&lt;li&gt;Few to no interactions interrupt the sprints either&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;My conclusion was the necessity of a time management technique
+and associated tools, with a low cognitive overhead and bringing
+as little distraction as possible.&lt;/p&gt;
+&lt;p&gt;From these criteria, I rejected a mobile app,
+smartphones are great to bring different sources
+of information and communication channels together,
+not for remaining focused for hours,
+&lt;strong&gt;mobile apps are designed to catch and retain attention&lt;/strong&gt;,
+that&amp;rsquo;s simply part of their business model. I also rejected
+web-based solutions for the constraint of firing up
+a browser, amongst the heaviest pieces of software on our
+modern desktops, just to start a working session.&lt;/p&gt;
+&lt;p&gt;So desktop GUI or CLI it is. Even though there is the
+&lt;a href=&#34;http://gnomepomodoro.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;gnomepomodoro project&lt;/a&gt;, it did not seem compatible with all
+Linux desktops. At that point, I realized the amount of
+work to build a Pomodoro was low, the requirements and
+constraints well known, I throw ideas
+together and start coding.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ll explain the initial development and iterations of
+the app in Go in a second article, if you liked this one,
+let me know!&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Sources and images:&lt;br&gt;
+&lt;a href=&#34;https://pixabay.com/en/tomatoes-vegetables-red-delicious-73913&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;1&lt;/a&gt;&lt;br&gt;
+&lt;a href=&#34;http://substance-en.etsmtl.ca/wp-content/uploads/2014/09/2.gif&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;2&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

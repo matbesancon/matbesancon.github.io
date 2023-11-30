@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>interface on μβ</title>
+    <link>https://matbesancon.xyz/tags/interface/</link>
+    <description>Recent content in interface on μβ</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
+    <language>en-ca</language>
+    <copyright>&amp;copy; {year} Mathieu Besançon</copyright>
+    <lastBuildDate>Thu, 25 Jul 2019 18:14:43 +0200</lastBuildDate>
+    
+	    <atom:link href="https://matbesancon.xyz/tags/interface/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Leveraging special graph shapes in LightGraphs</title>
+      <link>https://matbesancon.xyz/post/2019-07-25-special-graphs/</link>
+      <pubDate>Thu, 25 Jul 2019 18:14:43 +0200</pubDate>
+      
+      <guid>https://matbesancon.xyz/post/2019-07-25-special-graphs/</guid>
+      <description>&lt;p&gt;In a &lt;a href=&#34;https://matbesancon.xyz/post/2019-05-30-vertex-safe-removal/&#34;&gt;previous post&lt;/a&gt;, we
+pushed the boundaries of the LightGraphs.jl abstraction to see how conforming the
+algorithms are to the declared interface, noticing some implied assumptions
+that were not stated. This has led to the development of
+&lt;a href=&#34;https://github.com/matbesancon/VertexSafeGraphs.jl&#34;&gt;VertexSafeGraphs.jl&lt;/a&gt; and
+soon to some work on LightGraphs.jl itself.&lt;/p&gt;
+&lt;p&gt;Another way to push the abstraction came out of the
+&lt;a href=&#34;https://matbesancon.xyz/slides/JuliaNantes/Graphs&#34;&gt;JuliaNantes workshop&lt;/a&gt;:
+leveraging some special structure of graphs to optimize some specific operations.
+A good parallel can be established be with the &lt;code&gt;LinearAlgebra&lt;/code&gt; package from
+Julia Base, which defines special matrices such as &lt;code&gt;Diagonal&lt;/code&gt; and &lt;code&gt;Symmetric&lt;/code&gt;
+and &lt;code&gt;Adjoint&lt;/code&gt;, implementing the &lt;code&gt;AbstractMatrix&lt;/code&gt; interface but without storing
+all the entries.&lt;/p&gt;
+&lt;h2 id=&#34;a-basic-example&#34;&gt;A basic example&lt;/h2&gt;
+&lt;p&gt;Suppose you have a path graph or chain, this means any vertex is connected to
+its predecessor and successor only, except the first and last vertices.
+Such graph can be represented by a &lt;code&gt;LightGraphs.SimpleGraph&lt;/code&gt;:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; LightGraphs
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; LG &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LightGraphs
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;path_graph(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;@assert&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g, v, v&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;# should not explode&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;This is all fine, but we are encoding in an adjacency list some structure that
+we are aware of from the beginning. If you are used to thinking in such way,
+&amp;ldquo;knowing it from the beginning&amp;rdquo; can be a hint that it can be encoded in terms
+of types and made zero-cost abstractions. The real only runtime information of
+a path graph (which is not available before receiving the actual graph) is its
+size $n$. The only thing to do is implement the handful of methods from the
+LightGraphs interface.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;PathGraph&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Integer&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LG&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractGraph&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nv&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edgetype(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PathGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Edge&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PathGraph&lt;/span&gt;}) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PathGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PathGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PathGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edges(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PathGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Edge(i, i&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PathGraph&lt;/span&gt;, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PathGraph&lt;/span&gt;, v)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g, v) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;[]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;[]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; [&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; [LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; [v&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, v&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LightGraphs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PathGraph&lt;/span&gt;, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; outneighbors(g, v)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; LightGraphs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;PathGraph&lt;/span&gt;, v1, v2)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;has_vertex(g, v1) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;has_vertex(g, v2)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; abs(v1&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;v2) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&#34;a-more-striking-example&#34;&gt;A more striking example&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;PathGraph&lt;/code&gt; may leave you skeptical as to the necessity of such machinery, and
+you are right. A more interesting example might be complete graphs. Again for
+these, the only required piece of information is the number of vertices,
+which is a lot lighter than storing all the possible edges. We can make a
+parallel with &lt;a href=&#34;https://github.com/JuliaArrays/FillArrays.jl&#34;&gt;FillArrays.jl&lt;/a&gt;,
+implicitly representing the entries of a matrix.&lt;/p&gt;
+&lt;h3 id=&#34;use-cases&#34;&gt;Use cases&lt;/h3&gt;
+&lt;p&gt;The question of when to use a special-encoded graph is quite open.
+This type can be used with all functions assuming a graph-like behaviour, but
+is immutable, it is therefore not the most useful when you construct these
+special graphs as a starting point for an algorithm mutating them.&lt;/p&gt;
+&lt;h2 id=&#34;performance&#34;&gt;Performance&lt;/h2&gt;
+&lt;p&gt;As of now, simple benchmarks will show that the construction of special graphs
+is cheaper than the creation of the adjacency lists for &lt;code&gt;LightGraphs.SimpleGraph&lt;/code&gt;.
+Actually using them for &amp;ldquo;global&amp;rdquo; algorithms is another story:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; f(G, nv)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; G(nv)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    pr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; pagerank(g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    km &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; kruskal_mst(g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (g, pr, km)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Trying to benchmark this function on &lt;code&gt;PathGraph&lt;/code&gt; shows it is way worse than
+the corresponding SimpleGraph structure, the &lt;code&gt;CompleteGraph&lt;/code&gt; implementation is
+about the same order of allocations and runtime as its list-y counterpart.&lt;/p&gt;
+&lt;p&gt;The suspect for the lack of speedup is the &lt;code&gt;edges&lt;/code&gt; operation, optimized with a custom edge
+iterator in LightGraphs and returning a heap-allocated &lt;code&gt;Array&lt;/code&gt; in SpecialGraphs
+for now. Taking performance seriously will requiring tackling this before
+anything else. Other opportunities for optimization may include returning
+&lt;a href=&#34;https://github.com/JuliaArrays/StaticArrays.jl/&#34;&gt;StaticArrays&lt;/a&gt; and
+re-implementing optional methods such as &lt;code&gt;LightGraphs.adjacency_matrix&lt;/code&gt;
+using specialized matrix types.&lt;/p&gt;
+&lt;h2 id=&#34;conclusion-and-further-reading&#34;&gt;Conclusion and further reading&lt;/h2&gt;
+&lt;p&gt;The work on these graph structures is happening in
+&lt;a href=&#34;https://github.com/JuliaGraphs/SpecialGraphs.jl&#34;&gt;SpecialGraphs.jl&lt;/a&gt;, feel free
+to file issues and submit pull requests. Also check out the matrix-based
+graph prototype in &lt;a href=&#34;https://matbesancon.xyz/post/2018-08-17-abstract_graph/&#34;&gt;this post&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Vertex removal in LightGraphs</title>
+      <link>https://matbesancon.xyz/post/2019-05-30-vertex-safe-removal/</link>
+      <pubDate>Thu, 30 May 2019 11:14:43 +0200</pubDate>
+      
+      <guid>https://matbesancon.xyz/post/2019-05-30-vertex-safe-removal/</guid>
+      <description>&lt;p&gt;In various graph-related algorithms, a graph is modified through successive
+operations, merging, creating and deleting vertices. That&amp;rsquo;s the case for the
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Blossom_algorithm&#34;&gt;Blossom algorithm&lt;/a&gt; finding a
+best matching in a graph and using contractions of nodes.
+In such cases, it can be useful to remove only the vertex being contracted,
+and maintain the number of all other vertices.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;LightGraphs.jl&lt;/em&gt; offers a set of abstractions, types and algorithms to get started
+with graphs. The claim of the abstraction is simple: whatever the underlying
+structure representing your graph, if it implements the &lt;code&gt;AbstractGraph&lt;/code&gt; interface,
+it can be used out of the box with all algorithms built on &lt;em&gt;LightGraphs.jl&lt;/em&gt;.
+The main concrete type presented by &lt;em&gt;LightGraphs.jl&lt;/em&gt; is &lt;code&gt;SimpleGraph&lt;/code&gt; and its
+directed counterpart &lt;code&gt;SimpleDiGraph&lt;/code&gt;, only storing edges as adjacency lists,
+meaning vertices are just the integers from 1 to the length of the list.
+This means that in a graph with 6 vertices, deleting vertex 4 will re-label vertex 6
+as 4. Hopefully, the interface should allow us to build a graph type on top of another graph,
+re-implementing only vertex removal.&lt;/p&gt;
+&lt;h2 id=&#34;a-simple-vertex-safe-implementation&#34;&gt;A simple vertex-safe implementation&lt;/h2&gt;
+&lt;p&gt;First things first, we will build it as a struct, using LightGraphs:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; LightGraphs
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; LG &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LightGraphs
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;G&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;LG&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractGraph&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;}, &lt;span style=&#34;color:#66d9ef&#34;&gt;V&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;LG&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractGraph&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;G&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    deleted_vertices&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;V&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    VSafeGraph(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;G&lt;/span&gt;, v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;V&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt; {&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;G&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;LG&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractGraph&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;}, &lt;span style=&#34;color:#66d9ef&#34;&gt;V&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractVector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;G&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;V&lt;/span&gt;}(g, v)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;VSafeGraph(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;G&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt; {&lt;span style=&#34;color:#66d9ef&#34;&gt;G&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;LG&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractGraph&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(g, &lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;VSafeGraph(nv&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Integer&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;SimpleGraph(nv))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We added simple default constructors for convenience. The structure holds two
+elements:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;An inner abstract graph &lt;code&gt;g&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;A list of vertices already deleted: &lt;code&gt;deleted_vertices&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The interface can now be implemented for our type, starting with the trivial
+parts:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edges(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edges(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edgetype(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edgetype(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Type&lt;/span&gt;{&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;G&lt;/span&gt;}}) &lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt; {&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;G&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(G)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; length(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (v &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g) &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;(v &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;, v) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;(v &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;, e) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, e)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;, v1, v2) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v1, v2)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;copy(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(copy(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g), copy(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleteed_vertices))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;For most of these, we only re-call the method on the inner graph type.
+Only for &lt;code&gt;LG.nv&lt;/code&gt;, which computes the number of vertices in the inner graph,
+minus the number of vertices in our removed list. Now the tricky parts,
+adding an edge and removing a vertex, which require a bit more verifications:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;, v1, v2)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g, v1) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g, v2)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;add_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g, v1, v2)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;VSafeGraph&lt;/span&gt;, v1)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g, v1) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; v1 &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v2 &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outneighbors(g, v1)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_edge!(g, v1, v2)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v2 &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inneighbors(g, v1)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_edge!(g, v2, v1)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    push!(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices, v1)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Instead of removing the vertex &lt;code&gt;v1&lt;/code&gt; from the inner graph, the function removes
+all edges pointing to and from &lt;code&gt;v1&lt;/code&gt;, and then adds it to the removed list.&lt;/p&gt;
+&lt;h2 id=&#34;specific-and-generic-tests&#34;&gt;Specific and generic tests&lt;/h2&gt;
+&lt;p&gt;So far so good, we can add some basic tests to check our type behaves as
+expected:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@testset&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Graph construction and basic interface&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nv &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    g1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(nv)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g1) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nv
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;g) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nv
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    g2_inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CompleteGraph(nv)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    g2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(g2_inner)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g2) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g2_inner)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g2) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g2_inner)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; all(sort(collect(LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g2))) &lt;span style=&#34;color:#f92672&#34;&gt;.==&lt;/span&gt; sort(collect(LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g2_inner))))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    g3 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CompleteDiGraph(&lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g3)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(g2)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@testset&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Vertex deletion&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;begin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Random&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;seed!(&lt;span style=&#34;color:#ae81ff&#34;&gt;33&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nv &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;45&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CompleteGraph(nv)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(inner)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(inner) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(inner) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nrm &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; _ &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;15&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        removed_ok &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_vertex!(g, rand(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;nv))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;removed_ok
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;continue&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        nrm &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(inner) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nv
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nv &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; nrm
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; length(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;deleted_vertices) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nrm
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(inner) &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;So far so good. Now, with the promise of generic graphs and the AbstractGraph
+interface, we should be able to use &lt;strong&gt;any&lt;/strong&gt; algorithm in &lt;em&gt;LightGraphs.jl&lt;/em&gt;,
+let us try to compute a page rank and a Kruskal minimum spanning tree:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nv &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;45&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;inner &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;CompleteGraph(nv)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; VSafeGraph(inner)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;removed_ok &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;rem_vertex!(g, rand(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;nv))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@test&lt;/span&gt; removed_ok
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# LG broken here&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@test_throws&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BoundsError&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pagerank(g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@test_throws&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;BoundsError&lt;/span&gt; LG&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kruskal_mst(g)&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Yikes, what&amp;rsquo;s happening here? Many parts of &lt;em&gt;LightGraphs.jl&lt;/em&gt; use vertices computed
+from &lt;code&gt;vertices(g)&lt;/code&gt; as indices for structures indexed by them. So if you remove
+vertex 4 in a 6-vertex graph, vertices will be &lt;code&gt;{1,2,3,5,6}&lt;/code&gt;, and the rank
+algorithm will try to access the 6th rank, even though only 5 exist.&lt;/p&gt;
+&lt;h2 id=&#34;fixes-and-proposal&#34;&gt;Fixes and proposal&lt;/h2&gt;
+&lt;p&gt;It would be too bad to throw the interface altogether, but we need to do
+something for the broken behaviour. The underlying assumption here is that
+vertices behave like indices for anything vertex-related.
+So the way we implement this interface for &lt;code&gt;VSafeGraph&lt;/code&gt; is correct, but the
+implicit contract is not, the way it is used in algorithms such as pagerank
+and Kruskal leak the underlying implementation for &lt;code&gt;SimpleGraph&lt;/code&gt;:
+a contiguous list of integers from 1 to the number of vertices.
+It reminds me of this &lt;a href=&#34;https://youtu.be/MdTTt5v-HWQ?t=692&#34;&gt;great talk&lt;/a&gt;
+on paying attention to the contract of an interface in Go, the type is telling
+you what to expect in and out, but not how it is supposed or will be used.&lt;/p&gt;
+&lt;p&gt;The first fix is to make &lt;code&gt;vertices&lt;/code&gt; return &lt;code&gt;1:nv(g)&lt;/code&gt; for VSafeGraph, but if you
+think about it, it means it needs to do such with any graph type, which means
+the &lt;code&gt;vertices&lt;/code&gt; function is redundant with other functions of the interface and
+should not be mandatory. The other option is to fix breaking code to really
+use the interface signalled and documented and not the leaked implementation.&lt;/p&gt;
+&lt;p&gt;We still have some good news though:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Changing the code here is strictly non-breaking, since we would just remove
+the assumption that vertices are indices.&lt;/li&gt;
+&lt;li&gt;If we want to keep this assumption for some pieces of code, it means these
+pieces are not generic but specialized, something we can handle well using either
+dispatch on types or traits, which &lt;em&gt;LightGraphs.jl&lt;/em&gt; already does. There is a &lt;code&gt;IsDirected&lt;/code&gt;
+trait associated with the fact that a graph is directed or not, there could also
+be a &lt;code&gt;HasContiguousVertices&lt;/code&gt; trait signalling whether this assumption is validated
+for a type.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;edit-refined-proposal&#34;&gt;Edit: refined proposal&lt;/h2&gt;
+&lt;p&gt;Following some discussions with fellow &lt;em&gt;LightGraphs.jl&lt;/em&gt; developers and users, a
+softer transition could be:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Add the functions &lt;code&gt;vertex_indices(g)&lt;/code&gt; and &lt;code&gt;vertex_values(g)&lt;/code&gt; to the interface, &lt;code&gt;vertex_values&lt;/code&gt; could default to &lt;code&gt;vertex_indices&lt;/code&gt;, which could itself default on &lt;code&gt;1:nv(g)&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Deprecate &lt;code&gt;vertices(g)&lt;/code&gt;, with a fallback to &lt;code&gt;vertex_indices&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Replace all calls to &lt;code&gt;vertex&lt;/code&gt; with either &lt;code&gt;vertex_indices&lt;/code&gt; or &lt;code&gt;vertex_values&lt;/code&gt; depending on which makes sense for the use case.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This change is non-breaking and only deprecating &lt;code&gt;vertices&lt;/code&gt;, making the
+interface more explicit. By keeping the two functions, we avoid having to use
+&lt;code&gt;enumerate(vertices_values(g))&lt;/code&gt; every time we need indices.&lt;/p&gt;
+&lt;h2 id=&#34;edit-2-corrections-to-the-functions&#34;&gt;Edit 2: Corrections to the functions&lt;/h2&gt;
+&lt;p&gt;I have corrected various functions following Pankaj&amp;rsquo;s much needed
+&lt;a href=&#34;https://github.com/matbesancon/VertexSafeGraphs.jl/pull/2&#34;&gt;Pull Request&lt;/a&gt;
+on the corresponding repository, thanks!&lt;/p&gt;
+&lt;h2 id=&#34;edit-3&#34;&gt;Edit 3&lt;/h2&gt;
+&lt;p&gt;Seth Bromberger spotted an error in my assumptions,
+Swap-and-pop is used for vertex removal, so the last
+vertex will take the place of the removed one in the re-labelling.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Building our own graph type in Julia</title>
+      <link>https://matbesancon.xyz/post/2018-08-17-abstract_graph/</link>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.xyz/post/2018-08-17-abstract_graph/</guid>
+      <description>&lt;hr&gt;
+&lt;p&gt;This is an adapted post on the talk we gave with &lt;a href=&#34;https://twitter.com/fairbanksjp&#34;&gt;James&lt;/a&gt;
+at JuliaCon 2018 in London. You can see the
+&lt;a href=&#34;https://matbesancon.xyz/graph_interfaces_juliacon18&#34;&gt;original slides&lt;/a&gt;,
+the video still requires a bit of post-processing.&lt;/p&gt;
+&lt;p&gt;Last week &lt;a href=&#34;http://juliacon.org&#34;&gt;JuliaCon&lt;/a&gt; in London was a great and very condensed experience.
+The two talks on &lt;a href=&#34;https://github.com/JuliaGraphs/LightGraphs.jl&#34;&gt;LightGraphs.jl&lt;/a&gt;
+received a lot of positive feedback and more than that, we saw
+how people are using the library for a variety of use cases which is a great
+signal for the work on the JuliaGraphs ecosystem
+(see the &lt;a href=&#34;https://matbesancon.xyz/graph_interfaces_juliacon18/ecosystem.html#/&#34;&gt;lightning talk&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;I wanted to re-build the same graph for people who prefer a post version to
+my clumsy live explanations on a laptop not handling dual-screen well
+(those who prefer the latter are invited to see the live-stream of the talk).&lt;/p&gt;
+&lt;h2 id=&#34;why-abstractions&#34;&gt;Why abstractions?&lt;/h2&gt;
+&lt;p&gt;The LightGraphs library is built to contain as few elements as possible to get
+anyone going with graphs. This includes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The interface a graph type has to comply with to be used&lt;/li&gt;
+&lt;li&gt;Essential algorithms implemented by any graph respecting that interface&lt;/li&gt;
+&lt;li&gt;A simple, battery-included implementation based on adjacency lists&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The thing is, if you design an abstraction which in fact has just one
+implementation, you&amp;rsquo;re doing abstraction wrong. This talks was also a
+reality-check for LightGraphs, are we as composable, extensible as we promised?&lt;/p&gt;
+&lt;p&gt;The reason for abstraction is also that &lt;strong&gt;minimalism has its price&lt;/strong&gt;.
+The package was designed as the least amount of complexity required to get
+graphs working. When people started to use it, obviously they needed more
+features, some of which they could code themselves, some other required
+extensions built within LightGraphs. By getting the core abstractions right,
+you guarantee people will be able to use it and to build on top with minimal
+friction, while keeping it simple to read and contribute to.&lt;/p&gt;
+&lt;h2 id=&#34;our-matrix-graph-type&#34;&gt;Our matrix graph type&lt;/h2&gt;
+&lt;p&gt;Let&amp;rsquo;s recall that a graph is a collection of &lt;em&gt;nodes&lt;/em&gt; and a collection of
+&lt;em&gt;edges&lt;/em&gt; between these nodes. To keep it simple, for a graph of $n$ edges,
+we will consider they are numbered from 1 to n. An edge connects a node $i$
+to a node $j$, therefore all the information of a graph can be kept as an
+&lt;em&gt;adjacency matrix&lt;/em&gt; $M_{ij}$ of size $n \times n$:&lt;/p&gt;
+&lt;p&gt;$$M_{ij} = \begin{cases} 1, &amp;amp; \mbox{if edge (i $\rightarrow$ j) exists} \\ 0 &amp;amp; \mbox{otherwise}\end{cases}$$&lt;/p&gt;
+&lt;p&gt;We don&amp;rsquo;t know what the use cases for our type will be, and therefore,
+we will parametrize the graph type over the matrix type:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; LightGraphs; &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; lg &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LightGraphs
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;mutable struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;MT&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractMatrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Bool&lt;/span&gt;}} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;lg&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractGraph&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  matrix&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MT&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The edges are simply mapping an entry (i,j) to a boolean (whether there is an
+edge from i to j). Even though creating a graph type that can be directed
+or undirected depending on the situation is possible, we are creating a type
+that will be directed by default.&lt;/p&gt;
+&lt;h2 id=&#34;implementing-the-core-interface&#34;&gt;Implementing the core interface&lt;/h2&gt;
+&lt;p&gt;We can now implement the core LightGraphs interface for this type, starting
+with methods defined over the type itself, of the form &lt;code&gt;function(g::MyType)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m not going to re-define each function here, their meaning can be found
+by checking the help in a Julia REPL: &lt;code&gt;?LightGraphs.vertices&lt;/code&gt; or on the
+&lt;a href=&#34;http://juliagraphs.github.io/LightGraphs.jl/stable/types.html#AbstractGraph-Type-1&#34;&gt;documentation page&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_directed(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edgetype(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;SimpleGraphs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;SimpleEdge&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;ne(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; sum(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;m)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; size(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;m)[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;vertices(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;nv(g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;edges(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;SimpleGraphs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;SimpleEdge(i,j) &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;n &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;n &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;m[i,j])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Note the last function &lt;code&gt;edges&lt;/code&gt;, for which the documentation specifies that we
+need to return an &lt;strong&gt;iterator&lt;/strong&gt; over edges. We don&amp;rsquo;t need to collect the comprehension
+in a Vector, returning a lazy generator.&lt;/p&gt;
+&lt;p&gt;Some operations have to be defined on both the graph and a node, of the form
+&lt;code&gt;function(g::MyType, node)&lt;/code&gt;.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;outneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;, node) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [v &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g) &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;m[node, v]]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inneighbors(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;, node) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [v &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; v &lt;span style=&#34;color:#66d9ef&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g) &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;m[v, node]]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_vertex(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;, v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Integer&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;nv(g) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;Out &lt;code&gt;MatrixDiGraph&lt;/code&gt; type is pretty straight-forward to work with and all
+required methods are easy to relate to the way information is stored in the
+adjacency matrix.&lt;/p&gt;
+&lt;p&gt;The last step is implementing methods on both the graph and an edge of the
+form &lt;code&gt;function(g::MatrixDiGraph,e)&lt;/code&gt;. The only one we need here is:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;has_edge(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;,i,j) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;m[i,j]&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;h2 id=&#34;optional-mutability&#34;&gt;Optional mutability&lt;/h2&gt;
+&lt;p&gt;Mutating methods were removed from the core interace some time ago,
+as they are not required to describe a graph-like behavior.
+The general behavior for operations mutating a graph is to return whether
+the operation succeded. They consist in adding or removing elements from
+either the edges or nodes.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; LightGraphs&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; rem_edge!, rem_vertex!, add_edge!, add_vertex!
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; add_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;, e)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    has_edge(g,e) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nv(g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (src(e) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; dst(e) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; n) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;m[src(e),dst(e)] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; rem_edge!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;,e)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    has_edge(g,e) &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nv(g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (src(e) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; dst(e) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; n) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;m[src(e),dst(e)] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; false
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; add_vertex!(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nv(g)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; zeros(&lt;span style=&#34;color:#66d9ef&#34;&gt;Bool&lt;/span&gt;,n&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,n&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    m[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;n,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;n] &lt;span style=&#34;color:#f92672&#34;&gt;.=&lt;/span&gt; g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;m
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; m
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; true
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&#34;testing-our-graph-type-on-real-data&#34;&gt;Testing our graph type on real data&lt;/h2&gt;
+&lt;p&gt;We will use the graph type to compute the PageRank of&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; SNAPDatasets
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; SNAPDatasets&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;loadsnap(&lt;span style=&#34;color:#e6db74&#34;&gt;:ego_twitter_d&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;twitter_graph &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; MatrixDiGraph(lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;adjacency_matrix(data)[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;]&lt;span style=&#34;color:#f92672&#34;&gt;.==&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ranks &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pagerank(twitter_graph)&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Note the broadcast check &lt;code&gt;.==1&lt;/code&gt;, &lt;code&gt;adjacency_matrix&lt;/code&gt; is specified to yield a
+matrix of &lt;code&gt;Int&lt;/code&gt;, so we use this to cast the entries to boolean values.&lt;/p&gt;
+&lt;p&gt;I took only the first 10 nodes of the graph, but feel free to do the same with
+500, 1000 or more nodes, depending on what your machine can stand  🙈&lt;/p&gt;
+&lt;h2 id=&#34;overloading-non-mandatory-functions&#34;&gt;Overloading non-mandatory functions&lt;/h2&gt;
+&lt;p&gt;Some methods are already implemented for free by implementing the core interface.
+That does not mean it should be kept as-is in every case. Depending on your
+graph type, some functions might have smarter implementations, let&amp;rsquo;s see one
+example. What &lt;code&gt;MatrixDiGraph&lt;/code&gt; is already an &lt;code&gt;adjacency_matrix&lt;/code&gt;, so we know
+there should be no computation required to return it (it&amp;rsquo;s almost a no-op).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; BenchmarkTools&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;@btime&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@btime&lt;/span&gt; adjacency_matrix(bigger_twitter)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;println(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;why did that take so long?&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;adjacency_matrix(g&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MatrixDiGraph&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;(g&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;m)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@btime&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; lg&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;adjacency_matrix(bigger_twitter)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;println(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;that&amp;#39;s better.&amp;#34;&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This should yield roughly:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;13.077 ms (5222 allocations: 682.03 KiB)
+why did that take so long?
+82.077 μs (6 allocations: 201.77 KiB)
+that&amp;#39;s better.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can fall down to a no-op by storing the matrix entries as &lt;code&gt;Int&lt;/code&gt; directly,
+but the type ends up being a bit heavier in memory, your type, your trade-off.&lt;/p&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;We&amp;rsquo;ve implemented a graph type suited to our need in a couple lines of Julia,
+guided by the &lt;code&gt;LightGraphs&lt;/code&gt; interface specifying &lt;strong&gt;how&lt;/strong&gt; to think about our
+graph instead of getting in the way of &lt;strong&gt;what&lt;/strong&gt; to store. A lighter version
+of this post can be read as &lt;a href=&#34;https://matbesancon.xyz/graph_interfaces_juliacon18/&#34;&gt;slides&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As usual, ping me on &lt;a href=&#34;https://twitter.com/matbesancon&#34;&gt;Twitter&lt;/a&gt; for any
+question or comment.&lt;/p&gt;
+&lt;h2 id=&#34;bonus&#34;&gt;Bonus&lt;/h2&gt;
+&lt;p&gt;If you read this and want to try building your own graph type, here are two
+implementations you can try out, put them out in a public repo and show them off
+afterwards:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We created a type just for directed graphs, why bothering so much? You can create your own type which can be directed or not,
+either by storing the information in the &lt;code&gt;struct&lt;/code&gt; or by parametrizing the type
+and getting the compiler to do the work for you.&lt;/li&gt;
+&lt;li&gt;We store the entries as an &lt;code&gt;AbstractMatrix{Bool}&lt;/code&gt;, if your graph is dense
+enough (how dense? No idea), it might be interesting to store entries as as
+&lt;code&gt;BitArray&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;Image source: GraphPlot.jl&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Publications | μβ</title>
+    <link>https://matbesancon.xyz/publication/</link>
+      <atom:link href="https://matbesancon.xyz/publication/index.xml" rel="self" type="application/rss+xml" />
+    <description>Publications</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language>
+    <image>
+      <url>https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png</url>
+      <title>Publications</title>
+      <link>https://matbesancon.xyz/publication/</link>
+    </image>
+    
+    <item>
+      <title>Improved local models and new Bell inequalities via Frank-Wolfe algorithms</title>
+      <link>https://matbesancon.xyz/publication/journal/phys-rev-research-5-043059/</link>
+      <pubDate>Sun, 01 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/journal/phys-rev-research-5-043059/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>A Context-Aware Cutting Plane Selection Algorithm for Mixed-Integer Programming</title>
+      <link>https://matbesancon.xyz/publication/preprint/turner-2023-contextaware/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/turner-2023-contextaware/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cutting plane selection with analytic centers and multiregression</title>
+      <link>https://matbesancon.xyz/publication/conference/turner-2023-cutting/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/turner-2023-cutting/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Enabling research through the SCIP optimization suite 8.0</title>
+      <link>https://matbesancon.xyz/publication/journal/bestuzheva-2023-enabling/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/journal/bestuzheva-2023-enabling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Flexible Differentiable Optimization via Model Transformations</title>
+      <link>https://matbesancon.xyz/publication/journal/sharma-2022-flexible/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/journal/sharma-2022-flexible/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>How Many Clues To Give? A Bilevel Formulation For The Minimum Sudoku Clue Problem</title>
+      <link>https://matbesancon.xyz/publication/preprint/tjusila-2023-clues/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/tjusila-2023-clues/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Scylla: a matrix-free fix-propagate-and-project heuristic for mixed-integer optimization</title>
+      <link>https://matbesancon.xyz/publication/preprint/mexi-2023-scylla/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/mexi-2023-scylla/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>The MIP Workshop 2023 Computational Competition on Reoptimization</title>
+      <link>https://matbesancon.xyz/publication/preprint/bolusani-2023-mip/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/bolusani-2023-mip/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Convex mixed-integer optimization with Frank-Wolfe algorithms</title>
+      <link>https://matbesancon.xyz/publication/preprint/convexmip/</link>
+      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/convexmip/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FrankWolfe.jl: A High-Performance and Flexible Toolbox for Frank-Wolfe Algorithms and Conditional Gradients</title>
+      <link>https://matbesancon.xyz/publication/journal/besanccon-2022-frankwolfe/</link>
+      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/journal/besanccon-2022-frankwolfe/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Interpretable Neural Networks with Frank-Wolfe: Sparse Relevance Maps and Relevance Orderings</title>
+      <link>https://matbesancon.xyz/publication/conference/macdonald-2021-interpretable/</link>
+      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/macdonald-2021-interpretable/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Interrogating the effect of enzyme kinetics on metabolism using differentiable constraint-based models</title>
+      <link>https://matbesancon.xyz/publication/journal/wilken-2022-07-11-499575/</link>
+      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/journal/wilken-2022-07-11-499575/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Complexity of near-optimal robust versions of multilevel optimization problems</title>
+      <link>https://matbesancon.xyz/publication/journal/besanccon-2021-complexity/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/journal/besanccon-2021-complexity/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Distributions.jl: Definition and Modeling of Probability Distributions in the JuliaStats Ecosystem</title>
+      <link>https://matbesancon.xyz/publication/journal/js-sv-098-i-16/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/journal/js-sv-098-i-16/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Simple steps are all you need: Frank-Wolfe and generalized self-concordant functions</title>
+      <link>https://matbesancon.xyz/publication/conference/carderera-2021-simple/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/carderera-2021-simple/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>The SCIP Optimization Suite 8.0</title>
+      <link>https://matbesancon.xyz/publication/preprint/scipreport/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/scipreport/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>A bilevel approach for optimal price-setting of time-and-level-of-use tariffs</title>
+      <link>https://matbesancon.xyz/publication/journal/besanccon-2020-bilevel/</link>
+      <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/journal/besanccon-2020-bilevel/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>A Bilevel Framework for Optimal Price-Setting of Time-and-Level-of-Use Tariffs</title>
+      <link>https://matbesancon.xyz/publication/conference/besancon-2018/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/besancon-2018/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>A Julia package for bilevel optimization problems</title>
+      <link>https://matbesancon.xyz/publication/journal/besanccon-2019-julia/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/journal/besanccon-2019-julia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Near-optimal robust bilevel optimization</title>
+      <link>https://matbesancon.xyz/publication/preprint/besanccon-2019-near/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/besanccon-2019-near/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

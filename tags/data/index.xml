@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data on μβ</title>
+    <link>https://matbesancon.github.io/tags/data/</link>
+    <description>Recent content in data on μβ</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-ca</language>
+    <copyright>&amp;copy; 2019 Mathieu Besançon</copyright>
+    <lastBuildDate>Sat, 21 May 2016 00:00:00 +0200</lastBuildDate>
+    
+	<atom:link href="https://matbesancon.github.io/tags/data/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bringing data science to engineers</title>
+      <link>https://matbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</link>
+      <pubDate>Sat, 21 May 2016 00:00:00 +0200</pubDate>
+      
+      <guid>https://matbesancon.github.io/post/2016-05-21-bringing-data-science-engineers/</guid>
+      <description>Thoughts as an engineer-by-training evolving towards data skills in a
+manufacturing context.</description>
+    </item>
+    
+  </channel>
+</rss>

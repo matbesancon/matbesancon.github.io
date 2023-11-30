@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>frank-wolfe on μβ</title>
+    <link>https://matbesancon.xyz/tags/frank-wolfe/</link>
+    <description>Recent content in frank-wolfe on μβ</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
+    <language>en-ca</language>
+    <copyright>&amp;copy; {year} Mathieu Besançon</copyright>
+    <lastBuildDate>Sat, 11 Dec 2021 00:00:00 +0000</lastBuildDate>
+    
+	    <atom:link href="https://matbesancon.xyz/tags/frank-wolfe/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Mutability, scope, and separation of concerns in library code</title>
+      <link>https://matbesancon.xyz/post/2021-12-11-mutability-library/</link>
+      <pubDate>Sat, 11 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://matbesancon.xyz/post/2021-12-11-mutability-library/</guid>
+      <description>&lt;p&gt;It has been about a year since I joined the Zuse Institute
+to work on optimization methods and computation.
+One of the key projects of the first half of 2021 has been on building up
+&lt;a href=&#34;https://github.com/ZIB-IOL/FrankWolfe.jl/&#34;&gt;FrankWolfe.jl&lt;/a&gt;,
+a framework for nonlinear optimization in Julia using Frank-Wolfe
+methods. You can find a paper introducing the package &lt;a href=&#34;https://arxiv.org/abs/2104.06675&#34;&gt;here&lt;/a&gt;.
+This was an opportunity to experiment with different design choices
+for efficient, scalable, and flexible optimization tools
+while keeping the code simple to read and close to the algorithms.&lt;/p&gt;
+&lt;p&gt;I will list down a few roads we went on, experimenting what reads and works best to achieve these goals.&lt;/p&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;#no-mutability&#34;&gt;No mutability&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#passing-containers&#34;&gt;Passing containers&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#dedicated-workspace&#34;&gt;Dedicated workspace&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#functors&#34;&gt;Functors&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;h1 id=&#34;no-mutability&#34;&gt;No mutability&lt;/h1&gt;
+&lt;p&gt;Probably the simplest pattern to follow. It is also a good one when
+the created objects are light, ideally stack-allocated.&lt;/p&gt;
+&lt;p&gt;This is typically the code you would write to get the leanest version
+of the Frank-Wolfe algorithm:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; initialize(feasible_set)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;terminated
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    direction &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; grad(x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    v &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; compute_extreme_point(feasible_set, direction)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    γ &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; find_stepsize(stepsize_strategy, x, v)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; γ &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; (v &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    terminated &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; check_termination(x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This program is highly generic, users can define their own
+&lt;code&gt;grad&lt;/code&gt; function, and typically implement
+&lt;code&gt;compute_extreme_point&lt;/code&gt; and &lt;code&gt;find_stepsize&lt;/code&gt; methods for their custom
+feasible set and step size strategy types.
+If you push it further, you can use a custom abstract vector type
+for &lt;code&gt;x&lt;/code&gt; and &lt;code&gt;v&lt;/code&gt;.
+Not a vector in the programming sense, you can use weird vector spaces
+as long as addition and scaling are defined.&lt;/p&gt;
+&lt;p&gt;What would be a problem then? If you have seen high-performance code
+before, you are probably screaming at the allocations happening all over the place. Every line is allocating a new object in memory,
+first this direction, then the extreme point &lt;code&gt;v&lt;/code&gt;.
+The worst might be the &lt;code&gt;x&lt;/code&gt; update step which allocates three vectors
+because of intermediate expressions.
+If you come from another performance-enabling programming environment
+(Fortran, C, C++, Rust), what I am saying is probably obvious.
+If you come from interpreted languages like Python or R, you may wonder why bothering about these? If you do not need performance, indeed maybe you shouldn&amp;rsquo;t bother but when developing a library, users will probably expect not
+to have to rewrite your code for a larger-scale use case.
+Also, these interpreted languages are typically slow across the board
+when performing operations in the language itself and not moving them
+to external kernels written in a compiled language (or being lucky with Numba).
+In Julia, operations will typically be as fast as they can get if you pay
+attention to minor things, so the bottleneck quickly becomes
+the allocations of large objects.
+The other thing people may oppose is that it is the role of the compiler
+to take high-level expressions and reformulate them to avoid allocations.
+This is a common argument among some functional programming circles,
+everything is immutable because the compiler will figure everything out.
+To some extent, this is true of course but pushing too much program
+transformation to the compiler introduces some complexity
+on all users, not just the ones focusing on performance.
+You may typically get bitten by iterators methods (&lt;code&gt;filter, map&lt;/code&gt;)
+in Rust yielding a result of a custom type which changes if
+a type annotation is given first.
+Without this type annotation, when expecting a consistent type
+to be inferred, one can get an error complaining about a weird
+type generated by the chaining of all operations.
+Finally, pushing this on the compiler means that you expect it to optimize
+your code consistently and always in the way you would do it, because in
+most cases ``overriding&amp;rsquo;&amp;rsquo; the compiler behaviour is far from trivial
+and even verifying the decisions the compiler took will require inspecting
+lowered emitted code (down to LLVM IR, assembly).&lt;/p&gt;
+&lt;p&gt;Finally, worrying about performance of the inner loop is also a consequence
+of the nature of the algorithm itself: Frank-Wolfe, as typical for
+first-order methods, will perform a lot of iterations that are relatively
+cheap, as opposed to, say Interior Point Methods which will typically
+converge in few iterations but with each one of them doing significant
+work. In the latter case, allocating a few vectors might be fine because
+linear algebra will dominate runtime, but not in FW where each
+individual operation is relatively cheap compared to allocations.&lt;/p&gt;
+&lt;h1 id=&#34;passing-containers&#34;&gt;Passing containers&lt;/h1&gt;
+&lt;p&gt;This would be the typical signature of C functions, receiving almost all
+heap-allocated containers as arguments.
+A typical example would be replacing the gradient computation with:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;grad!(storage, x)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;which would compute the gradient at &lt;code&gt;x&lt;/code&gt; in-place in the storage container.
+Note the &lt;code&gt;!&lt;/code&gt; which is just a Julia idiom to indicate a function that mutates
+one of its arguments. Adding storage arguments to function calls is also
+used in &lt;a href=&#34;https://julianlsolvers.github.io/Optim.jl/stable/#user/gradientsandhessians/&#34;&gt;Optim.jl&lt;/a&gt;
+for the definition of a gradient or Hessian or in
+&lt;a href=&#34;https://diffeq.sciml.ai/stable/tutorials/ode_example/#Example-2:-Solving-Systems-of-Equations&#34;&gt;DifferentialEquations.jl&lt;/a&gt; to pass the function describing a dynamic.&lt;/p&gt;
+&lt;p&gt;This has the strong advantage of making it possible for users to reduce
+their memory consumption and runtime. This also means that composing calls
+can be made performant: typically, library developers pay attention
+to hot loops which they spend more time optimizing. But what if your main
+top-level algorithm is someone else&amp;rsquo;s hot loop? Then they need to be able
+to control that setup cost in some way.&lt;/p&gt;
+&lt;p&gt;Why not use these additional arguments and in-place notation everywhere then?&lt;/p&gt;
+&lt;p&gt;Consider the same gradient with multiple intermediate expressions that must be held in different structures, where should one hold the storage?
+Adding more storage:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;grad!(storage1, storage2, storage3, x)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;means users would need to implement one with a very large number of arguments
+all the time which they wouldn&amp;rsquo;t use.
+Remember we cannot just bundle all the storage containers into one
+because the &amp;ldquo;main&amp;rdquo; one is supposed to then contain the actual gradient
+value at &lt;code&gt;x&lt;/code&gt;.
+Alternatively, all additional storage elements could be put as keyword arguments, but it also quickly makes for obscure signatures.&lt;/p&gt;
+&lt;h1 id=&#34;dedicated-workspace&#34;&gt;Dedicated workspace&lt;/h1&gt;
+&lt;p&gt;This is the approach taken in &lt;a href=&#34;https://github.com/JuliaNonconvex/Nonconvex.jl&#34;&gt;Nonconvex.jl&lt;/a&gt;, all temporary containers required by an algorithm are defined
+as a type specific to that algorithm:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;MyAlgorithm&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;mutable struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;MyAlgorithmWorkspace&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    v&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Vector&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;prepare_workspace(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;MyAlgorithm&lt;/span&gt;, x) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; MyAlgorithmWorkspace(similar(x))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; run_algorithm(alg, x0; workspace &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; prepare_workspace(alg, x0))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    compute_step!(workspace&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;v, x0)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This pattern avoids the monstrous signature with 10+ arguments
+that are not &amp;ldquo;real&amp;rdquo; inputs of the function in a mathematical sense,
+lets a good default for most users of letting the keyword be initialized
+but allows more advanced users to pass down the workspace if required.
+The workspace of a given algorithm can also contain multiple arguments
+of different types without requiring changes to the other algorithms.
+This is exactly the path experimented for the step size computation
+in &lt;a href=&#34;https://github.com/ZIB-IOL/FrankWolfe.jl/pull/259&#34;&gt;FrankWolfe.jl#259&lt;/a&gt;.&lt;/p&gt;
+&lt;h1 id=&#34;functors&#34;&gt;Functors&lt;/h1&gt;
+&lt;p&gt;Sadly, the workspace pattern is not a silver bullet, even if it covers a lot of cases.
+When one needs not only some internal workspace, but also returning a large object?&lt;/p&gt;
+&lt;p&gt;The Frank-Wolfe is also composed of different building blocks, gradient computation,
+linear oracle, step size. Should we have a dedicated workspace for each of them?
+That would also be a load we place on all advanced users defining a new component;
+acceptable for the oracles which typically have a dedicated type, but it quickly becomes
+awkward for something like the objective function.
+Would we expect users to do something like the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; LinearAlgebra
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;f(x, workspace) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; dot(x, workspace&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;A, x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;FWorkspace&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    A&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;build_objective_workspace(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;typeof(f), x) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It reads oddly and will be hard to explain to users relatively new to Julia
+while not being a very advanced feature for the package, defining an objective function is
+part of the workflow.&lt;/p&gt;
+&lt;p&gt;A typical pattern would be to use closures for such parameters:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; build_objective(A)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    f(x) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; dot(x, A, x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; grad!(storage, x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        storage &lt;span style=&#34;color:#f92672&#34;&gt;.=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; A &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (f, grad!)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(f, grad!) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; build_objective(A)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The two functions &lt;em&gt;close over&lt;/em&gt; a common parameter &lt;code&gt;A&lt;/code&gt; which can be accessed from within it.
+But what if you need to access &lt;code&gt;A&lt;/code&gt; outside &lt;code&gt;build_objective&lt;/code&gt;, once the functions are created?&lt;/p&gt;
+&lt;p&gt;You actually can do &lt;code&gt;f.A&lt;/code&gt;, but it&amp;rsquo;s definitely a hack using an implementation
+detail more than a feature, do not reproduce this at home!
+And users or library contributors might also be confused when trying to see where the &lt;code&gt;f.A&lt;/code&gt;
+accessor is defined.&lt;/p&gt;
+&lt;p&gt;Instead, we should transparently define the fields we access and use &lt;em&gt;functors&lt;/em&gt; or &lt;em&gt;callable structures&lt;/em&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;GradientWithMatrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Function&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    A&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# defines the behaviour of a call to GradientWithMatrix&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; (gm&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;GradientWithMatrix&lt;/span&gt;)(storage, x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    storage &lt;span style=&#34;color:#f92672&#34;&gt;.=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; gm&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;A &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;grad! &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; GradientWithMatrix(ones(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;grad!&lt;/code&gt; is named like our previous function and can be called in the same way,
+but it is also a struct of type &lt;code&gt;GradientWithMatrix{Float64}&lt;/code&gt;.
+Furthermore, this parameterized gradient type can be set up by the user, so we,
+the package developers, let the user implement an allocation-free version by setting up their gradient only
+once.&lt;/p&gt;
+&lt;p&gt;This pattern could also become handy for dynamic parameters evolving with iterations,
+like a number of gradient calls:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;mutable struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;GradientWithIterationCounter&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Function&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    A&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;T&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    counter&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GradientWithIterationCounter(A) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; GradientWithIterationCounter(A, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# a call to GradientWithMatrix increases the counter and updates the storage&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; (gm&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;GradientWithMatrix&lt;/span&gt;)(storage, x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    gm&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;counter &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    storage &lt;span style=&#34;color:#f92672&#34;&gt;.=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; gm&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;A &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;grad! &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; GradientWithMatrix(ones(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This allows us, in a non-intrusive way for the algorithm code, to add an iteration tracking feature
+to Frank-Wolfe.&lt;/p&gt;
+&lt;p&gt;Thanks &lt;a href=&#34;https://github.com/Wikunia/&#34;&gt;Wikunia&lt;/a&gt; for proofreading and feedback!&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

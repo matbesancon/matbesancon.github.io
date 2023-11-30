@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>latex | μβ</title>
+    <link>https://matbesancon.xyz/tag/latex/</link>
+      <atom:link href="https://matbesancon.xyz/tag/latex/index.xml" rel="self" type="application/rss+xml" />
+    <description>latex</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sat, 13 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png</url>
+      <title>latex</title>
+      <link>https://matbesancon.xyz/tag/latex/</link>
+    </image>
+    
+    <item>
+      <title>Peer review &amp; change highlight</title>
+      <link>https://matbesancon.xyz/post/2021-2-13-diffreview/</link>
+      <pubDate>Sat, 13 Feb 2021 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2021-2-13-diffreview/</guid>
+      <description>
+
+&lt;details class=&#34;toc-inpage d-print-none  &#34; open&gt;
+  &lt;summary class=&#34;font-weight-bold&#34;&gt;Table of Contents&lt;/summary&gt;
+  &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;ol&gt;
+        &lt;li&gt;&lt;a href=&#34;#academia-and-the-culture-of-implicit-knowledge&#34;&gt;Academia and the culture of implicit knowledge&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#back-to-manuscript-changes&#34;&gt;Back to manuscript changes&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#difference-highlight-options&#34;&gt;Difference highlight options&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#going-to-the-root-why-are-we-encouraging-inefficiency&#34;&gt;Going to the root: why are we encouraging inefficiency&lt;/a&gt;&lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+&lt;/details&gt;
+
+&lt;p&gt;Last week finished with great news, a paper accepted with minor revisions.
+With this response came the review of two anonymous scientists,
+invited by the editor to assess the manuscript and provide feedback and suggestions.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Aside&lt;/em&gt;&lt;br&gt;
+The number of reviewers can fluctuate depending on your field, on the journal, on the
+nature of the communication (conference proceeding, short paper, article).&lt;br&gt;
+My personal &amp;ldquo;highest score&amp;rdquo; is 8 reviewers on a paper.
+The experience was terrible, a huge toll on everyone&amp;rsquo;s time, in my opinion showing a lack
+of peer-reviewing process on the editor&amp;rsquo;s side.&lt;/p&gt;
+&lt;p&gt;Whether the required revisions are major or minor, the editor will expect a response from
+the authors containing:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;the modified manuscript&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;some sort of response&lt;/em&gt; with how they addressed the reviewers&amp;rsquo; comments.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;em&gt;Some sort of response&lt;/em&gt; is where differences start to appear between different disciplines and even sub-disciplines.&lt;/p&gt;
+&lt;h2 id=&#34;academia-and-the-culture-of-implicit-knowledge&#34;&gt;Academia and the culture of implicit knowledge&lt;/h2&gt;
+&lt;p&gt;We had a discussion with the co-authors on how to convey the changes,
+with a disagreement on which would be best. Specifically, I was asked &amp;ldquo;why don&amp;rsquo;t you use method X &lt;strong&gt;like everyone&lt;/strong&gt;?&amp;rdquo;.&lt;br&gt;
+Who is everyone? Are we sure that it is the case, even in our sub-field?&lt;/p&gt;
+&lt;p&gt;The question raises the very interesting point of implicit expectations in the academic culture.
+Technical know-how is transmitted informally within research groups, from one researcher to the next.&lt;/p&gt;
+&lt;p&gt;What is expected in a response to reviewers? Some specific points to raise in the letter to the editor?
+Even one step before, what journal would be a good fit for this manuscript?
+What are the unsaid characteristics of that journal?
+There is little, if anything, to find in journals&amp;rsquo; guides to authors, which would definitely be an appropriate place for it.&lt;/p&gt;
+&lt;p&gt;This one-to-one transmission creates very &amp;ldquo;localized&amp;rdquo; practices and habits because no one documents these practices but
+transmits them informally in informal chats or group meetings.&lt;br&gt;
+Why? First documenting beliefs is hard and unnatural in academic writing.
+We are used to structuring our written productions so that readers can follow the logical links.
+Writing in terms of gut feelings and beliefs is against those principles.
+Another reason is that some of this implicit knowledge is not something people would want to be recorded with their name on it.&lt;/p&gt;
+&lt;p&gt;&amp;ldquo;That journal has an awful review process&amp;rdquo; or &amp;ldquo;this conference has proceedings of varying quality&amp;rdquo; is something
+people will happily tell you within a research group but not write in a public note.&lt;/p&gt;
+&lt;p&gt;Some implicit knowledge is not that controversial but is not a scientific contribution either.
+Some examples are field-dependent best practices for writing and answering or any content in the sweet spot between graduate-level courses and new research: too advanced to be teachable, but
+not new to be publishable.
+In optimization, this kind of content was until recently only covered by few blogs,
+like &lt;a href=&#34;https://orinanobworld.blogspot.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Paul Rubin&amp;rsquo;s&lt;/a&gt;
+or &lt;a href=&#34;https://yetanothermathprogrammingconsultant.blogspot.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Yet another Math Programming consultant&lt;/a&gt;.
+A new addition is the &lt;a href=&#34;https://or.stackexchange.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;OR stackexchange Q&amp;amp;A forum&lt;/a&gt; and we see from the
+intense activity that it is covering an existing gap.&lt;/p&gt;
+&lt;p&gt;&amp;ldquo;Let&amp;rsquo;s tear down the implicit on writing practices&amp;rdquo; has been the motivation for writing this blog post.&lt;/p&gt;
+&lt;h2 id=&#34;back-to-manuscript-changes&#34;&gt;Back to manuscript changes&lt;/h2&gt;
+&lt;p&gt;In order to take a broader view and partially remove the implicit aspect, I asked
+my direct circles how they present the response:&lt;/p&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Academic &amp;amp; research twitter, when you send a manuscript after a round of review, you&lt;br&gt;- just send the new manuscript&lt;br&gt;- add an automatically generated diff (latex diff)&lt;br&gt;- manually edit the tex source to add colors where things changed?&lt;/p&gt;&amp;mdash; Mathieu Besançon (@matbesancon) &lt;a href=&#34;https://twitter.com/matbesancon/status/1359254009064919043?ref_src=twsrc%5Etfw&#34;&gt;February 9, 2021&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;My Twitter circle is biased towards applied maths and computer science at large
+and more specifically towards discrete &amp;amp; constrained optimization, applied probabilities
+and some other areas of computational sciences.&lt;/p&gt;
+&lt;p&gt;I asked a similar question on a private server with PhD students from more diverse disciplines,
+received fewer answers but with detailed responses.&lt;/p&gt;
+&lt;p&gt;I &lt;strong&gt;always&lt;/strong&gt; assumed there is at least a written response to the editor and reviewers
+with a summary of the changes in the new version of the manuscript. The question is
+whether there is a version of the manuscript highlighting differences, and how it is produced.&lt;/p&gt;
+&lt;h2 id=&#34;difference-highlight-options&#34;&gt;Difference highlight options&lt;/h2&gt;
+&lt;p&gt;I will list below several options. Some of them are in the initial options we discussed with my co-authors.
+Some are&lt;/p&gt;
+&lt;h3 id=&#34;colourizing-your-diff&#34;&gt;Colourizing your diff&lt;/h3&gt;
+&lt;p&gt;The first option that was presented to me the first time I went through the process is
+to set a different colour for changed paragraphs so that reviewers and editors can
+browse through the new version and look at the new paragraphs.&lt;/p&gt;
+&lt;p&gt;Most article editing software will have some way to do it.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-tex&#34; data-lang=&#34;tex&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\usepackage&lt;/span&gt;{color}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\RequirePackage&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;[normalem]&lt;/span&gt;{ulem}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\definecolor&lt;/span&gt;{BLUE}{rgb}{0,0,1}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\providecommand&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;\rev&lt;/span&gt;}[1]{{&lt;span style=&#34;color:#66d9ef&#34;&gt;\protect\color&lt;/span&gt;{BLUE}&lt;span style=&#34;color:#66d9ef&#34;&gt;\uwave&lt;/span&gt;{#1}}}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;% in the main body
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\section*&lt;/span&gt;{Introduction}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Academics rely on implicit knowledge of the established system.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\rev&lt;/span&gt;{We propose a change of perspective on the necessity of such implicit knowledge.}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\section&lt;/span&gt;{Development}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;We now develop the main result of the paper.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\rev&lt;/span&gt;{This approach is comparable to [Smith, 2020]}.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;with a result looking like the following:&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/diffreview/diff1.png&#34; alt=&#34;First version&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;I added the wave underlining to make the diff file print-friendly and readable by colour-impaired people.&lt;/p&gt;
+&lt;p&gt;The process is fairly straightforward to set up: define a command that highlight changes,
+and then only use that command to make changes.&lt;/p&gt;
+&lt;p&gt;What about having a clean version of the manuscript (without colourized highlights)?&lt;/p&gt;
+&lt;p&gt;Several options there:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;working on the clean version, create a copy with highlight as last step&lt;/li&gt;
+&lt;li&gt;working on a version with highlight and remove them at the end&lt;/li&gt;
+&lt;li&gt;working on a version with highlight, overwrite the &lt;code&gt;\rev&lt;/code&gt; command to just output the text for the final version.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Option 1 lets the writer focus on the actual change process without worrying about formatting and highlight before
+the end. Its other advantage is that you select as an author which part of the changes to highlight,
+thus guiding the reviewers&amp;rsquo; eyes.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;But&lt;/strong&gt; at some point you have to create a split: a version of the manuscript with highlight, and one without.
+Maintaining two files just means inconsistencies begging to happen.&lt;/p&gt;
+&lt;p&gt;Option 2 is just a clumsy manual version of option 3.
+Among possibilities, some colours can remain if you don&amp;rsquo;t check carefully,
+words or characters can be removed when the colour is being removed, etc.&lt;/p&gt;
+&lt;p&gt;The fundamental problem with options 2 and 3 is that the author works on
+the diff, and then emits the final version with a modification.
+This means the author sets their eyes on the highlighted version a lot longer,
+catching misalignments and visual errors, but not the final one, which is the one
+the author should care about, that&amp;rsquo;s where the time should be spent.&lt;/p&gt;
+&lt;p&gt;Having a poorly-formatted highlight file is fine compared to having formatting
+errors or typos in the actual good version of the manuscript.&lt;/p&gt;
+&lt;h3 id=&#34;automatically-generating-diff-from-versions&#34;&gt;Automatically generating diff from versions&lt;/h3&gt;
+&lt;p&gt;If you have your old source files (the version of the manuscript
+sent for review the first time) or even better if you use a version
+control system like you should, then it is possible to directly compare
+versions and emit a visual representation of the changes.&lt;/p&gt;
+&lt;p&gt;In LaTeX, one tool for this task is &lt;a href=&#34;https://texblog.org/2018/08/14/track-changes-with-latexdiff/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;latexdiff&lt;/a&gt;
+and its little brother &lt;a href=&#34;https://www.mankier.com/1/latexdiff-vc&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;latexdiff-vc&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Of course, tracking everything does not make sense and will probably lead to a visually
+saturated diff document that can be overwhelming for the reviewers.
+Luckily, one can always re-generate the diff, this is as cheap as running one command:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ latexdiff main_old.tex main.tex &amp;gt; diff.tex 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The first thing I do is usually set the deletion behaviour as not showing anything.
+If you look at the following result of running latexdiff on my example paper:&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/diffreview/diff2.png&#34; alt=&#34;Second version&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;This is subjective, but seeing both the removed and the added content is not always useful.
+Most problematic is when some parts were moved, latexdiff will interpret it as an addition
+and a deletion, which quickly gets bloated.&lt;/p&gt;
+&lt;p&gt;The drawback is that you need to edit this generated file, so don&amp;rsquo;t do it before (almost)
+the end, otherwise there are good chances you will need to re-generate and go through the manual edits again.&lt;/p&gt;
+&lt;h4 id=&#34;what-about-word&#34;&gt;What about Word?&lt;/h4&gt;
+&lt;p&gt;Even though Word is seldom used in the mathematics and computer science communities at large,
+it is the go-to tool in humanities, law, literature and quite present in some engineering domains.&lt;/p&gt;
+&lt;p&gt;Some people gave me an interesting testimony in that regard: the full diff (using Word revision mode)
+is not only acceptable even if heavy on the eyes, but it is also the &lt;strong&gt;correct&lt;/strong&gt; way to do it
+to show the editorial team exactly what has changed since the review.
+In contrast, I was argued that the generated diff is a &amp;ldquo;lazy&amp;rdquo; option because this means not making the effort
+to show only relevant parts. What if showing the complete diff is a form of transparency on the changes?
+Indeed, if what is needed is a summary, there is always the explanatory letter on the side summarizing
+changes and addressing reviewers&amp;rsquo; specific comments and questions.&lt;/p&gt;
+&lt;h3 id=&#34;editing-and-commenting-the-generated-pdf&#34;&gt;Editing and commenting the generated PDF&lt;/h3&gt;
+&lt;p&gt;An interesting perspective was given by &lt;a href=&#34;https://twitter.com/baggepinnen&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;two&lt;/a&gt;,
+&lt;a href=&#34;https://twitter.com/Judejeh/status/1359272151405244416&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;users&lt;/a&gt; in the answers below the poll:
+instead of editing the source to highlight differences, change or annotate the PDF,
+with tools like &lt;a href=&#34;https://draftable.com/compare&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;draftable&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This is definitely interesting to avoid polluting the sources with artifacts from diff highlighting
+and takes care of the mundane part for you. One drawback could be less flexibility in what can be done
+to filter or remove highlights in a PDF compared to a source file, but this is definitely worth exploring.&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/diffreview/diff3.png&#34; alt=&#34;Third version on draftable&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;optional-annotation-flags&#34;&gt;Optional annotation flags&lt;/h3&gt;
+&lt;p&gt;The last option is a variant of manually highlighting your source file
+but using the &lt;a href=&#34;https://ctan.org/pkg/changes&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;changes&lt;/a&gt; package.
+This was recommended by &lt;a href=&#34;https://twitter.com/lauraalbertphd&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Laura Albert&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The package provides options when importing it:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-tex&#34; data-lang=&#34;tex&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;% highlights the changes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\usepackage&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;[draft]&lt;/span&gt;{changes}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;% renders the final version
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\usepackage&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;[final]&lt;/span&gt;{changes}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;and then in the text using the modified, added and deleted commands:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-tex&#34; data-lang=&#34;tex&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\section&lt;/span&gt;{Development}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;We now develop the main result of the paper.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\added&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;[comment=reviewer strongly advised citing Smith 2020]&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;This approach is comparable to [Smith, 2020].
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;with the result looking as follows:&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/diffreview/diff4.png&#34; alt=&#34;Version with changes&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;This option is much more robust than keeping raw colours in the text,
+with just a single point of change (the top-level declaration)
+between the diff and the final result.&lt;/p&gt;
+&lt;p&gt;One drawback is that you have to select as you edit what goes in the
+displayed modifications and what gets modified without appearing in the highlights.
+Otherwise, you need to remember all modifications to add the &lt;code&gt;\added&lt;/code&gt; flag.&lt;/p&gt;
+&lt;p&gt;Still, I think this is one of the viable and reliable options in the whole set presented here,
+along with an edited latexdiff and possibly PDF edition which I barely tested.&lt;/p&gt;
+&lt;h2 id=&#34;going-to-the-root-why-are-we-encouraging-inefficiency&#34;&gt;Going to the root: why are we encouraging inefficiency&lt;/h2&gt;
+&lt;p&gt;If you read this post for the tools, you should probably stop there.&lt;/p&gt;
+&lt;p&gt;One thing that quickly struck me with this particular example
+of using a slow, manual way because &amp;ldquo;this is how people do it&amp;rdquo;
+is that there is little incentive for academic groups to change
+time- and cost-inefficient processes.&lt;/p&gt;
+&lt;p&gt;One weird thing in academia is the many situations where:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;the payer is not the buyer&lt;/li&gt;
+&lt;li&gt;the payer is the buyer, but the cost is too low to address the problem&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Point 1. applies for instance to the situation of publishing, the university is paying,
+so academics have low incentive to stop publishing with editors that are enjoying
+unreasonable margins on public money.&lt;/p&gt;
+&lt;p&gt;Point 2. is our actual topic. In a labour-intensive industry as many branches of academia are,
+one thinks carefully about how time is spent. Costs are directly related to that time.
+It is fairly typical to reason about how much a meeting or a project costs in terms of worker-hours.
+For sure, research time is hard to assess, sequence, and organize in neat boxes.
+Why is it not the case in academia?&lt;/p&gt;
+&lt;p&gt;Why don&amp;rsquo;t we reason about tasks taking time as a cost center?
+This might be due to the way people&amp;rsquo;s time are budgeted in advance:
+if someone is already working in a lab, their time was funded prior to their arrival
+and could then be perceived as a sunk cost.&lt;/p&gt;
+&lt;p&gt;This may also be based on the perception that Master&amp;rsquo;s and PhD researchers are considered students
+to some extent. Thus, their activity in the lab is a cost center regardless of the output,
+since they are in training. Or maybe this stems from academics not being trained in
+the management of research groups.&lt;/p&gt;
+&lt;p&gt;But the most direct explanation for low mindfulness of people&amp;rsquo;s time are the
+&lt;strong&gt;extremely low wage&lt;/strong&gt; given to junior researchers.
+A doctoral student makes about 15% of a full professor&amp;rsquo;s salary in Canada.
+In contrast, a junior developer is at about 55% the salary of a senior tech lead.
+We have an odd setting with a labour-intensive industry with a low cost of labour.
+This can quickly set a low priority on time efficiency, why bother when
+&lt;a href=&#34;https://www.theguardian.com/education/2019/apr/01/are-phds-just-cheap-labour-for-universities&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;time is relatively cheap&lt;/a&gt;?&lt;/p&gt;
+&lt;p&gt;One thing to note, I am talking about the academic culture as a whole creating some
+implicit expectations through the cost structure.
+It does not mean that all universities share it, but that enough places keep it
+such that the expectations in the community (like maintaining a time-consuming process for review)
+are still around.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

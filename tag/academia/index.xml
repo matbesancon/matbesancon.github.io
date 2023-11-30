@@ -1,0 +1,1493 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>academia | μβ</title>
+    <link>https://matbesancon.xyz/tag/academia/</link>
+      <atom:link href="https://matbesancon.xyz/tag/academia/index.xml" rel="self" type="application/rss+xml" />
+    <description>academia</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 22 Oct 2023 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png</url>
+      <title>academia</title>
+      <link>https://matbesancon.xyz/tag/academia/</link>
+    </image>
+    
+    <item>
+      <title>Obsidian for research</title>
+      <link>https://matbesancon.xyz/post/2023-10-obsidian/</link>
+      <pubDate>Sun, 22 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2023-10-obsidian/</guid>
+      <description>&lt;p&gt;I have been using &lt;a href=&#34;https://obsidian.md&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Obsidian&lt;/a&gt; for about a month now and have been truly impressed with the application.
+After some experimentations back and forth, the hype, the control and the stationary regime, I wanted to gather some notes on my usage as a researcher in applied maths / computer science.&lt;/p&gt;
+&lt;p&gt;I tried multiple notetaking / productivity applications before for research, including Trello, Evernote, Google Keep, and plain notes scattered around (the latter being my previous default solution, with github issues and TODOs in latex papers directly).&lt;/p&gt;
+&lt;h1 id=&#34;file-organization&#34;&gt;File organization&lt;/h1&gt;
+&lt;p&gt;Unlike some people, I tend to like folders (at a moderate depth) and not solely rely on search.
+My vault has roughly the following struture:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;├── _assets
+│  └── templates
+│     ├── paper_review.md
+│     ├── research_note.md
+│     ├── t_weekly.md
+│     └── talk_abstract.md
+├── abstracts
+│  └── Summer_school_Einstein_Opt_ML.md
+├── paper_reviews
+│  └── warmstart_conic.md
+├── preamble.sty
+├── random
+│  └── Spivak_notation.md
+├── reading_notes
+│  ├── Concepts
+│  │  ├── Benders.md
+│  │  └── lift_n_project.md
+│  ├── Papers
+│  │  ├── mirror_descent_frankwolfe.md
+│  │  └── Rens_heuristc.md
+│  └── Projects
+│     ├── Strong_branching.md
+│     └── V_polyhedral_cuts.md
+└── weekly
+   └── 2023-W41.md
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Let&amp;rsquo;s walk through the main folders:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;_assets&lt;/code&gt; contains the images attached to notes, PDFs, and note templates.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;abstracts&lt;/code&gt; contains my talk abstracts (I used to have them written as a one-off thing and have to scavenge my emails to gather them afterwards)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;paper_reviews&lt;/code&gt; contains the peer reviews I wrote&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;preamble.sty&lt;/code&gt; I&amp;rsquo;ll mention in plugins&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;random&lt;/code&gt; for notes that have no other place, out of topic for instance&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;reading_notes&lt;/code&gt; is the core of my Obsidian usage, with notes related to research including:
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Concepts&lt;/code&gt; for general optimization concepts for which I want an overview note: what is Benders decomposition, etc. I also use these to group several papers on the topic while keeping a unified notation&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Papers&lt;/code&gt; are a note on a single paper&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Projects&lt;/code&gt; are running notes for ongoing research projects, including notes from meetings, diagrams, todos&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;weekly&lt;/code&gt; for weekly running notes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;plugins&#34;&gt;Plugins&lt;/h1&gt;
+&lt;h2 id=&#34;those-i-use&#34;&gt;Those I use&lt;/h2&gt;
+&lt;p&gt;I kept it pretty simple so far. I am using the &lt;a href=&#34;https://github.com/anoopkcn/obsidian-reference-map&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;reference map&lt;/a&gt; to access and reference papers quickly in notes.&lt;/p&gt;
+&lt;p&gt;In useful things for mathematics: I use Quick LaTeX for Obsidian and Extended MathJax with a bunch of commands in the &lt;code&gt;preamble.sty&lt;/code&gt; file and shortcuts.
+Commands I include are also the same I would use in a lot of papers to be able to copy content from one to the other.&lt;/p&gt;
+&lt;p&gt;Finally, I am using the git plugin to manage my vault as a simple github repository.&lt;/p&gt;
+&lt;h2 id=&#34;those-i-dropped&#34;&gt;Those I dropped&lt;/h2&gt;
+&lt;p&gt;In plugins I ended up removing: the &lt;strong&gt;calendar&lt;/strong&gt; can be useful for some poeple but it ends up being redundant with my actual calendar app, and redundancy either creates friction, duplication, or losses.&lt;/p&gt;
+&lt;p&gt;I also dropped the &lt;strong&gt;daily notes&lt;/strong&gt;, I don&amp;rsquo;t find research to work at the scale of a day, and switched to weekly notes instead.
+In these, I add things to do for the current week, random small thoughts that don&amp;rsquo;t deserve their full note yet, and things I am doing to be able to look back later.&lt;/p&gt;
+&lt;h1 id=&#34;note-taking-is-a-means&#34;&gt;Note-taking is a means&lt;/h1&gt;
+&lt;p&gt;As a final note, I would say that I spent some time setting all this up, but not an indecent amount. For anyone setting up any productivity system or app, some things should stick:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;If you spend more time optimizing your productivity app than using it, you are probably doing it wrong&lt;/li&gt;
+&lt;li&gt;The benefits of using these apps only kicks in with consistency. We got very used to immediate rewards for anything we do, and any app who offers this is probably hacking your brain into feeling satisfied&lt;/li&gt;
+&lt;li&gt;Some &amp;ldquo;gurus&amp;rdquo; for these productivity apps tend to show you how to do &lt;em&gt;everything&lt;/em&gt; in there, calendar, slides for presentations, your grocery list. Explore things that can work out, but apps are tools, and tools serve a purpose, they are not a lifestyle.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Point 1 is especially vicious, it is linked to a fake productivity feeling, we all know someone who spent too much time in research organizing their literature review, their Zotero, their bullet journal system or their note-taking system.
+Taking notes should remain a fairly minor activity, one that we perform without thinking about it and that is there to support the actual work: developing new methods, designing and implementing the algorithms, preparing and running experiments, writing that paper that has been taking dust for months.&lt;/p&gt;
+&lt;h1 id=&#34;still-to-improve&#34;&gt;Still to improve&lt;/h1&gt;
+&lt;p&gt;In the things that I still haven&amp;rsquo;t mastered: making internal links useful. Sure I can link notes to each other.
+What I don&amp;rsquo;t see yet is the usefulness of it in my research notes, probably because the number of notes where the benefit kicks in is not there yet.&lt;/p&gt;
+&lt;p&gt;I also haven&amp;rsquo;t managed to synchronize with the git repo system with my phone, work in progress. I also rarely needed so far to access or edit my notes on mobile so far.&lt;/p&gt;
+&lt;hr&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>I am joining Inria Grenoble in 2024 as a researcher</title>
+      <link>https://matbesancon.xyz/post/2023-10-crcn-inria/</link>
+      <pubDate>Sat, 21 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2023-10-crcn-inria/</guid>
+      <description>&lt;p&gt;In January 2024, I will be joining &lt;a href=&#34;https://www.inria.fr/en/inria-centre-university-grenoble-alpes&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Inria Grenoble&lt;/a&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;
+as an Associate Researcher (my home-brewed translation of &lt;em&gt;Chargé de Recherche&lt;/em&gt;) in the &lt;a href=&#34;https://team.inria.fr/polaris/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;POLARIS&lt;/a&gt; team
+and wanted to make a quick note about it after exchanging about several points and clearing out confusions from several people.&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;h1 id=&#34;what-is-inria-and-that-position&#34;&gt;What is Inria, and that position?&lt;/h1&gt;
+&lt;p&gt;Inria is a fairly large institution in size and scope.
+Broadly speaking, research topics vary across domains in computer science and (mostly applied) mathematics.
+The institution also places an emphasis on technology transfer and impact beyond one&amp;rsquo;s research domain.
+Some projects you may have heard of that started at Inria include the &lt;a href=&#34;https://ocaml.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;OCaml&lt;/a&gt; programming language and
+the &lt;a href=&#34;https://scikit-learn.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;scikit-learn&lt;/a&gt; library.&lt;/p&gt;
+&lt;h2 id=&#34;the-position&#34;&gt;The position&lt;/h2&gt;
+&lt;p&gt;As a rough projection if you are in the German system, think of this position as a W{1/2} permanent position at a Max-Planck Institute (as a researcher without teaching duties).
+Unlike Max-Planck, Inria has centers within university campuses with research groups that are mostly (always?) composed of permanent and temporary researchers and staff from research institutes (Inria, CNRS) and surrounding universities / grandes écoles.&lt;/p&gt;
+&lt;p&gt;One can make a parallel between the career steps as a researcher at Inria and CNRS and the ones at a university:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Inria&lt;/th&gt;
+&lt;th&gt;University&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Chargé de Recherche (CR) / Associate Researcher&lt;/td&gt;
+&lt;td&gt;Maître de Conférences (MCF) / Associate Professor&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Directeur de Recherche (DR) / Senior Researcher&lt;/td&gt;
+&lt;td&gt;Professeur des Universités (PU) / Full Professor&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;I translated DR as Senior Researcher and not Research Director, which would be the most obvious translation, because unlike what the title implies, Research Directors do &lt;em&gt;not&lt;/em&gt; necessarily have management-heavy positions and conduct their researcher at a smaller scale.
+This is different from a principal investigator (PI) position involving having one&amp;rsquo;s own group (more on that in the next section).&lt;/p&gt;
+&lt;p&gt;One thing to note on the type of position is that this is a public servant position, with a salary range regulated at the national level.
+Being hired at a national level also means it can be easier for instance, to move to other Inria centers, which wouldn&amp;rsquo;t be the case with contracts tied to the local university.&lt;/p&gt;
+&lt;p&gt;Finally, Inria opened in the last years a second type of permanent Junior position, &lt;a href=&#34;https://www.inria.fr/en/inria-starting-faculty-position-isfp&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Inria Starting Faculty Positions&lt;/a&gt; to recruit at the same level as CR but with different hiring, working and promotion conditions.&lt;/p&gt;
+&lt;h2 id=&#34;the-project-team-organization&#34;&gt;The project-team organization&lt;/h2&gt;
+&lt;p&gt;One specificity of Inria is its organization in project-teams (&lt;em&gt;équipes-projet&lt;/em&gt;),
+a group of tenured researchers and faculty at different levels of seniority organized together towards a specific goal or set of research questions.
+Project-teams can vary in size, from about 4 to 15 tenured researchers and faculty (numbers from the top of my head and empirical evidence, there might be examples stretching this bound).
+Think of it as blending a static organization (research departments and divisions in other places) with the temporary nature of a research project.
+A project-team can be reconducted to continue in similar or extended research directions, but is not expected to be set in stone.
+Project-teams are created, terminated, merged, split as researchers within them feel the need to reorganize the way they work.&lt;/p&gt;
+&lt;p&gt;Another key aspects, highlighted from the beginning of the excellent &lt;a href=&#34;https://www.inria.fr/sites/default/files/2021-01/CE_guide-applicant-CRCN.pdf&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Advice Booklet for Inria Applicants&lt;/a&gt;, is that they are not &amp;ldquo;research chairs&amp;rdquo; or &amp;ldquo;groups&amp;rdquo; from the German or US models that would be centered around one
+senior Principal Investigator hiring and being in charge for everyone according to their vision.
+Multiple members are permanent researchers, collaborate and hire their Ph.D. students, postdocs, students, or engineers, and choose to collaborate within the team in various ways.&lt;/p&gt;
+&lt;h2 id=&#34;how-does-one-get-that-position&#34;&gt;How does one get that position?&lt;/h2&gt;
+&lt;p&gt;This question could fill a whole series of blog posts and I will not delve into too much detail.
+As an interesting fact to understand, the hiring process is a national competition regulated by a standardized open call with a fixed number of places per Inria center. Most applicants provide a research proposal with a heavy emphasis on its integration within one of the team-projects.
+I&amp;rsquo;ll refer to the &lt;a href=&#34;https://www.inria.fr/sites/default/files/2021-01/CE_guide-applicant-CRCN.pdf&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Guide for Inria Applicants&lt;/a&gt; again for a more complete overview.&lt;/p&gt;
+&lt;p&gt;A last point on the matter, I would consider that &amp;ldquo;just applying&amp;rdquo; to these positions when they open is nearly impossible: contact the teams &lt;strong&gt;beforehand&lt;/strong&gt;,
+several months before the call for applications. I am highly indebted to the people from different groups who went out of their way to give me thorough reviews and critics on the application, the audition presentation and my research statements.&lt;/p&gt;
+&lt;h1 id=&#34;coming-steps-in-the-near-future-settling-and-building&#34;&gt;Coming steps in the near future: settling and building&lt;/h1&gt;
+&lt;p&gt;The first obvious thing on my side will be to manage to move all the random items I accumulated in Berlin to Grenoble, and then move myself there and somehow settle.
+I am still &amp;ldquo;amazed&amp;rdquo; at the sole quantity of books that I collected here and already filled a huge bag.&lt;/p&gt;
+&lt;p&gt;More interestingly, I will continue working on my core research topics in methods for mixed-integer and convex constrained optimization.&lt;br&gt;
+&lt;strong&gt;I will start to look for motivated students&lt;/strong&gt; to start working on various topics in computational optimization both on nonlinear and mixed-integer aspects.
+If you like a blend of theory, algorithms, and programming (Julia, C, Rust, C++ as primary targets) on cutting-edge software,
+feel free to reach out. I will try to put out a list of potential projects to provide a good representation of possible activities.&lt;/p&gt;
+&lt;p&gt;I will also continue to work with people at the Zuse Institute on the whole bag of current topics we have ongoing and regularly come to Berlin.
+If you want to talk in person, just ask in advance to be sure I&amp;rsquo;m around, knocking on my office door will probably not suffice anymore.
+We will for instance merrily continue to push the methods in convex mixed-integer optimization within the &lt;a href=&#34;https://mathplus.de/research-2/application-areas/aa3-networks/aa3-15/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;MATH+ project&lt;/a&gt; that started this year, continue working on algorithms within &lt;a href=&#34;https://www.scipopt.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;SCIP&lt;/a&gt;
+and first-order methods for constrained optimization.&lt;/p&gt;
+&lt;p&gt;On the prospective side, I am looking forward to starting discussions and then collaborations within the vibrant Grenoble ecosystem.
+From combinatorics to quantum information and proximal methods, topics adjacent and connected to mine are not lacking, both on methodological interfaces and application areas.
+Working on the research proposal for the application had the benefit of making me explore in depth the activities of the people in my project-team, the LIG laboratory, Inria and other Grenoble institutions, and build connections with my mid-term research interests.&lt;/p&gt;
+&lt;p&gt;Rethinking about this whole year (we are in October, I started preparing applications in December last year), I&amp;rsquo;m pretty hyped about what is to come, also blended with a much more latent relaxed mindset. Getting a permanent position that would let me prioritize on the activities I like and find important had been one of the major things &amp;ldquo;running in the background&amp;rdquo; for a while, and it lifted the curtain on the possible paths to choose from.
+Rethinking of the alternatives, I do think that the &lt;em&gt;position-then-scaling&lt;/em&gt; approach of that system is more sustainable than the scaling-then-position
+(getting growing management, funding and teaching responsibilities &lt;strong&gt;before&lt;/strong&gt; as a proof that one is worthy of a faculty position).&lt;/p&gt;
+&lt;hr&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;The actual full name is Inria Center at the Université Grenoble Alpes. And the second geographical affiliation is the &lt;a href=&#34;https://www.liglab.fr/en&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Grenoble Informatics Laboratory&lt;/a&gt;.&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;Banner source: Wikipedia. 2023. &amp;ldquo;Grenoble.&amp;rdquo; Wikimedia Foundation. Last modified July 1, 2023.&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Graduate Winter/Summer Schools in Optimization - 2023</title>
+      <link>https://matbesancon.xyz/post/2023-01-schools23/</link>
+      <pubDate>Mon, 30 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2023-01-schools23/</guid>
+      <description>&lt;p&gt;This post collects a partial list of winter and summer schools for 2023/2024, directly inspired by
+&lt;a href=&#34;https://thiagoserra.com/2020/01/19/summer-2020-schools-on-algorithms-data-science-machine-learning-networks-optimization-transportation-and-other-relevant-topics-in-operations-research/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;the ones compiled by Thiago Serra&lt;/a&gt;.&lt;/p&gt;
+
+
+&lt;details class=&#34;toc-inpage d-print-none  &#34; open&gt;
+  &lt;summary class=&#34;font-weight-bold&#34;&gt;Table of Contents&lt;/summary&gt;
+  &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&#34;#winter-2023&#34;&gt;Winter 2023&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#summer-2023&#34;&gt;Summer 2023&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#autumn-2023&#34;&gt;Autumn 2023&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#winter-2024&#34;&gt;Winter 2024&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+&lt;/details&gt;
+
+&lt;h1 id=&#34;winter-2023&#34;&gt;Winter 2023&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Winter School of &lt;a href=&#34;https://ss.amsi.org.au/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;AMSI&lt;/a&gt;, 9th January, Melbourne, Australia&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;summer-2023&#34;&gt;Summer 2023&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Spring School on &lt;a href=&#34;https://epit2023.sciencesconf.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Complexity&lt;/a&gt;, 12th June, Oléron, France&lt;/li&gt;
+&lt;li&gt;Summer School on &lt;a href=&#34;https://ssaad2023.sciencesconf.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Automatic Algorithm Design 2023&lt;/a&gt;, 12th June, Villeneuve d&amp;rsquo;Ascq, France&lt;/li&gt;
+&lt;li&gt;Summer School of &lt;a href=&#34;https://www.numta.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;NUMERICAL COMPUTATIONS: THEORY AND ALGORITHMS&lt;/a&gt;, 14th June, Calabria, Italy&lt;/li&gt;
+&lt;li&gt;Summer School of &lt;a href=&#34;https://optimization.discovery.wisc.edu/ipco-2023-madison/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;IPCO&lt;/a&gt;, 19th June, Madison, Wisconsin, US&lt;/li&gt;
+&lt;li&gt;Summer School of &lt;a href=&#34;https://www.fernuni-hagen.de/produktion-logistik/forschung/veranstaltungen/PhD_Summer_School.shtml&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;PhD Summer School on Sustainable Supply Chains&lt;/a&gt;, 29th June, Hagen, Germany&lt;/li&gt;
+&lt;li&gt;Gene Golub SIAM Summer School on &lt;a href=&#34;https://wordpress.lehigh.edu/siamquantum&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Quantum Computing and Optimization&lt;/a&gt; , 30th July, Lehigh, PA, US&lt;/li&gt;
+&lt;li&gt;Summer School of &lt;a href=&#34;https://school.a4cp.org/summer2023/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Machine Learning for Constraint Programming&lt;/a&gt; 10th July, Leuven, Belgium&lt;/li&gt;
+&lt;li&gt;Summer School of the &lt;a href=&#34;https://www.bilevelconference2023.org/summer-school&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Bilevel Optimization&lt;/a&gt; conference, 8th August, Southampton, UK&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;autumn-2023&#34;&gt;Autumn 2023&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Autumn School on Constrained Optimization in Machine Learning, ALOP, University of Trier&lt;/li&gt;
+&lt;li&gt;Autumn School of &lt;a href=&#34;https://www.natcor.ac.uk/courses/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;NATCOR&lt;/a&gt; on Combinatorial Optimization, 11th September, University of Southampton, UK&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If I missed your favourite school for 2023 and first quarter 2024, open a pull request and modify &lt;a href=&#34;https://github.com/matbesancon/hugo-site/blob/master/content/post/2023-01-schools23.markdown&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;this file&lt;/a&gt;.
+Thanks to Mark Turner and Joao Dionisio for pointing out some of these!&lt;/p&gt;
+&lt;h1 id=&#34;winter-2024&#34;&gt;Winter 2024&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Winter School on &lt;a href=&#34;https://netopt2024.campus.ciencias.ulisboa.pt/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Network Optimization&lt;/a&gt;, Estoril, Portugal&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>6 months on the other side: life as a postdoc</title>
+      <link>https://matbesancon.xyz/post/2021-07-14-6months-postdoc/</link>
+      <pubDate>Wed, 14 Jul 2021 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2021-07-14-6months-postdoc/</guid>
+      <description>
+
+&lt;details class=&#34;toc-inpage d-print-none  &#34; open&gt;
+  &lt;summary class=&#34;font-weight-bold&#34;&gt;Table of Contents&lt;/summary&gt;
+  &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&#34;#position-of-postdocs-and-phds-in-labs&#34;&gt;Position of postdocs and PhDs in labs&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#a-quick-perspective-on-a-postdoc-career&#34;&gt;A quick perspective on a postdoc career&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+&lt;/details&gt;
+
+&lt;p&gt;In January 2021, I joined the &lt;a href=&#34;https://www.zib.de/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Zuse Institute&lt;/a&gt; as a postdoctoral researcher.
+After six months, most of which were in home office or remote, I wanted to put down a couple of simple observations.&lt;/p&gt;
+&lt;h1 id=&#34;position-of-postdocs-and-phds-in-labs&#34;&gt;Position of postdocs and PhDs in labs&lt;/h1&gt;
+&lt;p&gt;The completion of a PhD is tied to carrying out a full well-scoped research project with a high degree of autonomy.
+The well-scoped aspect depends on the country and domain one works in.
+Stopping the work on a project requires defining another one and does not go lightly.
+The doctoral experience is about making your work revolve around a research project for which the PhD candidate has a high degree of ownership. Collaborations are mostly about bringing other people around this project, and
+the research one conducts is also their status to some extend.&lt;/p&gt;
+&lt;p&gt;A postdoc can conduct a single or multiple research projects which can be evolved, paused, or regrouped without changing one&amp;rsquo;s status.
+A project can also be continued while the person&amp;rsquo;s status changes (for example switching to another position).
+In my case, research as a postdoc is massively parallelized compared to what my PhD was (probably too much so).
+This implies accepting not to be the main actor on every aspect of each of these projects.
+It also meant playing wider on research domains and accepting not to enjoy the same level of depth,
+thus often asking &amp;ldquo;why does this work&amp;rdquo; or &amp;ldquo;where is this coming from&amp;rdquo; instead of
+silently taking notes and then spending a solid day looking up references.&lt;/p&gt;
+&lt;p&gt;In some sense, a PhD can look like a planet with its surrounding moons and transient asteroids.
+Its motion is explained in a larger system but it is in itself the center of some activity.
+In contrast, day-to-day work as a postdoc is akin to making your way in an N-body dynamics problem.
+There is still some individual focus around larger spheres, but there can be multiple centers driving motion.&lt;/p&gt;
+&lt;p&gt;These observations are very situational: not all postdocs have to or choose to wrestle with multiple research projects upfront.
+Some funding requires more or less one&amp;rsquo;s full time and attention, without the expectation to complete other projects or paper simultaneously.&lt;/p&gt;
+&lt;h1 id=&#34;a-quick-perspective-on-a-postdoc-career&#34;&gt;A quick perspective on a postdoc career&lt;/h1&gt;
+&lt;p&gt;I&amp;rsquo;ll wrap up this post on a more personal note.
+Pursuing a career as a postdoc is not an obvious choice, nor is it a neutral one.&lt;/p&gt;
+&lt;p&gt;I applied for doctoral programs for the experience of the PhD in itself, not as a
+gate to something else like an academic career.
+I started without strong priors on whether I wanted to pursue a career in academia, public research,
+an industrial job or getting back to an entrepreneurial environment.
+As time went on, I realized I did enjoy not only the activity of a researcher but also the environment, or at least a part of it significant enough.
+This does not mean the environment is great in all aspects, it means the set of tradeoffs it implies were ones that correspond well to my expectations.
+This is why I would consider it as not a neutral choice.&lt;/p&gt;
+&lt;p&gt;Some people get away with starting a PhD in places they know or have links with.
+This was my case as I had lived and had connections in both cities where my PhD was planned.
+However, it&amp;rsquo;s often not a path one can follow that easily for a postdoc (at least in STEM)
+as researchers are expected to move to other labs and institutions.&lt;/p&gt;
+&lt;p&gt;Personal relations were hard to maintain during the beginning of the pandemic but were at least
+equally hard to maintain regardless of one&amp;rsquo;s location.
+Being people&amp;rsquo;s remote relation when things are opening up is a more complex position to keep these bonds
+and staying on the other side of locked borders weighed more on some of my relationships than I could have anticipated.
+In this sense is a career path which can structurally pull you away from things and people that matter
+not an obvious choice.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>French Higher education in STEM</title>
+      <link>https://matbesancon.xyz/post/2021-04-11-french-highered/</link>
+      <pubDate>Sun, 11 Apr 2021 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2021-04-11-french-highered/</guid>
+      <description>
+
+&lt;details class=&#34;toc-inpage d-print-none  &#34; open&gt;
+  &lt;summary class=&#34;font-weight-bold&#34;&gt;Table of Contents&lt;/summary&gt;
+  &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&#34;#universities&#34;&gt;Universities&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#engineering-schools&#34;&gt;Engineering schools&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#classes-préparatoires&#34;&gt;Classes Préparatoires&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#iut&#34;&gt;IUT&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+&lt;/details&gt;
+
+&lt;p&gt;The Bologna reform brought some homogeneity to higher education in Europe,
+in particular the Bachelor-Master-Doctorate levels recognized across countries and
+the European Credit Transfer and Accumulation System (ECTS) defining
+an accounting system for academic programs, with 60 credits being the equivalent
+of a full-time year.&lt;/p&gt;
+&lt;p&gt;Even though we all refer to the same level with a Bachelor&amp;rsquo;s or Master&amp;rsquo;s,
+the reality of programs at each level can differ within and between countries.
+The goal of this post is to provide some opinionated explanations on the
+main curricula followed in STEM in France. I will not compare it to
+the systems of other countries which would be trickier, just provide few pointers.
+In applied sciences, technology and engineering domains, many people will not have been through
+universities but alternative degree-awarding institutions called &lt;em&gt;Grandes Écoles&lt;/em&gt;, an alternative system.
+The descriptions I give will represent overall trends, there will be institutions
+that do not fit well in one of the boxes and individuals within these institutions
+that have profiles quite different from the typical ones.&lt;/p&gt;
+&lt;h1 id=&#34;universities&#34;&gt;Universities&lt;/h1&gt;
+&lt;p&gt;Universities are the easiest model to understand since they fit into the
+Bachelor-Master-Doctorate Bologna model and work similarly to universities
+abroad.&lt;/p&gt;
+&lt;p&gt;University students are usually more exposed to research throughout their curriculum,
+being taught by professors and researchers for most of the course work from the Bachelor&amp;rsquo;s on
+and being trained specifically for research in many Master&amp;rsquo;s programs.
+A distinctive element of the French higher education program is selection at least as much as
+course content, with tougher selection being perceived as more prestigious.&lt;/p&gt;
+&lt;p&gt;Universities have a specific aspect with that regard: there is almost no selection
+for admission, as long as you graduated from high school.
+This means 1st-year cohorts are composed of lots of uncertain people here as a fallback plan
+or because they needed anything. This also means faculties cannot regulate the number of admissions
+in the 1st year and thus guarantee the quality of the curriculum.
+Selection only happens between the Bachelor&amp;rsquo;s years and between Bachelor&amp;rsquo;s and Master&amp;rsquo;s programs.&lt;/p&gt;
+&lt;p&gt;The good part of a system that is not selective for admissions is that a lot of people
+can sample a Bachelor program and become extremely good in their domain even though
+they did not seem to have a suitable profile based on their high-school record.
+A drawback is that 1st year experiences are usually awful because of under-staffing
+and the overall low cohort motivation.&lt;/p&gt;
+&lt;p&gt;Another issue appearing later in curricula and that was reported is that a pure university
+Bachelor&amp;rsquo;s and Master&amp;rsquo;s track leaves a feeling of unawareness of industry opportunities
+with most courses being taught by university professors who themselves have seldom worked
+outside of academia.&lt;/p&gt;
+&lt;h1 id=&#34;engineering-schools&#34;&gt;Engineering schools&lt;/h1&gt;
+&lt;p&gt;These institutions (&lt;em&gt;écoles d&amp;rsquo;ingénieurs&lt;/em&gt;) are public or private institutions delivering
+an engineering degree at a Master&amp;rsquo;s level. They are usually much smaller than universities,
+it is not shocking to hear of schools with about 300-500 students and a single building.
+The initial motivation (some several centuries old) for these schools was to prepare
+technical managers working for the state and companies. The term &amp;ldquo;ingénieur&amp;rdquo; in France
+is perceived mostly as a title first, and a function secondarily.
+People will consider themselves &lt;em&gt;ingénieurs&lt;/em&gt; even if they do not actually work
+in engineering (some schools are fairly famous for training managers more than technical specialists).
+Engineering schools are usually well-funded, even more when looking at the budget per capita.
+A larger part of the curriculum is preparing industry professionals and the institutions to develop
+stronger partnerships with companies (for better and worse).&lt;/p&gt;
+&lt;p&gt;Engineering schools also have more freedom over the curriculum from the start than universities.
+There is however one institution controlling the programs delivering a &lt;em&gt;diplôme d&amp;rsquo;ingénieur&lt;/em&gt;
+called the &lt;a href=&#34;https://www.cti-commission.fr/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Commission des titres d&amp;rsquo;ingénieurs&lt;/a&gt; (CTI).
+They evaluate engineering programs periodically and assert whether an institution
+can continue delivering the degree.
+The requirements are much more precise than ones for a Master&amp;rsquo;s degree, with examples such as:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;a minimum level in English validated by an external examination&lt;/li&gt;
+&lt;li&gt;a minimum time abroad&lt;/li&gt;
+&lt;li&gt;some humanities and social sciences.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The CTI has always been a topic of debate, whether it should intervene less or more
+in the programs, which direction and changes they should give to engineering title
+requirements.&lt;/p&gt;
+&lt;p&gt;The last distinction between engineering schools is the way they recruit:
+after high school or after a &lt;em&gt;preparation program&lt;/em&gt;.
+Schools recruiting after high school offer a 5-year joint Bachelor-Master&amp;rsquo;s program
+up to the engineer title. There might be a cut-off after the Bachelor&amp;rsquo; completion
+but it is expected to complete the 5 years.&lt;/p&gt;
+&lt;p&gt;The traditional and still predominant structure however is to go through a &lt;em&gt;classe préparatoire aux grandes écoles&lt;/em&gt;
+(CPGE) or preparation course in order to apply to those engineering schools and other non-university institutions.&lt;/p&gt;
+&lt;h1 id=&#34;classes-préparatoires&#34;&gt;Classes Préparatoires&lt;/h1&gt;
+&lt;p&gt;CPGEs offer a two-year program after high school, here are some key elements:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;They do not deliver any degree but &lt;em&gt;prepare&lt;/em&gt; candidates for other institutions;&lt;/li&gt;
+&lt;li&gt;CPGE are programs offered by high schools, not higher-education institutions, with smaller highly-directed classes more than lectures.&lt;/li&gt;
+&lt;li&gt;The teachers are usually not researchers but full-time teachers with specific qualifications (called aggrégation);&lt;/li&gt;
+&lt;li&gt;CPGE programs are split by emphasized topic (maths, physics, engineering, &amp;hellip;);&lt;/li&gt;
+&lt;li&gt;The workload is intense: about 38 weekly hours of classes (mixing lectures and exercises) and tests, about 20-30 hours of self-study (as reported on &lt;a href=&#34;https://www.letudiant.fr/etudes/classes-prepa/reussir-sa-prepa-les-reponses-a-vos-questions/en-prepa-comment-tenir-le-coup-face-au-rythme-de-travail.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;several&lt;/a&gt;
+&lt;a href=&#34;https://www.orientation-education.com/article/les-eleves-de-classes-prepas-sont-les-etudiants-qui-travaillent-le-plus&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;articles&lt;/a&gt;);&lt;/li&gt;
+&lt;li&gt;The emphasis is on quantitative skills with well-scoped exercises, theorem proving, with a few hours of literature and languages, one small science project.&lt;/li&gt;
+&lt;li&gt;Officially, they provide the hard skill foundations for the Grandes Écoles coming after. My perception, shared by many that went through them, the program is in fact designed around preparing for the selective exams (&lt;em&gt;concours&lt;/em&gt;) determining which institutions people get admitted to. The goal is to identify key patterns in exercises and be able to work fast towards a solution.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;After the end of the second year, the &lt;em&gt;concours&lt;/em&gt; period starts. Each institution has a rough number of places
+and chooses from which &lt;em&gt;concours&lt;/em&gt; they want to recruit. Most schools join a grouped concours but some have
+their own. Students choose which &lt;em&gt;concours&lt;/em&gt; they want to take. More concours implies increases the
+possible choices but given that most happen in a narrow time window, choices are necessary.
+Each concours has a specific style with selected topics, open-ended questions or directed exercises.&lt;/p&gt;
+&lt;p&gt;The concours results rank the students who can then pick their favourite.
+Remember these schools train for specific disciplines, they are not full universities with multiple faculties.
+One odd aspect of the match-making system of the concours is that everyone, students and teachers
+focus a lot on the rank and prestige of the schools.
+Whatever the student&amp;rsquo;s strategy regarding concours, the end-game is often to select a school as high
+as possible, almost disregarding its domain or other considerations.&lt;/p&gt;
+&lt;p&gt;An anecdote on that matter: a friend joined my school for the Informatics department after a CPGE
+and against the advice of his teachers who were pushing him to accept the highest-ranked school
+he got from the concours. That school specializes in Civil Engineering, a fact that was minimized by
+the teachers even though it was clearly not a domain this friend was interested in.&lt;/p&gt;
+&lt;p&gt;I pointed earlier that the profiles from CPGEs typically work well under pressure and a high workload.
+I should correct and say, under &lt;strong&gt;guided&lt;/strong&gt; pressure.
+The curriculum is not designed in the spirit of intellectual wandering but getting things done.
+Even the humanities and literature opening is planned, no need to select books
+to read as a hobby, the list is already there and budgeted into the compact weeks.
+Because of this habit of having most things organized for them,
+many of the students are caught by surprise when arriving in environments favouring autonomy
+all year long, with exams happening at a much lower frequency than the weekly tests of CPGEs.
+Not having the pressure of short-term deadlines made the coursework look deceptively easy
+throughout the semester until they realized they had not been following, because the sense
+of urgency from the tests was absent.&lt;/p&gt;
+&lt;h1 id=&#34;iut&#34;&gt;IUT&lt;/h1&gt;
+&lt;p&gt;I will finish on &lt;em&gt;Instituts Universitaires de Technologie&lt;/em&gt;.
+These institutions train technicians and used to offer two-year programs for that purpose.
+The programs have been reformed as &lt;em&gt;Bachelor Universitaire de Technologie&lt;/em&gt; (BUT) starting
+in 2021 in three years after high school. Instead of focusing on theoretical foundations like CPGE,
+they deliver a degree in a practical domain like mechanical engineering, automation and electrical engineering or food science &amp;amp; technologies.
+The degree prepares people for actual work, some join companies directly
+after the program, some join engineering schools.
+The workload is high but reasonable, students are followed throughout the year to a larger extent than in a university.
+The profiles are typically more specialized towards an engineering discipline, following in the school
+a specialty at least related to the one from the IUT.&lt;/p&gt;
+&lt;hr&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bringing a PhD to the finishing line</title>
+      <link>https://matbesancon.xyz/post/2021-04-02-phdone/</link>
+      <pubDate>Fri, 02 Apr 2021 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2021-04-02-phdone/</guid>
+      <description>
+
+&lt;details class=&#34;toc-inpage d-print-none  &#34; open&gt;
+  &lt;summary class=&#34;font-weight-bold&#34;&gt;Table of Contents&lt;/summary&gt;
+  &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&#34;#plan-organize-prioritize-ruthlessly&#34;&gt;Plan, organize, prioritize ruthlessly&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#mind-the-change-blindness-on-your-research&#34;&gt;Mind the change blindness on your research&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#thesis-ownership&#34;&gt;Thesis ownership&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+&lt;/details&gt;
+
+&lt;p&gt;Last December, I defended my doctoral dissertation and finished the last steps towards the completion of my double PhD.
+I am only writing about it now because the experience left me drained but also extremely busy
+with things I had been putting off for a while.
+Now that a quarter of 2021 has vanished before me, we get to the point where putting it off for longer means forgetting about it.
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;und&#34; dir=&#34;ltr&#34;&gt;▓▓▓▓░░░░░░░░░░░ 25%&lt;/p&gt;&amp;mdash; Year Progress (@year_progress) &lt;a href=&#34;https://twitter.com/year_progress/status/1377863380095107072?ref_src=twsrc%5Etfw&#34;&gt;April 2, 2021&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+&lt;/p&gt;
+&lt;p&gt;The major reasons for not doing this earlier are banality and messiness. Banality because many have written great pieces about
+different stages of the PhD process, even better when written by people from awarding institutions
+who see cohorts succeed and fail every year.
+Still, I believe there are few angles that I would have liked to see stressed more and earlier, for me or others.
+Messiness because several thoughts had been in the back of my mind, discussed with others, and were still looming around without much structure.&lt;/p&gt;
+&lt;p&gt;The end of a PhD is notoriously hard and you are mostly fighting against yourself, the excitement from the beginning
+is gone and any trick could be taken to smoothen this. Here are some things that worked not only well,
+but more than I would have expected.&lt;/p&gt;
+&lt;h1 id=&#34;plan-organize-prioritize-ruthlessly&#34;&gt;Plan, organize, prioritize ruthlessly&lt;/h1&gt;
+&lt;p&gt;This is a general line of advice for the whole doctoral journey, even more important for the end.
+The finishing process by the French institutions jointly awarding my degree was ridiculously complex with many steps
+involving back-and-forth with multiple documents and actors.
+I would have loved to illustrate this with the diagram for the procedure at my institution
+but that might be needlessly targeting them.&lt;/p&gt;
+&lt;p&gt;With such a mess, it is easy to lose focus of the scientific part and waste your time on paperwork.
+Remember this needs to be done but is low-priority. Do it when you are low on energy and focus, when you are
+tired or finish a work sprint, do not waste the valuable hours of your day on papers. Check the hard deadlines,
+is it in quite some time? Put it in a calendar and forget about it until you have time or no choice.&lt;/p&gt;
+&lt;p&gt;My point here is: &lt;strong&gt;no PhD&lt;/strong&gt; is awarded for being good at filling the paperwork and it should not be on the top of your mind.&lt;/p&gt;
+&lt;p&gt;We were notoriously joking in the French research team about the time it took me to get properly enrolled in the first year.
+It could have been faster if I had spent more time and attention on it, in that case, go several
+times to the graduate administration offices. In retrospect, considering it low-priority and
+focusing on research before working the admin into my schedule was perfectly fine and let me focus
+on research much faster.&lt;/p&gt;
+&lt;p&gt;Towards the end, prioritizing means constantly asking &amp;ldquo;Can I put this off until after my defence / my dissertation hand-out?&amp;rdquo;.
+If not, can you squeeze it in a time frame where it is not penalizing your research? If yes, put it in a
+calendar and forget about it. Don&amp;rsquo;t hesitate to consider this approach even for personal stuff you consider or know represents
+efforts. Seeing family, looking for a place for your next position, etc.&lt;/p&gt;
+&lt;p&gt;The last sprint is fairly stressful, being ruthless on your priorities helps not being too hard on yourself.
+Setting reasonable short-term objectives is a great way to make progress. One of the most productive decisions
+I took was accepting to go on vacation in southern France for a week with friends. I had writing hours set
+every day (rarely more than two) and activities the rest of the time. I probably got at least as much done as
+I would have had stuck in my apartment.&lt;/p&gt;
+&lt;h1 id=&#34;mind-the-change-blindness-on-your-research&#34;&gt;Mind the change blindness on your research&lt;/h1&gt;
+&lt;p&gt;I will refer throughout this post to the introduction, context, literature review and conclusion of the dissertation
+as the &lt;strong&gt;outer parts&lt;/strong&gt; and the core contribution chapters as the &lt;strong&gt;inner parts&lt;/strong&gt; of the thesis.&lt;/p&gt;
+&lt;p&gt;While writing the outer parts of your dissertation, mind the change blindness, this perception &amp;ldquo;bug&amp;rdquo;
+that lets us unaware of things that changed throughout a period.
+In this case, you have become an expert on your research topic, despite what the imposter syndrome might be saying.
+This also implies that you always have a mental picture of facts and ideas related to your research that have
+become part of your everyday work.
+The reader does not have the same years of work on the research topic, even if they are in your domain.
+Highlight the contributions, more than you would have in an informal chat. Do not hesitate to write something
+down in the outer parts even if it seems obvious. For readers who have not looked at the problem, show why it
+is interesting. In some cultures, boasting about your results or achievements is quickly frowned upon;
+in the dissertation though, resist the urge to minimize them. It is not unscientific to highlight that your work is
+new, important, or opening new lines of research.&lt;/p&gt;
+&lt;p&gt;The feeling I often had when writing the outer parts of the dissertation is that my point was redundant with
+what was already in other places of the thesis, specifically in the inner parts.
+But when reading the introduction, I will expect to get some understanding of the domain, its challenges and
+open questions, how others have addressed questions similar to those of the thesis.
+It is normal to have some redundancy with the explanation of a core contribution two or three chapters down the line.
+In the conclusion, I do not want (just) the rehashed summary of each chapter of the inner parts
+but would love to see a more critical view of the angle that has been taken on the research question, openings
+on connected areas, how it could have been from a different perspective.&lt;/p&gt;
+&lt;p&gt;To give a rough idea of how I spent my last months, I handed out the manuscript at the end of September.
+Starting in May and for most of the summer, I focused on the outer parts, thinking about how to structure and articulate
+the introduction and literature review. The core concern that made me rework things several times was to make
+these outer parts accessible and interesting for readers outside my immediate domain, or even outside research but
+still with the appropriate technical background.&lt;/p&gt;
+&lt;p&gt;A personal opinion &amp;amp; side-note: scientific outreach and communication is great, but a thesis is not the best place
+for it, it just brings conflicting objectives and additional efforts, not every piece should be targeting any untrained reader.&lt;/p&gt;
+&lt;h1 id=&#34;thesis-ownership&#34;&gt;Thesis ownership&lt;/h1&gt;
+&lt;p&gt;The last line of advice I will give is on owning your results and doctoral work.
+I already had some thoughts on this &lt;a href=&#34;https://matbesancon.xyz/post/2018-09-27-year-in-phd/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;after one year into the PhD&lt;/a&gt;.
+Ownership of one&amp;rsquo;s PhD topic may be the single most important factor for enjoying your doctoral research
+and essential to turn into a great researcher in the long run.
+Reading this post from some places, this thought may seem oddly obvious.
+However, while exchanging with many doctoral candidates and reading the tone of some advisors,
+I saw there is a strong conception, especially in France, that:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;the PhD candidate is working &lt;strong&gt;for&lt;/strong&gt; the advisor and that the PhD will follow;&lt;/li&gt;
+&lt;li&gt;the advisor is responsible for the scientific choices taken.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The second point goes for the better and worse aspects, and would come with reactions as &amp;ldquo;what was the advisor thinking&amp;rdquo;
+whenever some researchers see something they don&amp;rsquo;t agree with in some work done by a PhD candidate, as if the person
+could not also be held responsible for their actions.
+But because it implies it is the responsibility of the advisor to define and adjust the research direction,
+such a line of thought is preventing PhD candidates to take ownership of their topic and research.&lt;/p&gt;
+&lt;p&gt;This issue is tricky because it brings the connected subject of how PhDs are funded.
+Although I love discussing it, I thought for a while about whether to write about it.
+Because of the way PhDs are funded in some domains, the doctoral candidate is sometimes
+considered as the person recruited to fill a particular role in the lab.
+This does not help gain autonomy and a sense of ownership.
+And because the funding process is determined by the institution or nationally, there isn&amp;rsquo;t much
+advisors or candidates can do. What both can though is shifting the perspective on work ownership.
+Regardless of how autonomous you felt during the PhD, the last sprint is the time to step it up.
+It will be your name on the dissertation, associated with everything from abstract to appendix and on the defence slides;
+it is your work and research profile being evaluated.
+This means you should be absolutely comfortable with everything in there and be able to take credit and
+blame for it, considering your advisors out of the equations during the defence.
+If they still need to help you by then, something went wrong along the way.
+Ownership of the decision is especially important and tricky for PhDs
+carried out with(in) industrial research partners (CIFRE in France or similar programs).
+Not all decisions on the investigation may be yours but you will need to justify them scientifically
+in front of examiners if they are in your doctoral work.&lt;/p&gt;
+&lt;p&gt;I will finish with a last random fact on ownership.&lt;/p&gt;
+&lt;p&gt;A 1st-year PhD student recently told a group of other PhDs about an email from their advisor,
+where they harshly explained that it is up to the student to reach out when they struggle,
+have questions or need a meeting, also suggesting that if the advisors asked
+the student for a meeting, that would be a &amp;ldquo;we need to talk&amp;rdquo; situation.
+The tone of the email was fairly brutal, arguing the student had no clue on
+how research works, who had which responsibility.&lt;/p&gt;
+&lt;p&gt;A few opinions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The tone of the email was plain wrong. I cannot use direct quotes to protect the PhD student, but being overly harsh on your subordinates to convey ideas just shows poor self-control (and this was in written form).&lt;/li&gt;
+&lt;li&gt;The 1st year PhD student not knowing about the way academia works should be obvious, even more for someone
+who has advising experience. The advisor should have realized when writing this email that this shows at best their failure
+at onboarding the student in academia and explain its &lt;strong&gt;very&lt;/strong&gt; unspoken rules.&lt;/li&gt;
+&lt;li&gt;This last point is where I diverged from the opinion of others who heard the student&amp;rsquo;s story: despite poor form and failed mentoring,
+the advisor is right in essence and the message they gave is best given early and explicitly as they did than figured out (or not)
+by the student much later in the process. This is even more the case in Corona times where 1st-year students have never
+been exposed to the research environment as it used to exist.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As I wrote before, the advisor is not a boss as you would think of in a company,
+a closer metaphor would be an investor in time, lab resources, funding and reputation.
+This model is not perfect but better aligned with productive research relationships
+than the subordinate model I&amp;rsquo;ve often seen in some circles.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Header photo credit:&lt;br&gt;
+Richard Dykes on Unsplash&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Peer review &amp; change highlight</title>
+      <link>https://matbesancon.xyz/post/2021-2-13-diffreview/</link>
+      <pubDate>Sat, 13 Feb 2021 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2021-2-13-diffreview/</guid>
+      <description>
+
+&lt;details class=&#34;toc-inpage d-print-none  &#34; open&gt;
+  &lt;summary class=&#34;font-weight-bold&#34;&gt;Table of Contents&lt;/summary&gt;
+  &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ol&gt;
+    &lt;li&gt;
+      &lt;ol&gt;
+        &lt;li&gt;&lt;a href=&#34;#academia-and-the-culture-of-implicit-knowledge&#34;&gt;Academia and the culture of implicit knowledge&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#back-to-manuscript-changes&#34;&gt;Back to manuscript changes&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#difference-highlight-options&#34;&gt;Difference highlight options&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#going-to-the-root-why-are-we-encouraging-inefficiency&#34;&gt;Going to the root: why are we encouraging inefficiency&lt;/a&gt;&lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+&lt;/details&gt;
+
+&lt;p&gt;Last week finished with great news, a paper accepted with minor revisions.
+With this response came the review of two anonymous scientists,
+invited by the editor to assess the manuscript and provide feedback and suggestions.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Aside&lt;/em&gt;&lt;br&gt;
+The number of reviewers can fluctuate depending on your field, on the journal, on the
+nature of the communication (conference proceeding, short paper, article).&lt;br&gt;
+My personal &amp;ldquo;highest score&amp;rdquo; is 8 reviewers on a paper.
+The experience was terrible, a huge toll on everyone&amp;rsquo;s time, in my opinion showing a lack
+of peer-reviewing process on the editor&amp;rsquo;s side.&lt;/p&gt;
+&lt;p&gt;Whether the required revisions are major or minor, the editor will expect a response from
+the authors containing:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;the modified manuscript&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;some sort of response&lt;/em&gt; with how they addressed the reviewers&amp;rsquo; comments.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;em&gt;Some sort of response&lt;/em&gt; is where differences start to appear between different disciplines and even sub-disciplines.&lt;/p&gt;
+&lt;h2 id=&#34;academia-and-the-culture-of-implicit-knowledge&#34;&gt;Academia and the culture of implicit knowledge&lt;/h2&gt;
+&lt;p&gt;We had a discussion with the co-authors on how to convey the changes,
+with a disagreement on which would be best. Specifically, I was asked &amp;ldquo;why don&amp;rsquo;t you use method X &lt;strong&gt;like everyone&lt;/strong&gt;?&amp;rdquo;.&lt;br&gt;
+Who is everyone? Are we sure that it is the case, even in our sub-field?&lt;/p&gt;
+&lt;p&gt;The question raises the very interesting point of implicit expectations in the academic culture.
+Technical know-how is transmitted informally within research groups, from one researcher to the next.&lt;/p&gt;
+&lt;p&gt;What is expected in a response to reviewers? Some specific points to raise in the letter to the editor?
+Even one step before, what journal would be a good fit for this manuscript?
+What are the unsaid characteristics of that journal?
+There is little, if anything, to find in journals&amp;rsquo; guides to authors, which would definitely be an appropriate place for it.&lt;/p&gt;
+&lt;p&gt;This one-to-one transmission creates very &amp;ldquo;localized&amp;rdquo; practices and habits because no one documents these practices but
+transmits them informally in informal chats or group meetings.&lt;br&gt;
+Why? First documenting beliefs is hard and unnatural in academic writing.
+We are used to structuring our written productions so that readers can follow the logical links.
+Writing in terms of gut feelings and beliefs is against those principles.
+Another reason is that some of this implicit knowledge is not something people would want to be recorded with their name on it.&lt;/p&gt;
+&lt;p&gt;&amp;ldquo;That journal has an awful review process&amp;rdquo; or &amp;ldquo;this conference has proceedings of varying quality&amp;rdquo; is something
+people will happily tell you within a research group but not write in a public note.&lt;/p&gt;
+&lt;p&gt;Some implicit knowledge is not that controversial but is not a scientific contribution either.
+Some examples are field-dependent best practices for writing and answering or any content in the sweet spot between graduate-level courses and new research: too advanced to be teachable, but
+not new to be publishable.
+In optimization, this kind of content was until recently only covered by few blogs,
+like &lt;a href=&#34;https://orinanobworld.blogspot.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Paul Rubin&amp;rsquo;s&lt;/a&gt;
+or &lt;a href=&#34;https://yetanothermathprogrammingconsultant.blogspot.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Yet another Math Programming consultant&lt;/a&gt;.
+A new addition is the &lt;a href=&#34;https://or.stackexchange.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;OR stackexchange Q&amp;amp;A forum&lt;/a&gt; and we see from the
+intense activity that it is covering an existing gap.&lt;/p&gt;
+&lt;p&gt;&amp;ldquo;Let&amp;rsquo;s tear down the implicit on writing practices&amp;rdquo; has been the motivation for writing this blog post.&lt;/p&gt;
+&lt;h2 id=&#34;back-to-manuscript-changes&#34;&gt;Back to manuscript changes&lt;/h2&gt;
+&lt;p&gt;In order to take a broader view and partially remove the implicit aspect, I asked
+my direct circles how they present the response:&lt;/p&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Academic &amp;amp; research twitter, when you send a manuscript after a round of review, you&lt;br&gt;- just send the new manuscript&lt;br&gt;- add an automatically generated diff (latex diff)&lt;br&gt;- manually edit the tex source to add colors where things changed?&lt;/p&gt;&amp;mdash; Mathieu Besançon (@matbesancon) &lt;a href=&#34;https://twitter.com/matbesancon/status/1359254009064919043?ref_src=twsrc%5Etfw&#34;&gt;February 9, 2021&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;My Twitter circle is biased towards applied maths and computer science at large
+and more specifically towards discrete &amp;amp; constrained optimization, applied probabilities
+and some other areas of computational sciences.&lt;/p&gt;
+&lt;p&gt;I asked a similar question on a private server with PhD students from more diverse disciplines,
+received fewer answers but with detailed responses.&lt;/p&gt;
+&lt;p&gt;I &lt;strong&gt;always&lt;/strong&gt; assumed there is at least a written response to the editor and reviewers
+with a summary of the changes in the new version of the manuscript. The question is
+whether there is a version of the manuscript highlighting differences, and how it is produced.&lt;/p&gt;
+&lt;h2 id=&#34;difference-highlight-options&#34;&gt;Difference highlight options&lt;/h2&gt;
+&lt;p&gt;I will list below several options. Some of them are in the initial options we discussed with my co-authors.
+Some are&lt;/p&gt;
+&lt;h3 id=&#34;colourizing-your-diff&#34;&gt;Colourizing your diff&lt;/h3&gt;
+&lt;p&gt;The first option that was presented to me the first time I went through the process is
+to set a different colour for changed paragraphs so that reviewers and editors can
+browse through the new version and look at the new paragraphs.&lt;/p&gt;
+&lt;p&gt;Most article editing software will have some way to do it.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-tex&#34; data-lang=&#34;tex&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\usepackage&lt;/span&gt;{color}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\RequirePackage&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;[normalem]&lt;/span&gt;{ulem}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\definecolor&lt;/span&gt;{BLUE}{rgb}{0,0,1}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\providecommand&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;\rev&lt;/span&gt;}[1]{{&lt;span style=&#34;color:#66d9ef&#34;&gt;\protect\color&lt;/span&gt;{BLUE}&lt;span style=&#34;color:#66d9ef&#34;&gt;\uwave&lt;/span&gt;{#1}}}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;% in the main body
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\section*&lt;/span&gt;{Introduction}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Academics rely on implicit knowledge of the established system.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\rev&lt;/span&gt;{We propose a change of perspective on the necessity of such implicit knowledge.}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\section&lt;/span&gt;{Development}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;We now develop the main result of the paper.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\rev&lt;/span&gt;{This approach is comparable to [Smith, 2020]}.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;with a result looking like the following:&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/diffreview/diff1.png&#34; alt=&#34;First version&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;I added the wave underlining to make the diff file print-friendly and readable by colour-impaired people.&lt;/p&gt;
+&lt;p&gt;The process is fairly straightforward to set up: define a command that highlight changes,
+and then only use that command to make changes.&lt;/p&gt;
+&lt;p&gt;What about having a clean version of the manuscript (without colourized highlights)?&lt;/p&gt;
+&lt;p&gt;Several options there:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;working on the clean version, create a copy with highlight as last step&lt;/li&gt;
+&lt;li&gt;working on a version with highlight and remove them at the end&lt;/li&gt;
+&lt;li&gt;working on a version with highlight, overwrite the &lt;code&gt;\rev&lt;/code&gt; command to just output the text for the final version.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Option 1 lets the writer focus on the actual change process without worrying about formatting and highlight before
+the end. Its other advantage is that you select as an author which part of the changes to highlight,
+thus guiding the reviewers&amp;rsquo; eyes.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;But&lt;/strong&gt; at some point you have to create a split: a version of the manuscript with highlight, and one without.
+Maintaining two files just means inconsistencies begging to happen.&lt;/p&gt;
+&lt;p&gt;Option 2 is just a clumsy manual version of option 3.
+Among possibilities, some colours can remain if you don&amp;rsquo;t check carefully,
+words or characters can be removed when the colour is being removed, etc.&lt;/p&gt;
+&lt;p&gt;The fundamental problem with options 2 and 3 is that the author works on
+the diff, and then emits the final version with a modification.
+This means the author sets their eyes on the highlighted version a lot longer,
+catching misalignments and visual errors, but not the final one, which is the one
+the author should care about, that&amp;rsquo;s where the time should be spent.&lt;/p&gt;
+&lt;p&gt;Having a poorly-formatted highlight file is fine compared to having formatting
+errors or typos in the actual good version of the manuscript.&lt;/p&gt;
+&lt;h3 id=&#34;automatically-generating-diff-from-versions&#34;&gt;Automatically generating diff from versions&lt;/h3&gt;
+&lt;p&gt;If you have your old source files (the version of the manuscript
+sent for review the first time) or even better if you use a version
+control system like you should, then it is possible to directly compare
+versions and emit a visual representation of the changes.&lt;/p&gt;
+&lt;p&gt;In LaTeX, one tool for this task is &lt;a href=&#34;https://texblog.org/2018/08/14/track-changes-with-latexdiff/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;latexdiff&lt;/a&gt;
+and its little brother &lt;a href=&#34;https://www.mankier.com/1/latexdiff-vc&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;latexdiff-vc&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Of course, tracking everything does not make sense and will probably lead to a visually
+saturated diff document that can be overwhelming for the reviewers.
+Luckily, one can always re-generate the diff, this is as cheap as running one command:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ latexdiff main_old.tex main.tex &amp;gt; diff.tex 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The first thing I do is usually set the deletion behaviour as not showing anything.
+If you look at the following result of running latexdiff on my example paper:&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/diffreview/diff2.png&#34; alt=&#34;Second version&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;This is subjective, but seeing both the removed and the added content is not always useful.
+Most problematic is when some parts were moved, latexdiff will interpret it as an addition
+and a deletion, which quickly gets bloated.&lt;/p&gt;
+&lt;p&gt;The drawback is that you need to edit this generated file, so don&amp;rsquo;t do it before (almost)
+the end, otherwise there are good chances you will need to re-generate and go through the manual edits again.&lt;/p&gt;
+&lt;h4 id=&#34;what-about-word&#34;&gt;What about Word?&lt;/h4&gt;
+&lt;p&gt;Even though Word is seldom used in the mathematics and computer science communities at large,
+it is the go-to tool in humanities, law, literature and quite present in some engineering domains.&lt;/p&gt;
+&lt;p&gt;Some people gave me an interesting testimony in that regard: the full diff (using Word revision mode)
+is not only acceptable even if heavy on the eyes, but it is also the &lt;strong&gt;correct&lt;/strong&gt; way to do it
+to show the editorial team exactly what has changed since the review.
+In contrast, I was argued that the generated diff is a &amp;ldquo;lazy&amp;rdquo; option because this means not making the effort
+to show only relevant parts. What if showing the complete diff is a form of transparency on the changes?
+Indeed, if what is needed is a summary, there is always the explanatory letter on the side summarizing
+changes and addressing reviewers&amp;rsquo; specific comments and questions.&lt;/p&gt;
+&lt;h3 id=&#34;editing-and-commenting-the-generated-pdf&#34;&gt;Editing and commenting the generated PDF&lt;/h3&gt;
+&lt;p&gt;An interesting perspective was given by &lt;a href=&#34;https://twitter.com/baggepinnen&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;two&lt;/a&gt;,
+&lt;a href=&#34;https://twitter.com/Judejeh/status/1359272151405244416&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;users&lt;/a&gt; in the answers below the poll:
+instead of editing the source to highlight differences, change or annotate the PDF,
+with tools like &lt;a href=&#34;https://draftable.com/compare&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;draftable&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This is definitely interesting to avoid polluting the sources with artifacts from diff highlighting
+and takes care of the mundane part for you. One drawback could be less flexibility in what can be done
+to filter or remove highlights in a PDF compared to a source file, but this is definitely worth exploring.&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/diffreview/diff3.png&#34; alt=&#34;Third version on draftable&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;optional-annotation-flags&#34;&gt;Optional annotation flags&lt;/h3&gt;
+&lt;p&gt;The last option is a variant of manually highlighting your source file
+but using the &lt;a href=&#34;https://ctan.org/pkg/changes&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;changes&lt;/a&gt; package.
+This was recommended by &lt;a href=&#34;https://twitter.com/lauraalbertphd&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Laura Albert&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The package provides options when importing it:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-tex&#34; data-lang=&#34;tex&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;% highlights the changes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\usepackage&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;[draft]&lt;/span&gt;{changes}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;% renders the final version
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\usepackage&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;[final]&lt;/span&gt;{changes}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;and then in the text using the modified, added and deleted commands:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-tex&#34; data-lang=&#34;tex&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\section&lt;/span&gt;{Development}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;We now develop the main result of the paper.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;\added&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;[comment=reviewer strongly advised citing Smith 2020]&lt;/span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;This approach is comparable to [Smith, 2020].
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;with the result looking as follows:&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/diffreview/diff4.png&#34; alt=&#34;Version with changes&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;This option is much more robust than keeping raw colours in the text,
+with just a single point of change (the top-level declaration)
+between the diff and the final result.&lt;/p&gt;
+&lt;p&gt;One drawback is that you have to select as you edit what goes in the
+displayed modifications and what gets modified without appearing in the highlights.
+Otherwise, you need to remember all modifications to add the &lt;code&gt;\added&lt;/code&gt; flag.&lt;/p&gt;
+&lt;p&gt;Still, I think this is one of the viable and reliable options in the whole set presented here,
+along with an edited latexdiff and possibly PDF edition which I barely tested.&lt;/p&gt;
+&lt;h2 id=&#34;going-to-the-root-why-are-we-encouraging-inefficiency&#34;&gt;Going to the root: why are we encouraging inefficiency&lt;/h2&gt;
+&lt;p&gt;If you read this post for the tools, you should probably stop there.&lt;/p&gt;
+&lt;p&gt;One thing that quickly struck me with this particular example
+of using a slow, manual way because &amp;ldquo;this is how people do it&amp;rdquo;
+is that there is little incentive for academic groups to change
+time- and cost-inefficient processes.&lt;/p&gt;
+&lt;p&gt;One weird thing in academia is the many situations where:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;the payer is not the buyer&lt;/li&gt;
+&lt;li&gt;the payer is the buyer, but the cost is too low to address the problem&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Point 1. applies for instance to the situation of publishing, the university is paying,
+so academics have low incentive to stop publishing with editors that are enjoying
+unreasonable margins on public money.&lt;/p&gt;
+&lt;p&gt;Point 2. is our actual topic. In a labour-intensive industry as many branches of academia are,
+one thinks carefully about how time is spent. Costs are directly related to that time.
+It is fairly typical to reason about how much a meeting or a project costs in terms of worker-hours.
+For sure, research time is hard to assess, sequence, and organize in neat boxes.
+Why is it not the case in academia?&lt;/p&gt;
+&lt;p&gt;Why don&amp;rsquo;t we reason about tasks taking time as a cost center?
+This might be due to the way people&amp;rsquo;s time are budgeted in advance:
+if someone is already working in a lab, their time was funded prior to their arrival
+and could then be perceived as a sunk cost.&lt;/p&gt;
+&lt;p&gt;This may also be based on the perception that Master&amp;rsquo;s and PhD researchers are considered students
+to some extent. Thus, their activity in the lab is a cost center regardless of the output,
+since they are in training. Or maybe this stems from academics not being trained in
+the management of research groups.&lt;/p&gt;
+&lt;p&gt;But the most direct explanation for low mindfulness of people&amp;rsquo;s time are the
+&lt;strong&gt;extremely low wage&lt;/strong&gt; given to junior researchers.
+A doctoral student makes about 15% of a full professor&amp;rsquo;s salary in Canada.
+In contrast, a junior developer is at about 55% the salary of a senior tech lead.
+We have an odd setting with a labour-intensive industry with a low cost of labour.
+This can quickly set a low priority on time efficiency, why bother when
+&lt;a href=&#34;https://www.theguardian.com/education/2019/apr/01/are-phds-just-cheap-labour-for-universities&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;time is relatively cheap&lt;/a&gt;?&lt;/p&gt;
+&lt;p&gt;One thing to note, I am talking about the academic culture as a whole creating some
+implicit expectations through the cost structure.
+It does not mean that all universities share it, but that enough places keep it
+such that the expectations in the community (like maintaining a time-consuming process for review)
+are still around.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Coping with a confined PhD, a naive report</title>
+      <link>https://matbesancon.xyz/post/2020-03-26-confined-phd/</link>
+      <pubDate>Thu, 26 Mar 2020 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2020-03-26-confined-phd/</guid>
+      <description>&lt;p&gt;One of the luxuries of a PhD in applied maths / computer science is the
+possibility to work from home. By possibility, I imply both the technical
+feasibility (my project does not require special equipment), and social
+acceptability (I never worked in labs enforcing presenteeism).&lt;/p&gt;
+&lt;p&gt;Of course, working from home or from my usual corner coffee shop once every other week
+is very different from these exceptional circumstances.
+I should also highlight I do not have to take care of children or sick family members,
+which comes as a priority, big congrats to those who manage it. This post should not
+be seen as how things should be done, simply how I cope and as a list of ideas
+to pick from if you are in a similar situation. The context is also very
+special for me as I just moved to the UK for an academic visit at the University
+of Edinburgh, I had just settled at a new city, flat and office when things
+started to escalate.&lt;/p&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;🎉🏴󠁧󠁢󠁳󠁣󠁴󠁿&lt;br&gt;With an apartment found and tickets bought, this is now official, I&amp;#39;ll be in Edinburgh in March &amp;amp; April for an academic visit at @UoEMaths ERGO&lt;/p&gt;&amp;mdash; Mathieu Besançon (@matbesancon) &lt;a href=&#34;https://twitter.com/matbesancon/status/1231514372729688064?ref_src=twsrc%5Etfw&#34;&gt;February 23, 2020&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;I decided to stay in Edinburgh instead of coming back to France because the trip
+itself would be irresponsible, travelling through the UK, sleeping in London and
+then crossing the border with continental Europe, but also because I was settled
+in comfortably enough to spend the rough months of the epidemic here.
+However, this meant adjusting in different ways.&lt;/p&gt;
+
+
+&lt;details class=&#34;toc-inpage d-print-none  &#34; open&gt;
+  &lt;summary class=&#34;font-weight-bold&#34;&gt;Table of Contents&lt;/summary&gt;
+  &lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href=&#34;#overall-routine&#34;&gt;Overall routine&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#social-media-and-work-breaks&#34;&gt;Social media and work breaks&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#broadening-work-activities&#34;&gt;Broadening work activities&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#setup-and-spacial-separation&#34;&gt;Setup and spacial separation&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#virtual-conferences-and-social-aspects&#34;&gt;Virtual conferences and social aspects&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#keeping-your-locals-afloat&#34;&gt;Keeping your locals afloat&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#we-got-this&#34;&gt;We got this&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;
+&lt;/details&gt;
+
+&lt;h1 id=&#34;overall-routine&#34;&gt;Overall routine&lt;/h1&gt;
+&lt;p&gt;Being in Europe with many friends &amp;amp; contacts in North America, I used the
+circumstances to slightly shift my day, waking up between 8.30 and 9.15, and
+going to bed a bit later, sharing more hours of the day with them. This would
+normally be more complicated with things to attend to where I am, but allow me
+to attend European late morning and afternoon remote events, North-American
+morning and early-afternoon events. I take a quick breakfast in the kitchen
+(no hot drink), make a batch of tea or coffee to keep while at my desk. I use
+the morning to catch up on emails, work on research, writing code and prose
+(with breaks, see below). I do not go back to eat while not hungry, and not before 1.30PM.
+The afternoon is a blend of research work and semi-work-related activities.
+I usually have figured out something to cook by the end of the day, depending on
+how much I estimate this will take I start late-afternoon or early evening.
+Depending on the mood and tasks, I work a bit after dinner, before closing all
+work tabs and windows (yes, all) to switch to leisure time, including films,
+calling people, etc. I keep at least one hour at the end of the day for reading,
+these days fiction (the Poppy War, the Alienist and Death in the East at the moment),
+and only in paper versions, since I don&amp;rsquo;t have a reader and I get enough screen
+time in the day.&lt;/p&gt;
+&lt;h1 id=&#34;social-media-and-work-breaks&#34;&gt;Social media and work breaks&lt;/h1&gt;
+&lt;p&gt;First things first, these things suck up your time and attention the rest of the
+year, now they also build up your anxiety like never before. I&amp;rsquo;m not telling you
+to resist (I don&amp;rsquo;t), just to separate the time where you work from the social
+media time in small blocks; &lt;a href=&#34;https://en.wikipedia.org/wiki/Pomodoro_Technique&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;pomodoro&lt;/a&gt;
+is your friend there. With this setting, being distracted is okay, when you
+suddenly find yourself on non-work related things, just stop the work timer,
+take your break, and restart it when you are ready to restart.
+My breaks vary between 5 and 30 minutes, either texting friends, reading
+non-work news articles, scrolling or playing mines:
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Well how is YOUR discovery of gravity going? &lt;a href=&#34;https://t.co/Q8jaDPq6Tg&#34;&gt;pic.twitter.com/Q8jaDPq6Tg&lt;/a&gt;&lt;/p&gt;&amp;mdash; Mathieu Besançon (@matbesancon) &lt;a href=&#34;https://twitter.com/matbesancon/status/1243125633800114177?ref_src=twsrc%5Etfw&#34;&gt;March 26, 2020&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+&lt;/p&gt;
+&lt;p&gt;The rest of the time, I close distracting browser tabs (including emails) and
+toss my phone out of reach.&lt;/p&gt;
+&lt;h1 id=&#34;broadening-work-activities&#34;&gt;Broadening work activities&lt;/h1&gt;
+&lt;p&gt;Staying focused on work is clearly harder; one way to cope with it is to broaden
+work activities and even if it does not serve you in the short term, consider it
+work, no need to drown in guilt. My semi-work activities include open-source software,
+reading papers and books in my domain but not directly relevant to my research,
+following MOOCs, even on some things I assume I already know to see a different
+perspective. You may have noticed lots of university seminars are maintained
+in an online format. Since you do not need to run to the building on the other
+side of the campus, it can be a good opportunity to spend 45 minutes on other
+topics for your general scientific culture.&lt;/p&gt;
+&lt;h1 id=&#34;setup-and-spacial-separation&#34;&gt;Setup and spacial separation&lt;/h1&gt;
+&lt;p&gt;This section is to take with a pinch of salt, it assumes some financial comfort
+and a big enough flat. Early in the epidemic when it felt like we were going for
+gradual home isolation, I started setting up my office in a way that felt good,
+not for two hours in the evening any more, but for 8+ hours in the day.&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/office.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;First, the second monitor.
+I don&amp;rsquo;t think more than two active screens is necessary, but it may vary with
+activities, beware of excessive multi-tasking though.
+The only new thing I invested in is a keyboard,
+which I had not brought to the UK. It&amp;rsquo;s a &lt;a href=&#34;https://www.drevo.net/product/keyboard/gramr&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;DREVO Gramr&lt;/a&gt;
+mechanical keyboard with brown switches, reasonably priced and with a nice-enough
+touch. It also gave me the opportunity to finally re-switch to qwerty layout and stick to it.
+The biggest point for me of having an external keyboard is improving my posture.
+My screens are further away and higher thanks to few books, allowing me to keep
+my back straighter and relax my eyes.
+Working with a laptop alone is nice for few hours in a coffee shop or on a couch,
+but terrible for your eyes, arms, hands and back, &lt;strong&gt;forget the lap of laptop&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;The spatial separation is fairly simple: work remains at my desk, I keep the
+living room for eating, drinks, films, chatting with my flatmate. If you have an
+office space to separate it from your bedroom, even better. This is also why I
+cannot blame Parisians leaving the capital for family houses, the lifestyle is
+not adapted to actually living in your $15m^2$ flat.&lt;/p&gt;
+&lt;h1 id=&#34;virtual-conferences-and-social-aspects&#34;&gt;Virtual conferences and social aspects&lt;/h1&gt;
+&lt;p&gt;There was a discussion on the remote thesis during the epidemic on the
+&lt;a href=&#34;https://www.grandlabo.com/sos-telethese-continuer-sa-these-en-plein-confinement-coronavirus/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Grand Labo&lt;/a&gt; (in French).
+Among different subjects, I chose to speak of something which may appear very
+privileged (and is to some extent), which is the impact of cancelled academic
+events (conferences, workshops, seminars), especially on young academics, in
+which I include everyone being evaluated on their work now for a future position
+or promotion (master&amp;rsquo;s, PhDs, postdoctoral researchers, professors subject to
+the tenure clock).&lt;/p&gt;
+&lt;p&gt;The summary of the discussion is that scientific aspects of
+the events can be emulated though online seminars, but the networking aspects
+are much harder. The reason young academics are more heavily impacted is because
+we are the ones looking for contacts for what we will do afterwards, and both
+discovering and getting in touch with those contacts depends on such events.
+I do not have a perfect solution for this, and I&amp;rsquo;m not sure there is.&lt;/p&gt;
+&lt;h1 id=&#34;keeping-your-locals-afloat&#34;&gt;Keeping your locals afloat&lt;/h1&gt;
+&lt;p&gt;Again this section is to take relatively to what you can afford. If you are not
+financially comfortable (and this is a post for PhDs so it might very well be the
+case, feel free to pick the pieces you want). One thing that will happen with
+everything shut down is that businesses and service workers that depend on a local
+activity will suffer. For tech workers, here is a great thread, although
+US-centric so some of the consequences will be hopefully nuanced in your country:&lt;/p&gt;
+&lt;p&gt;&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;The US govt has failed to contain this outbreak&lt;br&gt;&lt;br&gt;It&amp;#39;s now up to us, as individuals, to protect and support our communities&lt;br&gt;&lt;br&gt;Techies and other financially privileged people, this thread is for YOU:&lt;/p&gt;&amp;mdash; bletchley punk (@alicegoldfuss) &lt;a href=&#34;https://twitter.com/alicegoldfuss/status/1239621791145807882?ref_src=twsrc%5Etfw&#34;&gt;March 16, 2020&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Restaurants&lt;br&gt;&lt;br&gt;- Find out if your local faves are providing sick leave and pay for their workers. Shame them into doing it.&lt;br&gt;- Order delivery to keep people paid&lt;br&gt;- Have delivery drops in your lobby or stoop for their protection&lt;br&gt;- TIP DIGITALLY don&amp;#39;t make them touch your grubby cash&lt;/p&gt;&amp;mdash; bletchley punk (@alicegoldfuss) &lt;a href=&#34;https://twitter.com/alicegoldfuss/status/1239622445578907648?ref_src=twsrc%5Etfw&#34;&gt;March 16, 2020&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+&lt;/p&gt;
+&lt;p&gt;The key point of this thread is your local restaurant, bar, pub. You do not want
+it closed and replaced by a chain (I assume?), and you do not want the employees
+that made it a great place without a job in these times where finding a new one
+will be hard. Check if they do delivery and / or take-away, at least allow yourself
+one treat a week, plus for special occasions
+(article submitted, came back from review, published, accepted, pushed as preprint).
+Contact them to know if they kept their staff, favour the ones who did.
+If they offer vouchers to use when they re-open, take some, otherwise suggest
+them so. This also goes for corner coffee &amp;amp; tea shop, they may still do take-away
+and need you now. I am trying to do so in Edinburgh, on the recommendations of my
+flatmates, friends and locals on &lt;a href=&#34;https://reddit.com/r/Edinburgh/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Reddit&lt;/a&gt;,
+while I hope others do the same in my neighbourhood in Lille.&lt;/p&gt;
+&lt;h1 id=&#34;we-got-this&#34;&gt;We got this&lt;/h1&gt;
+&lt;p&gt;One thing that was highlighted in the PhD panel with the Grand Labo was the
+overwhelming guilt, which is always latent in academia and comes out even stronger
+in these times. Keep in mind this is some never-seen event, re-writing much of
+how we live, work and socialize. Some parts are crisis measures that will gradually
+fade away, but some aspects will remain after the shock. Even coping at our best
+does not make the situation remotely &amp;ldquo;fine&amp;rdquo; for many of us, but we got this.&lt;/p&gt;
+&lt;p&gt;If you want more and better tips on working from home for tech workers in the epidemic time,
+&lt;a href=&#34;https://blog.alicegoldfuss.com/work-in-the-time-of-corona/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;this post&lt;/a&gt;, from the
+same author as the restaurant recommendations above, is worth it.
+If you read French, feel free to also check this thread:&lt;/p&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;fr&#34; dir=&#34;ltr&#34;&gt;[THREAD DOCTORAT]&lt;br&gt;Bonjour à tous, comme la plupart des doctorants du territoires nous avons été encouragés à faire du télétravail à partir de lundi, puis en quelques heures aujourd’hui la situation s’est dégradée. Nous ne pouvons plus accéder à nos laboratoire ,à nos manips, rien&lt;/p&gt;&amp;mdash; Dr. Mathilde 👩🏼‍💻 (@BienDansMaThese) &lt;a href=&#34;https://twitter.com/BienDansMaThese/status/1239347768562499586?ref_src=twsrc%5Etfw&#34;&gt;March 16, 2020&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;where Mathilde documents the progress and of setting up a workflow and new
+habits in these bizarre times, that fell on academia in France with little warning
+or preparation.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>A naive and incomplete guide to peer-review</title>
+      <link>https://matbesancon.xyz/post/2019-02-04-article-review/</link>
+      <pubDate>Mon, 04 Feb 2019 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2019-02-04-article-review/</guid>
+      <description>&lt;hr&gt;
+&lt;p&gt;After the first submissions to journals, most researchers will be contacted
+by editors for reviewing articles others have written. It may seem like a
+daunting task, evaluating the work someone else put several months to
+prepare, code, write, correct and submit.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: to preserve the anonymity of the reviews I made and am
+making, all examples I give below are made up.&lt;/p&gt;
+&lt;p&gt;The main phases of my reviewing process are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;What is this about? Can I review it?&lt;/li&gt;
+&lt;li&gt;Is the paper in the scope of the journal?&lt;/li&gt;
+&lt;li&gt;Are there some topics I might struggle to understand?&lt;/li&gt;
+&lt;li&gt;Diving in, a first pass to get the story right&lt;/li&gt;
+&lt;li&gt;Thematic passes &amp;amp; writing the recommendations&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;what-is-this-about-can-i-review-it&#34;&gt;What is this about? Can I review it?&lt;/h2&gt;
+&lt;p&gt;After receiving the invitation and getting the manuscript, my screening phase
+consists in reading only these three elements:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Title&lt;/li&gt;
+&lt;li&gt;Abstract&lt;/li&gt;
+&lt;li&gt;Keywords&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;At that point, I roughly know if it is relevant for both the journal and me
+that I review it. If I feel way out of scope, I&amp;rsquo;ll reach out to the editor.
+I will also quickly check the name of the authors to make sure I do not have
+a conflict of interests with any of them, without looking them up on the
+internet of course, the goal is to avoid bias if I know them at a personal level.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Since this only took a quick screening, it can be done in a day or two,
+letting the editor know too late that you will not review increases
+the time to publication which is bad for the author, the journal and scientific
+publication in general.&lt;/p&gt;
+&lt;h2 id=&#34;is-the-paper-in-the-scope-of-the-journal&#34;&gt;Is the paper in the scope of the journal?&lt;/h2&gt;
+&lt;p&gt;At that point, I re-read the journal&amp;rsquo;s aim and scope and keep in mind the main
+ideas. If I am not that familiar with it, I will also check titles and abstracts
+of random papers in the last issues. This will help during the review if
+there are some doubts on the manuscript being at the right spot.&lt;/p&gt;
+&lt;h2 id=&#34;are-there-some-topics-i-might-struggle-to-understand&#34;&gt;Are there some topics I might struggle to understand?&lt;/h2&gt;
+&lt;p&gt;If I have doubts on some parts of the method or context
+and can identify them, I&amp;rsquo;ll search for foundational articles and reference
+text books on the subject.&lt;/p&gt;
+&lt;p&gt;In any case, it is predictable that not all reviewers of the paper cover
+the same area of expertise, especially for multi-disciplinary
+journals. Still, it is always better to be comfortable with all components.
+Take a case in mathematical optimization, for instance a manuscript
+tackling a problem in power systems, with a game theoretical aspect and
+formulating a Semi-Definite Positive model solved using a bundle method.
+I might be familiar with the application (power systems) and game-theoretical
+considerations in such domain, but without being an expert in SDP and even less
+bundle methods. This is not a reason to refuse the role of reviewer.&lt;/p&gt;
+&lt;p&gt;However, not being proficient on a component can introduce a bias in the
+review by putting the reviewer on the defensive:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;why do the authors need all this fuss with this thing I&amp;rsquo;ve never heard of,
+why not the good all techniques like what I do&amp;rdquo;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;I&amp;rsquo;ve seen read different comments in reviews which looked a lot like this.
+This is why it can be valuable to take some time to get more familiar
+with shadow areas. Plus this makes reviewing a challenge and an excuse
+to learn something new and connected to my area.&lt;/p&gt;
+&lt;h2 id=&#34;diving-in-a-first-pass-to-get-the-story-right&#34;&gt;Diving in, a first pass to get the story right&lt;/h2&gt;
+&lt;p&gt;At that point, I book at least two hours for a first read of the paper,
+with a pen, a printed version and a notebook. I should eventually get a
+tablet to take notes on the PDF instead of print-outs but for the moment,
+the number of papers I am asked to review remains reasonable.
+I read it through without interruptions (no phone, no open browser, no music
+or music without lyrics), taking notes on the side on all things that cross
+my mind.
+Notes are of different types: small mistakes, remarkable points, key information
+and the &amp;ldquo;interrogation queue&amp;rdquo;. This queue is inspired by developers&amp;rsquo; code review
+and the most advanced metric found for it:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/peer_review/wtfm.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+
+An element is added in the queue when something is missing for my
+understanding here and has not been introduced upwards in the article.
+An element is removed from the queue when an explanation for it appears
+(so later in the article). Of course, any element remaining in the queue
+at the end of the manuscript is a problem: it is never explained,
+introduced properly. Two considerations play a role for the quality of
+the paper for its ease of understanding:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;How long is the queue at any point in the paper? Does it introduce too much cognitive load?&lt;/li&gt;
+&lt;li&gt;How long is the distance between the appearance of an element in the queue? (the interrogation moment) and its removal (the aha moment)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The second point is easy to solve, just recommend introducing the concept
+before the place in the text where the interrogation appeared.
+The first point will require more work on the authors&amp;rsquo; side
+to displace all explanations before the introduction of the concept/symbol,
+reducing the overall cognitive load at any moment for the reader.&lt;/p&gt;
+&lt;h2 id=&#34;thematic-read--writing-the-recommendations&#34;&gt;Thematic read &amp;amp; writing the recommendations&lt;/h2&gt;
+&lt;p&gt;After the first reading round, I usually have some ideas about what are the key
+axes of the review, I can start writing it up with all the small details
+(typos, clumsy or vague phrasing, etc), all that is not on the structure nor on
+the content. A good rule of thumb is that those minor corrections are limited
+to few words in just one sentence.
+After that, I write down different main axes, as for instance:
+&amp;ldquo;this step of the methodology section is not detailed enough&amp;rdquo; and quote
+either precise points in the text where the problem arises from and/or
+recommendations for fixing it: &amp;ldquo;this or that would make the article to be reproducible&amp;rdquo;.
+The deeper a problem is, the more discussion it brings, the goal is not to let
+the authors stuck with a blind comment, see the following examples nobody likes reading:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;Some steps in Section III seem incorrect&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;How much does it cost to the reviewer to point out where and why exactly?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;The authors did not manage to highlight a significant part of the literature&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;On which topic? What is not covered? Do you mean the authors did not cite &lt;strong&gt;your&lt;/strong&gt; article?&lt;/p&gt;
+&lt;p&gt;Only after these last points am I 100% certain of the final recommendation I
+will give for the manuscript, the usual options are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;With the minor modifications recommended, the paper is good to be published in my opinion.&lt;/li&gt;
+&lt;li&gt;Some required modifications are major, re-submit for another reviewing round.&lt;/li&gt;
+&lt;li&gt;The issues raised during review are too central to fix during review rounds, the work needs a huge re-write.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;After forming this opinion, if I am not too late on the deadline, I will
+let myself some time off the review (a few days), and then come back to what
+I wrote to be sure every comment can be understood and used by the authors to
+improve the paper. Also, I want to be sure not to have written anything
+too rash. Nobody wants to be &lt;a href=&#34;https://twitter.com/thirdreviewer&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;that&lt;/a&gt;
+&lt;a href=&#34;https://twitter.com/YourPaperSucks&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;reviewer&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Even though peer review is considered a pillar of modern research, it has its
+history, qualities and flaws, and is fundamentally made by human beings and
+does not systematically reflect a universal truth; that should be kept in mind
+at all time. Also, the scientific communities should keep challenging it by
+making it evolve and experimenting &lt;a href=&#34;https://elifesciences.org/articles/36545&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;new ways&lt;/a&gt;
+of &lt;a href=&#34;http://www.theoj.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;carrying it out&lt;/a&gt;, addressing some key
+&lt;a href=&#34;http://www.immpressmagazine.com/peer-review-is-broken/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;flaws&lt;/a&gt;. Note that I do
+not say the solutions presented in these articles are the ground truth,
+all I am stating is that it is worth opening the discussion, which academia
+is not doing much at the moment.&lt;/p&gt;
+&lt;p&gt;Maybe you have other tips for reviewing papers, how do you improve your process?
+Which points were too domain-dependent / idealistic? (I did warn it was a naive view)
+Reach out any way you prefer, &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Twitter&lt;/a&gt;,
+&lt;a href=&#34;https://matbesancon.xyz/#contact&#34;&gt;email&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;[1]
+Source for the cover image:
+&lt;em&gt;Journal des Savants&lt;/em&gt; or &lt;em&gt;Journal Des Sçavans&lt;/em&gt; in old French, considered the earliest scientific journal.
+&lt;a href=&#34;https://jamesgray2.me/2016/09/06/le-journal-des-savants-1681-1699/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://jamesgray2.me/2016/09/06/le-journal-des-savants-1681-1699/&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>A year in PhD</title>
+      <link>https://matbesancon.xyz/post/2018-09-27-year-in-phd/</link>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2018-09-27-year-in-phd/</guid>
+      <description>&lt;hr&gt;
+&lt;p&gt;So, it&amp;rsquo;s been a bit more than a year since I took a flight to Montréal to
+start a PhD on mathematical optimization &amp;amp; game theory for smart grids.&lt;/p&gt;
+&lt;p&gt;After the rush of summer conferences, and my return to France
+for a part of my PhD at INRIA Lille, it is a good time to take a step back
+and think of what has been going on and what is coming next. I&amp;rsquo;ll also answer
+some common questions I had in a more thoughtful way than I can in a
+bar conversation/family dinner. Maybe this can also help other PhD students seeing
+we are not in the same boat, but they all still look alike.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TL;DR&lt;/strong&gt;: a PhD is not studies in the sense you think, and it&amp;rsquo;s not a job either,
+these mental models will not help much.&lt;/p&gt;
+&lt;h2 id=&#34;so-when-are-you-going-to-finish&#34;&gt;So, when are you going to finish?&lt;/h2&gt;
+&lt;p&gt;I don&amp;rsquo;t know, when are you going to finish your job? It doesn&amp;rsquo;t look
+like it&amp;rsquo;s been moving that much recently. Or when will this company
+you&amp;rsquo;re building be &amp;ldquo;finished&amp;rdquo;?&lt;/p&gt;
+&lt;p&gt;These questions are similar, really. A research subject is rarely isolated,
+don&amp;rsquo;t see this as emptying a 4-year bowl of soup. It&amp;rsquo;s more like picking
+berries: you grab one, then the next, which is close enough, oh and this one
+is nice, but a bit further, I&amp;rsquo;ll have to stretch my arm a bit more to reach it.&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/phd-year/blueberries.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+[1]&lt;/p&gt;
+&lt;p&gt;I had some interesting discussions in Montréal about when and how to know
+you should bring your PhD to a conclusion. And the answer should always be
+that it depends what your objectives are, if you want to include this last
+project in the PhD. So no, I don&amp;rsquo;t know when I will finish, because if every
+step was predictable in terms of duration and success, it would not be a PhD or
+even research, what I do know is that I don&amp;rsquo;t want to block interesting projects
+or leave only half-explored research trails because &amp;ldquo;3 years is plenty&amp;rdquo;.&lt;/p&gt;
+&lt;h2 id=&#34;it-must-feel-weird-getting-back-to-university&#34;&gt;It must feel weird, getting back to university&lt;/h2&gt;
+&lt;p&gt;It does, but not how you imagine. I was previously at
+&lt;a href=&#34;https://matbesancon.xyz/post/2016-08-11-back-to-startup/&#34;&gt;a startup&lt;/a&gt; for a while.
+What I was used to is a great autonomy in execution. What the
+PhD is about is adding self-determination of the objectives,
+expected results, and means. It does not mean I&amp;rsquo;m working alone
+while I was in a team before, it means the degree of ownership
+of successes and failures is much higher, try to picture the
+three following sentences in a conversation:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&amp;ldquo;I was at a startup before, it failed and I moved on to XYZ.&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;I started a PhD but didn&amp;rsquo;t get through, then moved on to XYZ.&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;I built a company, it failed, now I&amp;rsquo;m working on XYZ.&amp;rdquo;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;It depends on the relationship to failure the person has in front of
+you, but for those I know, (1) is just an external cause, while (2)
+and (3) are personal failures, that&amp;rsquo;s ownership.&lt;/p&gt;
+&lt;p&gt;The biggest conclusion I made roughly after 6 months in is that a
+single-founder startup is one of the closest mental models to keep
+during the PhD, which explains several things, like inability to
+explain exactly what you do to your family and friends, imposter
+syndrome or procrastination.&lt;/p&gt;
+&lt;h2 id=&#34;so-you-get-paid-enough-to-buy-noodles&#34;&gt;So you get paid enough to buy noodles?&lt;/h2&gt;
+&lt;p&gt;Yes, I&amp;rsquo;m living quite well thanks, I can even afford fancying
+my noodles, but let&amp;rsquo;s dig deeper on the matter of €/$/£.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: my PhD is between applied maths &amp;amp; computer science, I know
+all majors are not that financially comfortable.&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/phd-year/noodles.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+[2]&lt;/p&gt;
+&lt;p&gt;I also know it&amp;rsquo;s considered rude to talk about money in some cultures,
+including France, especially if you&amp;rsquo;re not complaining; so yes, I&amp;rsquo;ll
+be rude.&lt;/p&gt;
+&lt;p&gt;When I&amp;rsquo;m in France, I&amp;rsquo;m paid slightly less than some engineers with the same
+level of qualification. The difference is higher if I&amp;rsquo;m comparing to what
+I would have had on Data Science, applied maths and software development
+positions. The difference between what I would earn and the scholarship
+is higher in Canada. Still, like I said, I can live without watching
+my bank account towards the end of the month.&lt;/p&gt;
+&lt;p&gt;The biggest danger of getting money monthly is thinking of it as a salary,
+meaning you&amp;rsquo;re thinking of the PhD as a job, meaning you&amp;rsquo;re thinking of
+yourself as an employee. On the paper, the money I get in France is a salary
+from my research institute, but one should keep in mind this is only on paper,
+the danger is to get the wrong mindset: &lt;strong&gt;think of yourself as a single person
+carrying a project, not an employee&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;People often argue that they have a research director, who is de facto their boss.
+I don&amp;rsquo;t think this is the case, directors choose project proposals and people
+to carry them out (the order of this choice varies). They choose to invest
+time, effort and money from their structure into this person+project pair,
+without dictating to the letter what the outcomes of the projects are.
+Their retribution for this exchange is a partial ownership in the outcomes
+of the project (publications, conferences, software).
+Sounds familiar? Yes I&amp;rsquo;m looking at the Wikipedia
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Venture_capital&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;page on Venture Capital&lt;/a&gt;.
+Let&amp;rsquo;s dig deeper: thesis directors invest this time, money and energy in
+areas they are familiar with, they have worked in and/or have mentored other
+people on. This sounds like the VC firms&amp;rsquo; investment theses.
+Read &lt;a href=&#34;https://a16z.com/2016/08/20/why-software-is-eating-the-world/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;these&lt;/a&gt;
+&lt;a href=&#34;https://hackernoon.com/the-birth-of-a-venture-capital-investment-thesis-afd2903ae12&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;two&lt;/a&gt;
+articles to see a more proper definition and examples of investment theses
+but I hope you&amp;rsquo;ll get my point: PhDs are not R&amp;amp;D employees and directors are
+not &amp;ldquo;bosses&amp;rdquo;. If you have friends familiar with how startups work, this should
+be fine to explain. If you&amp;rsquo;re talking to people who have been employees their
+whole life in traditional structures, I have not yet found a clear and simple
+way to explain the situation in a casual conversation, let me know if you have
+something.&lt;/p&gt;
+&lt;h2 id=&#34;so-back-to-being-a-student-heh&#34;&gt;So, back to being a student heh?&lt;/h2&gt;
+&lt;p&gt;This image is much easier to correct. On the paper this is true,
+a PhD has a student status, even when working close with/in
+companies like in Germany, Denmark or France CIFRE theses.
+Some people will ask this genuinely because they still picture their
+undergraduate years and think you&amp;rsquo;re back to this.
+So, it&amp;rsquo;s true, I&amp;rsquo;m taking courses, mostly because I find them
+interesting and keeping learning things is a bit of a &lt;em&gt;raison d&amp;rsquo;être&lt;/em&gt;.
+But I was also doing so while working, using online courses platform like
+&lt;a href=&#34;https://www.coursera.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Coursera&lt;/a&gt; or
+&lt;a href=&#34;https://www.fun-mooc.fr/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;France Université Numérique&lt;/a&gt;, going to meetups,
+reading and writing blog posts. So the thing that changed is maybe the part
+of my time dedicated to learning which got higher than when employed.&lt;/p&gt;
+&lt;p&gt;Now about the second category of people asking this question, yeah those one.
+In general, the points discussed above are enough as an explanation,
+but if the tone is really about trolling, which can happen, reverse the question:
+&lt;em&gt;&amp;ldquo;Yeah I&amp;rsquo;m a student, I&amp;rsquo;m learning stuff every day. Wait you&amp;rsquo;re not?
+Exactly the stagnation I don&amp;rsquo;t want in my life.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Is it mean? Maybe, but the point is not to &amp;ldquo;win&amp;rdquo; a conversation, it&amp;rsquo;s about
+shutting down the perpetration of imposter syndrome, own the uniqueness of
+your status, both the good and the bad bits. None should be made feel inferior
+because they didn&amp;rsquo;t take the conventional, safe and socially accepted path of
+the 9-17 workday.&lt;/p&gt;
+&lt;h2 id=&#34;re-thinking-my-values--priorities&#34;&gt;Re-thinking my values &amp;amp; priorities&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;ve written about values &lt;a href=&#34;https://matbesancon.xyz/post/2016-10-7-company-values/&#34;&gt;two years ago&lt;/a&gt;
+in the context of a company trying to define who they are.
+This is a complex topic, about discovering and understanding what the
+group prioritizes collectively.&lt;/p&gt;
+&lt;p&gt;As the owner of your project and of your time and resources, it&amp;rsquo;s up to you to define
+what is important. This begins with what is measured for success. Coming to academia
+from another &lt;em&gt;milieu&lt;/em&gt;, I was not used to the process of publishing in peer-reviewed
+journals. First position I&amp;rsquo;ll take and try to maintain: &lt;strong&gt;the measures of academic
+success are broken, or at least imperfect&lt;/strong&gt; (reach out to future-me if I change my mind).
+One example of this is research software.
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Paraphrasing &lt;a href=&#34;https://twitter.com/mgymrek?ref_src=twsrc%5Etfw&#34;&gt;@mgymrek&lt;/a&gt;:&lt;br&gt;&lt;br&gt;Your paper is cited outside of your field in one semi-related paragraph: *counts towards your career progression*&lt;br&gt;&lt;br&gt;Your academic software package has 100 stars on GitHub: *counts for nothing*&lt;br&gt;&lt;br&gt;Something is wrong here 😐 &lt;a href=&#34;https://twitter.com/hashtag/jsm2018?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#jsm2018&lt;/a&gt;&lt;/p&gt;&amp;mdash; Sean Kross, PhD (@seankross) &lt;a href=&#34;https://twitter.com/seankross/status/1024059834654588929?ref_src=twsrc%5Etfw&#34;&gt;July 30, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Had my &amp;quot;software is part of the research process&amp;quot; argument with an academic who wanted to use software to generate results but didn&amp;#39;t want to &amp;quot;concentrate on it too much&amp;quot;. I should start counting how many times I go through this and throw a party when I get to a million.&lt;/p&gt;&amp;mdash; Simon Hettrick (@sjh5000) &lt;a href=&#34;https://twitter.com/sjh5000/status/1043112943372644353?ref_src=twsrc%5Etfw&#34;&gt;September 21, 2018&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+
+If you can, watch
+&lt;a href=&#34;https://twitter.com/walkingrandomly&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Mike Croucher&lt;/a&gt;&amp;rsquo;s excellent
+&lt;a href=&#34;https://www.youtube.com/watch?v=8ZSaAM8hhJ4&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;talk&lt;/a&gt; at JuliaCon 2018 for more
+depth on the subject.&lt;/p&gt;
+&lt;p&gt;The consequence of ignoring software as a valuable result of research is
+pretty straight-forward: proprietary software all over.
+It&amp;rsquo;s changing in scientific computing, statistics and other fields with
+the rise of Julia, R, Python. My domain, mathematical optimization, is
+still behind with dominant solvers (the software doing the actual work)
+and lots of &lt;a href=&#34;https://en.wikipedia.org/wiki/Algebraic_modeling_language&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Algebraic Modeling Languages&lt;/a&gt;
+(the front-end to interact with the solver) being proprietary.
+The last part is &lt;a href=&#34;https://numfocus.org/project/jump&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;changing&lt;/a&gt;,
+the first one is still tough.
+My point is that people behind software you&amp;rsquo;re
+using everyday contribute way more to the success of your PhD than this
+obscure paper you cite because the review committee asked you to.
+If your university is giving thousands in commercial licenses and
+millions in access to paper, maybe you should make them donate both time
+and money to the &lt;a href=&#34;https://www.flipcause.com/secure/cause_pdetails/MjM2OA==&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;tools&lt;/a&gt;
+you&amp;rsquo;re using. Yes all of &lt;a href=&#34;https://donate.wikimedia.org/wiki/WMFJA1/en/US&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;them&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I have been involved in the Julia community, especially within the
+&lt;a href=&#34;http://github.com/JuliaGraphs/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;JuliaGraphs&lt;/a&gt; and
+&lt;a href=&#34;http://github.com/JuliaStats/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;JuliaStats&lt;/a&gt; ecosystems, mostly because these
+are subjects I understand (at least a bit) and/or used.
+Key take-away:&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;Reporting issues you have and contributing to improve the documentation
+is as valuable as writing code.&lt;/p&gt;
+&lt;h2 id=&#34;so-its-been-a-year&#34;&gt;So&amp;hellip; it&amp;rsquo;s been a year&lt;/h2&gt;
+&lt;p&gt;And I&amp;rsquo;m still learning (understand making mistakes, getting stuck, etc),
+one of the reasons I had to learn more is not coming from a background
+in maths, nor from a research-oriented degree.&lt;/p&gt;
+&lt;p&gt;Reach out any way you prefer, &lt;a href=&#34;https://twitter.com/matbesancon&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Twitter&lt;/a&gt;,
+&lt;a href=&#34;https://matbesancon.xyz/#contact&#34;&gt;email&lt;/a&gt;. Of course some things I&amp;rsquo;ve written are related
+to my situation, I&amp;rsquo;d be interested to know how it relates or not to yours.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Image sources:&lt;br&gt;
+[1] &lt;a href=&#34;https://pxhere.com/en/photo/571187&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://pxhere.com/en/photo/571187&lt;/a&gt;&lt;br&gt;
+[2] &lt;a href=&#34;https://pixabay.com/en/noodles-thailand-food-thai-2693009/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://pixabay.com/en/noodles-thailand-food-thai-2693009/&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

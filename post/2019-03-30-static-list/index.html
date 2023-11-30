@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
+<!-- Last Published: November 30, 2023 --><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.047268c6dd09ad74ba54a0ba71837064.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.be1e734c86be5b4f1c94d71028ea7cbf.css" />
+
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/libs/chroma/github-light.min.css" title="hl-light" media="print" onload="this.media='all'" >
+    <link rel="stylesheet" href="/css/libs/chroma/dracula.min.css" title="hl-dark" media="print" onload="this.media='all'" disabled>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+  <meta name="author" content="Mathieu Besançon" />
+
+
+
+
+
+  
+
+<meta name="description" content="Pushing the type system for more compile-time information
+" />
+
+
+
+<link rel="alternate" hreflang="en-us" href="https://matbesancon.xyz/post/2019-03-30-static-list/" />
+<link rel="canonical" href="https://matbesancon.xyz/post/2019-03-30-static-list/" />
+
+
+
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+
+
+<link rel="icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_32x32_fill_lanczos_center_3.png" />
+<link rel="apple-touch-icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_180x180_fill_lanczos_center_3.png" />
+
+<meta name="theme-color" content="#1565c0" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<meta property="twitter:card" content="summary" />
+
+  <meta property="twitter:site" content="@matbesancon" />
+  <meta property="twitter:creator" content="@matbesancon" />
+<meta property="twitter:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" />
+<meta property="og:site_name" content="μβ" />
+<meta property="og:url" content="https://matbesancon.xyz/post/2019-03-30-static-list/" />
+<meta property="og:title" content="Static lists in Julia | μβ" />
+<meta property="og:description" content="Pushing the type system for more compile-time information
+" /><meta property="og:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+
+  
+    <meta
+      property="article:published_time"
+      content="2019-03-30T00:00:00&#43;00:00"
+    />
+  
+  
+    <meta property="article:modified_time" content="2023-10-24T18:49:06&#43;02:00">
+  
+
+
+
+
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://matbesancon.xyz/post/2019-03-30-static-list/"
+  },
+  "headline": "Static lists in Julia",
+  
+  "datePublished": "2019-03-30T00:00:00Z",
+  "dateModified": "2023-10-24T18:49:06+02:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Mathieu Besançon"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "μβ",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "Pushing the type system for more compile-time information\n"
+}
+</script>
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+  
+
+  
+
+
+  
+  <title>Static lists in Julia | μβ</title>
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="d04262380247a1ac96d69d0161a612e5" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header header--fixed">
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container-xl">
+
+      
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+      
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      
+      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+        
+        <ul class="navbar-nav d-md-inline-flex">
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#about"><span>Home</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#experience"><span>Experience</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#publications"><span>Publications</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#posts"><span>Posts</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#workwithme"><span>Work with me</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#contact"><span>Contact</span></a>
+          </li>
+
+          
+          
+
+        
+
+          
+        </ul>
+      </div>
+
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+        
+        
+          
+        
+
+        
+        
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+        
+        
+        <li class="nav-item dropdown theme-dropdown">
+          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item js-set-theme-light">
+              <span>Light</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-dark">
+              <span>Dark</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-auto">
+              <span>Automatic</span>
+            </a>
+          </div>
+        </li>
+        
+
+        
+        
+
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+
+  </div>
+
+  <div class="page-body">
+    
+    
+    
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+<div class="article-header">
+  
+  
+    <img src="/img/posts/staticlist/chain.jpg" class="article-banner" alt="">
+  
+
+  
+</div>
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Static lists in Julia</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    2023-10-24
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    8 min read
+  </span>
+  
+
+  
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <hr>
+<p>This post explores the possibility to build static lists in Julia, meaning
+lists for which the size is known at compile-time. This is inspired by
+a <a href="https://aerodatablog.wordpress.com/2019/03/03/a-typedlist-in-scala/#joe_barnes_talk" target="_blank" rel="noopener">post</a>
+on a Scala equivalent but will take different roads to see more than a plain port.
+Of course, this implementation is not that handy nor efficient but
+is mostly meant to push the limits of the type system,
+especially a trick of using recursive types as values
+(replacing a dependent type system).
+Some other references:</p>
+<ul>
+<li>The list operations are inspired by the implementation in <a href="https://github.com/JuliaCollections/DataStructures.jl" target="_blank" rel="noopener"><em>DataStructures.jl</em></a></li>
+<li><a href="https://github.com/JuliaArrays/StaticArrays.jl" target="_blank" rel="noopener"><em>StaticArrays.jl</em></a> is a good inspiration for static data structures in Julia</li>
+</ul>
+
+
+<details class="toc-inpage d-print-none  " open>
+  <summary class="font-weight-bold">Table of Contents</summary>
+  <nav id="TableOfContents">
+  <ol>
+    <li><a href="#first-thoughts-value-type-parameter">First thoughts: value type parameter</a></li>
+    <li><a href="#recursive-natural-numbers">Recursive natural numbers</a></li>
+    <li><a href="#implementing-a-list-y-behaviour">Implementing a list-y behaviour</a></li>
+    <li><a href="#special-valued-lists">Special-valued lists</a></li>
+    <li><a href="#multi-typed-lists">Multi-typed lists</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+</nav>
+</details>
+
+<h1 id="first-thoughts-value-type-parameter">First thoughts: value type parameter</h1>
+<p>Julia allows developers to define type parameters.
+In the case of a list, the most obvious one may be the
+type of data it contains:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">abstract type</span> <span style="color:#66d9ef">MyList</span>{<span style="color:#66d9ef">T</span>} <span style="color:#66d9ef">end</span></span></span></code></pre></div></p>
+<p>Some types are however parametrized on other things, if we look at the
+definition of <code>AbstractArray</code> for example:</p>
+<blockquote>
+<pre><code>  AbstractArray{T,N}
+</code></pre>
+<p>Supertype for N-dimensional arrays (or array-like types) with elements of type T.</p>
+</blockquote>
+<p>The two type parameters are another type <code>T</code> and integer <code>N</code> for the
+dimensionality (tensor rank). The only constraint for a value to be
+an acceptable type parameter is to be composed of plain bits, complying
+with <code>isbitstype</code>.</p>
+<p>This looks great, we could define our StaticList
+directly using integers.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">A static list of type `T` and length `L`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">abstract type</span> <span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>} <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">T</span>} <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#ae81ff">0</span>} <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>}() <span style="color:#66d9ef">where</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">T</span>}()
+</span></span><span style="display:flex;"><span>StaticList(v<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>) <span style="color:#66d9ef">where</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=</span> Cons(v, <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">T</span>}())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Cons</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>} <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>}
+</span></span><span style="display:flex;"><span>    h<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>
+</span></span><span style="display:flex;"><span>    t<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> Cons(v<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>, t<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}(v,t)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Usage:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Cons(3, Nil{Int}()) is of type StaticList{Int,1}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Cons(4, Cons(3, Nil{Int}())) is of type StaticList{Int,2}</span></span></span></code></pre></div>
+<p>If you try to evaluate this code, you will get an error:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>ERROR<span style="color:#f92672">:</span> <span style="color:#66d9ef">MethodError</span><span style="color:#f92672">:</span> no method matching <span style="color:#f92672">+</span>(<span style="color:#f92672">::</span><span style="color:#66d9ef">TypeVar</span>, <span style="color:#f92672">::</span><span style="color:#66d9ef">Int64</span>)</span></span></code></pre></div></p>
+<p>Pretty explicit, you cannot perform any computation on values used as type
+parameters. With more complex operations, this could make the compiler hang,
+crash or at least perform poorly (we would be forcing the compiler to execute
+this code at compile-time).</p>
+<p>One way there might be around this is macros or replacing sub-typing with
+another mechanism. For the macro-based approach,
+<a href="https://github.com/vtjnash/ComputedFieldTypes.jl" target="_blank" rel="noopener">ComputedFieldTypes.jl</a>
+does exactly that. More discussion on computed type parameters in
+[1] and [2].</p>
+<p><strong>Edit</strong>: using integer type parameters can be achieved using <em>ComputedFieldTypes.jl</em> as such:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>julia<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">using</span> ComputedFieldTypes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>julia<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">abstract type</span> <span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>} <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>julia<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">T</span>} <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#ae81ff">0</span>} <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>julia<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">@computed</span> <span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Cons</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>} <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}
+</span></span><span style="display:flex;"><span>           h<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>
+</span></span><span style="display:flex;"><span>           t<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>}
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">function</span> Cons(v<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>, t<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L0</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L0</span>}
+</span></span><span style="display:flex;"><span>               L <span style="color:#f92672">=</span> L0<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>               <span style="color:#66d9ef">new</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}(v,t)
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>julia<span style="color:#f92672">&gt;</span> Cons(<span style="color:#ae81ff">3</span>, <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">Int</span>}())
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Cons</span>{<span style="color:#66d9ef">Int64</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>}(<span style="color:#ae81ff">3</span>, <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">Int64</span>}())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>julia<span style="color:#f92672">&gt;</span> Cons(<span style="color:#ae81ff">4</span>, Cons(<span style="color:#ae81ff">3</span>, <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">Int</span>}()))
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Cons</span>{<span style="color:#66d9ef">Int64</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>}(<span style="color:#ae81ff">4</span>, <span style="color:#66d9ef">Cons</span>{<span style="color:#66d9ef">Int64</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>}(<span style="color:#ae81ff">3</span>, <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">Int64</span>}()))</span></span></code></pre></div>
+<p>This might be the neatest option for building the <code>StaticList</code>.</p>
+<h1 id="recursive-natural-numbers">Recursive natural numbers</h1>
+<p>We can use the same technique as in the Scala post, representing natural
+number using recursive types.</p>
+<ul>
+<li><code>ZeroLength</code> is a special singleton type</li>
+<li><code>Next{L}</code> represents the number following the one represented by <code>L</code></li>
+</ul>
+<p>We can modify our previous example:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">A type parameter for List length, the numerical length can be retrieved
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">using `length(l::Length)`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">abstract type</span> <span style="color:#66d9ef">Length</span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">ZeroLength</span> <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">Length</span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Next</span>{<span style="color:#66d9ef">L</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Length</span>} <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">Length</span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">A linked list of size known at compile-time
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">abstract type</span> <span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Length</span>} <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">T</span>} <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">ZeroLength</span>} <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>}() <span style="color:#66d9ef">where</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">T</span>}()
+</span></span><span style="display:flex;"><span>StaticList(v<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>) <span style="color:#66d9ef">where</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=</span> Cons(v, <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">T</span>}())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Cons</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Length</span>} <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">Next</span>{<span style="color:#66d9ef">L</span>}}
+</span></span><span style="display:flex;"><span>    h<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>
+</span></span><span style="display:flex;"><span>    t<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> Cons(v<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>, t<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Length</span>}
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}(v,t)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">By default, the type of the Nil is ignored if different
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">from the type of first value
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>Cons(v<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>,<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">T1</span>}}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">T1</span>} <span style="color:#f92672">=</span> Cons(v, <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">T</span>}())</span></span></code></pre></div></p>
+<p>We can then define basic information for a list, its length:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>Base<span style="color:#f92672">.</span>length(<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">ZeroLength</span>}) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>Base<span style="color:#f92672">.</span>length(<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">Next</span>{<span style="color:#66d9ef">L</span>}}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">L</span>} <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> length(L)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Base<span style="color:#f92672">.</span>eltype(<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>} <span style="color:#f92672">=</span> T
+</span></span><span style="display:flex;"><span>Base<span style="color:#f92672">.</span>length(l<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>} <span style="color:#f92672">=</span> length(L)</span></span></code></pre></div>
+<p>One thing should catch your attention in this block,
+we use a recursive definition of <code>length</code> for the <code>Length</code> type,
+which means we can blow our compiler. However, both of the definitions
+are static, in the sense that they don&rsquo;t use type information, so
+the final call should reduce to spitting out the length cached at compile-time.
+You can confirm this is the case by checking the produced assembly instructions with <code>@code_native</code>.
+We respected our contract of a list with size known at compile-time.</p>
+<h1 id="implementing-a-list-y-behaviour">Implementing a list-y behaviour</h1>
+<p>This part is heavily inspired by the <em>DataStructures.jl</em> list implementation,
+as such we will not re-define methods with semantically similar but
+implement them for our list type. Doing so for your own package
+allows user to switch implementation for the same generic code.</p>
+<p>The first operation is being able to join a head with an existing list:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>DataStructures<span style="color:#f92672">.</span>cons(v<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>,l<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>} <span style="color:#f92672">=</span> Cons(v,l)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Allows for `cons(v,Nil)`. Note that the `Nil` type is ignored.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>DataStructures<span style="color:#f92672">.</span>cons(v<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>,<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">Nil</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>} <span style="color:#f92672">=</span> StaticList(v)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(<span style="color:#f92672">::</span><span style="color:#66d9ef">Colon</span>)(v<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>,l<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>} <span style="color:#f92672">=</span> DataStructures<span style="color:#f92672">.</span>cons(v, l)
+</span></span><span style="display:flex;"><span>(<span style="color:#f92672">::</span><span style="color:#66d9ef">Colon</span>)(v<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>,<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">Nil</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>} <span style="color:#f92672">=</span> DataStructures<span style="color:#f92672">.</span>cons(v, <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">T</span>})</span></span></code></pre></div>
+<p>Implementing the odd <code>::Colon</code> methods allows for a very neat syntax:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>l0 <span style="color:#f92672">=</span> <span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">Int</span>}()
+</span></span><span style="display:flex;"><span>l1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>l0
+</span></span><span style="display:flex;"><span>l2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">:</span>l1</span></span></code></pre></div>
+<p>Unlike the Scala post, we are not using the <code>::</code> operator which
+is reserved for typing expressions in Julia.
+We can add a basic head and tail methods, which allow querying
+list elements without touching the inner structure. This
+will be useful later on.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>DataStructures<span style="color:#f92672">.</span>head(l<span style="color:#f92672">::</span><span style="color:#66d9ef">Cons</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>} <span style="color:#f92672">=</span> l<span style="color:#f92672">.</span>h
+</span></span><span style="display:flex;"><span>DataStructures<span style="color:#f92672">.</span>tail(l<span style="color:#f92672">::</span><span style="color:#66d9ef">Cons</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>} <span style="color:#f92672">=</span> l<span style="color:#f92672">.</span>t</span></span></code></pre></div>
+<p>Testing list equality can be done recursively, dispatching on the three
+possible cases:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#f92672">==</span>(l1<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>, l2<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>) <span style="color:#f92672">=</span> false
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#f92672">==</span>(l1<span style="color:#f92672">::</span><span style="color:#66d9ef">L1</span>,l2<span style="color:#f92672">::</span><span style="color:#66d9ef">L2</span>) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T1</span>,<span style="color:#66d9ef">L</span>,<span style="color:#66d9ef">T2</span>,<span style="color:#66d9ef">L1</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Cons</span>{<span style="color:#66d9ef">T1</span>,<span style="color:#66d9ef">L</span>},<span style="color:#66d9ef">L2</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Cons</span>{<span style="color:#66d9ef">T2</span>,<span style="color:#66d9ef">L</span>}}
+</span></span><span style="display:flex;"><span>    l1<span style="color:#f92672">.</span>h <span style="color:#f92672">==</span> l2<span style="color:#f92672">.</span>h <span style="color:#f92672">&amp;&amp;</span> l1<span style="color:#f92672">.</span>t <span style="color:#f92672">==</span> l2<span style="color:#f92672">.</span>t
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Two `Nil` are always considered equal, no matter the type
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">==</span>(<span style="color:#f92672">::</span><span style="color:#66d9ef">Nil</span>,<span style="color:#f92672">::</span><span style="color:#66d9ef">Nil</span>) <span style="color:#f92672">=</span> true</span></span></code></pre></div>
+<p>We can now define basic higher-order functions, such as <code>zip</code> below,
+and implement the iteration interface.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> Base<span style="color:#f92672">.</span>zip(l1<span style="color:#f92672">::</span><span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">T1</span>},l2<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T2</span>,<span style="color:#66d9ef">L2</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T1</span>,<span style="color:#66d9ef">T2</span>,<span style="color:#66d9ef">L2</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">Tuple</span>{<span style="color:#66d9ef">T1</span>,<span style="color:#66d9ef">T2</span>}}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> Base<span style="color:#f92672">.</span>zip(l1<span style="color:#f92672">::</span><span style="color:#66d9ef">Cons</span>{<span style="color:#66d9ef">T1</span>,<span style="color:#66d9ef">L1</span>},l2<span style="color:#f92672">::</span><span style="color:#66d9ef">Cons</span>{<span style="color:#66d9ef">T2</span>,<span style="color:#66d9ef">L2</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T1</span>,<span style="color:#66d9ef">L1</span>,<span style="color:#66d9ef">T2</span>,<span style="color:#66d9ef">L2</span>}
+</span></span><span style="display:flex;"><span>    v <span style="color:#f92672">=</span> (l1<span style="color:#f92672">.</span>h, l2<span style="color:#f92672">.</span>h)
+</span></span><span style="display:flex;"><span>    Cons(v,zip(l1<span style="color:#f92672">.</span>t,l2<span style="color:#f92672">.</span>t))
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Base<span style="color:#f92672">.</span>iterate(l<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>, <span style="color:#f92672">::</span><span style="color:#66d9ef">Nil</span>) <span style="color:#f92672">=</span> nothing
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> Base<span style="color:#f92672">.</span>iterate(l<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>, state<span style="color:#f92672">::</span><span style="color:#66d9ef">Cons</span> <span style="color:#f92672">=</span> l)
+</span></span><span style="display:flex;"><span>    (state<span style="color:#f92672">.</span>h, state<span style="color:#f92672">.</span>t)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>Iterating over our lists is fairly straight-forward, and will be more efficient than
+the recursive implementations of the higher-order functions, we still kept it for
+equality checking, more a matter of keeping a functional style in line with the Scala post.</p>
+<p>The case of list reversal is fairly straightforward: iterate and accumulate
+the list in a new one.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> Base<span style="color:#f92672">.</span>reverse(l<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}
+</span></span><span style="display:flex;"><span>    l2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">Nil</span>{<span style="color:#66d9ef">T</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> h <span style="color:#66d9ef">in</span> l
+</span></span><span style="display:flex;"><span>        l2 <span style="color:#f92672">=</span> Cons(h, l2)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    l2
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>We define the cat operation between multiple lists.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> Base<span style="color:#f92672">.</span>cat(l1<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>},l2<span style="color:#f92672">::</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}
+</span></span><span style="display:flex;"><span>    l <span style="color:#f92672">=</span> l2
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> e <span style="color:#66d9ef">in</span> reverse(l1)
+</span></span><span style="display:flex;"><span>        l <span style="color:#f92672">=</span> Cons(e, l)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    l
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>The reverse is necessary to keep the order of the two lists.</p>
+<h1 id="special-valued-lists">Special-valued lists</h1>
+<p>Now that we have a basic static list implementation, we can spice things up.
+<code>StaticList</code> is just an abstract type in our case, not an algebraic data type
+as in common functional implementations, meaning we can define other sub-types.</p>
+<p>Imagine a numeric list, with a series of zeros or ones somewhere.
+Instead of storing all of them, we can find a smart way of representing them.
+Let us define a static list of ones:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">OnesStaticList</span>{<span style="color:#66d9ef">T</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Number</span>,<span style="color:#66d9ef">L</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Length</span>} <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Base<span style="color:#f92672">.</span>iterate(l<span style="color:#f92672">::</span><span style="color:#66d9ef">OnesStaticList</span>, <span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">ZeroLength</span>}) <span style="color:#f92672">=</span> nothing
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> Base<span style="color:#f92672">.</span>iterate(l<span style="color:#f92672">::</span><span style="color:#66d9ef">OnesStaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}, state<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">Next</span>{<span style="color:#66d9ef">L1</span>}} <span style="color:#f92672">=</span> L) <span style="color:#66d9ef">where</span> <span style="color:#f92672">$</span>
+</span></span><span style="display:flex;"><span>    (one(T), L1)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>This list corresponds to the 1 value of type <code>T</code>, repeated for all elements.
+In a similar fashion, one can define a ZeroList:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">ZerosStaticList</span>{<span style="color:#66d9ef">T</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Number</span>,<span style="color:#66d9ef">L</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Length</span>} <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Base<span style="color:#f92672">.</span>iterate(l<span style="color:#f92672">::</span><span style="color:#66d9ef">ZerosStaticList</span>, <span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">ZeroLength</span>}) <span style="color:#f92672">=</span> nothing
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> Base<span style="color:#f92672">.</span>iterate(l<span style="color:#f92672">::</span><span style="color:#66d9ef">ZerosStaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}, state<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">Next</span>{<span style="color:#66d9ef">L1</span>}} <span style="color:#f92672">=</span> L) <span style="color:#66d9ef">where</span><span style="color:#f92672">$</span>
+</span></span><span style="display:flex;"><span>    (zero(T), L1)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>One thing to note is that these lists are terminal, in the sense that they cannot
+be part of a greater list. To fix this, we can add a tail to these as follows:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">ZerosStaticList</span>{<span style="color:#66d9ef">T</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Number</span>,<span style="color:#66d9ef">L</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Length</span>,<span style="color:#66d9ef">TL</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">StaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">Length</span>}}
+</span></span><span style="display:flex;"><span>	t<span style="color:#f92672">::</span><span style="color:#66d9ef">TL</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Base<span style="color:#f92672">.</span>iterate(l<span style="color:#f92672">::</span><span style="color:#66d9ef">ZerosStaticList</span>, <span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">ZeroLength</span>}) <span style="color:#f92672">=</span> l<span style="color:#f92672">.</span>t
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> Base<span style="color:#f92672">.</span>iterate(l<span style="color:#f92672">::</span><span style="color:#66d9ef">ZerosStaticList</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}, state<span style="color:#f92672">::</span><span style="color:#66d9ef">Type</span>{<span style="color:#66d9ef">Next</span>{<span style="color:#66d9ef">L1</span>}} <span style="color:#f92672">=</span> L) <span style="color:#66d9ef">where</span><span style="color:#f92672">$</span>
+</span></span><span style="display:flex;"><span>    (zero(T), L1)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div></p>
+<p>The <code>t</code> field of the list contains the tail after the series of zeros,
+we can thus build a much simpler representation in case of long constant series.
+In a similar fashion, one could define a constant list of <code>N</code> elements, storing
+the value just once.</p>
+<h1 id="multi-typed-lists">Multi-typed lists</h1>
+<p>There is one last extension we can think of with this data structure.
+Since we have a recursive length parameter, why not add it a type at each new node?</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">abstract type</span> <span style="color:#66d9ef">TLength</span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">TZeroLength</span> <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">TLength</span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">TNext</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">TLength</span>} <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">TLength</span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">abstract type</span> <span style="color:#66d9ef">TStaticList</span>{<span style="color:#66d9ef">L</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">TLength</span>} <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">TNil</span> <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">TStaticList</span>{<span style="color:#66d9ef">TZeroLength</span>} <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">TCons</span>{<span style="color:#66d9ef">T</span>, <span style="color:#66d9ef">L</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">TLength</span>} <span style="color:#f92672">&lt;:</span> <span style="color:#66d9ef">TStaticList</span>{<span style="color:#66d9ef">TNext</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}}
+</span></span><span style="display:flex;"><span>    h<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>
+</span></span><span style="display:flex;"><span>    t<span style="color:#f92672">::</span><span style="color:#66d9ef">TStaticList</span>{<span style="color:#66d9ef">L</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> TCons(v<span style="color:#f92672">::</span><span style="color:#66d9ef">T</span>, t<span style="color:#f92672">::</span><span style="color:#66d9ef">TStaticList</span>{<span style="color:#66d9ef">L</span>}) <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span><span style="color:#f92672">&lt;:</span><span style="color:#66d9ef">TLength</span>}
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span>{<span style="color:#66d9ef">T</span>,<span style="color:#66d9ef">L</span>}(v,t)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+<p>With such construct, all nodes can be of a different type <code>T</code>, without
+removing the type information from the compiler.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>julia<span style="color:#f92672">&gt;</span> TCons(<span style="color:#ae81ff">3</span>,TNil())
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">TCons</span>{<span style="color:#66d9ef">Int64</span>,<span style="color:#66d9ef">TZeroLength</span>}(<span style="color:#ae81ff">3</span>, TNil())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>julia<span style="color:#f92672">&gt;</span> TCons(<span style="color:#e6db74">&#34;ha&#34;</span>, TCons(<span style="color:#ae81ff">3</span>,TNil()))
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">TCons</span>{<span style="color:#66d9ef">String</span>,<span style="color:#66d9ef">TNext</span>{<span style="color:#66d9ef">Int64</span>,<span style="color:#66d9ef">TZeroLength</span>}}(<span style="color:#e6db74">&#34;ha&#34;</span>, <span style="color:#66d9ef">TCons</span>{<span style="color:#66d9ef">Int64</span>,<span style="color:#66d9ef">TZeroLength</span>}(<span style="color:#ae81ff">3</span>, TNil()))</span></span></code></pre></div>
+<p>One interesting thing to note here is that the type takes the same
+structure as the list itself:</p>
+<p><strong>Type</strong>: either a <code>T</code> and a <code>TLength</code> containing the rest of the type, or <code>TNil</code><br>
+<strong>Data</strong>: either a value of a given type and the rest of the list, or empty list</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>The Julia type system and compiler allow for sophisticated specifications
+when designing data structures, which gives it a feel of compiled languages.
+This however should not be abused, in our little toy example, the type parameter
+grows in complexity as the list does, which means the compiler has to carry out
+some computation.</p>
+<p>If you want some further compile-time tricks, <a href="https://www.youtube.com/watch?v=SeqAQHKLNj4" target="_blank" rel="noopener">Andy Ferris&rsquo;s</a>
+workshop at JuliaCon 2018 details how to perform compile-time computations
+between bits and then bytes.</p>
+<p>If you have any idea how to implement <code>StaticList</code> using integer parameters instead
+of custom struct I would be glad to exchange. Porting this to
+use <a href="https://github.com/vtjnash/ComputedFieldTypes.jl" target="_blank" rel="noopener">ComputedFieldTypes.jl</a> might be a fun
+experiment.</p>
+<p>Feel free to reach out any way you prefer, <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">Twitter</a>,
+<a href="/#contact">email</a> to exchange or discuss this post.</p>
+<hr>
+<h1 id="sources">Sources</h1>
+<p>Header image source: <a href="https://pxhere.com/en/photo/742575" target="_blank" rel="noopener">https://pxhere.com/en/photo/742575</a></p>
+<p>[1] A proposal on Julia &ldquo;Defer calculation of field types until type parameters are known&rdquo;, <a href="https://github.com/JuliaLang/julia/issues/18466" target="_blank" rel="noopener">julia/issues/18466</a> <br>
+[2] Discussion on compile-time computations on <a href="https://discourse.julialang.org/t/compile-time-arithmetic-for-parameterized-types/13991" target="_blank" rel="noopener">Discourse</a></p>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/julia/">julia</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-03-30-static-list%2F&amp;text=Static&#43;lists&#43;in&#43;Julia" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-03-30-static-list%2F&amp;t=Static&#43;lists&#43;in&#43;Julia" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a href="mailto:?subject=Static%20lists%20in%20Julia&amp;body=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-03-30-static-list%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-03-30-static-list%2F&amp;title=Static&#43;lists&#43;in&#43;Julia" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Static&#43;lists&#43;in&#43;Julia%20https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-03-30-static-list%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2019-03-30-static-list%2F&amp;title=Static&#43;lists&#43;in&#43;Julia" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://matbesancon.xyz/"><img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu717a6920346f3d435e65e27c2a66c1ed_48773_270x270_fill_q75_lanczos_center.jpg" alt="Mathieu Besançon"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://matbesancon.xyz/">Mathieu Besançon</a></h5>
+      <h6 class="card-subtitle">Researcher in mathematical optimization</h6>
+      <p class="card-text">Mathematical optimization, scientific programming and related.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=-xStCAIAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://orcid.org/0000-0002-6284-3033" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.youtube.com/channel/UCVSd42nW_MqkbSXijgOvKwg" target="_blank" rel="noopener">
+        <i class="fab fa-youtube"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/mbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    © 2023 Mathieu Besançon.
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+    <p class="powered-by">
+    Published with Hugo and Wowchemy.
+   </p>
+
+
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+
+
+<script src="/js/vendor-bundle.min.938a3a7554cd9f6602290411f64d2617.js"></script>
+
+
+
+
+  
+
+  
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script id="search-hit-fuse-template" type="text/x-template">
+    <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+    </div>
+  </script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+<script id="page-data" type="application/json">{"use_headroom":true}</script>
+
+
+
+  <script src="/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<script src="/en/js/wowchemy.min.2945731fa88332cb0ec33cf47d29879f.js"></script>
+
+
+
+
+
+
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <pre><code></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

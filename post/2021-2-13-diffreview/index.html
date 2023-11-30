@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
+<!-- Last Published: November 30, 2023 --><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.047268c6dd09ad74ba54a0ba71837064.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.be1e734c86be5b4f1c94d71028ea7cbf.css" />
+
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/libs/chroma/github-light.min.css" title="hl-light" media="print" onload="this.media='all'" >
+    <link rel="stylesheet" href="/css/libs/chroma/dracula.min.css" title="hl-dark" media="print" onload="this.media='all'" disabled>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+  <meta name="author" content="Mathieu Besançon" />
+
+
+
+
+
+  
+
+<meta name="description" content="Make it useful for reviewers, not a hassle for authors.
+" />
+
+
+
+<link rel="alternate" hreflang="en-us" href="https://matbesancon.xyz/post/2021-2-13-diffreview/" />
+<link rel="canonical" href="https://matbesancon.xyz/post/2021-2-13-diffreview/" />
+
+
+
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+
+
+<link rel="icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_32x32_fill_lanczos_center_3.png" />
+<link rel="apple-touch-icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_180x180_fill_lanczos_center_3.png" />
+
+<meta name="theme-color" content="#1565c0" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<meta property="twitter:card" content="summary" />
+
+  <meta property="twitter:site" content="@matbesancon" />
+  <meta property="twitter:creator" content="@matbesancon" />
+<meta property="twitter:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" />
+<meta property="og:site_name" content="μβ" />
+<meta property="og:url" content="https://matbesancon.xyz/post/2021-2-13-diffreview/" />
+<meta property="og:title" content="Peer review &amp; change highlight | μβ" />
+<meta property="og:description" content="Make it useful for reviewers, not a hassle for authors.
+" /><meta property="og:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+
+  
+    <meta
+      property="article:published_time"
+      content="2021-02-13T00:00:00&#43;00:00"
+    />
+  
+  
+    <meta property="article:modified_time" content="2021-04-02T17:46:26&#43;02:00">
+  
+
+
+
+
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://matbesancon.xyz/post/2021-2-13-diffreview/"
+  },
+  "headline": "Peer review \u0026 change highlight",
+  
+  "datePublished": "2021-02-13T00:00:00Z",
+  "dateModified": "2021-04-02T17:46:26+02:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Mathieu Besançon"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "μβ",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "Make it useful for reviewers, not a hassle for authors.\n"
+}
+</script>
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+  
+
+  
+
+
+  
+  <title>Peer review &amp; change highlight | μβ</title>
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="1dfb92e358fcb52bcb956b9881f548b1" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header header--fixed">
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container-xl">
+
+      
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+      
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      
+      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+        
+        <ul class="navbar-nav d-md-inline-flex">
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#about"><span>Home</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#experience"><span>Experience</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#publications"><span>Publications</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#posts"><span>Posts</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#workwithme"><span>Work with me</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#contact"><span>Contact</span></a>
+          </li>
+
+          
+          
+
+        
+
+          
+        </ul>
+      </div>
+
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+        
+        
+          
+        
+
+        
+        
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+        
+        
+        <li class="nav-item dropdown theme-dropdown">
+          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item js-set-theme-light">
+              <span>Light</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-dark">
+              <span>Dark</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-auto">
+              <span>Automatic</span>
+            </a>
+          </div>
+        </li>
+        
+
+        
+        
+
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+
+  </div>
+
+  <div class="page-body">
+    
+    
+    
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Peer review &amp; change highlight</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    2021-04-02
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    11 min read
+  </span>
+  
+
+  
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+<details class="toc-inpage d-print-none  " open>
+  <summary class="font-weight-bold">Table of Contents</summary>
+  <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#academia-and-the-culture-of-implicit-knowledge">Academia and the culture of implicit knowledge</a></li>
+        <li><a href="#back-to-manuscript-changes">Back to manuscript changes</a></li>
+        <li><a href="#difference-highlight-options">Difference highlight options</a></li>
+        <li><a href="#going-to-the-root-why-are-we-encouraging-inefficiency">Going to the root: why are we encouraging inefficiency</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+</details>
+
+<p>Last week finished with great news, a paper accepted with minor revisions.
+With this response came the review of two anonymous scientists,
+invited by the editor to assess the manuscript and provide feedback and suggestions.</p>
+<p><em>Aside</em><br>
+The number of reviewers can fluctuate depending on your field, on the journal, on the
+nature of the communication (conference proceeding, short paper, article).<br>
+My personal &ldquo;highest score&rdquo; is 8 reviewers on a paper.
+The experience was terrible, a huge toll on everyone&rsquo;s time, in my opinion showing a lack
+of peer-reviewing process on the editor&rsquo;s side.</p>
+<p>Whether the required revisions are major or minor, the editor will expect a response from
+the authors containing:</p>
+<ol>
+<li>the modified manuscript</li>
+<li><em>some sort of response</em> with how they addressed the reviewers&rsquo; comments.</li>
+</ol>
+<p><em>Some sort of response</em> is where differences start to appear between different disciplines and even sub-disciplines.</p>
+<h2 id="academia-and-the-culture-of-implicit-knowledge">Academia and the culture of implicit knowledge</h2>
+<p>We had a discussion with the co-authors on how to convey the changes,
+with a disagreement on which would be best. Specifically, I was asked &ldquo;why don&rsquo;t you use method X <strong>like everyone</strong>?&rdquo;.<br>
+Who is everyone? Are we sure that it is the case, even in our sub-field?</p>
+<p>The question raises the very interesting point of implicit expectations in the academic culture.
+Technical know-how is transmitted informally within research groups, from one researcher to the next.</p>
+<p>What is expected in a response to reviewers? Some specific points to raise in the letter to the editor?
+Even one step before, what journal would be a good fit for this manuscript?
+What are the unsaid characteristics of that journal?
+There is little, if anything, to find in journals&rsquo; guides to authors, which would definitely be an appropriate place for it.</p>
+<p>This one-to-one transmission creates very &ldquo;localized&rdquo; practices and habits because no one documents these practices but
+transmits them informally in informal chats or group meetings.<br>
+Why? First documenting beliefs is hard and unnatural in academic writing.
+We are used to structuring our written productions so that readers can follow the logical links.
+Writing in terms of gut feelings and beliefs is against those principles.
+Another reason is that some of this implicit knowledge is not something people would want to be recorded with their name on it.</p>
+<p>&ldquo;That journal has an awful review process&rdquo; or &ldquo;this conference has proceedings of varying quality&rdquo; is something
+people will happily tell you within a research group but not write in a public note.</p>
+<p>Some implicit knowledge is not that controversial but is not a scientific contribution either.
+Some examples are field-dependent best practices for writing and answering or any content in the sweet spot between graduate-level courses and new research: too advanced to be teachable, but
+not new to be publishable.
+In optimization, this kind of content was until recently only covered by few blogs,
+like <a href="https://orinanobworld.blogspot.com/" target="_blank" rel="noopener">Paul Rubin&rsquo;s</a>
+or <a href="https://yetanothermathprogrammingconsultant.blogspot.com/" target="_blank" rel="noopener">Yet another Math Programming consultant</a>.
+A new addition is the <a href="https://or.stackexchange.com/" target="_blank" rel="noopener">OR stackexchange Q&amp;A forum</a> and we see from the
+intense activity that it is covering an existing gap.</p>
+<p>&ldquo;Let&rsquo;s tear down the implicit on writing practices&rdquo; has been the motivation for writing this blog post.</p>
+<h2 id="back-to-manuscript-changes">Back to manuscript changes</h2>
+<p>In order to take a broader view and partially remove the implicit aspect, I asked
+my direct circles how they present the response:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Academic &amp; research twitter, when you send a manuscript after a round of review, you<br>- just send the new manuscript<br>- add an automatically generated diff (latex diff)<br>- manually edit the tex source to add colors where things changed?</p>&mdash; Mathieu Besançon (@matbesancon) <a href="https://twitter.com/matbesancon/status/1359254009064919043?ref_src=twsrc%5Etfw">February 9, 2021</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>My Twitter circle is biased towards applied maths and computer science at large
+and more specifically towards discrete &amp; constrained optimization, applied probabilities
+and some other areas of computational sciences.</p>
+<p>I asked a similar question on a private server with PhD students from more diverse disciplines,
+received fewer answers but with detailed responses.</p>
+<p>I <strong>always</strong> assumed there is at least a written response to the editor and reviewers
+with a summary of the changes in the new version of the manuscript. The question is
+whether there is a version of the manuscript highlighting differences, and how it is produced.</p>
+<h2 id="difference-highlight-options">Difference highlight options</h2>
+<p>I will list below several options. Some of them are in the initial options we discussed with my co-authors.
+Some are</p>
+<h3 id="colourizing-your-diff">Colourizing your diff</h3>
+<p>The first option that was presented to me the first time I went through the process is
+to set a different colour for changed paragraphs so that reviewers and editors can
+browse through the new version and look at the new paragraphs.</p>
+<p>Most article editing software will have some way to do it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tex" data-lang="tex"><span style="display:flex;"><span><span style="color:#66d9ef">\usepackage</span>{color}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">\RequirePackage</span><span style="color:#a6e22e">[normalem]</span>{ulem}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">\definecolor</span>{BLUE}{rgb}{0,0,1}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">\providecommand</span>{<span style="color:#66d9ef">\rev</span>}[1]{{<span style="color:#66d9ef">\protect\color</span>{BLUE}<span style="color:#66d9ef">\uwave</span>{#1}}}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">% in the main body
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">\section*</span>{Introduction}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Academics rely on implicit knowledge of the established system.
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">\rev</span>{We propose a change of perspective on the necessity of such implicit knowledge.}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">\section</span>{Development}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>We now develop the main result of the paper.
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">\rev</span>{This approach is comparable to [Smith, 2020]}.
+</span></span></code></pre></div><p>with a result looking like the following:</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/diffreview/diff1.png" alt="First version" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>I added the wave underlining to make the diff file print-friendly and readable by colour-impaired people.</p>
+<p>The process is fairly straightforward to set up: define a command that highlight changes,
+and then only use that command to make changes.</p>
+<p>What about having a clean version of the manuscript (without colourized highlights)?</p>
+<p>Several options there:</p>
+<ol>
+<li>working on the clean version, create a copy with highlight as last step</li>
+<li>working on a version with highlight and remove them at the end</li>
+<li>working on a version with highlight, overwrite the <code>\rev</code> command to just output the text for the final version.</li>
+</ol>
+<p>Option 1 lets the writer focus on the actual change process without worrying about formatting and highlight before
+the end. Its other advantage is that you select as an author which part of the changes to highlight,
+thus guiding the reviewers&rsquo; eyes.</p>
+<p><strong>But</strong> at some point you have to create a split: a version of the manuscript with highlight, and one without.
+Maintaining two files just means inconsistencies begging to happen.</p>
+<p>Option 2 is just a clumsy manual version of option 3.
+Among possibilities, some colours can remain if you don&rsquo;t check carefully,
+words or characters can be removed when the colour is being removed, etc.</p>
+<p>The fundamental problem with options 2 and 3 is that the author works on
+the diff, and then emits the final version with a modification.
+This means the author sets their eyes on the highlighted version a lot longer,
+catching misalignments and visual errors, but not the final one, which is the one
+the author should care about, that&rsquo;s where the time should be spent.</p>
+<p>Having a poorly-formatted highlight file is fine compared to having formatting
+errors or typos in the actual good version of the manuscript.</p>
+<h3 id="automatically-generating-diff-from-versions">Automatically generating diff from versions</h3>
+<p>If you have your old source files (the version of the manuscript
+sent for review the first time) or even better if you use a version
+control system like you should, then it is possible to directly compare
+versions and emit a visual representation of the changes.</p>
+<p>In LaTeX, one tool for this task is <a href="https://texblog.org/2018/08/14/track-changes-with-latexdiff/" target="_blank" rel="noopener">latexdiff</a>
+and its little brother <a href="https://www.mankier.com/1/latexdiff-vc" target="_blank" rel="noopener">latexdiff-vc</a>.</p>
+<p>Of course, tracking everything does not make sense and will probably lead to a visually
+saturated diff document that can be overwhelming for the reviewers.
+Luckily, one can always re-generate the diff, this is as cheap as running one command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ latexdiff main_old.tex main.tex &gt; diff.tex 
+</span></span></code></pre></div><p>The first thing I do is usually set the deletion behaviour as not showing anything.
+If you look at the following result of running latexdiff on my example paper:</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/diffreview/diff2.png" alt="Second version" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>This is subjective, but seeing both the removed and the added content is not always useful.
+Most problematic is when some parts were moved, latexdiff will interpret it as an addition
+and a deletion, which quickly gets bloated.</p>
+<p>The drawback is that you need to edit this generated file, so don&rsquo;t do it before (almost)
+the end, otherwise there are good chances you will need to re-generate and go through the manual edits again.</p>
+<h4 id="what-about-word">What about Word?</h4>
+<p>Even though Word is seldom used in the mathematics and computer science communities at large,
+it is the go-to tool in humanities, law, literature and quite present in some engineering domains.</p>
+<p>Some people gave me an interesting testimony in that regard: the full diff (using Word revision mode)
+is not only acceptable even if heavy on the eyes, but it is also the <strong>correct</strong> way to do it
+to show the editorial team exactly what has changed since the review.
+In contrast, I was argued that the generated diff is a &ldquo;lazy&rdquo; option because this means not making the effort
+to show only relevant parts. What if showing the complete diff is a form of transparency on the changes?
+Indeed, if what is needed is a summary, there is always the explanatory letter on the side summarizing
+changes and addressing reviewers&rsquo; specific comments and questions.</p>
+<h3 id="editing-and-commenting-the-generated-pdf">Editing and commenting the generated PDF</h3>
+<p>An interesting perspective was given by <a href="https://twitter.com/baggepinnen" target="_blank" rel="noopener">two</a>,
+<a href="https://twitter.com/Judejeh/status/1359272151405244416" target="_blank" rel="noopener">users</a> in the answers below the poll:
+instead of editing the source to highlight differences, change or annotate the PDF,
+with tools like <a href="https://draftable.com/compare" target="_blank" rel="noopener">draftable</a>.</p>
+<p>This is definitely interesting to avoid polluting the sources with artifacts from diff highlighting
+and takes care of the mundane part for you. One drawback could be less flexibility in what can be done
+to filter or remove highlights in a PDF compared to a source file, but this is definitely worth exploring.</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/diffreview/diff3.png" alt="Third version on draftable" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<h3 id="optional-annotation-flags">Optional annotation flags</h3>
+<p>The last option is a variant of manually highlighting your source file
+but using the <a href="https://ctan.org/pkg/changes" target="_blank" rel="noopener">changes</a> package.
+This was recommended by <a href="https://twitter.com/lauraalbertphd" target="_blank" rel="noopener">Laura Albert</a>.</p>
+<p>The package provides options when importing it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tex" data-lang="tex"><span style="display:flex;"><span><span style="color:#75715e">% highlights the changes
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">\usepackage</span><span style="color:#a6e22e">[draft]</span>{changes}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">% renders the final version
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">\usepackage</span><span style="color:#a6e22e">[final]</span>{changes}
+</span></span></code></pre></div><p>and then in the text using the modified, added and deleted commands:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tex" data-lang="tex"><span style="display:flex;"><span><span style="color:#66d9ef">\section</span>{Development}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>We now develop the main result of the paper.
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">\added</span><span style="color:#a6e22e">[comment=reviewer strongly advised citing Smith 2020]</span>{
+</span></span><span style="display:flex;"><span>This approach is comparable to [Smith, 2020].
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>with the result looking as follows:</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img src="/img/posts/diffreview/diff4.png" alt="Version with changes" loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>This option is much more robust than keeping raw colours in the text,
+with just a single point of change (the top-level declaration)
+between the diff and the final result.</p>
+<p>One drawback is that you have to select as you edit what goes in the
+displayed modifications and what gets modified without appearing in the highlights.
+Otherwise, you need to remember all modifications to add the <code>\added</code> flag.</p>
+<p>Still, I think this is one of the viable and reliable options in the whole set presented here,
+along with an edited latexdiff and possibly PDF edition which I barely tested.</p>
+<h2 id="going-to-the-root-why-are-we-encouraging-inefficiency">Going to the root: why are we encouraging inefficiency</h2>
+<p>If you read this post for the tools, you should probably stop there.</p>
+<p>One thing that quickly struck me with this particular example
+of using a slow, manual way because &ldquo;this is how people do it&rdquo;
+is that there is little incentive for academic groups to change
+time- and cost-inefficient processes.</p>
+<p>One weird thing in academia is the many situations where:</p>
+<ol>
+<li>the payer is not the buyer</li>
+<li>the payer is the buyer, but the cost is too low to address the problem</li>
+</ol>
+<p>Point 1. applies for instance to the situation of publishing, the university is paying,
+so academics have low incentive to stop publishing with editors that are enjoying
+unreasonable margins on public money.</p>
+<p>Point 2. is our actual topic. In a labour-intensive industry as many branches of academia are,
+one thinks carefully about how time is spent. Costs are directly related to that time.
+It is fairly typical to reason about how much a meeting or a project costs in terms of worker-hours.
+For sure, research time is hard to assess, sequence, and organize in neat boxes.
+Why is it not the case in academia?</p>
+<p>Why don&rsquo;t we reason about tasks taking time as a cost center?
+This might be due to the way people&rsquo;s time are budgeted in advance:
+if someone is already working in a lab, their time was funded prior to their arrival
+and could then be perceived as a sunk cost.</p>
+<p>This may also be based on the perception that Master&rsquo;s and PhD researchers are considered students
+to some extent. Thus, their activity in the lab is a cost center regardless of the output,
+since they are in training. Or maybe this stems from academics not being trained in
+the management of research groups.</p>
+<p>But the most direct explanation for low mindfulness of people&rsquo;s time are the
+<strong>extremely low wage</strong> given to junior researchers.
+A doctoral student makes about 15% of a full professor&rsquo;s salary in Canada.
+In contrast, a junior developer is at about 55% the salary of a senior tech lead.
+We have an odd setting with a labour-intensive industry with a low cost of labour.
+This can quickly set a low priority on time efficiency, why bother when
+<a href="https://www.theguardian.com/education/2019/apr/01/are-phds-just-cheap-labour-for-universities" target="_blank" rel="noopener">time is relatively cheap</a>?</p>
+<p>One thing to note, I am talking about the academic culture as a whole creating some
+implicit expectations through the cost structure.
+It does not mean that all universities share it, but that enough places keep it
+such that the expectations in the community (like maintaining a time-consuming process for review)
+are still around.</p>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/academia/">academia</a>
+  
+  <a class="badge badge-light" href="/tag/latex/">latex</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2021-2-13-diffreview%2F&amp;text=Peer&#43;review&#43;%26&#43;change&#43;highlight" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2021-2-13-diffreview%2F&amp;t=Peer&#43;review&#43;%26&#43;change&#43;highlight" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a href="mailto:?subject=Peer%20review%20%26%20change%20highlight&amp;body=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2021-2-13-diffreview%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2021-2-13-diffreview%2F&amp;title=Peer&#43;review&#43;%26&#43;change&#43;highlight" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Peer&#43;review&#43;%26&#43;change&#43;highlight%20https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2021-2-13-diffreview%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2021-2-13-diffreview%2F&amp;title=Peer&#43;review&#43;%26&#43;change&#43;highlight" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://matbesancon.xyz/"><img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu717a6920346f3d435e65e27c2a66c1ed_48773_270x270_fill_q75_lanczos_center.jpg" alt="Mathieu Besançon"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://matbesancon.xyz/">Mathieu Besançon</a></h5>
+      <h6 class="card-subtitle">Researcher in mathematical optimization</h6>
+      <p class="card-text">Mathematical optimization, scientific programming and related.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=-xStCAIAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://orcid.org/0000-0002-6284-3033" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.youtube.com/channel/UCVSd42nW_MqkbSXijgOvKwg" target="_blank" rel="noopener">
+        <i class="fab fa-youtube"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/mbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    © 2023 Mathieu Besançon.
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+    <p class="powered-by">
+    Published with Hugo and Wowchemy.
+   </p>
+
+
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+
+
+<script src="/js/vendor-bundle.min.938a3a7554cd9f6602290411f64d2617.js"></script>
+
+
+
+
+  
+
+  
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script id="search-hit-fuse-template" type="text/x-template">
+    <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+    </div>
+  </script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+<script id="page-data" type="application/json">{"use_headroom":true}</script>
+
+
+
+  <script src="/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<script src="/en/js/wowchemy.min.2945731fa88332cb0ec33cf47d29879f.js"></script>
+
+
+
+
+
+
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <pre><code></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
