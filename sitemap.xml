@@ -35,7 +35,7 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication_types/</loc>
-    <lastmod>2023-11-29T21:21:28+01:00</lastmod>
+    <lastmod>2023-12-22T17:16:32+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/post/2023-01-schools23/</loc>
@@ -55,7 +55,7 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication-type/3/</loc>
-    <lastmod>2023-11-29T21:21:28+01:00</lastmod>
+    <lastmod>2023-12-22T17:16:32+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/turner-2023-contextaware/</loc>
@@ -78,8 +78,16 @@
     <lastmod>2023-11-29T21:21:28+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
+    <loc>https://matbesancon.xyz/publication/preprint/mexi-2023-probabilistic/</loc>
+    <lastmod>2023-12-22T17:16:32+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/mexi-2023-scylla/</loc>
     <lastmod>2023-11-29T21:21:28+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/publication/preprint/hendrych-2023-solving/</loc>
+    <lastmod>2023-12-22T17:16:32+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/bolusani-2023-mip/</loc>
