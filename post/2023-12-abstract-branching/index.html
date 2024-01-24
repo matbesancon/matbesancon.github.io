@@ -67,6 +67,9 @@
 
   
   
+    
+    <script src="/js/mathjax-config.js"></script>
+  
 
   
 
@@ -183,9 +186,9 @@
 
       
       
-        
-      
 
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
       
     
       
@@ -276,13 +279,13 @@
 
   
 
-<meta name="description" content="A one-month impression.
+<meta name="description" content="An informal recap of our recent paper.
 " />
 
 
 
-<link rel="alternate" hreflang="en-us" href="https://matbesancon.xyz/post/2023-10-obsidian/" />
-<link rel="canonical" href="https://matbesancon.xyz/post/2023-10-obsidian/" />
+<link rel="alternate" hreflang="en-us" href="https://matbesancon.xyz/post/2023-12-abstract-branching/" />
+<link rel="canonical" href="https://matbesancon.xyz/post/2023-12-abstract-branching/" />
 
 
 
@@ -318,19 +321,19 @@
   <meta property="twitter:creator" content="@matbesancon" />
 <meta property="twitter:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" />
 <meta property="og:site_name" content="μβ" />
-<meta property="og:url" content="https://matbesancon.xyz/post/2023-10-obsidian/" />
-<meta property="og:title" content="Obsidian for research | μβ" />
-<meta property="og:description" content="A one-month impression.
+<meta property="og:url" content="https://matbesancon.xyz/post/2023-12-abstract-branching/" />
+<meta property="og:title" content="Branch-And-Bound Models and Strong Branching | μβ" />
+<meta property="og:description" content="An informal recap of our recent paper.
 " /><meta property="og:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
 
   
     <meta
       property="article:published_time"
-      content="2023-10-22T00:00:00&#43;00:00"
+      content="2023-12-17T00:00:00&#43;00:00"
     />
   
   
-    <meta property="article:modified_time" content="2023-10-24T17:48:19&#43;02:00">
+    <meta property="article:modified_time" content="2023-12-17T00:00:00&#43;00:00">
   
 
 
@@ -356,12 +359,12 @@
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://matbesancon.xyz/post/2023-10-obsidian/"
+    "@id": "https://matbesancon.xyz/post/2023-12-abstract-branching/"
   },
-  "headline": "Obsidian for research",
+  "headline": "Branch-And-Bound Models and Strong Branching",
   
-  "datePublished": "2023-10-22T00:00:00Z",
-  "dateModified": "2023-10-24T17:48:19+02:00",
+  "datePublished": "2023-12-17T00:00:00Z",
+  "dateModified": "2023-12-17T00:00:00Z",
   
   "author": {
     "@type": "Person",
@@ -376,7 +379,7 @@
       "url": "https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_192x192_fill_lanczos_center_3.png"
     }
   },
-  "description": "A one-month impression.\n"
+  "description": "An informal recap of our recent paper.\n"
 }
 </script>
 
@@ -398,7 +401,7 @@
 
 
   
-  <title>Obsidian for research | μβ</title>
+  <title>Branch-And-Bound Models and Strong Branching | μβ</title>
 
   
   
@@ -418,7 +421,7 @@
 </head>
 
 
-<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="a4a3d8daea05a3dab740a647d06218bf" >
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="2cd488ecc4b782df3e2964839b55501c" >
 
   
   
@@ -825,7 +828,7 @@
   
   
 <div class="article-container pt-3">
-  <h1>Obsidian for research</h1>
+  <h1>Branch-And-Bound Models and Strong Branching</h1>
 
   
 
@@ -843,10 +846,8 @@
     
     
       
-          Last updated on
-      
     
-    2023-10-24
+    2023-12-17
   </span>
   
 
@@ -855,7 +856,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    4 min read
+    7 min read
   </span>
   
 
@@ -883,77 +884,101 @@
   <div class="article-container">
 
     <div class="article-style">
-      <p>I have been using <a href="https://obsidian.md" target="_blank" rel="noopener">Obsidian</a> for about a month now and have been truly impressed with the application.
-After some experimentations back and forth, the hype, the control and the stationary regime, I wanted to gather some notes on my usage as a researcher in applied maths / computer science.</p>
-<p>I tried multiple notetaking / productivity applications before for research, including Trello, Evernote, Google Keep, and plain notes scattered around (the latter being my previous default solution, with github issues and TODOs in latex papers directly).</p>
-<h1 id="file-organization">File organization</h1>
-<p>Unlike some people, I tend to like folders (at a moderate depth) and not solely rely on search.
-My vault has roughly the following struture:</p>
-<pre tabindex="0"><code>├── _assets
-│  └── templates
-│     ├── paper_review.md
-│     ├── research_note.md
-│     ├── t_weekly.md
-│     └── talk_abstract.md
-├── abstracts
-│  └── Summer_school_Einstein_Opt_ML.md
-├── paper_reviews
-│  └── warmstart_conic.md
-├── preamble.sty
-├── random
-│  └── Spivak_notation.md
-├── reading_notes
-│  ├── Concepts
-│  │  ├── Benders.md
-│  │  └── lift_n_project.md
-│  ├── Papers
-│  │  ├── mirror_descent_frankwolfe.md
-│  │  └── Rens_heuristc.md
-│  └── Projects
-│     ├── Strong_branching.md
-│     └── V_polyhedral_cuts.md
-└── weekly
-   └── 2023-W41.md
-</code></pre><p>Let&rsquo;s walk through the main folders:</p>
+      <p>This is an informal post summarizing our recent paper <a href="https://arxiv.org/abs/2312.07041" target="_blank" rel="noopener"><em>Probabilistic Lookahead Strong Branching via a Stochastic Abstract Branching Model</em></a> together with Gioni Mexi from the Zuse Institute Berlin and Somayeh Shamsi and Pierre Le Bodic from Monash University.</p>
+<p>I&rsquo;ll try to remain approachable but will assume that the reader is slightly familiar with Branch-and-Bound, and in general with Computational Mixed-Integer Optimization.</p>
+
+
+<details class="toc-inpage d-print-none  " open>
+  <summary class="font-weight-bold">Table of Contents</summary>
+  <nav id="TableOfContents">
+  <ol>
+    <li><a href="#abstract-models-for-branch-and-bound-trees">Abstract Models for Branch-and-Bound Trees</a></li>
+    <li><a href="#strong-branching-and-lookahead-stopping">Strong Branching and Lookahead Stopping</a></li>
+    <li><a href="#pandoras-multi-variable-branching-an-abstract-branching-tree-with-strong-branching">Pandora&rsquo;s Multi-Variable Branching: An Abstract Branching Tree with Strong Branching</a></li>
+    <li><a href="#probabilistic-lookahead">Probabilistic Lookahead</a></li>
+    <li><a href="#improving-strong-branching-in-scip">Improving Strong Branching in SCIP</a></li>
+  </ol>
+</nav>
+</details>
+
+<h1 id="abstract-models-for-branch-and-bound-trees">Abstract Models for Branch-and-Bound Trees</h1>
+<p>One characteristic of modern frameworks for mixed-integer optimization is their complexity, in the sense of the number of moving parts in the solvers.
+Many algorithms run with different purposes and are influenced by each other&rsquo;s result.
+The algorithms are exact, but their convergence to an optimal solution and proof of optimality can vary wildly from one instance to the next, and is very far from the worst-case analysis. This may seem obvious but is far from the case in many fields. In smooth convex optimization, it is more often the case that the theoretical rates are also those observed in practice.</p>
+<p>Because of this gap between theoretical and observed performance, it can be hard to reason on what branch-and-cut-based solvers are doing, how different decisions in the sub-algorithms influence them.</p>
+<p>Some papers proposed simplified models of branch-and-bound algorithms to enable researchers to establish and compare theoretical properties, and study the influence on these simplified models of certain algorithmic decisions. Sounds vague? We will see concrete examples.</p>
 <ul>
-<li><code>_assets</code> contains the images attached to notes, PDFs, and note templates.</li>
-<li><code>abstracts</code> contains my talk abstracts (I used to have them written as a one-off thing and have to scavenge my emails to gather them afterwards)</li>
-<li><code>paper_reviews</code> contains the peer reviews I wrote</li>
-<li><code>preamble.sty</code> I&rsquo;ll mention in plugins</li>
-<li><code>random</code> for notes that have no other place, out of topic for instance</li>
-<li><code>reading_notes</code> is the core of my Obsidian usage, with notes related to research including:
-<ul>
-<li><code>Concepts</code> for general optimization concepts for which I want an overview note: what is Benders decomposition, etc. I also use these to group several papers on the topic while keeping a unified notation</li>
-<li><code>Papers</code> are a note on a single paper</li>
-<li><code>Projects</code> are running notes for ongoing research projects, including notes from meetings, diagrams, todos</li>
-</ul>
+<li>
+<p><em>An abstract model for branching and its application to mixed integer programming</em>, P. Le Bodic, G. Nemhauser (2017): defines the problem of building a branch-and-bound tree from variables defined from fixed dual gains. The model is then used to define a scoring criterion from dual gains.</p>
 </li>
-<li><code>weekly</code> for weekly running notes.</li>
+<li>
+<p><em>An abstract model for branch and cut</em>, P. le Bodic &amp; A. Kazachkov (2023), extends this paper to branch-and-cut, modelling the relaxation with a set of cuts as the unique child of the previous relaxation.</p>
+</li>
 </ul>
-<h1 id="plugins">Plugins</h1>
-<h2 id="those-i-use">Those I use</h2>
-<p>I kept it pretty simple so far. I am using the <a href="https://github.com/anoopkcn/obsidian-reference-map" target="_blank" rel="noopener">reference map</a> to access and reference papers quickly in notes.</p>
-<p>In useful things for mathematics: I use Quick LaTeX for Obsidian and Extended MathJax with a bunch of commands in the <code>preamble.sty</code> file and shortcuts.
-Commands I include are also the same I would use in a lot of papers to be able to copy content from one to the other.</p>
-<p>Finally, I am using the git plugin to manage my vault as a simple github repository.</p>
-<h2 id="those-i-dropped">Those I dropped</h2>
-<p>In plugins I ended up removing: the <strong>calendar</strong> can be useful for some poeple but it ends up being redundant with my actual calendar app, and redundancy either creates friction, duplication, or losses.</p>
-<p>I also dropped the <strong>daily notes</strong>, I don&rsquo;t find research to work at the scale of a day, and switched to weekly notes instead.
-In these, I add things to do for the current week, random small thoughts that don&rsquo;t deserve their full note yet, and things I am doing to be able to look back later.</p>
-<h1 id="note-taking-is-a-means">Note-taking is a means</h1>
-<p>As a final note, I would say that I spent some time setting all this up, but not an indecent amount. For anyone setting up any productivity system or app, some things should stick:</p>
+<p><strong>Branch-and-Bound versus Lift-and-Project relaxations in combinatorial cptimization</strong>, G. Cornuéjols, Y. Dubey (2023) compares the relaxation obtained from Branch-and-Bound against the one obtained from a lift-and-project hierarchy (lift-and-project cuts applied recursively).</p>
+<p>In many cases, the goal of the article is to establish properties of the constructed simplified model, for instance to show some trends and compare them to the behaviour of real instances / solvers.
+In few cases, these models are used to extract key take-aways that can be exploited for actually solving hard problems.
+The abstract model for branching paper for instance derives from the abstract branch-and-bound trees some rules to score variables based on their left and right dual gains.
+Our paper sets the same goal: can we build an abstract model from which to draw actionable insight for algorithm design?</p>
+<h1 id="strong-branching-and-lookahead-stopping">Strong Branching and Lookahead Stopping</h1>
+<p>At any node of a branch-and-bound tree, the algorithm <em>branches</em> on one variable that has a fractional value and should take an integer one (we will spare ourselves constraint branching and keep it simple for now).
+This partitions the space into two disjoint polytopes for which we continue solving the linear relaxations, branching, etc.
+Any choice of fractional variable at all nodes will make the algorithm terminate in finite time with the optimal solution, but this random choice typically produces an extremely large tree.</p>
+<p>On the other side of the spectrum, one could produce the best tree by&hellip; searching for the best variable. This would be akin to a clairvoyant branching rule that solves the tree in order to solve the tree.
+Instead of fully expanding the branch-and-bound tree in this idealized branching, we could only explore the children of the nodes and use the obtained <em>dual bound improvement</em> as a metric to evaluate branching candidates, and this is how we obtain <strong>Strong Branching</strong> (SB). Strong branching is a limited idealized oracle, which uses a depth-one lookup in the branch-and-bound tree. Despite being &ldquo;only&rdquo; depth one, it is still:</p>
 <ol>
-<li>If you spend more time optimizing your productivity app than using it, you are probably doing it wrong</li>
-<li>The benefits of using these apps only kicks in with consistency. We got very used to immediate rewards for anything we do, and any app who offers this is probably hacking your brain into feeling satisfied</li>
-<li>Some &ldquo;gurus&rdquo; for these productivity apps tend to show you how to do <em>everything</em> in there, calendar, slides for presentations, your grocery list. Explore things that can work out, but apps are tools, and tools serve a purpose, they are not a lifestyle.</li>
+<li><strong>expensive</strong>, because it requires solving two linear problems per candidate. This is much more expensive than many other branching rules, which only require a constant or linear amount of computations (in terms of problem size) per candidate.</li>
+<li><strong>powerful</strong> in terms of predictive power. SB empirically produces very small trees, and has been shown to produce theoretically small trees in Cite Dey paper.</li>
 </ol>
-<p>Point 1 is especially vicious, it is linked to a fake productivity feeling, we all know someone who spent too much time in research organizing their literature review, their Zotero, their bullet journal system or their note-taking system.
-Taking notes should remain a fairly minor activity, one that we perform without thinking about it and that is there to support the actual work: developing new methods, designing and implementing the algorithms, preparing and running experiments, writing that paper that has been taking dust for months.</p>
-<h1 id="still-to-improve">Still to improve</h1>
-<p>In the things that I still haven&rsquo;t mastered: making internal links useful. Sure I can link notes to each other.
-What I don&rsquo;t see yet is the usefulness of it in my research notes, probably because the number of notes where the benefit kicks in is not there yet.</p>
-<p>I also haven&rsquo;t managed to synchronize with the git repo system with my phone, work in progress. I also rarely needed so far to access or edit my notes on mobile so far.</p>
+<p>Because of these two characteristics, SB is typically used a lot at the beginning of the tree, where branching decisions matter a lot, and then controlled with working limits on the budget of simplex iterations used for SB, on the maximum number of branching candidates evaluated by SB, etc.</p>
+<p>In particular, the algorithm muse determine the number of candidates to evaluate via strong branching.
+Evaluating all candidates leads to full strong branching, which is typically too costly.
+Strong branching can be viewed as containing an <a href="https://en.wikipedia.org/wiki/Optimal_stopping" target="_blank" rel="noopener">optimal stopping problem</a>:
+branching candidates are &ldquo;discovered&rdquo; when they are evaluated with strong branching, revealing their left and right dual gains,
+we can then evaluate further candidates or stop and branch on the current best found so far.
+In particular, this stopping problem allows us to choose any candidate we have sampled so far, and incurs a cost for every candidate we sample, with a final reward which we can approximate with the dual gains obained.</p>
+<p>Instead, the branching algorithm in SCIP includes a strategy coined <em>lookahead</em>: we start evaluating candidates and record the best one found so far.
+If the best candidate has not changed for $L$ candidates, meaning we sampled $L$ consecutive unsuccessful candidates, we stop the search and use that candidate.</p>
+<p>It turns out, this rule is fairly robust, and trying to tweak the current value of $L$ or other parameters cannot lead to substantial improvements alone.
+We will need to rethink the algorithm execution to improve upon this baseline we will refer to as <em>static lookahead</em>.</p>
+<h1 id="pandoras-multi-variable-branching-an-abstract-branching-tree-with-strong-branching">Pandora&rsquo;s Multi-Variable Branching: An Abstract Branching Tree with Strong Branching</h1>
+<p>One contribution of the paper is building an abstract model of the branching tree in order to guide strong branching.
+The abstract model has the following properties:</p>
+<ul>
+<li>each variable has a hidden dual gain, which is identical for the left and right child,</li>
+<li>these gains are unknown at the start and need to be discovered by <em>sampling</em> the variable, paying the cost of solving the two LPs,</li>
+<li>these gains are fixed for a given variable throughout the tree.</li>
+</ul>
+<p>We coined this abstract model <strong>Pandora&rsquo;s Multi-Variable Branching</strong> or <strong>PVB</strong> in reference to Pandora&rsquo;s box problem <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, one of the most well-known online decision problems.</p>
+<h1 id="probabilistic-lookahead">Probabilistic Lookahead</h1>
+<p>We solve PVB with a so-called probabilistic lookahead algorithm.
+We compute the expected number of LPs to solve $N_{\text{LP}}$ if we decide to sample one more variable as:
+$$
+\mathbb{E}[{N_{\text{LP}}}] = 2 + p_{\text{fail}} \cdot T_{0} + (1 - p_{\text{fail}}) \cdot \mathbb{E}[T_{\text{success}}].
+$$
+The fixed 2 corresponds to the additional two LPs solved by strong branching for the variable,
+$p_{\text{fail}}$ is the probability that the new sampled variable has a dual gain lower than the incumbent dual gain,
+$p_{\text{success}}$ is its complement, $T_0$ is the size of the branching tree with the current branching incumbent, and
+$\mathbb{E}[T_{\text{success}}]$ is the expected tree size, conditioned on the new sampled variable being better than the incumbent.</p>
+<p>The key ingredient is being able to estimate the expected tree size of the simplified model, both for $T_0$ and $T_{\text{success}}$.</p>
+<h1 id="improving-strong-branching-in-scip">Improving Strong Branching in SCIP</h1>
+<p>One crucial question was left: we have this new criterion for strong branching.
+In simulations, it fared better than the static lookahead to close the gap for a given budget of LP solves, but what about the harsh reality of actually solving MIPs?</p>
+<p>It turns out that, with a distribution family built from observed dual gains, using the new criterion can significantly improve the way we allocate the strong branching budget.
+This results on affected instances of the MIPLIB in about 5% fewer nodes, 3% less time, and 9% fewer nodes, 8% less time on hard (taking more than 1000 seconds to solve) affected instances.
+As a cherry on top, this effect carries over to MINLP instances from the <a href="https://www.minlplib.org" target="_blank" rel="noopener">MINLPlib</a>, and to other sets of instances with the same gains, showing a nice consistency in the improvement.</p>
+<p>One thing to highlight is really that it improves <em>both</em> the time and number of nodes, meaning that the method is not just using more/fewer SB calls (which would reduce the number of nodes but increase time or vice versa),
+but really allocating it only where it is needed.</p>
+<p>The new probabilistic lookahead criterion will be integrated into SCIP for the 10.0 release.</p>
 <hr>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>See for example: <em>Recent Developments in Pandora&rsquo;s Box Problem: Variants and Applications</em>, Hedyeh Beyhaghi, Linda Cai, Proceedings of the 55th Annual ACM Symposium on Theory of Computing, <a href="https://arxiv.org/abs/2308.12242" target="_blank" rel="noopener">arxiv preprint</a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 
     </div>
 
@@ -965,9 +990,11 @@ What I don&rsquo;t see yet is the usefulness of it in my research notes, probabl
 
 <div class="article-tags">
   
-  <a class="badge badge-light" href="/tag/academia/">academia</a>
+  <a class="badge badge-light" href="/tag/optimization/">optimization</a>
   
-  <a class="badge badge-light" href="/tag/productivity/">productivity</a>
+  <a class="badge badge-light" href="/tag/scip/">scip</a>
+  
+  <a class="badge badge-light" href="/tag/integer-optimization/">integer-optimization</a>
   
 </div>
 
@@ -988,7 +1015,7 @@ What I don&rsquo;t see yet is the usefulness of it in my research notes, probabl
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2023-10-obsidian%2F&amp;text=Obsidian&#43;for&#43;research" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2023-12-abstract-branching%2F&amp;text=Branch-And-Bound&#43;Models&#43;and&#43;Strong&#43;Branching" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -1005,7 +1032,7 @@ What I don&rsquo;t see yet is the usefulness of it in my research notes, probabl
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2023-10-obsidian%2F&amp;t=Obsidian&#43;for&#43;research" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2023-12-abstract-branching%2F&amp;t=Branch-And-Bound&#43;Models&#43;and&#43;Strong&#43;Branching" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -1024,7 +1051,7 @@ What I don&rsquo;t see yet is the usefulness of it in my research notes, probabl
         
       
       <li>
-        <a href="mailto:?subject=Obsidian%20for%20research&amp;body=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2023-10-obsidian%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+        <a href="mailto:?subject=Branch-And-Bound%20Models%20and%20Strong%20Branching&amp;body=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2023-12-abstract-branching%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -1041,7 +1068,7 @@ What I don&rsquo;t see yet is the usefulness of it in my research notes, probabl
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2023-10-obsidian%2F&amp;title=Obsidian&#43;for&#43;research" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2023-12-abstract-branching%2F&amp;title=Branch-And-Bound&#43;Models&#43;and&#43;Strong&#43;Branching" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -1058,7 +1085,7 @@ What I don&rsquo;t see yet is the usefulness of it in my research notes, probabl
       
       
       <li>
-        <a href="whatsapp://send?text=Obsidian&#43;for&#43;research%20https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2023-10-obsidian%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+        <a href="whatsapp://send?text=Branch-And-Bound&#43;Models&#43;and&#43;Strong&#43;Branching%20https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2023-12-abstract-branching%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -1075,7 +1102,7 @@ What I don&rsquo;t see yet is the usefulness of it in my research notes, probabl
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2023-10-obsidian%2F&amp;title=Obsidian&#43;for&#43;research" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2023-12-abstract-branching%2F&amp;title=Branch-And-Bound&#43;Models&#43;and&#43;Strong&#43;Branching" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>
