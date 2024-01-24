@@ -48,7 +48,7 @@ The algorithms are exact, but their convergence to an optimal solution and proof
 &lt;p&gt;&lt;em&gt;An abstract model for branch and cut&lt;/em&gt;, P. le Bodic &amp;amp; A. Kazachkov (2023), extends this paper to branch-and-cut, modelling the relaxation with a set of cuts as the unique child of the previous relaxation.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;Branch-and-Bound versus Lift-and-Project relaxations in combinatorial cptimization&lt;/strong&gt;, G. Cornuéjols, Y. Dubey (2023) compares the relaxation obtained from Branch-and-Bound against the one obtained from a lift-and-project hierarchy (lift-and-project cuts applied recursively).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Branch-and-Bound versus Lift-and-Project relaxations in combinatorial optimization&lt;/strong&gt;, G. Cornuéjols, Y. Dubey (2023) compares the relaxation obtained from Branch-and-Bound against the one obtained from a lift-and-project hierarchy (lift-and-project cuts applied recursively).&lt;/p&gt;
 &lt;p&gt;In many cases, the goal of the article is to establish properties of the constructed simplified model, for instance to show some trends and compare them to the behaviour of real instances / solvers.
 In few cases, these models are used to extract key take-aways that can be exploited for actually solving hard problems.
 The abstract model for branching paper for instance derives from the abstract branch-and-bound trees some rules to score variables based on their left and right dual gains.
