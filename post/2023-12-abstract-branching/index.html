@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- This site was created with Wowchemy. https://www.wowchemy.com -->
-<!-- Last Published: January 24, 2024 --><html lang="en-us" >
+<!-- Last Published: February 1, 2024 --><html lang="en-us" >
 
 
 <head>
@@ -333,7 +333,7 @@
     />
   
   
-    <meta property="article:modified_time" content="2023-12-17T00:00:00&#43;00:00">
+    <meta property="article:modified_time" content="2024-01-24T13:01:30&#43;01:00">
   
 
 
@@ -364,7 +364,7 @@
   "headline": "Branch-And-Bound Models and Strong Branching",
   
   "datePublished": "2023-12-17T00:00:00Z",
-  "dateModified": "2023-12-17T00:00:00Z",
+  "dateModified": "2024-01-24T13:01:30+01:00",
   
   "author": {
     "@type": "Person",
@@ -846,8 +846,10 @@
     
     
       
+          Last updated on
+      
     
-    2023-12-17
+    2024-01-24
   </span>
   
 
@@ -909,13 +911,15 @@ The algorithms are exact, but their convergence to an optimal solution and proof
 <p>Some papers proposed simplified models of branch-and-bound algorithms to enable researchers to establish and compare theoretical properties, and study the influence on these simplified models of certain algorithmic decisions. Sounds vague? We will see concrete examples.</p>
 <ul>
 <li>
-<p><em>An abstract model for branching and its application to mixed integer programming</em>, P. Le Bodic, G. Nemhauser (2017): defines the problem of building a branch-and-bound tree from variables defined from fixed dual gains. The model is then used to define a scoring criterion from dual gains.</p>
+<p><em><a href="https://link.springer.com/article/10.1007/s10107-016-1101-8" target="_blank" rel="noopener">An abstract model for branching and its application to mixed integer programming</a></em>, P. Le Bodic, G. Nemhauser (2017): defines the problem of building a branch-and-bound tree from variables defined from fixed dual gains. The model is then used to define a scoring criterion from dual gains.</p>
 </li>
 <li>
-<p><em>An abstract model for branch and cut</em>, P. le Bodic &amp; A. Kazachkov (2023), extends this paper to branch-and-cut, modelling the relaxation with a set of cuts as the unique child of the previous relaxation.</p>
+<p><em><a href="https://link.springer.com/article/10.1007/s10107-023-01991-z" target="_blank" rel="noopener">An abstract model for branch and cut</a></em>, P. le Bodic &amp; A. Kazachkov (2023), extends this paper to branch-and-cut, modelling the relaxation with a set of cuts as the unique child of the previous relaxation.</p>
+</li>
+<li>
+<p><em><a href="https://arxiv.org/abs/2311.00185" target="_blank" rel="noopener">Branch-and-Bound versus Lift-and-Project relaxations in combinatorial optimization</a></em>, G. Cornuéjols, Y. Dubey (2023) compares the relaxation obtained from Branch-and-Bound against the one obtained from a lift-and-project hierarchy (lift-and-project cuts applied recursively).</p>
 </li>
 </ul>
-<p><strong>Branch-and-Bound versus Lift-and-Project relaxations in combinatorial optimization</strong>, G. Cornuéjols, Y. Dubey (2023) compares the relaxation obtained from Branch-and-Bound against the one obtained from a lift-and-project hierarchy (lift-and-project cuts applied recursively).</p>
 <p>In many cases, the goal of the article is to establish properties of the constructed simplified model, for instance to show some trends and compare them to the behaviour of real instances / solvers.
 In few cases, these models are used to extract key take-aways that can be exploited for actually solving hard problems.
 The abstract model for branching paper for instance derives from the abstract branch-and-bound trees some rules to score variables based on their left and right dual gains.
