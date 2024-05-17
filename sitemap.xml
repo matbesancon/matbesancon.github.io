@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://matbesancon.xyz/publication-type/0/</loc>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/publication-type/2/</loc>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/publication/conference/sharma-2024-network/</loc>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/publication/preprint/chasseray-2024-optimisation/</loc>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/publication/conference/mexi-2023-probabilistic/</loc>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/publication_types/</loc>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/publication/conference/hendrych-2023-solving/</loc>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
     <loc>https://matbesancon.xyz/post/2023-12-abstract-branching/</loc>
     <lastmod>2024-02-01T16:02:11+01:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -42,16 +70,8 @@
     <lastmod>2023-10-24T17:48:19+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
-    <loc>https://matbesancon.xyz/publication-type/2/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
     <loc>https://matbesancon.xyz/publication/journal/phys-rev-research-5-043059/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://matbesancon.xyz/publication_types/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/post/2023-01-schools23/</loc>
@@ -63,11 +83,15 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication-type/1/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication-type/3/</loc>
     <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/publication/conference/turner-2023-contextaware/</loc>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/turner-2023-contextaware/</loc>
@@ -75,19 +99,19 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/conference/turner-2023-cutting/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/journal/bestuzheva-2023-enabling/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/journal/sharma-2022-flexible/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/tjusila-2023-clues/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/mexi-2023-probabilistic/</loc>
@@ -95,7 +119,7 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/mexi-2023-scylla/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/hendrych-2023-solving/</loc>
@@ -103,7 +127,7 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/bolusani-2023-mip/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/</loc>
@@ -123,19 +147,19 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/convexmip/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/journal/besanccon-2022-frankwolfe/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/conference/macdonald-2021-interpretable/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/journal/wilken-2022-07-11-499575/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/tag/frank-wolfe/</loc>
@@ -167,19 +191,19 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/journal/besanccon-2021-complexity/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/journal/js-sv-098-i-16/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/conference/carderera-2021-simple/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/scipreport/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/tag/automatic-differentiation/</loc>
@@ -211,7 +235,7 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/journal/besanccon-2020-bilevel/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/post/2019-11-04-binary-julia/</loc>
@@ -303,15 +327,15 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/conference/besancon-2018/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/journal/besanccon-2019-julia/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/besanccon-2019-near/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
+    <lastmod>2024-05-17T13:17:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/tag/engineering/</loc>

@@ -13,6 +13,42 @@
     </image>
     
     <item>
+      <title>Network Design for the Traffic Assignment Problem with Mixed-Integer Frank-Wolfe</title>
+      <link>https://matbesancon.xyz/publication/conference/sharma-2024-network/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/sharma-2024-network/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Optimisation models for the design of multiple self-consumption loops in semi-rural areas</title>
+      <link>https://matbesancon.xyz/publication/preprint/chasseray-2024-optimisation/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/chasseray-2024-optimisation/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Probabilistic Lookahead Strong Branching via a Stochastic Abstract Branching Model</title>
+      <link>https://matbesancon.xyz/publication/conference/mexi-2023-probabilistic/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/mexi-2023-probabilistic/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Solving the Optimal Experiment Design Problem with Mixed-Integer Convex Methods</title>
+      <link>https://matbesancon.xyz/publication/conference/hendrych-2023-solving/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/hendrych-2023-solving/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Branch-And-Bound Models and Strong Branching</title>
       <link>https://matbesancon.xyz/post/2023-12-abstract-branching/</link>
       <pubDate>Sun, 17 Dec 2023 00:00:00 +0000</pubDate>
@@ -290,7 +326,8 @@ Rethinking of the alternatives, I do think that the &lt;em&gt;position-then-scal
       <link>https://matbesancon.xyz/publication/journal/phys-rev-research-5-043059/</link>
       <pubDate>Sun, 01 Oct 2023 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/phys-rev-research-5-043059/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -345,6 +382,15 @@ Thanks to Mark Turner and Joao Dionisio for pointing out some of these!&lt;/p&gt
     
     <item>
       <title>A Context-Aware Cutting Plane Selection Algorithm for Mixed-Integer Programming</title>
+      <link>https://matbesancon.xyz/publication/conference/turner-2023-contextaware/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/turner-2023-contextaware/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>A Context-Aware Cutting Plane Selection Algorithm for Mixed-Integer Programming</title>
       <link>https://matbesancon.xyz/publication/preprint/turner-2023-contextaware/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/preprint/turner-2023-contextaware/</guid>
@@ -356,7 +402,8 @@ Thanks to Mark Turner and Joao Dionisio for pointing out some of these!&lt;/p&gt
       <link>https://matbesancon.xyz/publication/conference/turner-2023-cutting/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/conference/turner-2023-cutting/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -364,7 +411,8 @@ Thanks to Mark Turner and Joao Dionisio for pointing out some of these!&lt;/p&gt
       <link>https://matbesancon.xyz/publication/journal/bestuzheva-2023-enabling/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/bestuzheva-2023-enabling/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -372,7 +420,8 @@ Thanks to Mark Turner and Joao Dionisio for pointing out some of these!&lt;/p&gt
       <link>https://matbesancon.xyz/publication/journal/sharma-2022-flexible/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/sharma-2022-flexible/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -380,7 +429,8 @@ Thanks to Mark Turner and Joao Dionisio for pointing out some of these!&lt;/p&gt
       <link>https://matbesancon.xyz/publication/preprint/tjusila-2023-clues/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/preprint/tjusila-2023-clues/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -396,7 +446,8 @@ Thanks to Mark Turner and Joao Dionisio for pointing out some of these!&lt;/p&gt
       <link>https://matbesancon.xyz/publication/preprint/mexi-2023-scylla/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/preprint/mexi-2023-scylla/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -412,7 +463,8 @@ Thanks to Mark Turner and Joao Dionisio for pointing out some of these!&lt;/p&gt
       <link>https://matbesancon.xyz/publication/preprint/bolusani-2023-mip/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/preprint/bolusani-2023-mip/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -684,7 +736,8 @@ the expression evaluation is not a bottleneck for expressions that can realistic
       <link>https://matbesancon.xyz/publication/preprint/convexmip/</link>
       <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/preprint/convexmip/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -692,7 +745,8 @@ the expression evaluation is not a bottleneck for expressions that can realistic
       <link>https://matbesancon.xyz/publication/journal/besanccon-2022-frankwolfe/</link>
       <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/besanccon-2022-frankwolfe/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -700,7 +754,8 @@ the expression evaluation is not a bottleneck for expressions that can realistic
       <link>https://matbesancon.xyz/publication/conference/macdonald-2021-interpretable/</link>
       <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/conference/macdonald-2021-interpretable/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -708,7 +763,8 @@ the expression evaluation is not a bottleneck for expressions that can realistic
       <link>https://matbesancon.xyz/publication/journal/wilken-2022-07-11-499575/</link>
       <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/wilken-2022-07-11-499575/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -1606,7 +1662,8 @@ are still around.&lt;/p&gt;
       <link>https://matbesancon.xyz/publication/journal/besanccon-2021-complexity/</link>
       <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/besanccon-2021-complexity/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -1614,7 +1671,8 @@ are still around.&lt;/p&gt;
       <link>https://matbesancon.xyz/publication/journal/js-sv-098-i-16/</link>
       <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/js-sv-098-i-16/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -1622,7 +1680,8 @@ are still around.&lt;/p&gt;
       <link>https://matbesancon.xyz/publication/conference/carderera-2021-simple/</link>
       <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/conference/carderera-2021-simple/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -1630,7 +1689,8 @@ are still around.&lt;/p&gt;
       <link>https://matbesancon.xyz/publication/preprint/scipreport/</link>
       <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/preprint/scipreport/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -3366,7 +3426,8 @@ where the whole journey from 0 to a constraint solver is documented.&lt;/p&gt;
       <link>https://matbesancon.xyz/publication/journal/besanccon-2020-bilevel/</link>
       <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/besanccon-2020-bilevel/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -6208,7 +6269,8 @@ Source for the cover image:
       <link>https://matbesancon.xyz/publication/conference/besancon-2018/</link>
       <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/conference/besancon-2018/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -6216,7 +6278,8 @@ Source for the cover image:
       <link>https://matbesancon.xyz/publication/journal/besanccon-2019-julia/</link>
       <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/besanccon-2019-julia/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -6224,7 +6287,8 @@ Source for the cover image:
       <link>https://matbesancon.xyz/publication/preprint/besanccon-2019-near/</link>
       <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/preprint/besanccon-2019-near/</guid>
-      <description></description>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
