@@ -5,7 +5,7 @@
     <link>https://matbesancon.xyz/publication-type/3/</link>
       <atom:link href="https://matbesancon.xyz/publication-type/3/index.xml" rel="self" type="application/rss+xml" />
     <description>3</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 01 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png</url>
       <title>3</title>
@@ -13,27 +13,48 @@
     </image>
     
     <item>
-      <title>A Context-Aware Cutting Plane Selection Algorithm for Mixed-Integer Programming</title>
-      <link>https://matbesancon.xyz/publication/preprint/turner-2023-contextaware/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/turner-2023-contextaware/</guid>
-      <description></description>
+      <title>Optimisation models for the design of multiple self-consumption loops in semi-rural areas</title>
+      <link>https://matbesancon.xyz/publication/preprint/chasseray-2024-optimisation/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/chasseray-2024-optimisation/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
-      <title>Probabilistic Lookahead Strong Branching via a Stochastic Abstract Branching Model</title>
-      <link>https://matbesancon.xyz/publication/preprint/mexi-2023-probabilistic/</link>
+      <title>The MIP Workshop 2023 Computational Competition on Reoptimization</title>
+      <link>https://matbesancon.xyz/publication/preprint/bolusani-2023-mip/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/mexi-2023-probabilistic/</guid>
-      <description></description>
+      <guid>https://matbesancon.xyz/publication/preprint/bolusani-2023-mip/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
     <item>
-      <title>Solving the Optimal Experiment Design Problem with Mixed-Integer Convex Methods</title>
-      <link>https://matbesancon.xyz/publication/preprint/hendrych-2023-solving/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/hendrych-2023-solving/</guid>
-      <description></description>
+      <title>Convex mixed-integer optimization with Frank-Wolfe algorithms</title>
+      <link>https://matbesancon.xyz/publication/preprint/convexmip/</link>
+      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/convexmip/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>The SCIP Optimization Suite 8.0</title>
+      <link>https://matbesancon.xyz/publication/preprint/scipreport/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/scipreport/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Near-optimal robust bilevel optimization</title>
+      <link>https://matbesancon.xyz/publication/preprint/besanccon-2019-near/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/besanccon-2019-near/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

@@ -5,7 +5,7 @@
     <link>https://matbesancon.xyz/publication-type/1/</link>
       <atom:link href="https://matbesancon.xyz/publication-type/1/index.xml" rel="self" type="application/rss+xml" />
     <description>1</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 01 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png</url>
       <title>1</title>
@@ -13,10 +13,82 @@
     </image>
     
     <item>
+      <title>Network Design for the Traffic Assignment Problem with Mixed-Integer Frank-Wolfe</title>
+      <link>https://matbesancon.xyz/publication/conference/sharma-2024-network/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/sharma-2024-network/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Probabilistic Lookahead Strong Branching via a Stochastic Abstract Branching Model</title>
+      <link>https://matbesancon.xyz/publication/conference/mexi-2023-probabilistic/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/mexi-2023-probabilistic/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Solving the Optimal Experiment Design Problem with Mixed-Integer Convex Methods</title>
+      <link>https://matbesancon.xyz/publication/conference/hendrych-2023-solving/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/hendrych-2023-solving/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>A Context-Aware Cutting Plane Selection Algorithm for Mixed-Integer Programming</title>
+      <link>https://matbesancon.xyz/publication/conference/turner-2023-contextaware/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/turner-2023-contextaware/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Cutting plane selection with analytic centers and multiregression</title>
       <link>https://matbesancon.xyz/publication/conference/turner-2023-cutting/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/conference/turner-2023-cutting/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Scylla: a matrix-free fix-propagate-and-project heuristic for mixed-integer optimization</title>
+      <link>https://matbesancon.xyz/publication/conference/mexi-2023-scylla/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/mexi-2023-scylla/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Interpretable Neural Networks with Frank-Wolfe: Sparse Relevance Maps and Relevance Orderings</title>
+      <link>https://matbesancon.xyz/publication/conference/macdonald-2021-interpretable/</link>
+      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/macdonald-2021-interpretable/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Simple steps are all you need: Frank-Wolfe and generalized self-concordant functions</title>
+      <link>https://matbesancon.xyz/publication/conference/carderera-2021-simple/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/carderera-2021-simple/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>A Bilevel Framework for Optimal Price-Setting of Time-and-Level-of-Use Tariffs</title>
+      <link>https://matbesancon.xyz/publication/conference/besancon-2018/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/besancon-2018/</guid>
       <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
 </description>
     </item>

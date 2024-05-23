@@ -13,6 +13,15 @@
     </image>
     
     <item>
+      <title>How many clues to give? A bilevel formulation for the minimum Sudoku clue problem</title>
+      <link>https://matbesancon.xyz/publication/journal/tjusila-2024-many/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/journal/tjusila-2024-many/</guid>
+      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Network Design for the Traffic Assignment Problem with Mixed-Integer Frank-Wolfe</title>
       <link>https://matbesancon.xyz/publication/conference/sharma-2024-network/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
@@ -67,14 +76,6 @@
     </item>
     
     <item>
-      <title>A Context-Aware Cutting Plane Selection Algorithm for Mixed-Integer Programming</title>
-      <link>https://matbesancon.xyz/publication/preprint/turner-2023-contextaware/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/turner-2023-contextaware/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Cutting plane selection with analytic centers and multiregression</title>
       <link>https://matbesancon.xyz/publication/conference/turner-2023-cutting/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
@@ -102,37 +103,12 @@
     </item>
     
     <item>
-      <title>How Many Clues To Give? A Bilevel Formulation For The Minimum Sudoku Clue Problem</title>
-      <link>https://matbesancon.xyz/publication/preprint/tjusila-2023-clues/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/tjusila-2023-clues/</guid>
-      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Probabilistic Lookahead Strong Branching via a Stochastic Abstract Branching Model</title>
-      <link>https://matbesancon.xyz/publication/preprint/mexi-2023-probabilistic/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/mexi-2023-probabilistic/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Scylla: a matrix-free fix-propagate-and-project heuristic for mixed-integer optimization</title>
-      <link>https://matbesancon.xyz/publication/preprint/mexi-2023-scylla/</link>
+      <link>https://matbesancon.xyz/publication/conference/mexi-2023-scylla/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/mexi-2023-scylla/</guid>
+      <guid>https://matbesancon.xyz/publication/conference/mexi-2023-scylla/</guid>
       <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Solving the Optimal Experiment Design Problem with Mixed-Integer Convex Methods</title>
-      <link>https://matbesancon.xyz/publication/preprint/hendrych-2023-solving/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/hendrych-2023-solving/</guid>
-      <description></description>
     </item>
     
     <item>

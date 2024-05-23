@@ -13,19 +13,10 @@
     </image>
     
     <item>
-      <title>Network Design for the Traffic Assignment Problem with Mixed-Integer Frank-Wolfe</title>
-      <link>https://matbesancon.xyz/publication/conference/sharma-2024-network/</link>
+      <title>How many clues to give? A bilevel formulation for the minimum Sudoku clue problem</title>
+      <link>https://matbesancon.xyz/publication/journal/tjusila-2024-many/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/conference/sharma-2024-network/</guid>
-      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Optimisation models for the design of multiple self-consumption loops in semi-rural areas</title>
-      <link>https://matbesancon.xyz/publication/preprint/chasseray-2024-optimisation/</link>
-      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/chasseray-2024-optimisation/</guid>
+      <guid>https://matbesancon.xyz/publication/journal/tjusila-2024-many/</guid>
       <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
 </description>
     </item>
@@ -35,15 +26,6 @@
       <link>https://matbesancon.xyz/publication/journal/phys-rev-research-5-043059/</link>
       <pubDate>Sun, 01 Oct 2023 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/phys-rev-research-5-043059/</guid>
-      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>A Context-Aware Cutting Plane Selection Algorithm for Mixed-Integer Programming</title>
-      <link>https://matbesancon.xyz/publication/conference/turner-2023-contextaware/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/conference/turner-2023-contextaware/</guid>
       <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
 </description>
     </item>
@@ -67,28 +49,10 @@
     </item>
     
     <item>
-      <title>Convex mixed-integer optimization with Frank-Wolfe algorithms</title>
-      <link>https://matbesancon.xyz/publication/preprint/convexmip/</link>
-      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/convexmip/</guid>
-      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
       <title>FrankWolfe.jl: A High-Performance and Flexible Toolbox for Frank-Wolfe Algorithms and Conditional Gradients</title>
       <link>https://matbesancon.xyz/publication/journal/besanccon-2022-frankwolfe/</link>
       <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/besanccon-2022-frankwolfe/</guid>
-      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Interpretable Neural Networks with Frank-Wolfe: Sparse Relevance Maps and Relevance Orderings</title>
-      <link>https://matbesancon.xyz/publication/conference/macdonald-2021-interpretable/</link>
-      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/conference/macdonald-2021-interpretable/</guid>
       <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
 </description>
     </item>
@@ -121,24 +85,6 @@
     </item>
     
     <item>
-      <title>Simple steps are all you need: Frank-Wolfe and generalized self-concordant functions</title>
-      <link>https://matbesancon.xyz/publication/conference/carderera-2021-simple/</link>
-      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/conference/carderera-2021-simple/</guid>
-      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>The SCIP Optimization Suite 8.0</title>
-      <link>https://matbesancon.xyz/publication/preprint/scipreport/</link>
-      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/scipreport/</guid>
-      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
       <title>A bilevel approach for optimal price-setting of time-and-level-of-use tariffs</title>
       <link>https://matbesancon.xyz/publication/journal/besanccon-2020-bilevel/</link>
       <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
@@ -152,15 +98,6 @@
       <link>https://matbesancon.xyz/publication/journal/besanccon-2019-julia/</link>
       <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/besanccon-2019-julia/</guid>
-      <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Near-optimal robust bilevel optimization</title>
-      <link>https://matbesancon.xyz/publication/preprint/besanccon-2019-near/</link>
-      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/besanccon-2019-near/</guid>
       <description>&lt;p&gt;Add the &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; for the publication here using Markdown formatting.&lt;/p&gt;
 </description>
     </item>
