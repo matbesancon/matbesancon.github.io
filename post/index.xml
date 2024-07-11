@@ -17,7 +17,8 @@
       <link>https://matbesancon.xyz/post/2023-12-abstract-branching/</link>
       <pubDate>Sun, 17 Dec 2023 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/post/2023-12-abstract-branching/</guid>
-      <description>&lt;p&gt;This is an informal post summarizing our recent paper &lt;a href=&#34;https://arxiv.org/abs/2312.07041&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;em&gt;Probabilistic Lookahead Strong Branching via a Stochastic Abstract Branching Model&lt;/em&gt;&lt;/a&gt; together with Gioni Mexi from the Zuse Institute Berlin and Somayeh Shamsi and Pierre Le Bodic from Monash University.&lt;/p&gt;
+      <description>&lt;p&gt;This is an informal post summarizing our recent paper &lt;a href=&#34;https://arxiv.org/abs/2312.07041&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;em&gt;Probabilistic Lookahead Strong Branching via a Stochastic Abstract Branching Model&lt;/em&gt;&lt;/a&gt; together with Gioni Mexi from the Zuse Institute Berlin and Somayeh Shamsi and Pierre Le Bodic from Monash University.&lt;br&gt;
+&lt;strong&gt;EDIT&lt;/strong&gt;: the paper got the best student paper award at &lt;a href=&#34;https://sites.google.com/view/cpaior2024&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CPAIOR24&lt;/a&gt;, congratulations to Somayeh and Gioni!&lt;/p&gt;
 &lt;p&gt;I&amp;rsquo;ll try to remain approachable but will assume that the reader is slightly familiar with Branch-and-Bound, and in general with Computational Mixed-Integer Optimization.&lt;/p&gt;
 
 
