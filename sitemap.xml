@@ -34,6 +34,14 @@
     <lastmod>2024-05-17T14:28:59+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
+    <loc>https://matbesancon.xyz/publication/journal/besanccon-2019-near/</loc>
+    <lastmod>2024-01-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/publication/journal/carderera-2024-simple/</loc>
+    <lastmod>2024-01-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
     <loc>https://matbesancon.xyz/publication/conference/hendrych-2023-solving/</loc>
     <lastmod>2024-05-17T14:28:59+02:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -78,10 +86,6 @@
     <lastmod>2023-10-24T17:48:19+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
-    <loc>https://matbesancon.xyz/publication/journal/phys-rev-research-5-043059/</loc>
-    <lastmod>2024-05-17T14:28:59+02:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
     <loc>https://matbesancon.xyz/post/2023-01-schools23/</loc>
     <lastmod>2023-07-25T09:24:31+02:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -106,12 +110,16 @@
     <lastmod>2024-05-17T14:28:59+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
+    <loc>https://matbesancon.xyz/publication/journal/phys-rev-research-5-043059/</loc>
+    <lastmod>2024-05-17T14:28:59+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
     <loc>https://matbesancon.xyz/publication/conference/mexi-2023-scylla/</loc>
     <lastmod>2024-05-17T14:28:59+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
-    <loc>https://matbesancon.xyz/publication/preprint/bolusani-2023-mip/</loc>
-    <lastmod>2024-05-17T14:28:59+02:00</lastmod>
+    <loc>https://matbesancon.xyz/publication/journal/bolusani-2023-mip/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/</loc>
@@ -318,10 +326,6 @@
     <lastmod>2024-05-17T14:28:59+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
-    <loc>https://matbesancon.xyz/publication/preprint/besanccon-2019-near/</loc>
-    <lastmod>2024-05-17T14:28:59+02:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
     <loc>https://matbesancon.xyz/tag/engineering/</loc>
     <lastmod>2023-10-21T13:42:14+02:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -474,7 +478,7 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/workwithme/</loc>
-    <lastmod>2024-05-23T16:33:50+02:00</lastmod>
+    <lastmod>2024-07-11T14:05:04+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>
