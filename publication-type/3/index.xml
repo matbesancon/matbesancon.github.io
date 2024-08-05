@@ -13,10 +13,34 @@
     </image>
     
     <item>
+      <title>A Multi-Reference Relaxation Enforced Neighborhood Search Heuristic in SCIP</title>
+      <link>https://matbesancon.xyz/publication/preprint/bolusani-24-mrens/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/bolusani-24-mrens/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Optimisation models for the design of multiple self-consumption loops in semi-rural areas</title>
       <link>https://matbesancon.xyz/publication/preprint/chasseray-2024-optimisation/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/preprint/chasseray-2024-optimisation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>The Pivoting Framework: Frank-Wolfe Algorithms with Active Set Size Control</title>
+      <link>https://matbesancon.xyz/publication/preprint/wirth-2024-pivotingframeworkfrankwolfealgorithms/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/wirth-2024-pivotingframeworkfrankwolfealgorithms/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>The SCIP Optimization Suite 9.0</title>
+      <link>https://matbesancon.xyz/publication/preprint/bolusani-2024-scipoptimizationsuite-90/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/bolusani-2024-scipoptimizationsuite-90/</guid>
       <description></description>
     </item>
     
