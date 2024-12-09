@@ -13,10 +13,18 @@
     </image>
     
     <item>
-      <title>A Multi-Reference Relaxation Enforced Neighborhood Search Heuristic in SCIP</title>
-      <link>https://matbesancon.xyz/publication/preprint/bolusani-24-mrens/</link>
+      <title>A Frank-Wolfe Algorithm for Oracle-based Robust Optimization</title>
+      <link>https://matbesancon.xyz/publication/preprint/besancon-2024-frankwolfealgorithmoraclebasedrobust/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/bolusani-24-mrens/</guid>
+      <guid>https://matbesancon.xyz/publication/preprint/besancon-2024-frankwolfealgorithmoraclebasedrobust/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>A Multi-Reference Relaxation Enforced Neighborhood Search Heuristic in SCIP</title>
+      <link>https://matbesancon.xyz/publication/conference/bolusani-24-mrens/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/bolusani-24-mrens/</guid>
       <description></description>
     </item>
     
@@ -66,8 +74,7 @@
       <link>https://matbesancon.xyz/publication/journal/carderera-2024-simple/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/carderera-2024-simple/</guid>
-      <description>&lt;p&gt;To appear&lt;/p&gt;
-</description>
+      <description></description>
     </item>
     
     <item>

@@ -5,12 +5,33 @@
     <link>https://matbesancon.xyz/tag/career/</link>
       <atom:link href="https://matbesancon.xyz/tag/career/index.xml" rel="self" type="application/rss+xml" />
     <description>career</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sat, 21 Oct 2023 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 30 Sep 2024 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png</url>
       <title>career</title>
       <link>https://matbesancon.xyz/tag/career/</link>
     </image>
+    
+    <item>
+      <title>A year of research between mountains, summary of a recent faculty</title>
+      <link>https://matbesancon.xyz/post/2024-10-year-crcn/</link>
+      <pubDate>Mon, 30 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2024-10-year-crcn/</guid>
+      <description>&lt;p&gt;A bit more than a year ago, I travelled to Grenoble for a first faculty informal meeting / retreat with the Polaris group I was joining as an Inria Associate Researcher (Chargé de Recherche). PICTURE
+I wrote about this move in another &lt;a href=&#34;2023-10-crcn-inria.markdown&#34;&gt;post&lt;/a&gt; with two explicited goals: settling in this new life and building a research network and group of people working with me.
+In January this year, I officially joined and started this new phase. Looking back, I would say both parts got progress to a level where I am happy.&lt;/p&gt;
+&lt;h1 id=&#34;the-future-of-polaris&#34;&gt;The future of Polaris&lt;/h1&gt;
+&lt;p&gt;A project-team at Inria is by design a temporary organization: a set of faculty members joining forces to push research on a given set of scientific challenges.
+The core expertise of people may not change but the set of questions evolves as some of them are answered.
+Topics of interest and people also invariably change throughout the years, for instance with new hires and departures.
+The Polaris project which I joined will be coming to an end soon with people choosing different directions.
+I will not go into the specifics for everyone since it is not (only) my story to tell, but one of these directions, which I am part of, will be about building a team around fundamentals of game theory, optimization, and stochastic systems.&lt;/p&gt;
+&lt;h1 id=&#34;building-up-on-more-activities&#34;&gt;Building up on more activities&lt;/h1&gt;
+&lt;p&gt;As predicted, I continued working on mixed-integer and convex constrained optimization methods and applications.
+The search for motivated students was very successful, with four Master&amp;rsquo;s theses and an internship completed in 2024, both at the Technische and Freie Universitäten Berlin with the Zuse Institute and at the Université Grenoble Alpes.
+Hubert Villuendas and Rim Alhajal also officially started their Ph.D. in co-supervision between &lt;a href=&#34;https://membres-ljk.imag.fr/Jerome.Malick&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Jérôme Malick&lt;/a&gt; and myself. Hubert is funded by a scholarship from the Persyval label and Rim is supported by the &lt;a href=&#34;https://www.pepr-ia.fr/en&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;PEPR IA&lt;/a&gt; program.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>I am joining Inria Grenoble in 2024 as a researcher</title>
