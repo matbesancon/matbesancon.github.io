@@ -5,12 +5,28 @@
     <link>https://matbesancon.xyz/publication-type/3/</link>
       <atom:link href="https://matbesancon.xyz/publication-type/3/index.xml" rel="self" type="application/rss+xml" />
     <description>3</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 01 Jan 2025 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png</url>
       <title>3</title>
       <link>https://matbesancon.xyz/publication-type/3/</link>
     </image>
+    
+    <item>
+      <title>Efficient Sparse Flow Decomposition Methods for RNA Multi-Assembly</title>
+      <link>https://matbesancon.xyz/publication/preprint/besancon-2025-efficientsparseflowdecomposition/</link>
+      <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/besancon-2025-efficientsparseflowdecomposition/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Improved algorithms and novel applications of the FrankWolfe.jl library</title>
+      <link>https://matbesancon.xyz/publication/preprint/besancon-2025-improvedalgorithmsnovelapplications/</link>
+      <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/besancon-2025-improvedalgorithmsnovelapplications/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>A Frank-Wolfe Algorithm for Oracle-based Robust Optimization</title>

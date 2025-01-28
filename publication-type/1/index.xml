@@ -5,12 +5,20 @@
     <link>https://matbesancon.xyz/publication-type/1/</link>
       <atom:link href="https://matbesancon.xyz/publication-type/1/index.xml" rel="self" type="application/rss+xml" />
     <description>1</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 01 Jan 2025 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png</url>
       <title>1</title>
       <link>https://matbesancon.xyz/publication-type/1/</link>
     </image>
+    
+    <item>
+      <title>The Pivoting Framework: Frank-Wolfe Algorithms with Active Set Size Control</title>
+      <link>https://matbesancon.xyz/publication/conference/wirth-2024-pivotingframeworkfrankwolfealgorithms/</link>
+      <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/wirth-2024-pivotingframeworkfrankwolfealgorithms/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>A Multi-Reference Relaxation Enforced Neighborhood Search Heuristic in SCIP</title>
@@ -42,14 +50,6 @@
       <link>https://matbesancon.xyz/publication/conference/hendrych-2023-solving/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/conference/hendrych-2023-solving/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>The Pivoting Framework: Frank-Wolfe Algorithms with Active Set Size Control</title>
-      <link>https://matbesancon.xyz/publication/conference/wirth-2024-pivotingframeworkfrankwolfealgorithms/</link>
-      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/conference/wirth-2024-pivotingframeworkfrankwolfealgorithms/</guid>
       <description></description>
     </item>
     
