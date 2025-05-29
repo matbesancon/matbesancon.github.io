@@ -6,8 +6,16 @@
     <lastmod>2025-02-07T13:14:04+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
+    <loc>https://matbesancon.xyz/publication-type/2/</loc>
+    <lastmod>2025-02-07T13:14:04+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
     <loc>https://matbesancon.xyz/publication-type/3/</loc>
     <lastmod>2025-02-07T13:14:04+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/publication/journal/convexmip/</loc>
+    <lastmod>2025-01-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/besancon-2025-efficientsparseflowdecomposition/</loc>
@@ -18,12 +26,16 @@
     <lastmod>2025-02-07T13:14:04+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
+    <loc>https://matbesancon.xyz/publication/preprint/villuendas-2025-knapsackcompactnesssemidefiniteapproach/</loc>
+    <lastmod>2025-01-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
     <loc>https://matbesancon.xyz/publication_types/</loc>
     <lastmod>2025-02-07T13:14:04+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
-    <loc>https://matbesancon.xyz/publication/preprint/hendrych-2025-secantlinesearchfrankwolfe/</loc>
-    <lastmod>2025-02-07T13:14:04+01:00</lastmod>
+    <loc>https://matbesancon.xyz/publication/conference/hendrych-2025-secantlinesearchfrankwolfe/</loc>
+    <lastmod>2025-01-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/conference/wirth-2024-pivotingframeworkfrankwolfealgorithms/</loc>
@@ -44,10 +56,6 @@
   </url><url>
     <loc>https://matbesancon.xyz/tags/</loc>
     <lastmod>2025-01-22T11:45:38+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://matbesancon.xyz/publication-type/2/</loc>
-    <lastmod>2025-02-07T13:14:04+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/besancon-2024-frankwolfealgorithmoraclebasedrobust/</loc>
@@ -168,10 +176,6 @@
   </url><url>
     <loc>https://matbesancon.xyz/post/2022-04-29-expression-trees/</loc>
     <lastmod>2022-10-04T00:21:25+02:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://matbesancon.xyz/publication/preprint/convexmip/</loc>
-    <lastmod>2025-02-07T13:14:04+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/journal/besanccon-2022-frankwolfe/</loc>

@@ -13,6 +13,14 @@
     </image>
     
     <item>
+      <title>Convex mixed-integer optimization with Frank-Wolfe algorithms</title>
+      <link>https://matbesancon.xyz/publication/journal/convexmip/</link>
+      <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/journal/convexmip/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Efficient Sparse Flow Decomposition Methods for RNA Multi-Assembly</title>
       <link>https://matbesancon.xyz/publication/preprint/besancon-2025-efficientsparseflowdecomposition/</link>
       <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
@@ -29,10 +37,18 @@
     </item>
     
     <item>
-      <title>Secant Line Search for Frank-Wolfe Algorithms</title>
-      <link>https://matbesancon.xyz/publication/preprint/hendrych-2025-secantlinesearchfrankwolfe/</link>
+      <title>Knapsack with compactness: a semidefinite approach</title>
+      <link>https://matbesancon.xyz/publication/preprint/villuendas-2025-knapsackcompactnesssemidefiniteapproach/</link>
       <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/hendrych-2025-secantlinesearchfrankwolfe/</guid>
+      <guid>https://matbesancon.xyz/publication/preprint/villuendas-2025-knapsackcompactnesssemidefiniteapproach/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Secant Line Search for Frank-Wolfe Algorithms</title>
+      <link>https://matbesancon.xyz/publication/conference/hendrych-2025-secantlinesearchfrankwolfe/</link>
+      <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/hendrych-2025-secantlinesearchfrankwolfe/</guid>
       <description></description>
     </item>
     
@@ -178,14 +194,6 @@
       <link>https://matbesancon.xyz/publication/journal/bolusani-2023-mip/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/bolusani-2023-mip/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Convex mixed-integer optimization with Frank-Wolfe algorithms</title>
-      <link>https://matbesancon.xyz/publication/preprint/convexmip/</link>
-      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/convexmip/</guid>
       <description></description>
     </item>
     

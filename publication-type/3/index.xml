@@ -29,10 +29,10 @@
     </item>
     
     <item>
-      <title>Secant Line Search for Frank-Wolfe Algorithms</title>
-      <link>https://matbesancon.xyz/publication/preprint/hendrych-2025-secantlinesearchfrankwolfe/</link>
+      <title>Knapsack with compactness: a semidefinite approach</title>
+      <link>https://matbesancon.xyz/publication/preprint/villuendas-2025-knapsackcompactnesssemidefiniteapproach/</link>
       <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/hendrych-2025-secantlinesearchfrankwolfe/</guid>
+      <guid>https://matbesancon.xyz/publication/preprint/villuendas-2025-knapsackcompactnesssemidefiniteapproach/</guid>
       <description></description>
     </item>
     
@@ -57,14 +57,6 @@
       <link>https://matbesancon.xyz/publication/preprint/bolusani-2024-scipoptimizationsuite-90/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/preprint/bolusani-2024-scipoptimizationsuite-90/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Convex mixed-integer optimization with Frank-Wolfe algorithms</title>
-      <link>https://matbesancon.xyz/publication/preprint/convexmip/</link>
-      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/convexmip/</guid>
       <description></description>
     </item>
     
