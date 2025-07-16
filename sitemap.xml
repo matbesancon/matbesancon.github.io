@@ -18,8 +18,12 @@
     <lastmod>2025-05-29T17:07:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
-    <loc>https://matbesancon.xyz/publication/preprint/besancon-2025-efficientsparseflowdecomposition/</loc>
-    <lastmod>2025-05-29T17:07:00+02:00</lastmod>
+    <loc>https://matbesancon.xyz/publication/preprint/halbey-2025-efficientquadraticcorrectionsfrankwolfe/</loc>
+    <lastmod>2025-01-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/publication/conference/besancon-2025-efficientsparseflowdecomposition/</loc>
+    <lastmod>2025-01-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/besancon-2025-improvedalgorithmsnovelapplications/</loc>
@@ -28,6 +32,10 @@
   </url><url>
     <loc>https://matbesancon.xyz/publication/preprint/villuendas-2025-knapsackcompactnesssemidefiniteapproach/</loc>
     <lastmod>2025-05-29T17:07:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/publication/conference/troppens-et-al-lip-ics-sea-2025-26/</loc>
+    <lastmod>2025-01-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication_types/</loc>
@@ -514,7 +522,7 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/workwithme/</loc>
-    <lastmod>2024-07-11T14:05:04+02:00</lastmod>
+    <lastmod>2025-06-26T15:24:00+02:00</lastmod>
     <changefreq>weekly</changefreq>
   </url>
 </urlset>
