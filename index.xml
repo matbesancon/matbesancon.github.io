@@ -13,6 +13,14 @@
     </image>
     
     <item>
+      <title>A Frank-Wolfe-based primal heuristic for quadratic mixed-integer optimization</title>
+      <link>https://matbesancon.xyz/publication/preprint/mexi-2025-frankwolfebasedprimalheuristicquadratic/</link>
+      <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/mexi-2025-frankwolfebasedprimalheuristicquadratic/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Convex mixed-integer optimization with Frank-Wolfe algorithms</title>
       <link>https://matbesancon.xyz/publication/journal/convexmip/</link>
       <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
