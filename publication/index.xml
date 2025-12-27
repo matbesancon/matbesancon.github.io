@@ -53,6 +53,14 @@
     </item>
     
     <item>
+      <title>Graph Isomorphism: Mixed-Integer Convex Optimization from First-Order Methods</title>
+      <link>https://matbesancon.xyz/publication/preprint/xiao-2025-graphisomorphism/</link>
+      <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/xiao-2025-graphisomorphism/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Improved algorithms and novel applications of the FrankWolfe.jl library</title>
       <link>https://matbesancon.xyz/publication/journal/besancon-2025-improvedalgorithmsnovelapplications/</link>
       <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
@@ -299,15 +307,6 @@
       <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/besanccon-2020-bilevel/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>A Bilevel Framework for Optimal Price-Setting of Time-and-Level-of-Use Tariffs</title>
-      <link>https://matbesancon.xyz/publication/conference/besancon-2018/</link>
-      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/conference/besancon-2018/</guid>
-      <description>&lt;p&gt;Extended abstract, 13th EUROGEN conference on Evolutionary and Deterministic Computing for Industrial Applications&lt;/p&gt;
-</description>
     </item>
     
     <item>

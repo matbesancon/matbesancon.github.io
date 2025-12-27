@@ -2,6 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://matbesancon.xyz/post/2025-12-julia-interfacing/</loc>
+    <lastmod>2025-12-27T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/tag/julia/</loc>
+    <lastmod>2025-12-27T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/tags/</loc>
+    <lastmod>2025-12-27T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
     <loc>https://matbesancon.xyz/publication-type/1/</loc>
     <lastmod>2025-11-04T14:50:52+01:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -32,6 +44,10 @@
   </url><url>
     <loc>https://matbesancon.xyz/publication/conference/besancon-2025-efficientsparseflowdecomposition/</loc>
     <lastmod>2025-11-04T14:50:52+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/publication/preprint/xiao-2025-graphisomorphism/</loc>
+    <lastmod>2025-01-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/journal/besancon-2025-improvedalgorithmsnovelapplications/</loc>
@@ -71,10 +87,6 @@
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/tag/career/</loc>
-    <lastmod>2025-01-22T11:45:38+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://matbesancon.xyz/tags/</loc>
     <lastmod>2025-01-22T11:45:38+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
@@ -184,10 +196,6 @@
   </url><url>
     <loc>https://matbesancon.xyz/</loc>
     <lastmod>2025-09-24T16:24:40+02:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://matbesancon.xyz/tag/julia/</loc>
-    <lastmod>2023-12-23T19:43:46+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/post/2022-10-03-cutselection/</loc>
@@ -372,10 +380,6 @@
   </url><url>
     <loc>https://matbesancon.xyz/post/2019-02-04-article-review/</loc>
     <lastmod>2023-10-21T13:42:14+02:00</lastmod>
-    <changefreq>weekly</changefreq>
-  </url><url>
-    <loc>https://matbesancon.xyz/publication/conference/besancon-2018/</loc>
-    <lastmod>2025-11-04T14:50:52+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication/journal/besanccon-2019-julia/</loc>

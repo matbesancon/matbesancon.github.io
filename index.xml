@@ -13,6 +13,141 @@
     </image>
     
     <item>
+      <title>Interfacing in Julia with extensions</title>
+      <link>https://matbesancon.xyz/post/2025-12-julia-interfacing/</link>
+      <pubDate>Sat, 27 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2025-12-julia-interfacing/</guid>
+      <description>&lt;p&gt;The Julia package manager introduced in v1.9 the package extension and weak dependency mechanisms, offering more ways to use external packages without adding dependencies directly to a project when not used.
+After facing some limitations, I wanted to write down the different options of the design space for one specific problem.&lt;/p&gt;
+&lt;h1 id=&#34;use-case&#34;&gt;Use case&lt;/h1&gt;
+&lt;p&gt;Numerical linear algebra is a backbone of a wide range of computational science.
+My use case came in FrankWolfe.jl, in which optimization over several sets requires computing the leading eigenvector of a matrix.
+Multiple packages can perform this operation, and we do not want the package to be tied to a single implementation.
+The historical default has been through the &lt;a href=&#34;https://github.com/JuliaLinearAlgebra/Arpack.jl&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Arpack&lt;/a&gt; wrapper.
+For simplicity, we will look at the spectraplex linear minimization oracle (LMO), and
+we will write the simplified interface as:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;O&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    options&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;O&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; compute_extreme_point(lmo&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;, direction&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractMatrix&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _, evec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Arpack&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;eigs(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;direction, nev&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, which&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:LR&lt;/span&gt;; lmo&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;options&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    unit_vec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; vec(evec)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; unit_vec &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; unit_vec&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The function computes the minimizer of the linear function represented by the &lt;code&gt;direction&lt;/code&gt; matrix over the spectraplex, the set of positive semidefinite matrices of trace one.
+An optimizer is always a rank-one matrix which can be computed from the leading eigenvector of the negative direction. The &lt;code&gt;options&lt;/code&gt; field contains Arpack-specific algorithmic options.&lt;/p&gt;
+&lt;p&gt;Arpack does the job in most cases but it only supports standard &lt;code&gt;Float64&lt;/code&gt;, standard dense matrices and runs on CPU, all of these providing ample motivation to give users several choices.&lt;/p&gt;
+&lt;h1 id=&#34;the-backend-option&#34;&gt;The backend option&lt;/h1&gt;
+&lt;p&gt;This is typically the choice one would make when handling dependencies is a pain or for monolithic setups.
+Essentially, the FrankWolfe.jl would add a dependency on multiple packages and provide this as an option.
+We will use a fake alternative &lt;code&gt;Mypack&lt;/code&gt; that can compute eigenvectors.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ArpackBackend&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;O&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    options&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;O&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;MypackBackend&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;O&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    options&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;O&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;B&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    backend&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;B&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; compute_extreme_point(lmo&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;ArpackBackend&lt;/span&gt;}, direction&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractMatrix&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _, evec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Arpack&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;eigs(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;direction, nev&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, which&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:LR&lt;/span&gt;; lmo&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;options&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    unit_vec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; vec(evec)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; unit_vec &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; unit_vec&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; compute_extreme_point(lmo&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;MypackBackend&lt;/span&gt;}, direction&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractMatrix&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _, evec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Mypack&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;other_eigs_function(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;direction, nev&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, which&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:LR&lt;/span&gt;; lmo&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;options&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    unit_vec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; vec(evec)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; unit_vec &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; unit_vec&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Realistically, a lot of backend options will be implemented around the FrankWolfe.jl ecosystem.
+This design choice leaves two solutions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A backend option is implemented in FrankWolfe.jl, and needs the additional dependency, which makes the package heavier every time&lt;/li&gt;
+&lt;li&gt;It is implemented in a companion package, along with the &lt;code&gt;compute_extreme_point&lt;/code&gt; method.
+This potentially creates a lot of tiny packages for a single LMO (FrankWolfe.jl has 23 of them at the moment), making it hard to maintain, test, document and make discoverable to users in a unified way.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;package-extensions-to-the-rescue&#34;&gt;Package extensions to the rescue&lt;/h1&gt;
+&lt;p&gt;Package extensions were designed specifically for this kind of use case (see the &lt;a href=&#34;https://pkgdocs.julialang.org/v1/creating-packages/#Behavior-of-extensions&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Pkg docs&lt;/a&gt;).
+An extension is a submodule in a package that is loaded only if another package is loaded.
+Concretely, we define a module &lt;code&gt;FrankWolfeMypackBackendExt&lt;/code&gt;, and declare &lt;code&gt;Mypack&lt;/code&gt; as a &lt;code&gt;weakdep&lt;/code&gt; in the Project.toml.
+In that extension module, &lt;code&gt;Mypack&lt;/code&gt; is available as a dependency, we can load it and define the second method for &lt;code&gt;compute_extreme_point&lt;/code&gt;.
+If &lt;code&gt;Mypack&lt;/code&gt; is loaded by a user, then so is the code in the extension.&lt;/p&gt;
+&lt;p&gt;This should be it right? Our perfect solution.
+Almost, the big catch is that &lt;strong&gt;package extensions cannot export new names&lt;/strong&gt;. See &lt;a href=&#34;https://discourse.julialang.org/t/accessing-non-exported-package-extension-functions/109058/2&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;this discussion&lt;/a&gt; and &lt;a href=&#34;https://stackoverflow.com/questions/77903811/how-to-export-symbol-from-a-package-extension-in-julia&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;thread&lt;/a&gt;.
+That means we cannot define the &lt;code&gt;MypackBackend&lt;/code&gt; in the extension, so users cannot construct the LMO parameterized with Mypack, although the method exists.
+A very hacky workaround would consist in using &lt;code&gt;Base.get_extension&lt;/code&gt; to access the new struct.
+The last alternative we are left with is definding &lt;code&gt;MypackBackend&lt;/code&gt; in &lt;code&gt;FrankWolfe&lt;/code&gt;, and implementing the &lt;code&gt;compute_extreme_point&lt;/code&gt; in the extension.&lt;/p&gt;
+&lt;p&gt;From a discoverability perspective, this solution is frustrating because there is a &amp;lsquo;dangling&amp;rsquo; struct in &lt;code&gt;FrankWolfe&lt;/code&gt; that can be used in the &lt;code&gt;compute_extreme_point&lt;/code&gt; method only if &lt;code&gt;Mypack&lt;/code&gt; is loaded as a dependency. Alternatively, we could manually re-write a MethodError to document what to do, which also seems highly frustrating.&lt;/p&gt;
+&lt;h1 id=&#34;symbol-based-package-extension&#34;&gt;Symbol-based package extension&lt;/h1&gt;
+&lt;p&gt;An interesting design choice that removes the extension-cannot-export issue is using a symbol to dispatch and a backend storage.
+In the main &lt;code&gt;FrankWolfe&lt;/code&gt; module, we define:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; Arpack
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;LinearAlgebraBackend&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;BT&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    backend&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;BT&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;LinearAlgebraBackend&lt;/span&gt;}() &lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt; {&lt;span style=&#34;color:#66d9ef&#34;&gt;LinearAlgebraBackend&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    backend &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;LinearAlgebraBackend&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;typeof&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;backend&lt;/span&gt;)}(backend)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; compute_extreme_point(lmo&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;:Arpack&lt;/span&gt;}, direction&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractMatrix&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _, evec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Arpack&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;eigs(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;direction, nev&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, which&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:LR&lt;/span&gt;; lmo&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;backend&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    unit_vec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; vec(evec)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; unit_vec &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; unit_vec&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note the default method which just uses an empty named tuple for the options.&lt;/p&gt;
+&lt;p&gt;In the extension, we can then define the alternative method:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; Mypack
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; compute_extreme_point(lmo&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;:Mypack&lt;/span&gt;}, direction&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractMatrix&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _, evec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Mypack&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;other_eigs_function(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;direction, nev&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, which&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:LR&lt;/span&gt;; lmo&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;backend&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    unit_vec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; vec(evec)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; unit_vec &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; unit_vec&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;backend&lt;/code&gt; field can again just be a named tuple.
+Importantly, the error message for invalid symbols is also explicit:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;julia&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; compute_extreme_point(&lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;:Wrongpack&lt;/span&gt;}(), randn(&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ERROR&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;MethodError&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; no method matching compute_extreme_point(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;:Wrongpack&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;@NamedTuple&lt;/span&gt;{}}, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Matrix&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;Float64&lt;/span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;The &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`compute_extreme_point`&lt;/span&gt; exists, but no method is defined &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; this combination of argument types&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Closest candidates are&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  compute_extreme_point(&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;:Mypack&lt;/span&gt;}, &lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractMatrix&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;extensibility&#34;&gt;Extensibility&lt;/h1&gt;
+&lt;p&gt;What about someone wanting their own backend somewhere else without having to put it in an extension?
+This is still an important use case to grow as an ecosystem without having to centralize everything in FrankWolfe.jl.
+If someone was to implement a new method with a symbol and named tuple as option,
+this would be &lt;a href=&#34;https://docs.julialang.org/en/v1/manual/style-guide/#Avoid-type-piracy-1&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;type piracy&lt;/a&gt; which is a bad practice for multiple reasons.
+With this design, one can define a custom &lt;code&gt;backend&lt;/code&gt; field instead of a named tuple.
+Let&amp;rsquo;s imagine a third option &lt;code&gt;ThirdPack&lt;/code&gt; used in an external module:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ThirdpackBackend&lt;/span&gt;{&lt;span style=&#34;color:#66d9ef&#34;&gt;O&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    options&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;O&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; compute_extreme_point(lmo&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;:Thirdpack&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;ThirdpackBackend&lt;/span&gt;}, direction&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractMatrix&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _, evec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Thirdpack&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;yet_another_eigs(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;direction, nev&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, which&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:LR&lt;/span&gt;; lmo&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;backend&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;options&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    unit_vec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; vec(evec)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; unit_vec &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; unit_vec&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So that design also leaves the possibility of external packages open.
+It is slightly unusual because external packages dispatch on both the symbol and the backend type, but at least this offers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;no dependency explosion for FrankWolfe.jl&lt;/li&gt;
+&lt;li&gt;no code for the mutlieple options in the main module&lt;/li&gt;
+&lt;li&gt;no need for external packages for each new backend&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I haven&amp;rsquo;t seen this design yet in the Julia ecosystem, I might have missed it but this seems like a good option to leverage extensions in a different way.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>A Frank-Wolfe-based primal heuristic for quadratic mixed-integer optimization</title>
       <link>https://matbesancon.xyz/publication/preprint/mexi-2025-frankwolfebasedprimalheuristicquadratic/</link>
       <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
@@ -49,6 +184,14 @@
       <link>https://matbesancon.xyz/publication/conference/besancon-2025-efficientsparseflowdecomposition/</link>
       <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/conference/besancon-2025-efficientsparseflowdecomposition/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Graph Isomorphism: Mixed-Integer Convex Optimization from First-Order Methods</title>
+      <link>https://matbesancon.xyz/publication/preprint/xiao-2025-graphisomorphism/</link>
+      <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/xiao-2025-graphisomorphism/</guid>
       <description></description>
     </item>
     
@@ -6359,15 +6502,6 @@ Reach out any way you prefer, &lt;a href=&#34;https://twitter.com/matbesancon&#3
 Source for the cover image:
 &lt;em&gt;Journal des Savants&lt;/em&gt; or &lt;em&gt;Journal Des Sçavans&lt;/em&gt; in old French, considered the earliest scientific journal.
 &lt;a href=&#34;https://jamesgray2.me/2016/09/06/le-journal-des-savants-1681-1699/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://jamesgray2.me/2016/09/06/le-journal-des-savants-1681-1699/&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>A Bilevel Framework for Optimal Price-Setting of Time-and-Level-of-Use Tariffs</title>
-      <link>https://matbesancon.xyz/publication/conference/besancon-2018/</link>
-      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/conference/besancon-2018/</guid>
-      <description>&lt;p&gt;Extended abstract, 13th EUROGEN conference on Evolutionary and Deterministic Computing for Industrial Applications&lt;/p&gt;
 </description>
     </item>
     

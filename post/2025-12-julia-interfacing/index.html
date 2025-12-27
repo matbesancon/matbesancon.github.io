@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<!-- This site was created with Wowchemy. https://www.wowchemy.com -->
+<!-- Last Published: December 27, 2025 --><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.7.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+
+  
+  
+    
+    <script src="/js/mathjax-config.js"></script>
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.047268c6dd09ad74ba54a0ba71837064.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.be1e734c86be5b4f1c94d71028ea7cbf.css" />
+
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/libs/chroma/github-light.min.css" title="hl-light" media="print" onload="this.media='all'" >
+    <link rel="stylesheet" href="/css/libs/chroma/dracula.min.css" title="hl-dark" media="print" onload="this.media='all'" disabled>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+  <meta name="author" content="Mathieu Besançon" />
+
+
+
+
+
+  
+
+<meta name="description" content="The Julia package manager introduced in v1.9 the package extension and weak dependency mechanisms, offering more ways to use external packages without adding dependencies directly to a project when not used." />
+
+
+
+<link rel="alternate" hreflang="en-us" href="https://matbesancon.xyz/post/2025-12-julia-interfacing/" />
+<link rel="canonical" href="https://matbesancon.xyz/post/2025-12-julia-interfacing/" />
+
+
+
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+
+
+<link rel="icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_32x32_fill_lanczos_center_3.png" />
+<link rel="apple-touch-icon" type="image/png" href="/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_180x180_fill_lanczos_center_3.png" />
+
+<meta name="theme-color" content="#1565c0" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<meta property="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" />
+<meta property="og:site_name" content="μβ" />
+<meta property="og:url" content="https://matbesancon.xyz/post/2025-12-julia-interfacing/" />
+<meta property="og:title" content="Interfacing in Julia with extensions | μβ" />
+<meta property="og:description" content="The Julia package manager introduced in v1.9 the package extension and weak dependency mechanisms, offering more ways to use external packages without adding dependencies directly to a project when not used." /><meta property="og:image" content="https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+
+  
+    <meta
+      property="article:published_time"
+      content="2025-12-27T00:00:00&#43;00:00"
+    />
+  
+  
+    <meta property="article:modified_time" content="2025-12-27T00:00:00&#43;00:00">
+  
+
+
+
+
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://matbesancon.xyz/post/2025-12-julia-interfacing/"
+  },
+  "headline": "Interfacing in Julia with extensions",
+  
+  "datePublished": "2025-12-27T00:00:00Z",
+  "dateModified": "2025-12-27T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Mathieu Besançon"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "μβ",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "The Julia package manager introduced in v1.9 the package extension and weak dependency mechanisms, offering more ways to use external packages without adding dependencies directly to a project when not used."
+}
+</script>
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+  
+
+  
+
+
+  
+  <title>Interfacing in Julia with extensions | μβ</title>
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="8a25a9e018cdf21a511e0af04111af95" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.ec9d49ca50e4b80bdb08f0417a28ed84.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header header--fixed">
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container-xl">
+
+      
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+      
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/">μβ</a>
+      </div>
+      
+
+      
+      
+      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+        
+        <ul class="navbar-nav d-md-inline-flex">
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#about"><span>Home</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#experience"><span>Experience</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#publications"><span>Publications</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#posts"><span>Posts</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#workwithme"><span>Work with me</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#contact"><span>Contact</span></a>
+          </li>
+
+          
+          
+
+        
+
+          
+        </ul>
+      </div>
+
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+        
+        
+          
+        
+
+        
+        
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+        
+        
+        <li class="nav-item dropdown theme-dropdown">
+          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item js-set-theme-light">
+              <span>Light</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-dark">
+              <span>Dark</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-auto">
+              <span>Automatic</span>
+            </a>
+          </div>
+        </li>
+        
+
+        
+        
+
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+
+  </div>
+
+  <div class="page-body">
+    
+    
+    
+
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Interfacing in Julia with extensions</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    2025-12-27
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    5 min read
+  </span>
+  
+
+  
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <p>The Julia package manager introduced in v1.9 the package extension and weak dependency mechanisms, offering more ways to use external packages without adding dependencies directly to a project when not used.
+After facing some limitations, I wanted to write down the different options of the design space for one specific problem.</p>
+<h1 id="use-case">Use case</h1>
+<p>Numerical linear algebra is a backbone of a wide range of computational science.
+My use case came in FrankWolfe.jl, in which optimization over several sets requires computing the leading eigenvector of a matrix.
+Multiple packages can perform this operation, and we do not want the package to be tied to a single implementation.
+The historical default has been through the <a href="https://github.com/JuliaLinearAlgebra/Arpack.jl" target="_blank" rel="noopener">Arpack</a> wrapper.
+For simplicity, we will look at the spectraplex linear minimization oracle (LMO), and
+we will write the simplified interface as:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Spectraplex</span>{<span style="color:#66d9ef">O</span>}
+</span></span><span style="display:flex;"><span>    options<span style="color:#f92672">::</span><span style="color:#66d9ef">O</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> compute_extreme_point(lmo<span style="color:#f92672">::</span><span style="color:#66d9ef">Spectraplex</span>, direction<span style="color:#f92672">::</span><span style="color:#66d9ef">AbstractMatrix</span>)
+</span></span><span style="display:flex;"><span>    _, evec <span style="color:#f92672">=</span> Arpack<span style="color:#f92672">.</span>eigs(<span style="color:#f92672">-</span>direction, nev<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, which<span style="color:#f92672">=</span><span style="color:#e6db74">:LR</span>; lmo<span style="color:#f92672">.</span>options<span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>    unit_vec <span style="color:#f92672">=</span> vec(evec)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> unit_vec <span style="color:#f92672">*</span> unit_vec<span style="color:#f92672">&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>The function computes the minimizer of the linear function represented by the <code>direction</code> matrix over the spectraplex, the set of positive semidefinite matrices of trace one.
+An optimizer is always a rank-one matrix which can be computed from the leading eigenvector of the negative direction. The <code>options</code> field contains Arpack-specific algorithmic options.</p>
+<p>Arpack does the job in most cases but it only supports standard <code>Float64</code>, standard dense matrices and runs on CPU, all of these providing ample motivation to give users several choices.</p>
+<h1 id="the-backend-option">The backend option</h1>
+<p>This is typically the choice one would make when handling dependencies is a pain or for monolithic setups.
+Essentially, the FrankWolfe.jl would add a dependency on multiple packages and provide this as an option.
+We will use a fake alternative <code>Mypack</code> that can compute eigenvectors.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">ArpackBackend</span>{<span style="color:#66d9ef">O</span>}
+</span></span><span style="display:flex;"><span>    options<span style="color:#f92672">::</span><span style="color:#66d9ef">O</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">MypackBackend</span>{<span style="color:#66d9ef">O</span>}
+</span></span><span style="display:flex;"><span>    options<span style="color:#f92672">::</span><span style="color:#66d9ef">O</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Spectraplex</span>{<span style="color:#66d9ef">B</span>}
+</span></span><span style="display:flex;"><span>    backend<span style="color:#f92672">::</span><span style="color:#66d9ef">B</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> compute_extreme_point(lmo<span style="color:#f92672">::</span><span style="color:#66d9ef">Spectraplex</span>{<span style="color:#66d9ef">ArpackBackend</span>}, direction<span style="color:#f92672">::</span><span style="color:#66d9ef">AbstractMatrix</span>)
+</span></span><span style="display:flex;"><span>    _, evec <span style="color:#f92672">=</span> Arpack<span style="color:#f92672">.</span>eigs(<span style="color:#f92672">-</span>direction, nev<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, which<span style="color:#f92672">=</span><span style="color:#e6db74">:LR</span>; lmo<span style="color:#f92672">.</span>options<span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>    unit_vec <span style="color:#f92672">=</span> vec(evec)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> unit_vec <span style="color:#f92672">*</span> unit_vec<span style="color:#f92672">&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> compute_extreme_point(lmo<span style="color:#f92672">::</span><span style="color:#66d9ef">Spectraplex</span>{<span style="color:#66d9ef">MypackBackend</span>}, direction<span style="color:#f92672">::</span><span style="color:#66d9ef">AbstractMatrix</span>)
+</span></span><span style="display:flex;"><span>    _, evec <span style="color:#f92672">=</span> Mypack<span style="color:#f92672">.</span>other_eigs_function(<span style="color:#f92672">-</span>direction, nev<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, which<span style="color:#f92672">=</span><span style="color:#e6db74">:LR</span>; lmo<span style="color:#f92672">.</span>options<span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>    unit_vec <span style="color:#f92672">=</span> vec(evec)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> unit_vec <span style="color:#f92672">*</span> unit_vec<span style="color:#f92672">&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>Realistically, a lot of backend options will be implemented around the FrankWolfe.jl ecosystem.
+This design choice leaves two solutions:</p>
+<ul>
+<li>A backend option is implemented in FrankWolfe.jl, and needs the additional dependency, which makes the package heavier every time</li>
+<li>It is implemented in a companion package, along with the <code>compute_extreme_point</code> method.
+This potentially creates a lot of tiny packages for a single LMO (FrankWolfe.jl has 23 of them at the moment), making it hard to maintain, test, document and make discoverable to users in a unified way.</li>
+</ul>
+<h1 id="package-extensions-to-the-rescue">Package extensions to the rescue</h1>
+<p>Package extensions were designed specifically for this kind of use case (see the <a href="https://pkgdocs.julialang.org/v1/creating-packages/#Behavior-of-extensions" target="_blank" rel="noopener">Pkg docs</a>).
+An extension is a submodule in a package that is loaded only if another package is loaded.
+Concretely, we define a module <code>FrankWolfeMypackBackendExt</code>, and declare <code>Mypack</code> as a <code>weakdep</code> in the Project.toml.
+In that extension module, <code>Mypack</code> is available as a dependency, we can load it and define the second method for <code>compute_extreme_point</code>.
+If <code>Mypack</code> is loaded by a user, then so is the code in the extension.</p>
+<p>This should be it right? Our perfect solution.
+Almost, the big catch is that <strong>package extensions cannot export new names</strong>. See <a href="https://discourse.julialang.org/t/accessing-non-exported-package-extension-functions/109058/2" target="_blank" rel="noopener">this discussion</a> and <a href="https://stackoverflow.com/questions/77903811/how-to-export-symbol-from-a-package-extension-in-julia" target="_blank" rel="noopener">thread</a>.
+That means we cannot define the <code>MypackBackend</code> in the extension, so users cannot construct the LMO parameterized with Mypack, although the method exists.
+A very hacky workaround would consist in using <code>Base.get_extension</code> to access the new struct.
+The last alternative we are left with is definding <code>MypackBackend</code> in <code>FrankWolfe</code>, and implementing the <code>compute_extreme_point</code> in the extension.</p>
+<p>From a discoverability perspective, this solution is frustrating because there is a &lsquo;dangling&rsquo; struct in <code>FrankWolfe</code> that can be used in the <code>compute_extreme_point</code> method only if <code>Mypack</code> is loaded as a dependency. Alternatively, we could manually re-write a MethodError to document what to do, which also seems highly frustrating.</p>
+<h1 id="symbol-based-package-extension">Symbol-based package extension</h1>
+<p>An interesting design choice that removes the extension-cannot-export issue is using a symbol to dispatch and a backend storage.
+In the main <code>FrankWolfe</code> module, we define:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">using</span> Arpack
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Spectraplex</span>{<span style="color:#66d9ef">LinearAlgebraBackend</span>,<span style="color:#66d9ef">BT</span>}
+</span></span><span style="display:flex;"><span>    backend<span style="color:#f92672">::</span><span style="color:#66d9ef">BT</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#66d9ef">Spectraplex</span>{<span style="color:#66d9ef">LinearAlgebraBackend</span>}() <span style="color:#66d9ef">where</span> {<span style="color:#66d9ef">LinearAlgebraBackend</span>}
+</span></span><span style="display:flex;"><span>    backend <span style="color:#f92672">=</span> (;)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">Spectraplex</span>{<span style="color:#66d9ef">LinearAlgebraBackend</span>, <span style="color:#66d9ef">typeof</span>(<span style="color:#66d9ef">backend</span>)}(backend)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> compute_extreme_point(lmo<span style="color:#f92672">::</span><span style="color:#66d9ef">Spectraplex</span>{<span style="color:#e6db74">:Arpack</span>}, direction<span style="color:#f92672">::</span><span style="color:#66d9ef">AbstractMatrix</span>)
+</span></span><span style="display:flex;"><span>    _, evec <span style="color:#f92672">=</span> Arpack<span style="color:#f92672">.</span>eigs(<span style="color:#f92672">-</span>direction, nev<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, which<span style="color:#f92672">=</span><span style="color:#e6db74">:LR</span>; lmo<span style="color:#f92672">.</span>backend<span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>    unit_vec <span style="color:#f92672">=</span> vec(evec)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> unit_vec <span style="color:#f92672">*</span> unit_vec<span style="color:#f92672">&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>Note the default method which just uses an empty named tuple for the options.</p>
+<p>In the extension, we can then define the alternative method:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">using</span> Mypack
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> compute_extreme_point(lmo<span style="color:#f92672">::</span><span style="color:#66d9ef">Spectraplex</span>{<span style="color:#e6db74">:Mypack</span>}, direction<span style="color:#f92672">::</span><span style="color:#66d9ef">AbstractMatrix</span>)
+</span></span><span style="display:flex;"><span>    _, evec <span style="color:#f92672">=</span> Mypack<span style="color:#f92672">.</span>other_eigs_function(<span style="color:#f92672">-</span>direction, nev<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, which<span style="color:#f92672">=</span><span style="color:#e6db74">:LR</span>; lmo<span style="color:#f92672">.</span>backend<span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>    unit_vec <span style="color:#f92672">=</span> vec(evec)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> unit_vec <span style="color:#f92672">*</span> unit_vec<span style="color:#f92672">&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>The <code>backend</code> field can again just be a named tuple.
+Importantly, the error message for invalid symbols is also explicit:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span>julia<span style="color:#f92672">&gt;</span> compute_extreme_point(<span style="color:#66d9ef">Spectraplex</span>{<span style="color:#e6db74">:Wrongpack</span>}(), randn(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>))
+</span></span><span style="display:flex;"><span>ERROR<span style="color:#f92672">:</span> <span style="color:#66d9ef">MethodError</span><span style="color:#f92672">:</span> no method matching compute_extreme_point(<span style="color:#f92672">::</span><span style="color:#66d9ef">Spectraplex</span>{<span style="color:#e6db74">:Wrongpack</span>, <span style="color:#a6e22e">@NamedTuple</span>{}}, <span style="color:#f92672">::</span><span style="color:#66d9ef">Matrix</span>{<span style="color:#66d9ef">Float64</span>})
+</span></span><span style="display:flex;"><span>The <span style="color:#66d9ef">function</span> <span style="color:#e6db74">`compute_extreme_point`</span> exists, but no method is defined <span style="color:#66d9ef">for</span> this combination of argument types<span style="color:#f92672">.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Closest candidates are<span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>  compute_extreme_point(<span style="color:#f92672">::</span><span style="color:#66d9ef">Spectraplex</span>{<span style="color:#e6db74">:Mypack</span>}, <span style="color:#f92672">::</span><span style="color:#66d9ef">AbstractMatrix</span>)
+</span></span></code></pre></div><h1 id="extensibility">Extensibility</h1>
+<p>What about someone wanting their own backend somewhere else without having to put it in an extension?
+This is still an important use case to grow as an ecosystem without having to centralize everything in FrankWolfe.jl.
+If someone was to implement a new method with a symbol and named tuple as option,
+this would be <a href="https://docs.julialang.org/en/v1/manual/style-guide/#Avoid-type-piracy-1" target="_blank" rel="noopener">type piracy</a> which is a bad practice for multiple reasons.
+With this design, one can define a custom <code>backend</code> field instead of a named tuple.
+Let&rsquo;s imagine a third option <code>ThirdPack</code> used in an external module:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">ThirdpackBackend</span>{<span style="color:#66d9ef">O</span>}
+</span></span><span style="display:flex;"><span>    options<span style="color:#f92672">::</span><span style="color:#66d9ef">O</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> compute_extreme_point(lmo<span style="color:#f92672">::</span><span style="color:#66d9ef">Spectraplex</span>{<span style="color:#e6db74">:Thirdpack</span>,<span style="color:#66d9ef">ThirdpackBackend</span>}, direction<span style="color:#f92672">::</span><span style="color:#66d9ef">AbstractMatrix</span>)
+</span></span><span style="display:flex;"><span>    _, evec <span style="color:#f92672">=</span> Thirdpack<span style="color:#f92672">.</span>yet_another_eigs(<span style="color:#f92672">-</span>direction, nev<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, which<span style="color:#f92672">=</span><span style="color:#e6db74">:LR</span>; lmo<span style="color:#f92672">.</span>backend<span style="color:#f92672">.</span>options<span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>    unit_vec <span style="color:#f92672">=</span> vec(evec)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> unit_vec <span style="color:#f92672">*</span> unit_vec<span style="color:#f92672">&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
+</span></span></code></pre></div><p>So that design also leaves the possibility of external packages open.
+It is slightly unusual because external packages dispatch on both the symbol and the backend type, but at least this offers:</p>
+<ul>
+<li>no dependency explosion for FrankWolfe.jl</li>
+<li>no code for the mutlieple options in the main module</li>
+<li>no need for external packages for each new backend</li>
+</ul>
+<p>I haven&rsquo;t seen this design yet in the Julia ecosystem, I might have missed it but this seems like a good option to leverage extensions in a different way.</p>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/julia/">julia</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2025-12-julia-interfacing%2F&amp;text=Interfacing&#43;in&#43;Julia&#43;with&#43;extensions" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2025-12-julia-interfacing%2F&amp;t=Interfacing&#43;in&#43;Julia&#43;with&#43;extensions" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a href="mailto:?subject=Interfacing%20in%20Julia%20with%20extensions&amp;body=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2025-12-julia-interfacing%2F" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2025-12-julia-interfacing%2F&amp;title=Interfacing&#43;in&#43;Julia&#43;with&#43;extensions" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Interfacing&#43;in&#43;Julia&#43;with&#43;extensions%20https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2025-12-julia-interfacing%2F" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https%3A%2F%2Fmatbesancon.xyz%2Fpost%2F2025-12-julia-interfacing%2F&amp;title=Interfacing&#43;in&#43;Julia&#43;with&#43;extensions" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://matbesancon.xyz/"><img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu9e1d1b4523819e99db7fb711c9c37e13_1189759_270x270_fill_q75_lanczos_center.jpg" alt="Mathieu Besançon"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://matbesancon.xyz/">Mathieu Besançon</a></h5>
+      <h6 class="card-subtitle">Researcher in mathematical optimization</h6>
+      <p class="card-text">Mathematical optimization, scientific programming and related.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fa fa-bluesky"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=-xStCAIAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/matbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://orcid.org/0000-0002-6284-3033" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://linkedin.com/in/mbesancon" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    © 2025 Mathieu Besançon. © Profile picture B. Fourrier
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+    <p class="powered-by">
+    Published with Hugo and Wowchemy.
+   </p>
+
+
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+
+
+<script src="/js/vendor-bundle.min.938a3a7554cd9f6602290411f64d2617.js"></script>
+
+
+
+
+  
+
+  
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script id="search-hit-fuse-template" type="text/x-template">
+    <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+    </div>
+  </script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+<script id="page-data" type="application/json">{"use_headroom":true}</script>
+
+
+
+  <script src="/js/wowchemy-headroom.db4755770454eb63685f8de785c0a172.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<script src="/en/js/wowchemy.min.2945731fa88332cb0ec33cf47d29879f.js"></script>
+
+
+
+
+
+
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <pre><code></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script src="/js/wowchemy-publication.68f8d7090562ca65fc6d3cb3f8f2d2cb.js" type="module"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
