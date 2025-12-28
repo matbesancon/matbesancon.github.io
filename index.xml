@@ -131,12 +131,12 @@ Let&amp;rsquo;s imagine a third option &lt;code&gt;ThirdPack&lt;/code&gt; used i
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    options&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;O&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; compute_extreme_point(lmo&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;:Thirdpack&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;ThirdpackBackend&lt;/span&gt;}, direction&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractMatrix&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; FrankWolfe&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;compute_extreme_point(lmo&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FrankWolfe&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Spectraplex&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;:Thirdpack&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;ThirdpackBackend&lt;/span&gt;}, direction&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;AbstractMatrix&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    _, evec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Thirdpack&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;yet_another_eigs(&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;direction, nev&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, which&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:LR&lt;/span&gt;; lmo&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;backend&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;options&lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    unit_vec &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; vec(evec)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; unit_vec &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; unit_vec&lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So that design also leaves the possibility of external packages open.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So that design also leaves the possibility for external packages to implement their own &lt;code&gt;Spectraplex&lt;/code&gt; backend open.
 It is slightly unusual because external packages dispatch on both the symbol and the backend type, but at least this offers:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;no dependency explosion for FrankWolfe.jl&lt;/li&gt;
@@ -144,6 +144,9 @@ It is slightly unusual because external packages dispatch on both the symbol and
 &lt;li&gt;no need for external packages for each new backend&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;I haven&amp;rsquo;t seen this design yet in the Julia ecosystem, I might have missed it but this seems like a good option to leverage extensions in a different way.&lt;/p&gt;
+&lt;h1 id=&#34;edits&#34;&gt;Edits&lt;/h1&gt;
+&lt;p&gt;That design does not seem to be for everyone&amp;rsquo;s taste and some people prefer a dangling struct with the implementation in the extension.
+Guillaume Dalle also pointed &lt;a href=&#34;https://github.com/QuantumSavory/WeakDepHelpers.jl&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;WeakDepHelpers.jl&lt;/a&gt; for tooling in that direction.&lt;/p&gt;
 </description>
     </item>
     

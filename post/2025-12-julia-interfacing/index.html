@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- This site was created with Wowchemy. https://www.wowchemy.com -->
-<!-- Last Published: December 27, 2025 --><html lang="en-us" >
+<!-- Last Published: December 28, 2025 --><html lang="en-us" >
 
 
 <head>
@@ -328,7 +328,7 @@
     />
   
   
-    <meta property="article:modified_time" content="2025-12-27T00:00:00&#43;00:00">
+    <meta property="article:modified_time" content="2025-12-27T11:26:03&#43;01:00">
   
 
 
@@ -359,7 +359,7 @@
   "headline": "Interfacing in Julia with extensions",
   
   "datePublished": "2025-12-27T00:00:00Z",
-  "dateModified": "2025-12-27T00:00:00Z",
+  "dateModified": "2025-12-27T11:26:03+01:00",
   
   "author": {
     "@type": "Person",
@@ -841,6 +841,8 @@
     
     
       
+          Last updated on
+      
     
     2025-12-27
   </span>
@@ -993,12 +995,12 @@ Let&rsquo;s imagine a third option <code>ThirdPack</code> used in an external mo
 </span></span><span style="display:flex;"><span>    options<span style="color:#f92672">::</span><span style="color:#66d9ef">O</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> compute_extreme_point(lmo<span style="color:#f92672">::</span><span style="color:#66d9ef">Spectraplex</span>{<span style="color:#e6db74">:Thirdpack</span>,<span style="color:#66d9ef">ThirdpackBackend</span>}, direction<span style="color:#f92672">::</span><span style="color:#66d9ef">AbstractMatrix</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> FrankWolfe<span style="color:#f92672">.</span>compute_extreme_point(lmo<span style="color:#f92672">::</span><span style="color:#66d9ef">FrankWolfe</span><span style="color:#f92672">.</span><span style="color:#66d9ef">Spectraplex</span>{<span style="color:#e6db74">:Thirdpack</span>,<span style="color:#66d9ef">ThirdpackBackend</span>}, direction<span style="color:#f92672">::</span><span style="color:#66d9ef">AbstractMatrix</span>)
 </span></span><span style="display:flex;"><span>    _, evec <span style="color:#f92672">=</span> Thirdpack<span style="color:#f92672">.</span>yet_another_eigs(<span style="color:#f92672">-</span>direction, nev<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, which<span style="color:#f92672">=</span><span style="color:#e6db74">:LR</span>; lmo<span style="color:#f92672">.</span>backend<span style="color:#f92672">.</span>options<span style="color:#f92672">...</span>)
 </span></span><span style="display:flex;"><span>    unit_vec <span style="color:#f92672">=</span> vec(evec)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> unit_vec <span style="color:#f92672">*</span> unit_vec<span style="color:#f92672">&#39;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span>
-</span></span></code></pre></div><p>So that design also leaves the possibility of external packages open.
+</span></span></code></pre></div><p>So that design also leaves the possibility for external packages to implement their own <code>Spectraplex</code> backend open.
 It is slightly unusual because external packages dispatch on both the symbol and the backend type, but at least this offers:</p>
 <ul>
 <li>no dependency explosion for FrankWolfe.jl</li>
@@ -1006,6 +1008,9 @@ It is slightly unusual because external packages dispatch on both the symbol and
 <li>no need for external packages for each new backend</li>
 </ul>
 <p>I haven&rsquo;t seen this design yet in the Julia ecosystem, I might have missed it but this seems like a good option to leverage extensions in a different way.</p>
+<h1 id="edits">Edits</h1>
+<p>That design does not seem to be for everyone&rsquo;s taste and some people prefer a dangling struct with the implementation in the extension.
+Guillaume Dalle also pointed <a href="https://github.com/QuantumSavory/WeakDepHelpers.jl" target="_blank" rel="noopener">WeakDepHelpers.jl</a> for tooling in that direction.</p>
 
     </div>
 
