@@ -3,15 +3,15 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://matbesancon.xyz/post/2025-12-julia-interfacing/</loc>
-    <lastmod>2025-12-27T11:26:03+01:00</lastmod>
+    <lastmod>2026-01-05T08:10:34+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/tag/julia/</loc>
-    <lastmod>2025-12-27T11:26:03+01:00</lastmod>
+    <lastmod>2026-01-05T08:10:34+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/tags/</loc>
-    <lastmod>2025-12-27T11:26:03+01:00</lastmod>
+    <lastmod>2026-01-05T08:10:34+01:00</lastmod>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/publication-type/1/</loc>
@@ -520,6 +520,9 @@
   </url><url>
     <loc>https://matbesancon.xyz/admin/</loc>
     <lastmod>2023-03-18T15:09:19+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+  </url><url>
+    <loc>https://matbesancon.xyz/about/</loc>
     <changefreq>weekly</changefreq>
   </url><url>
     <loc>https://matbesancon.xyz/post/</loc>
