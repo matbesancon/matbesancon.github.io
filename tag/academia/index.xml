@@ -5,12 +5,46 @@
     <link>https://matbesancon.xyz/tag/academia/</link>
       <atom:link href="https://matbesancon.xyz/tag/academia/index.xml" rel="self" type="application/rss+xml" />
     <description>academia</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 30 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 06 Apr 2026 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png</url>
       <title>academia</title>
       <link>https://matbesancon.xyz/tag/academia/</link>
     </image>
+    
+    <item>
+      <title>Robert Faure Prize 2026</title>
+      <link>https://matbesancon.xyz/post/2026-04-06-faure-prize/</link>
+      <pubDate>Mon, 06 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/post/2026-04-06-faure-prize/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;m proud and honored to have received the &lt;a href=&#34;https://roadef.org/app/pages/le-prix-robert-faure&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Robert Faure prize&lt;/a&gt; 2026, alongside two fantastic peers &lt;a href=&#34;https://recherche.utt.fr/research-directory/salma-makboul&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Salma Makboul&lt;/a&gt; and &lt;a href=&#34;https://people.hec.edu/grand-clement/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Julien Grand-Clément&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://matbesancon.xyz/img/posts/faure_prize.jpeg&#34; alt=&#34;&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;The prize is awarded by the French Operations Research Society (ROADEF) every three years to researchers under 35 for their contributions in operations research and the impact of their work on applications.&lt;/p&gt;
+&lt;p&gt;In my case, one aspect that was highlighted by the jury was work on open-source solver development, in particular SCIP and Frank-Wolfe methods for the impact they had on the research landscape and on the practice of operations research, enabling further research and use cases that need reliable and efficient solution processes to challenging problems.&lt;/p&gt;
+&lt;p&gt;The second aspect I was very humbled by was the impressive list of previous recipients of the prize, including senior colleagues I look up to and have the pleasure of working with.&lt;/p&gt;
+&lt;p&gt;Image: courtesy of ROADEF and found by Salma.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>A year of research between mountains, summary of a recent faculty</title>
