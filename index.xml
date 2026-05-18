@@ -47,6 +47,15 @@
     </item>
     
     <item>
+      <title>Graph Isomorphism: Mixed-Integer Convex Optimization from First-Order Methods</title>
+      <link>https://matbesancon.xyz/publication/conference/xiao-2025-graphisomorphism/</link>
+      <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/xiao-2025-graphisomorphism/</guid>
+      <description>&lt;p&gt;Accepted&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Interfacing in Julia with extensions</title>
       <link>https://matbesancon.xyz/post/2025-12-julia-interfacing/</link>
       <pubDate>Sat, 27 Dec 2025 00:00:00 +0000</pubDate>
@@ -221,14 +230,6 @@ Guillaume Dalle also pointed &lt;a href=&#34;https://github.com/QuantumSavory/We
       <link>https://matbesancon.xyz/publication/conference/besancon-2025-efficientsparseflowdecomposition/</link>
       <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/conference/besancon-2025-efficientsparseflowdecomposition/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Graph Isomorphism: Mixed-Integer Convex Optimization from First-Order Methods</title>
-      <link>https://matbesancon.xyz/publication/preprint/xiao-2025-graphisomorphism/</link>
-      <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/xiao-2025-graphisomorphism/</guid>
       <description></description>
     </item>
     

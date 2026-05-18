@@ -5,12 +5,21 @@
     <link>https://matbesancon.xyz/publication-type/1/</link>
       <atom:link href="https://matbesancon.xyz/publication-type/1/index.xml" rel="self" type="application/rss+xml" />
     <description>1</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 01 Jan 2025 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 01 Jan 2026 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://matbesancon.xyz/media/icon_hu7565e292f0a230f950fabd03a1d7dda9_12642_512x512_fill_lanczos_center_3.png</url>
       <title>1</title>
       <link>https://matbesancon.xyz/publication-type/1/</link>
     </image>
+    
+    <item>
+      <title>Graph Isomorphism: Mixed-Integer Convex Optimization from First-Order Methods</title>
+      <link>https://matbesancon.xyz/publication/conference/xiao-2025-graphisomorphism/</link>
+      <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/xiao-2025-graphisomorphism/</guid>
+      <description>&lt;p&gt;Accepted&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Efficient Quadratic Corrections for Frank-Wolfe Algorithms</title>
