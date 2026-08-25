@@ -13,6 +13,14 @@
     </image>
     
     <item>
+      <title>A Frank-Wolfe-based primal heuristic for quadratic mixed-integer optimization</title>
+      <link>https://matbesancon.xyz/publication/journal/mexi-2025-frankwolfebasedprimalheuristicquadratic/</link>
+      <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/journal/mexi-2025-frankwolfebasedprimalheuristicquadratic/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>First-Order Methods for Distributionally Robust Constrained Optimization</title>
       <link>https://matbesancon.xyz/publication/preprint/villuendas-2026-firstordermethodsdistributionallyrobust/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
@@ -38,10 +46,10 @@
     </item>
     
     <item>
-      <title>A Frank-Wolfe-based primal heuristic for quadratic mixed-integer optimization</title>
-      <link>https://matbesancon.xyz/publication/preprint/mexi-2025-frankwolfebasedprimalheuristicquadratic/</link>
-      <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/mexi-2025-frankwolfebasedprimalheuristicquadratic/</guid>
+      <title>Optimisation models for the design of multiple self-consumption loops in semi-rural areas</title>
+      <link>https://matbesancon.xyz/publication/journal/chasseray-2024-optimisation/</link>
+      <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/journal/chasseray-2024-optimisation/</guid>
       <description></description>
     </item>
     
@@ -154,14 +162,6 @@
       <link>https://matbesancon.xyz/publication/conference/sharma-2024-network/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/conference/sharma-2024-network/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Optimisation models for the design of multiple self-consumption loops in semi-rural areas</title>
-      <link>https://matbesancon.xyz/publication/preprint/chasseray-2024-optimisation/</link>
-      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/preprint/chasseray-2024-optimisation/</guid>
       <description></description>
     </item>
     
