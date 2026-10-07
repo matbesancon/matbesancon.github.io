@@ -55,6 +55,14 @@
     </item>
     
     <item>
+      <title>Discrete eigenvalue optimization from entropic smoothing and first-order methods</title>
+      <link>https://matbesancon.xyz/publication/preprint/hendrych-2026-discreteeigenvalueoptimizationentropic/</link>
+      <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/hendrych-2026-discreteeigenvalueoptimizationentropic/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>First-Order Methods for Distributionally Robust Constrained Optimization</title>
       <link>https://matbesancon.xyz/publication/preprint/villuendas-2026-firstordermethodsdistributionallyrobust/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
@@ -67,8 +75,15 @@
       <link>https://matbesancon.xyz/publication/conference/xiao-2025-graphisomorphism/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/conference/xiao-2025-graphisomorphism/</guid>
-      <description>&lt;p&gt;Accepted&lt;/p&gt;
-</description>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Low-Budget Active Learning through Entropic Optimal Transport</title>
+      <link>https://matbesancon.xyz/publication/preprint/hajal-2026-lowbudgetactivelearningentropic/</link>
+      <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/hajal-2026-lowbudgetactivelearningentropic/</guid>
+      <description></description>
     </item>
     
     <item>
@@ -84,6 +99,14 @@
       <link>https://matbesancon.xyz/publication/journal/chasseray-2024-optimisation/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/journal/chasseray-2024-optimisation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sinkhorn Divergence for Low-Budget Active Learning</title>
+      <link>https://matbesancon.xyz/publication/conference/hajal-2026-lowbudget/</link>
+      <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/conference/hajal-2026-lowbudget/</guid>
       <description></description>
     </item>
     
@@ -388,6 +411,14 @@ Hubert Villuendas and Rim Alhajal also officially started their Ph.D. in co-supe
       <link>https://matbesancon.xyz/publication/conference/hendrych-2023-solving/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/conference/hendrych-2023-solving/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>The MIP Workshop 2023 Computational Competition on Reoptimization</title>
+      <link>https://matbesancon.xyz/publication/journal/bolusani-2023-mip/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/journal/bolusani-2023-mip/</guid>
       <description></description>
     </item>
     
@@ -732,6 +763,14 @@ Thanks to Mark Turner and Joao Dionisio for pointing out some of these!&lt;/p&gt
     </item>
     
     <item>
+      <title>Branching via cutting plane selection: Improving hybrid branching</title>
+      <link>https://matbesancon.xyz/publication/preprint/turner-2023-branching/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/turner-2023-branching/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Cutting plane selection with analytic centers and multiregression</title>
       <link>https://matbesancon.xyz/publication/conference/turner-2023-cutting/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
@@ -768,14 +807,6 @@ Thanks to Mark Turner and Joao Dionisio for pointing out some of these!&lt;/p&gt
       <link>https://matbesancon.xyz/publication/conference/mexi-2023-scylla/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/conference/mexi-2023-scylla/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>The MIP Workshop 2023 Computational Competition on Reoptimization</title>
-      <link>https://matbesancon.xyz/publication/journal/bolusani-2023-mip/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      <guid>https://matbesancon.xyz/publication/journal/bolusani-2023-mip/</guid>
       <description></description>
     </item>
     

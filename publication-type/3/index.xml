@@ -13,10 +13,26 @@
     </image>
     
     <item>
+      <title>Discrete eigenvalue optimization from entropic smoothing and first-order methods</title>
+      <link>https://matbesancon.xyz/publication/preprint/hendrych-2026-discreteeigenvalueoptimizationentropic/</link>
+      <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/hendrych-2026-discreteeigenvalueoptimizationentropic/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>First-Order Methods for Distributionally Robust Constrained Optimization</title>
       <link>https://matbesancon.xyz/publication/preprint/villuendas-2026-firstordermethodsdistributionallyrobust/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/preprint/villuendas-2026-firstordermethodsdistributionallyrobust/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Low-Budget Active Learning through Entropic Optimal Transport</title>
+      <link>https://matbesancon.xyz/publication/preprint/hajal-2026-lowbudgetactivelearningentropic/</link>
+      <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/hajal-2026-lowbudgetactivelearningentropic/</guid>
       <description></description>
     </item>
     
@@ -65,6 +81,14 @@
       <link>https://matbesancon.xyz/publication/preprint/bolusani-2024-scipoptimizationsuite-90/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
       <guid>https://matbesancon.xyz/publication/preprint/bolusani-2024-scipoptimizationsuite-90/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Branching via cutting plane selection: Improving hybrid branching</title>
+      <link>https://matbesancon.xyz/publication/preprint/turner-2023-branching/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://matbesancon.xyz/publication/preprint/turner-2023-branching/</guid>
       <description></description>
     </item>
     
